@@ -1,0 +1,25 @@
+# Converter output -- generated from the user's own game install, never committed.
+/build/
+
+# Never commit original game data or anything extracted from it, wherever it lands.
+*.RFA
+*.RFM
+*.SDT
+*.CAR
+*.BIN
+
+# Godot
+.godot/
+.import/
+export.cfg
+export_presets.cfg
+*.translation
+
+# Python
+__pycache__/
+*.pyc
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
