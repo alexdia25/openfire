@@ -1,4 +1,24 @@
-"""3DO packed-cel decoder for ART.CAR.
+"""SUPERSEDED, kept only as an investigative record -- do not use for real
+conversion. See rf_effect_cel.py, which convert_car.py actually uses.
+
+This module's hypothesis was that PRE0-nonzero cels are compressed sprite
+COLOUR data using a literal/skip/repeat bit-packed opcode stream (the real
+3DO MADAM cel-engine convention). That was checked against Ghidra's
+decompilation of RFIRE.BIN's actual renderer (2026-09-04) and found wrong:
+these cels are coverage MASKS for a masked palette-translation blend effect
+(the colour comes from remapping the existing background pixel, not from
+data stored in the cel), and the row data for one of the two mask families
+is a proportionally-scaled (x0,x1) span list, not a bit-packed opcode
+stream. Confirmed by decoding real cels and rendering them: the result is
+recognisable iconography (radar-sweep rings, explosion starbursts,
+targeting wedges), not noise. Full writeup in rf_effect_cel.py and
+docs/PORTING_PLAN.md section 1.6.
+
+Original (wrong) docstring kept below for the historical record of what was
+tried and why it was rejected -- see docs/PORTING_PLAN.md section 5's
+standing lesson: "a plausible byte count is not a correctness proof."
+
+---
 
 Most cels in ART.CAR are 8bpp unpacked linear (exactly Width*Height bytes at
 SourcePtr -- handled directly by the caller). A minority (93 of 2165, as of

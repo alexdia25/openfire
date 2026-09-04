@@ -298,7 +298,7 @@ display name for the level-select menu" path is a separate, simpler function,
 `FUN_004266d0` @ `0x004266d0`, called from `FUN_00426f70` @ `0x00426f70` (which enumerates
 `*.rfm` files via `FindFirstFileA`/`FindNextFileA`).
 
-### 1.6 `ART/ART.CAR` — SOLVED for 96% of cels, converter written and verified
+### 1.6 `ART/ART.CAR` — SOLVED, converter written and verified for all 2165 cels
 
 1,926,415 bytes. A 3DO Cel Control Block array, flattened for the PC port.
 
@@ -349,63 +349,67 @@ offset ...        cel pixel data, addressed by each CCB's SourcePtr
   above.
   *CORRECTION: an earlier draft had these two counts swapped.*
 
-**CORRECTION — the packed-cel exception (this matters):**
+**The `PRE0 != 0` cels — SOLVED (2026-09-04), and they are not what they were assumed to
+be.** 93 of 2165 cels have non-zero `PRE0`. An earlier pass through this investigation
+assumed (by analogy with the real 3DO MADAM cel engine) that these were *compressed sprite
+colour data* — `PRE0`'s low 3 bits chosen to look like the real 3DO bit-depth code, packed
+with a literal/skip/repeat opcode stream. **That was wrong.** It was checked directly
+against `RFIRE.BIN`'s actual renderer via Ghidra and the real mechanism is different and,
+once understood, fully explains every piece of prior evidence (the tiny byte counts, the
+confirmed row-offset table, and why the literal-opcode decode attempt produced noise).
 
-An earlier draft claimed `PRE0`/`PRE1` are zero for every cel. **That was wrong**, based on
-a 7-cel sample. In fact:
+**What they actually are:** not sprites at all. They are **coverage masks for a masked
+palette-translation blend effect** — shadows, scorch marks, structure-footprint shading,
+radar/sonar-sweep rings, explosion starbursts, targeting reticles, and similar VFX/UI
+overlays. The mask says *where* to draw; the colour comes from remapping whatever pixel is
+**already on screen underneath**, `dest[x,y] = TransTable[dest[x,y]]`, not from any colour
+stored in the cel. This was traced end-to-end through the real per-frame cel dispatcher and
+validated by decoding real cels and rendering the masks: they come out as clean, obviously
+intentional shapes (a blob/splat silhouette, a notched rectangular block, concentric
+crosshair rings, triangular wedges) — see the screenshot sent alongside this update; not
+noise, and not something excerpted from copyrighted sprite art since no colour data is
+being reproduced, only a coverage silhouette.
 
-- **93 of 2165 cels have non-zero `PRE0`.** For those, `PRE0` bits 0-2 hold the standard
-  3DO bit-depth code: `1`=1bpp, `2`=2bpp, `3`=4bpp, `5`=8bpp.
-  Histogram among the 93: **8bpp x48, 2bpp x21, 1bpp x15, 4bpp x9**.
-- Those cels are **packed (compressed)**, not linear. Proof: cels 120 and 121 are both
-  16x16 (256 px) but their source offsets are only `0x77` = 119 bytes apart.
-- Independent proof that not every cel is `W*H` bytes: **`sum(W*H)` over all cels =
-  1,959,779, but the pixel data region is only 1,761,859 bytes.**
+Full technical writeup, including the two mask encodings (`MASK_FAMILY_LINEAR`: plain
+`Width*Height` byte array, 0/nonzero; `MASK_FAMILY_SPAN`, `PRE0==13` only: the *same*
+row-offset table this investigation had already found, now with its real meaning — each
+row's data is a list of `(x0, x1)` span pairs proportionally scaled from a stored 0-255
+range, terminated by a pair whose first byte is 0, not a bit-packed opcode stream) and
+which of 4 shared runtime-built translation tables (or, for `PRE0==17`, the cel's own PLUT)
+each `PRE0` value uses, lives in `tools/rf_effect_cel.py`'s module docstring. Decoded and
+cross-checked against **all 93 real cels with zero exceptions** (`tools/rf_effect_cel.py`
+run standalone, and via `tools/convert_car.py`).
 
-**Consequence:** the converter skips those 93 cels (`tools/convert_car.py` leaves them
-transparent in the atlas by default). It is correct for the other 2072.
+**Key Ghidra findings that got there** (all headless-decompiled, see
+`tools/ghidra_scripts/`): the per-frame cel dispatcher `FUN_00418ef0` switches on the CCB's
+**raw 32-bit `PRE0` field**, not `PRE0 & 7` as the earlier (wrong) draft assumed — real
+`PRE0` values seen in `ART.CAR` are `{1, 2, 3, 5, 13, 17}`, not a clean bit-depth code.
+Traced via the render-submission queue (`FUN_00413c90` queues a raw CCB copy; the queue is
+flushed once full or once per frame by `FUN_0041d510` → `FUN_00436fd0` → an indirect call
+through `PTR_FUN_00449390`, statically pointing at `FUN_00418ef0`) down through the
+mask-blit routines: `FUN_00419920`/`FUN_00419af0` (linear-mask family, `PRE0` 1/2 and
+3/4/5 respectively) and `FUN_004109a0` (span-mask family, `PRE0==13`, the majority — 46 of
+93). All three read the mask and write `dest = TransTable[dest]` for covered pixels; none
+of them touch a "colour" byte from the cel at all. The 4 shared translation tables
+(`DAT_0046a8f0`/`aa08`/`aa0c`/`aa14`) live in runtime BSS (all-zero in the static binary —
+not file data) and are built by `FUN_00424420`, which tries to load `Art\Trans.tbl`
+(`0x14004` bytes, first byte a version tag) and falls back to generating one if missing —
+not traced further, so **this converter can reproduce the mask/shape of these effects but
+not yet their exact runtime colour.**
 
-**Investigation so far (attempted, not solved) — `tools/rfcel.py`:**
+**Consequence for the converter:** `tools/convert_car.py` now extracts all 2165 cels
+correctly — the 2072 `PRE0==0` cels as real sprite art into `art_atlas.png` (unchanged),
+and the 93 `PRE0!=0` cels as coverage masks into a separate `art_effects.png` +
+`art_atlas.json` (`"kind": "effect_mask"`, tagged with which of the 4 blend tables or "own
+PLUT" it nominally uses). **There is no more missing/unrecovered sprite art in `ART.CAR` —
+the earlier "96% of cels" framing was wrong in the other direction: 100% of cels are now
+correctly classified and extracted as either sprite or effect-mask.** Reproducing the exact
+runtime tint of the effect masks (finding/decompiling the `Trans.tbl` build or load path)
+is a real remaining task but a cosmetic, lower-priority one — see section 4.
 
-This is **not** the literal 3DO hardware `CCB_PACKED` format. That was checked directly
-against a MADAM cel-engine reimplementation
-([trapexit/3doplay](https://github.com/trapexit/3doplay), `Madam.cpp`): the real
-`CCB_PACKED` flag is `Flags` bit `0x200`, and neither of this file's two `Flags` values
-(`0x7FE64400`, `0x7FE64420`) has it set. So the PC porting tool is using its own
-convention, not carrying the ROM's packed-cel flag through.
-
-What **is** established, by direct byte inspection of cel 120 (16x16, 8bpp, only
-`0x77`=119 bytes of data — cross-checked against cel 121's `SourcePtr`):
-
-- `SourcePtr` points to a **table of `Height` little-endian offsets**, one per row —
-  1 byte each if `bpp < 8`, else 2 bytes each (this part mirrors the real 3DO
-  `offsetl` convention, confirmed in `Madam.cpp`).
-- Each entry is either **`0`, meaning the row is fully transparent** (rows 0, 1, and 15
-  of cel 120 all read `0`, consistent with a roughly circular/diamond 16x16 icon), or an
-  **absolute byte offset from `SourcePtr`** to that row's data. Row 2's entry is exactly
-  `32` = the table size (`16 rows x 2 bytes`), i.e. immediately after the table — this is
-  strong, checked evidence the table itself is real.
-- Per-row byte deltas computed from the table (3, 7, 5, 9, 7, 11, 7, 9, 7, 7, 7, 3 bytes
-  for a 16-pixel-wide row) are far too small for literal 8bpp pixel data throughout,
-  meaning most of a row's content must be `PACK_TRANSPARENT`/`PACK_REPEAT` runs, not
-  literal pixels.
-
-**What is NOT established — the opcode stream itself.** Applying the real MADAM opcode
-scheme (2-bit type + 6-bit count, MSB-first bits: `0`=end-of-row, `1`=literal run,
-`2`=transparent-skip run, `3`=repeat-pixel run) at each row's table offset decodes without
-crashing and consumes a plausible number of bytes for **92 of 93 cels** — but **renders as
-color noise (8bpp cels) or near-total transparency (1/2/4bpp cels)**, not recognisable
-sprites. Byte-budget plausibility is not sufficient evidence of correctness — it was
-checked here and found wanting; **do not trust it as a validation signal for this format.**
-Likely wrong assumptions, in rough order of suspicion: bit order within a byte (tried
-MSB-first only), the opcode type→meaning mapping, or the row-table's `0` convention.
-
-**Recommended next step: stop guessing, go to Ghidra (Phase 2).** `RFIRE.BIN` contains the
-real decoder for this exact format — find it via the `Art\art.CAR` string cross-reference
-(or the CCB-array-walking loop it must contain) and read the packed-row logic directly out
-of the disassembly. That will settle this in one pass instead of more blind trial-and-error
-against 92 cels' worth of noise. `tools/rfcel.py`'s table-discovery reasoning is worth
-keeping as a head start once the opcode semantics are confirmed from the binary.
+`tools/rfcel.py` (the old literal-opcode decoder) is kept in the repo as a marked-superseded
+investigative record rather than deleted, per section 5's standing lesson below, which this
+whole detour is a direct instance of.
 
 ---
 
@@ -669,14 +673,15 @@ simulations — another reason the integer rule in section 2.1 is absolute.
 **1b. `.RFA` → PNG — DONE.** `tools/convert_rfa.py`. 16/16 converted. Reads `bfOffBits`;
 handles 4bpp and non-256 palettes.
 
-**1c. `ART.CAR` → atlas + manifest — DONE for 2072 of 2165 cels.** `tools/convert_car.py`.
-2072 unpacked cels packed into a 2048x2048 atlas + `art_atlas.json`; output visually
-verified as correct sprite art. **The 93 packed cels (`PRE0 != 0`) are skipped, not
-guessed at** — a candidate decoder exists (`tools/rfcel.py`, behind
-`--experimental-packed-decode`) but was tried, rendered as noise, and rejected rather than
-shipped. See section 1.6's "Investigation so far" for what is and isn't established, and
-go to Ghidra (Phase 2) to settle the opcode semantics from the real decoder in
-`RFIRE.BIN` rather than continuing to guess.
+**1c. `ART.CAR` → atlas + manifest — DONE for all 2165 cels.** `tools/convert_car.py`.
+2072 unpacked (`PRE0==0`) cels packed into a 2048x2048 atlas + `art_atlas.json`; output
+visually verified as correct sprite art. **The remaining 93 (`PRE0 != 0`) are not
+sprites — decompiling the real renderer in Ghidra (Phase 2) confirmed they are coverage
+masks for a masked palette-translation blend effect** (radar/sonar rings, explosion
+starbursts, targeting wedges, shadows), extracted separately into `art_effects.png`
+(`tools/rf_effect_cel.py`, replacing the earlier `tools/rfcel.py` guess, which rendered as
+noise and was correctly rejected rather than shipped — see section 1.6 for the full
+correction). Cross-checked against all 93 real cels with zero exceptions.
 
 **1d. `.RFM` → tilemap + entity JSON — DONE.** `tools/convert_rfm.py`. 204/204 real files
 converted with zero failures. Per level, emits `<name>.json` (chunk metadata, resolved
@@ -778,6 +783,23 @@ repo.** Pass `-scriptPath "C:\Users\Alex\Documents\code\returnfire-godot\tools\g
   Ghidra didn't already recognize as one, then decompiles it. Needed for functions only
   reachable via an indirect/computed call (e.g. through a function-pointer table) --
   static analysis often doesn't find these on its own.
+- `DecompileMany.java <hexAddr> [hexAddr...]` — decompiles a flat list of functions with no
+  caller/callee expansion, unlike `DecompileOne.java`. Use for surveying many candidate
+  functions at once (e.g. every function referencing a given global) without an
+  exponential-blowup log.
+- `FindDataXrefs.java <hexAddr>` — like `FindCallers.java` but for a DATA address: lists
+  every cross-reference to a global variable and decompiles each unique referencing
+  function. Essential for tracing a global (a queue pointer, a lookup-table base) forward
+  to find every place it's read or written, not just one function's call graph.
+- `FindImportCallers.java <substring>` — finds every function/import whose name contains
+  the given substring and decompiles every caller. Note: a Win32 API called only through
+  an IAT slot doesn't show up as a `Function` at all in Ghidra's function manager (only as
+  a `Data`/`Label` symbol for the IAT slot) -- if this finds nothing, fall back to
+  `FindSymbol.java` to find the IAT slot's address, then `FindDataXrefs.java` on that.
+- `FindSymbol.java <substring>` — case-insensitive substring search over ALL symbols
+  (functions, labels, data), not just functions. Use this first when hunting for a Win32
+  API by name; it will find the `PTR_<Name>_<addr>` IAT-slot label even when
+  `FindImportCallers.java` finds no matching `Function`.
 
 1. ~~Run full auto-analysis on the imported `RFIRE.BIN`~~ **DONE** (2026-09-04, 29 seconds,
    no errors). Re-run `-process RFIRE.BIN` without `-import` or `-noanalysis` if analysis
@@ -865,17 +887,20 @@ Web checklist:
 
 ## 4. Open questions
 
-1. **3DO packed-cel decoding** for the 93 cels with `PRE0 != 0`. The row-offset table
-   structure is confirmed (section 1.6); the opcode stream is not — a candidate decoder
-   (`tools/rfcel.py`) renders noise, not sprites. Solve via Ghidra, not more guessing.
-2. **Highest priority now:** map the 104 resolved `.RFM` art ids (section 1.5,
+1. **Highest priority now:** map the 104 resolved `.RFM` art ids (section 1.5,
    `tools/rf_tile_art.py`) to actual sprite art / collision classes. The raw-byte → art-id
-   *lookup* is fully solved and verified; what's still open is which art id is water, which
-   is land, which are the coastline-edge variants, etc. — that requires either matching art
-   ids against `ART.CAR` sprite content once question 1 is solved, or empirically comparing
+   *lookup* is fully solved and verified, and `ART.CAR`'s sprite content is now also fully
+   classified (section 1.6) so this is no longer blocked on anything — what's left is
+   matching each art id against real `ART.CAR` terrain sprites, or empirically comparing
    the per-art-id debug-render shapes (e.g. `art=0`'s huge 57-raw-value bucket is presumably
    "generic buildable land", by far the most common). Needed before Phase 4 step 1 (render
    a level).
+2. The exact runtime colour of `ART.CAR`'s 93 effect-mask cels (section 1.6) — the mask
+   *shape* is fully solved, but reproducing the on-screen tint requires finding/decompiling
+   how `FUN_00424420` builds or loads the 4 shared translation tables (tries `Art\Trans.tbl`
+   first, falls back to generating one — neither path traced). Cosmetic, low priority: a
+   placeholder tint (e.g. plain white/team-colour alpha blend) is a reasonable stand-in
+   until this is chased.
 3. The still-undecoded `.RFM` header body, offsets `0x04`-`0x3F` (minus width/height/
    mode-byte, which are known — section 1.5).
 4. The `>>1` "half the candidate-pool count" computation right after the random
@@ -887,7 +912,9 @@ Web checklist:
    dumped but not chased; likely physics/movement, not rendering (section 1.5).
 7. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
 8. Are the 3 `ART.CAR` PLUTs meaningfully different, or near-duplicates?
-9. **How is team colouring done?** Palette ranges or separate cels. Blocks section 2.4.3.
+9. **How is team colouring done?** Palette ranges or separate cels — plausibly the SAME
+   masked-translation-table mechanism as question 2 above, now that that mechanism is
+   known to exist; worth checking together. Blocks section 2.4.3.
 10. Is music Redbook CD audio (`mciSendCommandA`) or `SOUND/DRUMS.WAV`?
 11. Native framebuffer dimensions and the fixed sim tick rate.
 12. Implicit sprite pivots in the original cels — needed for the registry.
@@ -921,6 +948,15 @@ Web checklist:
   hardcoded to `0`. `tools/rf_tile_art.py` implements the combined two-table pipeline;
   cross-checked against all 204 real files with zero unresolved cells and an exact match
   on the 104 distinct art ids actually used.
+- **What `ART.CAR`'s 93 `PRE0 != 0` cels are** — **section 1.6**. Not compressed sprite
+  colour data (the earlier `tools/rfcel.py` hypothesis, which rendered as noise and was
+  correctly rejected). Decompiling the real renderer (`FUN_00418ef0` and its mask-blit
+  callees) showed they are coverage masks for a masked palette-translation blend effect —
+  the colour comes from remapping the existing background pixel, not from the cel.
+  `tools/rf_effect_cel.py` decodes both mask encodings; cross-checked against all 93 real
+  cels with zero exceptions, and visually confirmed as recognisable iconography (radar
+  rings, explosion starbursts, targeting wedges), not noise. The exact runtime tint colour
+  remains open (question 2 above).
 
 ---
 
