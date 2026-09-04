@@ -120,34 +120,118 @@ with a `data` chunk; no anomalies. Rates found:
 Do not assume a single format. (An earlier guess that these were 3DO SDX2 ADPCM was
 wrong — the port converted them to PCM.)
 
-### 1.5 `.RFM` map files — PARTIALLY SOLVED
+### 1.5 `.RFM` map files — MOSTLY SOLVED, verified against the real loader in RFIRE.BIN
 
 204 files under `WORLDS/{1PLAYER,2PLAYER}/LEVEL*/`. Exactly two sizes:
 **16,756 bytes (x154)** and **16,772 bytes (x50)**.
 
+**This section was cracked by reading the actual loader out of Ghidra (headless, via
+`tools/ghidra_scripts/`, see Phase 2), not by guessing from bytes.** The real format is a
+**named-chunk container**, not a fixed-layout header — that reframes what "the header" even
+means, so treat the byte-offset table below as ground truth over anything stated elsewhere
+in this document that predates it.
+
+**Container layout:**
+
 ```
-offset 0x00   "WRL\0"                  magic
-offset 0x04   "TM" 0x00 0x05           chunk tag + unknown
-offset 0x08   80 00 80 00              width = 128, height = 128 (u16 LE x2)
-offset 0x0C   ...                      UNDECODED header body
-offset 0x18   "Unknown\0\0"            level name string, null-padded
-...
-offset len-16384 .. len                128 x 128 tile grid, ONE BYTE PER TILE
+offset 0x00        "WRL\0"     4-byte magic (verified: RFIRE.BIN compares the first 4
+                                bytes against this exact constant via lstrcmpiA)
+offset 0x04..0x3F  ...         header fields, MOSTLY STILL UNDECODED. Known so far:
+    0x08  u16 LE   width          (128 in every file seen so far)
+    0x0A  u16 LE   height         (128 in every file seen so far)
+    0x16  u8       mode/player-count selector byte (copied into a global that gates
+                    1-player vs. 2-player logic elsewhere in the loader)
+offset 0x40        u8          must be non-zero, or the loader rejects the file outright
+                                (an "enabled"/"valid" flag, meaning not every *.rfm on
+                                disk is necessarily loadable -- unconfirmed which if any
+                                in this install have it unset)
+offset 0x44        u32 LE      byte length of the tile-grid region (== width*height;
+                                16384 for every 128x128 file seen so far)
+offset 0x48        u32 LE      byte offset from file start to where the chunk table ends
+                                AND the tile grid begins (this single field is used both
+                                ways in the loader -- see below)
+offset 0x50 ..      chunk table -- see next section
+  (0x48 value)-1
+offset (0x48 value)  tile grid, width*height bytes, one byte per tile, row-major
+  .. end of file      (== last 16384 bytes for every 128x128 file seen so far, matching
+                       earlier ASCII-rendered verification)
 ```
 
-Header length = `len - 16384` = **372 bytes** or **388 bytes**. The 16-byte delta is
-almost certainly one extra variable-length record.
+The previously-recorded 372/388-byte "header length" (`filesize - 16384`) is exactly the
+value at offset 0x48 for a 128x128 level: it is chunk-table-end, not a fixed struct size.
+The two size classes differ because they carry different chunk *content* (e.g. a longer
+level-name string), not a different fixed format.
 
-**The grid is confirmed real.** Rendering level 1's grid as ASCII produced two coherent
-islands with autotiled coastlines. Observed byte semantics:
+**Chunk table format** (offset 0x50 through the offset-0x48 value): a flat sequence of
+records, each `[4-byte tag name][4-byte total record length][payload...]`. Walk it by
+adding each record's length field to your position to reach the next record, stopping at
+the offset-0x48 boundary. Confirmed tags (there may be more not yet seen in the functions
+inspected so far):
 
-- `1` — water / open sea (15,272 of 16,384 tiles in level 1)
-- `0` — land interior (277)
-- 94 other distinct values — coastline and terrain transition tiles
+| Tag | Payload | Meaning |
+|---|---|---|
+| `LEVL` | payload byte 0 | A value 0-8 (stored on disk as value+1; the loader treats a decoded value >8 as invalid and clamps to 8). Read from a single byte, likely difficulty or a related per-level knob -- name inferred from the tag, not yet certain. |
+| `NAME` | null-terminated string | The level's display name (this is what the level-select menu shows -- separate from whatever string lives at old-header offset 0x18, which has not been re-examined since this discovery). |
+| `VHCL` | 6 bytes, relative to the *record start* (not payload start): `+8`=A, `+9`=H, `+0xA`=J, `+0xB`=T, `+0xC`=?, `+0xD`=M | Level-tuning parameters. **The same six parameters can also be written directly into the .rfm *filename*** using a bracket suffix the loader parses independently, e.g. `SomeLevel[A3H5T2].rfm` -- confirmed by decompiling the parameter parser (`FUN_00413f00`): it scans the filename for `[`, then for each `<letter><digits>` pair inside the brackets sets that parameter, with the VHCL chunk (if present) only overriding whichever of the six the loader didn't already get a valid (non-`0xFF`) value for. Letters confirmed: `A` (<10), `H` (<10), `J` (<10, nonzero), `M` (<201), `T` (<10). This is a real, working config mechanism worth preserving in the content-pack format (section 2.4) rather than special-cased away. |
 
-**Remaining work:** decode the 372 / 388-byte header — spawn points, building and target
-placements, team assignments, level metadata. **This is the highest-priority open task**
-and it gates playable levels.
+Chunk tag constants live at `0x00448814`-ish through `0x00448834` in RFIRE.BIN's data
+segment if this needs re-verifying or extending (`VHCL\0\0\0\0`, `NAME\0\0\0\0` are adjacent
+8-byte-padded entries; `LEVL` is a separate, standalone 8-byte-padded string at `0x0044882C`
+found via the same technique).
+
+**No dedicated spawn-point / building-placement chunk was found.** Instead, the tile-grid
+loading code (see below) calls through a **per-tile-value function-pointer table**, invoked
+with the tile's pixel coordinates — strong evidence that **static map objects (buildings,
+obstacles, possibly spawn points) are encoded as specific tile *byte values* in the grid
+itself**, not as a separate object list. This reframes Phase 1d/3: the open task is no
+longer "find the object table" but "map out the full tile-value space," which is more
+tractable (the grid is already fully readable) but still open. See below.
+
+**Tile-grid runtime decoding (verified from the loader):**
+
+- The engine always maintains a **fixed 128x128 (16384-entry) world buffer**, regardless of
+  a level's on-disk width/height. If a level's grid is smaller than 128x128, it is
+  **centered** in that buffer (`(128-width)/2, (128-height)/2` offset) rather than placed at
+  the origin. Every level examined so far happens to be exactly 128x128 (no centering
+  needed), but the loader clearly supports smaller grids -- do not assume all 204 files are
+  128x128 without checking.
+- Each runtime buffer entry is a **32-bit value**, not the raw on-disk byte. Each raw
+  on-disk byte (0-239; values >=240 are clamped to 0 before lookup) indexes a **4-byte
+  stride lookup table at `0x00448450`** in RFIRE.BIN, one entry per possible tile value:
+  `[transform_byte, pad, secondary_param, function_ptr_index]`.
+  - `transform_byte` sets the low 7 bits of the runtime tile value (a value of `0xFF` here
+    means "clear to the base/default tile" instead).
+  - If `secondary_param != 0`: calls a function (`FUN_0042e4f0`) that appears to do
+    neighbor-aware blending -- a plausible mechanism for the coastline autotiling already
+    observed visually.
+  - **If `function_ptr_index != 0`: dispatches through a function-pointer table at
+    `0x00448810`, called with the tile's pixel coordinates.** This is the strongest lead for
+    where buildings/obstacles/decorations get placed on the map, and was not chased further
+    in this pass.
+  - Only the first 32 of up to 240 table entries have been dumped (raw byte values `0x00,
+    0x02,0x04,0x05,0x06,0x07,0x08,0x09,0x10-0x13,0x18,0x19,0x1c,0x1d,0x28,0x29,0x2c,0x2d,
+    0x01,0x03,0x0a-0x0f,0x14-0x17` -- all had `function_ptr_index == 0`, i.e. plain terrain,
+    consistent with these being low tile values and function-pointer dispatch being reserved
+    for higher ones not yet dumped).
+
+**Remaining work, in priority order:**
+1. Dump the full 240-entry table at `0x00448450` and the function-pointer table at
+   `0x00448810` (import them into Ghidra as arrays, or extend `tools/ghidra_scripts/`) to
+   find which tile values trigger object placement, and decompile whatever functions that
+   table points at.
+2. Map the still-undecoded header body (offsets `0x04`-`0x3F`, minus the now-known width/
+   height/mode-byte fields) -- likely more gameplay metadata.
+3. Re-examine the old offset-`0x18` string finding now that `NAME` is known to be the real
+   display-name source -- confirm what offset `0x18` actually holds.
+4. Confirm whether any of the 204 `.rfm` files have the offset-`0x40` "enabled" byte unset.
+
+**Ghidra references for continuing this:** `FUN_00414130` @ `0x00414130` in RFIRE.BIN is the
+full level loader (decompiled in full during this investigation -- re-run
+`tools/ghidra_scripts/DecompileOne.java` with that address to get it again without redoing
+the search). Its caller is `FUN_0041e9f0` @ `0x0041e9f0`. The lightweight "just get the
+display name for the level-select menu" path is a separate, simpler function,
+`FUN_004266d0` @ `0x004266d0`, called from `FUN_00426f70` @ `0x00426f70` (which enumerates
+`*.rfm` files via `FindFirstFileA`/`FindNextFileA`).
 
 ### 1.6 `ART/ART.CAR` — SOLVED for 96% of cels, converter written and verified
 
@@ -193,7 +277,11 @@ offset ...        cel pixel data, addressed by each CCB's SourcePtr
 - **Three distinct `PLUTPtr` values: `0x282CC` (2161 cels), `0x28AD0` (2), `0x28AE0` (2).**
   *CORRECTION: an earlier draft listed `0x28B10` / `0x28B20`. Those were wrong.*
 - **Two distinct `Flags` values: `0x7FE64400` (1847 cels) and `0x7FE64420` (318 cels).**
-  They differ only in bit `0x20`; meaning still UNKNOWN.
+  They differ only in bit `0x20`. **RESOLVED:** this is the real 3DO `CCB_BGND` flag
+  (confirmed against `trapexit/3doplay`'s `Madam.cpp` — see section 4). It gates whether
+  pixel value 0 is treated as transparent for a cel. Neither value here has it set, so
+  transparency is on for every cel in this file — consistent with the visual confirmation
+  above.
   *CORRECTION: an earlier draft had these two counts swapped.*
 
 **CORRECTION — the packed-cel exception (this matters):**
@@ -525,10 +613,13 @@ shipped. See section 1.6's "Investigation so far" for what is and isn't establis
 go to Ghidra (Phase 2) to settle the opcode semantics from the real decoder in
 `RFIRE.BIN` rather than continuing to guess.
 
-**1d. `.RFM` → tilemap + entity JSON — NOT STARTED.** Grid is trivial (last 16,384 bytes,
-128 x 128, u8). The work is the 372 / 388-byte header. Faster route: find the loader in
-Ghidra via the `%sWorlds\%s\%s\*.rfm` string and read the layout out of the parsing code
-rather than diffing 204 files by hand.
+**1d. `.RFM` → tilemap + entity JSON — NOT STARTED (converter), but the format is now
+mostly documented.** See section 1.5 for the full container/chunk-table layout, verified
+against the real loader in RFIRE.BIN via Ghidra. The converter itself (parse the chunk
+table, emit tilemap + `NAME`/`LEVL`/`VHCL` data as JSON) is still unwritten. Object/building
+placement is not a separate chunk -- current evidence points at specific tile *values*
+triggering placement via a function-pointer table (section 1.5), which needs chasing down
+before "entity JSON" is meaningful; the tilemap half can be written now.
 
 **1e. Asset ID registry + pack emitter — NOT STARTED.** Convert the raw atlas manifest into
 a semantic registry (section 2.4.1) and make the converters emit a proper content pack
@@ -546,11 +637,16 @@ controlled, not part of the game data — pure local tooling):**
 ```
 C:\Users\Alex\Documents\code\tools\jdk-21.0.12.1+1\      Temurin JDK 21 (Ghidra 12.1.3 requires it)
 C:\Users\Alex\Documents\code\tools\ghidra_12.1.3_PUBLIC\  Ghidra 12.1.3
-C:\Users\Alex\Documents\code\tools\ghidra_projects\       Ghidra project dir; `returnfire` project
-                                                            already has RFIRE.BIN imported (-noanalysis,
-                                                            so full auto-analysis has NOT run yet -- do
-                                                            that first thing in this phase)
+C:\Users\Alex\Documents\code\tools\ghidra_projects\       Ghidra project dir; `returnfire` project has
+                                                            RFIRE.BIN imported, with full auto-analysis
+                                                            already run (2026-09-04, 29s, no errors)
 ```
+
+**`ghidra_projects\` must stay outside this repo, permanently, on purpose.** It contains
+Ghidra's analysis database for `RFIRE.BIN` -- effectively a disassembled/decompiled copy of
+the copyrighted game binary. This is exactly the "never commit decompiled game code
+verbatim" rule from section 0. The scripts in `tools/ghidra_scripts/` (below) are fine to
+version -- they're original analysis code, not decompiler output.
 
 - `JAVA_HOME` is set persistently for the Windows user account, and
   `ghidra_12.1.3_PUBLIC\support\launch.properties` has `JAVA_HOME_OVERRIDE` pointing at the
@@ -561,21 +657,47 @@ C:\Users\Alex\Documents\code\tools\ghidra_projects\       Ghidra project dir; `r
 - GUI: `ghidra_12.1.3_PUBLIC\ghidraRun.bat` (or the wrapper above). No tool here can drive a
   native GUI window -- if the executing agent is an AI agent without a human at the keyboard,
   **use the headless analyzer, not the GUI**, for anything scriptable:
-  `ghidra_12.1.3_PUBLIC\support\analyzeHeadless.bat <project_dir> <project_name> [-import <file> | -process] [-postScript <script> ...]`.
-  A Ghidra script (Java or Jython under `support/`, or PyGhidra if installed) can walk
-  functions, resolve string cross-references, and dump decompiled C -- all as text this agent
-  can read directly, without anyone touching the GUI.
+  `ghidra_12.1.3_PUBLIC\support\analyzeHeadless.bat <project_dir> <project_name> [-import <file> | -process] [-postScript <script> ...] [-scriptPath <dir>]`.
+  Jython is **not** bundled in this Ghidra version (only PyGhidra/Python3, and only Java
+  `GhidraScript`s are guaranteed to work headlessly without further setup) -- write scripts
+  in Java, they compile on the fly.
 
-1. Run full auto-analysis on the imported `RFIRE.BIN` (headless `-process` on the existing
-   `returnfire` project, or `-import` fresh with analysis enabled -- the current import used
-   `-noanalysis` to verify the loader quickly, so this hasn't happened yet). Apply MSVC 4.x
-   FLIRT signatures to strip CRT code.
+**Reusable scripts already written, version-controlled at `tools/ghidra_scripts/` in this
+repo.** Pass `-scriptPath "C:\Users\Alex\Documents\code\returnfire-godot\tools\ghidra_scripts"`
+(or wherever this repo is checked out) to use them:
+
+- `FindRfmStrings.java` — finds every string matching Return Fire format markers (`.rfm`,
+  `art.car`, `retfire.ini`, etc.), lists cross-references, and decompiles every referencing
+  function. Good first move in a fresh investigation.
+- `FindCallers.java <hexAddr>` — given a function's entry point, lists and decompiles every
+  caller, and separately scans the whole program for functions that call both a file-open
+  and a file-read API (candidate loader functions).
+- `DecompileOne.java <hexAddr>` — decompiles one function plus its immediate callers and
+  non-external callees. The main workhorse for walking a call graph one hop at a time.
+- `FindConstant.java <hex32>` — scans every instruction for a scalar operand equal to a
+  given 32-bit immediate (e.g. a packed 4-character magic). Fast, but misses constants
+  loaded from memory rather than used as an immediate.
+- `FindBytes.java <hexBytes>` — scans raw program bytes (regardless of whether Ghidra has
+  them marked as code/data/undefined) for a literal byte sequence, and lists cross-references
+  to every hit. **Prefer this over `FindConstant.java`** for magic-number/string hunting --
+  it's what actually found the `.RFM` chunk tags (see section 1.5); the scalar-operand search
+  found nothing for the same bytes.
+- `DumpStringAt.java <hexAddr> [byteCount]` — hex+ASCII dump of raw bytes at an address, for
+  reading small data tables / string constants directly.
+
+1. ~~Run full auto-analysis on the imported `RFIRE.BIN`~~ **DONE** (2026-09-04, 29 seconds,
+   no errors). Re-run `-process RFIRE.BIN` without `-import` or `-noanalysis` if analysis
+   ever needs redoing (e.g. after a Ghidra version upgrade). FLIRT signatures were not
+   separately applied — MSVC 4.x CRT code is a minor readability cost, not a blocker; revisit
+   only if it's getting in the way.
 2. Anchor on known strings and imports:
-   - `%sWorlds\%s\%s\*.rfm`, `Art\art.CAR`, `retfire.ini` → the loader, which reveals every
-     format above and should **settle the `.RFM` header directly**.
+   - `%sWorlds\%s\%s\*.rfm` → **DONE, this settled the whole `.RFM` container format** —
+     see section 1.5. Still open within that: the tile-value → function-pointer dispatch
+     table (likely object placement) and the undecoded header body.
    - `DirectDrawCreate` call site → surface lock and blit → framebuffer format, native
-     dimensions, and the team-colour / palette mechanism (section 2.4.3 item 3).
-   - `joyGetPosEx` / `GetKeyboardState` → input mapping and control scheme.
+     dimensions, and the team-colour / palette mechanism (section 2.4.3 item 3). **Not yet
+     done.**
+   - `joyGetPosEx` / `GetKeyboardState` → input mapping and control scheme. **Not yet done.**
 3. Get the original running under a DirectDraw wrapper (`cnc-ddraw` or `dgVoodoo2` dropped
    beside `RFIRE.BIN`) as a **side-by-side reference**. Run `RFIRE.BIN` directly; do not
    use `RUNME.EXE`, do not run `DXSETUP.EXE`.
@@ -649,21 +771,35 @@ Web checklist:
 
 ## 4. Open questions
 
-1. `.RFM` header contents (372 / 388 bytes) — **highest priority**.
-2. The 16-byte difference between the two `.RFM` size classes.
-3. **3DO packed-cel decoding** for the 93 cels with `PRE0 != 0`. The row-offset table
+1. **3DO packed-cel decoding** for the 93 cels with `PRE0 != 0`. The row-offset table
    structure is confirmed (section 1.6); the opcode stream is not — a candidate decoder
    (`tools/rfcel.py`) renders noise, not sprites. Solve via Ghidra, not more guessing.
+2. **Highest priority now:** which tile *values* in the `.RFM` grid trigger the
+   function-pointer dispatch found in section 1.5 (table at `0x00448450`/`0x00448810`) —
+   this is where building/obstacle placement almost certainly lives. Only tile values
+   0-0x17ish have been checked so far, all "plain terrain, no dispatch."
+3. The still-undecoded `.RFM` header body, offsets `0x04`-`0x3F` (minus width/height/
+   mode-byte, which are known — section 1.5).
 4. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
-5. Meaning of `ART.CAR` `Flags` bit `0x20` (1847 cels vs 318).
-6. Are the 3 PLUTs meaningfully different, or near-duplicates?
-7. Tile-value → terrain-type mapping for the 94 distinct non-water tile bytes.
-8. **How is team colouring done?** Palette ranges or separate cels. Blocks section 2.4.3.
-9. Is music Redbook CD audio (`mciSendCommandA`) or `SOUND/DRUMS.WAV`?
-10. Native framebuffer dimensions and the fixed sim tick rate.
-11. Implicit sprite pivots in the original cels — needed for the registry.
+5. Are the 3 `ART.CAR` PLUTs meaningfully different, or near-duplicates?
+6. **How is team colouring done?** Palette ranges or separate cels. Blocks section 2.4.3.
+7. Is music Redbook CD audio (`mciSendCommandA`) or `SOUND/DRUMS.WAV`?
+8. Native framebuffer dimensions and the fixed sim tick rate.
+9. Implicit sprite pivots in the original cels — needed for the registry.
 
-**RESOLVED:** is index 0 transparent? **Yes**, confirmed by visual inspection of the atlas.
+**RESOLVED:**
+- Is palette index 0 transparent in `ART.CAR` cels? **Yes** — confirmed by visual
+  inspection of the atlas (section 1.6).
+- Meaning of `ART.CAR` `Flags` bit `0x20`: it is the real 3DO `CCB_BGND` flag (confirmed
+  against `trapexit/3doplay`'s `Madam.cpp`), which controls whether the "index 0 /
+  pixel value 0" convention is treated as transparent for that cel
+  (`pdec.tmask = !(Flags & CCB_BGND)`). Both observed `Flags` values in this file have it
+  *unset*, i.e. transparency is on for every cel here — consistent with the visual finding
+  above.
+- `.RFM` "header" contents and the 372/388-byte size-class split — **section 1.5**,
+  verified against the real loader (`FUN_00414130` in RFIRE.BIN) via Ghidra. It's a
+  named-chunk container, not a fixed struct; the size difference is chunk-content length,
+  not a format variant.
 
 ---
 

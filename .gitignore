@@ -8,6 +8,10 @@
 *.CAR
 *.BIN
 
+# Never commit a Ghidra project -- it's a disassembled/decompiled copy of the game binary.
+*.gpr
+*.rep/
+
 # Godot
 .godot/
 .import/
