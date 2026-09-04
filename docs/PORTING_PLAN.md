@@ -179,13 +179,10 @@ segment if this needs re-verifying or extending (`VHCL\0\0\0\0`, `NAME\0\0\0\0` 
 8-byte-padded entries; `LEVL` is a separate, standalone 8-byte-padded string at `0x0044882C`
 found via the same technique).
 
-**No dedicated spawn-point / building-placement chunk was found.** Instead, the tile-grid
-loading code (see below) calls through a **per-tile-value function-pointer table**, invoked
-with the tile's pixel coordinates — strong evidence that **static map objects (buildings,
-obstacles, possibly spawn points) are encoded as specific tile *byte values* in the grid
-itself**, not as a separate object list. This reframes Phase 1d/3: the open task is no
-longer "find the object table" but "map out the full tile-value space," which is more
-tractable (the grid is already fully readable) but still open. See below.
+**No dedicated spawn-point / building-placement chunk exists — SOLVED. Spawn points and
+building/target candidates are specific tile *values* in the grid**, not a separate object
+list, and the mechanism is now fully traced end-to-end (loader code + cross-checked against
+all 204 real files):
 
 **Tile-grid runtime decoding (verified from the loader):**
 
@@ -197,33 +194,66 @@ tractable (the grid is already fully readable) but still open. See below.
   128x128 without checking.
 - Each runtime buffer entry is a **32-bit value**, not the raw on-disk byte. Each raw
   on-disk byte (0-239; values >=240 are clamped to 0 before lookup) indexes a **4-byte
-  stride lookup table at `0x00448450`** in RFIRE.BIN, one entry per possible tile value:
-  `[transform_byte, pad, secondary_param, function_ptr_index]`.
+  stride lookup table at `0x00448450`** in RFIRE.BIN (240 entries, fully dumped), one per
+  possible tile value: `[transform_byte, pad, secondary_param, function_ptr_index]`.
   - `transform_byte` sets the low 7 bits of the runtime tile value (a value of `0xFF` here
-    means "clear to the base/default tile" instead).
-  - If `secondary_param != 0`: calls a function (`FUN_0042e4f0`) that appears to do
-    neighbor-aware blending -- a plausible mechanism for the coastline autotiling already
-    observed visually.
-  - **If `function_ptr_index != 0`: dispatches through a function-pointer table at
-    `0x00448810`, called with the tile's pixel coordinates.** This is the strongest lead for
-    where buildings/obstacles/decorations get placed on the map, and was not chased further
-    in this pass.
-  - Only the first 32 of up to 240 table entries have been dumped (raw byte values `0x00,
-    0x02,0x04,0x05,0x06,0x07,0x08,0x09,0x10-0x13,0x18,0x19,0x1c,0x1d,0x28,0x29,0x2c,0x2d,
-    0x01,0x03,0x0a-0x0f,0x14-0x17` -- all had `function_ptr_index == 0`, i.e. plain terrain,
-    consistent with these being low tile values and function-pointer dispatch being reserved
-    for higher ones not yet dumped).
+    means "clear to the base/default tile" instead; ~60 of the 240 entries are `0xFF` --
+    almost certainly unused/reserved tile-ID slots, not meaningful gameplay data).
+  - If `secondary_param != 0` (true for values `0xC8`-`0xEF`, the "high" range): calls
+    `FUN_0042e4f0`, not yet decompiled -- plausibly neighbor-aware blending for the
+    coastline autotiling already observed visually. Not chased further this pass.
+  - **If `function_ptr_index != 0`: dispatches through a 2-entry function-pointer table at
+    `0x00448810`** (confirmed to be exactly 2 entries -- the string table for the chunk tags
+    `VHCL`/`NAME`/`LEVL` begins immediately after at `0x0044881C`, so don't over-read it).
+    Only 4 of the 240 tile values trigger this: `0x39`, `0x4D` → function-pointer index 1
+    (`FUN_00413e00` @ `0x00413e00`); `0xB4`, `0xDC` → index 2 (`FUN_00413db0` @
+    `0x00413db0`). Both were force-decompiled (they're only reachable via an indirect call,
+    so Ghidra's static analysis didn't auto-recognize them as functions --
+    `tools/ghidra_scripts/ForceDecompile.java` handles this: disassemble + createFunction at
+    the address, then decompile).
+
+**What those two dispatch functions actually do, and what the four special tile values
+are, cross-checked against a byte-histogram scan of all 204 real `.rfm` files**
+(`tile.count(value)` over each file's last 16384 bytes):
+
+| Tile value | Occurrences across 204 files | Only in 2-player levels? | Dispatch fn | Meaning |
+|---|---|---|---|---|
+| `0x39` | **exactly 1, in every single file** | no (both modes) | `FUN_00413e00`, arg `0` | **Player 1 spawn point.** |
+| `0x4D` | 0 or 1 (1 in exactly the 104 `2PLAYER\` files, 0 in all 100 `1PLAYER\` files) | **yes** | `FUN_00413e00`, arg `1` | **Player 2 spawn point.** |
+| `0xB4` | 0-56, present only in `2PLAYER\` files (104) | **yes** | `FUN_00413db0`, arg `0` | Candidate building/target position, pool A. |
+| `0xDC` | 1-160, present in **every** file (both modes) | no | `FUN_00413db0`, arg `1` | Candidate building/target position, pool B. |
+
+`FUN_00413e00(tile_ptr, team_index, pixel_x, pixel_y)` writes into a small fixed-size (4
+slots per team) spawn-position table, keyed by `team_index` (0 or 1 -- exactly matching the
+two tags' `secondary_param` values above). This is genuinely a two-team spawn system, not
+per-player-count special-casing.
+
+`FUN_00413db0(tile_ptr, pool_index)` appends the tile's *pointer into the runtime grid
+buffer* (not a separate x/y) to one of two growable candidate-position pools (`pool_index`
+0 or 1, again matching `secondary_param`), capped at 254 entries. Back in the main loader
+(`FUN_00414130`), once the whole grid has been scanned, **each non-empty pool has exactly
+one entry picked at random** — `FUN_00404360(count)` calls the C runtime `rand()` and scales
+it into `[0, count)` — and stored as the active building/target for that match. This is the
+mechanism behind the classic Return Fire feature where the destructible target/base
+locations differ between plays of the same level: **the level file defines a pool of
+candidate positions, and the engine randomly commits to a subset each match.** (There is
+also a `>>1` "half the count" computation right after the random pick, not yet chased down
+-- possibly a win-condition threshold, e.g. "destroy half the spawned targets to win".)
 
 **Remaining work, in priority order:**
-1. Dump the full 240-entry table at `0x00448450` and the function-pointer table at
-   `0x00448810` (import them into Ghidra as arrays, or extend `tools/ghidra_scripts/`) to
-   find which tile values trigger object placement, and decompile whatever functions that
-   table points at.
+1. Decompile `FUN_0042e4f0` (the coastline-blending function called for tile values
+   `0xC8`-`0xEF`) to nail down the autotiling rule.
 2. Map the still-undecoded header body (offsets `0x04`-`0x3F`, minus the now-known width/
    height/mode-byte fields) -- likely more gameplay metadata.
 3. Re-examine the old offset-`0x18` string finding now that `NAME` is known to be the real
    display-name source -- confirm what offset `0x18` actually holds.
 4. Confirm whether any of the 204 `.rfm` files have the offset-`0x40` "enabled" byte unset.
+5. Chase the `>>1` "half the pool count" computation after the random building/target pick
+   -- likely a win condition.
+6. **Write the actual `.RFM` converter** (Phase 1d) — the format is now understood well
+   enough to do this: parse the chunk table, resolve tile values through the `0x00448450`
+   table (linear terrain vs. spawn/candidate markers), and emit tilemap + spawn points +
+   candidate-pool JSON. This no longer needs to wait on further RE.
 
 **Ghidra references for continuing this:** `FUN_00414130` @ `0x00414130` in RFIRE.BIN is the
 full level loader (decompiled in full during this investigation -- re-run
@@ -613,13 +643,14 @@ shipped. See section 1.6's "Investigation so far" for what is and isn't establis
 go to Ghidra (Phase 2) to settle the opcode semantics from the real decoder in
 `RFIRE.BIN` rather than continuing to guess.
 
-**1d. `.RFM` → tilemap + entity JSON — NOT STARTED (converter), but the format is now
-mostly documented.** See section 1.5 for the full container/chunk-table layout, verified
-against the real loader in RFIRE.BIN via Ghidra. The converter itself (parse the chunk
-table, emit tilemap + `NAME`/`LEVL`/`VHCL` data as JSON) is still unwritten. Object/building
-placement is not a separate chunk -- current evidence points at specific tile *values*
-triggering placement via a function-pointer table (section 1.5), which needs chasing down
-before "entity JSON" is meaningful; the tilemap half can be written now.
+**1d. `.RFM` → tilemap + entity JSON — NOT STARTED (converter), but the format is fully
+understood.** See section 1.5 for the full container/chunk-table layout and the tile-value
+spawn/candidate-pool mechanism, both verified against the real loader in RFIRE.BIN via
+Ghidra and cross-checked against all 204 real files. The converter itself is still
+unwritten, but nothing is blocking it now: parse the chunk table (`NAME`/`LEVL`/`VHCL`),
+resolve the tile grid through the `0x00448450` table to separate plain terrain from the
+four special values (`0x39`/`0x4D` spawn points, `0xB4`/`0xDC` candidate building/target
+pools), and emit tilemap + spawn points + candidate pools as JSON. This is ready to build.
 
 **1e. Asset ID registry + pack emitter — NOT STARTED.** Convert the raw atlas manifest into
 a semantic registry (section 2.4.1) and make the converters emit a proper content pack
@@ -684,6 +715,14 @@ repo.** Pass `-scriptPath "C:\Users\Alex\Documents\code\returnfire-godot\tools\g
   found nothing for the same bytes.
 - `DumpStringAt.java <hexAddr> [byteCount]` — hex+ASCII dump of raw bytes at an address, for
   reading small data tables / string constants directly.
+- `DumpFunctionTable.java <hexAddr> <count>` — reads `count` 4-byte little-endian pointers
+  starting at an address and decompiles whichever land on a recognized function. For
+  jump/dispatch tables. Watch for the table running into adjacent unrelated data (as
+  happened at `0x00448810` -- it's only 2 entries before the chunk-tag string table begins).
+- `ForceDecompile.java <hexAddr>` — disassembles and force-creates a function at an address
+  Ghidra didn't already recognize as one, then decompiles it. Needed for functions only
+  reachable via an indirect/computed call (e.g. through a function-pointer table) --
+  static analysis often doesn't find these on its own.
 
 1. ~~Run full auto-analysis on the imported `RFIRE.BIN`~~ **DONE** (2026-09-04, 29 seconds,
    no errors). Re-run `-process RFIRE.BIN` without `-import` or `-noanalysis` if analysis
@@ -774,18 +813,20 @@ Web checklist:
 1. **3DO packed-cel decoding** for the 93 cels with `PRE0 != 0`. The row-offset table
    structure is confirmed (section 1.6); the opcode stream is not — a candidate decoder
    (`tools/rfcel.py`) renders noise, not sprites. Solve via Ghidra, not more guessing.
-2. **Highest priority now:** which tile *values* in the `.RFM` grid trigger the
-   function-pointer dispatch found in section 1.5 (table at `0x00448450`/`0x00448810`) —
-   this is where building/obstacle placement almost certainly lives. Only tile values
-   0-0x17ish have been checked so far, all "plain terrain, no dispatch."
-3. The still-undecoded `.RFM` header body, offsets `0x04`-`0x3F` (minus width/height/
+2. **Highest priority now:** write the `.RFM` converter (Phase 1d) — the format is fully
+   understood (section 1.5), nothing left to reverse-engineer is blocking it.
+3. The coastline-autotiling function `FUN_0042e4f0`, called for tile values `0xC8`-`0xEF`
+   (section 1.5) — not yet decompiled.
+4. The still-undecoded `.RFM` header body, offsets `0x04`-`0x3F` (minus width/height/
    mode-byte, which are known — section 1.5).
-4. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
-5. Are the 3 `ART.CAR` PLUTs meaningfully different, or near-duplicates?
-6. **How is team colouring done?** Palette ranges or separate cels. Blocks section 2.4.3.
-7. Is music Redbook CD audio (`mciSendCommandA`) or `SOUND/DRUMS.WAV`?
-8. Native framebuffer dimensions and the fixed sim tick rate.
-9. Implicit sprite pivots in the original cels — needed for the registry.
+5. The `>>1` "half the candidate-pool count" computation right after the random
+   building/target pick in `FUN_00414130` — possibly a win-condition threshold (section 1.5).
+6. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
+7. Are the 3 `ART.CAR` PLUTs meaningfully different, or near-duplicates?
+8. **How is team colouring done?** Palette ranges or separate cels. Blocks section 2.4.3.
+9. Is music Redbook CD audio (`mciSendCommandA`) or `SOUND/DRUMS.WAV`?
+10. Native framebuffer dimensions and the fixed sim tick rate.
+11. Implicit sprite pivots in the original cels — needed for the registry.
 
 **RESOLVED:**
 - Is palette index 0 transparent in `ART.CAR` cels? **Yes** — confirmed by visual
@@ -800,6 +841,11 @@ Web checklist:
   verified against the real loader (`FUN_00414130` in RFIRE.BIN) via Ghidra. It's a
   named-chunk container, not a fixed struct; the size difference is chunk-content length,
   not a format variant.
+- **Where spawn points and building/target placements live in `.RFM`** — **section 1.5**.
+  Not a separate chunk: four specific tile *values* (`0x39`/`0x4D` = team spawn points,
+  `0xB4`/`0xDC` = candidate building/target position pools, one randomly committed per
+  match). Verified against the loader and cross-checked by byte-histogram scan of all 204
+  real files (e.g. `0x39` occurs in every single file, exactly once).
 
 ---
 
