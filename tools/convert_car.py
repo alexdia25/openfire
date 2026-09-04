@@ -10,14 +10,17 @@ ART.CAR is a 3DO Cel Control Block array, flattened for the PC port:
     <dataoff> u32[count][2]  purpose unknown, values mostly 5
     ...       PLUT palettes, then cel pixel data addressed by SourcePtr
 
-Cels are 8bpp unpacked linear: exactly Width*Height bytes at SourcePtr.
-PRE0/PRE1 are zero for every cel and carry no format info.
+Most cels (2072 of 2165) are 8bpp unpacked linear: exactly Width*Height bytes
+at SourcePtr, PRE0 == 0. A minority (93) have PRE0 != 0 and are packed with a
+row-oriented RLE scheme -- see rfcel.py for the format and how it was
+reverse engineered.
 PLUTs are Windows RGBQUAD (B, G, R, pad) -- NOT 3DO RGB555.
 
 Usage:
     python convert_car.py <returnfire_dir> <out_dir> [--atlas-width N]
                                                      [--padding N]
                                                      [--opaque-zero]
+                                                     [--experimental-packed-decode]
 """
 
 import json
@@ -25,6 +28,7 @@ import os
 import struct
 import sys
 
+from rfcel import KNOWN_BAD, PackedCelError, bpp_for_pre0, decode_packed_cel
 from rfpng import write_png_rgba
 
 CCB_SIZE = 68
@@ -55,6 +59,7 @@ def main():
     atlas_width = 2048
     padding = 1
     opaque_zero = False
+    experimental_packed = False
 
     i = 0
     while i < len(argv):
@@ -65,6 +70,8 @@ def main():
             padding = int(argv[i + 1]); i += 2
         elif a == "--opaque-zero":
             opaque_zero = True; i += 1
+        elif a == "--experimental-packed-decode":
+            experimental_packed = True; i += 1
         else:
             args.append(a); i += 1
 
@@ -102,10 +109,19 @@ def main():
         vals = struct.unpack_from("<17I", data, 16 + n * CCB_SIZE)
         cels.append(dict(zip(CCB_FIELDS, vals)))
 
-    nonzero_pre = sum(1 for c in cels if c["PRE0"] or c["PRE1"])
-    if nonzero_pre:
-        print("   WARNING: %d cels have non-zero PRE0/PRE1 -- format assumption "
-              "may not hold for them" % nonzero_pre)
+    packed_count = sum(1 for c in cels if c["PRE0"] != 0)
+    if packed_count:
+        if experimental_packed:
+            print("   %d cels are packed (PRE0 != 0) -- decoding via rfcel.py "
+                  "(--experimental-packed-decode: UNVERIFIED, see rfcel.py docstring)"
+                  % packed_count)
+        else:
+            print("   %d cels are packed (PRE0 != 0) -- SKIPPED. rfcel.py has a "
+                  "candidate decoder but it has not been verified correct (renders "
+                  "as noise, not recognisable sprites). Pass "
+                  "--experimental-packed-decode to use it anyway for debugging. "
+                  "See docs/PORTING_PLAN.md section 1.6 / open question 3."
+                  % packed_count)
 
     # ---- palettes ---------------------------------------------------------
     plut_offsets = sorted({c["PLUTPtr"] for c in cels})
@@ -120,15 +136,38 @@ def main():
     border_zero = border_total = 0
     interior_zero = interior_total = 0
     skipped = []
+    packed_decoded = 0
+    packed_failed = []
 
     for n, c in enumerate(cels):
         w, h, src = c["Width"], c["Height"], c["SourcePtr"]
-        if w <= 0 or h <= 0 or src + w * h > len(data):
+        if w <= 0 or h <= 0:
             skipped.append(n)
             c["_pixels"] = None
             continue
-        px = data[src:src + w * h]
-        c["_pixels"] = px
+
+        if c["PRE0"] != 0:
+            if not experimental_packed or n in KNOWN_BAD:
+                skipped.append(n)
+                c["_pixels"] = None
+                continue
+            try:
+                bpp = bpp_for_pre0(c["PRE0"])
+                px, _end = decode_packed_cel(data, src, w, h, bpp)
+                c["_pixels"] = px
+                packed_decoded += 1
+            except (PackedCelError, IndexError) as e:
+                packed_failed.append((n, str(e)))
+                skipped.append(n)
+                c["_pixels"] = None
+                continue
+        else:
+            if src + w * h > len(data):
+                skipped.append(n)
+                c["_pixels"] = None
+                continue
+            px = data[src:src + w * h]
+            c["_pixels"] = px
 
         for y in range(h):
             row = px[y * w:(y + 1) * w]
@@ -144,9 +183,19 @@ def main():
                     if row[x] == 0:
                         interior_zero += 1
 
+    if packed_count and experimental_packed:
+        print("   packed cels decoded (unverified): %d / %d"
+              % (packed_decoded, packed_count))
+        if packed_failed:
+            print("   packed cels that raised during decode (%d):" % len(packed_failed))
+            for n, err in packed_failed:
+                print("      cel %d: %s" % (n, err))
+        if KNOWN_BAD:
+            print("   packed cels skipped as known-unreliable: %s"
+                  % sorted(KNOWN_BAD))
     if skipped:
-        print("   WARNING: %d cels skipped (out-of-range SourcePtr or bad dims)"
-              % len(skipped))
+        print("   WARNING: %d cels skipped total (out-of-range SourcePtr, bad "
+              "dims, or failed packed decode)" % len(skipped))
 
     b_pct = (100.0 * border_zero / border_total) if border_total else 0.0
     i_pct = (100.0 * interior_zero / interior_total) if interior_total else 0.0

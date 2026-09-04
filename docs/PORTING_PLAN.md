@@ -209,10 +209,50 @@ a 7-cel sample. In fact:
 - Independent proof that not every cel is `W*H` bytes: **`sum(W*H)` over all cels =
   1,959,779, but the pixel data region is only 1,761,859 bytes.**
 
-**Consequence:** the current converter renders those 93 cels as garbage (it reads `W*H`
-raw bytes regardless). It is correct for the other 2072. **Fix by implementing the 3DO
-packed-cel decoder** for any cel with `PRE0 != 0`, dispatching on the bits 0-2 depth code.
-The 3DO packed format is publicly documented.
+**Consequence:** the converter skips those 93 cels (`tools/convert_car.py` leaves them
+transparent in the atlas by default). It is correct for the other 2072.
+
+**Investigation so far (attempted, not solved) — `tools/rfcel.py`:**
+
+This is **not** the literal 3DO hardware `CCB_PACKED` format. That was checked directly
+against a MADAM cel-engine reimplementation
+([trapexit/3doplay](https://github.com/trapexit/3doplay), `Madam.cpp`): the real
+`CCB_PACKED` flag is `Flags` bit `0x200`, and neither of this file's two `Flags` values
+(`0x7FE64400`, `0x7FE64420`) has it set. So the PC porting tool is using its own
+convention, not carrying the ROM's packed-cel flag through.
+
+What **is** established, by direct byte inspection of cel 120 (16x16, 8bpp, only
+`0x77`=119 bytes of data — cross-checked against cel 121's `SourcePtr`):
+
+- `SourcePtr` points to a **table of `Height` little-endian offsets**, one per row —
+  1 byte each if `bpp < 8`, else 2 bytes each (this part mirrors the real 3DO
+  `offsetl` convention, confirmed in `Madam.cpp`).
+- Each entry is either **`0`, meaning the row is fully transparent** (rows 0, 1, and 15
+  of cel 120 all read `0`, consistent with a roughly circular/diamond 16x16 icon), or an
+  **absolute byte offset from `SourcePtr`** to that row's data. Row 2's entry is exactly
+  `32` = the table size (`16 rows x 2 bytes`), i.e. immediately after the table — this is
+  strong, checked evidence the table itself is real.
+- Per-row byte deltas computed from the table (3, 7, 5, 9, 7, 11, 7, 9, 7, 7, 7, 3 bytes
+  for a 16-pixel-wide row) are far too small for literal 8bpp pixel data throughout,
+  meaning most of a row's content must be `PACK_TRANSPARENT`/`PACK_REPEAT` runs, not
+  literal pixels.
+
+**What is NOT established — the opcode stream itself.** Applying the real MADAM opcode
+scheme (2-bit type + 6-bit count, MSB-first bits: `0`=end-of-row, `1`=literal run,
+`2`=transparent-skip run, `3`=repeat-pixel run) at each row's table offset decodes without
+crashing and consumes a plausible number of bytes for **92 of 93 cels** — but **renders as
+color noise (8bpp cels) or near-total transparency (1/2/4bpp cels)**, not recognisable
+sprites. Byte-budget plausibility is not sufficient evidence of correctness — it was
+checked here and found wanting; **do not trust it as a validation signal for this format.**
+Likely wrong assumptions, in rough order of suspicion: bit order within a byte (tried
+MSB-first only), the opcode type→meaning mapping, or the row-table's `0` convention.
+
+**Recommended next step: stop guessing, go to Ghidra (Phase 2).** `RFIRE.BIN` contains the
+real decoder for this exact format — find it via the `Art\art.CAR` string cross-reference
+(or the CCB-array-walking loop it must contain) and read the packed-row logic directly out
+of the disassembly. That will settle this in one pass instead of more blind trial-and-error
+against 92 cels' worth of noise. `tools/rfcel.py`'s table-discovery reasoning is worth
+keeping as a head start once the opcode semantics are confirmed from the binary.
 
 ---
 
@@ -476,10 +516,14 @@ simulations — another reason the integer rule in section 2.1 is absolute.
 **1b. `.RFA` → PNG — DONE.** `tools/convert_rfa.py`. 16/16 converted. Reads `bfOffBits`;
 handles 4bpp and non-256 palettes.
 
-**1c. `ART.CAR` → atlas + manifest — DONE with one known gap.** `tools/convert_car.py`.
-2165 cels packed into a 2048x2048 atlas + `art_atlas.json`; output visually verified as
-correct sprite art. **Remaining: the 93 packed cels (`PRE0 != 0`) decode as garbage** —
-implement the 3DO packed-cel decoder, dispatching on `PRE0` bits 0-2. See section 1.6.
+**1c. `ART.CAR` → atlas + manifest — DONE for 2072 of 2165 cels.** `tools/convert_car.py`.
+2072 unpacked cels packed into a 2048x2048 atlas + `art_atlas.json`; output visually
+verified as correct sprite art. **The 93 packed cels (`PRE0 != 0`) are skipped, not
+guessed at** — a candidate decoder exists (`tools/rfcel.py`, behind
+`--experimental-packed-decode`) but was tried, rendered as noise, and rejected rather than
+shipped. See section 1.6's "Investigation so far" for what is and isn't established, and
+go to Ghidra (Phase 2) to settle the opcode semantics from the real decoder in
+`RFIRE.BIN` rather than continuing to guess.
 
 **1d. `.RFM` → tilemap + entity JSON — NOT STARTED.** Grid is trivial (last 16,384 bytes,
 128 x 128, u8). The work is the 372 / 388-byte header. Faster route: find the loader in
@@ -578,7 +622,9 @@ Web checklist:
 
 1. `.RFM` header contents (372 / 388 bytes) — **highest priority**.
 2. The 16-byte difference between the two `.RFM` size classes.
-3. **3DO packed-cel decoding** for the 93 cels with `PRE0 != 0`.
+3. **3DO packed-cel decoding** for the 93 cels with `PRE0 != 0`. The row-offset table
+   structure is confirmed (section 1.6); the opcode stream is not — a candidate decoder
+   (`tools/rfcel.py`) renders noise, not sprites. Solve via Ghidra, not more guessing.
 4. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
 5. Meaning of `ART.CAR` `Flags` bit `0x20` (1847 cels vs 318).
 6. Are the 3 PLUTs meaningfully different, or near-duplicates?
@@ -598,6 +644,12 @@ Web checklist:
   corrections all came from a 7-cel sample being generalised to 2165. The transparency
   question was settled in seconds by *looking at the atlas* after a statistical heuristic
   returned "inconclusive". When an asset question is visual, render it and look.
+- **A plausible byte count is not a correctness proof for a codec.** The packed-cel
+  decode attempt (section 1.6) decoded 92 of 93 cels to a byte length within 2x the
+  unpacked size — and was still completely wrong; it rendered as noise. For any
+  guessed binary format, the only real validation is rendering (or otherwise directly
+  inspecting) the *decoded content*, not just checking the decoder didn't crash or
+  overrun.
 - **Never commit extracted assets or original game files.** Converters only.
 - **Never introduce floating point into simulation code.** See section 2.1.
 - **Never let the engine read a 1996 file format directly.** See section 2.4.
