@@ -159,20 +159,23 @@ offset (0x48 value)  tile grid, width*height bytes, one byte per tile, row-major
 
 The previously-recorded 372/388-byte "header length" (`filesize - 16384`) is exactly the
 value at offset 0x48 for a 128x128 level: it is chunk-table-end, not a fixed struct size.
-The two size classes differ because they carry different chunk *content* (e.g. a longer
-level-name string), not a different fixed format.
+**Confirmed exactly** (converter run against all 204 real files, `tools/convert_rfm.py`):
+the 50 files at 16,772 bytes are *precisely* the 50 files with a `VHCL` chunk present; the
+154 files at 16,756 bytes are *precisely* the 154 without one. The size-class split was
+never a format variant -- it's just whether that one optional chunk is there.
 
 **Chunk table format** (offset 0x50 through the offset-0x48 value): a flat sequence of
 records, each `[4-byte tag name][4-byte total record length][payload...]`. Walk it by
 adding each record's length field to your position to reach the next record, stopping at
-the offset-0x48 boundary. Confirmed tags (there may be more not yet seen in the functions
-inspected so far):
+the offset-0x48 boundary. Confirmed tags, all four seen in every one of the 204 real files
+except where noted:
 
 | Tag | Payload | Meaning |
 |---|---|---|
 | `LEVL` | payload byte 0 | A value 0-8 (stored on disk as value+1; the loader treats a decoded value >8 as invalid and clamps to 8). Read from a single byte, likely difficulty or a related per-level knob -- name inferred from the tag, not yet certain. |
-| `NAME` | null-terminated string | The level's display name (this is what the level-select menu shows -- separate from whatever string lives at old-header offset 0x18, which has not been re-examined since this discovery). |
-| `VHCL` | 6 bytes, relative to the *record start* (not payload start): `+8`=A, `+9`=H, `+0xA`=J, `+0xB`=T, `+0xC`=?, `+0xD`=M | Level-tuning parameters. **The same six parameters can also be written directly into the .rfm *filename*** using a bracket suffix the loader parses independently, e.g. `SomeLevel[A3H5T2].rfm` -- confirmed by decompiling the parameter parser (`FUN_00413f00`): it scans the filename for `[`, then for each `<letter><digits>` pair inside the brackets sets that parameter, with the VHCL chunk (if present) only overriding whichever of the six the loader didn't already get a valid (non-`0xFF`) value for. Letters confirmed: `A` (<10), `H` (<10), `J` (<10, nonzero), `M` (<201), `T` (<10). This is a real, working config mechanism worth preserving in the content-pack format (section 2.4) rather than special-cased away. |
+| `NAME` | starts with a null-terminated string, **but the record is much bigger than that string** (e.g. 268 bytes for a ~14-byte name) | The level's display name (confirmed exactly right -- decoded names like "The Cakewalk" and "Driving School" match the source filenames seen in section 1.2/1.5's string dump). Everything after the terminating null in the same record is editor/build-only cruft, not gameplay data: observed to contain what is very likely the original developer's full source path (`...\Images\Worlds\1Player\Level1\The Cakewalk.rfm`) followed by a block of binary data that looks like leftover editor state (camera position, undo history, or similar -- not decoded, not needed). **The converter must stop at the first null byte and ignore the rest of the record.** Separate from whatever string lives at old-header offset 0x18, which has not been re-examined since this discovery. |
+| `VHCL` | 6 bytes, relative to the *record start* (not payload start): `+8`=A, `+9`=H, `+0xA`=J, `+0xB`=T, `+0xC`=?, `+0xD`=M | Level-tuning parameters, present in exactly 50 of 204 files (see above). **The same six parameters can also be written directly into the .rfm *filename*** using a bracket suffix the loader parses independently, e.g. `SomeLevel[A3H5T2].rfm` -- confirmed by decompiling the parameter parser (`FUN_00413f00`): it scans the filename for `[`, then for each `<letter><digits>` pair inside the brackets sets that parameter, with the VHCL chunk (if present) only overriding whichever of the six the loader didn't already get a valid (non-`0xFF`) value for. Letters confirmed: `A` (<10), `H` (<10), `J` (<10, nonzero), `M` (<201), `T` (<10). This is a real, working config mechanism worth preserving in the content-pack format (section 2.4) rather than special-cased away. |
+| `EDTN` | 4 bytes, e.g. `27 03 27 03` (two identical u16 LE values) | Present in every file. Not decoded -- likely an editor/build bookkeeping value (version, checksum, or similar). Low priority: the converter round-trips it as an opaque tag but doesn't need to understand it. |
 
 Chunk tag constants live at `0x00448814`-ish through `0x00448834` in RFIRE.BIN's data
 segment if this needs re-verifying or extending (`VHCL\0\0\0\0`, `NAME\0\0\0\0` are adjacent
@@ -643,14 +646,25 @@ shipped. See section 1.6's "Investigation so far" for what is and isn't establis
 go to Ghidra (Phase 2) to settle the opcode semantics from the real decoder in
 `RFIRE.BIN` rather than continuing to guess.
 
-**1d. `.RFM` → tilemap + entity JSON — NOT STARTED (converter), but the format is fully
-understood.** See section 1.5 for the full container/chunk-table layout and the tile-value
-spawn/candidate-pool mechanism, both verified against the real loader in RFIRE.BIN via
-Ghidra and cross-checked against all 204 real files. The converter itself is still
-unwritten, but nothing is blocking it now: parse the chunk table (`NAME`/`LEVL`/`VHCL`),
-resolve the tile grid through the `0x00448450` table to separate plain terrain from the
-four special values (`0x39`/`0x4D` spawn points, `0xB4`/`0xDC` candidate building/target
-pools), and emit tilemap + spawn points + candidate pools as JSON. This is ready to build.
+**1d. `.RFM` → tilemap + entity JSON — DONE.** `tools/convert_rfm.py`. 204/204 real files
+converted with zero failures. Per level, emits `<name>.json` (chunk metadata, resolved
+`VHCL` params with their source per field, spawn points, candidate pools), `<name>.tiles.bin`
+(raw width*height tile bytes, entity cells zeroed to 0), and `<name>.debug.png` (false-colour
+terrain + entity markers, for visual sanity-checking rather than trusting the numbers alone
+-- this is what caught that "Campgrounds Of America" is a uniform grid of 160 evenly-spaced
+`0xDC` candidate markers, which makes perfect thematic sense and was a good confirmation the
+extraction is correct, not a bug).
+
+Totals across all 204 files (all consistent with section 1.5's per-file findings): 204 team-0
+spawn points (one each, no exceptions), 104 team-1 spawn points (exactly the 2-player files),
+641 pool-A candidates, 1560 pool-B candidates. Decoded `NAME` strings were spot-checked
+against the source filenames already known from section 1.2/1.5 (`"The Cakewalk"`,
+`"Driving School"`) and matched exactly.
+
+**Not yet done: resolving plain terrain tile values into semantic classes** (open question
+in section 4) -- the converter currently emits the raw on-disk tile byte for anything that
+isn't one of the four special values, which is enough for a correct tilemap but not yet a
+classified one (water/land/coastline-variant N). That mapping work is still open.
 
 **1e. Asset ID registry + pack emitter — NOT STARTED.** Convert the raw atlas manifest into
 a semantic registry (section 2.4.1) and make the converters emit a proper content pack
@@ -813,20 +827,25 @@ Web checklist:
 1. **3DO packed-cel decoding** for the 93 cels with `PRE0 != 0`. The row-offset table
    structure is confirmed (section 1.6); the opcode stream is not — a candidate decoder
    (`tools/rfcel.py`) renders noise, not sprites. Solve via Ghidra, not more guessing.
-2. **Highest priority now:** write the `.RFM` converter (Phase 1d) — the format is fully
-   understood (section 1.5), nothing left to reverse-engineer is blocking it.
+2. **Highest priority now:** map plain terrain tile values into semantic classes
+   (water/land/coastline-variant N). `tools/convert_rfm.py` already separates the four
+   *special* values (spawn/candidate markers) from everything else; what's left is
+   classifying the ~94 remaining distinct terrain byte values well enough to pick tile art
+   and collision. Needed before Phase 4 step 1 (render a level).
 3. The coastline-autotiling function `FUN_0042e4f0`, called for tile values `0xC8`-`0xEF`
-   (section 1.5) — not yet decompiled.
+   (section 1.5) — not yet decompiled. Likely feeds directly into question 2 above.
 4. The still-undecoded `.RFM` header body, offsets `0x04`-`0x3F` (minus width/height/
    mode-byte, which are known — section 1.5).
 5. The `>>1` "half the candidate-pool count" computation right after the random
    building/target pick in `FUN_00414130` — possibly a win-condition threshold (section 1.5).
-6. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
-7. Are the 3 `ART.CAR` PLUTs meaningfully different, or near-duplicates?
-8. **How is team colouring done?** Palette ranges or separate cels. Blocks section 2.4.3.
-9. Is music Redbook CD audio (`mciSendCommandA`) or `SOUND/DRUMS.WAV`?
-10. Native framebuffer dimensions and the fixed sim tick rate.
-11. Implicit sprite pivots in the original cels — needed for the registry.
+6. The `EDTN` chunk tag (section 1.5) — present in every file, 4-byte payload, not decoded.
+   Low priority: `tools/convert_rfm.py` round-trips it without understanding it.
+7. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
+8. Are the 3 `ART.CAR` PLUTs meaningfully different, or near-duplicates?
+9. **How is team colouring done?** Palette ranges or separate cels. Blocks section 2.4.3.
+10. Is music Redbook CD audio (`mciSendCommandA`) or `SOUND/DRUMS.WAV`?
+11. Native framebuffer dimensions and the fixed sim tick rate.
+12. Implicit sprite pivots in the original cels — needed for the registry.
 
 **RESOLVED:**
 - Is palette index 0 transparent in `ART.CAR` cels? **Yes** — confirmed by visual
@@ -845,7 +864,11 @@ Web checklist:
   Not a separate chunk: four specific tile *values* (`0x39`/`0x4D` = team spawn points,
   `0xB4`/`0xDC` = candidate building/target position pools, one randomly committed per
   match). Verified against the loader and cross-checked by byte-histogram scan of all 204
-  real files (e.g. `0x39` occurs in every single file, exactly once).
+  real files (e.g. `0x39` occurs in every single file, exactly once), then confirmed a
+  second time by actually running the converter (`tools/convert_rfm.py`) against all 204.
+- The 372/388-byte `.RFM` size-class split, precisely: it's the `VHCL` chunk's presence,
+  confirmed exactly (all 50 files at 16,772 bytes have one; all 154 at 16,756 don't; no
+  exceptions either way) by running `tools/convert_rfm.py` against every real file.
 
 ---
 
