@@ -47,11 +47,22 @@ match. This converter extracts all candidates rather than picking one -- pick-on
 random is gameplay behaviour that belongs in the engine/sim, not baked into the
 converted asset.
 
-Output per level: <name>.json (metadata + entities) and <name>.tiles.bin (raw
-width*height tile bytes, entity-tile cells zeroed to a neutral 0 -- the true default
-terrain under a spawn/candidate marker is not recoverable from the file). A debug PNG
-is also written so the grid and extracted entities can be checked visually rather than
-trusted from statistics alone.
+Every raw tile byte (0-239) resolves to a final rendered "art id" through a second,
+fully static lookup -- see tools/rf_tile_art.py for the two-table pipeline (reverse
+engineered from FUN_00414130 and FUN_0042e4f0) and docs/PORTING_PLAN.md section 1.5.
+Notably this is NOT a runtime autotiling algorithm -- there is no neighbor scanning at
+load time -- the level editor already baked the correct coastline-edge art id into the
+raw byte when the file was saved. Cross-checked against all 204 real files: zero cells
+fail to resolve to an art id, and the 104 art ids the lookup predicts are exactly the
+104 actually used.
+
+Output per level: <name>.json (metadata + entities), <name>.tiles.bin (raw width*height
+tile bytes, entity-tile cells zeroed to a neutral 0 -- the true default terrain under a
+spawn/candidate marker is not recoverable from the file), and <name>.art.bin (the same
+grid run through raw_tile_to_art_id -- this is what Phase 3/4 rendering should consume,
+not the raw bytes). A debug PNG is also written, colour-coded by art id, so the grid
+and extracted entities can be checked visually rather than trusted from statistics
+alone.
 
 Usage:
     python convert_rfm.py <returnfire_dir> <out_dir> [--limit N]
@@ -63,6 +74,7 @@ import struct
 import sys
 
 from rfpng import write_png_rgba
+from rf_tile_art import raw_tile_to_art_id
 
 MAGIC = b"WRL\x00"
 CHUNK_TABLE_START = 0x50
@@ -226,6 +238,12 @@ def parse_rfm(path, filename):
 
     grid = bytearray(data[chunk_table_end:chunk_table_end + grid_size])
 
+    # Resolve the real rendered art id per cell BEFORE zeroing entity tiles below --
+    # spawn/candidate raw values still carry a real "ground" art id (the dispatch
+    # call that registers them only records a position, it never touches the tile's
+    # stored art bits), so this is not lossy the way the raw grid's zeroing is.
+    art_grid = bytearray(raw_tile_to_art_id(val) or 0 for val in grid)
+
     spawn_points = []
     candidates_a = []
     candidates_b = []
@@ -263,23 +281,31 @@ def parse_rfm(path, filename):
         "unrecognized_chunks": unrecognized_chunks,
         "spawn_points": spawn_points,
         "candidate_pools": {"a": candidates_a, "b": candidates_b},
-    }, grid
+    }, grid, art_grid
 
 
-def render_debug_png(path, width, height, grid, meta):
-    """Grayscale terrain (by raw tile value) with entities highlighted in colour,
-    so the grid and extracted entities can be checked by eye, not just counted."""
+def _art_id_color(art_id):
+    """Deterministic false-colour per resolved art id (0-127ish). Art id 0 is the
+    large "blank/unused" bucket (mostly reserved slots) -- render it as dark green
+    "generic land" so real levels don't look like they have holes; every other id
+    gets a colour hashed from the id itself so distinct terrain classes are visibly
+    distinct without needing real art yet."""
+    if art_id == 0:
+        return (40, 110, 50)
+    h = (art_id * 2654435761) & 0xFFFFFFFF  # Knuth multiplicative hash
+    r = 60 + (h & 0xFF) % 180
+    g = 60 + ((h >> 8) & 0xFF) % 180
+    b = 60 + ((h >> 16) & 0xFF) % 180
+    return (r, g, b)
+
+
+def render_debug_png(path, width, height, art_grid, meta):
+    """False-colour terrain by resolved ART ID (not raw tile byte) with entities
+    highlighted on top, so the grid and extracted entities can be checked by eye,
+    not just counted."""
     buf = bytearray(width * height * 4)
-    for i, val in enumerate(grid):
-        # Simple, deterministic false-colour: water(1)=dark blue, land(0)=green,
-        # everything else=a grayscale ramp so coastline/transition tiles are visible.
-        if val == 1:
-            r, g, b = 20, 40, 110
-        elif val == 0:
-            r, g, b = 40, 110, 50
-        else:
-            shade = 60 + (val % 32) * 5
-            r = g = b = min(shade, 255)
+    for i, art_id in enumerate(art_grid):
+        r, g, b = _art_id_color(art_id)
         o = i * 4
         buf[o], buf[o + 1], buf[o + 2], buf[o + 3] = r, g, b, 255
 
@@ -346,7 +372,7 @@ def main():
         filename = os.path.basename(path)
         rel = os.path.relpath(path, worlds_dir)
         try:
-            meta, grid = parse_rfm(path, filename)
+            meta, grid, art_grid = parse_rfm(path, filename)
         except RfmError as e:
             failed.append((rel, str(e)))
             continue
@@ -355,13 +381,16 @@ def main():
         stem = os.path.splitext(filename)[0]
         out_json = os.path.join(out_dir, stem + ".json")
         out_bin = os.path.join(out_dir, stem + ".tiles.bin")
+        out_art = os.path.join(out_dir, stem + ".art.bin")
         out_png = os.path.join(out_dir, stem + ".debug.png")
 
         with open(out_json, "w") as f:
             json.dump(meta, f, indent=1)
         with open(out_bin, "wb") as f:
             f.write(grid)
-        render_debug_png(out_png, meta["width"], meta["height"], grid, meta)
+        with open(out_art, "wb") as f:
+            f.write(art_grid)
+        render_debug_png(out_png, meta["width"], meta["height"], art_grid, meta)
 
         for sp in meta["spawn_points"]:
             total_spawns[sp["team"]] = total_spawns.get(sp["team"], 0) + 1

@@ -197,15 +197,37 @@ all 204 real files):
   128x128 without checking.
 - Each runtime buffer entry is a **32-bit value**, not the raw on-disk byte. Each raw
   on-disk byte (0-239; values >=240 are clamped to 0 before lookup) indexes a **4-byte
-  stride lookup table at `0x00448450`** in RFIRE.BIN (240 entries, fully dumped), one per
-  possible tile value: `[transform_byte, pad, secondary_param, function_ptr_index]`.
-  - `transform_byte` sets the low 7 bits of the runtime tile value (a value of `0xFF` here
-    means "clear to the base/default tile" instead; ~60 of the 240 entries are `0xFF` --
-    almost certainly unused/reserved tile-ID slots, not meaningful gameplay data).
-  - If `secondary_param != 0` (true for values `0xC8`-`0xEF`, the "high" range): calls
-    `FUN_0042e4f0`, not yet decompiled -- plausibly neighbor-aware blending for the
-    coastline autotiling already observed visually. Not chased further this pass.
-  - **If `function_ptr_index != 0`: dispatches through a 2-entry function-pointer table at
+  stride lookup table at `0x00448450`** in RFIRE.BIN (240 entries, fully dumped, persisted
+  at `tools/data/tile_lookup_tables.json`), one record per possible tile value:
+  `[transform_byte, coastal_id, param4, dispatch_idx]`. (Earlier notes here called fields 2
+  and 3 `pad`/`secondary_param` -- that was wrong, corrected after decompiling the function
+  that actually consumes them; see below.)
+  - `transform_byte` sets the low 7 bits of the runtime tile value directly (a value of
+    `0xFF` here means "leave the tile's low 7 bits alone / no terrain art" instead; 58 of
+    the 240 raw slots are `0xFF` with `coastal_id` also `0` -- confirmed genuinely unused:
+    **none of the 204 real files ever contain any of those 58 raw byte values**).
+  - **If `coastal_id != 0`: calls `FUN_0042e4f0(coastal_id, tile_ptr, 0, param4)`.** This
+    function was decompiled in full (`tools/ghidra_scripts/DecompileOne.java 0042e4f0`).
+    Contrary to the earlier guess in this section, **it does NOT do any runtime
+    neighbor-aware autotiling** -- the loader always calls it with the "neighbor" argument
+    (`param_3`) hardcoded to `0`. It's a second, static table lookup: `coastal_id` (1-91,
+    count confirmed at `DAT_00447028 == 0x5B == 91`) indexes a **56-byte-stride table at
+    `0x00447038`**, whose `+8` byte (`base_art`) becomes the tile's final low-7-bit art id,
+    unless `base_art == 0xFF` (in which case the `transform_byte` from the primary table
+    is kept -- always `0` for every coastal-tagged raw value in practice, since coastal
+    tiles' `transform_byte` is only ever a placeholder). There's also a `+4` "mode" field
+    compared against the literal `8` for an alternate `base_art + param4` path -- dumped
+    across all 91 real entries, `mode` is never actually `8`, so that path is dead for real
+    game data and isn't implemented in the converter. **Net effect: the final rendered art
+    id for every raw tile byte is a pure static function of the byte itself -- the level
+    editor bakes the correct coastline-edge shape into the file when it's saved, there is
+    no per-match or per-neighbor computation.** Implemented as `tools/rf_tile_art.py`
+    (`raw_tile_to_art_id()`), cross-checked against all 204 real files: **zero cells fail to
+    resolve, and the 104 art ids the two tables predict are exactly the 104 art ids that
+    actually appear.** `convert_rfm.py` now emits this resolved grid as `<name>.art.bin`
+    (parallel to the raw `<name>.tiles.bin`) -- **Phase 3/4 rendering should consume
+    `.art.bin`, not the raw bytes.**
+  - **If `dispatch_idx != 0`: dispatches through a 2-entry function-pointer table at
     `0x00448810`** (confirmed to be exactly 2 entries -- the string table for the chunk tags
     `VHCL`/`NAME`/`LEVL` begins immediately after at `0x0044881C`, so don't over-read it).
     Only 4 of the 240 tile values trigger this: `0x39`, `0x4D` → function-pointer index 1
@@ -213,7 +235,12 @@ all 204 real files):
     `0x00413db0`). Both were force-decompiled (they're only reachable via an indirect call,
     so Ghidra's static analysis didn't auto-recognize them as functions --
     `tools/ghidra_scripts/ForceDecompile.java` handles this: disassemble + createFunction at
-    the address, then decompile).
+    the address, then decompile). Neither dispatch function touches the tile's art bits --
+    they only record a position -- so spawn/candidate tiles still resolve to a real,
+    meaningful art id via the `coastal_id`/`transform_byte` path above (e.g. both candidate
+    tiles `0xB4`/`0xDC` resolve to art id 109, i.e. "buildable ground"; the two spawn tiles
+    resolve to distinct ids 90/91). `convert_rfm.py` computes `.art.bin` from the grid
+    *before* zeroing these cells out in the raw `.tiles.bin`, specifically to preserve this.
 
 **What those two dispatch functions actually do, and what the four special tile values
 are, cross-checked against a byte-histogram scan of all 204 real `.rfm` files**
@@ -244,19 +271,24 @@ also a `>>1` "half the count" computation right after the random pick, not yet c
 -- possibly a win-condition threshold, e.g. "destroy half the spawned targets to win".)
 
 **Remaining work, in priority order:**
-1. Decompile `FUN_0042e4f0` (the coastline-blending function called for tile values
-   `0xC8`-`0xEF`) to nail down the autotiling rule.
-2. Map the still-undecoded header body (offsets `0x04`-`0x3F`, minus the now-known width/
+1. Map the still-undecoded header body (offsets `0x04`-`0x3F`, minus the now-known width/
    height/mode-byte fields) -- likely more gameplay metadata.
-3. Re-examine the old offset-`0x18` string finding now that `NAME` is known to be the real
+2. Re-examine the old offset-`0x18` string finding now that `NAME` is known to be the real
    display-name source -- confirm what offset `0x18` actually holds.
-4. Confirm whether any of the 204 `.rfm` files have the offset-`0x40` "enabled" byte unset.
-5. Chase the `>>1` "half the pool count" computation after the random building/target pick
+3. Confirm whether any of the 204 `.rfm` files have the offset-`0x40` "enabled" byte unset.
+4. Chase the `>>1` "half the pool count" computation after the random building/target pick
    -- likely a win condition.
-6. **Write the actual `.RFM` converter** (Phase 1d) — the format is now understood well
-   enough to do this: parse the chunk table, resolve tile values through the `0x00448450`
-   table (linear terrain vs. spawn/candidate markers), and emit tilemap + spawn points +
-   candidate-pool JSON. This no longer needs to wait on further RE.
+5. The `+9` "height_seed" byte in the `0x00447038` coastal table and the runtime tile
+   value's bits 25-27/14-15 (elevation-ish and orientation-ish fields set by
+   `FUN_0042e4f0`) are dumped but not chased -- likely affect physics/movement, not
+   rendering, so lower priority than art.
+
+**DONE:** Decompiled `FUN_0042e4f0` and fully resolved the raw-tile-byte → rendered-art-id
+pipeline (see above) -- this was open question #2 ("classify the ~94 plain-terrain tile
+values") and is now closed with 100% coverage, cross-validated against all 204 real files.
+**Wrote the actual `.RFM` converter** (Phase 1d, `tools/convert_rfm.py`) -- parses the
+chunk table, resolves tile values through both lookup tables, and emits tilemap + art-id
+grid + spawn points + candidate-pool JSON, run clean against all 204 real files.
 
 **Ghidra references for continuing this:** `FUN_00414130` @ `0x00414130` in RFIRE.BIN is the
 full level loader (decompiled in full during this investigation -- re-run
@@ -649,11 +681,14 @@ go to Ghidra (Phase 2) to settle the opcode semantics from the real decoder in
 **1d. `.RFM` → tilemap + entity JSON — DONE.** `tools/convert_rfm.py`. 204/204 real files
 converted with zero failures. Per level, emits `<name>.json` (chunk metadata, resolved
 `VHCL` params with their source per field, spawn points, candidate pools), `<name>.tiles.bin`
-(raw width*height tile bytes, entity cells zeroed to 0), and `<name>.debug.png` (false-colour
-terrain + entity markers, for visual sanity-checking rather than trusting the numbers alone
+(raw width*height tile bytes, entity cells zeroed to 0), `<name>.art.bin` (the resolved
+render-ready art id per cell -- see below), and `<name>.debug.png` (false-colour terrain by
+art id + entity markers, for visual sanity-checking rather than trusting the numbers alone
 -- this is what caught that "Campgrounds Of America" is a uniform grid of 160 evenly-spaced
 `0xDC` candidate markers, which makes perfect thematic sense and was a good confirmation the
-extraction is correct, not a bug).
+extraction is correct, not a bug; the art-id-coloured render also newly reveals a distinct
+road/path terrain class connecting those camping spots that the earlier raw-byte grayscale
+render didn't make visible).
 
 Totals across all 204 files (all consistent with section 1.5's per-file findings): 204 team-0
 spawn points (one each, no exceptions), 104 team-1 spawn points (exactly the 2-player files),
@@ -661,10 +696,16 @@ spawn points (one each, no exceptions), 104 team-1 spawn points (exactly the 2-p
 against the source filenames already known from section 1.2/1.5 (`"The Cakewalk"`,
 `"Driving School"`) and matched exactly.
 
-**Not yet done: resolving plain terrain tile values into semantic classes** (open question
-in section 4) -- the converter currently emits the raw on-disk tile byte for anything that
-isn't one of the four special values, which is enough for a correct tilemap but not yet a
-classified one (water/land/coastline-variant N). That mapping work is still open.
+**Also done: resolving all raw terrain tile values into semantic/render art ids** (was the
+open question in section 4 as "classify the ~94 plain-terrain tile values", turned out to
+cover all 240 raw values, not just the plain ones). `tools/rf_tile_art.py` implements the
+static two-table pipeline reverse-engineered from `FUN_00414130`/`FUN_0042e4f0` (full
+writeup in section 1.5); `tools/data/tile_lookup_tables.json` holds the dumped tables.
+Cross-checked against all 204 real files: zero grid cells fail to resolve to an art id, and
+the 104 art ids the tables predict are exactly the 104 art ids real levels actually use.
+This is a pure lookup, not a guess -- **Phase 3/4 rendering should consume `.art.bin`, not
+the raw `.tiles.bin` bytes**, once real per-art-id sprite art exists to map onto it (that
+sprite-to-id mapping is itself still open -- see section 4).
 
 **1e. Asset ID registry + pack emitter — NOT STARTED.** Convert the raw atlas manifest into
 a semantic registry (section 2.4.1) and make the converters emit a proper content pack
@@ -827,19 +868,23 @@ Web checklist:
 1. **3DO packed-cel decoding** for the 93 cels with `PRE0 != 0`. The row-offset table
    structure is confirmed (section 1.6); the opcode stream is not — a candidate decoder
    (`tools/rfcel.py`) renders noise, not sprites. Solve via Ghidra, not more guessing.
-2. **Highest priority now:** map plain terrain tile values into semantic classes
-   (water/land/coastline-variant N). `tools/convert_rfm.py` already separates the four
-   *special* values (spawn/candidate markers) from everything else; what's left is
-   classifying the ~94 remaining distinct terrain byte values well enough to pick tile art
-   and collision. Needed before Phase 4 step 1 (render a level).
-3. The coastline-autotiling function `FUN_0042e4f0`, called for tile values `0xC8`-`0xEF`
-   (section 1.5) — not yet decompiled. Likely feeds directly into question 2 above.
-4. The still-undecoded `.RFM` header body, offsets `0x04`-`0x3F` (minus width/height/
+2. **Highest priority now:** map the 104 resolved `.RFM` art ids (section 1.5,
+   `tools/rf_tile_art.py`) to actual sprite art / collision classes. The raw-byte → art-id
+   *lookup* is fully solved and verified; what's still open is which art id is water, which
+   is land, which are the coastline-edge variants, etc. — that requires either matching art
+   ids against `ART.CAR` sprite content once question 1 is solved, or empirically comparing
+   the per-art-id debug-render shapes (e.g. `art=0`'s huge 57-raw-value bucket is presumably
+   "generic buildable land", by far the most common). Needed before Phase 4 step 1 (render
+   a level).
+3. The still-undecoded `.RFM` header body, offsets `0x04`-`0x3F` (minus width/height/
    mode-byte, which are known — section 1.5).
-5. The `>>1` "half the candidate-pool count" computation right after the random
+4. The `>>1` "half the candidate-pool count" computation right after the random
    building/target pick in `FUN_00414130` — possibly a win-condition threshold (section 1.5).
-6. The `EDTN` chunk tag (section 1.5) — present in every file, 4-byte payload, not decoded.
+5. The `EDTN` chunk tag (section 1.5) — present in every file, 4-byte payload, not decoded.
    Low priority: `tools/convert_rfm.py` round-trips it without understanding it.
+6. The coastal table's (`0x00447038`) `+9` "height_seed" byte and the runtime tile value's
+   orientation (bits 14-15) / elevation-ish (bits 25-27) fields set by `FUN_0042e4f0` —
+   dumped but not chased; likely physics/movement, not rendering (section 1.5).
 7. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
 8. Are the 3 `ART.CAR` PLUTs meaningfully different, or near-duplicates?
 9. **How is team colouring done?** Palette ranges or separate cels. Blocks section 2.4.3.
@@ -869,6 +914,13 @@ Web checklist:
 - The 372/388-byte `.RFM` size-class split, precisely: it's the `VHCL` chunk's presence,
   confirmed exactly (all 50 files at 16,772 bytes have one; all 154 at 16,756 don't; no
   exceptions either way) by running `tools/convert_rfm.py` against every real file.
+- **The `.RFM` raw-tile-byte → rendered-art-id mapping, including the `0xC8`-`0xEF`
+  "coastline" range** — **section 1.5**. `FUN_0042e4f0` decompiled in full: it is a
+  *second static table lookup* (`0x00447038`, 91 entries), not runtime neighbor-aware
+  autotiling as guessed earlier — the loader always calls it with the neighbor argument
+  hardcoded to `0`. `tools/rf_tile_art.py` implements the combined two-table pipeline;
+  cross-checked against all 204 real files with zero unresolved cells and an exact match
+  on the 104 distinct art ids actually used.
 
 ---
 
