@@ -540,7 +540,36 @@ tile art, and plays any sound. Do not start Phase 3 until this looks right.
 
 ### Phase 2 — Ghidra project + reference capture
 
-1. Load `RFIRE.BIN` into Ghidra. Apply MSVC 4.x FLIRT signatures to strip CRT code.
+**Toolchain is installed and verified (2026-09-04), outside the repo (not version
+controlled, not part of the game data — pure local tooling):**
+
+```
+C:\Users\Alex\Documents\code\tools\jdk-21.0.12.1+1\      Temurin JDK 21 (Ghidra 12.1.3 requires it)
+C:\Users\Alex\Documents\code\tools\ghidra_12.1.3_PUBLIC\  Ghidra 12.1.3
+C:\Users\Alex\Documents\code\tools\ghidra_projects\       Ghidra project dir; `returnfire` project
+                                                            already has RFIRE.BIN imported (-noanalysis,
+                                                            so full auto-analysis has NOT run yet -- do
+                                                            that first thing in this phase)
+```
+
+- `JAVA_HOME` is set persistently for the Windows user account, and
+  `ghidra_12.1.3_PUBLIC\support\launch.properties` has `JAVA_HOME_OVERRIDE` pointing at the
+  JDK above -- both needed because Ghidra's launcher requires a bootstrap `JAVA_HOME` before
+  it even reads its own config. A **new** terminal window picks up the persisted user env var
+  fine. If a stale shell doesn't see it, `ghidra_12.1.3_PUBLIC\run_ghidra.bat` sets it inline
+  before launching, or just `$env:JAVA_HOME = "...\jdk-21.0.12.1+1"` first.
+- GUI: `ghidra_12.1.3_PUBLIC\ghidraRun.bat` (or the wrapper above). No tool here can drive a
+  native GUI window -- if the executing agent is an AI agent without a human at the keyboard,
+  **use the headless analyzer, not the GUI**, for anything scriptable:
+  `ghidra_12.1.3_PUBLIC\support\analyzeHeadless.bat <project_dir> <project_name> [-import <file> | -process] [-postScript <script> ...]`.
+  A Ghidra script (Java or Jython under `support/`, or PyGhidra if installed) can walk
+  functions, resolve string cross-references, and dump decompiled C -- all as text this agent
+  can read directly, without anyone touching the GUI.
+
+1. Run full auto-analysis on the imported `RFIRE.BIN` (headless `-process` on the existing
+   `returnfire` project, or `-import` fresh with analysis enabled -- the current import used
+   `-noanalysis` to verify the loader quickly, so this hasn't happened yet). Apply MSVC 4.x
+   FLIRT signatures to strip CRT code.
 2. Anchor on known strings and imports:
    - `%sWorlds\%s\%s\*.rfm`, `Art\art.CAR`, `retfire.ini` → the loader, which reveals every
      format above and should **settle the `.RFM` header directly**.
