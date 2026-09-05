@@ -1522,12 +1522,26 @@ Keep each step playable, and load everything through the pack layer from step 1:
      (`A`/`H`/`J`/`M`/`T`/`unk4`, section 1.5) were decoded structurally but never
      semantically identified, and are almost always `"default"` anyway — tracing the real
      movement-update code is separate, not-yet-started work.
-   - **Not the real rendering technique.** Section 1.10/2.2 established the original does
-     real perspective-projected-quad rendering across 64 discrete headings; this uses the
-     8-9 real sprite frames covering one quarter-turn, mirrored into the other three
-     quadrants (flat-rotation approximation, the "simpler visual target" option section 2.2
-     flagged as acceptable). Revisit for visual fidelity once movement/gameplay are further
-     along.
+   - **Not the real rendering technique, and the quarter-turn/mirror assumption is
+     UNCONFIRMED (checked 2026-09-06, inconclusive).** Section 1.10/2.2 established the
+     original does real perspective-projected-quad rendering across 64 discrete headings;
+     this uses the 8-9 real sprite frames covering what was *assumed* to be one quarter-turn
+     (wide-to-thin), mirrored into the other three quadrants — the "simpler visual target"
+     option section 2.2 flagged as acceptable, but the assumption itself was never verified
+     against real data, only inferred from how the frames look. Attempted to confirm it
+     properly: `FUN_0042dd90` (the per-object render dispatcher) does use a real, data-driven
+     "facing table" (entries mapping a heading sub-range linearly onto a run of cel indices,
+     `cel = base + (heading - range_start)`, plus a genuine mode-based variant selector —
+     groups of 2/4/8 alternate entries chosen by a per-object state byte, a plausible
+     candidate for how team colour gets picked at the table level). But a full `.data`-segment
+     scan for the inferred 24-byte record layout (`tools/ghidra_scripts/FindFacingTable.java`,
+     `FindFacingPair.java`) found nothing conclusive — either the byte layout inferred from
+     the decompile is wrong, or the table is built at runtime (`FUN_0042d640` looks like an
+     object/entity constructor, not a static-table reader) rather than stored as fixed data.
+     **Accepted as a known gap for now** (user's call, 2026-09-06) rather than chased further —
+     revisit once more of the game is running and a wrong frame would actually be visible/
+     testable in context, or if `FUN_0042d640`'s construction logic gets traced for other
+     reasons.
    - **Open question worth checking later:** Return Fire is popularly known for an attack
      helicopter, and box art suggests one may exist as a separate playable unit. Nothing
      found so far in the (coarsely classified) registry has been confirmed as a helicopter
