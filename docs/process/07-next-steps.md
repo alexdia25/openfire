@@ -24,9 +24,12 @@ See plan section 4 for the current, precise state of each — this list is just 
 
 - What ends a match (section 4, item 1)
 - Team colouring mechanism (section 4, item 3)
-- 3DO support: base game + "Maps o' Death" expansion — new goal, not yet started (section 4, item 6)
+- 3DO support: base game + "Maps o' Death" expansion — new goal, **deprioritized** until the core PC-port game runs (section 4, item 6)
 - 4-player support — new goal, not yet started (section 4, item 7)
 - Custom Godot UI for menus/level-select/etc — new goal, not yet started (section 4, item 8)
+
+**Current priority (2026-09-05):** get the core PC-port game running. Phase 0 (Godot project
+scaffold) is done; the next real blocker is the asset ID registry (plan section 2.4.1).
 
 ## If you want to try one of these yourself
 

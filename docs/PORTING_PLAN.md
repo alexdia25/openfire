@@ -1,11 +1,18 @@
 # Return Fire (1996, Silent Software) — Godot Port Plan
 
-**Status:** planning complete. Phase 1a/1b/1c converters written and verified.
+**Status:** planning complete. Phase 1 converters (1a/1b/1c/1d) written and verified. Phase 0
+(Godot project scaffold) done, 2026-09-05. **Priority as of 2026-09-05: get the core PC-port
+game actually running before returning to 3DO support (section 4 item 6) or new-goal work
+beyond what's needed to run it** — the user explicitly deferred the 3DO disc work until
+then. Next real blocker: the asset ID registry (section 2.4.1), the gating deliverable
+Phase 4 needs before it can read anything through the pack layer.
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
 **Converters live in:** `C:\Users\Alex\Documents\code\returnfire-godot\tools\`
 **Source data:** `C:\Users\Alex\Documents\returnfire`
+**Godot 4.7.2 editor:** `C:\Users\Alex\Documents\code\tools\godot\Godot_v4.7.2-stable_win64.exe`
+(outside the repo, like the Ghidra toolchain — not version controlled)
 
 ---
 
@@ -1179,21 +1186,36 @@ something real to list.
 
 ## 3. Execution phases
 
-### Phase 0 — Repo setup
+### Phase 0 — Repo setup — DONE (2026-09-05)
 
-1. Godot 4 project at `C:\Users\Alex\Documents\code\returnfire-godot`, separate from data.
-2. Structure:
+1. Godot 4 project at `C:\Users\Alex\Documents\code\returnfire-godot`, separate from data. ✅
+   `project.godot` created (GL Compatibility renderer per section 2.2, 60 tick/s default per
+   section 1.9's conclusion that there's no original rate to match), plus a placeholder boot
+   scene (`game/main.tscn`/`main.gd`) so there's something real to open. Verified headless
+   (`godot --headless --path . --import` and a 5-frame run) both exit 0, no errors. The
+   editor itself lives at `C:\Users\Alex\Documents\code\tools\godot\` — outside the repo,
+   like the Ghidra toolchain, not version controlled.
+2. Structure: ✅ (folders already existed as placeholders; `project.godot` now makes
+   `/game/` and `/src/` real Godot-recognized paths)
    ```
    /tools/            Python converters + pack validator (Phase 1 lives here)
-   /src/              GDExtension simulation code
+   /src/              simulation code — GDScript, not GDExtension (section 2.1: GDExtension
+                      has no Godot 4 web export, so the sim itself must be GDScript)
    /game/             Godot scenes, scripts, shaders
    /packs/            content packs + the asset ID registry
    /docs/             this plan + format notes as refined
-   /build/            converter output — GITIGNORED
+   /build/            converter output — GITIGNORED, and excluded from Godot's own project
+                      filesystem via `build/.gdignore` (that one file is tracked; everything
+                      else under `/build/` stays ignored — see `.gitignore`)
    ```
-3. `.gitignore` must exclude `/build/`, every converted asset, and any copy of original data.
+3. `.gitignore` must exclude `/build/`, every converted asset, and any copy of original
+   data. ✅ (`/build/*` + `!/build/.gdignore` negation, so the ignore marker survives a
+   fresh clone + fresh convert run)
 4. First-run flow asking the user to point at their `returnfire` install (native OS folder
-   picker is fine here — desktop-only, section 2.6).
+   picker is fine here — desktop-only, section 2.6). **Not started** — needs the pack
+   builder (Phase 1 already emits converted assets to `/build/`; nothing yet turns that into
+   an installed content pack under `/packs/`, section 2.4.2) before this flow has anywhere
+   real to write its output.
 
 ### Phase 1 — Asset pipeline (Python, offline)
 
@@ -1451,7 +1473,12 @@ Web checklist:
    indexes the same `ART.CAR` CCB array, but that trace didn't reach a team/owner field).
    Blocks section 2.4.3.
 6. **3DO support: base game + "Maps o' Death" expansion extraction** (section 1.11, new
-   2026-09-05; scope widened 2026-09-05) — a whole new goal, not a single question, and
+   2026-09-05; scope widened 2026-09-05) — **deliberately deprioritized (2026-09-05): the
+   user wants the core PC-port game running first** before this gets picked back up.
+   `trapexit/3doplay` is already cloned for reference at
+   `C:\Users\Alex\Documents\code\tools\3doplay\` (outside the repo, not committed, nothing
+   from it copied into this project) for whenever this resumes. A whole new goal, not a
+   single question, and
    deliberately scoped to cover **both** 3DO discs together rather than the expansion
    alone, since the user wants the base 3DO original supported too (its disc image is
    promised but not yet provided; the expansion's is already in hand). The expansion disc
