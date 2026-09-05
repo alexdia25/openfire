@@ -8,11 +8,14 @@ first real content**, verified with an actual screenshot, not just "no errors." 
 palette bug found the same day (section 1.6 — a raw pixel byte needs a `-10` index shift
 into the shared PLUT that every converter had missed) is fixed; art now matches real
 screenshots' colours, not just their shapes.
+Phase 4 step 2 (a player-controlled vehicle) is done too, including a real mirroring bug the
+user caught and a registry auto-numbering drift bug it exposed (both fixed, section 3/2.4.1).
+Phase 4 step 3's single-viewport half (smoothed, edge-clamped scrolling camera) is done as of
+2026-09-06 as well — split-screen itself is not started.
 **Priority as of 2026-09-05: get the core PC-port game actually running before returning to
 3DO support (section 4 item 6) or new-goal work beyond what's needed to run it** — the user
-explicitly deferred the 3DO disc work until then. Next real blocker: Phase 4 step 3 — camera,
-scrolling, split-screen viewports (step 2's vehicle currently just gets a fixed-zoom
-camera glued to it).
+explicitly deferred the 3DO disc work until then. Next real blocker: Phase 4 step 4 — weapons
+and projectiles.
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
@@ -1547,7 +1550,16 @@ Keep each step playable, and load everything through the pack layer from step 1:
      found so far in the (coarsely classified) registry has been confirmed as a helicopter
      specifically — worth a deliberate look once more of the ~1960 coarse-pass cels
      (section 2.4.1) get refined.
-3. Camera, scrolling, split-screen viewports.
+3. **Camera, scrolling — DONE for a single viewport (2026-09-06); split-screen — NOT
+   STARTED.** `TerrainView`'s `Camera2D` follows the vehicle with built-in position
+   smoothing (speed 6.0) and `limit_left/top/right/bottom` pinned to the level's real pixel
+   bounds (`limit_smoothed` on). Verified with real numbers (a debug hook logged vehicle vs.
+   camera position every 30 frames while driving dead straight for thousands of frames): the
+   vehicle travelled to nearly 3x the map's width while the camera held flat at the clamped
+   edge for hundreds of frames — not just "no errors," an actual measured clamp. **Split-
+   screen itself (multiple viewports) is not started** — it needs either a second local
+   player or the 4-player goal (section 4 item 7) to exist first before there's anything to
+   split the screen between.
 4. Weapons and projectiles.
 5. Destructible targets and buildings.
 6. Enemy AI.
