@@ -67,11 +67,45 @@ materially different — and, reading it, more obviously correct — description
 The full cross-reference list for both budget globals is exactly 3 sites, all now read.
 Nothing anywhere in the binary reads *both* budgets together to declare a match won or lost.
 That means the actual mission-complete condition — if it exists and is driven by these
-counters at all — is implemented somewhere this investigation didn't reach (a candidate:
-`FUN_0042c4d0`, called right as a pool's active-target tracking gets cleared once its budget
-runs out). Rather than guess further, this is recorded as the honest boundary of what was
-actually traced: the replacement mechanism is solved with the same confidence as every other
-entry in this document series; the win condition is a clearly-scoped next step, not
-something papered over. See [document 7](07-next-steps.md) for it as a next action.
+counters at all — is implemented somewhere this investigation didn't reach. Rather than
+guess further, this was recorded as the honest boundary of what was actually traced: the
+replacement mechanism is solved with the same confidence as every other entry in this
+document series; the win condition is a clearly-scoped next step, not something papered
+over. See [document 7](07-next-steps.md) for it as a next action.
 
-**Next:** back to [document 7](07-next-steps.md) for the current backlog.
+## Postscript: chasing the next hop, and hitting a real dead end
+
+The obvious next step was named above: `FUN_0042c4d0`, called right as a pool's tracking
+gets cleared once its budget runs out. Decompiling it directly settled the question in one
+step — but not the way the lead suggested:
+
+```c
+void __cdecl FUN_0042c4d0(int param_1)
+{
+  if ((*(uint *)(param_1 + 0xc) & 0x80) == 0) {
+    *(uint *)(param_1 + 0xc) = *(uint *)(param_1 + 0xc) | 0x80;
+    *(int *)(param_1 + 0x38) = DAT_0046a7b0;
+    DAT_0046a7b0 = param_1;
+  }
+}
+```
+
+That's a generic "mark this object dead (flag bit `0x80`) and link it into a free list" —
+nothing about pools, targets, or match state at all. Its caller list confirms it: over 35
+call sites scattered across the entire binary, covering what look like vehicles,
+projectiles, and ordinary objects generally. It's called from `FUN_00432710` for the same
+reason it's called everywhere else — some bookkeeping object is done being used — not as a
+special win-condition hook.
+
+This is worth recording precisely *because* it's a disproof, not a success — per
+[document 6](06-verification-philosophy.md)'s rule 5, a wrong lead is worth keeping on the
+record with what actually happened to it, so nobody re-spends the same effort re-checking
+it. The trail from here runs into a large, general AI-targeting/combat module
+(`FUN_00432d00`, `FUN_00432d80`, `FUN_00432e40` and neighbors — found by the same
+`FindDataXrefs.java` sweep, this time on the per-pool "active target" pointer array) with no
+obvious "declare victory" anchor visible in it. Rather than opening an unbounded
+investigation into an unrelated subsystem chasing a hunch, this is where the trail was left
+— honestly marked as a checked-and-ruled-out lead, not a solved question. See
+[document 7](07-next-steps.md) for the current state of this open item.
+
+**Next:** [Worked example: confirming a dead end fast by rereading work already on hand](11-worked-example-edtn-chunk.md).

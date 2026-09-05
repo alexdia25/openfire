@@ -175,7 +175,7 @@ except where noted:
 | `LEVL` | payload byte 0 | A value 0-8 (stored on disk as value+1; the loader treats a decoded value >8 as invalid and clamps to 8). Read from a single byte, likely difficulty or a related per-level knob -- name inferred from the tag, not yet certain. |
 | `NAME` | starts with a null-terminated string, **but the record is much bigger than that string** (e.g. 268 bytes for a ~14-byte name) | The level's display name (confirmed exactly right -- decoded names like "The Cakewalk" and "Driving School" match the source filenames seen in section 1.2/1.5's string dump). Everything after the terminating null in the same record is editor/build-only cruft, not gameplay data: observed to contain what is very likely the original developer's full source path (`...\Images\Worlds\1Player\Level1\The Cakewalk.rfm`) followed by a block of binary data that looks like leftover editor state (camera position, undo history, or similar -- not decoded, not needed). **The converter must stop at the first null byte and ignore the rest of the record.** Separate from whatever string lives at old-header offset 0x18, which has not been re-examined since this discovery. |
 | `VHCL` | 6 bytes, relative to the *record start* (not payload start): `+8`=A, `+9`=H, `+0xA`=J, `+0xB`=T, `+0xC`=?, `+0xD`=M | Level-tuning parameters, present in exactly 50 of 204 files (see above). **The same six parameters can also be written directly into the .rfm *filename*** using a bracket suffix the loader parses independently, e.g. `SomeLevel[A3H5T2].rfm` -- confirmed by decompiling the parameter parser (`FUN_00413f00`): it scans the filename for `[`, then for each `<letter><digits>` pair inside the brackets sets that parameter, with the VHCL chunk (if present) only overriding whichever of the six the loader didn't already get a valid (non-`0xFF`) value for. Letters confirmed: `A` (<10), `H` (<10), `J` (<10, nonzero), `M` (<201), `T` (<10). This is a real, working config mechanism worth preserving in the content-pack format (section 2.4) rather than special-cased away. |
-| `EDTN` | 4 bytes, e.g. `27 03 27 03` (two identical u16 LE values) | Present in every file. Not decoded -- likely an editor/build bookkeeping value (version, checksum, or similar). Low priority: the converter round-trips it as an opaque tag but doesn't need to understand it. |
+| `EDTN` | 4 bytes, e.g. `27 03 27 03` (two identical u16 LE values) | **CONFIRMED UNUSED BY THE GAME (2026-09-06).** `FUN_00414130` (the loader) contains exactly 3 chunk-tag string comparisons in its entire body, dumped and read directly: `"VHCL"` @ `0x0044881C`, `"NAME"` @ `0x00448824`, `"LEVL"` @ `0x0044882C` -- no fourth comparison exists anywhere in the function. Any chunk tag the loader doesn't recognize (including `EDTN`) is walked past purely by its record-length field and never inspected. Its contents are therefore editor/build-only bookkeeping the *game itself* never reads -- not just unidentified, but confirmed irrelevant to a faithful port. Round-tripping it opaquely (already done) isn't a shortcut, it's the behaviorally correct thing to do: it's exactly what `RFIRE.BIN` itself does. |
 
 Chunk tag constants live at `0x00448814`-ish through `0x00448834` in RFIRE.BIN's data
 segment if this needs re-verifying or extending (`VHCL\0\0\0\0`, `NAME\0\0\0\0` are adjacent
@@ -291,8 +291,14 @@ pool's budget holds out. This is a materially better description of the classic
 to win" guess: it's a continuous replacement budget, not a simultaneous group to wipe out.
 **Still open:** no code touching these two budget globals reads them to declare an overall
 match-won/lost state, so what (if anything) happens when a pool's budget is fully spent
-hasn't been found — the next hop would be `FUN_0042c4d0` (called from `FUN_00432710` right
-as a pool's tracking gets cleared) or a broader scoring variable elsewhere.
+hasn't been found. `FUN_0042c4d0` (called from `FUN_00432710` right as a pool's tracking
+gets cleared) was checked and **ruled out (2026-09-06)** as the win-condition trigger — it's
+a fully generic "mark this object dead and link it into the free list" utility called from
+35+ unrelated sites across the entire binary (vehicles, projectiles, buildings alike), not
+anything specific to match state. The trail from there leads into a large, general
+AI-targeting/combat subsystem (`FUN_00432d00`/`FUN_00432d80`/`FUN_00432e40` and neighbors)
+with no clear anchor pointing at "declare victory" specifically, so this question is left
+open rather than chased further without a better lead — see section 4.
 
 **Remaining work, in priority order:**
 1. Map the still-undecoded header body (offsets `0x04`-`0x3F`, minus the now-known width/
@@ -1015,30 +1021,35 @@ Web checklist:
 
 1. The still-undecoded `.RFM` header body, offsets `0x04`-`0x3F` (minus width/height/
    mode-byte, which are known — section 1.5).
-2. **What ends a match?** The per-pool target-replacement budgets (section 1.5, formerly
-   "the `>>1` computation") are now fully traced, but nothing touching those two globals
-   declares a win/lose state — the actual mission-complete condition is still unfound. Next
-   hop: decompile `FUN_0042c4d0` (called right as a pool's tracking clears once its budget
-   is spent) or look for a separate score/objective variable.
-3. The `EDTN` chunk tag (section 1.5) — present in every file, 4-byte payload, not decoded.
-   Low priority: `tools/convert_rfm.py` round-trips it without understanding it.
-4. The coastal table's (`0x00447038`) `+9` "height_seed" byte and the runtime tile value's
+2. **What ends a match?** The per-pool target-replacement budgets (section 1.5) are fully
+   traced, but nothing touching those two globals declares a win/lose state. The most
+   obvious next hop, `FUN_0042c4d0`, was checked and **ruled out** (2026-09-06) — it's a
+   generic object-death utility called from 35+ unrelated sites, not a win-condition
+   trigger. The trail from there runs into a large general AI-targeting/combat subsystem
+   with no clear "declare victory" anchor; left open rather than chased further without one.
+3. The coastal table's (`0x00447038`) `+9` "height_seed" byte and the runtime tile value's
    elevation-ish bits 25-27, set by `FUN_0042e4f0` — dumped but not chased; likely
    physics/movement, not rendering (section 1.5). (Bits 14-15 are no longer part of this
    question — see RESOLVED below.)
-5. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
-6. **How is team colouring done?** Palette ranges or separate cels? A strong, still-
+4. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
+5. **How is team colouring done?** Palette ranges or separate cels? A strong, still-
    unconfirmed lead now exists (section 1.6): the same `GetNearestPaletteIndex`-built
    masked-translation-table infrastructure used for effect-mask tinting is a very plausible
    mechanism for this too, and the 4 `PRE0==17` cels' own-palette swatches (visually a
    handful of unrelated saturated colours, not coherent art) are a suggestive but unproven
    lead. Neither has been confirmed by tracing actual vehicle-rendering code. Blocks section
    2.4.3.
-7. Is music Redbook CD audio (`mciSendCommandA`) or `SOUND/DRUMS.WAV`?
-8. Native framebuffer dimensions and the fixed sim tick rate.
-9. Implicit sprite pivots in the original cels — needed for the registry.
+6. Is music Redbook CD audio (`mciSendCommandA`) or `SOUND/DRUMS.WAV`?
+7. Native framebuffer dimensions and the fixed sim tick rate.
+8. Implicit sprite pivots in the original cels — needed for the registry.
 
 **RESOLVED:**
+- **The `EDTN` chunk tag** — **section 1.5**. Confirmed unused by the game itself, not just
+  unidentified: `RFIRE.BIN`'s loader contains exactly 3 chunk-tag comparisons in its entire
+  body (`VHCL`, `NAME`, `LEVL`, each dumped and read directly from its data segment) and no
+  fourth. Any tag it doesn't recognize is skipped by record length alone. Round-tripping
+  `EDTN` opaquely (already done) isn't a shortcut — it's exactly what the original engine
+  itself does with it.
 - **The `>>1` "half the candidate-pool count" computation** — **section 1.5**. Each pool's
   budget for how many *replacement* targets it will spawn over a match (not a literal
   "destroy half simultaneously" count). Traced end-to-end: `FUN_00432710` (destruction

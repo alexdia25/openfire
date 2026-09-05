@@ -41,7 +41,11 @@ them in order for the first time: narrative, worked examples, real commands you 
    the code alone, and discovering one of the 93 "masks" wasn't a mask at all.
 10. [**Worked example: what the `>>1` computation actually does**](10-worked-example-target-respawn.md) —
     a deliberately small one: two `FindDataXrefs.java` calls, no dead ends, and a stale guess
-    corrected along the way. Good evidence the recipe isn't just for the big investigations.
+    corrected along the way — plus a postscript chasing the obvious next hop into a real,
+    honestly-recorded dead end.
+11. [**Worked example: confirming a dead end fast by rereading work already on hand**](11-worked-example-edtn-chunk.md) —
+    the smallest one here: zero new Ghidra calls, just rereading a decompile log this
+    project had already produced for a different question.
 
 ## The one rule that overrides everything else here
 

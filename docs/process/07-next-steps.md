@@ -40,12 +40,28 @@ code that reads both pools' budgets to declare a match won or lost — see below
 writeup: [document 10](10-worked-example-target-respawn.md); ground truth:
 `docs/PORTING_PLAN.md` section 1.5.
 
+## DONE (with a caveat): the `EDTN` chunk meaning
+
+The fastest resolution in the series — no new Ghidra calls at all, just rereading a
+decompile log already produced for a different investigation. Confirmed the level loader
+checks for exactly 3 chunk tags (`VHCL`, `NAME`, `LEVL`) and no others; `EDTN` is walked past
+generically and never read by the game itself. Not decoded, but confirmed *irrelevant* to a
+faithful port — a stronger result than decoding it would have been. Full writeup:
+[document 11](11-worked-example-edtn-chunk.md); ground truth: `docs/PORTING_PLAN.md`
+section 1.5.
+
+## RULED OUT (not solved): what ends a match
+
+Document 10's obvious next hop, `FUN_0042c4d0`, turned out to be a dead end — a generic
+"mark this object dead" utility called from 35+ unrelated sites, nothing to do with match
+state. The trail from there runs into a large, general AI-targeting/combat subsystem with no
+clear "declare victory" anchor, so this is left open rather than chased further on a hunch.
+See document 10's postscript for the full account of checking and rejecting this lead.
+
 ## What's next, roughly in priority order (see the plan for full detail)
 
-- **What ends a match?** Document 10 fully traced the target-replacement mechanism but
-  found no code that checks both pools' budgets together to declare victory/defeat. Next
-  hop: decompile `FUN_0042c4d0` (called as a pool's tracking clears once its budget is
-  spent) or look for a separate score/objective variable.
+- **What ends a match?** (see above) — still open. A better next anchor is needed; possibly
+  a separate score/objective variable rather than anything touching the target pools.
 - **`.RFM` header body, offsets `0x04`-`0x3F`:** most fields here are still unidentified
   besides width/height/mode-byte. Likely more per-level gameplay metadata. Good first
   independent exercise: pick one unidentified offset, and try correlating its value against
@@ -57,15 +73,16 @@ writeup: [document 10](10-worked-example-target-respawn.md); ground truth:
   `PRE0==17` sprites' odd, saturated-colour-swatch look is a suggestive but unconfirmed
   hint. Neither has been checked against actual vehicle-rendering code yet — that's the
   next hop, likely starting from wherever a vehicle's CCB gets queued for drawing.
-- **`EDTN` chunk meaning** — a 4-byte value present in every `.RFM` file, not yet decoded.
-  Low priority; the converter already round-trips it without understanding it.
 - Framebuffer dimensions, the fixed simulation tick rate, implicit sprite pivots, whether
   music is Redbook CD audio or a local `.wav` fallback — all listed with more context in
   plan section 4.
 
 ## If you want to try one of these yourself
 
-The shape is always the same, and it's the same shape as documents 4, 5, 8, 9, and 10:
+The shape is always the same, and it's the same shape as documents 4, 5, and 8 through 11 —
+including document 10's postscript and document 11, which show what it looks like when the
+recipe runs into a dead end or turns out to need no new work at all, not just when it lands
+a clean answer:
 
 1. Pick one item above (or from the plan's section 4).
 2. Find an anchor — a string, an API call, or a data structure already known to be nearby
@@ -86,6 +103,7 @@ directly, and it's why this is realistically approachable to keep doing yourself
 
 **Next:** [Worked example: mapping `.RFM` art ids to `ART.CAR` cels](08-worked-example-art-id-mapping.md),
 then [the exact tint colour of `ART.CAR`'s effect masks](09-worked-example-effect-tint-colour.md),
-then [what the `>>1` computation actually does](10-worked-example-target-respawn.md) — three
-more items off this backlog, including one deliberately small example to show the recipe
-scales down as well as up.
+then [what the `>>1` computation actually does](10-worked-example-target-respawn.md), and
+finally [confirming a dead end fast by rereading work already on hand](11-worked-example-edtn-chunk.md) —
+four more items off this backlog, covering the full range from a big investigation down to
+one that cost nothing but a `grep`.
