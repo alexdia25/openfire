@@ -110,5 +110,5 @@ deliberately general (any vtable, any slot, not just `Flip`), so the next COM in
 project needs to search inside — `IDirectSound`, say, if a lower-level audio question ever
 comes up — doesn't need a fourth from-scratch technique.
 
-**Next:** whichever of plan section 4's remaining items gets picked up next — what ends a
-match (item 1), team colouring (item 3), or starting the 3DO filesystem-reader work (item 6).
+**Next:** [Worked example: classifying 2165 cels without a disassembler](19-worked-example-asset-registry.md) —
+the asset ID registry, section 2.4.1's gating deliverable, done next.

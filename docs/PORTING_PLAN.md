@@ -1,11 +1,14 @@
 # Return Fire (1996, Silent Software) — Godot Port Plan
 
 **Status:** planning complete. Phase 1 converters (1a/1b/1c/1d) written and verified. Phase 0
-(Godot project scaffold) done, 2026-09-05. **Priority as of 2026-09-05: get the core PC-port
-game actually running before returning to 3DO support (section 4 item 6) or new-goal work
-beyond what's needed to run it** — the user explicitly deferred the 3DO disc work until
-then. Next real blocker: the asset ID registry (section 2.4.1), the gating deliverable
-Phase 4 needs before it can read anything through the pack layer.
+(Godot project scaffold) done, 2026-09-05. The asset ID registry (section 2.4.1), Phase 4's
+gating deliverable, is done as of 2026-09-06 — all 2165 `ART.CAR` cels have a semantic ID,
+at coarse precision for most of them (see 2.4.1 for what that means and what it isn't yet).
+**Priority as of 2026-09-05: get the core PC-port game actually running before returning to
+3DO support (section 4 item 6) or new-goal work beyond what's needed to run it** — the user
+explicitly deferred the 3DO disc work until then. Next real blocker: actually building
+Phase 4's terrain/sprite renderer against the registry — nothing in section 4's open
+questions blocks starting that.
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
@@ -987,20 +990,54 @@ produce an open, documented **content pack**; the engine reads only content pack
 This is what makes a full art replacement possible, and it must be designed in from the
 start — retrofitting it later means rewriting every asset reference in the codebase.
 
-#### 2.4.1 The asset ID registry — the gating deliverable
+#### 2.4.1 The asset ID registry — DONE (first pass, 2026-09-06), coarse precision by design
 
 The engine must reference art by **stable semantic ID** (`vehicle.helicopter.rotor.f03`,
-`terrain.water.edge.ne`, `ui.hud.fuel_gauge`), never by cel index. So there must be a
-canonical registry mapping **all 2165 cels** to semantic IDs.
+`terrain.water.edge.ne`, `ui.hud.fuel_gauge`), never by cel index. `packs/registry/asset_ids.json`
+now maps **all 2165 `ART.CAR` cels** to a semantic ID — every cel has an entry, Phase 4 is
+unblocked.
 
-**This registry is the single thing that makes replacement art possible.** Without it, an
-artist looking at cel 1427 has no idea what they are being asked to draw. Producing it is
-genuine classification work — partly automatable by clustering cels by size and by
-adjacency in the file (animation frames are contiguous), but it needs human or in-game
-verification.
+**This was genuine classification work, done in two precision tiers by explicit user
+direction (2026-09-06).** The first ~205 cels (the terrain tileset, all 89 effect masks, the
+4 target-lock reticles) were classified precisely, cross-checked against the code-level
+findings in sections 1.6/1.7. Confirming per-cel precision for the remaining ~1960 (mostly
+vehicles, buildings, weapons, VFX, UI, font) at that same rigor would have taken far longer
+than the payoff justified before anything is actually rendering in Godot, so the user chose
+a **coarse pass now, refine later**: cels are grouped by object + a sequential part/frame
+number (`vehicle.hovercraft.hull.07`, `effect.burst_red.114`), with confidence recorded
+per-cel as `"confirmed"` (traced through code), `"visual"` (a specific, fairly certain read
+of the pixels), or `"visual_group"` (bucketed by an obvious visual family; the exact part
+name is a placeholder, not a claim). ~1880 of 2165 entries are `"visual_group"` — expect
+many of these IDs to get more precise names once real rendering makes it possible to verify
+against actual gameplay, without needing to touch the numeric cel indices anything else
+references.
 
-Store as `packs/registry/asset_ids.json`, version it, and treat additions as a semver
-minor bump and removals as a major bump.
+Where a run of cels was too large or too repetitive to eyeball reliably (the trooper-run
+animation's tan/blue split, ~180 near-identical VFX burst frames), classification was done
+**programmatically from mean pixel colour** rather than transcribed by hand — see
+`dominant_team_colour()` and `_colour_bucket()` in `tools/registry/classify_bulk.py`.
+
+**New findings surfaced during classification, not yet confirmed against code:**
+- **Possible team-colour lead** (open question, item 3 below): the hovercraft's hull/cab
+  pieces (cels 167-209) recur in matching tan and cyan pairs. Consistent with per-team
+  *duplicate art* rather than a runtime palette swap, at least for this vehicle — the
+  opposite of what section 2.4.3 requirement 3 currently assumes as the likely mechanism.
+- **A full on-foot infantry unit exists** (cels 655-754, ~100 frames, tan/blue): a running/
+  walking animation, at real scale, not just a portrait. Nearby cels (821-827, 845-846,
+  863-869) read as rescue/POW-camp dressing (red-cross-like markers, barred cage panels, a
+  doorway) and cels 801-820 as a chaotic multi-figure clash animation. Together these suggest
+  a rescue-hostages mechanic that isn't in section 0's feature list — plausible for a 1996
+  military action game, but this hasn't been checked against `.RFM` entity data or the
+  renderer, so treat it as a lead, not a confirmed mechanic.
+- **A handheld weapon sprite exists** (cel 1940, olive-green rifle silhouette, plus matching
+  ammo-crate parts at 1942-1947) — consistent with the infantry unit being a real playable or
+  AI-controlled ground unit, not just scenery.
+- **The HUD numeric font is in `ART.CAR`**, not a separate resource: cels 2146-2155 are a
+  clean 0-9 digit set (`font.hud_digit.0` .. `.9`).
+
+Registry entries are versioned implicitly by git history for now; `packs/registry/asset_ids.json`
+has no internal `version` field bump process yet — add one (semver minor for additions, major
+for removals/renames) before any external pack starts depending on ID stability.
 
 #### 2.4.2 Content pack layout
 
@@ -1265,10 +1302,12 @@ This is a pure lookup, not a guess -- **Phase 3/4 rendering should consume `.art
 the raw `.tiles.bin` bytes**. The art id IS the `ART.CAR` cel index directly (section 1.7,
 verified 2026-09-05) -- render `art_atlas.json.cels[art_id]`, no separate mapping needed.
 
-**1e. Asset ID registry + pack emitter — NOT STARTED.** Convert the raw atlas manifest into
-a semantic registry (section 2.4.1) and make the converters emit a proper content pack
-rather than a flat atlas. **Do this before Phase 4** — the engine must consume packs from
-its first line of asset-loading code.
+**1e. Asset ID registry — DONE (2026-09-06, section 2.4.1); pack emitter — NOT STARTED.**
+`packs/registry/asset_ids.json` maps every `ART.CAR` cel to a semantic ID. Still needed
+before Phase 4: make the converters actually emit a proper content pack (section 2.4.2 —
+`sprites.json`, `animations.json`, pivots, etc.) keyed by those IDs, rather than the flat
+atlas manifest they produce today. **Do this before Phase 4** — the engine must consume
+packs from its first line of asset-loading code.
 
 **Validation gate:** a standalone viewer that renders any level's terrain grid using real
 tile art, and plays any sound. Do not start Phase 3 until this looks right.
@@ -1457,20 +1496,28 @@ Web checklist:
    (`01 01`) — confirmed constant across all 204 real files, exact meaning still a guess
    (section 1.5). Very low priority.
 4. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
-5. **How is team colouring done?** Palette ranges or separate cels? Still fully open. The
-   "4 `PRE0==17` cels are a team-colour swatch" lead from section 1.6 is now **RULED OUT
-   (2026-09-06)**: rendered and eyeballed (per section 5's own rule — never trust code
-   alone), the 4 cels are visibly a 16x16 concentric-ring bullseye (purple/black/yellow, one
-   ring recoloured red/blue per cel) — a target-lock reticle, not a colour swatch. `FindConstant.java`
-   found no literal reference anywhere in the binary to any of their 4 cel indices (1969-1972)
-   or the equivalent CCB byte offset, consistent with an animated HUD overlay whose frame
-   index is computed at runtime rather than hardcoded per-frame. The
-   `GetNearestPaletteIndex`-built masked-translation-table infrastructure (section 1.6) is
-   still a plausible *mechanism* for team colouring, but there is no lead left pointing at
-   *where* it's invoked for that purpose — needs a fresh anchor, most likely starting from
-   wherever a vehicle's CCB is queued for the frame (candidate entry points seen so far:
-   `FUN_0042dd90`, which does directional-sprite-frame selection off a heading angle and
-   indexes the same `ART.CAR` CCB array, but that trace didn't reach a team/owner field).
+5. **How is team colouring done?** Palette ranges or separate cels? Still open, but with a
+   real lead now instead of none. The "4 `PRE0==17` cels are a team-colour swatch" lead from
+   section 1.6 is **RULED OUT (2026-09-06)**: rendered and eyeballed (per section 5's own
+   rule — never trust code alone), the 4 cels are visibly a 16x16 concentric-ring bullseye
+   (purple/black/yellow, one ring recoloured red/blue per cel) — a target-lock reticle, not a
+   colour swatch. `FindConstant.java` found no literal reference anywhere in the binary to
+   any of their 4 cel indices (1969-1972) or the equivalent CCB byte offset, consistent with
+   an animated HUD overlay whose frame index is computed at runtime rather than hardcoded
+   per-frame. The `GetNearestPaletteIndex`-built masked-translation-table infrastructure
+   (section 1.6) is still a plausible *mechanism*, but there is no lead pointing at *where*
+   it's invoked for that purpose.
+
+   **New lead (2026-09-06, from asset ID registry classification, section 2.4.1):** the
+   hovercraft's hull/cab pieces (`ART.CAR` cels 167-209 — hull-top, hull-front, cab-front,
+   panels) recur as matching tan/cyan pairs at the same pose (e.g. 172/173, 177/178, 192/193,
+   197/198). That is consistent with **duplicate art per team, not a palette swap at draw
+   time** — the opposite of what this item and section 2.4.3 requirement 3 had assumed was
+   the likely mechanism. This was found by looking at rendered cels during registry
+   classification, not traced through code — the next step is a fresh Ghidra anchor (still
+   most likely starting from wherever a vehicle's CCB is queued per-frame, e.g. `FUN_0042dd90`)
+   to confirm whether the game actually picks between two pre-built cel sets by team, or
+   whether the tan/cyan duplication is coincidental (e.g. one is unused/leftover art).
    Blocks section 2.4.3.
 6. **3DO support: base game + "Maps o' Death" expansion extraction** (section 1.11, new
    2026-09-05; scope widened 2026-09-05) — **deliberately deprioritized (2026-09-05): the
@@ -1513,6 +1560,20 @@ Web checklist:
    scene; level-select reading pack manifests (section 2.4) rather than scanning `.rfm` files
    directly; and the player-count screen wired to whatever the 4-player goal (item 7) lands
    on. Blocked only on the pack format existing first — no Ghidra work required here at all.
+9. **Is there an on-foot infantry / rescue mechanic?** (new 2026-09-06, from asset ID registry
+   classification, section 2.4.1) — not previously suspected; not in section 0's feature list.
+   `ART.CAR` cels 655-754 are a ~100-frame running/walking human animation (tan/blue team
+   colours) at real gameplay scale, not a portrait or icon. Nearby cels read as rescue/POW-camp
+   dressing: red-cross-like markers (821-825, 858), barred-cage panels (826-827, 845-846), a
+   doorway (863), building-wall dressing (834-838, 855-857, 864-869), and a chaotic multi-
+   figure clash animation (801-820) that could be a capture/melee struggle. A handheld weapon
+   sprite (cel 1940, olive rifle silhouette + ammo-crate parts at 1942-1947) suggests the unit
+   is a real controllable/AI actor, not just scenery. **None of this is traced through code
+   yet** — it's a pixel-level reading of the art alone. Needs: checking `.RFM` entity/spawn
+   data (section 1.5) for an entity type this could correspond to, and/or a Ghidra anchor on
+   whatever renders a non-vehicle CCB at human scale. If confirmed, this is a real feature
+   addition to scope, not just an art-classification footnote — the original 2-player PC port
+   may have had a rescue objective type never mentioned in this plan before now.
 
 **RESOLVED:**
 - **The fixed sim tick rate** — **section 1.9** (2026-09-05). There isn't one, and there was

@@ -87,6 +87,13 @@ them in order for the first time: narrative, worked examples, real commands you 
     for at all. A new script hunts vtable calls by slot offset instead, finds the game's one
     present routine, and shows there's no fixed tick — a blocking `Flip()` paces fullscreen
     play on vsync, and windowed play isn't paced by this mechanism at all.
+19. [**Worked example: classifying 2165 cels without a disassembler**](19-worked-example-asset-registry.md) —
+    a different kind of document: building the asset ID registry (section 2.4.1) isn't a
+    reverse-engineering question, it's an authoring task. Covers the contact-sheet tooling,
+    a scope trade-off made explicitly (coarse pass now, refine later) rather than assumed, two
+    places a pixel-colour average beat eyeballing, and what just *looking* at every cel turned
+    up: a new lead on team colouring and a possible rescue/infantry mechanic nobody had
+    suspected before.
 
 ## The one rule that overrides everything else here
 
