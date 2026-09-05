@@ -81,6 +81,19 @@ is never referenced by the binary at all. Full writeup:
 [document 14](14-worked-example-music-mechanism.md); ground truth: `docs/PORTING_PLAN.md`
 section 1.8.
 
+## DONE (half of it): native resolution is 320x240; sim tick rate still open
+
+Traced the window-creation call back to its size globals and found one hardcoded default,
+set once in the command-line parser before any override flag: 320x240. The paired question
+— is there a fixed simulation tick rate? — traced cleanly through the real main-loop idle
+call chain (`WinMain` → `FUN_00421de0` → `FUN_004312c0` → a real-elapsed-time-driven
+state-machine table) without finding a `Sleep()`, cap, or fixed-timestep accumulator
+anywhere upstream — suggestive of no classic fixed-Hz tick, but not confirmed, since the
+actual in-game state entry in that table hasn't been identified yet. Recorded as a bounded,
+resumable trail rather than forced into an answer. Full account:
+[document 15](15-worked-example-resolution-and-tick-rate.md); ground truth:
+`docs/PORTING_PLAN.md` section 1.9.
+
 ## RULED OUT (not solved): the "team-colour swatch" lead
 
 Document 9's guess about the 4 `PRE0==17` cels — that their odd, saturated own-palette look
@@ -103,8 +116,10 @@ Full account: [document 13](13-worked-example-reticle-not-swatch.md); ground tru
   what, if anything, varies it by team/owner — `FUN_0042dd90` (a heading-angle-based
   directional-sprite-frame selector found while chasing this) is a plausible place to start
   reading outward from, since it already indexes the same `ART.CAR` CCB array per-object.
-- Framebuffer dimensions, the fixed simulation tick rate, and implicit sprite pivots — all
-  listed with more context in plan section 4.
+- **The fixed sim tick rate** (see above) — the trace reached `PTR_PTR_0044e27c`'s
+  state-machine table; next step is dumping its entries, finding the in-game one, and
+  checking whether it quantizes the real-elapsed-time parameter internally.
+- Implicit sprite pivots in the original cels — listed with more context in plan section 4.
 
 ## If you want to try one of these yourself
 
@@ -136,7 +151,9 @@ then [what the `>>1` computation actually does](10-worked-example-target-respawn
 then [confirming a dead end fast by rereading work already on hand](11-worked-example-edtn-chunk.md),
 then [decoding the `.RFM` header body with no Ghidra at all](12-worked-example-header-body.md),
 then [catching a wrong guess by finally rendering it](13-worked-example-reticle-not-swatch.md),
-and finally [is the music CD audio or a WAV file? (Both.)](14-worked-example-music-mechanism.md) —
-seven more items off this backlog, covering everything from a big investigation down to one
-that cost nothing but a `grep`, one that never touched a disassembler by design, and two that
-retracted an earlier guess instead of confirming it.
+then [is the music CD audio or a WAV file? (Both.)](14-worked-example-music-mechanism.md),
+and finally [the native resolution, and a tick rate that resists being found](15-worked-example-resolution-and-tick-rate.md) —
+eight more items off this backlog, covering everything from a big investigation down to one
+that cost nothing but a `grep`, one that never touched a disassembler by design, two that
+retracted an earlier guess instead of confirming it, and one that stopped honestly short of a
+full answer instead of forcing one.

@@ -89,4 +89,5 @@ same function. Second, a large, suggestively-named file sitting in the right fol
 hypothesis, not a finding — `FindBytes.java`'s zero-hit result on `DRUM` is what turned "the
 game probably uses DRUMS.WAV" from a reasonable guess into a settled no.
 
-**Next:** back to [document 7](07-next-steps.md) for the current backlog.
+**Next:** [Worked example: the native resolution, and a tick rate that resists being found](15-worked-example-resolution-and-tick-rate.md) —
+one clean win and one honestly-unfinished trace, in the same investigation.

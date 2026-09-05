@@ -654,7 +654,33 @@ section 1.2's identical caveat for the `.avi` cutscenes). The *mechanism* (per-t
 start/end table driving either backend) is fully understood and portable regardless of where
 the audio content ultimately comes from.
 
----
+### 1.9 Native framebuffer resolution — SOLVED (2026-09-06); fixed sim tick rate — STILL OPEN
+
+**Resolution: 320x240.** The game window's client size comes from two globals
+(`DAT_00448d50`/`DAT_00448d54`) that `AdjustWindowRect` turns into the actual `CreateWindowExA`
+size (`FUN_0041abe0`); tracing every write to `DAT_00448d50` finds its only hardcoded default,
+in the command-line-argument parser (`FUN_0041a770`, run once at startup before any `-`
+flags are applied): `DAT_00448d50 = 0x140; DAT_00448d54 = 0xf0;` — **320x240**, before any
+`-2`/`-J`/`-Z` flag can override it. (The pause-screen code also switches between
+`ART/PS240.RFA` and `ART/PS480.RFA` bitmaps depending on `DAT_00448d5c`'s display-mode value,
+confirming the game supports at least a 320-class and a 640-class mode — 320x240 is the
+default/base mode, not necessarily the only one an option flag can select.)
+
+**Fixed sim tick rate: not found, and the evidence so far argues there may not be a classic
+one.** Traced the actual per-frame call chain from `WinMain` (`FUN_0041eef0`): its message
+loop's idle branch calls a function pointer that (once gameplay starts) is
+`FUN_00421de0` → `FUN_004312c0`, which reads real wall-clock time from `timeGetTime()` and
+passes it as a parameter into a small state-machine table (`PTR_PTR_0044e27c`, 0x14-byte
+stride entries, each a `(table, frame_counter, elapsed_time_ms)` callback that returns
+nonzero when that state is done and the table pointer should advance to the next entry).
+No `Sleep()`, frame-rate cap, or fixed-`delta` accumulator was found anywhere in this call
+chain — the main loop's only wait is a conditional `WaitMessage()` when the window isn't the
+foreground app (`DAT_00448d08 & 2`). This is consistent with a game that paces itself off
+`GetMessage`/vsync-driven redraw and hands each update stage the *real* elapsed milliseconds
+rather than a fixed simulation quantum — but the specific state-table entry that does vehicle
+physics hasn't been identified yet, so this isn't confirmed either way. **Next hop:** dump
+`PTR_PTR_0044e27c`'s entries and find which one is the in-game (not title/menu) state, then
+check whether *it* internally quantizes `elapsed_time_ms` into a fixed step.
 
 ## 2. Architecture decisions (decide once, up front)
 
@@ -1161,10 +1187,19 @@ Web checklist:
    `FUN_0042dd90`, which does directional-sprite-frame selection off a heading angle and
    indexes the same `ART.CAR` CCB array, but that trace didn't reach a team/owner field).
    Blocks section 2.4.3.
-6. Native framebuffer dimensions and the fixed sim tick rate.
+6. **The fixed sim tick rate** (section 1.9) — resolution itself is solved (320x240), but
+   whether there's a classic fixed-Hz simulation quantum is still open. The real per-frame
+   call chain is now traced down to a state-machine table (`PTR_PTR_0044e27c`) that receives
+   real wall-clock elapsed time each call, with no `Sleep()`/cap found anywhere upstream of
+   it — next hop is identifying which table entry is the in-game state and reading whether
+   *it* quantizes time internally.
 7. Implicit sprite pivots in the original cels — needed for the registry.
 
 **RESOLVED:**
+- **Native framebuffer resolution** — **section 1.9** (2026-09-06). 320x240
+  (`DAT_00448d50 = 0x140`, `DAT_00448d54 = 0xf0`), the command-line parser's hardcoded
+  default before any override flag is applied. (The fixed sim tick rate half of this same
+  backlog item is still open — see section 1.9 and the open-questions list above.)
 - **Music playback mechanism** — **section 1.8** (2026-09-06). Both, not either/or: an MCI
   `cdaudio` device (`mciSendCommandA`) plays specific Redbook track frame-ranges when a real
   audio CD is present, falling back to streaming `SOUND\Score.WAV` (via the AVIFile

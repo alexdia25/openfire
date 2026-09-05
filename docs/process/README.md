@@ -58,6 +58,10 @@ them in order for the first time: narrative, worked examples, real commands you 
     tracing every caller of `mciSendCommandA` finds a CD-audio path and a WAV-streaming
     fallback sharing one per-track table, and along the way disproves the obvious guess
     about *which* WAV file (it's not `DRUMS.WAV`).
+15. [**Worked example: the native resolution, and a tick rate that resists being found**](15-worked-example-resolution-and-tick-rate.md) —
+    one backlog item that resolves cleanly (320x240) and a paired one that traces all the way
+    to the real per-frame dispatch chain without landing a confirmed number, recorded
+    honestly as a bounded, not-yet-finished trail rather than forced into a tidy answer.
 
 ## The one rule that overrides everything else here
 
