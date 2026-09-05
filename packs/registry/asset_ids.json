@@ -47,6 +47,12 @@
       "id": "effect.shadow.hard.030",
       "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
     },
+    "1027": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0080",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
     "103": {
       "category": "terrain",
       "confidence": "visual",
@@ -96,6 +102,12 @@
       "confidence": "confirmed",
       "id": "effect.shadow.hard.034",
       "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1062": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0081",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "1068": {
       "category": "effect",
@@ -158,17 +170,71 @@
       "id": "terrain.ground.rubble_red.06",
       "note": "red spatter/rubble texture on black"
     },
-    "116": {
-      "category": "effect",
+    "112": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_blue.01",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "1122": {
+      "category": "reserved",
       "confidence": "confirmed",
-      "id": "effect.shadow.hard.001",
-      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+      "id": "reserved.blank.0082",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "113": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_blue.02",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "1138": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0083",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "114": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_blue.03",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "115": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_blue.04",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "116": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_white.01",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
     },
     "117": {
-      "category": "effect",
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_white.02",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "1171": {
+      "category": "reserved",
       "confidence": "confirmed",
-      "id": "effect.shadow.hard.002",
-      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+      "id": "reserved.blank.0084",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "118": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_blue.05",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "119": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_blue.06",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
     },
     "12": {
       "category": "terrain",
@@ -176,49 +242,301 @@
       "id": "terrain.coast.sand_water.09"
     },
     "120": {
-      "category": "effect",
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_white.03",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "1209": {
+      "category": "reserved",
       "confidence": "confirmed",
-      "id": "effect.shadow.hard.003",
-      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+      "id": "reserved.blank.0085",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "121": {
-      "category": "effect",
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_white.04",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "122": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.leaf_patch",
+      "note": "small textured square, ground clutter"
+    },
+    "1221": {
+      "category": "reserved",
       "confidence": "confirmed",
-      "id": "effect.shadow.hard.004",
-      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+      "id": "reserved.blank.0086",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "123": {
+      "category": "effect",
+      "confidence": "visual",
+      "id": "effect.sparkle.small",
+      "note": "scattered small yellow/tan dots, particle-like"
+    },
+    "124": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.dot_red",
+      "note": "single small red blob, purpose unconfirmed (berry/marker/projectile)"
+    },
+    "1240": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0087",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "125": {
+      "category": "ui",
+      "confidence": "visual",
+      "id": "ui.radar.icon.01",
+      "note": "green radar-screen background with a black silhouette blip; 131-132 shift to a red/orange alert palette"
+    },
+    "1250": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0088",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "126": {
+      "category": "ui",
+      "confidence": "visual",
+      "id": "ui.radar.icon.02",
+      "note": "green radar-screen background with a black silhouette blip; 131-132 shift to a red/orange alert palette"
+    },
+    "127": {
+      "category": "ui",
+      "confidence": "visual",
+      "id": "ui.radar.icon.03",
+      "note": "green radar-screen background with a black silhouette blip; 131-132 shift to a red/orange alert palette"
+    },
+    "128": {
+      "category": "ui",
+      "confidence": "visual",
+      "id": "ui.radar.icon.04",
+      "note": "green radar-screen background with a black silhouette blip; 131-132 shift to a red/orange alert palette"
+    },
+    "129": {
+      "category": "ui",
+      "confidence": "visual",
+      "id": "ui.radar.icon.05",
+      "note": "green radar-screen background with a black silhouette blip; 131-132 shift to a red/orange alert palette"
     },
     "13": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.sand_water.10"
     },
-    "133": {
-      "category": "effect",
+    "130": {
+      "category": "ui",
+      "confidence": "visual",
+      "id": "ui.radar.icon.06",
+      "note": "green radar-screen background with a black silhouette blip; 131-132 shift to a red/orange alert palette"
+    },
+    "1303": {
+      "category": "reserved",
       "confidence": "confirmed",
-      "id": "effect.shadow.hard.005",
-      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+      "id": "reserved.blank.0089",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "131": {
+      "category": "ui",
+      "confidence": "visual",
+      "id": "ui.radar.icon.07",
+      "note": "green radar-screen background with a black silhouette blip; 131-132 shift to a red/orange alert palette"
+    },
+    "132": {
+      "category": "ui",
+      "confidence": "visual",
+      "id": "ui.radar.icon.08",
+      "note": "green radar-screen background with a black silhouette blip; 131-132 shift to a red/orange alert palette"
+    },
+    "133": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_white.05",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "134": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.rock_tan.01",
+      "note": "tan craggy vertical shape (rock or dead trunk)"
+    },
+    "135": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.frond_blue",
+      "note": "single palm-frond fan shape"
+    },
+    "136": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_blue.07",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "1364": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0090",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "137": {
-      "category": "effect",
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_white.06",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "1379": {
+      "category": "reserved",
       "confidence": "confirmed",
-      "id": "effect.shadow.hard.006",
-      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+      "id": "reserved.blank.0091",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "138": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.tree.palm",
+      "note": "full palm tree: trunk + ball canopy"
+    },
+    "139": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_blue.08",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
     },
     "14": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.sand_water.11"
     },
+    "140": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_blue.09",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
     "141": {
-      "category": "effect",
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_white.07",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "1415": {
+      "category": "reserved",
       "confidence": "confirmed",
-      "id": "effect.shadow.hard.007",
-      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+      "id": "reserved.blank.0092",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "142": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.rock_tan.02",
+      "note": "tan craggy shape, same family as 134"
+    },
+    "143": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_blue.10",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "1435": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0093",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "1436": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0094",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "144": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_blue.11",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "145": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_white.08",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "1451": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0095",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "146": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.tree.branch_brown.01",
+      "note": "brown branch/trunk with blue-green leaf clusters"
+    },
+    "1467": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0096",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "147": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.tree.branch_brown.02",
+      "note": "brown branch/trunk with blue-green leaf clusters"
+    },
+    "148": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.tree.branch_brown.03",
+      "note": "brown branch/trunk with blue-green leaf clusters"
+    },
+    "1483": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0097",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "149": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.tree.branch_brown.04",
+      "note": "brown branch/trunk with blue-green leaf clusters"
     },
     "15": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.sand_water.12"
+    },
+    "150": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.tree.branch_brown.05",
+      "note": "brown branch/trunk with blue-green leaf clusters"
+    },
+    "151": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_black.01",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "152": {
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.foliage.bush_black.02",
+      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+    },
+    "1522": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0098",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "153": {
       "category": "effect",
@@ -226,15 +544,272 @@
       "id": "effect.shadow.hard.008",
       "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
     },
+    "1536": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0099",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "154": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.plant.sapling.01"
+    },
+    "155": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.plant.sapling.02"
+    },
+    "156": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.plant.sapling.03"
+    },
+    "1564": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0100",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "157": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.plant.flower_red.01"
+    },
+    "158": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.plant.flower_red.02"
+    },
+    "159": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.plant.coral_red.01"
+    },
     "16": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.sand_water.13"
     },
+    "160": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.plant.coral_red.02"
+    },
+    "161": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.plant.reeds.01"
+    },
+    "1611": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0101",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "162": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.plant.reeds.02"
+    },
+    "1625": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0102",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "163": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.plant.vine_berry.01"
+    },
+    "1638": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0103",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "1639": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0104",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "164": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.plant.vine_berry.02"
+    },
+    "165": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.plant.vine_berry.03"
+    },
+    "1652": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0105",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "1653": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0106",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "166": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.plant.stem_h.01"
+    },
+    "167": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.01",
+      "note": "tan pillar"
+    },
+    "168": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.02",
+      "note": "dark-red pillar"
+    },
+    "1685": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0107",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "169": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.03",
+      "note": "tan pillar"
+    },
+    "1699": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0108",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
     "17": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.sand_water.14"
+    },
+    "170": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.emblem.01",
+      "note": "ornate insignia-like pattern, not clearly a hull piece"
+    },
+    "171": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.emblem.02",
+      "note": "ornate insignia-like pattern, not clearly a hull piece"
+    },
+    "1712": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0109",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "1713": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0110",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "172": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.04",
+      "note": "tan oval hull-top"
+    },
+    "1726": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0111",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "1727": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0112",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "173": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.05",
+      "note": "possible team-colour lead (2026-09-06): this hovercraft hull piece recurs in both tan and cyan with matching pose -- see PORTING_PLAN.md section 4 item 3 (team colouring). Not confirmed against code."
+    },
+    "174": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.06",
+      "note": "orange/gold ornate oval hull-top"
+    },
+    "1740": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0113",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "1741": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0114",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "1742": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0115",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "1743": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0116",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "1744": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0117",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "175": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.debris.01",
+      "note": "small loose chip, tan/blue"
+    },
+    "176": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.debris.02",
+      "note": "small loose chip, tan/blue"
+    },
+    "1761": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0118",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "177": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.07",
+      "note": "tan block, red-dot windows"
+    },
+    "1777": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0119",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "1778": {
       "category": "effect",
@@ -242,10 +817,82 @@
       "id": "effect.glow.001",
       "note": "PRE0=5: per-pixel brightness index into the 32-row brighten table (explosion/glow gradient)"
     },
+    "178": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.08",
+      "note": "possible team-colour lead (2026-09-06): this hovercraft hull piece recurs in both tan and cyan with matching pose -- see PORTING_PLAN.md section 4 item 3 (team colouring). Not confirmed against code."
+    },
+    "179": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.emblem.03",
+      "note": "ornate insignia-like pattern, not clearly a hull piece"
+    },
     "18": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.sand_water.15"
+    },
+    "180": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0001",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "181": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0002",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "182": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.track.01",
+      "note": "tank-tread segment"
+    },
+    "183": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.track.02",
+      "note": "tank-tread segment"
+    },
+    "184": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.09",
+      "note": "tan panel"
+    },
+    "185": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0003",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "186": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0004",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "187": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.10",
+      "note": "possible team-colour lead (2026-09-06): this hovercraft hull piece recurs in both tan and cyan with matching pose -- see PORTING_PLAN.md section 4 item 3 (team colouring). Not confirmed against code."
+    },
+    "188": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.stripe_band.01",
+      "note": "horizontal orange/green/tan banded strip, purpose unconfirmed"
+    },
+    "189": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.11",
+      "note": "tan cab, red visor+trim"
     },
     "1898": {
       "category": "effect",
@@ -263,6 +910,12 @@
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.sand_water.16"
+    },
+    "190": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0005",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "1900": {
       "category": "effect",
@@ -324,6 +977,12 @@
       "id": "effect.shadow.hard.050",
       "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
     },
+    "191": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0006",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
     "1910": {
       "category": "effect",
       "confidence": "confirmed",
@@ -366,11 +1025,41 @@
       "id": "effect.shadow.hard.057",
       "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
     },
+    "192": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.12",
+      "note": "tan cab, red eyes+mouth trim"
+    },
+    "193": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.13",
+      "note": "possible team-colour lead (2026-09-06): this hovercraft hull piece recurs in both tan and cyan with matching pose -- see PORTING_PLAN.md section 4 item 3 (team colouring). Not confirmed against code."
+    },
+    "194": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.emblem.04",
+      "note": "ornate insignia-like pattern, not clearly a hull piece"
+    },
     "1941": {
       "category": "effect",
       "confidence": "confirmed",
       "id": "effect.tint.colour.005",
       "note": "PRE0=3: per-pixel tint-target index into the 256x256 aa0c table"
+    },
+    "195": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0007",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "196": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0008",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "1963": {
       "category": "effect",
@@ -389,6 +1078,12 @@
       "confidence": "visual",
       "id": "ui.reticle.target_lock.01",
       "note": "16x16 concentric-ring bullseye, own embedded palette (section 1.6). Distinct colour per variant; meaning (team? animation frame?) UNCONFIRMED -- ruled out as a team-colour swatch (section 1.6, 2026-09-06)."
+    },
+    "197": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.14",
+      "note": "tan panel"
     },
     "1970": {
       "category": "ui",
@@ -420,6 +1115,18 @@
       "id": "effect.tint.colour.009",
       "note": "PRE0=3: per-pixel tint-target index into the 256x256 aa0c table"
     },
+    "198": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.15",
+      "note": "possible team-colour lead (2026-09-06): this hovercraft hull piece recurs in both tan and cyan with matching pose -- see PORTING_PLAN.md section 4 item 3 (team colouring). Not confirmed against code."
+    },
+    "199": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.emblem.05",
+      "note": "ornate insignia-like pattern, not clearly a hull piece"
+    },
     "2": {
       "category": "terrain",
       "confidence": "visual",
@@ -430,16 +1137,129 @@
       "confidence": "visual_group",
       "id": "terrain.coast.sand_water.17"
     },
+    "200": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0009",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "201": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0010",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "202": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.16",
+      "note": "assembled composite side view w/ barrel-like extension"
+    },
+    "203": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.turret_detail.01"
+    },
+    "204": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.tire_track.01",
+      "note": "yellow dashed ground mark"
+    },
+    "205": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.tire_track.02",
+      "note": "yellow dashed ground mark"
+    },
+    "2059": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0120",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "206": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.17",
+      "note": "tan panel"
+    },
+    "207": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.18",
+      "note": "tan panel"
+    },
     "2077": {
       "category": "effect",
       "confidence": "confirmed",
       "id": "effect.glow.002",
       "note": "PRE0=5: per-pixel brightness index into the 32-row brighten table (explosion/glow gradient)"
     },
+    "208": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.19",
+      "note": "green/teal camo cab variant"
+    },
+    "209": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.hull.20",
+      "note": "brown/green camo cab variant"
+    },
     "21": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.sand_water.18"
+    },
+    "210": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0011",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "211": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0012",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "212": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.wheel_hub.01",
+      "note": "concentric-ring wheel/turret-base icon"
+    },
+    "213": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.wheel_hub.02",
+      "note": "concentric-ring wheel/turret-base icon"
+    },
+    "214": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.hovercraft.wheel_hub.03",
+      "note": "concentric-ring wheel/turret-base icon"
+    },
+    "2141": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0121",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "215": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.tire_track.03",
+      "note": "yellow dashed ground mark"
+    },
+    "216": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.tire_track.04",
+      "note": "yellow dashed ground mark"
     },
     "217": {
       "category": "effect",
@@ -452,10 +1272,40 @@
       "confidence": "visual_group",
       "id": "terrain.coast.sand_water.19"
     },
+    "227": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0013",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "228": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0014",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "229": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0015",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
     "23": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.sand_water.20"
+    },
+    "230": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0016",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "231": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0017",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "24": {
       "category": "terrain",
@@ -463,11 +1313,47 @@
       "id": "terrain.coast.sand_water.21",
       "note": "thin water sliver at tile edge"
     },
+    "241": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0018",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "242": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0019",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "243": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0020",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "244": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0021",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "245": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0022",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
     "25": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.sand_water.22",
       "note": "thin water sliver at tile edge"
+    },
+    "259": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0023",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "26": {
       "category": "terrain",
@@ -480,6 +1366,12 @@
       "confidence": "visual_group",
       "id": "terrain.coast.sand_water.23",
       "note": "thin water sliver at tile edge"
+    },
+    "273": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0024",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "274": {
       "category": "effect",
@@ -499,6 +1391,30 @@
       "id": "terrain.coast.sand_water.24",
       "note": "thin water sliver at tile edge"
     },
+    "292": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0025",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "293": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0026",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "297": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0027",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "298": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0028",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
     "3": {
       "category": "terrain",
       "confidence": "visual",
@@ -509,6 +1425,18 @@
       "confidence": "visual_group",
       "id": "terrain.ground.sand_light.d",
       "note": "plain, no water visible"
+    },
+    "302": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0029",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "303": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0030",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "31": {
       "category": "terrain",
@@ -532,15 +1460,99 @@
       "confidence": "visual_group",
       "id": "terrain.ground.dune_plain.02"
     },
+    "335": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0031",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "336": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0032",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "337": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0033",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "338": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0034",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "339": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0035",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
     "34": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.ground.dune_plain.03"
     },
+    "340": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0036",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "341": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0037",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "349": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0038",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
     "35": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.ground.dune_plain.04"
+    },
+    "350": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0039",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "351": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0040",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "352": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0041",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "353": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0042",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "354": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0043",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "355": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0044",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "36": {
       "category": "terrain",
@@ -562,6 +1574,36 @@
       "confidence": "visual_group",
       "id": "terrain.ground.dune_plain.08"
     },
+    "393": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0045",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "394": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0046",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "395": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0047",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "396": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0048",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "397": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0049",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
     "4": {
       "category": "terrain",
       "confidence": "visual_group",
@@ -572,10 +1614,40 @@
       "confidence": "visual_group",
       "id": "terrain.ground.dune_plain.09"
     },
+    "407": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0050",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "408": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0051",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "409": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0052",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
     "41": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.ground.dune_plain.10"
+    },
+    "410": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0053",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "411": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0054",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "412": {
       "category": "effect",
@@ -583,25 +1655,91 @@
       "id": "effect.shadow.hard.012",
       "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
     },
+    "419": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0055",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
     "42": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.ground.dune_plain.11"
+    },
+    "420": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0056",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "421": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0057",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "43": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.ground.dune_plain.12"
     },
+    "435": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0058",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "436": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0059",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
     "44": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.ground.dune_plain.13"
     },
+    "440": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0060",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "441": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0061",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "445": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0062",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "446": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0063",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
     "45": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.ground.dune_plain.14"
+    },
+    "455": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0064",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "456": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0065",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "46": {
       "category": "terrain",
@@ -619,16 +1757,88 @@
       "confidence": "visual_group",
       "id": "terrain.ground.dune_plain.16"
     },
+    "471": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0066",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "472": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0067",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "473": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0068",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "474": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0069",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "475": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0070",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "476": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0071",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
     "48": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.ground.dune_plain.17"
+    },
+    "485": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0072",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "486": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0073",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "487": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0074",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "488": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0075",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "489": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0076",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "49": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.dune_water.01",
       "note": "soft ripple edge, no hard coastline border"
+    },
+    "490": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0077",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "5": {
       "category": "terrain",
@@ -672,6 +1882,18 @@
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.forest_water.03"
+    },
+    "552": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0078",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+    },
+    "553": {
+      "category": "reserved",
+      "confidence": "confirmed",
+      "id": "reserved.blank.0079",
+      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "56": {
       "category": "terrain",
