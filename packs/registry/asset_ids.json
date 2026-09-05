@@ -1,0 +1,1168 @@
+{
+  "cels": {
+    "0": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.coast.sand_water.mottled_shallow",
+      "note": "speckled sand/water blend with no hard coastline, unlike 4-23"
+    },
+    "1": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.sand_light"
+    },
+    "10": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.07"
+    },
+    "100": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.red_panel.04",
+      "note": "plain solid/mottled red panel"
+    },
+    "101": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "decoration.tree",
+      "note": "dark green canopy on a post/trunk"
+    },
+    "1011": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.029",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "102": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.teal_panel",
+      "note": "plain solid teal panel",
+      "seen_in_retail_levels": false
+    },
+    "1026": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.030",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "103": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "decoration.shrub",
+      "note": "dark mottled patch on lighter ground"
+    },
+    "104": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "marker.hazard_stripe",
+      "note": "orange/black diagonal hazard stripes"
+    },
+    "1042": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.031",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1043": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.032",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "105": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.rubble_red.01",
+      "note": "red spatter/rubble texture on black",
+      "seen_in_retail_levels": false
+    },
+    "1058": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.033",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "106": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.rubble_red.02",
+      "note": "red spatter/rubble texture on black",
+      "seen_in_retail_levels": false
+    },
+    "1061": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.034",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1068": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.035",
+      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+    },
+    "107": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.rubble_red.03",
+      "note": "red spatter/rubble texture on black",
+      "seen_in_retail_levels": false
+    },
+    "1071": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.036",
+      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+    },
+    "1074": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.037",
+      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+    },
+    "1076": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.038",
+      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+    },
+    "108": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.rubble_red.04",
+      "note": "red spatter/rubble texture on black",
+      "seen_in_retail_levels": false
+    },
+    "109": {
+      "category": "terrain",
+      "confidence": "confirmed",
+      "id": "terrain.ground.buildable",
+      "note": "CONFIRMED (section 1.7): the art-id override applied to building-candidate dispatch tiles (raw bytes 0xB4/0xDC)"
+    },
+    "11": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.08"
+    },
+    "110": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.rubble_red.05",
+      "note": "red spatter/rubble texture on black"
+    },
+    "111": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.rubble_red.06",
+      "note": "red spatter/rubble texture on black"
+    },
+    "116": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.001",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "117": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.002",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "12": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.09"
+    },
+    "120": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.003",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "121": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.004",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "13": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.10"
+    },
+    "133": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.005",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "137": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.006",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "14": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.11"
+    },
+    "141": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.007",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "15": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.12"
+    },
+    "153": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.008",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "16": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.13"
+    },
+    "17": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.14"
+    },
+    "1778": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.glow.001",
+      "note": "PRE0=5: per-pixel brightness index into the 32-row brighten table (explosion/glow gradient)"
+    },
+    "18": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.15"
+    },
+    "1898": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.039",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1899": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.040",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "19": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.16"
+    },
+    "1900": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.041",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1901": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.042",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1902": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.043",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1903": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.044",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1904": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.045",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1905": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.046",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1906": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.047",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1907": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.048",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1908": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.049",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1909": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.050",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1910": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.051",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1911": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.052",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1912": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.053",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1913": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.054",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1914": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.055",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1915": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.056",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1916": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.057",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1941": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.tint.colour.005",
+      "note": "PRE0=3: per-pixel tint-target index into the 256x256 aa0c table"
+    },
+    "1963": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.tint.colour.006",
+      "note": "PRE0=3: per-pixel tint-target index into the 256x256 aa0c table"
+    },
+    "1964": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.tint.colour.007",
+      "note": "PRE0=3: per-pixel tint-target index into the 256x256 aa0c table"
+    },
+    "1969": {
+      "category": "ui",
+      "confidence": "visual",
+      "id": "ui.reticle.target_lock.01",
+      "note": "16x16 concentric-ring bullseye, own embedded palette (section 1.6). Distinct colour per variant; meaning (team? animation frame?) UNCONFIRMED -- ruled out as a team-colour swatch (section 1.6, 2026-09-06)."
+    },
+    "1970": {
+      "category": "ui",
+      "confidence": "visual",
+      "id": "ui.reticle.target_lock.02",
+      "note": "16x16 concentric-ring bullseye, own embedded palette (section 1.6). Distinct colour per variant; meaning (team? animation frame?) UNCONFIRMED -- ruled out as a team-colour swatch (section 1.6, 2026-09-06)."
+    },
+    "1971": {
+      "category": "ui",
+      "confidence": "visual",
+      "id": "ui.reticle.target_lock.03",
+      "note": "16x16 concentric-ring bullseye, own embedded palette (section 1.6). Distinct colour per variant; meaning (team? animation frame?) UNCONFIRMED -- ruled out as a team-colour swatch (section 1.6, 2026-09-06)."
+    },
+    "1972": {
+      "category": "ui",
+      "confidence": "visual",
+      "id": "ui.reticle.target_lock.04",
+      "note": "16x16 concentric-ring bullseye, own embedded palette (section 1.6). Distinct colour per variant; meaning (team? animation frame?) UNCONFIRMED -- ruled out as a team-colour swatch (section 1.6, 2026-09-06)."
+    },
+    "1973": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.tint.colour.008",
+      "note": "PRE0=3: per-pixel tint-target index into the 256x256 aa0c table"
+    },
+    "1974": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.tint.colour.009",
+      "note": "PRE0=3: per-pixel tint-target index into the 256x256 aa0c table"
+    },
+    "2": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.sand_warm"
+    },
+    "20": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.17"
+    },
+    "2077": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.glow.002",
+      "note": "PRE0=5: per-pixel brightness index into the 32-row brighten table (explosion/glow gradient)"
+    },
+    "21": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.18"
+    },
+    "217": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.009",
+      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+    },
+    "22": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.19"
+    },
+    "23": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.20"
+    },
+    "24": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.21",
+      "note": "thin water sliver at tile edge"
+    },
+    "25": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.22",
+      "note": "thin water sliver at tile edge"
+    },
+    "26": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.sand_light.b",
+      "note": "plain, no water visible"
+    },
+    "27": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.23",
+      "note": "thin water sliver at tile edge"
+    },
+    "274": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.010",
+      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+    },
+    "28": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.sand_light.c",
+      "note": "plain, no water visible"
+    },
+    "29": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.24",
+      "note": "thin water sliver at tile edge"
+    },
+    "3": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.forest_dense.a"
+    },
+    "30": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.sand_light.d",
+      "note": "plain, no water visible"
+    },
+    "31": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.sand_light.e",
+      "note": "plain, no water visible"
+    },
+    "32": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.01"
+    },
+    "327": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.011",
+      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+    },
+    "33": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.02"
+    },
+    "34": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.03"
+    },
+    "35": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.04"
+    },
+    "36": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.05"
+    },
+    "37": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.06"
+    },
+    "38": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.07"
+    },
+    "39": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.08"
+    },
+    "4": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.01"
+    },
+    "40": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.09"
+    },
+    "41": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.10"
+    },
+    "412": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.012",
+      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+    },
+    "42": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.11"
+    },
+    "43": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.12"
+    },
+    "44": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.13"
+    },
+    "45": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.14"
+    },
+    "46": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.15"
+    },
+    "462": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.013",
+      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+    },
+    "47": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.16"
+    },
+    "48": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.ground.dune_plain.17"
+    },
+    "49": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.dune_water.01",
+      "note": "soft ripple edge, no hard coastline border"
+    },
+    "5": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.02"
+    },
+    "50": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.dune_water.02",
+      "note": "soft ripple edge, no hard coastline border"
+    },
+    "51": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.dune_water.03",
+      "note": "soft ripple edge, no hard coastline border"
+    },
+    "519": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.014",
+      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+    },
+    "52": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.forest_dense.b"
+    },
+    "53": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.01"
+    },
+    "54": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.02"
+    },
+    "55": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.03"
+    },
+    "56": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.04"
+    },
+    "57": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.05"
+    },
+    "579": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.015",
+      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+    },
+    "58": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.06"
+    },
+    "582": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.tint.colour.001",
+      "note": "PRE0=3: per-pixel tint-target index into the 256x256 aa0c table"
+    },
+    "583": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.tint.colour.002",
+      "note": "PRE0=3: per-pixel tint-target index into the 256x256 aa0c table"
+    },
+    "586": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.tint.colour.003",
+      "note": "PRE0=3: per-pixel tint-target index into the 256x256 aa0c table"
+    },
+    "587": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.tint.colour.004",
+      "note": "PRE0=3: per-pixel tint-target index into the 256x256 aa0c table"
+    },
+    "589": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.001",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "59": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.07"
+    },
+    "590": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.002",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "591": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.003",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "592": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.004",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "593": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.005",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "594": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.006",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "595": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.007",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "596": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.008",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "597": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.009",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "598": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.010",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "599": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.011",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "6": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.03"
+    },
+    "60": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.08"
+    },
+    "600": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.012",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "601": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.013",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "602": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.014",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "603": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.015",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "604": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.016",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "605": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.017",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "61": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.09"
+    },
+    "62": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.10"
+    },
+    "626": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.018",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "627": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.019",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "628": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.020",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "629": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.soft.021",
+      "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
+    },
+    "63": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.11"
+    },
+    "64": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.12"
+    },
+    "65": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.13"
+    },
+    "66": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.14"
+    },
+    "67": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.15"
+    },
+    "68": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.16"
+    },
+    "69": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.17"
+    },
+    "7": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.04"
+    },
+    "70": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.18"
+    },
+    "71": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.19"
+    },
+    "72": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.forest_water.20"
+    },
+    "73": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.structure.rooftop_red.01"
+    },
+    "74": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.structure.rooftop_red.02"
+    },
+    "75": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.structure.rooftop_red.03"
+    },
+    "755": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.016",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "76": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.structure.rooftop_red.04"
+    },
+    "77": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.structure.rooftop_red.05"
+    },
+    "78": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.structure.rooftop_red.06"
+    },
+    "79": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.structure.rooftop_red.07"
+    },
+    "8": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.05"
+    },
+    "80": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.blank.a",
+      "note": "fully transparent tile (index-0 pixels only)"
+    },
+    "81": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.structure.rooftop_red.08"
+    },
+    "82": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.structure.rooftop_red.09"
+    },
+    "83": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.structure.rooftop_red.10"
+    },
+    "84": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.furrow_green.01",
+      "note": "green striped texture, function unconfirmed (crop rows / hedge / runway marking)"
+    },
+    "842": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.017",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "843": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.018",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "85": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.furrow_green.02",
+      "note": "green striped texture, function unconfirmed (crop rows / hedge / runway marking)"
+    },
+    "86": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.furrow_green.03",
+      "note": "green striped texture, function unconfirmed (crop rows / hedge / runway marking)"
+    },
+    "87": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.structure.rooftop_red.11"
+    },
+    "870": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.019",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "879": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.020",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "88": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.structure.rooftop_red.12"
+    },
+    "89": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.structure.rooftop_red.13"
+    },
+    "894": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.021",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "9": {
+      "category": "terrain",
+      "confidence": "visual_group",
+      "id": "terrain.coast.sand_water.06"
+    },
+    "90": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "marker.target.bullseye_green",
+      "note": "red-bordered square, green-and-red bullseye centre"
+    },
+    "900": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.022",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "91": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "marker.target.bullseye_cyan",
+      "note": "red-bordered square, cyan-and-red bullseye centre"
+    },
+    "92": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.blank.b",
+      "note": "fully transparent tile (index-0 pixels only)",
+      "seen_in_retail_levels": false
+    },
+    "93": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "decoration.grass_patch",
+      "note": "yellow-bordered green square"
+    },
+    "937": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.023",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "94": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "decoration.water_patch",
+      "note": "yellow-bordered mottled blue square"
+    },
+    "95": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "decoration.reef_patch",
+      "note": "yellow-bordered blue-green mottled square with light flecks"
+    },
+    "96": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "marker.target.bullseye_moon",
+      "note": "bullseye with a gold crescent-moon centre"
+    },
+    "966": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.024",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "967": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.025",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "97": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.red_panel.01",
+      "note": "plain solid/mottled red panel"
+    },
+    "98": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.red_panel.02",
+      "note": "plain solid/mottled red panel"
+    },
+    "982": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.026",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "989": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.027",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "99": {
+      "category": "terrain",
+      "confidence": "visual",
+      "id": "terrain.ground.red_panel.03",
+      "note": "plain solid/mottled red panel"
+    },
+    "996": {
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shadow.hard.028",
+      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    }
+  },
+  "schema_version": "0.1.0",
+  "source": "ART.CAR, 2165 cels (see PORTING_PLAN.md section 1.6)"
+}
