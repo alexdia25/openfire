@@ -353,6 +353,21 @@ for _idx in range(1077, 1301):
         "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified")
 
 
+# ---- batch: 1301-1563 ------------------------------------------------------------
+# More VFX library, same dominant-colour bucketing as 1077-1300, plus one new
+# distinct family: a set of expanding blue concentric rings (water splash / sonar
+# ping, cels 1537-1563) cleanly separated from the red/brown/green bursts by a
+# sharp colour-average jump (checked directly, not eyeballed).
+seq(list(range(1537, 1564)), "effect.water_ring.{n:02d}", "effect", "expanding blue concentric ring")
+
+for _idx in range(1301, 1537):
+    if _idx in ENTRIES or _idx in _already_classified or _idx not in _cels_by_idx:
+        continue
+    _bucket = _colour_bucket(_idx, _cels_by_idx, _img)
+    seq([_idx], _burst_family[_bucket], "effect",
+        "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified")
+
+
 def main():
     with open(REGISTRY_JSON) as f:
         registry = json.load(f)
