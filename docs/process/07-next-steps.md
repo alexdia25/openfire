@@ -25,6 +25,7 @@ See plan section 4 for the current, precise state of each — this list is just 
 - Team colouring mechanism (section 4, item 3)
 - The fixed sim tick rate (section 4, item 6)
 - 3DO support: base game + "Maps o' Death" expansion — new goal, not yet started (section 4, item 7)
+- 4-player support — new goal, not yet started (section 4, item 8)
 
 ## If you want to try one of these yourself
 

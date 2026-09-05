@@ -34,6 +34,14 @@ Target features that justify the rebuild (a DirectDraw wrapper cannot give these
 - Linux and ARM builds
 - Netplay
 - **Web export**, shipping the author's own asset pack
+- **4-player support.** The original is 2-player only — every `.RFM` file defines exactly
+  one team-0 and one team-1 spawn point, never more (section 1.5, and the totals in section
+  1.5's converter run: 204 team-0 spawns, 104 team-1 spawns, one each, no exceptions). Making
+  this real needs: (a) a split-screen/viewport layout that scales past 2 (section 2.2), (b) a
+  netcode design that isn't quietly assuming 2 participants (section 3 Phase 5), and (c) a
+  decision for the original's own maps, which have nowhere for a 3rd/4th spawn to come from —
+  either synthesize extra spawns algorithmically or scope 4-player to custom/replacement maps
+  (section 2.4) where the map author places all 4 explicitly. See section 4 item 8.
 
 The web target is not a "someday maybe" — it constrains the language the simulation is
 written in, the rendering backend, the netplay transport, and the pack format. See
@@ -882,7 +890,10 @@ targeting it from day one avoids discovering late that an effect does not surviv
   perspective table, not a plain `Sprite2D`; the latter is simpler but visibly diverges from
   the original's subtle depth-skew look. Pick one before building the vehicle-rendering step
   (Phase 4 step 2) — retrofitting later means redoing every vehicle's rendering path.
-- Split-screen: one `SubViewport` per player inside `SubViewportContainer`s.
+- Split-screen: one `SubViewport` per player inside `SubViewportContainer`s. The original
+  only ever needs 2 (section 0's 4-player goal, section 4 item 8); design the
+  `SubViewportContainer` grid to scale to 4 from the start (e.g. a 2x2 grid that collapses to
+  a 1x2 split for 2 players) rather than hardcoding a 2-way layout and retrofitting later.
 - Palette: bake to RGBA8 at conversion time, or keep indexed and apply the palette in a
   fragment shader if palette-cycling or team-colour swapping turns out to need it.
   Any such shader must be WebGL2-compatible — **no compute shaders, no storage buffers**.
@@ -1281,8 +1292,10 @@ Deferred until the simulation is complete and provably deterministic.
    and WebRTC or WebSocket for web behind it. Browsers cannot open raw UDP sockets, so
    writing ENet calls directly into the netcode silently forecloses web multiplayer.
    See section 2.5.4.
-3. Lockstep with input delay first — simple and sufficient for 2 players, and it works
-   over all three transports.
+3. Lockstep with input delay first — simple and sufficient to start with, and it works
+   over all three transports. Lockstep itself generalizes to 4 participants without a
+   redesign; just don't let the session/handshake code (or the split-screen viewport count,
+   section 2.2) quietly assume exactly 2 (section 0's 4-player goal, section 4 item 8).
 4. Rollback (GGPO-style) only if input latency proves unacceptable.
 5. Pack id + version in the session handshake (section 2.4.3 item 8).
 
@@ -1361,6 +1374,18 @@ Web checklist:
    documented elsewhere in this file. Whatever reader/format work happens here should be
    written generically enough to also read the base game disc once it arrives, since both
    are the same platform and (almost certainly) the same asset formats.
+8. **4-player support** (section 0, new 2026-09-05) — a whole new goal, not a single
+   question: the original engine is 2-player only, so there's no decompiled logic to trace
+   here, just a design decision to make and thread through. Every real `.RFM` file defines
+   exactly one team-0 and one team-1 spawn (section 1.5) and nothing else, so the original's
+   own 204 maps have no data-level room for a 3rd/4th spawn point. Two ways to reconcile
+   that, not yet decided between: (a) synthesize extra spawns for the original maps
+   algorithmically (e.g. offset from the existing team-1 spawn) so they remain playable at 4,
+   or (b) treat 4-player as available only to custom/replacement map packs (section 2.4)
+   where the author places all 4 spawns explicitly, and leave the original's maps at their
+   native 2-player cap. Also touches the split-screen viewport layout (section 2.2) and the
+   netcode session/handshake design (section 3 Phase 5) — both should be built assuming up to
+   4 participants from the start rather than retrofitted from a 2-player assumption.
 
 **RESOLVED:**
 - **The "missing `.avi` cutscenes"** — **section 1.11** (2026-09-05). There never was
