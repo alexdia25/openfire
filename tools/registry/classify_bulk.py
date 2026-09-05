@@ -24,40 +24,64 @@ ENTRIES = {}
 
 
 def dominant_team_colour(idx, atlas_cels, atlas_img):
-    """tan vs blue, by mean RGB of an cel's non-transparent pixels -- used where a
-    long run of near-identical frames alternates between the two known team hues
-    (see the 655-754 trooper-run family) and eyeballing a downscaled contact sheet
-    risks mis-transcribing which frame is which colour."""
+    """tan vs green (section 4 item 5), by mean RGB of a cel's non-transparent pixels --
+    used where a long run of near-identical frames alternates between the two known team
+    hues (see the 655-754 trooper-run family) and eyeballing a downscaled contact sheet
+    risks mis-transcribing which frame is which colour.
+
+    CORRECTED (2026-09-06): originally compared only b vs r and returned "blue" -- a
+    real bug in its own right (this project's two team colours are tan and green, never
+    blue, confirmed independently in PORTING_PLAN.md section 4 item 5), compounded by
+    convert_car.py's palette-offset bug (docs/process/20) changing every cel's actual
+    colours out from under this heuristic. Re-checked against the regenerated (correct)
+    atlas: green is unambiguously the highest channel for the second team, not merely
+    higher than blue."""
     c = atlas_cels[idx]
     crop = atlas_img.crop((c["x"], c["y"], c["x"] + c["w"], c["y"] + c["h"]))
     pixels = [p for p in crop.getdata() if p[3] > 0]
     r = sum(p[0] for p in pixels) / len(pixels)
+    g = sum(p[1] for p in pixels) / len(pixels)
     b = sum(p[2] for p in pixels) / len(pixels)
-    return "blue" if b > r else "tan"
+    return "green" if g > r and g > b else "tan"
 
 
 def put(idx, id_, category, note=None, confidence="visual_group"):
     ENTRIES[idx] = {"id": id_, "category": category, "confidence": confidence, **({"note": note} if note else {})}
 
 
-_family_next = {}  # id-family prefix -> next free sequence number, lazily seeded
+_family_next = {}  # id-family prefix -> next free sequence number, seeded once per run
+
+with open(REGISTRY_JSON) as _f:
+    _registry_at_start = json.load(_f)["cels"]
 
 
-def _ensure_seeded(family):
+def _ensure_seeded(family, own_indices):
+    # Seeded from the on-disk registry MINUS whatever this exact call is about to
+    # (re)assign -- needed because some families (e.g. vehicle.hovercraft.wheel_hub)
+    # are shared with the one-shot classify_batch1-3.py scripts, which this file must
+    # continue numbering after, not collide with. Excluding own_indices is what makes
+    # that safe to combine with re-running this file: a family touched only by this
+    # script sees none of its own previous-run output counted as "used" (that output
+    # is about to be overwritten by this very call), so it seeds at 1 every time;
+    # a family shared with a batch1-3.py entry that this call never touches keeps
+    # seeding after that entry's number, every time. An earlier version seeded from
+    # the raw registry with no exclusion, which meant every re-run saw its own last
+    # run's numbers as "already used" and counted past them -- a family touched by
+    # N separate runs of this file drifted by N times its own size (e.g. this bug once
+    # left the tan hovercraft-rotation family at .81-.88 instead of .01-.08).
     if family not in _family_next:
-        with open(REGISTRY_JSON) as f:
-            existing = json.load(f)["cels"]
-        used = [int(v["id"][len(family):]) for v in existing.values()
-                 if v["id"].startswith(family) and v["id"][len(family):].isdigit()]
+        own = set(own_indices)
+        used = [int(v["id"][len(family):]) for k, v in _registry_at_start.items()
+                 if int(k) not in own and v["id"].startswith(family) and v["id"][len(family):].isdigit()]
         _family_next[family] = (max(used) + 1) if used else 1
 
 
 def seq(indices, id_fmt, category, note=None, start=None):
     """start is an optional manual override; by default the next number for this
-    id family is looked up from the registry + entries assigned so far this run,
-    so batches never need to hand-track collisions across sections."""
+    id family follows on from the registry, excluding this exact call's own indices
+    (see _ensure_seeded), so batches never need to hand-track collisions."""
     family = id_fmt.split("{n")[0]
-    _ensure_seeded(family)
+    _ensure_seeded(family, indices)
     for i, idx in enumerate(indices):
         if start is not None:
             n = start + i
@@ -76,11 +100,11 @@ def seq(indices, id_fmt, category, note=None, start=None):
 # fuel-drum props, small wheeled carts, control panels with screens, and missile/
 # capsule rack props.
 seq([218, 219, 220, 221, 222, 223, 224, 225], "vehicle.hovercraft.rotation.tan.{n:02d}", "vehicle")
-seq([232, 233, 234, 235, 236, 237, 238, 239, 240], "vehicle.hovercraft.rotation.cyan.{n:02d}", "vehicle")
+seq([232, 233, 234, 235, 236, 237, 238, 239, 240], "vehicle.hovercraft.rotation.green.{n:02d}", "vehicle")
 seq(list(range(246, 258)), "prop.stalk_orb.rotation.tan.{n:02d}", "prop",
     "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)")
 seq(list(range(258, 269)), "prop.stalk_orb.rotation.green.{n:02d}", "prop", "same prop, green-tinted variant")
-seq([269, 270, 271, 272], "prop.stalk_orb.rotation.cyan.{n:02d}", "prop", "same prop, thin/distant cyan frames")
+seq([269, 270, 271, 272], "prop.stalk_orb.rotation.green.{n:02d}", "prop", "same prop, thin/distant frames")
 seq([275, 276, 277, 282, 283, 287, 288], "effect.explosion_splash.{n:02d}", "effect",
     "red-spark/blue-splash burst, likely a hit or small-explosion animation")
 seq([278, 284], "prop.fuel_drum.tan.{n:02d}", "prop")
@@ -123,7 +147,7 @@ seq([326], "prop.fuel_canister.cluster_blue.03", "prop", "3-capsule blue/red/whi
 # assorted small props/panels/frames, and the first confirmed humanoid unit: a
 # soldier/trooper figure in three colour variants (tan, cyan, brown).
 seq(list(range(328, 335)), "prop.sack.tan.{n:02d}", "prop", "cargo sack, slight rotation")
-seq([342, 343, 344, 345, 346, 347], "prop.sentry_turret.teal.{n:02d}", "prop",
+seq([342, 343, 344, 345, 346, 347], "prop.sentry_turret.green.{n:02d}", "prop",
     "boxy body with two square window/eye shapes, likely a small automated turret or robot")
 seq([348, 373, 381, 382, 389, 390, 391, 392, 405, 406, 415, 416, 426, 430, 431, 432],
     "prop.debris_faint.{n:02d}", "prop")
@@ -163,8 +187,8 @@ seq(list(range(457, 462)), "ui.map_blip.{n:02d}", "ui", "small red dot icon")
 # strips (likely level-background or bridge/dock dressing), a standing-trooper
 # squad, and assorted small props (domes, wheel hubs, spark-bolt effects).
 seq(list(range(463, 470)), "character.trooper_head.rotation.tan.{n:02d}", "character")
-seq([477, 478, 479, 480, 481, 482, 483, 484], "character.trooper_head.rotation.teal.{n:02d}", "character")
-seq(list(range(491, 505)), "character.trooper_head.rotation.teal_alt.{n:02d}", "character",
+seq([477, 478, 479, 480, 481, 482, 483, 484], "character.trooper_head.rotation.green.{n:02d}", "character")
+seq(list(range(491, 505)), "character.trooper_head.rotation.green_alt.{n:02d}", "character",
     "second teal rotation/pose set, separated from the first by a gap in cel indices")
 seq([470, 505, 506, 507, 508, 515, 523, 525], "prop.debris_faint.{n:02d}", "prop")
 seq([509, 510, 511], "effect.explosion_large.{n:02d}", "effect",
@@ -207,7 +231,7 @@ seq([619], "prop.panel_solid.cyan.02", "prop", "large solid cyan panel")
 
 # ---- batch: 630-869 -------------------------------------------------------------
 # Major find: a ~100-cel running/walking trooper animation (655-754) in tan and
-# blue team colours -- almost certainly the on-foot infantry unit (Return Fire's
+# green team colours -- almost certainly the on-foot infantry unit (Return Fire's
 # rescue mechanic: pilots eject and can run, and/or hostages to recover). Preceded
 # by a jetski-with-rider vehicle (630-654) and followed by small dust-puff effects
 # (755-800), a chaotic multi-figure clash animation (801-820, possibly a melee/
@@ -220,7 +244,7 @@ with open(ATLAS_JSON) as _f:
 _cels_by_idx = {c["index"]: c for c in _atlas["cels"]}
 _img = Image.open(ATLAS_PNG).convert("RGBA")
 
-_run_counts = {"tan": 0, "blue": 0}
+_run_counts = {"tan": 0, "green": 0}
 for _idx in range(655, 755):
     _colour = dominant_team_colour(_idx, _cels_by_idx, _img)
     _run_counts[_colour] += 1
@@ -309,7 +333,7 @@ seq([1064, 1065], "marker.hollow_square.{n:02d}", "marker", "hollow square outli
 seq([1066, 1067], "prop.debris_faint.{n:02d}", "prop")
 seq([1069, 1070], "prop.bone_shape.{n:02d}", "prop", "white curved bone/tusk-like shape, unconfirmed purpose")
 seq([1072, 1073], "prop.dart_icon.{n:02d}", "prop", "small teal jet/dart arrow shape")
-seq([1075], "decoration.foliage.bush_blue.12", "decoration")
+seq([1075], "decoration.foliage.bush_green.12", "decoration")
 
 
 # ---- batch: 1077-1300 ------------------------------------------------------------
@@ -467,13 +491,17 @@ seq([2159], "prop.rocket_small.01", "prop")
 # ---- correction: team colour is tan/green, not tan/cyan (2026-09-06) ------------
 # The user, who owns and has played the original, said the two player colours are
 # tan and green. Checked against pixel data rather than taken on faith: every cel
-# in three large, independent families (character.trooper_run, 44/44;
-# character.trooper_head.rotation.teal(+teal_alt), 22/22; vehicle.hovercraft.rotation.cyan,
-# 9/9; plus prop.stalk_orb.rotation.cyan and prop.sentry_turret.teal) is green-dominant
-# by mean pixel colour (g > b in every single one, checked, not assumed) -- these were
+# in three large, independent families (character.trooper_run, character.trooper_head.
+# rotation, vehicle.hovercraft.rotation, plus prop.stalk_orb.rotation and
+# prop.sentry_turret) is green-dominant by mean pixel colour -- these had been
 # mislabeled "blue"/"cyan"/"teal" by an earlier colour heuristic that only compared b
-# against r and never checked g at all. Renaming the ID text to match; category and
-# index assignments are unchanged, this is a label fix, not a reclassification.
+# against r and never checked g at all. Fixed at each seq() call's own id_fmt string
+# above (and in dominant_team_colour()'s return value) rather than patched here after
+# the fact -- an earlier version of this correction used a stale on-disk registry
+# snapshot to rename things post-hoc, which doesn't survive this script being re-run
+# (each re-run replays the original, still-wrong seq() calls first), so the "fix"
+# silently undid itself on the next batch. Renaming the actual source is the only
+# version of this fix that's stable across reruns.
 #
 # Separately, the specific hull-ICON pieces at cels 173/178/193/198 (batch 3, tagged
 # with a "possible team-colour lead" note) really are blue-dominant (b > g, checked) --
@@ -483,22 +511,6 @@ seq([2159], "prop.rocket_small.01", "prop")
 # corrected to stop calling them a team-colour lead.
 with open(REGISTRY_JSON) as _f:
     _reg_for_fix = json.load(_f)
-
-_GREEN_RENAMES = {
-    "character.trooper_run.blue.": "character.trooper_run.green.",
-    "character.trooper_head.rotation.teal_alt.": "character.trooper_head.rotation.green_alt.",
-    "character.trooper_head.rotation.teal.": "character.trooper_head.rotation.green.",
-    "vehicle.hovercraft.rotation.cyan.": "vehicle.hovercraft.rotation.green.",
-    "prop.stalk_orb.rotation.cyan.": "prop.stalk_orb.rotation.green.",
-    "prop.sentry_turret.teal.": "prop.sentry_turret.green.",
-    "decoration.foliage.bush_blue.": "decoration.foliage.bush_green.",
-}
-for _idx_str, _entry in _reg_for_fix["cels"].items():
-    for _old_prefix, _new_prefix in _GREEN_RENAMES.items():
-        if _entry["id"].startswith(_old_prefix):
-            _new_id = _new_prefix + _entry["id"][len(_old_prefix):]
-            put(int(_idx_str), _new_id, _entry["category"], _entry.get("note"), _entry["confidence"])
-            break
 
 _TEAM_COLOUR_NOTE_FIX = ("blue-dominant hull/cab icon (checked: b > g), NOT part of the confirmed "
                           "tan/green team-colour pair (section 4 item 5, 2026-09-06) -- an earlier note "
@@ -510,11 +522,11 @@ for _idx in [173, 178, 193, 198]:
 
 # A handful of individual mislabels caught while spot-checking the above (wrong colour
 # bucket entirely, not the green/blue confusion) -- fixed here since they were found:
-put(168, "vehicle.hovercraft.hull.02", "vehicle", "dark blue-grey pillar (corrected from a wrong 'dark-red' read)")
+put(168, "vehicle.hovercraft.hull.02", "vehicle", "dark green pillar (re-checked after the section 1.6 palette fix -- was misread as 'dark-red' then 'dark blue-grey' under the wrong palette)")
 put(384, "structure.bunker.tan.49", "structure", "tan/brown wall (corrected: was miscategorised into the teal list)")
-put(301, "vehicle.cart.red.01", "vehicle", "solid red cart (corrected: was miscategorised as cyan)")
-put(608, "prop.panel_solid.red.01", "prop", "solid red panel (corrected: was miscategorised as cyan)")
-put(585, "prop.hook_pipe.red.01", "prop", "red/orange curved shape (corrected: was miscategorised as cyan)")
+put(301, "vehicle.cart.red.01", "vehicle", "solid red/dark tank-tread cart (corrected: was miscategorised as cyan)")
+put(608, "prop.pipe_grey.01", "prop", "thin grey pipe/rod with a red tip (re-checked after the section 1.6 palette fix -- mostly grey, not a red panel)")
+put(585, "prop.pipe_grey.02", "prop", "thin grey hook/pipe shape with small red accents (re-checked after the section 1.6 palette fix -- mostly grey, not red/orange)")
 
 
 # ---- correction: palette-bug relabeling (2026-09-06) ---------------------------
