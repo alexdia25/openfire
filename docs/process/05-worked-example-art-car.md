@@ -134,6 +134,6 @@ static file data — and get filled in at startup by `FUN_00424420`, which tries
 `Art\Trans.tbl` and falls back to generating one if it's missing. Neither the file-load path
 nor the fallback-generation path has been traced yet. Until then, a placeholder tint (plain
 white or a team-colour alpha blend) is a reasonable stand-in for the effect masks in Godot —
-see [document 7](07-next-steps.md).
+see [the next-steps doc](NEXT_STEPS.md).
 
 **Next:** [Verification philosophy — the rules this document and the last one both learned the expensive way](06-verification-philosophy.md).

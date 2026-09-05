@@ -1,7 +1,7 @@
 # 10. Worked example: what the `>>1` computation actually does
 
 Not every investigation in this project has been a saga. This one — one of the smaller
-items on [document 7](07-next-steps.md)'s backlog — took two `FindDataXrefs.java` calls and
+items on [the next-steps doc](NEXT_STEPS.md)'s backlog — took two `FindDataXrefs.java` calls and
 two decompiles to resolve, which is worth showing precisely because it demonstrates the same
 recipe scales down, not just up.
 
@@ -71,7 +71,7 @@ counters at all — is implemented somewhere this investigation didn't reach. Ra
 guess further, this was recorded as the honest boundary of what was actually traced: the
 replacement mechanism is solved with the same confidence as every other entry in this
 document series; the win condition is a clearly-scoped next step, not something papered
-over. See [document 7](07-next-steps.md) for it as a next action.
+over. See [the next-steps doc](NEXT_STEPS.md) for it as a next action.
 
 ## Postscript: chasing the next hop, and hitting a real dead end
 
@@ -106,6 +106,6 @@ it. The trail from here runs into a large, general AI-targeting/combat module
 obvious "declare victory" anchor visible in it. Rather than opening an unbounded
 investigation into an unrelated subsystem chasing a hunch, this is where the trail was left
 — honestly marked as a checked-and-ruled-out lead, not a solved question. See
-[document 7](07-next-steps.md) for the current state of this open item.
+[the next-steps doc](NEXT_STEPS.md) for the current state of this open item.
 
 **Next:** [Worked example: confirming a dead end fast by rereading work already on hand](11-worked-example-edtn-chunk.md).

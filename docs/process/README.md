@@ -29,10 +29,17 @@ them in order for the first time: narrative, worked examples, real commands you 
 6. [**Verification philosophy**](06-verification-philosophy.md) — the handful of hard-won
    rules that came out of documents 4 and 5, distilled so you don't have to relearn them
    the expensive way.
-7. [**Next steps**](07-next-steps.md) — the current open-questions backlog, reframed as
-   "here's how you'd go about this one yourself," with pointers back into the workflow doc.
+
+   **Before continuing to document 8, check [`NEXT_STEPS.md`](NEXT_STEPS.md).** It's
+   deliberately not numbered into this sequence — everything above and below it is a frozen
+   snapshot of how one specific question got answered, but `NEXT_STEPS.md` is the opposite:
+   it's edited in place every time the backlog changes, so it always reflects the *current*
+   open-questions state rather than the state as of whenever it was written. Read the numbered
+   docs below for the story of how each item got solved; read `NEXT_STEPS.md` for what's
+   actually left right now.
+
 8. [**Worked example: mapping `.RFM` art ids to `ART.CAR` cels**](08-worked-example-art-id-mapping.md) —
-   the backlog's top item from document 7, solved: the recipe applied a third time, this
+   the backlog's top item, solved: the recipe applied a third time, this
    time chaining two data-structure traces straight to an exact answer with no guessing
    needed.
 9. [**Worked example: the exact tint colour of `ART.CAR`'s effect masks**](09-worked-example-effect-tint-colour.md) —

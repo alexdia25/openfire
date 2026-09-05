@@ -111,4 +111,4 @@ around doesn't match what the binary actually does." Worth remembering when a qu
 resisting a clean answer — sometimes that's a sign to check whether the question's own
 assumption is the thing that's actually wrong, not the search technique.
 
-**Next:** back to [document 7](07-next-steps.md) for the current backlog.
+**Next:** back to [the next-steps doc](NEXT_STEPS.md) for the current backlog.

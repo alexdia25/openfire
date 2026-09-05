@@ -104,7 +104,7 @@ colours — not a coherent picture, but a real, valid decode; nothing about it l
 broken read. What these 4 specific images are *for* is still an open question (a colour
 swatch for team or UI accents is a plausible guess, given the saturated, distinct hues, but
 no code referencing these 4 cels specifically has been traced — see
-[document 7](07-next-steps.md) for that as a still-open lead, not a finding).
+[the next-steps doc](NEXT_STEPS.md) for that as a still-open lead, not a finding).
 
 ## Fixing the converter to match
 
@@ -132,7 +132,7 @@ table each one uses and why. What's still missing for a pixel-perfect Godot repr
 the exact realized palette (`GetNearestPaletteIndex` matches against the specific colours
 Windows' GDI happened to allocate at runtime, which this project hasn't reproduced), and the
 unconfirmed guess about what the 4 `PRE0==17` swatches are actually used for — see
-[document 7](07-next-steps.md) for both as next steps, not blockers: a placeholder tint is
+[the next-steps doc](NEXT_STEPS.md) for both as next steps, not blockers: a placeholder tint is
 a perfectly reasonable stand-in until/unless exact colour fidelity matters.
 
 **Next:** [Worked example: what the `>>1` computation actually does](10-worked-example-target-respawn.md) —

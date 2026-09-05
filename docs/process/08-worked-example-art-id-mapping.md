@@ -1,6 +1,6 @@
 # 8. Worked example: mapping `.RFM` art ids to `ART.CAR` cels
 
-This is the backlog item [document 7](07-next-steps.md) called "highest priority": both
+This is the backlog item [the next-steps doc](NEXT_STEPS.md) called "highest priority": both
 halves of level rendering were separately solved (every level tile has a 0-127 "art id",
 [document 4](04-worked-example-rfm-format.md); every `ART.CAR` cel is classified as sprite
 or effect mask, [document 5](05-worked-example-art-car.md)) but nothing tied one side to
@@ -114,7 +114,7 @@ genuinely bridges the `.RFM` (section 1.5) and `ART.CAR` (section 1.6) investiga
 
 ## The lesson worth pulling out
 
-This didn't need the empirical fallback document 7 offered ("look at where each art id
+This didn't need the empirical fallback the next-steps doc offered ("look at where each art id
 appears and guess from shape") — going straight to the rendering code found an *exact*
 answer instead of a plausible one, and turned out to cost less effort than the empirical
 route would have, because the two `FindDataXrefs.java` hops chained directly into the

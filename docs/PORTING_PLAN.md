@@ -575,7 +575,7 @@ every level tile a resolved 0-127 "art id"; section 1.6 fully classifies `ART.CA
 cels. Neither told you which cel is art id 42. **Answer: art id *is* the cel index.**
 `ART.CAR`'s CCB array is loaded into memory unmodified at startup and indexed directly by
 the tile's art id, times `sizeof(CCB)` — no separate lookup table, no indirection, nothing
-built at load time. This was approach 2 from `docs/process/07-next-steps.md` (trace the
+built at load time. This was approach 2 from `docs/process/NEXT_STEPS.md` (trace the
 runtime tile buffer forward through rendering), not approach 1 (empirical guessing) — it
 turned out to be findable and exact, so the empirical fallback was never needed.
 

@@ -1,4 +1,12 @@
-# 7. Next steps
+# Next steps
+
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-18
+and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
+question got answered, and it never changes after the fact. This document is the opposite: it
+gets edited in place every time the backlog changes, so giving it a fixed position in that
+sequence never made sense — it would have to keep "moving" to stay current, which a step in a
+numbered walkthrough can't do. Read the numbered docs in order for the story; read this one
+whenever you want the current state.
 
 The backlog itself — full technical detail, current state, always up to date — lives in
 `docs/PORTING_PLAN.md` section 4. This document is just the connective tissue between the

@@ -1,7 +1,7 @@
 # 12. Worked example: decoding the `.RFM` header body with no Ghidra at all
 
 Every worked example so far started with an anchor in the code and worked outward through
-decompiled C. This one didn't touch Ghidra once. [Document 7](07-next-steps.md) itself
+decompiled C. This one didn't touch Ghidra once. [The next-steps doc](NEXT_STEPS.md) itself
 suggested exactly this approach for this specific item — "pick one unidentified offset, and
 try correlating its value against something observable... across all 204 files" — and it
 turned out to be enough on its own.

@@ -83,6 +83,6 @@ that survives.
 
 These aren't abstract good-engineering advice bolted on after the fact — every one of them
 is here because *not* following it cost real time on this specific project. Read
-[document 7](07-next-steps.md) next for the current backlog, and keep these five in mind
+[the next-steps doc](NEXT_STEPS.md) next for the current backlog, and keep these five in mind
 while working through it — the next wrong turn will look exactly as plausible as this one
 did.
