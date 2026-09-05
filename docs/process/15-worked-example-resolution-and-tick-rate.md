@@ -1,5 +1,10 @@
 # 15. Worked example: the native resolution, and a tick rate that resists being found
 
+*Update (2026-09-05): the tick rate half of this document, including its own postscript,
+is now resolved — there isn't one, and a blocking `Flip()` call is the real pacing
+mechanism. See [document 18](18-worked-example-vtable-flip.md) for how it was finally
+found; the trace below is still the accurate account of how the search got that far.*
+
 Two backlog items were bundled together from the start — "native framebuffer dimensions and
 the fixed sim tick rate" — because they sound like they'd be found the same way: trace the
 window/surface setup, trace the main loop, done. One of them was that easy. The other one

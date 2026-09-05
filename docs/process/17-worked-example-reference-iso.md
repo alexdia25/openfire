@@ -91,4 +91,6 @@ sitting in the plan since very early in this project; it took under five minutes
 inspection to find out it was never true.
 
 **Next:** whichever of plan section 4's open items gets picked up next — including, now,
-the 3DO expansion (item 7) as a real option rather than a hypothetical future goal.
+the 3DO expansion (item 6) as a real option rather than a hypothetical future goal. Next up:
+[finding a COM vtable call with no symbol to search for](18-worked-example-vtable-flip.md),
+closing out the fixed-sim-tick-rate question this document's own section left open.

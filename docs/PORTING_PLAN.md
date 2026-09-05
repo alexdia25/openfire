@@ -41,7 +41,7 @@ Target features that justify the rebuild (a DirectDraw wrapper cannot give these
   netcode design that isn't quietly assuming 2 participants (section 3 Phase 5), and (c) a
   decision for the original's own maps, which have nowhere for a 3rd/4th spawn to come from —
   either synthesize extra spawns algorithmically or scope 4-player to custom/replacement maps
-  (section 2.4) where the map author places all 4 explicitly. See section 4 item 8.
+  (section 2.4) where the map author places all 4 explicitly. See section 4 item 7.
 
 The web target is not a "someday maybe" — it constrains the language the simulation is
 written in, the rendering backend, the netplay transport, and the pack format. See
@@ -673,7 +673,7 @@ from. **The engine itself must never require a mounted CD** — the music/video 
 accepts ripped tracks as ordinary file-based pack inputs; see section 2.4.3 item 11 for the
 hard requirement this becomes.
 
-### 1.9 Native framebuffer resolution — SOLVED (2026-09-06); fixed sim tick rate — STILL OPEN
+### 1.9 Native framebuffer resolution — SOLVED (2026-09-06); fixed sim tick rate — SOLVED (2026-09-05)
 
 **Resolution: 320x240.** The game window's client size comes from two globals
 (`DAT_00448d50`/`DAT_00448d54`) that `AdjustWindowRect` turns into the actual `CreateWindowExA`
@@ -721,8 +721,68 @@ are now ruled out; the remaining candidate is a blocking `IDirectDrawSurface::Fl
 wait) as the actual pacing mechanism, which — being a COM vtable call, not a named import —
 needs a different search technique (find the `Flip` vtable-offset call the same way section
 1.9's own `Lock()` call was identified by its vtable offset, then check the call site once a
-level is actually running, not during the title sequence). Left open at this narrower,
-more specific point rather than chased further this session.
+level is actually running, not during the title sequence).
+
+**Update (2026-09-05): found, and this is the pacing mechanism.** COM vtable calls have no
+symbol and no fixed target address, so neither `FindSymbol.java` nor `FindDataXrefs.java`
+can find them — a new script, `FindVtableCall.java`, scans every instruction in the binary
+for an indirect `CALL [reg + <offset>]` at a given vtable slot byte offset instead.
+`IDirectDrawSurface`'s vtable (DirectDraw 1, matching this game's `DirectDrawCreate`-only
+import — no `DirectDrawCreateEx`/`IDirectDrawSurface7`) puts `Flip` at slot 11 (offset
+`0x2c`; `QueryInterface`/`AddRef`/`Release` take slots 0-2, then `AddAttachedSurface`
+through `EnumOverlayZOrders` take 3-10). Running it against offset `0x2c` turns up exactly
+one real hit, `FUN_004300e0`:
+
+```c
+piVar2 = (int *)(**(code **)(*DAT_00448d28 + 0x2c))(DAT_00448d28,0,1);
+if (piVar2 == (int *)0x887601c2) {       // DDERR_SURFACELOST
+    FUN_00420ff0();                       // Restore()
+    piVar2 = (int *)(**(code **)(*DAT_00448d28 + 0x2c))(DAT_00448d28,0,1);
+}
+```
+
+This is an exact signature match for `Flip(LPDIRECTDRAWSURFACE lpSurfaceTargetOverride,
+DWORD dwFlags)` called as `Flip(NULL, DDFLIP_WAIT)`, retried once after a `Restore()` if the
+surface was lost — a check that only makes sense for `Flip`. The same function's other two
+branches (offsets `0x14` and `0x1c` on the same `DAT_00448d28` surface pointer) are equally
+exact matches for `Blt` and `BltFast` by parameter count and shape, cross-confirming the
+vtable-offset table itself. `FUN_004300e0` is the game's one screen-present routine, chosen
+per-branch on a display-mode global (`DAT_00448d5c`): **fullscreen modes call the blocking
+`Flip(NULL, DDFLIP_WAIT)`**; **windowed modes call `Blt`/`BltFast`** into a rect computed via
+`GetClientRect`/`ClientToScreen` instead (no wait flag — a plain copy).
+
+`FindCallers.java` on `FUN_004300e0` closes the loop: one of its callers is `FUN_004312c0` —
+the exact per-idle-iteration function section 1.9 already traced from `WinMain`'s message
+loop — and it calls `FUN_004300e0(0)` **unconditionally, every single iteration**, right
+after (not gated by) the now-identified boot-slideshow dispatch:
+
+```c
+void FUN_004312c0(void) {
+  if (DAT_0044e0d0 != 0) {
+    if (*(int *)PTR_PTR_0044e27c != 0) { /* slideshow state-machine step, see above */ }
+    FUN_004300e0(0);   // present -- Flip() if fullscreen, Blt/BltFast if windowed
+  }
+}
+```
+
+**Conclusion: there is no fixed-Hz simulation tick anywhere in this code, and there was
+never going to be one to find.** The main loop runs every idle slice it gets and hands each
+stage real elapsed milliseconds (consistent with everything traced earlier: no `Sleep()`,
+no `WM_TIMER`/`SetTimer`, no fixed-`delta` accumulator). In **fullscreen** display modes,
+the loop's own rate is instead governed by the **blocking `Flip(NULL, DDFLIP_WAIT)`
+call** — classic exclusive-mode DirectDraw hardware page-flipping does not return until the
+next vertical retrace, so the loop is implicitly capped to the display refresh rate (60Hz on
+a stock 1996 CRT, not a portable constant) purely as a side effect of how the frame gets
+presented, not because any code counts ticks. In **windowed** modes the presentation path
+(`Blt`/`BltFast`) has no such wait, so windowed play is uncapped by this mechanism —
+consistent with `WaitMessage()` being the loop's only other wait, and that's gated on the
+window losing foreground focus, not framerate. **Port implication:** do not look for a
+"native Hz" to replicate — there isn't one. Godot's own fixed `_physics_process` tick (see
+section 2.1's determinism rules) is a deliberate design choice for this port, not a
+recovered original value; pick a rate for gameplay determinism (e.g. 60Hz) rather than
+trying to match "the game's real tick rate," because the original's own effective rate was
+just whatever the display's refresh rate happened to be while running fullscreen, and
+uncapped while windowed.
 
 ### 1.10 Object rendering is real perspective-projected 3D, not 2D sprite-pivot rotation — SOLVED (2026-09-06)
 
@@ -891,7 +951,7 @@ targeting it from day one avoids discovering late that an effect does not surviv
   the original's subtle depth-skew look. Pick one before building the vehicle-rendering step
   (Phase 4 step 2) — retrofitting later means redoing every vehicle's rendering path.
 - Split-screen: one `SubViewport` per player inside `SubViewportContainer`s. The original
-  only ever needs 2 (section 0's 4-player goal, section 4 item 8); design the
+  only ever needs 2 (section 0's 4-player goal, section 4 item 7); design the
   `SubViewportContainer` grid to scale to 4 from the start (e.g. a 2x2 grid that collapses to
   a 1x2 split for 2 players) rather than hardcoding a 2-way layout and retrofitting later.
 - Palette: bake to RGBA8 at conversion time, or keep indexed and apply the palette in a
@@ -1295,7 +1355,7 @@ Deferred until the simulation is complete and provably deterministic.
 3. Lockstep with input delay first — simple and sufficient to start with, and it works
    over all three transports. Lockstep itself generalizes to 4 participants without a
    redesign; just don't let the session/handshake code (or the split-screen viewport count,
-   section 2.2) quietly assume exactly 2 (section 0's 4-player goal, section 4 item 8).
+   section 2.2) quietly assume exactly 2 (section 0's 4-player goal, section 4 item 7).
 4. Rollback (GGPO-style) only if input latency proves unacceptable.
 5. Pack id + version in the session handshake (section 2.4.3 item 8).
 
@@ -1352,16 +1412,7 @@ Web checklist:
    `FUN_0042dd90`, which does directional-sprite-frame selection off a heading angle and
    indexes the same `ART.CAR` CCB array, but that trace didn't reach a team/owner field).
    Blocks section 2.4.3.
-6. **The fixed sim tick rate** (section 1.9) — resolution itself is solved (320x240), but
-   whether there's a classic fixed-Hz simulation quantum is still open. `PTR_PTR_0044e27c`'s
-   state-machine table, the trace's first destination, is **ruled out (2026-09-06)**: all 3
-   of its known table addresses dump to boot-time logo/slideshow functions (bitmap names +
-   fade-timing triples), not gameplay. `SetTimer` also has zero references anywhere in the
-   binary, ruling out a `WM_TIMER`-based tick too. Next hop: find the actual
-   `IDirectDrawSurface::Flip` vtable call site (same technique as finding `Lock()` by its
-   vtable offset, section 1.9) and check whether it blocks for vsync during real gameplay —
-   that's the remaining candidate pacing mechanism.
-7. **3DO support: base game + "Maps o' Death" expansion extraction** (section 1.11, new
+6. **3DO support: base game + "Maps o' Death" expansion extraction** (section 1.11, new
    2026-09-05; scope widened 2026-09-05) — a whole new goal, not a single question, and
    deliberately scoped to cover **both** 3DO discs together rather than the expansion
    alone, since the user wants the base 3DO original supported too (its disc image is
@@ -1374,7 +1425,7 @@ Web checklist:
    documented elsewhere in this file. Whatever reader/format work happens here should be
    written generically enough to also read the base game disc once it arrives, since both
    are the same platform and (almost certainly) the same asset formats.
-8. **4-player support** (section 0, new 2026-09-05) — a whole new goal, not a single
+7. **4-player support** (section 0, new 2026-09-05) — a whole new goal, not a single
    question: the original engine is 2-player only, so there's no decompiled logic to trace
    here, just a design decision to make and thread through. Every real `.RFM` file defines
    exactly one team-0 and one team-1 spawn (section 1.5) and nothing else, so the original's
@@ -1388,6 +1439,19 @@ Web checklist:
    4 participants from the start rather than retrofitted from a 2-player assumption.
 
 **RESOLVED:**
+- **The fixed sim tick rate** — **section 1.9** (2026-09-05). There isn't one, and there was
+  never going to be one to find: `FindVtableCall.java` (new script — COM vtable calls have no
+  symbol to search for) located the `IDirectDrawSurface::Flip` call at vtable offset `0x2c`
+  in `FUN_004300e0`, the game's one screen-present routine, called unconditionally every
+  iteration by `FUN_004312c0` (already known from the `WinMain` idle-loop trace). Fullscreen
+  display modes call the blocking `Flip(NULL, DDFLIP_WAIT)`, which doesn't return until the
+  next vertical retrace — so the loop's effective rate in fullscreen is just "whatever the
+  display's refresh rate is," a side effect of presentation, not a counted tick. Windowed
+  modes present via `Blt`/`BltFast` instead, with no wait, so windowed play isn't rate-limited
+  by this mechanism at all. Combined with the earlier no-`Sleep()` and no-`SetTimer` results,
+  all three classic pacing mechanisms are now accounted for, and none of them is a fixed-Hz
+  quantum. Port implication: pick a physics tick rate for Godot's own determinism needs
+  (section 2.1); there is no "real" original rate to match.
 - **The "missing `.avi` cutscenes"** — **section 1.11** (2026-09-05). There never was
   cutscene video to find: the reference retail ISO's `Title/*.stm` files, the obvious
   candidate, all open with the same `auds` AVIFile fourCC as `Score.WAV` (section 1.8) —

@@ -74,6 +74,12 @@ them in order for the first time: narrative, worked examples, real commands you 
     expansion-pack disc image quietly disproves a guess that had been sitting in the plan
     since section 1.2 (the "missing `.avi` cutscenes" are actually more streamed audio) and
     opens a genuinely new goal (3DO "Maps o' Death" extraction).
+18. [**Worked example: finding a COM vtable call with no symbol to search for**](18-worked-example-vtable-flip.md) —
+    closes out document 15's tick-rate loose end: `Sleep()` and `SetTimer` were both ruled
+    out by name, but the last candidate, `IDirectDrawSurface::Flip`, has no name to search
+    for at all. A new script hunts vtable calls by slot offset instead, finds the game's one
+    present routine, and shows there's no fixed tick — a blocking `Flip()` paces fullscreen
+    play on vsync, and windowed play isn't paced by this mechanism at all.
 
 ## The one rule that overrides everything else here
 

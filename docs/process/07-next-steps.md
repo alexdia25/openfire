@@ -16,6 +16,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Native resolution** (320x240) — [document 15](15-worked-example-resolution-and-tick-rate.md); plan section 1.9.
 - **"Implicit sprite pivots"** (there isn't one — real 3D projection) — [document 16](16-worked-example-3d-projection.md); plan section 1.10.
 - **The "missing `.avi` cutscenes"** (there weren't any — more streamed audio) — [document 17](17-worked-example-reference-iso.md); plan section 1.11.
+- **The fixed sim tick rate** (there isn't one — a blocking `Flip()` paces fullscreen play instead) — [document 18](18-worked-example-vtable-flip.md); plan section 1.9.
 
 ## Still open
 
@@ -23,9 +24,8 @@ See plan section 4 for the current, precise state of each — this list is just 
 
 - What ends a match (section 4, item 1)
 - Team colouring mechanism (section 4, item 3)
-- The fixed sim tick rate (section 4, item 6)
-- 3DO support: base game + "Maps o' Death" expansion — new goal, not yet started (section 4, item 7)
-- 4-player support — new goal, not yet started (section 4, item 8)
+- 3DO support: base game + "Maps o' Death" expansion — new goal, not yet started (section 4, item 6)
+- 4-player support — new goal, not yet started (section 4, item 7)
 
 ## If you want to try one of these yourself
 
@@ -59,4 +59,5 @@ then [catching a wrong guess by finally rendering it](13-worked-example-reticle-
 then [is the music CD audio or a WAV file? (Both.)](14-worked-example-music-mechanism.md),
 then [the native resolution, and a tick rate that resists being found](15-worked-example-resolution-and-tick-rate.md),
 then [there's no sprite pivot, because it's not 2D](16-worked-example-3d-projection.md),
-and finally [reference discs arrive, and a stale guess gets corrected for free](17-worked-example-reference-iso.md).
+then [reference discs arrive, and a stale guess gets corrected for free](17-worked-example-reference-iso.md),
+and finally [finding a COM vtable call with no symbol to search for](18-worked-example-vtable-flip.md).
