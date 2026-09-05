@@ -109,4 +109,5 @@ timestamps and short text fields in particular tend to have a very recognizable 
 single line of the loader that wrote them. Reach for the disassembler when the meaning is
 opaque from the bytes alone; reach for a histogram first when it might not be.
 
-**Next:** back to [document 7](07-next-steps.md) for the current backlog.
+**Next:** [Worked example: catching a wrong guess by finally rendering it](13-worked-example-reticle-not-swatch.md) —
+back to `ART.CAR`, this time retracting a guess instead of decoding a new field.

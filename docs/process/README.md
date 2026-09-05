@@ -50,6 +50,10 @@ them in order for the first time: narrative, worked examples, real commands you 
     a pure byte-variance correlation across all 204 real files finds a timestamp pair and
     the actual level designers' names, still sitting in the shipped data. No disassembler
     needed, by design this time rather than luck.
+13. [**Worked example: catching a wrong guess by finally rendering it**](13-worked-example-reticle-not-swatch.md) —
+    document 9's "team-colour swatch" guess, retracted: the 4 cels turn out to be a
+    target-lock reticle. A disproof that cost one crop of already-generated converter
+    output, not a new investigation.
 
 ## The one rule that overrides everything else here
 

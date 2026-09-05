@@ -1,5 +1,10 @@
 # 9. Worked example: the exact tint colour of `ART.CAR`'s effect masks
 
+*Update (2026-09-06): the "colour swatch for team or UI accents" guess below, about the 4
+`PRE0==17` cels, turned out to be wrong — rendering them showed a target-lock reticle, not a
+swatch. See [document 13](13-worked-example-reticle-not-swatch.md) for the correction; the
+text below is left as it was written, as part of the story of how that guess arose.*
+
 [Document 5](05-worked-example-art-car.md) solved the *shape* of `ART.CAR`'s 93
 `PRE0 != 0` cels — coverage masks for a background-recolour blend effect — but left one
 thing open: the actual on-screen colour, since the 4 shared translation tables the real

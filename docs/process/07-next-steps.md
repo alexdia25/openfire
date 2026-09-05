@@ -70,16 +70,28 @@ from document 4 (the real field starts at `0x17`). Both fields are now in
 [document 12](12-worked-example-header-body.md); ground truth: `docs/PORTING_PLAN.md`
 section 1.5.
 
+## RULED OUT (not solved): the "team-colour swatch" lead
+
+Document 9's guess about the 4 `PRE0==17` cels — that their odd, saturated own-palette look
+might be an unused team-colour swatch — turned out to be wrong once actually rendered: they're
+a 16x16 concentric-ring target-lock reticle (purple/black/yellow rings, one inner ring
+recoloured per cel), not a swatch. `FindConstant.java` also found no literal code reference to
+any of their 4 cel indices, so there's no easy follow-up trail from this lead specifically.
+Full account: [document 13](13-worked-example-reticle-not-swatch.md); ground truth:
+`docs/PORTING_PLAN.md` section 1.6.
+
 ## What's next, roughly in priority order (see the plan for full detail)
 
 - **What ends a match?** (see above) — still open. A better next anchor is needed; possibly
   a separate score/objective variable rather than anything touching the target pools.
-- **Team colouring mechanism:** how are the two teams visually distinguished? Document 9
-  found a real lead here — the same `GetNearestPaletteIndex`-built translation-table
-  infrastructure used for effect-mask tinting is a plausible mechanism, and the 4
-  `PRE0==17` sprites' odd, saturated-colour-swatch look is a suggestive but unconfirmed
-  hint. Neither has been checked against actual vehicle-rendering code yet — that's the
-  next hop, likely starting from wherever a vehicle's CCB gets queued for drawing.
+- **Team colouring mechanism:** how are the two teams visually distinguished? Back to fully
+  open with no lead (see above) — the old `PRE0==17` lead is retracted. The
+  `GetNearestPaletteIndex`-built translation-table infrastructure (document 9) is still a
+  plausible mechanism in the abstract, but nothing ties it to team colouring specifically
+  anymore. The next hop is to find wherever a vehicle's CCB gets queued for drawing and check
+  what, if anything, varies it by team/owner — `FUN_0042dd90` (a heading-angle-based
+  directional-sprite-frame selector found while chasing this) is a plausible place to start
+  reading outward from, since it already indexes the same `ART.CAR` CCB array per-object.
 - Framebuffer dimensions, the fixed simulation tick rate, implicit sprite pivots, whether
   music is Redbook CD audio or a local `.wav` fallback — all listed with more context in
   plan section 4.
@@ -112,6 +124,8 @@ directly, and it's why this is realistically approachable to keep doing yourself
 then [the exact tint colour of `ART.CAR`'s effect masks](09-worked-example-effect-tint-colour.md),
 then [what the `>>1` computation actually does](10-worked-example-target-respawn.md),
 then [confirming a dead end fast by rereading work already on hand](11-worked-example-edtn-chunk.md),
-and finally [decoding the `.RFM` header body with no Ghidra at all](12-worked-example-header-body.md) —
-five more items off this backlog, covering everything from a big investigation down to one
-that cost nothing but a `grep`, and one that never touched a disassembler by design.
+then [decoding the `.RFM` header body with no Ghidra at all](12-worked-example-header-body.md),
+and finally [catching a wrong guess by finally rendering it](13-worked-example-reticle-not-swatch.md) —
+six more items off this backlog, covering everything from a big investigation down to one
+that cost nothing but a `grep`, one that never touched a disassembler by design, and one that
+retracted an earlier guess instead of confirming it.

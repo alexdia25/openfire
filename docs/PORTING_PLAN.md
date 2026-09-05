@@ -507,11 +507,22 @@ these are vehicle/structure drop shadows.
 embedded PLUT (`*(CCB+0xc)`), no background blending, standard index-0-transparent
 convention. Structurally this is an ordinary sprite. This also resolves the "3 distinct
 PLUTPtr values" detail noted below: the two oddball PLUTs (`0x28AD0`, `0x28AE0`, 2 cels
-each) belong exactly to these 4 cels. Rendered through their own palette, all 4 are fully
-opaque 16x16 blocks of a handful of highly saturated, unrelated-looking colours — visually
-more like a colour swatch than in-world art (an unconfirmed lead worth keeping in mind for
-the team-colouring question below, but no code path referencing these 4 specific cels has
-been traced, so it's a guess, not a finding).
+each) belong exactly to these 4 cels.
+
+**RULED OUT (2026-09-06): these are not a team-colour swatch.** An earlier pass here
+speculated, from the byte data alone, that these 4 opaque own-palette cels might be an
+unused colour-swatch hinting at team colouring. Rendering and cropping them (cel indices
+1969-1972, `art_atlas.png`) shows otherwise: each is a 16x16 concentric-ring bullseye
+(purple outer ring, black, then a yellow ring, with the innermost ring/dot in a distinct
+colour per cel — red, blue, purple-red, blue-black) — visually a pulsing target-lock
+reticle, not a palette reference. This is exactly the "render it and look" rule from
+section 5 catching a guess that the byte statistics alone couldn't rule out.
+`FindConstant.java` confirmed no code anywhere references cel index 1969, 1970, 1971, 1972,
+or `0x44`-scaled CCB byte offset 1969*0x44 as a literal operand — whatever selects one of
+these 4 per frame does so with a computed index (an animation-frame counter, most likely),
+not a hardcoded per-frame call site, so this specific lead has no further code trail to
+follow without a lot more searching. Team colouring itself remains fully open — see
+section 4.
 
 Full per-`PRE0` writeup and the mask-value verification data live in
 `tools/rf_effect_cel.py`'s module docstring.
@@ -1082,13 +1093,21 @@ Web checklist:
    (`01 01`) — confirmed constant across all 204 real files, exact meaning still a guess
    (section 1.5). Very low priority.
 4. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
-5. **How is team colouring done?** Palette ranges or separate cels? A strong, still-
-   unconfirmed lead now exists (section 1.6): the same `GetNearestPaletteIndex`-built
-   masked-translation-table infrastructure used for effect-mask tinting is a very plausible
-   mechanism for this too, and the 4 `PRE0==17` cels' own-palette swatches (visually a
-   handful of unrelated saturated colours, not coherent art) are a suggestive but unproven
-   lead. Neither has been confirmed by tracing actual vehicle-rendering code. Blocks section
-   2.4.3.
+5. **How is team colouring done?** Palette ranges or separate cels? Still fully open. The
+   "4 `PRE0==17` cels are a team-colour swatch" lead from section 1.6 is now **RULED OUT
+   (2026-09-06)**: rendered and eyeballed (per section 5's own rule — never trust code
+   alone), the 4 cels are visibly a 16x16 concentric-ring bullseye (purple/black/yellow, one
+   ring recoloured red/blue per cel) — a target-lock reticle, not a colour swatch. `FindConstant.java`
+   found no literal reference anywhere in the binary to any of their 4 cel indices (1969-1972)
+   or the equivalent CCB byte offset, consistent with an animated HUD overlay whose frame
+   index is computed at runtime rather than hardcoded per-frame. The
+   `GetNearestPaletteIndex`-built masked-translation-table infrastructure (section 1.6) is
+   still a plausible *mechanism* for team colouring, but there is no lead left pointing at
+   *where* it's invoked for that purpose — needs a fresh anchor, most likely starting from
+   wherever a vehicle's CCB is queued for the frame (candidate entry points seen so far:
+   `FUN_0042dd90`, which does directional-sprite-frame selection off a heading angle and
+   indexes the same `ART.CAR` CCB array, but that trace didn't reach a team/owner field).
+   Blocks section 2.4.3.
 6. Is music Redbook CD audio (`mciSendCommandA`) or `SOUND/DRUMS.WAV`?
 7. Native framebuffer dimensions and the fixed sim tick rate.
 8. Implicit sprite pivots in the original cels — needed for the registry.
