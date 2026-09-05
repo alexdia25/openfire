@@ -80,7 +80,9 @@ Version string: `Return Fire Ver. G406.1.0.00 Win95 x86 - Windows 95 DirectX Gam
 - **Video:** `AVIFIL32` + `MSVFW32` (`ICOpen` / `ICSendMessage`). **The `.avi` files were
   removed from this install.** Playback code is still in the binary but there is no media.
   Cutscenes need recovering from the original CD; transcode offline to Ogg Theora/WebM.
-  The dead VfW codec problem never has to be solved.
+  The dead VfW codec problem never has to be solved. Same CD-independence requirement as
+  music (section 1.8, section 2.4.3 item 11): ship the transcoded file as a normal pack
+  asset, never require the disc at runtime.
 - No `DPLAY` import → original networking is serial / split-screen, not DirectPlay.
 
 ### 1.3 `.RFA` art files — SOLVED, converter written and run
@@ -652,7 +654,9 @@ this install has neither real CD audio nor a real `Score.WAV`, the actual soundt
 itself cannot be recovered from these files; it would need sourcing from the original CD (see
 section 1.2's identical caveat for the `.avi` cutscenes). The *mechanism* (per-track
 start/end table driving either backend) is fully understood and portable regardless of where
-the audio content ultimately comes from.
+the audio content ultimately comes from. **The engine itself must never require a mounted
+CD** — the music/video importer accepts ripped tracks and transcoded cutscenes as ordinary
+file-based pack inputs; see section 2.4.3 item 11 for the hard requirement this becomes.
 
 ### 1.9 Native framebuffer resolution — SOLVED (2026-09-06); fixed sim tick rate — STILL OPEN
 
@@ -917,6 +921,15 @@ will be impossible later:
 10. **No pack may require a native dependency.** Formats must be ones Godot can load in a
     web build (PNG, Ogg, JSON). No pack-supplied executables, shaders outside WebGL2, or
     platform-specific codecs.
+11. **CD independence.** The original needs a physical/virtual Redbook audio CD for music
+    and ships `.avi` cutscenes separately (section 1.2, section 1.8) — the engine must
+    never require either at runtime. The music/video importer must accept **files** (ripped
+    audio tracks as WAV/OGG, transcoded cutscenes as WebM/Theora) sourced from the user's own
+    copy of the game — CD, ISO, or digital release — as a first-class pack input, exactly
+    like every other asset type. A user who owns the game but doesn't want to keep a disc
+    mounted must have a fully working, file-based pack. (The user has a CD ISO to hand over
+    for reference once available — section 1.8's own missing `Score.WAV`/`.avi` content in
+    this install can likely be filled in from it once ripped.)
 
 #### 2.4.4 Authoring aids to ship
 
