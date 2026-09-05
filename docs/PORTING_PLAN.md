@@ -340,7 +340,9 @@ offset ...        cel pixel data, addressed by each CCB's SourcePtr
   At `0x282CC`: `00 00 00 00 | FF FF FF 00 | 57 85 B5 00 | ...` → entry 0 black, entry 1
   white, entry 2 = RGB(0xB5, 0x85, 0x57). Read as `b, g, r, pad`. 256 entries.
 - **Three distinct `PLUTPtr` values: `0x282CC` (2161 cels), `0x28AD0` (2), `0x28AE0` (2).**
-  *CORRECTION: an earlier draft listed `0x28B10` / `0x28B20`. Those were wrong.*
+  *CORRECTION: an earlier draft listed `0x28B10` / `0x28B20`. Those were wrong.* **RESOLVED
+  (2026-09-05):** the two oddball PLUTs belong exactly to the 4 `PRE0==17` cels (see below) —
+  each is a genuine small embedded palette for an ordinary sprite, not an anomaly.
 - **Two distinct `Flags` values: `0x7FE64400` (1847 cels) and `0x7FE64420` (318 cels).**
   They differ only in bit `0x20`. **RESOLVED:** this is the real 3DO `CCB_BGND` flag
   (confirmed against `trapexit/3doplay`'s `Madam.cpp` — see section 4). It gates whether
@@ -358,25 +360,25 @@ against `RFIRE.BIN`'s actual renderer via Ghidra and the real mechanism is diffe
 once understood, fully explains every piece of prior evidence (the tiny byte counts, the
 confirmed row-offset table, and why the literal-opcode decode attempt produced noise).
 
-**What they actually are:** not sprites at all. They are **coverage masks for a masked
-palette-translation blend effect** — shadows, scorch marks, structure-footprint shading,
-radar/sonar-sweep rings, explosion starbursts, targeting reticles, and similar VFX/UI
-overlays. The mask says *where* to draw; the colour comes from remapping whatever pixel is
-**already on screen underneath**, `dest[x,y] = TransTable[dest[x,y]]`, not from any colour
-stored in the cel. This was traced end-to-end through the real per-frame cel dispatcher and
-validated by decoding real cels and rendering the masks: they come out as clean, obviously
-intentional shapes (a blob/splat silhouette, a notched rectangular block, concentric
-crosshair rings, triangular wedges) — see the screenshot sent alongside this update; not
-noise, and not something excerpted from copyrighted sprite art since no colour data is
-being reproduced, only a coverage silhouette.
+**What they actually are:** 89 of the 93 are not sprites at all. They are **coverage masks
+for a masked palette-translation blend effect** — shadows, colour tints, glow gradients, and
+similar VFX overlays (the exact tint mechanism, including which are shadows vs. colour tints
+vs. glows, is now fully solved — see below). The mask says *where* to draw; the colour comes
+from remapping whatever pixel is **already on screen underneath**, `dest[x,y] =
+TransTable[dest[x,y]]` (or, for 11 of them, a per-pixel-varying row of a 2D table — see
+below), not from any colour stored in the cel. This was traced end-to-end through the real
+per-frame cel dispatcher and validated by decoding real cels and rendering the masks: they
+come out as clean, obviously intentional shapes (a blob/splat silhouette, a notched
+rectangular block), not noise, and not something excerpted from copyrighted sprite art since
+no colour data is being reproduced, only a coverage silhouette. **The remaining 4 (`PRE0==17`)
+are not masks at all — they're ordinary sprites with their own embedded palette** (see below).
 
-Full technical writeup, including the two mask encodings (`MASK_FAMILY_LINEAR`: plain
-`Width*Height` byte array, 0/nonzero; `MASK_FAMILY_SPAN`, `PRE0==13` only: the *same*
-row-offset table this investigation had already found, now with its real meaning — each
-row's data is a list of `(x0, x1)` span pairs proportionally scaled from a stored 0-255
-range, terminated by a pair whose first byte is 0, not a bit-packed opcode stream) and
-which of 4 shared runtime-built translation tables (or, for `PRE0==17`, the cel's own PLUT)
-each `PRE0` value uses, lives in `tools/rf_effect_cel.py`'s module docstring. Decoded and
+Full technical writeup, including the two mask *shape* encodings (`MASK_FAMILY_LINEAR`: plain
+`Width*Height` byte array; `MASK_FAMILY_SPAN`, `PRE0==13` only: the *same* row-offset table
+this investigation had already found, now with its real meaning — each row's data is a list
+of `(x0, x1)` span pairs proportionally scaled from a stored 0-255 range, terminated by a
+pair whose first byte is 0, not a bit-packed opcode stream) and the exact tint mechanism for
+each `PRE0` value, lives in `tools/rf_effect_cel.py`'s module docstring. Decoded and
 cross-checked against **all 93 real cels with zero exceptions** (`tools/rf_effect_cel.py`
 run standalone, and via `tools/convert_car.py`).
 
@@ -388,24 +390,66 @@ Traced via the render-submission queue (`FUN_00413c90` queues a raw CCB copy; th
 flushed once full or once per frame by `FUN_0041d510` → `FUN_00436fd0` → an indirect call
 through `PTR_FUN_00449390`, statically pointing at `FUN_00418ef0`) down through the
 mask-blit routines: `FUN_00419920`/`FUN_00419af0` (linear-mask family, `PRE0` 1/2 and
-3/4/5 respectively) and `FUN_004109a0` (span-mask family, `PRE0==13`, the majority — 46 of
-93). All three read the mask and write `dest = TransTable[dest]` for covered pixels; none
-of them touch a "colour" byte from the cel at all. The 4 shared translation tables
-(`DAT_0046a8f0`/`aa08`/`aa0c`/`aa14`) live in runtime BSS (all-zero in the static binary —
-not file data) and are built by `FUN_00424420`, which tries to load `Art\Trans.tbl`
-(`0x14004` bytes, first byte a version tag) and falls back to generating one if missing —
-not traced further, so **this converter can reproduce the mask/shape of these effects but
-not yet their exact runtime colour.**
+3/4/5 respectively), `FUN_004109a0` (span-mask family, `PRE0==13`, the majority — 46 of
+93), and `FUN_00419ea0` (`PRE0==17` — see below, not actually a mask). None of the mask
+routines touch a "colour" byte from the cel at all; they read the mask and recolour
+whatever's already on screen.
+
+**Exact runtime tint colour — SOLVED (2026-09-05).** The 4 shared translation tables
+(`DAT_0046a8f0`/`aa08`/`aa0c`/`aa14`) live in runtime BSS (all-zero in the static binary,
+not file data) and are built by `FUN_00424420` (tries `Art\Trans.tbl` first, `0x14004`
+bytes; falls back to generating one if missing). Decompiling that fallback-generation path
+in full explains exactly what each table is:
+
+- A 256-colour "master palette" is realized as a real `HPALETTE` from a block of raw bytes
+  sitting `0x400` bytes past cel 0's own PLUT in `ART.CAR` — the file embeds a ready-made
+  palette for exactly this purpose.
+- `DAT_0046aa0c`: a full 256x256-byte table, `aa0c[i*256+j] = GetNearestPaletteIndex(master,
+  average(pal[i], pal[j]))` for every pair of palette entries — a general "tint toward
+  colour `i`" table for any background colour `j`.
+- `DAT_0046aa20`: a 32x256-byte "darken" table, 32 brightness levels from ~97% down to 0%.
+- `DAT_0046aa14`: a 32x256-byte "brighten" table, 32 levels of `+3` to `+96` per channel
+  (clamped).
+- `DAT_0046a8f0`/`DAT_0046aa08` are not separate tables — they are fixed **rows 4 and 2** of
+  the darken table (~84%/~91% brightness), kept as named pointers because they're the two
+  constant shadow strengths the game actually uses.
+
+Cross-checking each mask family's real per-pixel formula against the real mask *byte
+values* (not just their code, per section 5's standing rule) revealed a refinement: for
+`PRE0` 1/2 the mask is genuinely binary coverage (real bytes are exactly `{0,11}` and
+`{0,243}` respectively) feeding a flat `dest=table[dest]`; but for `PRE0` 3/4/5,
+`FUN_00419af0` computes `dest = table[mask_value*256 + dest]` — **the mask's raw byte value
+selects which row of the 2D table to use, i.e. it is not a coverage flag at all, it encodes
+a per-pixel tint colour (`PRE0` 3/4, 8-10 distinct real values per cel) or brightness level
+(`PRE0` 5, 16-25 distinct real values, a genuine glow gradient).** `PRE0==13` uses the same
+flat formula as 1/2 with the same table (row 4) — explaining why it's the majority (46/93):
+these are vehicle/structure drop shadows.
+
+**`PRE0==17` turned out not to be a mask at all.** `FUN_00419ea0` does a plain
+`dest = OwnPLUT[mask_value]` — a direct indexed-colour lookup through the *cel's own*
+embedded PLUT (`*(CCB+0xc)`), no background blending, standard index-0-transparent
+convention. Structurally this is an ordinary sprite. This also resolves the "3 distinct
+PLUTPtr values" detail noted below: the two oddball PLUTs (`0x28AD0`, `0x28AE0`, 2 cels
+each) belong exactly to these 4 cels. Rendered through their own palette, all 4 are fully
+opaque 16x16 blocks of a handful of highly saturated, unrelated-looking colours — visually
+more like a colour swatch than in-world art (an unconfirmed lead worth keeping in mind for
+the team-colouring question below, but no code path referencing these 4 specific cels has
+been traced, so it's a guess, not a finding).
+
+Full per-`PRE0` writeup and the mask-value verification data live in
+`tools/rf_effect_cel.py`'s module docstring.
 
 **Consequence for the converter:** `tools/convert_car.py` now extracts all 2165 cels
-correctly — the 2072 `PRE0==0` cels as real sprite art into `art_atlas.png` (unchanged),
-and the 93 `PRE0!=0` cels as coverage masks into a separate `art_effects.png` +
-`art_atlas.json` (`"kind": "effect_mask"`, tagged with which of the 4 blend tables or "own
-PLUT" it nominally uses). **There is no more missing/unrecovered sprite art in `ART.CAR` —
-the earlier "96% of cels" framing was wrong in the other direction: 100% of cels are now
-correctly classified and extracted as either sprite or effect-mask.** Reproducing the exact
-runtime tint of the effect masks (finding/decompiling the `Trans.tbl` build or load path)
-is a real remaining task but a cosmetic, lower-priority one — see section 4.
+correctly — 2076 real sprites (the 2072 `PRE0==0` cels, plus the 4 `PRE0==17` cels, now
+correctly reclassified) into `art_atlas.png`, and the 89 genuine coverage-mask cels
+(`PRE0` in `{1,2,3,5,13}`) into a separate `art_effects.png` + `art_atlas.json`
+(`"kind": "effect_mask"`, tagged with which table it uses; `PRE0` 3/4/5 masks now preserve
+their real per-pixel byte value instead of being collapsed to 0/255, per the refinement
+above). **There is no more missing/unrecovered sprite art in `ART.CAR`, and the exact
+runtime tint mechanism for every effect mask is now fully understood** — reproducing it in
+Godot is a shader/lookup-table implementation task, not an open RE question, though the
+*visual* result still won't be pixel-identical without also porting the palette-matching
+step (`GetNearestPaletteIndex` against the game's own realized palette).
 
 `tools/rfcel.py` (the old literal-opcode decoder) is kept in the repo as a marked-superseded
 investigative record rather than deleted, per section 5's standing lesson below, which this
@@ -732,14 +776,16 @@ simulations — another reason the integer rule in section 2.1 is absolute.
 handles 4bpp and non-256 palettes.
 
 **1c. `ART.CAR` → atlas + manifest — DONE for all 2165 cels.** `tools/convert_car.py`.
-2072 unpacked (`PRE0==0`) cels packed into a 2048x2048 atlas + `art_atlas.json`; output
-visually verified as correct sprite art. **The remaining 93 (`PRE0 != 0`) are not
-sprites — decompiling the real renderer in Ghidra (Phase 2) confirmed they are coverage
-masks for a masked palette-translation blend effect** (radar/sonar rings, explosion
-starbursts, targeting wedges, shadows), extracted separately into `art_effects.png`
+2076 unpacked cels (the 2072 with `PRE0==0`, plus 4 with `PRE0==17` that looked like masks
+at first but turned out to be ordinary sprites with their own embedded palette) packed into
+a 2048x2048 atlas + `art_atlas.json`; output visually verified as correct sprite art. **The
+remaining 89 (`PRE0` in `{1,2,3,5,13}`) are not sprites — decompiling the real renderer in
+Ghidra (Phase 2) confirmed they are coverage masks for a masked palette-translation blend
+effect** (colour tints, glow gradients, shadows — the exact tint mechanism for each is now
+fully understood, section 1.6), extracted separately into `art_effects.png`
 (`tools/rf_effect_cel.py`, replacing the earlier `tools/rfcel.py` guess, which rendered as
 noise and was correctly rejected rather than shipped — see section 1.6 for the full
-correction). Cross-checked against all 93 real cels with zero exceptions.
+correction). Cross-checked against all 93 real non-zero-`PRE0` cels with zero exceptions.
 
 **1d. `.RFM` → tilemap + entity JSON — DONE.** `tools/convert_rfm.py`. 204/204 real files
 converted with zero failures. Per level, emits `<name>.json` (chunk metadata, resolved
@@ -945,31 +991,41 @@ Web checklist:
 
 ## 4. Open questions
 
-1. The exact runtime colour of `ART.CAR`'s 93 effect-mask cels (section 1.6) — the mask
-   *shape* is fully solved, but reproducing the on-screen tint requires finding/decompiling
-   how `FUN_00424420` builds or loads the 4 shared translation tables (tries `Art\Trans.tbl`
-   first, falls back to generating one — neither path traced). Cosmetic, low priority: a
-   placeholder tint (e.g. plain white/team-colour alpha blend) is a reasonable stand-in
-   until this is chased.
-2. The still-undecoded `.RFM` header body, offsets `0x04`-`0x3F` (minus width/height/
+1. The still-undecoded `.RFM` header body, offsets `0x04`-`0x3F` (minus width/height/
    mode-byte, which are known — section 1.5).
-3. The `>>1` "half the candidate-pool count" computation right after the random
+2. The `>>1` "half the candidate-pool count" computation right after the random
    building/target pick in `FUN_00414130` — possibly a win-condition threshold (section 1.5).
-4. The `EDTN` chunk tag (section 1.5) — present in every file, 4-byte payload, not decoded.
+3. The `EDTN` chunk tag (section 1.5) — present in every file, 4-byte payload, not decoded.
    Low priority: `tools/convert_rfm.py` round-trips it without understanding it.
-5. The coastal table's (`0x00447038`) `+9` "height_seed" byte and the runtime tile value's
+4. The coastal table's (`0x00447038`) `+9` "height_seed" byte and the runtime tile value's
    orientation (bits 14-15) / elevation-ish (bits 25-27) fields set by `FUN_0042e4f0` —
    dumped but not chased; likely physics/movement, not rendering (section 1.5).
-6. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
-7. Are the 3 `ART.CAR` PLUTs meaningfully different, or near-duplicates?
-8. **How is team colouring done?** Palette ranges or separate cels — plausibly the SAME
-   masked-translation-table mechanism as question 1 above, now that that mechanism is
-   known to exist; worth checking together. Blocks section 2.4.3.
-9. Is music Redbook CD audio (`mciSendCommandA`) or `SOUND/DRUMS.WAV`?
-10. Native framebuffer dimensions and the fixed sim tick rate.
-11. Implicit sprite pivots in the original cels — needed for the registry.
+5. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
+6. **How is team colouring done?** Palette ranges or separate cels? A strong, still-
+   unconfirmed lead now exists (section 1.6): the same `GetNearestPaletteIndex`-built
+   masked-translation-table infrastructure used for effect-mask tinting is a very plausible
+   mechanism for this too, and the 4 `PRE0==17` cels' own-palette swatches (visually a
+   handful of unrelated saturated colours, not coherent art) are a suggestive but unproven
+   lead. Neither has been confirmed by tracing actual vehicle-rendering code. Blocks section
+   2.4.3.
+7. Is music Redbook CD audio (`mciSendCommandA`) or `SOUND/DRUMS.WAV`?
+8. Native framebuffer dimensions and the fixed sim tick rate.
+9. Implicit sprite pivots in the original cels — needed for the registry.
 
 **RESOLVED:**
+- **Exact runtime tint colour of `ART.CAR`'s effect-mask cels** — **section 1.6**. Fully
+  traced: what the 4 shared translation tables contain and how `FUN_00424420` builds them
+  (a `GetNearestPaletteIndex`-driven average-blend table, a 32-level darken table, a 32-level
+  brighten table, and 2 fixed rows of the darken table used as constant shadow strengths),
+  and the exact per-`PRE0` formula each of the 3 mask-blit routines uses — including the
+  refinement that `PRE0` 3/4/5's mask byte VALUE (not just coverage) selects a tint colour
+  or brightness level, confirmed against real mask data. Also discovered along the way:
+  `PRE0==17` is not a mask at all, just an ordinary sprite with its own embedded palette —
+  `tools/convert_car.py` now extracts it as a real sprite, resolving the "3 distinct PLUTs"
+  detail below as a side effect.
+- Are the 3 `ART.CAR` PLUTs meaningfully different? **Yes, and now explained** — 2 of the 3
+  belong exclusively to the 4 `PRE0==17` sprites (section 1.6), not a near-duplicate or
+  anomaly.
 - **Mapping `.RFM` art ids to `ART.CAR` cels** — **section 1.7**. There is no mapping table:
   `ART.CAR`'s CCB array is loaded into memory verbatim and indexed directly by art id
   (`art_id * sizeof(CCB)`), confirmed by decompiling the real per-frame terrain blitter

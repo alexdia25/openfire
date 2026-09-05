@@ -10,16 +10,23 @@ ART.CAR is a 3DO Cel Control Block array, flattened for the PC port:
     <dataoff> u32[count][2]  purpose unknown, values mostly 5
     ...       PLUT palettes, then cel pixel data addressed by SourcePtr
 
-Most cels (2072 of 2165) are 8bpp unpacked linear: exactly Width*Height bytes
-at SourcePtr, PRE0 == 0 -- these are real sprite art and go into art_atlas.png.
-The remaining 93 have PRE0 != 0 and are NOT sprites at all: they are coverage
-masks for a masked palette-translation blend effect (shadow/scorch/glow-style
-compositing that recolours whatever's already on screen underneath, rather
-than drawing stored colour) -- see rf_effect_cel.py for the full writeup of
-how this was confirmed from RFIRE.BIN's real renderer via Ghidra. Their masks
-are extracted into a separate small atlas, art_effects.png / .json, since
-they don't belong in the sprite atlas and Godot-side code needs to treat
-them as a blend effect, not a normal texture.
+Most cels (2076 of 2165: the 2072 with PRE0 == 0, plus 4 with PRE0 == 17) are
+8bpp unpacked linear: exactly Width*Height bytes at SourcePtr -- these are
+real sprite art and go into art_atlas.png. PRE0 == 17 looks like a mask at
+first glance (nonzero PRE0) but isn't one: RFIRE.BIN's own blit routine for
+it (FUN_00419ea0) does a plain `dest = OwnPLUT[pixel]` indexed-colour lookup
+with no background blending, i.e. an ordinary sprite draw -- it just happens
+to use its own small embedded PLUT rather than the shared one (this is why
+2 of ART.CAR's 3 distinct PLUTPtr values only ever appear on these 4 cels).
+The remaining 89 have PRE0 in {1,2,3,5,13} and are NOT sprites: they are
+coverage masks for a masked palette-translation blend effect (shadow/glow-
+style compositing that recolours whatever's already on screen underneath,
+rather than drawing stored colour) -- see rf_effect_cel.py for the full
+writeup of how this was confirmed from RFIRE.BIN's real renderer via Ghidra,
+including exactly what each of the shared translation tables contains. Their
+masks are extracted into a separate small atlas, art_effects.png / .json,
+since they don't belong in the sprite atlas and Godot-side code needs to
+treat them as a blend effect, not a normal texture.
 PLUTs are Windows RGBQUAD (B, G, R, pad) -- NOT 3DO RGB555.
 
 Usage:
@@ -33,8 +40,13 @@ import os
 import struct
 import sys
 
-from rf_effect_cel import EffectCelError, decode_effect_mask
+from rf_effect_cel import EffectCelError, decode_effect_mask, MASK_FAMILY_LINEAR, MASK_FAMILY_SPAN
 from rfpng import write_png_rgba
+
+# The real coverage-mask PRE0 values (not sprites). PRE0 == 17 is deliberately
+# excluded -- despite having a nonzero PRE0, it's an ordinary indexed sprite
+# using its own embedded PLUT, not a mask (see rf_effect_cel.py docstring).
+EFFECT_MASK_PRE0 = MASK_FAMILY_LINEAR | MASK_FAMILY_SPAN
 
 CCB_SIZE = 68
 CCB_FIELDS = (
@@ -111,11 +123,16 @@ def main():
         vals = struct.unpack_from("<17I", data, 16 + n * CCB_SIZE)
         cels.append(dict(zip(CCB_FIELDS, vals)))
 
-    effect_count = sum(1 for c in cels if c["PRE0"] != 0)
+    effect_count = sum(1 for c in cels if c["PRE0"] in EFFECT_MASK_PRE0)
+    own_plut_sprite_count = sum(1 for c in cels if c["PRE0"] == 17)
     if effect_count:
-        print("   %d cels are PRE0 != 0 -- these are blend-effect masks, not sprite "
-              "art (see rf_effect_cel.py). Extracted separately to art_effects.png / "
-              ".json, excluded from the sprite atlas." % effect_count)
+        print("   %d cels are blend-effect masks, not sprite art (PRE0 in %s -- see "
+              "rf_effect_cel.py). Extracted separately to art_effects.png / .json, "
+              "excluded from the sprite atlas." % (effect_count, sorted(EFFECT_MASK_PRE0)))
+    if own_plut_sprite_count:
+        print("   %d cels have PRE0 == 17 -- despite the nonzero PRE0 these are "
+              "ordinary sprites using their own embedded PLUT, not masks (see "
+              "rf_effect_cel.py). Decoded through the normal sprite path." % own_plut_sprite_count)
 
     # ---- palettes ---------------------------------------------------------
     plut_offsets = sorted({c["PLUTPtr"] for c in cels})
@@ -141,7 +158,7 @@ def main():
             skipped.append(n)
             continue
 
-        if c["PRE0"] != 0:
+        if c["PRE0"] in EFFECT_MASK_PRE0:
             # Not sprite art -- a blend-effect mask. Extracted separately below
             # into art_effects.png, never placed in the sprite atlas.
             try:
@@ -153,6 +170,8 @@ def main():
                 effect_failed.append((n, str(e)))
             continue
 
+        # PRE0 == 0 (the vast majority) or PRE0 == 17 (own-PLUT sprites, see
+        # module docstring) -- both are ordinary Width*Height indexed sprites.
         if src + w * h > len(data):
             skipped.append(n)
             continue

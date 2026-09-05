@@ -124,6 +124,10 @@ either sprite or effect-mask, cross-checked with zero exceptions.
 
 ## What's still open
 
+*(Update: the tint colour question below was solved after this document was first written —
+see [document 9](09-worked-example-effect-tint-colour.md). Left as originally written here,
+since the gap between "shape solved" and "colour solved" is itself part of the story.)*
+
 The mask *shape* is fully solved; the exact on-screen *tint colour* isn't. The four shared
 translation tables live in the running program's zeroed memory (BSS) — they don't exist as
 static file data — and get filled in at startup by `FUN_00424420`, which tries to load

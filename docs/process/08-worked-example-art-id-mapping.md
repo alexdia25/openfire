@@ -124,5 +124,5 @@ data structure inherited from a previous investigation rather than a fresh strin
 try the real code first** — it's not always slower than guessing, and when it works, there's
 nothing left to double-check afterward the way a statistical guess would need.
 
-**Next:** back to [document 7](07-next-steps.md) for what's left on the backlog now that
-this item is closed.
+**Next:** [Worked example: the exact tint colour of `ART.CAR`'s effect masks](09-worked-example-effect-tint-colour.md) —
+another item off the same backlog, solved the same way.

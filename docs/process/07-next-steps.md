@@ -17,11 +17,20 @@ route reached an exact answer faster than the empirical guess would have. Full w
 [document 8](08-worked-example-art-id-mapping.md); ground truth: `docs/PORTING_PLAN.md`
 section 1.7.
 
+## DONE: effect-mask tint colour
+
+[Document 5](05-worked-example-art-car.md)'s own open item. Solved: `FUN_00424420`'s
+`Art\Trans.tbl` fallback-generation path fully decompiled, revealing exactly what each of
+the 4 shared translation tables contains and how the 3 mask-blit routines use them — plus a
+refinement (some masks' byte *value*, not just coverage, selects a tint colour or brightness
+level) caught only by checking real mask bytes, not just the code. Along the way, found that
+one of the 93 "mask" cels (`PRE0==17`, 4 cels) isn't a mask at all — it's an ordinary sprite
+with its own embedded palette, now extracted as such. Full writeup:
+[document 9](09-worked-example-effect-tint-colour.md); ground truth: `docs/PORTING_PLAN.md`
+section 1.6.
+
 ## What's next, roughly in priority order (see the plan for full detail)
 
-- **Effect-mask tint colour** ([document 5](05-worked-example-art-car.md)'s open item):
-  decompile `FUN_00424420`'s `Art\Trans.tbl` load-or-generate path. Cosmetic — a placeholder
-  tint works fine until this is done.
 - **`.RFM` header body, offsets `0x04`-`0x3F`:** most fields here are still unidentified
   besides width/height/mode-byte. Likely more per-level gameplay metadata. Good first
   independent exercise: pick one unidentified offset, and try correlating its value against
@@ -30,9 +39,12 @@ section 1.7.
 - **The `>>1` "half the pool count" computation** right after the random building/target
   pick in the level loader — likely a win-condition threshold ("destroy half the spawned
   targets"). Worth chasing by decompiling a little further from where document 4 left off.
-- **Team colouring mechanism:** how are the two teams visually distinguished? Plausibly the
-  *same* masked-palette-translation mechanism document 5 found for effect masks — worth
-  checking that hypothesis first, since the machinery to test it already exists.
+- **Team colouring mechanism:** how are the two teams visually distinguished? Document 9
+  found a real lead here — the same `GetNearestPaletteIndex`-built translation-table
+  infrastructure used for effect-mask tinting is a plausible mechanism, and the 4
+  `PRE0==17` sprites' odd, saturated-colour-swatch look is a suggestive but unconfirmed
+  hint. Neither has been checked against actual vehicle-rendering code yet — that's the
+  next hop, likely starting from wherever a vehicle's CCB gets queued for drawing.
 - **`EDTN` chunk meaning** — a 4-byte value present in every `.RFM` file, not yet decoded.
   Low priority; the converter already round-trips it without understanding it.
 - Framebuffer dimensions, the fixed simulation tick rate, implicit sprite pivots, whether
@@ -41,7 +53,7 @@ section 1.7.
 
 ## If you want to try one of these yourself
 
-The shape is always the same, and it's the same shape as documents 4, 5, and 8:
+The shape is always the same, and it's the same shape as documents 4, 5, 8, and 9:
 
 1. Pick one item above (or from the plan's section 4).
 2. Find an anchor — a string, an API call, or a data structure already known to be nearby
@@ -60,5 +72,6 @@ cross-checking it against real files*, not fighting with raw disassembly. That's
 deliberate consequence of using Ghidra's decompiler rather than working from assembly
 directly, and it's why this is realistically approachable to keep doing yourself.
 
-**Next:** [Worked example: mapping `.RFM` art ids to `ART.CAR` cels](08-worked-example-art-id-mapping.md) —
-this backlog's own top item, solved, as a third full run through the recipe above.
+**Next:** [Worked example: mapping `.RFM` art ids to `ART.CAR` cels](08-worked-example-art-id-mapping.md),
+then [Worked example: the exact tint colour of `ART.CAR`'s effect masks](09-worked-example-effect-tint-colour.md) —
+this backlog's own top two items, both solved, as two more full runs through the recipe above.

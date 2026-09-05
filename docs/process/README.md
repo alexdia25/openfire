@@ -35,6 +35,10 @@ them in order for the first time: narrative, worked examples, real commands you 
    the backlog's top item from document 7, solved: the recipe applied a third time, this
    time chaining two data-structure traces straight to an exact answer with no guessing
    needed.
+9. [**Worked example: the exact tint colour of `ART.CAR`'s effect masks**](09-worked-example-effect-tint-colour.md) —
+   document 5's own loose end, solved: reading a fallback-generation algorithm in full,
+   catching a real refinement by checking mask bytes against real data instead of trusting
+   the code alone, and discovering one of the 93 "masks" wasn't a mask at all.
 
 ## The one rule that overrides everything else here
 
