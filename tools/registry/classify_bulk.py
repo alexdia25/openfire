@@ -464,6 +464,59 @@ seq([2157, 2160], "prop.icon_small.{n:02d}", "prop")
 seq([2159], "prop.rocket_small.01", "prop")
 
 
+# ---- correction: team colour is tan/green, not tan/cyan (2026-09-06) ------------
+# The user, who owns and has played the original, said the two player colours are
+# tan and green. Checked against pixel data rather than taken on faith: every cel
+# in three large, independent families (character.trooper_run, 44/44;
+# character.trooper_head.rotation.teal(+teal_alt), 22/22; vehicle.hovercraft.rotation.cyan,
+# 9/9; plus prop.stalk_orb.rotation.cyan and prop.sentry_turret.teal) is green-dominant
+# by mean pixel colour (g > b in every single one, checked, not assumed) -- these were
+# mislabeled "blue"/"cyan"/"teal" by an earlier colour heuristic that only compared b
+# against r and never checked g at all. Renaming the ID text to match; category and
+# index assignments are unchanged, this is a label fix, not a reclassification.
+#
+# Separately, the specific hull-ICON pieces at cels 173/178/193/198 (batch 3, tagged
+# with a "possible team-colour lead" note) really are blue-dominant (b > g, checked) --
+# unlike everything above, that finding does NOT match "tan and green" and is walked
+# back below: still real duplicate-coloured art, just not evidence for the confirmed
+# team-colour pair. Left as "cyan" since that's what they actually are; the note is
+# corrected to stop calling them a team-colour lead.
+with open(REGISTRY_JSON) as _f:
+    _reg_for_fix = json.load(_f)
+
+_GREEN_RENAMES = {
+    "character.trooper_run.blue.": "character.trooper_run.green.",
+    "character.trooper_head.rotation.teal_alt.": "character.trooper_head.rotation.green_alt.",
+    "character.trooper_head.rotation.teal.": "character.trooper_head.rotation.green.",
+    "vehicle.hovercraft.rotation.cyan.": "vehicle.hovercraft.rotation.green.",
+    "prop.stalk_orb.rotation.cyan.": "prop.stalk_orb.rotation.green.",
+    "prop.sentry_turret.teal.": "prop.sentry_turret.green.",
+    "decoration.foliage.bush_blue.": "decoration.foliage.bush_green.",
+}
+for _idx_str, _entry in _reg_for_fix["cels"].items():
+    for _old_prefix, _new_prefix in _GREEN_RENAMES.items():
+        if _entry["id"].startswith(_old_prefix):
+            _new_id = _new_prefix + _entry["id"][len(_old_prefix):]
+            put(int(_idx_str), _new_id, _entry["category"], _entry.get("note"), _entry["confidence"])
+            break
+
+_TEAM_COLOUR_NOTE_FIX = ("blue-dominant hull/cab icon (checked: b > g), NOT part of the confirmed "
+                          "tan/green team-colour pair (section 4 item 5, 2026-09-06) -- an earlier note "
+                          "here called this a team-colour lead; that's now walked back since it doesn't "
+                          "match the confirmed pair. Real duplicate-coloured art, purpose unconfirmed.")
+for _idx in [173, 178, 193, 198]:
+    _old = _reg_for_fix["cels"][str(_idx)]
+    put(_idx, _old["id"], _old["category"], _TEAM_COLOUR_NOTE_FIX, _old["confidence"])
+
+# A handful of individual mislabels caught while spot-checking the above (wrong colour
+# bucket entirely, not the green/blue confusion) -- fixed here since they were found:
+put(168, "vehicle.hovercraft.hull.02", "vehicle", "dark blue-grey pillar (corrected from a wrong 'dark-red' read)")
+put(384, "structure.bunker.tan.49", "structure", "tan/brown wall (corrected: was miscategorised into the teal list)")
+put(301, "vehicle.cart.red.01", "vehicle", "solid red cart (corrected: was miscategorised as cyan)")
+put(608, "prop.panel_solid.red.01", "prop", "solid red panel (corrected: was miscategorised as cyan)")
+put(585, "prop.hook_pipe.red.01", "prop", "red/orange curved shape (corrected: was miscategorised as cyan)")
+
+
 def main():
     with open(REGISTRY_JSON) as f:
         registry = json.load(f)
