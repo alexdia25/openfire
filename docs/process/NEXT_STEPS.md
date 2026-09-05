@@ -26,21 +26,24 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **The "missing `.avi` cutscenes"** (there weren't any — more streamed audio) — [document 17](17-worked-example-reference-iso.md); plan section 1.11.
 - **The fixed sim tick rate** (there isn't one — a blocking `Flip()` paces fullscreen play instead) — [document 18](18-worked-example-vtable-flip.md); plan section 1.9.
 - **The asset ID registry** — all 2165 `ART.CAR` cels classified, coarse precision by design for most of them — [document 19](19-worked-example-asset-registry.md); plan section 2.4.1.
+- **Team colours are tan and green** (user-confirmed, cross-checked against art across three independent cel families) — plan section 4, item 5.
+- **The pack emitter + Phase 4 step 1** — a real level renders in Godot through a real content pack, verified with a screenshot — plan sections 2.4.2 and 3 (Phase 4 step 1).
 
 ## Still open
 
 See plan section 4 for the current, precise state of each — this list is just pointers:
 
 - What ends a match (section 4, item 1)
-- Team colouring mechanism — now has a real lead (tan/cyan duplicate hovercraft art), not traced through code yet (section 4, item 5)
+- Team-colouring *mechanism* (separate cels vs. palette swap) — the colours themselves are settled, see above (section 4, item 5)
 - 3DO support: base game + "Maps o' Death" expansion — new goal, **deprioritized** until the core PC-port game runs (section 4, item 6)
 - 4-player support — new goal, not yet started (section 4, item 7)
 - Custom Godot UI for menus/level-select/etc — new goal, not yet started (section 4, item 8)
 - Possible on-foot infantry / rescue mechanic — new, unconfirmed, found while classifying the asset registry (section 4, item 9)
 
-**Current priority (2026-09-06):** the asset ID registry (plan section 2.4.1) is done — every
-`ART.CAR` cel has a semantic ID. The next real blocker is building Phase 4's actual
-terrain/sprite renderer against it; nothing above blocks starting that.
+**Current priority (2026-09-06):** the asset ID registry, the pack emitter, and Phase 4 step 1
+(load a pack, render a real level's terrain + spawn/candidate markers) are all done — the
+game renders its first real content. Next real blocker: Phase 4 step 2, one
+player-controlled vehicle with authentic movement.
 
 ## If you want to try one of these yourself
 
