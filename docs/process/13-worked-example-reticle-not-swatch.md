@@ -79,5 +79,5 @@ Ghidra call, just a `PIL.Image.crop` on a file the project had already produced.
 isn't "always render everything before writing anything down" — it's "an *unconfirmed* label
 is not a substitute for actually confirming it the first chance that's cheap to take."
 
-**Next:** back to [document 7](07-next-steps.md) for the current backlog — team colouring is
-now open again with no lead, alongside what ends a match.
+**Next:** [Worked example: is the music CD audio or a WAV file? (Both.)](14-worked-example-music-mechanism.md) —
+a cleaner win, and a second guess (this time about a *filename*) that turns out wrong too.

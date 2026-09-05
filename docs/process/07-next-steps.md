@@ -70,6 +70,17 @@ from document 4 (the real field starts at `0x17`). Both fields are now in
 [document 12](12-worked-example-header-body.md); ground truth: `docs/PORTING_PLAN.md`
 section 1.5.
 
+## DONE: how music playback actually works
+
+Traced every caller of `mciSendCommandA` and found the whole mechanism in one pass: an MCI
+`cdaudio` device plays Redbook track frame-ranges when a real audio CD is present, and falls
+back to streaming `SOUND\Score.WAV` (via the AVIFile streaming API, reusing the same
+per-track boundary table as byte offsets) when it isn't. The backlog's own guess about which
+WAV file is the fallback was wrong — it's not `DRUMS.WAV`, which `FindBytes.java` confirmed
+is never referenced by the binary at all. Full writeup:
+[document 14](14-worked-example-music-mechanism.md); ground truth: `docs/PORTING_PLAN.md`
+section 1.8.
+
 ## RULED OUT (not solved): the "team-colour swatch" lead
 
 Document 9's guess about the 4 `PRE0==17` cels — that their odd, saturated own-palette look
@@ -92,9 +103,8 @@ Full account: [document 13](13-worked-example-reticle-not-swatch.md); ground tru
   what, if anything, varies it by team/owner — `FUN_0042dd90` (a heading-angle-based
   directional-sprite-frame selector found while chasing this) is a plausible place to start
   reading outward from, since it already indexes the same `ART.CAR` CCB array per-object.
-- Framebuffer dimensions, the fixed simulation tick rate, implicit sprite pivots, whether
-  music is Redbook CD audio or a local `.wav` fallback — all listed with more context in
-  plan section 4.
+- Framebuffer dimensions, the fixed simulation tick rate, and implicit sprite pivots — all
+  listed with more context in plan section 4.
 
 ## If you want to try one of these yourself
 
@@ -125,7 +135,8 @@ then [the exact tint colour of `ART.CAR`'s effect masks](09-worked-example-effec
 then [what the `>>1` computation actually does](10-worked-example-target-respawn.md),
 then [confirming a dead end fast by rereading work already on hand](11-worked-example-edtn-chunk.md),
 then [decoding the `.RFM` header body with no Ghidra at all](12-worked-example-header-body.md),
-and finally [catching a wrong guess by finally rendering it](13-worked-example-reticle-not-swatch.md) —
-six more items off this backlog, covering everything from a big investigation down to one
-that cost nothing but a `grep`, one that never touched a disassembler by design, and one that
+then [catching a wrong guess by finally rendering it](13-worked-example-reticle-not-swatch.md),
+and finally [is the music CD audio or a WAV file? (Both.)](14-worked-example-music-mechanism.md) —
+seven more items off this backlog, covering everything from a big investigation down to one
+that cost nothing but a `grep`, one that never touched a disassembler by design, and two that
 retracted an earlier guess instead of confirming it.

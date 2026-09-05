@@ -54,6 +54,10 @@ them in order for the first time: narrative, worked examples, real commands you 
     document 9's "team-colour swatch" guess, retracted: the 4 cels turn out to be a
     target-lock reticle. A disproof that cost one crop of already-generated converter
     output, not a new investigation.
+14. [**Worked example: is the music CD audio or a WAV file? (Both.)**](14-worked-example-music-mechanism.md) —
+    tracing every caller of `mciSendCommandA` finds a CD-audio path and a WAV-streaming
+    fallback sharing one per-track table, and along the way disproves the obvious guess
+    about *which* WAV file (it's not `DRUMS.WAV`).
 
 ## The one rule that overrides everything else here
 

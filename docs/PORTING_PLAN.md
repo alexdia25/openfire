@@ -71,8 +71,9 @@ Version string: `Return Fire Ver. G406.1.0.00 Win95 x86 - Windows 95 DirectX Gam
   → A **pure software rasterizer** writing a palettized buffer and blitting once per
   frame. No 3D pipeline, no Glide, no D3D immediate mode to translate.
 - **Audio:** `DSOUND.dll` → `DirectSoundCreate`.
-- **CD audio:** `WINMM` `mciSendCommandA` → Redbook music. (`SOUND/DRUMS.WAV`, 2.8 MB,
-  may be the local fallback. Confirm during RE.)
+- **CD audio:** `WINMM` `mciSendCommandA` → Redbook music, **with a `SOUND/Score.WAV`
+  streaming fallback when no CD device is open (SOLVED, section 1.8) — `DRUMS.WAV` is
+  unrelated, never referenced by the binary at all.**
 - **Input:** `WINMM` `joyGetNumDevs`, `joyGetDevCapsA`, `joyGetPos`, `joyGetPosEx`
   (legacy joystick API); `USER32` `GetKeyboardState`.
 - **Timing:** `timeGetTime`, `GetTickCount`.
@@ -601,6 +602,58 @@ in that pattern (`16x16`, a different sprite category) — every art id any real
 `f(x) = x`. Phase 4's terrain renderer should draw `art_atlas.json.cels[art_grid[i]]` for
 each `.art.bin` cell directly, with no intermediate table to build or maintain.
 
+### 1.8 Music playback: Redbook CD audio primary, `SOUND/Score.WAV` streaming fallback — SOLVED (2026-09-06)
+
+Section 1.2 flagged this as unconfirmed: `WINMM.mciSendCommandA` is imported (suggesting
+Redbook CD audio) and a 2.8 MB `SOUND/DRUMS.WAV` exists on disk (suggesting a local
+fallback), but which one is actually music was never traced. Tracing every caller of the
+`mciSendCommandA` import (`FindDataXrefs.java` on its IAT slot, `0048e804`) answers it
+directly, and **DRUMS.WAV turns out to have nothing to do with it.**
+
+**The mechanism is a single set of functions that plays either an MCI `cdaudio` device or a
+locally-streamed WAV file through the same per-track offset table**, selected by whether an
+MCI device handle (`DAT_0044145c`) is open:
+
+- `FUN_004051c0(hwnd, track)` — "start track `track`." If `DAT_0044145c != 0` (a CD device is
+  open), it calls `mciSendCommandA(DAT_0044145c, 0x806 /*MCI_PLAY*/, 0xc /*MCI_FROM|MCI_TO*/,
+  &args)` with a from/to frame range read out of a 44-byte-stride per-track table
+  (`DAT_004463d0`/`3d4`/`3d8`, indexed `track * 0x2c`) — i.e. it plays a specific track of a
+  physical Redbook audio CD by frame range, the standard MCI `cdaudio` idiom. If
+  `DAT_0044145c == 0` (no CD device), it instead calls `FUN_00403ef0`, which opens
+  **`SOUND\Score.WAV`** (not `DRUMS.WAV`) through the **AVIFile streaming API**
+  (`AVIStreamOpenFromFileA(..., 0x73647561 /* 'auds', the AVI audio-stream fourCC */, ...)`
+  — Windows' AVI file handler transparently accepts a plain RIFF/WAV file here) and reads the
+  *same* 44-byte-stride table's fields as **byte offsets into that one file** instead of CD
+  frames. One track-boundary table, two playback backends.
+- `FUN_00405360`/`FUN_004055d0` — stop/close: `mciSendCommandA(handle, 0x808 /*MCI_STOP*/,
+  ...)` then `0x804 /*MCI_CLOSE*/`.
+- `FUN_00405480` — a background thread that polls `mciSendCommandA(handle, 0x814
+  /*MCI_STATUS*/, 0x100, &status)` every 200 ms; when the device reports stopped, it advances
+  to the next track (`FUN_0040f600`) or, on the WAV path, calls `FUN_00403ac0` to keep
+  streaming.
+- `FUN_00405180` (called once at startup, `FUN_0041a400`) is a pure existence check —
+  `OpenFile("SOUND\Score.WAV", ...)` then immediately closes it — and disables music
+  entirely (clears both `DAT_0044145c` and the "music available" flag `DAT_00443008`) if the
+  file is missing. It does **not** open the MCI `cdaudio` device itself; that happens
+  earlier, elsewhere in startup, gated on whatever detects a real audio CD in the drive
+  (not traced further — not needed to answer the question asked).
+
+**`DRUMS.WAV` is unrelated to music.** `FindBytes.java` searched the entire binary for the
+literal bytes `DRUM` and found zero hits — the game never references that filename by any
+string, anywhere. Whatever `DRUMS.WAV` is for (a cut feature, a different build, sound
+design scratch), it isn't loaded by `RFIRE.BIN`. This install's actual `SOUND\Score.WAV` is a
+20-byte stub, not real audio data — consistent with the `.avi` cutscenes also being missing
+from this install (section 1.2): the big copyrighted media assets were stripped from this
+particular copy, while the small `.SDT`/`.RFM`/`ART.CAR` data files survived intact.
+
+**Consequence:** a faithful port needs to reproduce a Redbook-CD-first, streamed-WAV-fallback
+music system with a shared per-track boundary table — not just "load and loop an mp3." Since
+this install has neither real CD audio nor a real `Score.WAV`, the actual soundtrack content
+itself cannot be recovered from these files; it would need sourcing from the original CD (see
+section 1.2's identical caveat for the `.avi` cutscenes). The *mechanism* (per-track
+start/end table driving either backend) is fully understood and portable regardless of where
+the audio content ultimately comes from.
+
 ---
 
 ## 2. Architecture decisions (decide once, up front)
@@ -1108,11 +1161,16 @@ Web checklist:
    `FUN_0042dd90`, which does directional-sprite-frame selection off a heading angle and
    indexes the same `ART.CAR` CCB array, but that trace didn't reach a team/owner field).
    Blocks section 2.4.3.
-6. Is music Redbook CD audio (`mciSendCommandA`) or `SOUND/DRUMS.WAV`?
-7. Native framebuffer dimensions and the fixed sim tick rate.
-8. Implicit sprite pivots in the original cels — needed for the registry.
+6. Native framebuffer dimensions and the fixed sim tick rate.
+7. Implicit sprite pivots in the original cels — needed for the registry.
 
 **RESOLVED:**
+- **Music playback mechanism** — **section 1.8** (2026-09-06). Both, not either/or: an MCI
+  `cdaudio` device (`mciSendCommandA`) plays specific Redbook track frame-ranges when a real
+  audio CD is present, falling back to streaming `SOUND\Score.WAV` (via the AVIFile
+  streaming API, not raw waveOut) through the *same* per-track boundary table when it isn't.
+  `SOUND/DRUMS.WAV` — the file this question used to name as the likely fallback — turned out
+  to be a red herring: `FindBytes.java` found the string `DRUM` nowhere in the binary at all.
 - **The `.RFM` header body, offsets `0x0E`-`0x25`** — **section 1.5**. A DOS-format
   created/modified timestamp pair (`0x0E`-`0x15`) and a 15-byte null-padded level
   author/designer name field (`0x17`-`0x25`, defaulting to `"Unknown"`), found purely
