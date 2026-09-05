@@ -1497,6 +1497,25 @@ Keep each step playable, and load everything through the pack layer from step 1:
    palette fix made the shape unambiguous, replacing an earlier looser "hovercraft" guess).
    Verified with a debug input-override hook (`RF_DEBUG_DRIVE`, off by default) plus a
    screenshot showing real position and heading change over 90 frames, not just "no errors."
+
+   **Fixed (2026-09-06): a real mirroring bug the user caught ("the sprite looks very wrong
+   after moving").** The 4-quadrant mirror scheme in `_frame_for_heading()` paired flips
+   inconsistently — the base quadrant flipped vertically when it shouldn't have, and the
+   270°-360° quadrant didn't flip at all when it needed to — producing a visibly wrong,
+   discontinuous sprite at every quadrant crossing. Fixed and verified across 16 headings via
+   a new `RF_DEBUG_HEADING` test hook: smooth, continuous rotation now. Tracing it also
+   surfaced why the registry still said "cyan"/"teal" for the confirmed-green families
+   (section 4 item 5) despite that being settled two sessions earlier: `classify_bulk.py`'s
+   auto-numbering re-seeded from the on-disk registry on every re-run, so each of its many
+   re-runs saw its own previous output as "already used," causing unbounded drift (one family
+   reached `.81`-`.88` instead of `.01`-`.08`) and silently undoing an earlier post-hoc
+   "cyan → green" rename every time the script ran again. Fixed at the root (seeding now
+   excludes each call's own indices) and at the source (the `"cyan"`/`"teal"` id strings
+   themselves, not a patch after the fact) — re-running the script is now provably
+   idempotent. This also closes a latent bug that had never actually triggered:
+   `vehicle.gd` already expected a `"green"` sprite family for team 1, which would have
+   found nothing and silently failed to render, since `RFMAP001`'s only spawn is team 0.
+
    **Two things this deliberately isn't yet:**
    - **Not authentic movement.** The accel/brake/friction/turn-rate constants are reasonable
      placeholders, not traced from `RFIRE.BIN`. The `.RFM` `vehicle_params` fields
