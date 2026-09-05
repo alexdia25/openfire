@@ -29,6 +29,23 @@ since they don't belong in the sprite atlas and Godot-side code needs to
 treat them as a blend effect, not a normal texture.
 PLUTs are Windows RGBQUAD (B, G, R, pad) -- NOT 3DO RGB555.
 
+**Runtime palette offset -- CONFIRMED (2026-09-06), fixes a real colour bug.** A raw pixel
+byte is NOT a direct index into the shared PLUT table stored in the file. Traced via
+FUN_0041e960 (decompiled from RFIRE.BIN): the game's real, active DirectDraw palette
+(DAT_0045bb94, installed by FUN_0042feb0's fade routine via IDirectDrawPalette::SetEntries,
+vtable slot 0x7c) is built by zeroing all 256 entries, then copying the shared PLUT's 246
+entries starting at *slot 10*: `runtime_palette[10 + i] = shared_plut[i]`. Slots 0-9 stay
+black/reserved (standard Win95 static system-palette convention). So the colour actually
+shown for raw pixel byte `k` is `shared_plut[k - 10]` (black if `k < 10`), not `shared_plut[k]`
+as an earlier version of this converter assumed -- confirmed by rendering real terrain cels
+both ways and comparing against real screenshots (docs/process/20-worked-example-palette-
+offset.md): the un-shifted decode was a plausible-looking but washed-out/wrong-hued palette
+that happened to still produce a valid image (nothing crashed or looked like noise, which is
+exactly why this went unnoticed through the whole asset-registry classification pass).
+This offset is specific to the *shared* PLUT (0x282CC, used by 2161 of 2165 cels) -- the 4
+`PRE0==17` own-PLUT cels use a different code path (FUN_00419ea0, a direct `OwnPLUT[pixel]`
+fetch with no evidence of a shift) and are decoded unshifted, same as before.
+
 Usage:
     python convert_car.py <returnfire_dir> <out_dir> [--atlas-width N]
                                                      [--padding N]
@@ -140,6 +157,16 @@ def main():
     print("   %d distinct PLUT(s): %s"
           % (len(plut_offsets), ", ".join("0x%X" % o for o in plut_offsets)))
 
+    # The shared PLUT (used by the vast majority of cels) needs the runtime -10
+    # index shift documented in the module docstring; the 1-2 oddball own-PLUTs
+    # (the 4 PRE0==17 cels) don't -- see FUN_00419ea0 vs FUN_0041e960.
+    plut_counts = {}
+    for c in cels:
+        plut_counts[c["PLUTPtr"]] = plut_counts.get(c["PLUTPtr"], 0) + 1
+    shared_plut_offset = max(plut_counts, key=plut_counts.get)
+    print("   shared PLUT (gets the runtime -10 shift): 0x%X (%d cels)"
+          % (shared_plut_offset, plut_counts[shared_plut_offset]))
+
     # ---- extract pixels + index-0 diagnostics -----------------------------
     # Open question from the plan: is index 0 the transparent colour? Rather
     # than assume, measure where index-0 pixels actually fall. If index 0 is
@@ -246,12 +273,16 @@ def main():
         c = cels[n]
         w, h, px = c["Width"], c["Height"], c["_pixels"]
         pal = palettes[c["PLUTPtr"]]
+        shifted = c["PLUTPtr"] == shared_plut_offset
         for row_y in range(h):
             row = px[row_y * w:(row_y + 1) * w]
             dst = ((px_y + row_y) * atlas_width + px_x) * 4
             for col_x in range(w):
                 idx = row[col_x]
-                r, g, b = pal[idx]
+                if shifted:
+                    r, g, b = pal[idx - 10] if idx >= 10 else (0, 0, 0)
+                else:
+                    r, g, b = pal[idx]
                 a = 0 if (idx == 0 and not opaque_zero) else 255
                 o = dst + col_x * 4
                 buf[o] = r

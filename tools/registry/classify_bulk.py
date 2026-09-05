@@ -517,6 +517,24 @@ put(608, "prop.panel_solid.red.01", "prop", "solid red panel (corrected: was mis
 put(585, "prop.hook_pipe.red.01", "prop", "red/orange curved shape (corrected: was miscategorised as cyan)")
 
 
+# ---- correction: palette-bug relabeling (2026-09-06) ---------------------------
+# convert_car.py had a real colour bug (see its module docstring and
+# docs/process/20-worked-example-palette-offset.md): raw pixel byte k decoded as
+# shared_plut[k] instead of shared_plut[k-10], producing plausible-looking but
+# wrong-hued output. Nothing crashed and nothing looked like noise, so the whole
+# terrain classification pass (batch 1) named a few cels by their WRONG colour.
+# Re-checked visually against the regenerated (correct) atlas; only entries whose
+# semantic meaning actually changes are touched here -- most of batch 1 (shapes,
+# autotile families) is unaffected since palette doesn't change geometry.
+put(0, "terrain.ground.water_open.01", "terrain", "was misclassified as sand under the old wrong palette; actually open water", "visual")
+put(1, "terrain.ground.water_open.02", "terrain", "was misclassified as sand under the old wrong palette; actually open water", "visual")
+put(3, "terrain.ground.water_open.03", "terrain", "was misclassified as forest under the old wrong palette; actually open water", "visual")
+put(52, "terrain.ground.water_open.04", "terrain", "was misclassified as forest under the old wrong palette; actually open water", "visual")
+for n, idx in enumerate([84, 85, 86], start=1):
+    put(idx, f"terrain.ground.wood_planks.{n:02d}", "terrain",
+        "was misclassified as green furrow/hedge under the old wrong palette; actually brown wood planks", "visual")
+
+
 def main():
     with open(REGISTRY_JSON) as f:
         registry = json.load(f)

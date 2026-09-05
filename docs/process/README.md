@@ -94,6 +94,13 @@ them in order for the first time: narrative, worked examples, real commands you 
     places a pixel-colour average beat eyeballing, and what just *looking* at every cel turned
     up: a new lead on team colouring and a possible rescue/infantry mechanic nobody had
     suspected before.
+20. [**Worked example: a wrong palette that never looked wrong enough to notice**](20-worked-example-palette-offset.md) —
+    the game's first rendered screenshot looked plausible and was still wrong: a raw pixel
+    byte needs a `-10` shift into the shared PLUT before it matches the game's real, active
+    palette, traced through a fade routine that's the only caller of `SetPalette` anywhere in
+    the binary. Caught only because the user compared it against real screenshots — internal
+    consistency checks (this project's usual habit) can't catch a bug that's wrong everywhere
+    in the same plausible way.
 
 ## The one rule that overrides everything else here
 

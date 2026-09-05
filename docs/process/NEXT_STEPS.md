@@ -28,6 +28,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **The asset ID registry** — all 2165 `ART.CAR` cels classified, coarse precision by design for most of them — [document 19](19-worked-example-asset-registry.md); plan section 2.4.1.
 - **Team colours are tan and green** (user-confirmed, cross-checked against art across three independent cel families) — plan section 4, item 5.
 - **The pack emitter + Phase 4 step 1** — a real level renders in Godot through a real content pack, verified with a screenshot — plan sections 2.4.2 and 3 (Phase 4 step 1).
+- **A real palette bug** (raw pixel byte needs a `-10` shift into the shared PLUT) — [document 20](20-worked-example-palette-offset.md); plan section 1.6.
 
 ## Still open
 
@@ -79,4 +80,5 @@ then [the native resolution, and a tick rate that resists being found](15-worked
 then [there's no sprite pivot, because it's not 2D](16-worked-example-3d-projection.md),
 then [reference discs arrive, and a stale guess gets corrected for free](17-worked-example-reference-iso.md),
 then [finding a COM vtable call with no symbol to search for](18-worked-example-vtable-flip.md),
-and finally [classifying 2165 cels without a disassembler](19-worked-example-asset-registry.md).
+then [classifying 2165 cels without a disassembler](19-worked-example-asset-registry.md),
+and finally [a wrong palette that never looked wrong enough to notice](20-worked-example-palette-offset.md).

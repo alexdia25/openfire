@@ -4,7 +4,10 @@
 (Godot project scaffold) done, 2026-09-05. Phase 4 step 1e (asset registry + pack emitter,
 section 2.4) and Phase 4 step 1 itself (a Godot scene renders a real level's terrain through
 a pack, with spawn/candidate markers) are both done as of 2026-09-06 — **the game renders its
-first real content**, verified with an actual screenshot, not just "no errors."
+first real content**, verified with an actual screenshot, not just "no errors." A real
+palette bug found the same day (section 1.6 — a raw pixel byte needs a `-10` index shift
+into the shared PLUT that every converter had missed) is fixed; art now matches real
+screenshots' colours, not just their shapes.
 **Priority as of 2026-09-05: get the core PC-port game actually running before returning to
 3DO support (section 4 item 6) or new-goal work beyond what's needed to run it** — the user
 explicitly deferred the 3DO disc work until then. Next real blocker: Phase 4 step 2 — one
@@ -444,6 +447,27 @@ offset ...        cel pixel data, addressed by each CCB's SourcePtr
 - **PLUT format is Windows `RGBQUAD` (B, G, R, pad)** — 4 bytes per entry, NOT 3DO RGB555.
   At `0x282CC`: `00 00 00 00 | FF FF FF 00 | 57 85 B5 00 | ...` → entry 0 black, entry 1
   white, entry 2 = RGB(0xB5, 0x85, 0x57). Read as `b, g, r, pad`. 256 entries.
+- **CORRECTION (2026-09-06) — a raw pixel byte is not a direct index into this table.** The
+  table itself decodes correctly (entry 2 really is `(181, 133, 87)`, confirmed against a
+  real screenshot's actual sand colour), but every converter through the whole asset-registry
+  effort (section 2.4.1) was indexing it directly, producing plausible-but-wrong-hued output
+  that nothing internal ever caught. Traced via `FUN_0041e960` (copies the shared PLUT into
+  the game's real active palette, `DAT_0045bb94`, starting at *slot 10*, slots 0-9 reserved/
+  black — a standard Win95 static-system-palette convention) and `FUN_0042feb0` (the only
+  caller of `IDirectDrawSurface::SetPalette`, a fade routine that installs `DAT_0045bb94` as
+  the real screen palette). **The colour actually shown for raw pixel byte `k` is
+  `shared_plut[k - 10]`** (black if `k < 10`), not `shared_plut[k]`. Confirmed decisively by
+  re-rendering the whole terrain block both ways and comparing against real screenshots
+  ([myabandonware.com](https://www.myabandonware.com/game/return-fire-bau), flagged by the
+  user) — full trace in `docs/process/20-worked-example-palette-offset.md`. Applies only to
+  the shared PLUT (2161 of 2165 cels); the 4 `PRE0==17` own-PLUT cels use a different code
+  path (`FUN_00419ea0`, direct fetch) with no evidence of the same shift, decoded unshifted.
+  `tools/convert_car.py` fixed; `build/car/art_atlas.png`/`art_effects.png` and
+  `packs/original_pc/` regenerated. The registry's *shapes/structure* survive untouched
+  (colour doesn't affect geometry); a handful of colour-dependent labels that were wrong
+  under the old palette got relabeled (cels 0/1/3/52: sand/forest → open water; 84-86: green
+  furrows → wood planks). The confirmed tan/green team-colour finding (section 4 item 5)
+  was re-checked against the corrected palette and holds exactly as before.
 - **Three distinct `PLUTPtr` values: `0x282CC` (2161 cels), `0x28AD0` (2), `0x28AE0` (2).**
   *CORRECTION: an earlier draft listed `0x28B10` / `0x28B20`. Those were wrong.* **RESOLVED
   (2026-09-05):** the two oddball PLUTs belong exactly to the 4 `PRE0==17` cels (see below) —
