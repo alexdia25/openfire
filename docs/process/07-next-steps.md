@@ -24,7 +24,7 @@ See plan section 4 for the current, precise state of each — this list is just 
 - What ends a match (section 4, item 1)
 - Team colouring mechanism (section 4, item 3)
 - The fixed sim tick rate (section 4, item 6)
-- 3DO "Maps o' Death" expansion extraction — new goal, not yet started (section 4, item 7)
+- 3DO support: base game + "Maps o' Death" expansion — new goal, not yet started (section 4, item 7)
 
 ## If you want to try one of these yourself
 

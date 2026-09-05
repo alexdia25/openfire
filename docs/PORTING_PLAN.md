@@ -16,10 +16,12 @@ Rebuild *Return Fire* (PC/Win95 port of the 3DO original) as a **Godot 4 project
 Two things this engine must do, and the second one shapes the whole architecture:
 
 1. Run the original game from the user's own retail data files — **including the 3DO
-   original**, not just the PC port. The 3DO-exclusive expansion, *Return Fire: Maps o'
-   Death*, is an explicit target: the user owns a disc image and wants the eventual
-   importer able to pull its levels in too. See section 1.11 for initial recon and
-   section 4 for the open extraction work.
+   original**, not just the PC port. The user has said the 3DO base game disc should be
+   supported *alongside* the 3DO-exclusive expansion, *Return Fire: Maps o' Death* (rather
+   than the expansion being supported in isolation) — the two share the same native 3DO
+   asset formats and filesystem, so this is one importer effort, not two. The expansion
+   image is already in hand; the base 3DO game image is a planned future addition (not yet
+   provided). See section 1.11 for initial recon and section 4 for the open extraction work.
 2. Run equally well on a **completely custom, hand-authored replacement asset set**.
 
 The engine is therefore a *data-driven engine that happens to ship with an importer for
@@ -806,6 +808,14 @@ The user supplied two disc images for reference, both outside the git repo
     `trapexit/3doplay`'s source is a plausible reference implementation to check before
     writing one from scratch, since section 1.6 already leaned on that project once. See
     section 4 for this as an open backlog item.
+  - **Scope update (2026-09-05):** the user wants the base **3DO original game** disc
+    supported alongside this expansion, not the expansion in isolation — they'll provide
+    that disc image too, "when the time comes" (not yet in hand). This doesn't change the
+    technical next step above; the base game and the expansion are the same platform, same
+    filesystem, and almost certainly the same native asset formats, so whatever filesystem
+    reader / CEL / audio / map-format work gets done for one directly serves the other. Treat
+    "3DO extraction" as covering both discs once the second one arrives, not as two separate
+    efforts.
 
 ## 2. Architecture decisions (decide once, up front)
 
@@ -1338,13 +1348,19 @@ Web checklist:
    `IDirectDrawSurface::Flip` vtable call site (same technique as finding `Lock()` by its
    vtable offset, section 1.9) and check whether it blocks for vsync during real gameplay —
    that's the remaining candidate pacing mechanism.
-7. **3DO "Maps o' Death" expansion extraction** (section 1.11, new 2026-09-05) — a whole new
-   goal, not a single question. The disc image is identified as a genuine 3DO CD but not
-   yet parsed at all. Next concrete step: get or write a 3DO CD-ROM filesystem reader
-   (check `trapexit/3doplay` first, already used as prior art in section 1.6) to enumerate
-   the volume's real files, then identify whatever native map/CEL/audio formats this
-   PC-never-released expansion actually uses — expect them to differ substantially from the
-   PC `.RFM`/`ART.CAR`/`.SDT` formats documented elsewhere in this file.
+7. **3DO support: base game + "Maps o' Death" expansion extraction** (section 1.11, new
+   2026-09-05; scope widened 2026-09-05) — a whole new goal, not a single question, and
+   deliberately scoped to cover **both** 3DO discs together rather than the expansion
+   alone, since the user wants the base 3DO original supported too (its disc image is
+   promised but not yet provided; the expansion's is already in hand). The expansion disc
+   image is identified as a genuine 3DO CD but not yet parsed at all. Next concrete step:
+   get or write a 3DO CD-ROM filesystem reader (check `trapexit/3doplay` first, already
+   used as prior art in section 1.6) to enumerate the volume's real files, then identify
+   whatever native map/CEL/audio formats this PC-never-released material actually uses —
+   expect them to differ substantially from the PC `.RFM`/`ART.CAR`/`.SDT` formats
+   documented elsewhere in this file. Whatever reader/format work happens here should be
+   written generically enough to also read the base game disc once it arrives, since both
+   are the same platform and (almost certainly) the same asset formats.
 
 **RESOLVED:**
 - **The "missing `.avi` cutscenes"** — **section 1.11** (2026-09-05). There never was
