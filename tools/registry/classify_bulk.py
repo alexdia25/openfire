@@ -387,6 +387,41 @@ for _idx in range(1565, 1777):
         "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified")
 
 
+# ---- batch: 1779-1968 ------------------------------------------------------------
+# A grab-bag: camo/rock mound clusters, map-shaped terrain patches (brown and
+# blue), a capture-flag marker planted on several of those patches, dirt/water
+# trail lines, camo-netting swatches, a yellow gem/pickup, an olive-green weapon
+# and ammo-crate set (the first clear handheld weapon sprite found), and two more
+# shockwave-ring colour variants (tan, orange) joining the earlier green/blue ones.
+seq(list(range(1779, 1803)), "decoration.camo_mound.{n:02d}", "decoration", "rock/netting blob cluster, colour shifts tan-green-teal")
+seq([1803, 1804, 1805, 1806, 1807, 1808, 1809, 1810, 1811, 1812, 1813, 1814],
+    "decoration.terrain_patch_brown.{n:02d}", "decoration", "irregular map-shaped blob, brown/green")
+seq([1815, 1816, 1817, 1818, 1819, 1820, 1821, 1822, 1823, 1824, 1825, 1826, 1827, 1828,
+     1841, 1842, 1843, 1844, 1849, 1850, 1851, 1852, 1853, 1854],
+    "decoration.terrain_patch_blue.{n:02d}", "decoration", "irregular map-shaped blob, light blue/ice-like")
+seq([1829, 1830, 1831, 1832, 1833, 1834, 1835, 1836, 1837, 1838, 1839, 1840, 1845, 1846, 1847, 1848],
+    "marker.capture_flag.{n:02d}", "marker", "red flag on a pole, planted on a terrain patch -- possible capture-point marker")
+seq(list(range(1855, 1869)), "decoration.dirt_trail.{n:02d}", "decoration", "thin brown wavy line segment")
+seq(list(range(1869, 1880)), "decoration.water_trail.{n:02d}", "decoration", "thin blue wavy line segment")
+seq([1880], "prop.gem_red.01", "prop")
+seq([1881, 1882, 1883, 1884, 1885, 1886], "marker.mine_icon.{n:02d}", "marker", "red pattern with a blue dotted border")
+seq([1887], "effect.burst_red.{n:03d}", "effect")
+seq([1888, 1889, 1890, 1891, 1892, 1893, 1894, 1895, 1896, 1936, 1937, 1948, 1967, 1968],
+    "decoration.camo_swatch.{n:02d}", "decoration", "mottled green/olive square, camo-netting-like")
+seq([1897, 1917, 1918, 1919, 1920, 1921], "pickup.gem_yellow.{n:02d}", "pickup")
+seq([1922, 1923, 1924, 1925, 1938], "prop.debris_faint.{n:02d}", "prop")
+seq([1926, 1927], "marker.banner_red.{n:02d}", "marker", "folded red flag/banner shape")
+seq(list(range(1928, 1932)), "structure.pillar_red.{n:02d}", "structure")
+seq([1932], "marker.rescue_cross.{n:02d}", "marker")
+seq([1933, 1934, 1935], "prop.rubble_patch.{n:02d}", "prop")
+seq([1939, 1965], "prop.wire_red.{n:02d}", "prop", "thin horizontal red line/wire")
+seq([1940], "vehicle.weapon_rifle.01", "vehicle", "olive-green handheld weapon silhouette, top-down")
+seq([1942, 1943, 1944, 1945, 1946, 1947], "prop.ammo_crate_olive.{n:02d}", "prop")
+seq(list(range(1949, 1959)), "effect.shockwave_ring_tan.{n:02d}", "effect", "expanding tan/brown concentric ring")
+seq(list(range(1959, 1963)), "effect.shockwave_ring_orange.{n:02d}", "effect", "expanding orange concentric ring")
+seq([1966], "prop.panel_solid.olive.01", "prop")
+
+
 def main():
     with open(REGISTRY_JSON) as f:
         registry = json.load(f)
