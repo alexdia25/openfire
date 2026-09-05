@@ -1,0 +1,26 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Return Fire"
+config/description="A from-scratch, data-driven Godot 4 reimplementation of Return Fire (1996, Silent Software). Ships no original assets or decompiled code -- see docs/PORTING_PLAN.md."
+run/main_scene="res://game/main.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+
+[physics]
+
+common/physics_ticks_per_second=60
+common/enable_pause_aware_picking=true

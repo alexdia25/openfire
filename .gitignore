@@ -1,5 +1,8 @@
 # Converter output -- generated from the user's own game install, never committed.
-/build/
+# The .gdignore marker itself IS tracked (see the negation below) so Godot never scans or
+# imports this folder's contents as project resources, even right after a fresh convert run.
+/build/*
+!/build/.gdignore
 
 # Never commit original game data or anything extracted from it, wherever it lands.
 *.RFA
