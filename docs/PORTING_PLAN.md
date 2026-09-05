@@ -259,16 +259,40 @@ two tags' `secondary_param` values above). This is genuinely a two-team spawn sy
 per-player-count special-casing.
 
 `FUN_00413db0(tile_ptr, pool_index)` appends the tile's *pointer into the runtime grid
-buffer* (not a separate x/y) to one of two growable candidate-position pools (`pool_index`
-0 or 1, again matching `secondary_param`), capped at 254 entries. Back in the main loader
-(`FUN_00414130`), once the whole grid has been scanned, **each non-empty pool has exactly
-one entry picked at random** — `FUN_00404360(count)` calls the C runtime `rand()` and scales
-it into `[0, count)` — and stored as the active building/target for that match. This is the
-mechanism behind the classic Return Fire feature where the destructible target/base
-locations differ between plays of the same level: **the level file defines a pool of
-candidate positions, and the engine randomly commits to a subset each match.** (There is
-also a `>>1` "half the count" computation right after the random pick, not yet chased down
--- possibly a win-condition threshold, e.g. "destroy half the spawned targets to win".)
+buffer* (not a separate x/y) to one of two growable candidate-position pools — confirmed
+exactly which is which by decompiling it: `pool_index==0` (tile `0xB4`, "pool A") appends to
+`DAT_0045ae70` and grows count `DAT_0045ae28`; `pool_index==1` (tile `0xDC`, "pool B")
+appends to `DAT_0045b270` and grows count `DAT_0045ae2c` — capped at 254 entries each. Back
+in the main loader (`FUN_00414130`), once the whole grid has been scanned, **each non-empty
+pool has exactly one entry picked at random** — `FUN_00404360(count)` calls the C runtime
+`rand()` and scales it into `[0, count)` — and stored as the active building/target for that
+match (`_DAT_0045ae50` for pool A, `_DAT_0045ae54` for pool B). This is the mechanism behind
+the classic Return Fire feature where the destructible target/base locations differ between
+plays of the same level: **the level file defines a pool of candidate positions, and the
+engine randomly commits to a subset each match.**
+
+**The `>>1` "half the pool count" computation — SOLVED (2026-09-06), and it's not a literal
+win condition.** `_DAT_0048ca20 = DAT_0045ae28 >> 1` and `_DAT_0048ca24 = DAT_0045ae2c >> 1`
+are each pool's initial "replacement budget" (half its candidate count, rounded down), and
+those two globals have exactly 2 other cross-references in the whole binary, both inside
+`FUN_00432710` — the object-destruction handler, called whenever a queued object is removed
+from play. It reads a pool index from **bits 14-15 of the destroyed tile's runtime value**
+(`(tile & 0xc000) >> 0xe`) — *correcting* the earlier "orientation-ish (bits 14-15)" guess
+below: those bits are the pool-membership tag, not orientation — decrements that pool's
+budget, and if the destroyed object was the pool's currently-tracked active target, calls
+`FUN_00432600(pool)` to activate a replacement. That function scans the pool's candidate
+array for any position still showing "intact" state (`tile & 0x3f80 == 0xb00`, a distinct
+state/frame field, not the low-7-bit terrain art id) and, if any remain, randomly picks one
+(`FUN_0041d3d0`) as the new active target. **Net effect: each pool is a rotating
+single-target spawner** — exactly one destructible target is live per pool at a time,
+immediately replaced from the remaining candidates when destroyed, for as long as the
+pool's budget holds out. This is a materially better description of the classic
+"bases keep reappearing elsewhere" feel than the original "destroy half the spawned targets
+to win" guess: it's a continuous replacement budget, not a simultaneous group to wipe out.
+**Still open:** no code touching these two budget globals reads them to declare an overall
+match-won/lost state, so what (if anything) happens when a pool's budget is fully spent
+hasn't been found — the next hop would be `FUN_0042c4d0` (called from `FUN_00432710` right
+as a pool's tracking gets cleared) or a broader scoring variable elsewhere.
 
 **Remaining work, in priority order:**
 1. Map the still-undecoded header body (offsets `0x04`-`0x3F`, minus the now-known width/
@@ -276,12 +300,10 @@ also a `>>1` "half the count" computation right after the random pick, not yet c
 2. Re-examine the old offset-`0x18` string finding now that `NAME` is known to be the real
    display-name source -- confirm what offset `0x18` actually holds.
 3. Confirm whether any of the 204 `.rfm` files have the offset-`0x40` "enabled" byte unset.
-4. Chase the `>>1` "half the pool count" computation after the random building/target pick
-   -- likely a win condition.
-5. The `+9` "height_seed" byte in the `0x00447038` coastal table and the runtime tile
-   value's bits 25-27/14-15 (elevation-ish and orientation-ish fields set by
-   `FUN_0042e4f0`) are dumped but not chased -- likely affect physics/movement, not
-   rendering, so lower priority than art.
+4. The `+9` "height_seed" byte in the `0x00447038` coastal table and the runtime tile
+   value's elevation-ish bits 25-27 (set by `FUN_0042e4f0`) are dumped but not chased --
+   likely affect physics/movement, not rendering, so lower priority than art. (Bits 14-15
+   are no longer mysterious -- see above: pool membership, not orientation.)
 
 **DONE:** Decompiled `FUN_0042e4f0` and fully resolved the raw-tile-byte → rendered-art-id
 pipeline (see above) -- this was open question #2 ("classify the ~94 plain-terrain tile
@@ -993,13 +1015,17 @@ Web checklist:
 
 1. The still-undecoded `.RFM` header body, offsets `0x04`-`0x3F` (minus width/height/
    mode-byte, which are known — section 1.5).
-2. The `>>1` "half the candidate-pool count" computation right after the random
-   building/target pick in `FUN_00414130` — possibly a win-condition threshold (section 1.5).
+2. **What ends a match?** The per-pool target-replacement budgets (section 1.5, formerly
+   "the `>>1` computation") are now fully traced, but nothing touching those two globals
+   declares a win/lose state — the actual mission-complete condition is still unfound. Next
+   hop: decompile `FUN_0042c4d0` (called right as a pool's tracking clears once its budget
+   is spent) or look for a separate score/objective variable.
 3. The `EDTN` chunk tag (section 1.5) — present in every file, 4-byte payload, not decoded.
    Low priority: `tools/convert_rfm.py` round-trips it without understanding it.
 4. The coastal table's (`0x00447038`) `+9` "height_seed" byte and the runtime tile value's
-   orientation (bits 14-15) / elevation-ish (bits 25-27) fields set by `FUN_0042e4f0` —
-   dumped but not chased; likely physics/movement, not rendering (section 1.5).
+   elevation-ish bits 25-27, set by `FUN_0042e4f0` — dumped but not chased; likely
+   physics/movement, not rendering (section 1.5). (Bits 14-15 are no longer part of this
+   question — see RESOLVED below.)
 5. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
 6. **How is team colouring done?** Palette ranges or separate cels? A strong, still-
    unconfirmed lead now exists (section 1.6): the same `GetNearestPaletteIndex`-built
@@ -1013,6 +1039,13 @@ Web checklist:
 9. Implicit sprite pivots in the original cels — needed for the registry.
 
 **RESOLVED:**
+- **The `>>1` "half the candidate-pool count" computation** — **section 1.5**. Each pool's
+  budget for how many *replacement* targets it will spawn over a match (not a literal
+  "destroy half simultaneously" count). Traced end-to-end: `FUN_00432710` (destruction
+  handler) decrements the destroyed tile's pool's budget and, if it was the active target,
+  calls `FUN_00432600` to randomly activate a new one from the pool's remaining candidates —
+  a rotating single-target-per-pool spawner. Also corrects an earlier guess: runtime tile
+  value bits 14-15 are the pool-membership tag, not "orientation-ish."
 - **Exact runtime tint colour of `ART.CAR`'s effect-mask cels** — **section 1.6**. Fully
   traced: what the 4 shared translation tables contain and how `FUN_00424420` builds them
   (a `GetNearestPaletteIndex`-driven average-blend table, a 32-level darken table, a 32-level

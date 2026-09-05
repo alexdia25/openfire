@@ -130,4 +130,5 @@ unconfirmed guess about what the 4 `PRE0==17` swatches are actually used for —
 [document 7](07-next-steps.md) for both as next steps, not blockers: a placeholder tint is
 a perfectly reasonable stand-in until/unless exact colour fidelity matters.
 
-**Next:** back to [document 7](07-next-steps.md) for the current backlog.
+**Next:** [Worked example: what the `>>1` computation actually does](10-worked-example-target-respawn.md) —
+a much smaller investigation, worth reading for that reason alone.

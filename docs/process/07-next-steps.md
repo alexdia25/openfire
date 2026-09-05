@@ -29,16 +29,28 @@ with its own embedded palette, now extracted as such. Full writeup:
 [document 9](09-worked-example-effect-tint-colour.md); ground truth: `docs/PORTING_PLAN.md`
 section 1.6.
 
+## DONE: the `>>1` "half the pool count" computation
+
+Turned out to be small — 2 `FindDataXrefs.java` calls, no dead ends. It's not a win
+condition by itself: each candidate pool is a rotating single-target spawner (destroy the
+active target, a replacement immediately activates from the pool's remaining candidates),
+with the halved count as a total replacement budget. Also corrected a stale guess: runtime
+tile bits 14-15 are the pool-membership tag, not "orientation." What still isn't found: any
+code that reads both pools' budgets to declare a match won or lost — see below. Full
+writeup: [document 10](10-worked-example-target-respawn.md); ground truth:
+`docs/PORTING_PLAN.md` section 1.5.
+
 ## What's next, roughly in priority order (see the plan for full detail)
 
+- **What ends a match?** Document 10 fully traced the target-replacement mechanism but
+  found no code that checks both pools' budgets together to declare victory/defeat. Next
+  hop: decompile `FUN_0042c4d0` (called as a pool's tracking clears once its budget is
+  spent) or look for a separate score/objective variable.
 - **`.RFM` header body, offsets `0x04`-`0x3F`:** most fields here are still unidentified
   besides width/height/mode-byte. Likely more per-level gameplay metadata. Good first
   independent exercise: pick one unidentified offset, and try correlating its value against
   something observable (level name, mode, filename) across all 204 files the way the VHCL
   chunk correlation was found in document 4.
-- **The `>>1` "half the pool count" computation** right after the random building/target
-  pick in the level loader — likely a win-condition threshold ("destroy half the spawned
-  targets"). Worth chasing by decompiling a little further from where document 4 left off.
 - **Team colouring mechanism:** how are the two teams visually distinguished? Document 9
   found a real lead here — the same `GetNearestPaletteIndex`-built translation-table
   infrastructure used for effect-mask tinting is a plausible mechanism, and the 4
@@ -53,7 +65,7 @@ section 1.6.
 
 ## If you want to try one of these yourself
 
-The shape is always the same, and it's the same shape as documents 4, 5, 8, and 9:
+The shape is always the same, and it's the same shape as documents 4, 5, 8, 9, and 10:
 
 1. Pick one item above (or from the plan's section 4).
 2. Find an anchor — a string, an API call, or a data structure already known to be nearby
@@ -73,5 +85,7 @@ deliberate consequence of using Ghidra's decompiler rather than working from ass
 directly, and it's why this is realistically approachable to keep doing yourself.
 
 **Next:** [Worked example: mapping `.RFM` art ids to `ART.CAR` cels](08-worked-example-art-id-mapping.md),
-then [Worked example: the exact tint colour of `ART.CAR`'s effect masks](09-worked-example-effect-tint-colour.md) —
-this backlog's own top two items, both solved, as two more full runs through the recipe above.
+then [the exact tint colour of `ART.CAR`'s effect masks](09-worked-example-effect-tint-colour.md),
+then [what the `>>1` computation actually does](10-worked-example-target-respawn.md) — three
+more items off this backlog, including one deliberately small example to show the recipe
+scales down as well as up.
