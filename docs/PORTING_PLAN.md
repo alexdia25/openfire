@@ -705,6 +705,53 @@ needs a different search technique (find the `Flip` vtable-offset call the same 
 level is actually running, not during the title sequence). Left open at this narrower,
 more specific point rather than chased further this session.
 
+### 1.10 Object rendering is real perspective-projected 3D, not 2D sprite-pivot rotation — SOLVED (2026-09-06)
+
+The backlog's "implicit sprite pivots" question assumed the original renders vehicles as flat
+2D sprites rotated around some anchor point baked into the cel art. Tracing the actual
+per-object draw call chain (starting from `FUN_0042dd90`, found while chasing team colouring
+in section 4) shows that assumption is wrong — **there is no 2D pivot concept in the
+original's object rendering at all.** The engine does genuine (if simplified) 3D projection:
+
+1. **64 discrete headings, each with a real 3x3 rotation matrix.** `FUN_0041ae50` (part of
+   the same startup routine that builds `ART.CAR`'s translation tables, section 1.6) loops
+   `iVar3` from 0 to `0x1000000` in steps of `0x40000` — exactly 64 steps around a full
+   16.16-fixed-point circle — calling sin/cos-equivalents (`FUN_00410be0`/`FUN_00410dc0`) and
+   `FUN_0041e770` to build a 3x3 rotation matrix (9 ints, 0x24-byte stride) per heading into
+   `DAT_00481710`.
+2. **A shared perspective (1/z) scale table**, also built by `FUN_0041ae50`:
+   `scale[i] = focal_length / depth(i)` for a real division per table entry, not an
+   approximation. `FindDataXrefs.java` on this table (`PTR_DAT_00449400`) shows it's read by
+   *both* the terrain tile blitter (`FUN_00408d60`, section 1.7) and the object-quad
+   projector below — terrain and objects share one perspective system, not two.
+3. **Per-object quad projection** (`FUN_00413d00`, called from `FUN_0042dd90` and others): for
+   each of an object's local-space 3D corner points, computes `screen_xy = (local_xy +
+   camera_xy) * scale[depth >> 16] + screen_center`, where `scale[]` is table 2 above indexed
+   by the point's transformed depth. This is textbook perspective-divide-via-lookup-table, a
+   standard software-renderer trick to replace a division with a table read.
+4. **The projected quad is applied through the CCB's own parallelogram-mapping mode, not a
+   position+rotation+scale.** `FUN_00419820` (reached via `FUN_00436fb0`) sets a CCB flag bit
+   (`|= 0x1000`) and writes all 4 of a CCB's corner-coordinate field pairs directly from 4
+   selected projected points — this is the CCB "arbitrary quadrilateral" texture-mapping mode
+   inherited from the original 3DO CEL engine (Return Fire shipped on 3DO before this Win95
+   port), not a simple 2D blit position. The specific 4 points used per heading are picked by
+   small integer indices stored alongside each heading's angle range in the same per-object
+   facing-group table already documented in section 4's team-colouring lead
+   (`FUN_0042dd90`'s `piVar7 + 2`).
+
+**Consequence for the backlog question:** there's no fixed pivot offset to extract from the
+cel art, because placement was never pivot-based — each pre-rendered directional sprite is
+one *face* of a rotation, texture-mapped onto a quad whose 4 corners come from a real
+per-frame 3D-to-2D projection of the object's (probably simple, box-like) local-space
+geometry. **This is a real architecture decision for Godot, not just trivia:** reproducing
+the original's exact visual behavior (vehicles subtly skewing/scaling with camera-relative
+depth as they move, not just rotating flat) requires either (a) replicating this
+projected-quad technique — a `Node2D` with a custom vertex-mapped `Polygon2D`/shader per
+object instead of a plain `Sprite2D`, feeding it the same per-heading local geometry and a
+ported perspective-scale table — or (b) deliberately accepting a simpler flat 2D
+rotate-in-place approximation as a scoped-down visual target. Either is now an informed
+choice; before this it was an unknown risk. See section 2.2 (Rendering).
+
 ## 2. Architecture decisions (decide once, up front)
 
 ### 2.1 The simulation must NOT live in Godot's engine types
@@ -762,7 +809,14 @@ tradeoff can be revisited — but the integer-only rule stands either way.
 targeting it from day one avoids discovering late that an effect does not survive the port.
 
 - Terrain: `TileMapLayer` built from the 128 x 128 `.RFM` grid.
-- Sprites: `Sprite2D`, or `MultiMeshInstance2D` if unit counts justify it.
+- Sprites: `Sprite2D`, or `MultiMeshInstance2D` if unit counts justify it. **Decide up front
+  whether to reproduce the original's projected-quad object rendering (section 1.10 —
+  vehicles are real perspective-projected 3D quads with 64 discrete headings, not flat
+  rotated sprites) or accept a simpler flat-rotation approximation.** The former needs a
+  vertex-mapped `Polygon2D`/shader per object fed the ported per-heading local geometry and
+  perspective table, not a plain `Sprite2D`; the latter is simpler but visibly diverges from
+  the original's subtle depth-skew look. Pick one before building the vehicle-rendering step
+  (Phase 4 step 2) — retrofitting later means redoing every vehicle's rendering path.
 - Split-screen: one `SubViewport` per player inside `SubViewportContainer`s.
 - Palette: bake to RGBA8 at conversion time, or keep indexed and apply the palette in a
   fragment shader if palette-cycling or team-colour swapping turns out to need it.
@@ -1219,9 +1273,16 @@ Web checklist:
    `IDirectDrawSurface::Flip` vtable call site (same technique as finding `Lock()` by its
    vtable offset, section 1.9) and check whether it blocks for vsync during real gameplay —
    that's the remaining candidate pacing mechanism.
-7. Implicit sprite pivots in the original cels — needed for the registry.
 
 **RESOLVED:**
+- **"Implicit sprite pivots"** — **section 1.10** (2026-09-06). The premise was wrong: there
+  is no 2D pivot to extract. Object rendering is real perspective-projected 3D — 64 discrete
+  headings each with a precomputed 3x3 rotation matrix, a shared 1/z perspective-scale table
+  (also used by the terrain blitter), and per-object local-space corner geometry projected
+  to screen space and quad-mapped onto the CCB's own arbitrary-parallelogram texture-mapping
+  mode. Reframes this from a data question (extract a pivot value) into an architecture
+  decision for section 2.2 (reproduce the projected-quad technique, or accept a flat
+  2D-rotation approximation).
 - **Native framebuffer resolution** — **section 1.9** (2026-09-06). 320x240
   (`DAT_00448d50 = 0x140`, `DAT_00448d54 = 0xf0`), the command-line parser's hardcoded
   default before any override flag is applied. (The fixed sim tick rate half of this same

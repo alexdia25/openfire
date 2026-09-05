@@ -61,7 +61,14 @@ them in order for the first time: narrative, worked examples, real commands you 
 15. [**Worked example: the native resolution, and a tick rate that resists being found**](15-worked-example-resolution-and-tick-rate.md) —
     one backlog item that resolves cleanly (320x240) and a paired one that traces all the way
     to the real per-frame dispatch chain without landing a confirmed number, recorded
-    honestly as a bounded, not-yet-finished trail rather than forced into a tidy answer.
+    honestly as a bounded, not-yet-finished trail rather than forced into a tidy answer. Its
+    postscript then takes that trail's own next hop and rules it out as the wrong system
+    entirely (the boot-time title slideshow).
+16. [**Worked example: there's no sprite pivot, because it's not 2D**](16-worked-example-3d-projection.md) —
+    the biggest architecture finding yet: vehicles are rendered via real perspective-projected
+    3D quads (64 discrete headings, a shared 1/z table also used by the terrain blitter), not
+    flat sprites rotated around a pivot. Reframes a data question into a real, now-informed
+    rendering-architecture decision for Godot.
 
 ## The one rule that overrides everything else here
 

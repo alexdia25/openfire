@@ -107,6 +107,18 @@ any of their 4 cel indices, so there's no easy follow-up trail from this lead sp
 Full account: [document 13](13-worked-example-reticle-not-swatch.md); ground truth:
 `docs/PORTING_PLAN.md` section 1.6.
 
+## DONE (and the question's premise was wrong): "implicit sprite pivots"
+
+Rereading `FUN_0042dd90` (already decompiled for the team-colouring lead above) for a
+different question found that vehicles aren't rotated 2D sprites at all — the engine
+projects real local-space 3D corner geometry through 64 precomputed rotation matrices and a
+shared `1/z` perspective-scale table (also used by the terrain blitter, section 1.7), then
+quad-maps the result onto the CCB's own arbitrary-parallelogram texture mode. There's no
+pivot to extract because placement was never pivot-based. This is now a real, informed
+rendering-architecture decision in plan section 2.2, not an open data question. Full
+writeup: [document 16](16-worked-example-3d-projection.md); ground truth:
+`docs/PORTING_PLAN.md` section 1.10.
+
 ## What's next, roughly in priority order (see the plan for full detail)
 
 - **What ends a match?** (see above) — still open. A better next anchor is needed; possibly
@@ -122,7 +134,6 @@ Full account: [document 13](13-worked-example-reticle-not-swatch.md); ground tru
 - **The fixed sim tick rate** (see above) — `PTR_PTR_0044e27c` is ruled out (it's the title
   slideshow); next step is finding the real `IDirectDrawSurface::Flip` vtable call site and
   checking whether it blocks for vsync during actual gameplay.
-- Implicit sprite pivots in the original cels — listed with more context in plan section 4.
 
 ## If you want to try one of these yourself
 
@@ -155,8 +166,10 @@ then [confirming a dead end fast by rereading work already on hand](11-worked-ex
 then [decoding the `.RFM` header body with no Ghidra at all](12-worked-example-header-body.md),
 then [catching a wrong guess by finally rendering it](13-worked-example-reticle-not-swatch.md),
 then [is the music CD audio or a WAV file? (Both.)](14-worked-example-music-mechanism.md),
-and finally [the native resolution, and a tick rate that resists being found](15-worked-example-resolution-and-tick-rate.md) —
-eight more items off this backlog, covering everything from a big investigation down to one
+then [the native resolution, and a tick rate that resists being found](15-worked-example-resolution-and-tick-rate.md),
+and finally [there's no sprite pivot, because it's not 2D](16-worked-example-3d-projection.md) —
+nine more items off this backlog, covering everything from a big investigation down to one
 that cost nothing but a `grep`, one that never touched a disassembler by design, two that
-retracted an earlier guess instead of confirming it, and one that stopped honestly short of a
-full answer instead of forcing one.
+retracted an earlier guess instead of confirming it, one that stopped honestly short of a
+full answer instead of forcing one, and one that found the question itself was built on a
+wrong assumption.

@@ -117,4 +117,6 @@ import, so finding it needs the same technique this document's own section 1.9 u
 identify `Lock()` (a literal vtable-offset call site, not a symbol lookup). Left there,
 narrower and more specific than before, rather than chased further this session.
 
-**Next:** back to [document 7](07-next-steps.md) for the current backlog.
+**Next:** [Worked example: there's no sprite pivot, because it's not 2D](16-worked-example-3d-projection.md) —
+a much bigger find, reached by rereading `FUN_0042dd90` (decompiled earlier while chasing
+team colouring) for an entirely different question.
