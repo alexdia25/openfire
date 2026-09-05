@@ -422,6 +422,48 @@ seq(list(range(1959, 1963)), "effect.shockwave_ring_orange.{n:02d}", "effect", "
 seq([1966], "prop.panel_solid.olive.01", "prop")
 
 
+# ---- batch: 1975-2164 ------------------------------------------------------------
+# The tail end: HUD icons (small vehicle/aircraft minimap icons, a helmeted trooper
+# portrait repeated many times, ammo/boost/pause icons), the numeric HUD font
+# (0-9, found as a clean literal set -- exact digit identity, not a guess), a
+# second orange trooper colour variant, and more VFX (whirlpool swirl, water
+# spray, red dot-cluster markers, a large crater/mud texture).
+seq([1975, 2090], "marker.hollow_square.{n:02d}", "marker")
+seq([1976], "prop.debris_faint.{n:02d}", "prop")
+seq([1977], "ui.icon.exit_sign.01", "ui", "olive icon, white running-figure silhouette")
+seq([1978], "ui.icon.boost.01", "ui", "olive icon, white up-arrow")
+seq([1979], "ui.icon.armor.01", "ui", "olive icon, white pillar/column shape")
+seq([1980], "ui.icon.pause.01", "ui", "olive icon, white double-bar")
+seq(list(range(1981, 1987)), "prop.skin_swatch.{n:02d}", "prop", "flat skin-tone colour square, likely a palette reference not a real sprite")
+seq(list(range(1987, 1995)) + [2087, 2088, 2089], "effect.whirlpool.{n:02d}", "effect", "purple/blue spiral swirl")
+seq(list(range(1995, 2038)) + list(range(2059, 2073)), "effect.water_spray.{n:02d}", "effect", "blue splotchy spray/cloud pattern")
+seq(list(range(2038, 2059)) + [2073, 2074], "marker.cluster_dots_red.{n:02d}", "marker", "grid of small red circles")
+seq([2075], "marker.badge_green.01", "marker")
+seq([2076], "prop.bird_silhouette.01", "prop", "red flying-creature silhouette")
+seq([2078], "prop.rock_mound_red.01", "prop")
+seq([2079, 2091, 2092, 2093], "decoration.dashed_line.{n:02d}", "decoration")
+seq(list(range(2080, 2084)), "decoration.crater_patch.{n:02d}", "decoration", "large mottled brown/green texture, bigger scale than other ground tiles")
+seq([2084, 2085, 2086], "prop.wave_horizon.{n:02d}", "prop")
+seq([2094, 2095, 2096, 2097, 2098, 2099, 2101, 2102, 2103, 2104, 2107, 2108, 2109,
+     2112, 2113, 2114, 2161, 2162, 2163, 2164],
+    "ui.icon.vehicle_mini.{n:02d}", "ui", "tiny vehicle icon, likely minimap/HUD unit marker")
+seq([2100], "ui.icon.helicopter_mini.01", "ui")
+seq([2105, 2110, 2115, 2117, 2120, 2123, 2158], "decoration.camo_swatch.{n:02d}", "decoration")
+seq([2106, 2116, 2122], "ui.icon.ammo_bars.{n:02d}", "ui", "small vertical coloured bars")
+seq([2111, 2121, 2156], "decoration.plant.flower_red.{n:02d}", "decoration")
+seq([2118], "ui.icon.aircraft_mini.01", "ui", "small tan/gold airplane silhouette")
+seq([2119], "ui.icon.helicopter_mini.02", "ui", "detailed side-view helicopter icon")
+seq([2124], "ui.icon.panel_dark.01", "ui")
+seq([2125], "ui.icon.checker_yellow.01", "ui")
+seq(list(range(2126, 2140)), "character.trooper_portrait.{n:02d}", "character", "helmeted face portrait, repeated with minor variation")
+seq([2140], "effect.static_noise.01", "effect")
+seq(list(range(2142, 2146)), "character.trooper.orange.{n:02d}", "character")
+for _digit, _idx in zip("0123456789", range(2146, 2156)):
+    put(_idx, f"font.hud_digit.{_digit}", "font", "HUD numeric font glyph")
+seq([2157, 2160], "prop.icon_small.{n:02d}", "prop")
+seq([2159], "prop.rocket_small.01", "prop")
+
+
 def main():
     with open(REGISTRY_JSON) as f:
         registry = json.load(f)
