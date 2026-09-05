@@ -1,15 +1,14 @@
 # Return Fire (1996, Silent Software) — Godot Port Plan
 
 **Status:** planning complete. Phase 1 converters (1a/1b/1c/1d) written and verified. Phase 0
-(Godot project scaffold) done, 2026-09-05. Phase 4 step 1e is done as of 2026-09-06: the
-asset ID registry (section 2.4.1, all 2165 cels) and the pack emitter for sprites/terrain
-(section 2.4.2, `tools/build_pack.py` → `packs/original_pc/`) both exist and validate clean.
+(Godot project scaffold) done, 2026-09-05. Phase 4 step 1e (asset registry + pack emitter,
+section 2.4) and Phase 4 step 1 itself (a Godot scene renders a real level's terrain through
+a pack, with spawn/candidate markers) are both done as of 2026-09-06 — **the game renders its
+first real content**, verified with an actual screenshot, not just "no errors."
 **Priority as of 2026-09-05: get the core PC-port game actually running before returning to
 3DO support (section 4 item 6) or new-goal work beyond what's needed to run it** — the user
-explicitly deferred the 3DO disc work until then. Next real blocker: Phase 4 step 1 itself —
-a Godot scene that loads `packs/original_pc/`, renders `.RFM` terrain through
-`terrain/tileset.json`, and drops static objects. Nothing in section 4's open questions
-blocks starting that.
+explicitly deferred the 3DO disc work until then. Next real blocker: Phase 4 step 2 — one
+player-controlled vehicle with authentic movement.
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
@@ -1447,7 +1446,24 @@ data**, kept separate from art packs (section 2.4.3 item 5).
 
 Keep each step playable, and load everything through the pack layer from step 1:
 
-1. Load a level, render terrain + static objects.
+1. **Load a level, render terrain + static objects — DONE (first pass, 2026-09-06).**
+   `game/pack.gd` (`Pack`) and `game/level_data.gd` (`LevelData`) load a content pack and a
+   converted `.RFM` level purely via runtime `FileAccess`/`Image` calls — never `res://`
+   preload, never `build/` or `*.RFM`/`*.CAR` directly, per section 2.4's boundary.
+   `game/terrain_view.gd` (now the project's main scene, replacing the Phase 0 placeholder)
+   draws the level's full art-id grid through the pack's `tileset.json` + `sprites.json`, plus
+   spawn-point and candidate-pool markers (spawn colour uses the tan/green pair from section 4
+   item 5). Verified two ways: a headless `--import`/`--quit-after` pass exits clean, and a
+   debug screenshot hook (`RF_DEBUG_SCREENSHOT` env var) produced a real rendered frame of
+   `RFMAP001` matching the registry's own contact-sheet renders of the same cels — a
+   recognisable coastline, a structure tile placed mid-level, both markers in the right spot.
+   **What this first pass doesn't do yet:** no real camera (a temporary debug-only
+   overview camera fits the whole map on screen; Phase 4 step 3 replaces this), static
+   *objects* are just coloured markers for spawn/candidate positions, not real building/
+   target art (building-candidate resolution happens at match-start per section 1.5, so
+   there's no fixed art to place from the file alone yet), and there's no menu — pack/level
+   are hardcoded `@export` vars on `TerrainView`, to be wired to section 2.6's level-select
+   screen once that exists.
 2. One player-controlled vehicle with authentic movement.
 3. Camera, scrolling, split-screen viewports.
 4. Weapons and projectiles.
