@@ -40,8 +40,31 @@ def put(idx, id_, category, note=None, confidence="visual_group"):
     ENTRIES[idx] = {"id": id_, "category": category, "confidence": confidence, **({"note": note} if note else {})}
 
 
-def seq(indices, id_fmt, category, note=None, start=1):
-    for n, idx in enumerate(indices, start=start):
+_family_next = {}  # id-family prefix -> next free sequence number, lazily seeded
+
+
+def _ensure_seeded(family):
+    if family not in _family_next:
+        with open(REGISTRY_JSON) as f:
+            existing = json.load(f)["cels"]
+        used = [int(v["id"][len(family):]) for v in existing.values()
+                 if v["id"].startswith(family) and v["id"][len(family):].isdigit()]
+        _family_next[family] = (max(used) + 1) if used else 1
+
+
+def seq(indices, id_fmt, category, note=None, start=None):
+    """start is an optional manual override; by default the next number for this
+    id family is looked up from the registry + entries assigned so far this run,
+    so batches never need to hand-track collisions across sections."""
+    family = id_fmt.split("{n")[0]
+    _ensure_seeded(family)
+    for i, idx in enumerate(indices):
+        if start is not None:
+            n = start + i
+            _family_next[family] = max(_family_next[family], n + 1)
+        else:
+            n = _family_next[family]
+            _family_next[family] += 1
         put(idx, id_fmt.format(n=n), category, note)
 
 
@@ -85,11 +108,11 @@ seq([316], "prop.missile_rack.red.01", "prop", "solid red/orange, larger rack va
 seq([317], "prop.sensor_array.tan.01", "prop", "panel with small red dot pattern")
 seq([318], "prop.sensor_array.cyan.01", "prop")
 seq([319], "decoration.emblem.06", "decoration", "green/tan ornate camo panel")
-seq([320, 321], "prop.debris_faint.{n:02d}", "prop", start=3)
+seq([320, 321], "prop.debris_faint.{n:02d}", "prop")
 seq([322], "prop.fuel_canister.single.01", "prop", "single vertical capsule, blue body tan cap")
 seq([323], "prop.fuel_canister.cluster_red.01", "prop", "bundled vertical capsules, red/blue")
 seq([324], "prop.fuel_canister.cluster_blue.01", "prop", "bundled vertical capsules, blue/tan")
-seq([226], "prop.debris_faint.{n:02d}", "prop", start=5)
+seq([226], "prop.debris_faint.{n:02d}", "prop")
 seq([325], "prop.fuel_canister.cluster_blue.02", "prop", "2-capsule blue/red/white cluster")
 seq([326], "prop.fuel_canister.cluster_blue.03", "prop", "3-capsule blue/red/white cluster")
 
@@ -103,7 +126,7 @@ seq(list(range(328, 335)), "prop.sack.tan.{n:02d}", "prop", "cargo sack, slight 
 seq([342, 343, 344, 345, 346, 347], "prop.sentry_turret.teal.{n:02d}", "prop",
     "boxy body with two square window/eye shapes, likely a small automated turret or robot")
 seq([348, 373, 381, 382, 389, 390, 391, 392, 405, 406, 415, 416, 426, 430, 431, 432],
-    "prop.debris_faint.{n:02d}", "prop", start=6)
+    "prop.debris_faint.{n:02d}", "prop")
 seq(list(range(356, 373)), "prop.canister_rack.{n:02d}", "prop",
     "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)")
 seq(list(range(374, 381)), "structure.bunker.tan.{n:02d}", "structure", "crenellated-top bunker/pillbox block")
@@ -143,8 +166,8 @@ seq(list(range(463, 470)), "character.trooper_head.rotation.tan.{n:02d}", "chara
 seq([477, 478, 479, 480, 481, 482, 483, 484], "character.trooper_head.rotation.teal.{n:02d}", "character")
 seq(list(range(491, 505)), "character.trooper_head.rotation.teal_alt.{n:02d}", "character",
     "second teal rotation/pose set, separated from the first by a gap in cel indices")
-seq([470, 505, 506, 507, 508, 515, 523, 525], "prop.debris_faint.{n:02d}", "prop", start=22)
-seq([509, 510, 511], "effect.explosion_large.{n:02d}", "effect", start=10,
+seq([470, 505, 506, 507, 508, 515, 523, 525], "prop.debris_faint.{n:02d}", "prop")
+seq([509, 510, 511], "effect.explosion_large.{n:02d}", "effect",
     note="510 appears to show a trooper figure mid-burst -- possibly a death/hit animation")
 seq([512, 513, 514], "prop.crate_dark.{n:02d}", "prop", "dark green/red long bar, ammo crate?")
 seq([516], "prop.pickup_orb.tan.01", "prop", "small round glowing blob, possible pickup")
@@ -163,7 +186,7 @@ seq([541, 612, 620, 621], "effect.spark_bolt.{n:02d}", "effect", "yellow lightni
 seq([543], "prop.wire_tan.01", "prop", "thin object with a red dot, cable or rope")
 seq([564, 565, 566, 567, 568, 569, 570, 571, 572, 573, 574, 578],
     "character.trooper_squad.{n:02d}", "character", "standing full-body trooper figure, several colour variants")
-seq([575, 576, 577], "effect.beam.{n:02d}", "effect", start=5)
+seq([575, 576, 577], "effect.beam.{n:02d}", "effect")
 seq([580, 581], "prop.brick_red.{n:02d}", "prop")
 seq([584], "prop.hook_pipe.tan.01", "prop", "curved pipe/hook shape")
 seq([585], "prop.hook_pipe.cyan.01", "prop")
@@ -172,7 +195,7 @@ seq([606], "prop.spike_ball.01", "prop", "red spiky ball, possibly a mine")
 seq([607], "prop.panel_solid.tan.01", "prop")
 seq([608], "prop.panel_solid.cyan.01", "prop")
 seq([610, 611], "prop.diamond_pattern.{n:02d}", "prop", "red/orange diamond-checker strip")
-seq([614, 622, 623], "vehicle.hovercraft.wheel_hub.{n:02d}", "vehicle", start=4)
+seq([614, 622, 623], "vehicle.hovercraft.wheel_hub.{n:02d}", "vehicle")
 seq([615, 624], "prop.dome_small.tan.{n:02d}", "prop", "small mushroom/dome shape, red top")
 seq([625], "prop.dome_small.cyan.01", "prop")
 seq([609], "prop.hook_claw.red.01", "prop", "small claw/hook shape, yellow tip")
@@ -225,11 +248,68 @@ seq([847], "prop.composite_tan_blue.01", "prop", "small composite shape, unclear
 seq([848], "prop.blob_tan.01", "prop")
 seq([849], "prop.post.tan.01", "prop")
 seq([850], "prop.post.cyan.01", "prop")
-seq([851, 852], "prop.diamond_pattern.{n:02d}", "prop", start=3)
-seq([853, 854], "prop.bar_thin.{n:02d}", "prop", start=3)
+seq([851, 852], "prop.diamond_pattern.{n:02d}", "prop")
+seq([853, 854], "prop.bar_thin.{n:02d}", "prop")
 seq([859, 860], "prop.panel_solid.dark_red.{n:02d}", "prop")
 seq([863], "structure.doorway.01", "structure", "red archway with a brown door")
-seq([861, 862], "effect.explosion_large.{n:02d}", "effect", start=13)
+seq([861, 862], "effect.explosion_large.{n:02d}", "effect")
+
+
+# ---- batch: 871-1075 -------------------------------------------------------------
+# A large building/compound tileset: wall segments with windows and flags, domed
+# roofs, doors, ladders, and rubble/damage variants of the same walls -- reads as
+# a "base" structure the camera can get close to, built from the same kind of
+# tile-like pieces as the terrain block (section 1.7) but at building scale.
+seq(list(range(871, 878)), "structure.frame_post.{n:02d}", "structure", "A-frame post/pillar shape, brown or blue")
+seq([878], "prop.rubble_patch.{n:02d}", "prop")
+seq([880, 881, 882, 883, 884, 886, 887, 888, 889, 890, 891, 915, 916, 917, 918, 919,
+     920, 921, 922, 923, 924, 925, 926, 930, 945, 946, 947, 948, 949, 950, 951, 952,
+     955, 956, 957, 1050, 1052, 1053, 1054, 1055, 1056, 1057],
+    "structure.building_wall.{n:02d}", "structure",
+    note="red or blue wall segment with window/door/flag details")
+seq([885], "structure.building_wall_lit.01", "structure", "wall segment, green-bordered lit window")
+seq([892, 893], "structure.fence_lattice.{n:02d}", "structure", "brick/lattice fence pattern")
+seq([895, 896, 897], "prop.path_strip.{n:02d}", "prop", "long road/path/water strip")
+seq(list(range(898, 909)), "pickup.star.{n:02d}", "pickup", "small yellow star-burst shape, likely a pickup/power-up")
+seq([909, 910, 914], "marker.panel_icon_red.{n:02d}", "marker")
+seq([911, 912, 913], "marker.letter_icon.{n:02d}", "marker", "panel with a dark letter-like glyph, purpose unconfirmed")
+seq([927], "effect.smoke_patch.01", "effect", "mottled cloud/smoke texture patch")
+seq([928, 953, 954, 960, 961, 962, 963, 983, 984, 985, 986, 987, 988, 989, 990, 991,
+     992, 993, 994, 995], "structure.building_wall_damaged.{n:02d}", "structure",
+    "same wall family with a jagged rubble/destroyed edge")
+seq([929], "decoration.plant.flower_red.03", "decoration")
+seq([931, 942, 943], "structure.door.{n:02d}", "structure", "coloured door panel, red/green")
+seq([932, 933, 940, 941], "structure.window.{n:02d}", "structure", "cyan or tan-bordered window panel")
+seq([934, 935, 936], "structure.window_ornate.{n:02d}", "structure", "circular ornate red window/roundel design")
+seq([938, 939], "structure.door.{n:02d}", "structure")
+seq([944], "prop.debris_faint.{n:02d}", "prop")
+seq([958, 959], "structure.ladder.{n:02d}", "structure", "vertical red/white ladder rungs")
+seq([964, 965], "prop.panel_solid.tan_blue_edge.{n:02d}", "prop")
+seq([968, 969, 970, 971, 977, 978, 979, 980, 981], "prop.panel_solid.blue.{n:02d}", "prop")
+seq([972, 973, 974, 975, 976], "structure.building_wall_gable.{n:02d}", "structure",
+    "wall with a pointed gable/roof silhouette along the top")
+seq([997, 998, 999, 1000], "structure.dome_roof.{n:02d}", "structure", "rounded dome/tent roof shape")
+seq([1001], "decoration.dashed_line.01", "decoration")
+seq([1002, 1003, 1004], "decoration.stripe_band.{n:02d}", "decoration")
+seq([1005, 1006, 1007, 1008, 1009, 1010, 1016, 1017, 1018, 1019, 1020, 1021, 1022, 1023],
+    "structure.building_wall.{n:02d}", "structure")
+seq([1012, 1013, 1014, 1015], "structure.window.{n:02d}", "structure")
+seq([1024], "structure.window_lattice_green.01", "structure", "green plaid/checker window")
+seq([1025], "decoration.moss_patch.01", "decoration", "dark green mottled square")
+seq(list(range(1028, 1040)), "prop.pole_striped.{n:02d}", "prop", "thin vertical red/blue striped pole")
+seq([1040, 1041], "marker.medallion.{n:02d}", "marker", "circular red/white concentric badge, possible landing/flag marker")
+seq([1044], "prop.rubble_patch.{n:02d}", "prop")
+seq([1045, 1046, 1047], "effect.explosion_large.{n:02d}", "effect")
+seq([1048], "prop.panel_solid.tan.03", "prop")
+seq([1049], "prop.panel_solid.cyan.03", "prop")
+seq([1051], "prop.roof_box.01", "prop", "small tan/brown roof/box shape")
+seq([1059, 1060], "effect.explosion_large.{n:02d}", "effect")
+seq([1063], "effect.spark_bolt.{n:02d}", "effect")
+seq([1064, 1065], "marker.hollow_square.{n:02d}", "marker", "hollow square outline, orange or red-dotted")
+seq([1066, 1067], "prop.debris_faint.{n:02d}", "prop")
+seq([1069, 1070], "prop.bone_shape.{n:02d}", "prop", "white curved bone/tusk-like shape, unconfirmed purpose")
+seq([1072, 1073], "prop.dart_icon.{n:02d}", "prop", "small teal jet/dart arrow shape")
+seq([1075], "decoration.foliage.bush_blue.12", "decoration")
 
 
 def main():

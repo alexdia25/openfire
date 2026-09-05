@@ -22,11 +22,67 @@
       "id": "terrain.ground.red_panel.04",
       "note": "plain solid/mottled red panel"
     },
+    "1000": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.dome_roof.08",
+      "note": "rounded dome/tent roof shape"
+    },
+    "1001": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.dashed_line.01"
+    },
+    "1002": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.stripe_band.05"
+    },
+    "1003": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.stripe_band.06"
+    },
+    "1004": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.stripe_band.07"
+    },
+    "1005": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.141"
+    },
+    "1006": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.142"
+    },
+    "1007": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.143"
+    },
+    "1008": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.144"
+    },
+    "1009": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.145"
+    },
     "101": {
       "category": "terrain",
       "confidence": "visual",
       "id": "decoration.tree",
       "note": "dark green canopy on a post/trunk"
+    },
+    "1010": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.146"
     },
     "1011": {
       "category": "effect",
@@ -34,12 +90,84 @@
       "id": "effect.shadow.hard.029",
       "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
     },
+    "1012": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.window.13"
+    },
+    "1013": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.window.14"
+    },
+    "1014": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.window.15"
+    },
+    "1015": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.window.16"
+    },
+    "1016": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.147"
+    },
+    "1017": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.148"
+    },
+    "1018": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.149"
+    },
+    "1019": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.150"
+    },
     "102": {
       "category": "terrain",
       "confidence": "visual",
       "id": "terrain.ground.teal_panel",
       "note": "plain solid teal panel",
       "seen_in_retail_levels": false
+    },
+    "1020": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.151"
+    },
+    "1021": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.152"
+    },
+    "1022": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.153"
+    },
+    "1023": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.154"
+    },
+    "1024": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.window_lattice_green.01",
+      "note": "green plaid/checker window"
+    },
+    "1025": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.moss_patch.01",
+      "note": "dark green mottled square"
     },
     "1026": {
       "category": "effect",
@@ -53,17 +181,101 @@
       "id": "reserved.blank.0080",
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
+    "1028": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.pole_striped.12",
+      "note": "thin vertical red/blue striped pole"
+    },
+    "1029": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.pole_striped.13",
+      "note": "thin vertical red/blue striped pole"
+    },
     "103": {
       "category": "terrain",
       "confidence": "visual",
       "id": "decoration.shrub",
       "note": "dark mottled patch on lighter ground"
     },
+    "1030": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.pole_striped.14",
+      "note": "thin vertical red/blue striped pole"
+    },
+    "1031": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.pole_striped.15",
+      "note": "thin vertical red/blue striped pole"
+    },
+    "1032": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.pole_striped.16",
+      "note": "thin vertical red/blue striped pole"
+    },
+    "1033": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.pole_striped.17",
+      "note": "thin vertical red/blue striped pole"
+    },
+    "1034": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.pole_striped.18",
+      "note": "thin vertical red/blue striped pole"
+    },
+    "1035": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.pole_striped.19",
+      "note": "thin vertical red/blue striped pole"
+    },
+    "1036": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.pole_striped.20",
+      "note": "thin vertical red/blue striped pole"
+    },
+    "1037": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.pole_striped.21",
+      "note": "thin vertical red/blue striped pole"
+    },
+    "1038": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.pole_striped.22",
+      "note": "thin vertical red/blue striped pole"
+    },
+    "1039": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.pole_striped.23",
+      "note": "thin vertical red/blue striped pole"
+    },
     "104": {
       "category": "terrain",
       "confidence": "visual",
       "id": "marker.hazard_stripe",
       "note": "orange/black diagonal hazard stripes"
+    },
+    "1040": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.medallion.03",
+      "note": "circular red/white concentric badge, possible landing/flag marker"
+    },
+    "1041": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.medallion.04",
+      "note": "circular red/white concentric badge, possible landing/flag marker"
     },
     "1042": {
       "category": "effect",
@@ -77,6 +289,36 @@
       "id": "effect.shadow.hard.032",
       "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
     },
+    "1044": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.rubble_patch.04"
+    },
+    "1045": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.explosion_large.48"
+    },
+    "1046": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.explosion_large.49"
+    },
+    "1047": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.explosion_large.50"
+    },
+    "1048": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.tan.03"
+    },
+    "1049": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.cyan.03"
+    },
     "105": {
       "category": "terrain",
       "confidence": "visual",
@@ -84,11 +326,64 @@
       "note": "red spatter/rubble texture on black",
       "seen_in_retail_levels": false
     },
+    "1050": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.134",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "1051": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.roof_box.01",
+      "note": "small tan/brown roof/box shape"
+    },
+    "1052": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.135",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "1053": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.136",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "1054": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.137",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "1055": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.138",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "1056": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.139",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "1057": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.140",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
     "1058": {
       "category": "effect",
       "confidence": "confirmed",
       "id": "effect.shadow.hard.033",
       "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "1059": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.explosion_large.51"
     },
     "106": {
       "category": "terrain",
@@ -96,6 +391,11 @@
       "id": "terrain.ground.rubble_red.02",
       "note": "red spatter/rubble texture on black",
       "seen_in_retail_levels": false
+    },
+    "1060": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.explosion_large.52"
     },
     "1061": {
       "category": "effect",
@@ -109,11 +409,44 @@
       "id": "reserved.blank.0081",
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
+    "1063": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.spark_bolt.14"
+    },
+    "1064": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.hollow_square.03",
+      "note": "hollow square outline, orange or red-dotted"
+    },
+    "1065": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.hollow_square.04",
+      "note": "hollow square outline, orange or red-dotted"
+    },
+    "1066": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.debris_faint.92"
+    },
+    "1067": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.debris_faint.93"
+    },
     "1068": {
       "category": "effect",
       "confidence": "confirmed",
       "id": "effect.shadow.hard.035",
       "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+    },
+    "1069": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.bone_shape.03",
+      "note": "white curved bone/tusk-like shape, unconfirmed purpose"
     },
     "107": {
       "category": "terrain",
@@ -122,17 +455,40 @@
       "note": "red spatter/rubble texture on black",
       "seen_in_retail_levels": false
     },
+    "1070": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.bone_shape.04",
+      "note": "white curved bone/tusk-like shape, unconfirmed purpose"
+    },
     "1071": {
       "category": "effect",
       "confidence": "confirmed",
       "id": "effect.shadow.hard.036",
       "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
     },
+    "1072": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.dart_icon.03",
+      "note": "small teal jet/dart arrow shape"
+    },
+    "1073": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.dart_icon.04",
+      "note": "small teal jet/dart arrow shape"
+    },
     "1074": {
       "category": "effect",
       "confidence": "confirmed",
       "id": "effect.shadow.hard.037",
       "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+    },
+    "1075": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.foliage.bush_blue.12"
     },
     "1076": {
       "category": "effect",
@@ -1270,12 +1626,12 @@
     "218": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.01"
+      "id": "vehicle.hovercraft.rotation.tan.17"
     },
     "219": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.02"
+      "id": "vehicle.hovercraft.rotation.tan.18"
     },
     "22": {
       "category": "terrain",
@@ -1285,37 +1641,37 @@
     "220": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.03"
+      "id": "vehicle.hovercraft.rotation.tan.19"
     },
     "221": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.04"
+      "id": "vehicle.hovercraft.rotation.tan.20"
     },
     "222": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.05"
+      "id": "vehicle.hovercraft.rotation.tan.21"
     },
     "223": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.06"
+      "id": "vehicle.hovercraft.rotation.tan.22"
     },
     "224": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.07"
+      "id": "vehicle.hovercraft.rotation.tan.23"
     },
     "225": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.08"
+      "id": "vehicle.hovercraft.rotation.tan.24"
     },
     "226": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.05"
+      "id": "prop.debris_faint.66"
     },
     "227": {
       "category": "reserved",
@@ -1355,42 +1711,42 @@
     "232": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.cyan.01"
+      "id": "vehicle.hovercraft.rotation.cyan.19"
     },
     "233": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.cyan.02"
+      "id": "vehicle.hovercraft.rotation.cyan.20"
     },
     "234": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.cyan.03"
+      "id": "vehicle.hovercraft.rotation.cyan.21"
     },
     "235": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.cyan.04"
+      "id": "vehicle.hovercraft.rotation.cyan.22"
     },
     "236": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.cyan.05"
+      "id": "vehicle.hovercraft.rotation.cyan.23"
     },
     "237": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.cyan.06"
+      "id": "vehicle.hovercraft.rotation.cyan.24"
     },
     "238": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.cyan.07"
+      "id": "vehicle.hovercraft.rotation.cyan.25"
     },
     "239": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.cyan.08"
+      "id": "vehicle.hovercraft.rotation.cyan.26"
     },
     "24": {
       "category": "terrain",
@@ -1401,7 +1757,7 @@
     "240": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.cyan.09"
+      "id": "vehicle.hovercraft.rotation.cyan.27"
     },
     "241": {
       "category": "reserved",
@@ -1436,25 +1792,25 @@
     "246": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.01",
+      "id": "prop.stalk_orb.rotation.tan.25",
       "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
     },
     "247": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.02",
+      "id": "prop.stalk_orb.rotation.tan.26",
       "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
     },
     "248": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.03",
+      "id": "prop.stalk_orb.rotation.tan.27",
       "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
     },
     "249": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.04",
+      "id": "prop.stalk_orb.rotation.tan.28",
       "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
     },
     "25": {
@@ -1466,61 +1822,61 @@
     "250": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.05",
+      "id": "prop.stalk_orb.rotation.tan.29",
       "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
     },
     "251": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.06",
+      "id": "prop.stalk_orb.rotation.tan.30",
       "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
     },
     "252": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.07",
+      "id": "prop.stalk_orb.rotation.tan.31",
       "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
     },
     "253": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.08",
+      "id": "prop.stalk_orb.rotation.tan.32",
       "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
     },
     "254": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.09",
+      "id": "prop.stalk_orb.rotation.tan.33",
       "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
     },
     "255": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.10",
+      "id": "prop.stalk_orb.rotation.tan.34",
       "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
     },
     "256": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.11",
+      "id": "prop.stalk_orb.rotation.tan.35",
       "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
     },
     "257": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.12",
+      "id": "prop.stalk_orb.rotation.tan.36",
       "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
     },
     "258": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.01",
+      "id": "prop.stalk_orb.rotation.green.23",
       "note": "same prop, green-tinted variant"
     },
     "259": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.02",
+      "id": "prop.stalk_orb.rotation.green.24",
       "note": "same prop, green-tinted variant"
     },
     "26": {
@@ -1532,61 +1888,61 @@
     "260": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.03",
+      "id": "prop.stalk_orb.rotation.green.25",
       "note": "same prop, green-tinted variant"
     },
     "261": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.04",
+      "id": "prop.stalk_orb.rotation.green.26",
       "note": "same prop, green-tinted variant"
     },
     "262": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.05",
+      "id": "prop.stalk_orb.rotation.green.27",
       "note": "same prop, green-tinted variant"
     },
     "263": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.06",
+      "id": "prop.stalk_orb.rotation.green.28",
       "note": "same prop, green-tinted variant"
     },
     "264": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.07",
+      "id": "prop.stalk_orb.rotation.green.29",
       "note": "same prop, green-tinted variant"
     },
     "265": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.08",
+      "id": "prop.stalk_orb.rotation.green.30",
       "note": "same prop, green-tinted variant"
     },
     "266": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.09",
+      "id": "prop.stalk_orb.rotation.green.31",
       "note": "same prop, green-tinted variant"
     },
     "267": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.10",
+      "id": "prop.stalk_orb.rotation.green.32",
       "note": "same prop, green-tinted variant"
     },
     "268": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.11",
+      "id": "prop.stalk_orb.rotation.green.33",
       "note": "same prop, green-tinted variant"
     },
     "269": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.cyan.01",
+      "id": "prop.stalk_orb.rotation.cyan.09",
       "note": "same prop, thin/distant cyan frames"
     },
     "27": {
@@ -1598,19 +1954,19 @@
     "270": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.cyan.02",
+      "id": "prop.stalk_orb.rotation.cyan.10",
       "note": "same prop, thin/distant cyan frames"
     },
     "271": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.cyan.03",
+      "id": "prop.stalk_orb.rotation.cyan.11",
       "note": "same prop, thin/distant cyan frames"
     },
     "272": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.cyan.04",
+      "id": "prop.stalk_orb.rotation.cyan.12",
       "note": "same prop, thin/distant cyan frames"
     },
     "273": {
@@ -1628,30 +1984,30 @@
     "275": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_splash.01",
+      "id": "effect.explosion_splash.15",
       "note": "red-spark/blue-splash burst, likely a hit or small-explosion animation"
     },
     "276": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_splash.02",
+      "id": "effect.explosion_splash.16",
       "note": "red-spark/blue-splash burst, likely a hit or small-explosion animation"
     },
     "277": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_splash.03",
+      "id": "effect.explosion_splash.17",
       "note": "red-spark/blue-splash burst, likely a hit or small-explosion animation"
     },
     "278": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.fuel_drum.tan.01"
+      "id": "prop.fuel_drum.tan.05"
     },
     "279": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.fuel_drum.tan_capped.01",
+      "id": "prop.fuel_drum.tan_capped.03",
       "note": "tan drum with red end caps"
     },
     "28": {
@@ -1663,57 +2019,57 @@
     "280": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.fuel_drum.cyan.01"
+      "id": "prop.fuel_drum.cyan.05"
     },
     "281": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.fuel_drum.orange.01"
+      "id": "prop.fuel_drum.orange.03"
     },
     "282": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_splash.04",
+      "id": "effect.explosion_splash.18",
       "note": "red-spark/blue-splash burst, likely a hit or small-explosion animation"
     },
     "283": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_splash.05",
+      "id": "effect.explosion_splash.19",
       "note": "red-spark/blue-splash burst, likely a hit or small-explosion animation"
     },
     "284": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.fuel_drum.tan.02"
+      "id": "prop.fuel_drum.tan.06"
     },
     "285": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.fuel_drum.cyan.02"
+      "id": "prop.fuel_drum.cyan.06"
     },
     "286": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.fuel_drum.hazard_stripe.01",
+      "id": "prop.fuel_drum.hazard_stripe.03",
       "note": "orange drum with black warning stripes"
     },
     "287": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_splash.06",
+      "id": "effect.explosion_splash.20",
       "note": "red-spark/blue-splash burst, likely a hit or small-explosion animation"
     },
     "288": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_splash.07",
+      "id": "effect.explosion_splash.21",
       "note": "red-spark/blue-splash burst, likely a hit or small-explosion animation"
     },
     "289": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.cart.tan.01",
+      "id": "vehicle.cart.tan.06",
       "note": "small wheeled cart/mobile unit"
     },
     "29": {
@@ -1725,12 +2081,12 @@
     "290": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.cart.cyan.01"
+      "id": "vehicle.cart.cyan.06"
     },
     "291": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.cart.orange.01"
+      "id": "vehicle.cart.orange.03"
     },
     "292": {
       "category": "reserved",
@@ -1794,13 +2150,13 @@
     "300": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.cart.tan.02",
+      "id": "vehicle.cart.tan.07",
       "note": "small wheeled cart/mobile unit"
     },
     "301": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.cart.cyan.02"
+      "id": "vehicle.cart.cyan.07"
     },
     "302": {
       "category": "reserved",
@@ -1823,25 +2179,25 @@
     "305": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.missile_pod.01",
+      "id": "prop.missile_pod.05",
       "note": "small horizontal green/blue pod with red tip"
     },
     "306": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.missile_pod.02",
+      "id": "prop.missile_pod.06",
       "note": "small horizontal green/blue pod with red tip"
     },
     "307": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.01",
+      "id": "prop.debris_faint.62",
       "note": "very faint tan dashes/dots"
     },
     "308": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.02",
+      "id": "prop.debris_faint.63",
       "note": "very faint tan dashes/dots"
     },
     "309": {
@@ -1870,13 +2226,13 @@
     "312": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.crate.tan.01",
+      "id": "prop.crate.tan.05",
       "note": "small blocky tan shapes"
     },
     "313": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.crate.tan.02",
+      "id": "prop.crate.tan.06",
       "note": "small blocky tan shapes"
     },
     "314": {
@@ -1921,12 +2277,12 @@
     "320": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.03"
+      "id": "prop.debris_faint.64"
     },
     "321": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.04"
+      "id": "prop.debris_faint.65"
     },
     "322": {
       "category": "prop",
@@ -1967,13 +2323,13 @@
     "328": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.sack.tan.01",
+      "id": "prop.sack.tan.15",
       "note": "cargo sack, slight rotation"
     },
     "329": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.sack.tan.02",
+      "id": "prop.sack.tan.16",
       "note": "cargo sack, slight rotation"
     },
     "33": {
@@ -1984,31 +2340,31 @@
     "330": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.sack.tan.03",
+      "id": "prop.sack.tan.17",
       "note": "cargo sack, slight rotation"
     },
     "331": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.sack.tan.04",
+      "id": "prop.sack.tan.18",
       "note": "cargo sack, slight rotation"
     },
     "332": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.sack.tan.05",
+      "id": "prop.sack.tan.19",
       "note": "cargo sack, slight rotation"
     },
     "333": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.sack.tan.06",
+      "id": "prop.sack.tan.20",
       "note": "cargo sack, slight rotation"
     },
     "334": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.sack.tan.07",
+      "id": "prop.sack.tan.21",
       "note": "cargo sack, slight rotation"
     },
     "335": {
@@ -2061,43 +2417,43 @@
     "342": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.sentry_turret.teal.01",
+      "id": "prop.sentry_turret.teal.13",
       "note": "boxy body with two square window/eye shapes, likely a small automated turret or robot"
     },
     "343": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.sentry_turret.teal.02",
+      "id": "prop.sentry_turret.teal.14",
       "note": "boxy body with two square window/eye shapes, likely a small automated turret or robot"
     },
     "344": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.sentry_turret.teal.03",
+      "id": "prop.sentry_turret.teal.15",
       "note": "boxy body with two square window/eye shapes, likely a small automated turret or robot"
     },
     "345": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.sentry_turret.teal.04",
+      "id": "prop.sentry_turret.teal.16",
       "note": "boxy body with two square window/eye shapes, likely a small automated turret or robot"
     },
     "346": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.sentry_turret.teal.05",
+      "id": "prop.sentry_turret.teal.17",
       "note": "boxy body with two square window/eye shapes, likely a small automated turret or robot"
     },
     "347": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.sentry_turret.teal.06",
+      "id": "prop.sentry_turret.teal.18",
       "note": "boxy body with two square window/eye shapes, likely a small automated turret or robot"
     },
     "348": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.06"
+      "id": "prop.debris_faint.67"
     },
     "349": {
       "category": "reserved",
@@ -2149,25 +2505,25 @@
     "356": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.01",
+      "id": "prop.canister_rack.35",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "357": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.02",
+      "id": "prop.canister_rack.36",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "358": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.03",
+      "id": "prop.canister_rack.37",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "359": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.04",
+      "id": "prop.canister_rack.38",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "36": {
@@ -2178,61 +2534,61 @@
     "360": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.05",
+      "id": "prop.canister_rack.39",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "361": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.06",
+      "id": "prop.canister_rack.40",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "362": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.07",
+      "id": "prop.canister_rack.41",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "363": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.08",
+      "id": "prop.canister_rack.42",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "364": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.09",
+      "id": "prop.canister_rack.43",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "365": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.10",
+      "id": "prop.canister_rack.44",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "366": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.11",
+      "id": "prop.canister_rack.45",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "367": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.12",
+      "id": "prop.canister_rack.46",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "368": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.13",
+      "id": "prop.canister_rack.47",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "369": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.14",
+      "id": "prop.canister_rack.48",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "37": {
@@ -2243,60 +2599,60 @@
     "370": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.15",
+      "id": "prop.canister_rack.49",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "371": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.16",
+      "id": "prop.canister_rack.50",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "372": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.canister_rack.17",
+      "id": "prop.canister_rack.51",
       "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
     },
     "373": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.07"
+      "id": "prop.debris_faint.68"
     },
     "374": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.bunker.tan.01",
+      "id": "structure.bunker.tan.15",
       "note": "crenellated-top bunker/pillbox block"
     },
     "375": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.bunker.tan.02",
+      "id": "structure.bunker.tan.16",
       "note": "crenellated-top bunker/pillbox block"
     },
     "376": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.bunker.tan.03",
+      "id": "structure.bunker.tan.17",
       "note": "crenellated-top bunker/pillbox block"
     },
     "377": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.bunker.tan.04",
+      "id": "structure.bunker.tan.18",
       "note": "crenellated-top bunker/pillbox block"
     },
     "378": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.bunker.tan.05",
+      "id": "structure.bunker.tan.19",
       "note": "crenellated-top bunker/pillbox block"
     },
     "379": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.bunker.tan.06",
+      "id": "structure.bunker.tan.20",
       "note": "crenellated-top bunker/pillbox block"
     },
     "38": {
@@ -2307,59 +2663,59 @@
     "380": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.bunker.tan.07",
+      "id": "structure.bunker.tan.21",
       "note": "crenellated-top bunker/pillbox block"
     },
     "381": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.08"
+      "id": "prop.debris_faint.69"
     },
     "382": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.09"
+      "id": "prop.debris_faint.70"
     },
     "383": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.bunker.teal.01",
+      "id": "structure.bunker.teal.13",
       "note": "same bunker shape, teal team variant"
     },
     "384": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.bunker.teal.02",
+      "id": "structure.bunker.teal.14",
       "note": "same bunker shape, teal team variant"
     },
     "385": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.bunker.teal.03",
+      "id": "structure.bunker.teal.15",
       "note": "same bunker shape, teal team variant"
     },
     "386": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.bunker.teal.04",
+      "id": "structure.bunker.teal.16",
       "note": "same bunker shape, teal team variant"
     },
     "387": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.bunker.teal.05",
+      "id": "structure.bunker.teal.17",
       "note": "same bunker shape, teal team variant"
     },
     "388": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.bunker.teal.06",
+      "id": "structure.bunker.teal.18",
       "note": "same bunker shape, teal team variant"
     },
     "389": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.10"
+      "id": "prop.debris_faint.71"
     },
     "39": {
       "category": "terrain",
@@ -2369,17 +2725,17 @@
     "390": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.11"
+      "id": "prop.debris_faint.72"
     },
     "391": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.12"
+      "id": "prop.debris_faint.73"
     },
     "392": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.13"
+      "id": "prop.debris_faint.74"
     },
     "393": {
       "category": "reserved",
@@ -2414,12 +2770,12 @@
     "398": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.01"
+      "id": "effect.explosion_large.34"
     },
     "399": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.02"
+      "id": "effect.explosion_large.35"
     },
     "4": {
       "category": "terrain",
@@ -2434,37 +2790,37 @@
     "400": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.03"
+      "id": "effect.explosion_large.36"
     },
     "401": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.04"
+      "id": "effect.explosion_large.37"
     },
     "402": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.05"
+      "id": "effect.explosion_large.38"
     },
     "403": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.06"
+      "id": "effect.explosion_large.39"
     },
     "404": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.07"
+      "id": "effect.explosion_large.40"
     },
     "405": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.14"
+      "id": "prop.debris_faint.75"
     },
     "406": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.15"
+      "id": "prop.debris_faint.76"
     },
     "407": {
       "category": "reserved",
@@ -2510,22 +2866,22 @@
     "413": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.08"
+      "id": "effect.explosion_large.41"
     },
     "414": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.09"
+      "id": "effect.explosion_large.42"
     },
     "415": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.16"
+      "id": "prop.debris_faint.77"
     },
     "416": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.17"
+      "id": "prop.debris_faint.78"
     },
     "417": {
       "category": "prop",
@@ -2585,7 +2941,7 @@
     "426": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.18"
+      "id": "prop.debris_faint.79"
     },
     "427": {
       "category": "prop",
@@ -2612,17 +2968,17 @@
     "430": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.19"
+      "id": "prop.debris_faint.80"
     },
     "431": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.20"
+      "id": "prop.debris_faint.81"
     },
     "432": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.21"
+      "id": "prop.debris_faint.82"
     },
     "433": {
       "category": "vehicle",
@@ -2649,7 +3005,7 @@
     "437": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.beam.01",
+      "id": "effect.beam.15",
       "note": "thin vertical red line"
     },
     "438": {
@@ -2696,7 +3052,7 @@
     "444": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.beam.02",
+      "id": "effect.beam.16",
       "note": "thin vertical red line"
     },
     "445": {
@@ -2735,13 +3091,13 @@
     "450": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.beam.03",
+      "id": "effect.beam.17",
       "note": "thin vertical red line"
     },
     "451": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.beam.04",
+      "id": "effect.beam.18",
       "note": "thin vertical red line"
     },
     "452": {
@@ -2776,19 +3132,19 @@
     "457": {
       "category": "ui",
       "confidence": "visual_group",
-      "id": "ui.map_blip.01",
+      "id": "ui.map_blip.11",
       "note": "small red dot icon"
     },
     "458": {
       "category": "ui",
       "confidence": "visual_group",
-      "id": "ui.map_blip.02",
+      "id": "ui.map_blip.12",
       "note": "small red dot icon"
     },
     "459": {
       "category": "ui",
       "confidence": "visual_group",
-      "id": "ui.map_blip.03",
+      "id": "ui.map_blip.13",
       "note": "small red dot icon"
     },
     "46": {
@@ -2799,13 +3155,13 @@
     "460": {
       "category": "ui",
       "confidence": "visual_group",
-      "id": "ui.map_blip.04",
+      "id": "ui.map_blip.14",
       "note": "small red dot icon"
     },
     "461": {
       "category": "ui",
       "confidence": "visual_group",
-      "id": "ui.map_blip.05",
+      "id": "ui.map_blip.15",
       "note": "small red dot icon"
     },
     "462": {
@@ -2817,37 +3173,37 @@
     "463": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.tan.01"
+      "id": "character.trooper_head.rotation.tan.15"
     },
     "464": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.tan.02"
+      "id": "character.trooper_head.rotation.tan.16"
     },
     "465": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.tan.03"
+      "id": "character.trooper_head.rotation.tan.17"
     },
     "466": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.tan.04"
+      "id": "character.trooper_head.rotation.tan.18"
     },
     "467": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.tan.05"
+      "id": "character.trooper_head.rotation.tan.19"
     },
     "468": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.tan.06"
+      "id": "character.trooper_head.rotation.tan.20"
     },
     "469": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.tan.07"
+      "id": "character.trooper_head.rotation.tan.21"
     },
     "47": {
       "category": "terrain",
@@ -2857,7 +3213,7 @@
     "470": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.22"
+      "id": "prop.debris_faint.83"
     },
     "471": {
       "category": "reserved",
@@ -2898,17 +3254,17 @@
     "477": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal.01"
+      "id": "character.trooper_head.rotation.teal.17"
     },
     "478": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal.02"
+      "id": "character.trooper_head.rotation.teal.18"
     },
     "479": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal.03"
+      "id": "character.trooper_head.rotation.teal.19"
     },
     "48": {
       "category": "terrain",
@@ -2918,27 +3274,27 @@
     "480": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal.04"
+      "id": "character.trooper_head.rotation.teal.20"
     },
     "481": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal.05"
+      "id": "character.trooper_head.rotation.teal.21"
     },
     "482": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal.06"
+      "id": "character.trooper_head.rotation.teal.22"
     },
     "483": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal.07"
+      "id": "character.trooper_head.rotation.teal.23"
     },
     "484": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal.08"
+      "id": "character.trooper_head.rotation.teal.24"
     },
     "485": {
       "category": "reserved",
@@ -2985,55 +3341,55 @@
     "491": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal_alt.01",
+      "id": "character.trooper_head.rotation.teal_alt.29",
       "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
     },
     "492": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal_alt.02",
+      "id": "character.trooper_head.rotation.teal_alt.30",
       "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
     },
     "493": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal_alt.03",
+      "id": "character.trooper_head.rotation.teal_alt.31",
       "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
     },
     "494": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal_alt.04",
+      "id": "character.trooper_head.rotation.teal_alt.32",
       "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
     },
     "495": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal_alt.05",
+      "id": "character.trooper_head.rotation.teal_alt.33",
       "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
     },
     "496": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal_alt.06",
+      "id": "character.trooper_head.rotation.teal_alt.34",
       "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
     },
     "497": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal_alt.07",
+      "id": "character.trooper_head.rotation.teal_alt.35",
       "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
     },
     "498": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal_alt.08",
+      "id": "character.trooper_head.rotation.teal_alt.36",
       "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
     },
     "499": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal_alt.09",
+      "id": "character.trooper_head.rotation.teal_alt.37",
       "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
     },
     "5": {
@@ -3050,57 +3406,57 @@
     "500": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal_alt.10",
+      "id": "character.trooper_head.rotation.teal_alt.38",
       "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
     },
     "501": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal_alt.11",
+      "id": "character.trooper_head.rotation.teal_alt.39",
       "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
     },
     "502": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal_alt.12",
+      "id": "character.trooper_head.rotation.teal_alt.40",
       "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
     },
     "503": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal_alt.13",
+      "id": "character.trooper_head.rotation.teal_alt.41",
       "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
     },
     "504": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.teal_alt.14",
+      "id": "character.trooper_head.rotation.teal_alt.42",
       "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
     },
     "505": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.23"
+      "id": "prop.debris_faint.84"
     },
     "506": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.24"
+      "id": "prop.debris_faint.85"
     },
     "507": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.25"
+      "id": "prop.debris_faint.86"
     },
     "508": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.26"
+      "id": "prop.debris_faint.87"
     },
     "509": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.10",
+      "id": "effect.explosion_large.43",
       "note": "510 appears to show a trooper figure mid-burst -- possibly a death/hit animation"
     },
     "51": {
@@ -3112,37 +3468,37 @@
     "510": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.11",
+      "id": "effect.explosion_large.44",
       "note": "510 appears to show a trooper figure mid-burst -- possibly a death/hit animation"
     },
     "511": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.12",
+      "id": "effect.explosion_large.45",
       "note": "510 appears to show a trooper figure mid-burst -- possibly a death/hit animation"
     },
     "512": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.crate_dark.01",
+      "id": "prop.crate_dark.07",
       "note": "dark green/red long bar, ammo crate?"
     },
     "513": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.crate_dark.02",
+      "id": "prop.crate_dark.08",
       "note": "dark green/red long bar, ammo crate?"
     },
     "514": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.crate_dark.03",
+      "id": "prop.crate_dark.09",
       "note": "dark green/red long bar, ammo crate?"
     },
     "515": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.27"
+      "id": "prop.debris_faint.88"
     },
     "516": {
       "category": "prop",
@@ -3158,7 +3514,7 @@
     "518": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.camo_strip.01",
+      "id": "prop.camo_strip.31",
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "519": {
@@ -3175,36 +3531,36 @@
     "520": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.camo_strip.02",
+      "id": "prop.camo_strip.32",
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "521": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.wave_horizon.01",
+      "id": "prop.wave_horizon.25",
       "note": "teal wave/water/sky horizon-shaped strip"
     },
     "522": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.wave_horizon.02",
+      "id": "prop.wave_horizon.26",
       "note": "teal wave/water/sky horizon-shaped strip"
     },
     "523": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.28"
+      "id": "prop.debris_faint.89"
     },
     "524": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.wave_horizon.03",
+      "id": "prop.wave_horizon.27",
       "note": "teal wave/water/sky horizon-shaped strip"
     },
     "525": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.29"
+      "id": "prop.debris_faint.90"
     },
     "526": {
       "category": "structure",
@@ -3226,7 +3582,7 @@
     "529": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.camo_strip.03",
+      "id": "prop.camo_strip.33",
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "53": {
@@ -3237,61 +3593,61 @@
     "530": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.wave_horizon.04",
+      "id": "prop.wave_horizon.28",
       "note": "teal wave/water/sky horizon-shaped strip"
     },
     "531": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.wave_horizon.05",
+      "id": "prop.wave_horizon.29",
       "note": "teal wave/water/sky horizon-shaped strip"
     },
     "532": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.objective_target.01",
+      "id": "marker.objective_target.15",
       "note": "red bullseye in a coloured frame (tan/green/blue/brown/orange) -- likely a mission-objective icon set"
     },
     "533": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.objective_target.02",
+      "id": "marker.objective_target.16",
       "note": "red bullseye in a coloured frame (tan/green/blue/brown/orange) -- likely a mission-objective icon set"
     },
     "534": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.objective_target.03",
+      "id": "marker.objective_target.17",
       "note": "red bullseye in a coloured frame (tan/green/blue/brown/orange) -- likely a mission-objective icon set"
     },
     "535": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.objective_target.04",
+      "id": "marker.objective_target.18",
       "note": "red bullseye in a coloured frame (tan/green/blue/brown/orange) -- likely a mission-objective icon set"
     },
     "536": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.objective_target.05",
+      "id": "marker.objective_target.19",
       "note": "red bullseye in a coloured frame (tan/green/blue/brown/orange) -- likely a mission-objective icon set"
     },
     "537": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.objective_target.06",
+      "id": "marker.objective_target.20",
       "note": "red bullseye in a coloured frame (tan/green/blue/brown/orange) -- likely a mission-objective icon set"
     },
     "538": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.objective_target.07",
+      "id": "marker.objective_target.21",
       "note": "red bullseye in a coloured frame (tan/green/blue/brown/orange) -- likely a mission-objective icon set"
     },
     "539": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.ammo_panel_red.01"
+      "id": "prop.ammo_panel_red.05"
     },
     "54": {
       "category": "terrain",
@@ -3301,18 +3657,18 @@
     "540": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.ammo_panel_red.02"
+      "id": "prop.ammo_panel_red.06"
     },
     "541": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.spark_bolt.01",
+      "id": "effect.spark_bolt.10",
       "note": "yellow lightning-bolt/zigzag shape"
     },
     "542": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.camo_strip.04",
+      "id": "prop.camo_strip.34",
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "543": {
@@ -3324,37 +3680,37 @@
     "544": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.camo_strip.05",
+      "id": "prop.camo_strip.35",
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "545": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.camo_strip.06",
+      "id": "prop.camo_strip.36",
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "546": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.camo_strip.07",
+      "id": "prop.camo_strip.37",
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "547": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.wave_horizon.06",
+      "id": "prop.wave_horizon.30",
       "note": "teal wave/water/sky horizon-shaped strip"
     },
     "548": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.camo_strip.08",
+      "id": "prop.camo_strip.38",
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "549": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.camo_strip.09",
+      "id": "prop.camo_strip.39",
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "55": {
@@ -3365,13 +3721,13 @@
     "550": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.camo_strip.10",
+      "id": "prop.camo_strip.40",
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "551": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.wave_horizon.07",
+      "id": "prop.wave_horizon.31",
       "note": "teal wave/water/sky horizon-shaped strip"
     },
     "552": {
@@ -3389,37 +3745,37 @@
     "554": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.wave_horizon.08",
+      "id": "prop.wave_horizon.32",
       "note": "teal wave/water/sky horizon-shaped strip"
     },
     "555": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.wave_horizon.09",
+      "id": "prop.wave_horizon.33",
       "note": "teal wave/water/sky horizon-shaped strip"
     },
     "556": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.wave_horizon.10",
+      "id": "prop.wave_horizon.34",
       "note": "teal wave/water/sky horizon-shaped strip"
     },
     "557": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.wave_horizon.11",
+      "id": "prop.wave_horizon.35",
       "note": "teal wave/water/sky horizon-shaped strip"
     },
     "558": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.wave_horizon.12",
+      "id": "prop.wave_horizon.36",
       "note": "teal wave/water/sky horizon-shaped strip"
     },
     "559": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.camo_strip.11",
+      "id": "prop.camo_strip.41",
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "56": {
@@ -3430,61 +3786,61 @@
     "560": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.camo_strip.12",
+      "id": "prop.camo_strip.42",
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "561": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.camo_strip.13",
+      "id": "prop.camo_strip.43",
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "562": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.camo_strip.14",
+      "id": "prop.camo_strip.44",
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "563": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.camo_strip.15",
+      "id": "prop.camo_strip.45",
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "564": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_squad.01",
+      "id": "character.trooper_squad.25",
       "note": "standing full-body trooper figure, several colour variants"
     },
     "565": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_squad.02",
+      "id": "character.trooper_squad.26",
       "note": "standing full-body trooper figure, several colour variants"
     },
     "566": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_squad.03",
+      "id": "character.trooper_squad.27",
       "note": "standing full-body trooper figure, several colour variants"
     },
     "567": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_squad.04",
+      "id": "character.trooper_squad.28",
       "note": "standing full-body trooper figure, several colour variants"
     },
     "568": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_squad.05",
+      "id": "character.trooper_squad.29",
       "note": "standing full-body trooper figure, several colour variants"
     },
     "569": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_squad.06",
+      "id": "character.trooper_squad.30",
       "note": "standing full-body trooper figure, several colour variants"
     },
     "57": {
@@ -3495,52 +3851,52 @@
     "570": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_squad.07",
+      "id": "character.trooper_squad.31",
       "note": "standing full-body trooper figure, several colour variants"
     },
     "571": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_squad.08",
+      "id": "character.trooper_squad.32",
       "note": "standing full-body trooper figure, several colour variants"
     },
     "572": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_squad.09",
+      "id": "character.trooper_squad.33",
       "note": "standing full-body trooper figure, several colour variants"
     },
     "573": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_squad.10",
+      "id": "character.trooper_squad.34",
       "note": "standing full-body trooper figure, several colour variants"
     },
     "574": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_squad.11",
+      "id": "character.trooper_squad.35",
       "note": "standing full-body trooper figure, several colour variants"
     },
     "575": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.beam.05"
+      "id": "effect.beam.19"
     },
     "576": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.beam.06"
+      "id": "effect.beam.20"
     },
     "577": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.beam.07"
+      "id": "effect.beam.21"
     },
     "578": {
       "category": "character",
       "confidence": "visual_group",
-      "id": "character.trooper_squad.12",
+      "id": "character.trooper_squad.36",
       "note": "standing full-body trooper figure, several colour variants"
     },
     "579": {
@@ -3557,12 +3913,12 @@
     "580": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.brick_red.01"
+      "id": "prop.brick_red.05"
     },
     "581": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.brick_red.02"
+      "id": "prop.brick_red.06"
     },
     "582": {
       "category": "effect",
@@ -3751,19 +4107,19 @@
     "610": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.diamond_pattern.01",
+      "id": "prop.diamond_pattern.09",
       "note": "red/orange diamond-checker strip"
     },
     "611": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.diamond_pattern.02",
+      "id": "prop.diamond_pattern.10",
       "note": "red/orange diamond-checker strip"
     },
     "612": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.spark_bolt.02",
+      "id": "effect.spark_bolt.11",
       "note": "yellow lightning-bolt/zigzag shape"
     },
     "613": {
@@ -3774,24 +4130,24 @@
     "614": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.wheel_hub.04"
+      "id": "vehicle.hovercraft.wheel_hub.10"
     },
     "615": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.dome_small.tan.01",
+      "id": "prop.dome_small.tan.05",
       "note": "small mushroom/dome shape, red top"
     },
     "616": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.riveted_panel_red.01",
+      "id": "prop.riveted_panel_red.05",
       "note": "large mottled red panel with rivet-like dots"
     },
     "617": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.riveted_panel_red.02",
+      "id": "prop.riveted_panel_red.06",
       "note": "large mottled red panel with rivet-like dots"
     },
     "618": {
@@ -3814,29 +4170,29 @@
     "620": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.spark_bolt.03",
+      "id": "effect.spark_bolt.12",
       "note": "yellow lightning-bolt/zigzag shape"
     },
     "621": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.spark_bolt.04",
+      "id": "effect.spark_bolt.13",
       "note": "yellow lightning-bolt/zigzag shape"
     },
     "622": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.wheel_hub.05"
+      "id": "vehicle.hovercraft.wheel_hub.11"
     },
     "623": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.wheel_hub.06"
+      "id": "vehicle.hovercraft.wheel_hub.12"
     },
     "624": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.dome_small.tan.02",
+      "id": "prop.dome_small.tan.06",
       "note": "small mushroom/dome shape, red top"
     },
     "625": {
@@ -3876,61 +4232,61 @@
     "630": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.watercraft_distant.01",
+      "id": "prop.watercraft_distant.21",
       "note": "small pale boat silhouette, likely distant-LOD"
     },
     "631": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.watercraft_distant.02",
+      "id": "prop.watercraft_distant.22",
       "note": "small pale boat silhouette, likely distant-LOD"
     },
     "632": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.watercraft_distant.03",
+      "id": "prop.watercraft_distant.23",
       "note": "small pale boat silhouette, likely distant-LOD"
     },
     "633": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.watercraft_distant.04",
+      "id": "prop.watercraft_distant.24",
       "note": "small pale boat silhouette, likely distant-LOD"
     },
     "634": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.watercraft_distant.05",
+      "id": "prop.watercraft_distant.25",
       "note": "small pale boat silhouette, likely distant-LOD"
     },
     "635": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.watercraft_distant.06",
+      "id": "prop.watercraft_distant.26",
       "note": "small pale boat silhouette, likely distant-LOD"
     },
     "636": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.watercraft_distant.07",
+      "id": "prop.watercraft_distant.27",
       "note": "small pale boat silhouette, likely distant-LOD"
     },
     "637": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.watercraft_distant.08",
+      "id": "prop.watercraft_distant.28",
       "note": "small pale boat silhouette, likely distant-LOD"
     },
     "638": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.watercraft_distant.09",
+      "id": "prop.watercraft_distant.29",
       "note": "small pale boat silhouette, likely distant-LOD"
     },
     "639": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.watercraft_distant.10",
+      "id": "prop.watercraft_distant.30",
       "note": "small pale boat silhouette, likely distant-LOD"
     },
     "64": {
@@ -3941,61 +4297,61 @@
     "640": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.jetski.01",
+      "id": "vehicle.jetski.31",
       "note": "small watercraft with a red-clothed rider, rotation set"
     },
     "641": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.jetski.02",
+      "id": "vehicle.jetski.32",
       "note": "small watercraft with a red-clothed rider, rotation set"
     },
     "642": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.jetski.03",
+      "id": "vehicle.jetski.33",
       "note": "small watercraft with a red-clothed rider, rotation set"
     },
     "643": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.jetski.04",
+      "id": "vehicle.jetski.34",
       "note": "small watercraft with a red-clothed rider, rotation set"
     },
     "644": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.jetski.05",
+      "id": "vehicle.jetski.35",
       "note": "small watercraft with a red-clothed rider, rotation set"
     },
     "645": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.jetski.06",
+      "id": "vehicle.jetski.36",
       "note": "small watercraft with a red-clothed rider, rotation set"
     },
     "646": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.jetski.07",
+      "id": "vehicle.jetski.37",
       "note": "small watercraft with a red-clothed rider, rotation set"
     },
     "647": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.jetski.08",
+      "id": "vehicle.jetski.38",
       "note": "small watercraft with a red-clothed rider, rotation set"
     },
     "648": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.jetski.09",
+      "id": "vehicle.jetski.39",
       "note": "small watercraft with a red-clothed rider, rotation set"
     },
     "649": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.jetski.10",
+      "id": "vehicle.jetski.40",
       "note": "small watercraft with a red-clothed rider, rotation set"
     },
     "65": {
@@ -4006,31 +4362,31 @@
     "650": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.jetski.11",
+      "id": "vehicle.jetski.41",
       "note": "small watercraft with a red-clothed rider, rotation set"
     },
     "651": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.jetski.12",
+      "id": "vehicle.jetski.42",
       "note": "small watercraft with a red-clothed rider, rotation set"
     },
     "652": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.jetski.13",
+      "id": "vehicle.jetski.43",
       "note": "small watercraft with a red-clothed rider, rotation set"
     },
     "653": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.jetski.14",
+      "id": "vehicle.jetski.44",
       "note": "small watercraft with a red-clothed rider, rotation set"
     },
     "654": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.jetski.15",
+      "id": "vehicle.jetski.45",
       "note": "small watercraft with a red-clothed rider, rotation set"
     },
     "655": {
@@ -4593,31 +4949,31 @@
     "755": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.01",
+      "id": "effect.dust_puff.93",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "756": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.02",
+      "id": "effect.dust_puff.94",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "757": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.03",
+      "id": "effect.dust_puff.95",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "758": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.04",
+      "id": "effect.dust_puff.96",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "759": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.05",
+      "id": "effect.dust_puff.97",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "76": {
@@ -4628,61 +4984,61 @@
     "760": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.06",
+      "id": "effect.dust_puff.98",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "761": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.07",
+      "id": "effect.dust_puff.99",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "762": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.08",
+      "id": "effect.dust_puff.100",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "763": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.09",
+      "id": "effect.dust_puff.101",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "764": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.10",
+      "id": "effect.dust_puff.102",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "765": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.11",
+      "id": "effect.dust_puff.103",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "766": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.12",
+      "id": "effect.dust_puff.104",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "767": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.13",
+      "id": "effect.dust_puff.105",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "768": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.14",
+      "id": "effect.dust_puff.106",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "769": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.15",
+      "id": "effect.dust_puff.107",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "77": {
@@ -4693,61 +5049,61 @@
     "770": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.16",
+      "id": "effect.dust_puff.108",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "771": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.17",
+      "id": "effect.dust_puff.109",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "772": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.18",
+      "id": "effect.dust_puff.110",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "773": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.19",
+      "id": "effect.dust_puff.111",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "774": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.20",
+      "id": "effect.dust_puff.112",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "775": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.21",
+      "id": "effect.dust_puff.113",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "776": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.22",
+      "id": "effect.dust_puff.114",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "777": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.23",
+      "id": "effect.dust_puff.115",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "778": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.24",
+      "id": "effect.dust_puff.116",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "779": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.25",
+      "id": "effect.dust_puff.117",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "78": {
@@ -4758,61 +5114,61 @@
     "780": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.26",
+      "id": "effect.dust_puff.118",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "781": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.27",
+      "id": "effect.dust_puff.119",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "782": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.28",
+      "id": "effect.dust_puff.120",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "783": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.29",
+      "id": "effect.dust_puff.121",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "784": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.30",
+      "id": "effect.dust_puff.122",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "785": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.31",
+      "id": "effect.dust_puff.123",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "786": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.32",
+      "id": "effect.dust_puff.124",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "787": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.33",
+      "id": "effect.dust_puff.125",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "788": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.34",
+      "id": "effect.dust_puff.126",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "789": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.35",
+      "id": "effect.dust_puff.127",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "79": {
@@ -4823,61 +5179,61 @@
     "790": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.36",
+      "id": "effect.dust_puff.128",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "791": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.37",
+      "id": "effect.dust_puff.129",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "792": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.38",
+      "id": "effect.dust_puff.130",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "793": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.39",
+      "id": "effect.dust_puff.131",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "794": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.40",
+      "id": "effect.dust_puff.132",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "795": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.41",
+      "id": "effect.dust_puff.133",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "796": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.42",
+      "id": "effect.dust_puff.134",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "797": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.43",
+      "id": "effect.dust_puff.135",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "798": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.44",
+      "id": "effect.dust_puff.136",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "799": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.45",
+      "id": "effect.dust_puff.137",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "8": {
@@ -4894,61 +5250,61 @@
     "800": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.dust_puff.46",
+      "id": "effect.dust_puff.138",
       "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "801": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.01",
+      "id": "effect.trooper_clash.41",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "802": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.02",
+      "id": "effect.trooper_clash.42",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "803": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.03",
+      "id": "effect.trooper_clash.43",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "804": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.04",
+      "id": "effect.trooper_clash.44",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "805": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.05",
+      "id": "effect.trooper_clash.45",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "806": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.06",
+      "id": "effect.trooper_clash.46",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "807": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.07",
+      "id": "effect.trooper_clash.47",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "808": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.08",
+      "id": "effect.trooper_clash.48",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "809": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.09",
+      "id": "effect.trooper_clash.49",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "81": {
@@ -4959,61 +5315,61 @@
     "810": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.10",
+      "id": "effect.trooper_clash.50",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "811": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.11",
+      "id": "effect.trooper_clash.51",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "812": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.12",
+      "id": "effect.trooper_clash.52",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "813": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.13",
+      "id": "effect.trooper_clash.53",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "814": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.14",
+      "id": "effect.trooper_clash.54",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "815": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.15",
+      "id": "effect.trooper_clash.55",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "816": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.16",
+      "id": "effect.trooper_clash.56",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "817": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.17",
+      "id": "effect.trooper_clash.57",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "818": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.18",
+      "id": "effect.trooper_clash.58",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "819": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.19",
+      "id": "effect.trooper_clash.59",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "82": {
@@ -5024,61 +5380,61 @@
     "820": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.trooper_clash.20",
+      "id": "effect.trooper_clash.60",
       "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "821": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.rescue_cross.01",
+      "id": "marker.rescue_cross.13",
       "note": "red panel with a cyan/green cross or plus shape -- possible medic/rescue icon, unconfirmed"
     },
     "822": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.rescue_cross.02",
+      "id": "marker.rescue_cross.14",
       "note": "red panel with a cyan/green cross or plus shape -- possible medic/rescue icon, unconfirmed"
     },
     "823": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.rescue_cross.03",
+      "id": "marker.rescue_cross.15",
       "note": "red panel with a cyan/green cross or plus shape -- possible medic/rescue icon, unconfirmed"
     },
     "824": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.rescue_cross.04",
+      "id": "marker.rescue_cross.16",
       "note": "red panel with a cyan/green cross or plus shape -- possible medic/rescue icon, unconfirmed"
     },
     "825": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.rescue_cross.05",
+      "id": "marker.rescue_cross.17",
       "note": "red panel with a cyan/green cross or plus shape -- possible medic/rescue icon, unconfirmed"
     },
     "826": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.cage_bars.01",
+      "id": "structure.cage_bars.09",
       "note": "dark panel with vertical bar pattern, possible POW cage"
     },
     "827": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.cage_bars.02",
+      "id": "structure.cage_bars.10",
       "note": "dark panel with vertical bar pattern, possible POW cage"
     },
     "828": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.panel_frame_green.01",
+      "id": "prop.panel_frame_green.07",
       "note": "green-bordered red panel"
     },
     "829": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.panel_frame_green.02",
+      "id": "prop.panel_frame_green.08",
       "note": "green-bordered red panel"
     },
     "83": {
@@ -5089,7 +5445,7 @@
     "830": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.panel_frame_green.03",
+      "id": "prop.panel_frame_green.09",
       "note": "green-bordered red panel"
     },
     "831": {
@@ -5113,37 +5469,37 @@
     "834": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.01",
+      "id": "structure.building_wall.85",
       "note": "pink/red wall segment, some with window/tent details"
     },
     "835": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.02",
+      "id": "structure.building_wall.86",
       "note": "pink/red wall segment, some with window/tent details"
     },
     "836": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.03",
+      "id": "structure.building_wall.87",
       "note": "pink/red wall segment, some with window/tent details"
     },
     "837": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.04",
+      "id": "structure.building_wall.88",
       "note": "pink/red wall segment, some with window/tent details"
     },
     "838": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.05",
+      "id": "structure.building_wall.89",
       "note": "pink/red wall segment, some with window/tent details"
     },
     "839": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.panel_solid.orange.01"
+      "id": "prop.panel_solid.orange.05"
     },
     "84": {
       "category": "terrain",
@@ -5154,12 +5510,12 @@
     "840": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.panel_solid.orange.02"
+      "id": "prop.panel_solid.orange.06"
     },
     "841": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.bar_thin.01",
+      "id": "prop.bar_thin.09",
       "note": "thin vertical coloured bar"
     },
     "842": {
@@ -5177,19 +5533,19 @@
     "844": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.bar_thin.02",
+      "id": "prop.bar_thin.10",
       "note": "thin vertical coloured bar"
     },
     "845": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.cage_bars.03",
+      "id": "structure.cage_bars.11",
       "note": "dark panel with vertical bar pattern, possible POW cage"
     },
     "846": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.cage_bars.04",
+      "id": "structure.cage_bars.12",
       "note": "dark panel with vertical bar pattern, possible POW cage"
     },
     "847": {
@@ -5222,51 +5578,51 @@
     "851": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.diamond_pattern.03"
+      "id": "prop.diamond_pattern.11"
     },
     "852": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.diamond_pattern.04"
+      "id": "prop.diamond_pattern.12"
     },
     "853": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.bar_thin.03"
+      "id": "prop.bar_thin.11"
     },
     "854": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.bar_thin.04"
+      "id": "prop.bar_thin.12"
     },
     "855": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.06",
+      "id": "structure.building_wall.90",
       "note": "pink/red wall segment, some with window/tent details"
     },
     "856": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.07",
+      "id": "structure.building_wall.91",
       "note": "pink/red wall segment, some with window/tent details"
     },
     "857": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.08",
+      "id": "structure.building_wall.92",
       "note": "pink/red wall segment, some with window/tent details"
     },
     "858": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.rescue_cross.06",
+      "id": "marker.rescue_cross.18",
       "note": "red panel with a cyan/green cross or plus shape -- possible medic/rescue icon, unconfirmed"
     },
     "859": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.panel_solid.dark_red.01"
+      "id": "prop.panel_solid.dark_red.05"
     },
     "86": {
       "category": "terrain",
@@ -5277,17 +5633,17 @@
     "860": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.panel_solid.dark_red.02"
+      "id": "prop.panel_solid.dark_red.06"
     },
     "861": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.13"
+      "id": "effect.explosion_large.46"
     },
     "862": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.14"
+      "id": "effect.explosion_large.47"
     },
     "863": {
       "category": "structure",
@@ -5298,37 +5654,37 @@
     "864": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.09",
+      "id": "structure.building_wall.93",
       "note": "pink/red wall segment, some with window/tent details"
     },
     "865": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.10",
+      "id": "structure.building_wall.94",
       "note": "pink/red wall segment, some with window/tent details"
     },
     "866": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.11",
+      "id": "structure.building_wall.95",
       "note": "pink/red wall segment, some with window/tent details"
     },
     "867": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.12",
+      "id": "structure.building_wall.96",
       "note": "pink/red wall segment, some with window/tent details"
     },
     "868": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.13",
+      "id": "structure.building_wall.97",
       "note": "pink/red wall segment, some with window/tent details"
     },
     "869": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.14",
+      "id": "structure.building_wall.98",
       "note": "pink/red wall segment, some with window/tent details"
     },
     "87": {
@@ -5342,6 +5698,53 @@
       "id": "effect.shadow.hard.019",
       "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
     },
+    "871": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.frame_post.08",
+      "note": "A-frame post/pillar shape, brown or blue"
+    },
+    "872": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.frame_post.09",
+      "note": "A-frame post/pillar shape, brown or blue"
+    },
+    "873": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.frame_post.10",
+      "note": "A-frame post/pillar shape, brown or blue"
+    },
+    "874": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.frame_post.11",
+      "note": "A-frame post/pillar shape, brown or blue"
+    },
+    "875": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.frame_post.12",
+      "note": "A-frame post/pillar shape, brown or blue"
+    },
+    "876": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.frame_post.13",
+      "note": "A-frame post/pillar shape, brown or blue"
+    },
+    "877": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.frame_post.14",
+      "note": "A-frame post/pillar shape, brown or blue"
+    },
+    "878": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.rubble_patch.03"
+    },
     "879": {
       "category": "effect",
       "confidence": "confirmed",
@@ -5353,16 +5756,130 @@
       "confidence": "visual",
       "id": "terrain.structure.rooftop_red.12"
     },
+    "880": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.99",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "881": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.100",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "882": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.101",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "883": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.102",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "884": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.103",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "885": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_lit.01",
+      "note": "wall segment, green-bordered lit window"
+    },
+    "886": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.104",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "887": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.105",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "888": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.106",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "889": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.107",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
     "89": {
       "category": "terrain",
       "confidence": "visual",
       "id": "terrain.structure.rooftop_red.13"
+    },
+    "890": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.108",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "891": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.109",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "892": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.fence_lattice.03",
+      "note": "brick/lattice fence pattern"
+    },
+    "893": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.fence_lattice.04",
+      "note": "brick/lattice fence pattern"
     },
     "894": {
       "category": "effect",
       "confidence": "confirmed",
       "id": "effect.shadow.hard.021",
       "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "895": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.path_strip.04",
+      "note": "long road/path/water strip"
+    },
+    "896": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.path_strip.05",
+      "note": "long road/path/water strip"
+    },
+    "897": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.path_strip.06",
+      "note": "long road/path/water strip"
+    },
+    "898": {
+      "category": "pickup",
+      "confidence": "visual_group",
+      "id": "pickup.star.12",
+      "note": "small yellow star-burst shape, likely a pickup/power-up"
+    },
+    "899": {
+      "category": "pickup",
+      "confidence": "visual_group",
+      "id": "pickup.star.13",
+      "note": "small yellow star-burst shape, likely a pickup/power-up"
     },
     "9": {
       "category": "terrain",
@@ -5376,16 +5893,127 @@
       "note": "red-bordered square, green-and-red bullseye centre"
     },
     "900": {
-      "category": "effect",
-      "confidence": "confirmed",
-      "id": "effect.shadow.hard.022",
-      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+      "category": "pickup",
+      "confidence": "visual_group",
+      "id": "pickup.star.14",
+      "note": "small yellow star-burst shape, likely a pickup/power-up"
+    },
+    "901": {
+      "category": "pickup",
+      "confidence": "visual_group",
+      "id": "pickup.star.15",
+      "note": "small yellow star-burst shape, likely a pickup/power-up"
+    },
+    "902": {
+      "category": "pickup",
+      "confidence": "visual_group",
+      "id": "pickup.star.16",
+      "note": "small yellow star-burst shape, likely a pickup/power-up"
+    },
+    "903": {
+      "category": "pickup",
+      "confidence": "visual_group",
+      "id": "pickup.star.17",
+      "note": "small yellow star-burst shape, likely a pickup/power-up"
+    },
+    "904": {
+      "category": "pickup",
+      "confidence": "visual_group",
+      "id": "pickup.star.18",
+      "note": "small yellow star-burst shape, likely a pickup/power-up"
+    },
+    "905": {
+      "category": "pickup",
+      "confidence": "visual_group",
+      "id": "pickup.star.19",
+      "note": "small yellow star-burst shape, likely a pickup/power-up"
+    },
+    "906": {
+      "category": "pickup",
+      "confidence": "visual_group",
+      "id": "pickup.star.20",
+      "note": "small yellow star-burst shape, likely a pickup/power-up"
+    },
+    "907": {
+      "category": "pickup",
+      "confidence": "visual_group",
+      "id": "pickup.star.21",
+      "note": "small yellow star-burst shape, likely a pickup/power-up"
+    },
+    "908": {
+      "category": "pickup",
+      "confidence": "visual_group",
+      "id": "pickup.star.22",
+      "note": "small yellow star-burst shape, likely a pickup/power-up"
+    },
+    "909": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.panel_icon_red.04"
     },
     "91": {
       "category": "terrain",
       "confidence": "visual",
       "id": "marker.target.bullseye_cyan",
       "note": "red-bordered square, cyan-and-red bullseye centre"
+    },
+    "910": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.panel_icon_red.05"
+    },
+    "911": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.letter_icon.04",
+      "note": "panel with a dark letter-like glyph, purpose unconfirmed"
+    },
+    "912": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.letter_icon.05",
+      "note": "panel with a dark letter-like glyph, purpose unconfirmed"
+    },
+    "913": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.letter_icon.06",
+      "note": "panel with a dark letter-like glyph, purpose unconfirmed"
+    },
+    "914": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.panel_icon_red.06"
+    },
+    "915": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.110",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "916": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.111",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "917": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.112",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "918": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.113",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "919": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.114",
+      "note": "red or blue wall segment with window/door/flag details"
     },
     "92": {
       "category": "terrain",
@@ -5394,11 +6022,112 @@
       "note": "fully transparent tile (index-0 pixels only)",
       "seen_in_retail_levels": false
     },
+    "920": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.115",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "921": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.116",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "922": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.117",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "923": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.118",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "924": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.119",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "925": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.120",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "926": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.121",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "927": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.smoke_patch.01",
+      "note": "mottled cloud/smoke texture patch"
+    },
+    "928": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.21",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "929": {
+      "category": "decoration",
+      "confidence": "visual_group",
+      "id": "decoration.plant.flower_red.03"
+    },
     "93": {
       "category": "terrain",
       "confidence": "visual",
       "id": "decoration.grass_patch",
       "note": "yellow-bordered green square"
+    },
+    "930": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.122",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "931": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.door.06",
+      "note": "coloured door panel, red/green"
+    },
+    "932": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.window.09",
+      "note": "cyan or tan-bordered window panel"
+    },
+    "933": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.window.10",
+      "note": "cyan or tan-bordered window panel"
+    },
+    "934": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.window_ornate.04",
+      "note": "circular ornate red window/roundel design"
+    },
+    "935": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.window_ornate.05",
+      "note": "circular ornate red window/roundel design"
+    },
+    "936": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.window_ornate.06",
+      "note": "circular ornate red window/roundel design"
     },
     "937": {
       "category": "effect",
@@ -5406,11 +6135,80 @@
       "id": "effect.shadow.hard.023",
       "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
     },
+    "938": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.door.09"
+    },
+    "939": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.door.10"
+    },
     "94": {
       "category": "terrain",
       "confidence": "visual",
       "id": "decoration.water_patch",
       "note": "yellow-bordered mottled blue square"
+    },
+    "940": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.window.11",
+      "note": "cyan or tan-bordered window panel"
+    },
+    "941": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.window.12",
+      "note": "cyan or tan-bordered window panel"
+    },
+    "942": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.door.07",
+      "note": "coloured door panel, red/green"
+    },
+    "943": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.door.08",
+      "note": "coloured door panel, red/green"
+    },
+    "944": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.debris_faint.91"
+    },
+    "945": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.123",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "946": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.124",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "947": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.125",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "948": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.126",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "949": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.127",
+      "note": "red or blue wall segment with window/door/flag details"
     },
     "95": {
       "category": "terrain",
@@ -5418,11 +6216,105 @@
       "id": "decoration.reef_patch",
       "note": "yellow-bordered blue-green mottled square with light flecks"
     },
+    "950": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.128",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "951": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.129",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "952": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.130",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "953": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.22",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "954": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.23",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "955": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.131",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "956": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.132",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "957": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.133",
+      "note": "red or blue wall segment with window/door/flag details"
+    },
+    "958": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.ladder.03",
+      "note": "vertical red/white ladder rungs"
+    },
+    "959": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.ladder.04",
+      "note": "vertical red/white ladder rungs"
+    },
     "96": {
       "category": "terrain",
       "confidence": "visual",
       "id": "marker.target.bullseye_moon",
       "note": "bullseye with a gold crescent-moon centre"
+    },
+    "960": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.24",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "961": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.25",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "962": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.26",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "963": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.27",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "964": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.tan_blue_edge.03"
+    },
+    "965": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.tan_blue_edge.04"
     },
     "966": {
       "category": "effect",
@@ -5436,11 +6328,76 @@
       "id": "effect.shadow.hard.025",
       "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
     },
+    "968": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.blue.10"
+    },
+    "969": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.blue.11"
+    },
     "97": {
       "category": "terrain",
       "confidence": "visual",
       "id": "terrain.ground.red_panel.01",
       "note": "plain solid/mottled red panel"
+    },
+    "970": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.blue.12"
+    },
+    "971": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.blue.13"
+    },
+    "972": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_gable.06",
+      "note": "wall with a pointed gable/roof silhouette along the top"
+    },
+    "973": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_gable.07",
+      "note": "wall with a pointed gable/roof silhouette along the top"
+    },
+    "974": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_gable.08",
+      "note": "wall with a pointed gable/roof silhouette along the top"
+    },
+    "975": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_gable.09",
+      "note": "wall with a pointed gable/roof silhouette along the top"
+    },
+    "976": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_gable.10",
+      "note": "wall with a pointed gable/roof silhouette along the top"
+    },
+    "977": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.blue.14"
+    },
+    "978": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.blue.15"
+    },
+    "979": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.blue.16"
     },
     "98": {
       "category": "terrain",
@@ -5448,17 +6405,63 @@
       "id": "terrain.ground.red_panel.02",
       "note": "plain solid/mottled red panel"
     },
+    "980": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.blue.17"
+    },
+    "981": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.blue.18"
+    },
     "982": {
       "category": "effect",
       "confidence": "confirmed",
       "id": "effect.shadow.hard.026",
       "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
     },
+    "983": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.28",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "984": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.29",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "985": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.30",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "986": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.31",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "987": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.32",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "988": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.33",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
     "989": {
-      "category": "effect",
-      "confidence": "confirmed",
-      "id": "effect.shadow.hard.027",
-      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.34",
+      "note": "same wall family with a jagged rubble/destroyed edge"
     },
     "99": {
       "category": "terrain",
@@ -5466,11 +6469,65 @@
       "id": "terrain.ground.red_panel.03",
       "note": "plain solid/mottled red panel"
     },
+    "990": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.35",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "991": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.36",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "992": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.37",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "993": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.38",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "994": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.39",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
+    "995": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall_damaged.40",
+      "note": "same wall family with a jagged rubble/destroyed edge"
+    },
     "996": {
       "category": "effect",
       "confidence": "confirmed",
       "id": "effect.shadow.hard.028",
       "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+    },
+    "997": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.dome_roof.05",
+      "note": "rounded dome/tent roof shape"
+    },
+    "998": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.dome_roof.06",
+      "note": "rounded dome/tent roof shape"
+    },
+    "999": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.dome_roof.07",
+      "note": "rounded dome/tent roof shape"
     }
   },
   "schema_version": "0.1.0",
