@@ -27,10 +27,18 @@ ui/. Pivots are a flat centre-of-cel default (w/2, h/2) since real pivot recover
 (section 2.4.3 item 2) hasn't happened -- every sprite entry says so via
 "pivot_source": "default_center" rather than silently implying it was recovered.
 
+Also emits levels/ -- an addition to section 2.4.2's schema, not in the original plan
+text: each converted .RFM (tools/convert_rfm.py output, already in build/rfm/) is
+copied in as levels/<NAME>/level.json + art.bin. This is still converted, non-raw-
+format output (JSON + a resolved art-id byte grid, not copyrighted .RFM bytes
+verbatim), but it's still derived from the user's own level files, so it lives in the
+same gitignored pack, not the repo -- same reasoning as the sprite pixel data above.
+
 Usage:
     python tools/build_pack.py <returnfire_dir> <out_dir>
     (out_dir defaults to packs/original_pc; expects build/car/art_atlas.json and
-    art_atlas.png/art_effects.png to already exist -- run convert_car.py first)
+    art_atlas.png/art_effects.png, and build/rfm/*.json + *.art.bin, to already exist --
+    run convert_car.py and convert_rfm.py first)
 """
 import argparse
 import json
@@ -39,6 +47,7 @@ import shutil
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_BUILD_CAR = os.path.join(ROOT, "build", "car")
+DEFAULT_BUILD_RFM = os.path.join(ROOT, "build", "rfm")
 DEFAULT_OUT = os.path.join(ROOT, "packs", "original_pc")
 REGISTRY_JSON = os.path.join(ROOT, "packs", "registry", "asset_ids.json")
 
@@ -69,6 +78,8 @@ def main():
                      help="dir with art_atlas.json/.png and art_effects.json/.png (default: build/car)")
     ap.add_argument("out_dir", nargs="?", default=DEFAULT_OUT,
                      help="pack output dir (default: packs/original_pc)")
+    ap.add_argument("--build-rfm-dir", default=DEFAULT_BUILD_RFM,
+                     help="dir with convert_rfm.py output, *.json + *.art.bin (default: build/rfm)")
     args = ap.parse_args()
 
     with open(os.path.join(args.build_car_dir, "art_atlas.json")) as f:
@@ -146,7 +157,26 @@ def main():
         json.dump(pack_manifest, f, indent=2, sort_keys=True)
         f.write("\n")
 
-    print(f"wrote pack {PACK_ID!r} to {args.out_dir}: {len(sprites)} sprites, {len(tileset)} terrain tiles")
+    levels_dir = os.path.join(args.out_dir, "levels")
+    n_levels = 0
+    if os.path.isdir(args.build_rfm_dir):
+        os.makedirs(levels_dir, exist_ok=True)
+        for name in sorted(os.listdir(args.build_rfm_dir)):
+            if not name.endswith(".json"):
+                continue
+            stem = name[:-len(".json")]
+            art_bin = os.path.join(args.build_rfm_dir, stem + ".art.bin")
+            level_json = os.path.join(args.build_rfm_dir, name)
+            if not os.path.exists(art_bin):
+                continue
+            out_level_dir = os.path.join(levels_dir, stem)
+            os.makedirs(out_level_dir, exist_ok=True)
+            shutil.copyfile(level_json, os.path.join(out_level_dir, "level.json"))
+            shutil.copyfile(art_bin, os.path.join(out_level_dir, "art.bin"))
+            n_levels += 1
+
+    print(f"wrote pack {PACK_ID!r} to {args.out_dir}: {len(sprites)} sprites, "
+          f"{len(tileset)} terrain tiles, {n_levels} levels")
 
 
 if __name__ == "__main__":

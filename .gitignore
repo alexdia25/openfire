@@ -7,9 +7,12 @@
 # Content packs are generated from the user's own game install and embed real extracted
 # pixel/audio data -- never committed, same rule as /build/. The registry is the one thing
 # under /packs/ that's original-authored (an ID -> semantic-name mapping, no game bytes) and
-# safe to track, so it's carved out below the same way build/.gdignore is.
+# safe to track, so it's carved out below the same way build/.gdignore is. packs/.gdignore
+# is tracked too (see game/pack_loader.gd) so Godot's editor never scans/imports pack PNGs
+# as project resources -- packs are loaded at runtime via FileAccess/Image, never res://.
 /packs/*
 !/packs/registry/
+!/packs/.gdignore
 
 # Never commit original game data or anything extracted from it, wherever it lands.
 *.RFA
