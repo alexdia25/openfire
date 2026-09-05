@@ -10,8 +10,9 @@ into the shared PLUT that every converter had missed) is fixed; art now matches 
 screenshots' colours, not just their shapes.
 **Priority as of 2026-09-05: get the core PC-port game actually running before returning to
 3DO support (section 4 item 6) or new-goal work beyond what's needed to run it** — the user
-explicitly deferred the 3DO disc work until then. Next real blocker: Phase 4 step 2 — one
-player-controlled vehicle with authentic movement.
+explicitly deferred the 3DO disc work until then. Next real blocker: Phase 4 step 3 — camera,
+scrolling, split-screen viewports (step 2's vehicle currently just gets a fixed-zoom
+camera glued to it).
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
@@ -1488,7 +1489,31 @@ Keep each step playable, and load everything through the pack layer from step 1:
    there's no fixed art to place from the file alone yet), and there's no menu — pack/level
    are hardcoded `@export` vars on `TerrainView`, to be wired to section 2.6's level-select
    screen once that exists.
-2. One player-controlled vehicle with authentic movement.
+2. **One player-controlled vehicle — DONE (playable, not yet authentic; 2026-09-06).**
+   `game/vehicle.gd` (`Vehicle`) spawns at the level's team-0 spawn point and moves with
+   accel/brake/friction + a turn rate, rendered through the pack's real rotation cels
+   (`vehicle.hovercraft.rotation.tan/green`, cels 218-240 — a tank/hovercraft-style tracked
+   vehicle with a cannon, per cel 202's side view; re-identified after the section 1.6
+   palette fix made the shape unambiguous, replacing an earlier looser "hovercraft" guess).
+   Verified with a debug input-override hook (`RF_DEBUG_DRIVE`, off by default) plus a
+   screenshot showing real position and heading change over 90 frames, not just "no errors."
+   **Two things this deliberately isn't yet:**
+   - **Not authentic movement.** The accel/brake/friction/turn-rate constants are reasonable
+     placeholders, not traced from `RFIRE.BIN`. The `.RFM` `vehicle_params` fields
+     (`A`/`H`/`J`/`M`/`T`/`unk4`, section 1.5) were decoded structurally but never
+     semantically identified, and are almost always `"default"` anyway — tracing the real
+     movement-update code is separate, not-yet-started work.
+   - **Not the real rendering technique.** Section 1.10/2.2 established the original does
+     real perspective-projected-quad rendering across 64 discrete headings; this uses the
+     8-9 real sprite frames covering one quarter-turn, mirrored into the other three
+     quadrants (flat-rotation approximation, the "simpler visual target" option section 2.2
+     flagged as acceptable). Revisit for visual fidelity once movement/gameplay are further
+     along.
+   - **Open question worth checking later:** Return Fire is popularly known for an attack
+     helicopter, and box art suggests one may exist as a separate playable unit. Nothing
+     found so far in the (coarsely classified) registry has been confirmed as a helicopter
+     specifically — worth a deliberate look once more of the ~1960 coarse-pass cels
+     (section 2.4.1) get refined.
 3. Camera, scrolling, split-screen viewports.
 4. Weapons and projectiles.
 5. Destructible targets and buildings.

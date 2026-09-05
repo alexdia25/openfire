@@ -41,10 +41,10 @@ See plan section 4 for the current, precise state of each — this list is just 
 - Custom Godot UI for menus/level-select/etc — new goal, not yet started (section 4, item 8)
 - Possible on-foot infantry / rescue mechanic — new, unconfirmed, found while classifying the asset registry (section 4, item 9)
 
-**Current priority (2026-09-06):** the asset ID registry, the pack emitter, and Phase 4 step 1
-(load a pack, render a real level's terrain + spawn/candidate markers) are all done — the
-game renders its first real content. Next real blocker: Phase 4 step 2, one
-player-controlled vehicle with authentic movement.
+**Current priority (2026-09-06):** the asset ID registry, the pack emitter, Phase 4 step 1
+(terrain + markers), a real palette-bug fix, and Phase 4 step 2 (a player-controlled vehicle,
+playable but not yet authentic -- see plan section 3) are all done. Next real blocker: Phase 4
+step 3, camera/scrolling/split-screen.
 
 ## If you want to try one of these yourself
 
