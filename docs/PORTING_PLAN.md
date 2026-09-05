@@ -15,7 +15,11 @@ Rebuild *Return Fire* (PC/Win95 port of the 3DO original) as a **Godot 4 project
 
 Two things this engine must do, and the second one shapes the whole architecture:
 
-1. Run the original game from the user's own retail data files.
+1. Run the original game from the user's own retail data files — **including the 3DO
+   original**, not just the PC port. The 3DO-exclusive expansion, *Return Fire: Maps o'
+   Death*, is an explicit target: the user owns a disc image and wants the eventual
+   importer able to pull its levels in too. See section 1.11 for initial recon and
+   section 4 for the open extraction work.
 2. Run equally well on a **completely custom, hand-authored replacement asset set**.
 
 The engine is therefore a *data-driven engine that happens to ship with an importer for
@@ -77,12 +81,13 @@ Version string: `Return Fire Ver. G406.1.0.00 Win95 x86 - Windows 95 DirectX Gam
 - **Input:** `WINMM` `joyGetNumDevs`, `joyGetDevCapsA`, `joyGetPos`, `joyGetPosEx`
   (legacy joystick API); `USER32` `GetKeyboardState`.
 - **Timing:** `timeGetTime`, `GetTickCount`.
-- **Video:** `AVIFIL32` + `MSVFW32` (`ICOpen` / `ICSendMessage`). **The `.avi` files were
-  removed from this install.** Playback code is still in the binary but there is no media.
-  Cutscenes need recovering from the original CD; transcode offline to Ogg Theora/WebM.
-  The dead VfW codec problem never has to be solved. Same CD-independence requirement as
-  music (section 1.8, section 2.4.3 item 11): ship the transcoded file as a normal pack
-  asset, never require the disc at runtime.
+- **Video:** `AVIFIL32` + `MSVFW32` (`ICOpen` / `ICSendMessage`) imports exist, but **there
+  is no cutscene video format to solve — corrected (2026-09-05), see section 1.11.** The
+  reference retail CD's `Title/*.stm` files, which looked like the obvious cutscene-video
+  candidate, turn out to be **more audio**, not video: every one opens with the same `auds`
+  fourCC as `Score.WAV` (section 1.8). The `AVIFIL32` import is the same
+  `AVIStreamOpenFromFileA`-on-a-non-AVI-container trick applied a second time, not evidence
+  of real video playback anywhere in this game.
 - No `DPLAY` import → original networking is serial / split-screen, not DirectPlay.
 
 ### 1.3 `.RFA` art files — SOLVED, converter written and run
@@ -649,14 +654,14 @@ from this install (section 1.2): the big copyrighted media assets were stripped 
 particular copy, while the small `.SDT`/`.RFM`/`ART.CAR` data files survived intact.
 
 **Consequence:** a faithful port needs to reproduce a Redbook-CD-first, streamed-WAV-fallback
-music system with a shared per-track boundary table — not just "load and loop an mp3." Since
-this install has neither real CD audio nor a real `Score.WAV`, the actual soundtrack content
-itself cannot be recovered from these files; it would need sourcing from the original CD (see
-section 1.2's identical caveat for the `.avi` cutscenes). The *mechanism* (per-track
-start/end table driving either backend) is fully understood and portable regardless of where
-the audio content ultimately comes from. **The engine itself must never require a mounted
-CD** — the music/video importer accepts ripped tracks and transcoded cutscenes as ordinary
-file-based pack inputs; see section 2.4.3 item 11 for the hard requirement this becomes.
+music system with a shared per-track boundary table — not just "load and loop an mp3." This
+particular install has neither real CD audio nor a real `Score.WAV` (a 20-byte stub), but
+**the real files are now available** — see section 1.11: the reference retail ISO carries a
+full 222 MB `Score.WAV`. The *mechanism* (per-track start/end table driving either backend)
+is fully understood and portable regardless of where the audio content ultimately comes
+from. **The engine itself must never require a mounted CD** — the music/video importer
+accepts ripped tracks as ordinary file-based pack inputs; see section 2.4.3 item 11 for the
+hard requirement this becomes.
 
 ### 1.9 Native framebuffer resolution — SOLVED (2026-09-06); fixed sim tick rate — STILL OPEN
 
@@ -755,6 +760,52 @@ object instead of a plain `Sprite2D`, feeding it the same per-heading local geom
 ported perspective-scale table — or (b) deliberately accepting a simpler flat 2D
 rotate-in-place approximation as a scoped-down visual target. Either is now an informed
 choice; before this it was an unknown risk. See section 2.2 (Rendering).
+
+### 1.11 Reference material obtained: retail PC ISO catalogued; 3DO expansion identified — 2026-09-05
+
+The user supplied two disc images for reference, both outside the git repo
+(`C:\Users\Alex\Documents\returnfire\`):
+
+- **`RFIRE US.iso`** — the retail PC CD. Standard ISO9660 (`CD001` signature at sector 16);
+  mounted read-only and catalogued in full. This is the disc the installed copy under
+  `C:\Users\Alex\Documents\returnfire\` was missing pieces from:
+  - **`Sound\Score.wav` is a real 222 MB file here** (vs. the 20-byte stub in the install)
+    — directly usable to verify/complete section 1.8's music-fallback mechanism once
+    ripped into a pack.
+  - **`Sound\Drums.wav` is a real 2.8 MB file here too**, confirming it's a genuine shipped
+    asset, not a phantom filename — but section 1.8's `FindBytes.java` result stands: the
+    binary never references it by name. It's real, unused audio, nothing more.
+  - **`Title\*.stm` files** (`rf.stm` 8.9 MB, `twi.stm` 2 MB, `win.stm` 20 MB, `win1/2/3.stm`,
+    `prolific.stm` 2.8 MB) were the natural candidate for the "missing `.avi` cutscenes"
+    guessed at in section 1.2. They are not video: every one starts with the same `auds`
+    fourCC (`0x73647561`) at the same header offset as `Score.WAV`'s AVIFile-audio-stream
+    trick (section 1.8), confirmed by checking 4 of the 6 files. **There is no cutscene
+    video in this game at all** — `.stm` is just another named container for the same
+    audio-streaming mechanism, most likely per-situation music/jingles (win themes, a
+    "twilight" track, the publisher logo's stinger). Section 1.2 updated accordingly; no
+    video codec work is needed anywhere in this project.
+  - No Redbook audio track content is recoverable from this file — a `.iso` normally
+    captures only the data track of a mixed-mode disc. If real CD-audio music is wanted,
+    it needs to come from ripping the actual disc's audio tracks, not this image.
+- **`Return-Fire-Maps-O-Death_3DO_EN/`** (`.bin`/`.cue`, `MODE1/2352`, one data track) —
+  a genuine **3DO** disc image, not a PC one: the 3DO-exclusive expansion pack, never
+  released for PC. Identified (not yet parsed) from sector 0's header, which matches the
+  publicly-documented 3DO volume format: a sync/`ZZZZZ` marker, an ASCII `cd-rom` label,
+  and the `duckiamaduckiama...` filler pattern 3DO's own disc-mastering tools pad unused
+  directory blocks with. **This is a new goal (section 0), not a resolved item:**
+  - The 3DO used its own filesystem (not ISO9660) and its own native asset formats — the
+    CEL image format (already partially relevant, since `ART.CAR`'s CCB/CEL structures in
+    the PC port are a direct descendant, per section 1.6's `CCB_BGND` cross-check against
+    `trapexit/3doplay`), plus 3DO-native audio (likely SDX2/ADPCM-compressed `AIFF`-family
+    sound) and whatever level-data format this expansion's maps use — almost certainly
+    *not* the PC `.RFM` format, since this disc predates the PC port.
+    Trapexit/3doplay is worth deliberately reusing as prior art for both the filesystem and
+    CEL parsing.
+  - No filesystem parsing or file listing has been attempted yet. Next concrete step: get
+    (or write) a 3DO CD-ROM filesystem reader to enumerate the volume's actual files —
+    `trapexit/3doplay`'s source is a plausible reference implementation to check before
+    writing one from scratch, since section 1.6 already leaned on that project once. See
+    section 4 for this as an open backlog item.
 
 ## 2. Architecture decisions (decide once, up front)
 
@@ -922,14 +973,15 @@ will be impossible later:
     web build (PNG, Ogg, JSON). No pack-supplied executables, shaders outside WebGL2, or
     platform-specific codecs.
 11. **CD independence.** The original needs a physical/virtual Redbook audio CD for music
-    and ships `.avi` cutscenes separately (section 1.2, section 1.8) — the engine must
-    never require either at runtime. The music/video importer must accept **files** (ripped
-    audio tracks as WAV/OGG, transcoded cutscenes as WebM/Theora) sourced from the user's own
-    copy of the game — CD, ISO, or digital release — as a first-class pack input, exactly
-    like every other asset type. A user who owns the game but doesn't want to keep a disc
-    mounted must have a fully working, file-based pack. (The user has a CD ISO to hand over
-    for reference once available — section 1.8's own missing `Score.WAV`/`.avi` content in
-    this install can likely be filled in from it once ripped.)
+    (section 1.8) — the engine must never require one at runtime. The music importer must
+    accept **files** (ripped audio tracks as WAV/OGG) sourced from the user's own copy of
+    the game — CD, ISO, or digital release — as a first-class pack input, exactly like
+    every other asset type. A user who owns the game but doesn't want to keep a disc
+    mounted must have a fully working, file-based pack. (There is no cutscene video to
+    worry about — section 1.11 ruled that out entirely.) The reference retail ISO is now on
+    hand (section 1.11) with a real `Score.WAV` to test this against once a pack importer
+    exists; Redbook track content itself would still need ripping from the physical disc's
+    audio tracks, which a `.iso` file doesn't capture.
 
 #### 2.4.4 Authoring aids to ship
 
@@ -1286,8 +1338,20 @@ Web checklist:
    `IDirectDrawSurface::Flip` vtable call site (same technique as finding `Lock()` by its
    vtable offset, section 1.9) and check whether it blocks for vsync during real gameplay —
    that's the remaining candidate pacing mechanism.
+7. **3DO "Maps o' Death" expansion extraction** (section 1.11, new 2026-09-05) — a whole new
+   goal, not a single question. The disc image is identified as a genuine 3DO CD but not
+   yet parsed at all. Next concrete step: get or write a 3DO CD-ROM filesystem reader
+   (check `trapexit/3doplay` first, already used as prior art in section 1.6) to enumerate
+   the volume's real files, then identify whatever native map/CEL/audio formats this
+   PC-never-released expansion actually uses — expect them to differ substantially from the
+   PC `.RFM`/`ART.CAR`/`.SDT` formats documented elsewhere in this file.
 
 **RESOLVED:**
+- **The "missing `.avi` cutscenes"** — **section 1.11** (2026-09-05). There never was
+  cutscene video to find: the reference retail ISO's `Title/*.stm` files, the obvious
+  candidate, all open with the same `auds` AVIFile fourCC as `Score.WAV` (section 1.8) —
+  they're more streamed audio, not video. Section 1.2's video bullet corrected; no codec
+  work needed.
 - **"Implicit sprite pivots"** — **section 1.10** (2026-09-06). The premise was wrong: there
   is no 2D pivot to extract. Object rendering is real perspective-projected 3D — 64 discrete
   headings each with a precomputed 3x3 rotation matrix, a shared 1/z perspective-scale table

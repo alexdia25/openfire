@@ -69,6 +69,11 @@ them in order for the first time: narrative, worked examples, real commands you 
     3D quads (64 discrete headings, a shared 1/z table also used by the terrain blitter), not
     flat sprites rotated around a pivot. Reframes a data question into a real, now-informed
     rendering-architecture decision for Godot.
+17. [**Worked example: reference discs arrive, and a stale guess gets corrected for free**](17-worked-example-reference-iso.md) —
+    no Ghidra this time: cataloguing a newly-supplied retail ISO and identifying a 3DO
+    expansion-pack disc image quietly disproves a guess that had been sitting in the plan
+    since section 1.2 (the "missing `.avi` cutscenes" are actually more streamed audio) and
+    opens a genuinely new goal (3DO "Maps o' Death" extraction).
 
 ## The one rule that overrides everything else here
 
