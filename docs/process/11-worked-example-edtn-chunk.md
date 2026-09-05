@@ -64,4 +64,5 @@ different investigation, a paragraph in `docs/PORTING_PLAN.md`, a comment in a c
 This one cost a `grep` and a dump of 24 bytes. Not every question needs a fresh
 `FindDataXrefs.java` sweep to close.
 
-**Next:** back to [document 7](07-next-steps.md) for the current backlog.
+**Next:** [Worked example: decoding the `.RFM` header body with no Ghidra at all](12-worked-example-header-body.md) —
+another one that didn't need a disassembler, this time by design rather than luck.

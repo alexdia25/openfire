@@ -136,11 +136,25 @@ in this document that predates it.
 ```
 offset 0x00        "WRL\0"     4-byte magic (verified: RFIRE.BIN compares the first 4
                                 bytes against this exact constant via lstrcmpiA)
-offset 0x04..0x3F  ...         header fields, MOSTLY STILL UNDECODED. Known so far:
+offset 0x04..0x3F  ...         header fields -- MOSTLY DECODED as of 2026-09-06, see below.
+    0x04  4 bytes  constant `54 4D 00 05` ("TM\0\x05") in all 204 real files -- likely a
+                    secondary format/version tag; exact meaning unconfirmed, but its
+                    constancy is itself confirmed, not assumed.
     0x08  u16 LE   width          (128 in every file seen so far)
     0x0A  u16 LE   height         (128 in every file seen so far)
+    0x0C  2 bytes  constant `01 01` in all 204 real files -- meaning unconfirmed.
+    0x0E  u16 LE   MS-DOS packed date -- **file CREATED date**, part of a timestamp pair
+                    (see below).
+    0x10  u16 LE   MS-DOS packed time -- file CREATED time.
+    0x12  u16 LE   MS-DOS packed date -- file **last-MODIFIED** date.
+    0x14  u16 LE   MS-DOS packed time -- file last-modified time.
     0x16  u8       mode/player-count selector byte (copied into a global that gates
                     1-player vs. 2-player logic elsewhere in the loader)
+    0x17  15 bytes null-padded ASCII -- **level author/designer name**, defaulting to the
+                    literal string `"Unknown"` when not set. (Not the same field as `NAME`'s
+                    display name below, and not at offset 0x18 as an earlier draft of this
+                    document guessed before being re-examined -- it starts at 0x17.)
+    0x26  26 bytes  constant zero in all 204 real files (padding out to offset 0x40).
 offset 0x40        u8          must be non-zero, or the loader rejects the file outright
                                 (an "enabled"/"valid" flag, meaning not every *.rfm on
                                 disk is necessarily loadable -- unconfirmed which if any
@@ -156,6 +170,37 @@ offset (0x48 value)  tile grid, width*height bytes, one byte per tile, row-major
   .. end of file      (== last 16384 bytes for every 128x128 file seen so far, matching
                        earlier ASCII-rendered verification)
 ```
+
+**The header body (offsets `0x0E`-`0x25`) — SOLVED (2026-09-06), no Ghidra needed this time.**
+Purely empirical: dumped bytes `0x00`-`0x4F` of all 204 real files and looked at per-offset
+variance directly (which offsets are constant across every file vs. which vary). Two real
+fields fell out:
+
+- **`0x0E`-`0x15` (8 bytes): a pair of MS-DOS packed date+time stamps** (the classic
+  `_dos_getftime` 2+2-byte format DOS/Win16 tools used for file timestamps) — file
+  **created** at `0x0E`/`0x10`, last **modified** at `0x12`/`0x14`. Verified, not guessed:
+  decoded all 204 files' worth and checked every one falls in a sane range (year 1994-1996,
+  valid month/day/hour/minute) — **zero failures**. Real decoded examples: `RFMAP001.RFM`
+  created `1995-07-21 11:07:00`, modified `1995-10-30 17:11:36`; `RFMAP002.RFM` created
+  `1995-09-14 17:23:34`, modified `1996-02-17 11:29:08` — both consistent with `RFIRE.BIN`'s
+  own linked date of 1996-04-08. Almost certainly the source `.rfm` file's own filesystem
+  timestamps, captured by the level editor at save time.
+- **`0x17`-`0x25` (15 bytes): a null-padded ASCII field holding the level's author/designer
+  name**, defaulting to the literal string `"Unknown"` when not set (71 of 204 files).
+  Real, human values found across the other files: `MichaelAngelo` (by far the most common
+  credited designer, in several capitalizations — `Michael Angelo`, `michael`, `MICHAEL
+  ANGELO`), `John`, `John L. Saleigh`, `Van`/`van`, `James`, `Reichart`, `Michael Klug`,
+  `Andy`, `CJ`/`cj`, `oliver`, `Rasputin(tm)`, `William Ware`, `The Baron`, and a plain `v`
+  (67 files — the same short-signature pattern as the fuller names, not an anomaly). This
+  resolves the loose end left in the `NAME` chunk row below ("offset 0x18" was never
+  re-examined) — the real field starts at `0x17`, not `0x18`, is a fixed 15 bytes, and is
+  a completely different piece of data from the `NAME` chunk's display name (that one's the
+  level's title shown in-game; this one is who built it, never shown to the player as far as
+  this investigation found).
+
+Still not decoded: `0x04`-`0x07` (constant `54 4D 00 05` = `"TM\0\x05"` in every real file —
+a probable secondary format/version tag, exact meaning unconfirmed) and `0x0C`-`0x0D`
+(constant `01 01`, meaning unconfirmed); `0x26`-`0x3F` is confirmed plain zero padding.
 
 The previously-recorded 372/388-byte "header length" (`filesize - 16384`) is exactly the
 value at offset 0x48 for a 128x128 level: it is chunk-table-end, not a fixed struct size.
@@ -173,7 +218,7 @@ except where noted:
 | Tag | Payload | Meaning |
 |---|---|---|
 | `LEVL` | payload byte 0 | A value 0-8 (stored on disk as value+1; the loader treats a decoded value >8 as invalid and clamps to 8). Read from a single byte, likely difficulty or a related per-level knob -- name inferred from the tag, not yet certain. |
-| `NAME` | starts with a null-terminated string, **but the record is much bigger than that string** (e.g. 268 bytes for a ~14-byte name) | The level's display name (confirmed exactly right -- decoded names like "The Cakewalk" and "Driving School" match the source filenames seen in section 1.2/1.5's string dump). Everything after the terminating null in the same record is editor/build-only cruft, not gameplay data: observed to contain what is very likely the original developer's full source path (`...\Images\Worlds\1Player\Level1\The Cakewalk.rfm`) followed by a block of binary data that looks like leftover editor state (camera position, undo history, or similar -- not decoded, not needed). **The converter must stop at the first null byte and ignore the rest of the record.** Separate from whatever string lives at old-header offset 0x18, which has not been re-examined since this discovery. |
+| `NAME` | starts with a null-terminated string, **but the record is much bigger than that string** (e.g. 268 bytes for a ~14-byte name) | The level's display name (confirmed exactly right -- decoded names like "The Cakewalk" and "Driving School" match the source filenames seen in section 1.2/1.5's string dump). Everything after the terminating null in the same record is editor/build-only cruft, not gameplay data: observed to contain what is very likely the original developer's full source path (`...\Images\Worlds\1Player\Level1\The Cakewalk.rfm`) followed by a block of binary data that looks like leftover editor state (camera position, undo history, or similar -- not decoded, not needed). **The converter must stop at the first null byte and ignore the rest of the record.** Separate from the header body's own author/designer-name field at offset `0x17` (confirmed, see above) -- that one is who built the level, this one is its displayed title. |
 | `VHCL` | 6 bytes, relative to the *record start* (not payload start): `+8`=A, `+9`=H, `+0xA`=J, `+0xB`=T, `+0xC`=?, `+0xD`=M | Level-tuning parameters, present in exactly 50 of 204 files (see above). **The same six parameters can also be written directly into the .rfm *filename*** using a bracket suffix the loader parses independently, e.g. `SomeLevel[A3H5T2].rfm` -- confirmed by decompiling the parameter parser (`FUN_00413f00`): it scans the filename for `[`, then for each `<letter><digits>` pair inside the brackets sets that parameter, with the VHCL chunk (if present) only overriding whichever of the six the loader didn't already get a valid (non-`0xFF`) value for. Letters confirmed: `A` (<10), `H` (<10), `J` (<10, nonzero), `M` (<201), `T` (<10). This is a real, working config mechanism worth preserving in the content-pack format (section 2.4) rather than special-cased away. |
 | `EDTN` | 4 bytes, e.g. `27 03 27 03` (two identical u16 LE values) | **CONFIRMED UNUSED BY THE GAME (2026-09-06).** `FUN_00414130` (the loader) contains exactly 3 chunk-tag string comparisons in its entire body, dumped and read directly: `"VHCL"` @ `0x0044881C`, `"NAME"` @ `0x00448824`, `"LEVL"` @ `0x0044882C` -- no fourth comparison exists anywhere in the function. Any chunk tag the loader doesn't recognize (including `EDTN`) is walked past purely by its record-length field and never inspected. Its contents are therefore editor/build-only bookkeeping the *game itself* never reads -- not just unidentified, but confirmed irrelevant to a faithful port. Round-tripping it opaquely (already done) isn't a shortcut, it's the behaviorally correct thing to do: it's exactly what `RFIRE.BIN` itself does. |
 
@@ -301,15 +346,19 @@ with no clear anchor pointing at "declare victory" specifically, so this questio
 open rather than chased further without a better lead — see section 4.
 
 **Remaining work, in priority order:**
-1. Map the still-undecoded header body (offsets `0x04`-`0x3F`, minus the now-known width/
-   height/mode-byte fields) -- likely more gameplay metadata.
-2. Re-examine the old offset-`0x18` string finding now that `NAME` is known to be the real
-   display-name source -- confirm what offset `0x18` actually holds.
-3. Confirm whether any of the 204 `.rfm` files have the offset-`0x40` "enabled" byte unset.
-4. The `+9` "height_seed" byte in the `0x00447038` coastal table and the runtime tile
+1. The `+9` "height_seed" byte in the `0x00447038` coastal table and the runtime tile
    value's elevation-ish bits 25-27 (set by `FUN_0042e4f0`) are dumped but not chased --
    likely affect physics/movement, not rendering, so lower priority than art. (Bits 14-15
    are no longer mysterious -- see above: pool membership, not orientation.)
+2. The exact meaning of the two small constant header fields `0x04`-`0x07` (`"TM\0\x05"`)
+   and `0x0C`-`0x0D` (`01 01`) -- confirmed constant across all 204 real files, but *why*
+   is still a guess (a secondary format/version tag, most likely). Very low priority: a
+   constant the converter can round-trip without understanding, same as `EDTN`.
+
+**DONE (2026-09-06):** Mapped the previously-undecoded header body -- see above (`0x0E`-`0x25`
+now fully decoded: a DOS-format created/modified timestamp pair and a 15-byte author/designer
+name field). Also confirmed none of the 204 real files have the offset-`0x40` "enabled" byte
+unset (a plain empirical check, cheap enough to just run rather than leave open).
 
 **DONE:** Decompiled `FUN_0042e4f0` and fully resolved the raw-tile-byte → rendered-art-id
 pipeline (see above) -- this was open question #2 ("classify the ~94 plain-terrain tile
@@ -1019,18 +1068,19 @@ Web checklist:
 
 ## 4. Open questions
 
-1. The still-undecoded `.RFM` header body, offsets `0x04`-`0x3F` (minus width/height/
-   mode-byte, which are known — section 1.5).
-2. **What ends a match?** The per-pool target-replacement budgets (section 1.5) are fully
+1. **What ends a match?** The per-pool target-replacement budgets (section 1.5) are fully
    traced, but nothing touching those two globals declares a win/lose state. The most
    obvious next hop, `FUN_0042c4d0`, was checked and **ruled out** (2026-09-06) — it's a
    generic object-death utility called from 35+ unrelated sites, not a win-condition
    trigger. The trail from there runs into a large general AI-targeting/combat subsystem
    with no clear "declare victory" anchor; left open rather than chased further without one.
-3. The coastal table's (`0x00447038`) `+9` "height_seed" byte and the runtime tile value's
+2. The coastal table's (`0x00447038`) `+9` "height_seed" byte and the runtime tile value's
    elevation-ish bits 25-27, set by `FUN_0042e4f0` — dumped but not chased; likely
    physics/movement, not rendering (section 1.5). (Bits 14-15 are no longer part of this
    question — see RESOLVED below.)
+3. The two small constant `.RFM` header fields `0x04`-`0x07` (`"TM\0\x05"`) and `0x0C`-`0x0D`
+   (`01 01`) — confirmed constant across all 204 real files, exact meaning still a guess
+   (section 1.5). Very low priority.
 4. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
 5. **How is team colouring done?** Palette ranges or separate cels? A strong, still-
    unconfirmed lead now exists (section 1.6): the same `GetNearestPaletteIndex`-built
@@ -1044,6 +1094,17 @@ Web checklist:
 8. Implicit sprite pivots in the original cels — needed for the registry.
 
 **RESOLVED:**
+- **The `.RFM` header body, offsets `0x0E`-`0x25`** — **section 1.5**. A DOS-format
+  created/modified timestamp pair (`0x0E`-`0x15`) and a 15-byte null-padded level
+  author/designer name field (`0x17`-`0x25`, defaulting to `"Unknown"`), found purely
+  empirically (per-offset byte variance across all 204 real files, no Ghidra needed) and
+  verified rigorously: every one of the 204 files' timestamps decodes to a sane 1994-1996
+  date with zero failures, and the author field turned up real human names (`MichaelAngelo`,
+  `John L. Saleigh`, `Van`, and others) — the actual level designers' credits, still sitting
+  in the shipped data. Also resolves the long-standing "offset 0x18 string, not
+  re-examined" loose end: the real field starts at `0x17`, and it's unrelated to the `NAME`
+  chunk (that's the level's displayed title; this is who built it). Also confirmed none of
+  the 204 real files have the offset-`0x40` "enabled" byte unset.
 - **The `EDTN` chunk tag** — **section 1.5**. Confirmed unused by the game itself, not just
   unidentified: `RFIRE.BIN`'s loader contains exactly 3 chunk-tag comparisons in its entire
   body (`VHCL`, `NAME`, `LEVL`, each dumped and read directly from its data segment) and no

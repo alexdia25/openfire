@@ -6,10 +6,19 @@ writeup and how each field below was confirmed).
 
 Container layout:
     0x00        "WRL\0"     4-byte magic
-    0x04-0x3F   ...         header fields, MOSTLY UNDECODED. Known:
+    0x04-0x3F   ...         header fields (see docs/PORTING_PLAN.md section 1.5 for how
+                             each was found and verified against all 204 real files):
+        0x04  4 bytes  constant "TM\0\x05" -- probable format/version tag, unconfirmed
         0x08  u16 LE  width
         0x0A  u16 LE  height
+        0x0C  2 bytes  constant 01 01 -- meaning unconfirmed
+        0x0E  u16 LE  MS-DOS packed date -- file created
+        0x10  u16 LE  MS-DOS packed time -- file created
+        0x12  u16 LE  MS-DOS packed date -- file last modified
+        0x14  u16 LE  MS-DOS packed time -- file last modified
         0x16  u8      mode/player-count selector byte
+        0x17  15 bytes  null-padded ASCII level author/designer name, default "Unknown"
+        0x26  26 bytes  constant zero (padding)
     0x40        u8          must be non-zero, or the loader rejects the file
     0x44        u32 LE      byte length of the tile-grid region (== width*height)
     0x48        u32 LE      byte offset from file start to where the chunk table ends
@@ -92,9 +101,26 @@ SPECIAL_TILES = {TILE_SPAWN_P1, TILE_SPAWN_P2, TILE_CANDIDATE_A, TILE_CANDIDATE_
 VHCL_DEFAULTS = {"A": 3, "H": 3, "J": 8, "T": 3, "unk4": 0xFF, "M": 0xFF}
 VHCL_FIELD_ORDER = ["A", "H", "J", "T", "unk4", "M"]  # payload byte 0..5
 
+AUTHOR_OFFSET = 0x17
+AUTHOR_LEN = 15
+
 
 class RfmError(Exception):
     pass
+
+
+def decode_dos_datetime(date_u16, time_u16):
+    """Classic MS-DOS packed date/time (the format _dos_getftime and Win32's
+    FAT-era APIs use): date = yyyyyyymmmmddddd, time = hhhhhmmmmmmsssss (seconds
+    in 2-second units). Returns an ISO-ish string; callers treat this as display
+    data only, not something to do arithmetic on."""
+    year = 1980 + (date_u16 >> 9)
+    month = (date_u16 >> 5) & 0xF
+    day = date_u16 & 0x1F
+    hour = (time_u16 >> 11) & 0x1F
+    minute = (time_u16 >> 5) & 0x3F
+    second = (time_u16 & 0x1F) * 2
+    return "%04d-%02d-%02d %02d:%02d:%02d" % (year, month, day, hour, minute, second)
 
 
 def parse_bracket_params(filename):
@@ -194,6 +220,11 @@ def parse_rfm(path, filename):
     width, height = struct.unpack_from("<HH", data, 0x08)
     mode_byte = data[0x16]
     enabled = data[0x40] != 0
+    created = decode_dos_datetime(*struct.unpack_from("<HH", data, 0x0E))
+    modified = decode_dos_datetime(*struct.unpack_from("<HH", data, 0x12))
+    author_raw = data[AUTHOR_OFFSET:AUTHOR_OFFSET + AUTHOR_LEN]
+    nul = author_raw.find(b"\x00")
+    author = (author_raw[:nul] if nul >= 0 else author_raw).decode("cp1252", "replace")
     grid_size = struct.unpack_from("<I", data, 0x44)[0]
     chunk_table_end = struct.unpack_from("<I", data, 0x48)[0]
 
@@ -273,6 +304,9 @@ def parse_rfm(path, filename):
         "mode_byte": mode_byte,
         "enabled": enabled,
         "name": name,
+        "author": author,
+        "created": created,
+        "modified": modified,
         "levl_raw": levl_raw,
         "levl_value": levl_value,
         "vehicle_params": vhcl_values,

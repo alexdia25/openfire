@@ -58,15 +58,22 @@ state. The trail from there runs into a large, general AI-targeting/combat subsy
 clear "declare victory" anchor, so this is left open rather than chased further on a hunch.
 See document 10's postscript for the full account of checking and rejecting this lead.
 
+## DONE: the `.RFM` header body
+
+This one used the exact approach this document used to suggest — pure empirical byte-variance
+correlation across all 204 real files, no Ghidra at all — and it worked. Found a DOS-format
+created/modified timestamp pair and a 15-byte author/designer-name field (real names:
+`MichaelAngelo`, `John L. Saleigh`, `Van`, and others — the actual credited level designers,
+still in the shipped data), and resolved the long-dangling "offset 0x18 string" loose end
+from document 4 (the real field starts at `0x17`). Both fields are now in
+`tools/convert_rfm.py`'s JSON output (`author`, `created`, `modified`). Full writeup:
+[document 12](12-worked-example-header-body.md); ground truth: `docs/PORTING_PLAN.md`
+section 1.5.
+
 ## What's next, roughly in priority order (see the plan for full detail)
 
 - **What ends a match?** (see above) — still open. A better next anchor is needed; possibly
   a separate score/objective variable rather than anything touching the target pools.
-- **`.RFM` header body, offsets `0x04`-`0x3F`:** most fields here are still unidentified
-  besides width/height/mode-byte. Likely more per-level gameplay metadata. Good first
-  independent exercise: pick one unidentified offset, and try correlating its value against
-  something observable (level name, mode, filename) across all 204 files the way the VHCL
-  chunk correlation was found in document 4.
 - **Team colouring mechanism:** how are the two teams visually distinguished? Document 9
   found a real lead here — the same `GetNearestPaletteIndex`-built translation-table
   infrastructure used for effect-mask tinting is a plausible mechanism, and the 4
@@ -79,10 +86,10 @@ See document 10's postscript for the full account of checking and rejecting this
 
 ## If you want to try one of these yourself
 
-The shape is always the same, and it's the same shape as documents 4, 5, and 8 through 11 —
-including document 10's postscript and document 11, which show what it looks like when the
-recipe runs into a dead end or turns out to need no new work at all, not just when it lands
-a clean answer:
+The shape is always the same, and it's the same shape as documents 4, 5, and 8 through 12 —
+including document 10's postscript, document 11, and document 12, which show what it looks
+like when the recipe runs into a dead end, needs no new work at all, or doesn't need Ghidra
+in the first place — not just when it lands a clean answer the expected way:
 
 1. Pick one item above (or from the plan's section 4).
 2. Find an anchor — a string, an API call, or a data structure already known to be nearby
@@ -103,7 +110,8 @@ directly, and it's why this is realistically approachable to keep doing yourself
 
 **Next:** [Worked example: mapping `.RFM` art ids to `ART.CAR` cels](08-worked-example-art-id-mapping.md),
 then [the exact tint colour of `ART.CAR`'s effect masks](09-worked-example-effect-tint-colour.md),
-then [what the `>>1` computation actually does](10-worked-example-target-respawn.md), and
-finally [confirming a dead end fast by rereading work already on hand](11-worked-example-edtn-chunk.md) —
-four more items off this backlog, covering the full range from a big investigation down to
-one that cost nothing but a `grep`.
+then [what the `>>1` computation actually does](10-worked-example-target-respawn.md),
+then [confirming a dead end fast by rereading work already on hand](11-worked-example-edtn-chunk.md),
+and finally [decoding the `.RFM` header body with no Ghidra at all](12-worked-example-header-body.md) —
+five more items off this backlog, covering everything from a big investigation down to one
+that cost nothing but a `grep`, and one that never touched a disassembler by design.

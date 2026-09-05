@@ -46,6 +46,10 @@ them in order for the first time: narrative, worked examples, real commands you 
 11. [**Worked example: confirming a dead end fast by rereading work already on hand**](11-worked-example-edtn-chunk.md) —
     the smallest one here: zero new Ghidra calls, just rereading a decompile log this
     project had already produced for a different question.
+12. [**Worked example: decoding the `.RFM` header body with no Ghidra at all**](12-worked-example-header-body.md) —
+    a pure byte-variance correlation across all 204 real files finds a timestamp pair and
+    the actual level designers' names, still sitting in the shipped data. No disassembler
+    needed, by design this time rather than luck.
 
 ## The one rule that overrides everything else here
 
