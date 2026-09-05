@@ -682,6 +682,29 @@ physics hasn't been identified yet, so this isn't confirmed either way. **Next h
 `PTR_PTR_0044e27c`'s entries and find which one is the in-game (not title/menu) state, then
 check whether *it* internally quantizes `elapsed_time_ms` into a fixed step.
 
+**Update (2026-09-06): that next hop is done, and it's a dead end for a different reason than
+[document 10](../process/10-worked-example-target-respawn.md)'s — not a wrong function, but
+the wrong *system entirely*.** All three known writers of `PTR_PTR_0044e27c`
+(`FUN_00431320`, `FUN_00431340`, `FUN_00431370`) were traced to their literal table
+addresses (`0044e178`, `0044e218`, `0044e240`), and `DumpFunctionTable.java` dumped their raw
+contents. Every entry resolves to one of a handful of functions (`FUN_00430da0`,
+`FUN_00430e20`, `FUN_00430fb0`, `FUN_00431120`, `FUN_00430b10`) called with bitmap-name string
+pointers and millisecond duration triples (`0x1f4`=500, `0x3e8`=1000, `0x9c4`=2500) —
+classic fade-in/hold/fade-out timings for a slideshow. Combined with `FUN_00430b10`'s own
+`TITLE_BanBL.bmp`/`TITLE_Win1.stm` string references (seen while tracing `timeGetTime`
+callers), this is conclusively **the boot-time publisher/title logo slideshow, not
+gameplay** — the `PTR_PTR_0044e27c` machinery this trace reached is real, but it's the wrong
+system. It does, however, rule out one more candidate mechanism cleanly:
+`FindSymbol.java SetTimer` finds **zero** references to `SetTimer` anywhere in the binary, so
+the game definitely isn't using a `WM_TIMER` message for frame pacing either. Between this
+and the earlier no-`Sleep()` result, two of the three classic Win32 fixed-interval mechanisms
+are now ruled out; the remaining candidate is a blocking `IDirectDrawSurface::Flip` (vsync
+wait) as the actual pacing mechanism, which — being a COM vtable call, not a named import —
+needs a different search technique (find the `Flip` vtable-offset call the same way section
+1.9's own `Lock()` call was identified by its vtable offset, then check the call site once a
+level is actually running, not during the title sequence). Left open at this narrower,
+more specific point rather than chased further this session.
+
 ## 2. Architecture decisions (decide once, up front)
 
 ### 2.1 The simulation must NOT live in Godot's engine types
@@ -1188,11 +1211,14 @@ Web checklist:
    indexes the same `ART.CAR` CCB array, but that trace didn't reach a team/owner field).
    Blocks section 2.4.3.
 6. **The fixed sim tick rate** (section 1.9) — resolution itself is solved (320x240), but
-   whether there's a classic fixed-Hz simulation quantum is still open. The real per-frame
-   call chain is now traced down to a state-machine table (`PTR_PTR_0044e27c`) that receives
-   real wall-clock elapsed time each call, with no `Sleep()`/cap found anywhere upstream of
-   it — next hop is identifying which table entry is the in-game state and reading whether
-   *it* quantizes time internally.
+   whether there's a classic fixed-Hz simulation quantum is still open. `PTR_PTR_0044e27c`'s
+   state-machine table, the trace's first destination, is **ruled out (2026-09-06)**: all 3
+   of its known table addresses dump to boot-time logo/slideshow functions (bitmap names +
+   fade-timing triples), not gameplay. `SetTimer` also has zero references anywhere in the
+   binary, ruling out a `WM_TIMER`-based tick too. Next hop: find the actual
+   `IDirectDrawSurface::Flip` vtable call site (same technique as finding `Lock()` by its
+   vtable offset, section 1.9) and check whether it blocks for vsync during real gameplay —
+   that's the remaining candidate pacing mechanism.
 7. Implicit sprite pivots in the original cels — needed for the registry.
 
 **RESOLVED:**

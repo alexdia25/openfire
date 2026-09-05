@@ -83,4 +83,38 @@ Writing down "here's exactly how far the trace got and why it stopped" is worth 
 much as writing down a clean answer — arguably more, since a future attempt at this doesn't
 have to re-discover that `FUN_004312c0` is the right layer to have stopped at.
 
+## Postscript: the next hop, taken — and it's the wrong system, not the wrong function
+
+Immediately after this document was first written, the "next hop" it names — dump
+`PTR_PTR_0044e27c`'s table entries, find the in-game one — was actually taken. All three
+functions that ever write that pointer (`FUN_00431320`, `FUN_00431340`, `FUN_00431370`) were
+traced to their fixed table addresses, and `DumpFunctionTable.java` dumped the raw contents
+of each. Every single entry, across all three tables, resolves to the same small family of
+functions (`FUN_00430da0`, `FUN_00430e20`, `FUN_00430fb0`, `FUN_00431120`, `FUN_00430b10`),
+called with bitmap-filename string pointers and millisecond duration triples like `500`,
+`1000`, `2500` — unmistakably fade-in/hold/fade-out timings for a slideshow, not physics
+parameters. `FUN_00430b10` was already known (from the `timeGetTime`-caller trace in this
+same document) to reference `TITLE_BanBL.bmp` and `TITLE_Win1.stm` by name. Put together:
+**the whole `PTR_PTR_0044e27c` machinery is the boot-time publisher/title logo slideshow —
+real, correctly traced, but the wrong system entirely, not gameplay.**
+
+This is a different flavour of dead end than [document 10](10-worked-example-target-respawn.md)'s
+`FUN_0042c4d0` — that one was the wrong *function* reached by a reasonable-looking call
+graph edge; this is the right function, faithfully traced, that just turns out to belong to a
+part of the game (the splash screens) nobody was asking about. The tell, in hindsight, was
+sitting in the earlier trace the whole time: `FUN_00430b10` was already known to touch
+`TITLE_*` bitmap strings before this postscript's dump even ran. Recognizing that as a red
+flag *before* spending a dump-and-decompile pass on it would have been faster — a reminder
+that a function's own already-known strings are a cheap sanity check worth applying before
+extending a trace, not just after.
+
+One genuinely useful negative result did fall out of the same pass: `FindSymbol.java SetTimer`
+returns zero matches anywhere in `RFIRE.BIN`, so a `WM_TIMER`-driven fixed tick is now ruled
+out too, on top of the earlier no-`Sleep()` result. Two of the three classic Win32
+fixed-interval mechanisms are eliminated; the remaining candidate — a blocking
+`IDirectDrawSurface::Flip` call pacing the loop on vsync — is a COM vtable call, not a named
+import, so finding it needs the same technique this document's own section 1.9 used to
+identify `Lock()` (a literal vtable-offset call site, not a symbol lookup). Left there,
+narrower and more specific than before, rather than chased further this session.
+
 **Next:** back to [document 7](07-next-steps.md) for the current backlog.

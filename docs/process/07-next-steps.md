@@ -85,12 +85,15 @@ section 1.8.
 
 Traced the window-creation call back to its size globals and found one hardcoded default,
 set once in the command-line parser before any override flag: 320x240. The paired question
-— is there a fixed simulation tick rate? — traced cleanly through the real main-loop idle
-call chain (`WinMain` → `FUN_00421de0` → `FUN_004312c0` → a real-elapsed-time-driven
-state-machine table) without finding a `Sleep()`, cap, or fixed-timestep accumulator
-anywhere upstream — suggestive of no classic fixed-Hz tick, but not confirmed, since the
-actual in-game state entry in that table hasn't been identified yet. Recorded as a bounded,
-resumable trail rather than forced into an answer. Full account:
+— is there a fixed simulation tick rate? — traced through the real main-loop idle call chain
+down to a state-machine table (`PTR_PTR_0044e27c`), and a follow-up pass dumping that table's
+actual contents ruled it out: all of it resolves to the boot-time publisher/title-logo
+slideshow (bitmap names + fade-timing triples), not gameplay — a different flavour of dead
+end than document 10's, since the function was faithfully traced, it's just the wrong system.
+`SetTimer` also has zero references anywhere in the binary, ruling out a `WM_TIMER`-based
+tick too. Still open, narrower now: the next candidate is a blocking
+`IDirectDrawSurface::Flip` call pacing the loop on vsync. Full account (including the
+postscript that ran the "next hop" and found the dead end):
 [document 15](15-worked-example-resolution-and-tick-rate.md); ground truth:
 `docs/PORTING_PLAN.md` section 1.9.
 
@@ -116,9 +119,9 @@ Full account: [document 13](13-worked-example-reticle-not-swatch.md); ground tru
   what, if anything, varies it by team/owner — `FUN_0042dd90` (a heading-angle-based
   directional-sprite-frame selector found while chasing this) is a plausible place to start
   reading outward from, since it already indexes the same `ART.CAR` CCB array per-object.
-- **The fixed sim tick rate** (see above) — the trace reached `PTR_PTR_0044e27c`'s
-  state-machine table; next step is dumping its entries, finding the in-game one, and
-  checking whether it quantizes the real-elapsed-time parameter internally.
+- **The fixed sim tick rate** (see above) — `PTR_PTR_0044e27c` is ruled out (it's the title
+  slideshow); next step is finding the real `IDirectDrawSurface::Flip` vtable call site and
+  checking whether it blocks for vsync during actual gameplay.
 - Implicit sprite pivots in the original cels — listed with more context in plan section 4.
 
 ## If you want to try one of these yourself
