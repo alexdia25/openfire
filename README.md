@@ -7,6 +7,11 @@ Full plan, ground-truth format notes, architecture decisions and phase-by-phase
 execution steps: [docs/PORTING_PLAN.md](docs/PORTING_PLAN.md). Read that file before
 doing anything else in this repo — it is written to be self-contained.
 
+New to reverse engineering, or want to follow (and eventually continue) the process
+rather than just the results? Start at [docs/process/README.md](docs/process/README.md) —
+a narrative, example-driven walkthrough of how each format got cracked so far, and how to
+keep going.
+
 ## Legal
 
 This repository contains **no game assets and no decompiled game code**. It ships
