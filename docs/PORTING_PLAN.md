@@ -411,6 +411,64 @@ is a real remaining task but a cosmetic, lower-priority one — see section 4.
 investigative record rather than deleted, per section 5's standing lesson below, which this
 whole detour is a direct instance of.
 
+### 1.7 `.RFM` art id → `ART.CAR` cel mapping — SOLVED (2026-09-05): there is no mapping table, it's identity
+
+This was open question #1 (section 4) and Phase 4 step 1's hard blocker: section 1.5 gives
+every level tile a resolved 0-127 "art id"; section 1.6 fully classifies `ART.CAR`'s 2165
+cels. Neither told you which cel is art id 42. **Answer: art id *is* the cel index.**
+`ART.CAR`'s CCB array is loaded into memory unmodified at startup and indexed directly by
+the tile's art id, times `sizeof(CCB)` — no separate lookup table, no indirection, nothing
+built at load time. This was approach 2 from `docs/process/07-next-steps.md` (trace the
+runtime tile buffer forward through rendering), not approach 1 (empirical guessing) — it
+turned out to be findable and exact, so the empirical fallback was never needed.
+
+**How this was found (anchor → xref → decompile, same recipe as every other finding here):**
+
+1. Anchor: the runtime 128x128 tile buffer, `DAT_0046aa30`, whose address came for free out
+   of the already-decompiled level loader `FUN_00414130` (section 1.5) — it's what the loader
+   fills in as it resolves each raw tile byte to an art id.
+2. `FindDataXrefs.java 0046aa30` found 21 functions touching it. One, `FUN_00408d60`, is the
+   real per-frame terrain blitter (it computes camera-relative screen offsets and iterates
+   the visible tile window every frame — clearly the renderer, not the loader). Inside it:
+
+   ```c
+   puVar7 = (uint *)((*puVar4 & 0x7f) * 0x44 + DAT_0044964c);
+   puVar5 = (uint *)FUN_00413c90(local_a0);      /* same render-submission queue as section 1.6 */
+   *puVar5 = *puVar7 & 0xbfffffff | 0x1000;
+   puVar5[2] = puVar7[2];                        /* SourcePtr, copied straight from puVar7 */
+   puVar5[3] = puVar7[3];                        /* PLUTPtr, copied straight from puVar7 */
+   ```
+
+   `*puVar4 & 0x7f` is exactly the art id (the tile's low 7 bits, per section 1.5).
+   `0x44` is 68 decimal — `sizeof(CCB)`. So `puVar7` is `DAT_0044964c + art_id * sizeof(CCB)`:
+   a plain C array of CCBs, indexed by art id, and the code just copies that CCB's
+   `SourcePtr`/`PLUTPtr` into a fresh render-queue entry — the exact same submission path
+   used for every other sprite in the game.
+3. `FindDataXrefs.java 0044964c` on that array's base pointer found `FUN_00424950`, which
+   opens `Art\ART.CAR` (string `s_Art_art_CAR_00449688`), reads the **entire file** into a
+   single allocated buffer with `ReadFile`, and sets `DAT_0044964c = fileBuffer + 0x10`.
+   `0x10` is exactly the 16-byte `ART.CAR` header (`"CCBA"` + filesize + count + dataoff,
+   section 1.6) — so `DAT_0044964c` is not a copy, a rebuild, or a filtered subset. **It is
+   the literal on-disk CCB array, loaded verbatim, with art id used as its index.** The level
+   editor and the sprite artist were working against the same fixed cel numbering; there was
+   never a translation step to reverse.
+
+**Verified against every real file, not just the logic:** for all 104 art ids the 204 real
+`.rfm` files actually use (section 1.5), the `ART.CAR` cel at that exact index
+(`build/car/art_atlas.json`, `cels[art_id]`) is `kind: "sprite"` (never an effect mask),
+`32x32`, `PRE0 == 0` — zero exceptions. Cel indices 0-111 (112 cels) turn out to be a single
+uniform block: all `32x32`, all `PRE0 == 0`, all sharing one `PLUTPtr` (`0x282CC`), with
+`SourcePtr` packed back-to-back at an exact 1024-byte (`32*32`) stride and no gaps — clearly
+a deliberately laid-out terrain tileset, not a coincidence. Cel index 112 is the first break
+in that pattern (`16x16`, a different sprite category) — every art id any real level uses
+(max observed: 109) falls safely inside the uniform block, with 6 slots in range (92, 102,
+105-108) apparently unused by any of the 204 levels in this install.
+
+**Consequence:** no converter change is needed — `build/car/art_atlas.json`'s existing
+`cels[n]` entry for `n == art_id` already *is* the answer, because the mapping function is
+`f(x) = x`. Phase 4's terrain renderer should draw `art_atlas.json.cels[art_grid[i]]` for
+each `.art.bin` cell directly, with no intermediate table to build or maintain.
+
 ---
 
 ## 2. Architecture decisions (decide once, up front)
@@ -709,8 +767,8 @@ writeup in section 1.5); `tools/data/tile_lookup_tables.json` holds the dumped t
 Cross-checked against all 204 real files: zero grid cells fail to resolve to an art id, and
 the 104 art ids the tables predict are exactly the 104 art ids real levels actually use.
 This is a pure lookup, not a guess -- **Phase 3/4 rendering should consume `.art.bin`, not
-the raw `.tiles.bin` bytes**, once real per-art-id sprite art exists to map onto it (that
-sprite-to-id mapping is itself still open -- see section 4).
+the raw `.tiles.bin` bytes**. The art id IS the `ART.CAR` cel index directly (section 1.7,
+verified 2026-09-05) -- render `art_atlas.json.cels[art_id]`, no separate mapping needed.
 
 **1e. Asset ID registry + pack emitter — NOT STARTED.** Convert the raw atlas manifest into
 a semantic registry (section 2.4.1) and make the converters emit a proper content pack
@@ -887,39 +945,36 @@ Web checklist:
 
 ## 4. Open questions
 
-1. **Highest priority now:** map the 104 resolved `.RFM` art ids (section 1.5,
-   `tools/rf_tile_art.py`) to actual sprite art / collision classes. The raw-byte → art-id
-   *lookup* is fully solved and verified, and `ART.CAR`'s sprite content is now also fully
-   classified (section 1.6) so this is no longer blocked on anything — what's left is
-   matching each art id against real `ART.CAR` terrain sprites, or empirically comparing
-   the per-art-id debug-render shapes (e.g. `art=0`'s huge 57-raw-value bucket is presumably
-   "generic buildable land", by far the most common). Needed before Phase 4 step 1 (render
-   a level).
-2. The exact runtime colour of `ART.CAR`'s 93 effect-mask cels (section 1.6) — the mask
+1. The exact runtime colour of `ART.CAR`'s 93 effect-mask cels (section 1.6) — the mask
    *shape* is fully solved, but reproducing the on-screen tint requires finding/decompiling
    how `FUN_00424420` builds or loads the 4 shared translation tables (tries `Art\Trans.tbl`
    first, falls back to generating one — neither path traced). Cosmetic, low priority: a
    placeholder tint (e.g. plain white/team-colour alpha blend) is a reasonable stand-in
    until this is chased.
-3. The still-undecoded `.RFM` header body, offsets `0x04`-`0x3F` (minus width/height/
+2. The still-undecoded `.RFM` header body, offsets `0x04`-`0x3F` (minus width/height/
    mode-byte, which are known — section 1.5).
-4. The `>>1` "half the candidate-pool count" computation right after the random
+3. The `>>1` "half the candidate-pool count" computation right after the random
    building/target pick in `FUN_00414130` — possibly a win-condition threshold (section 1.5).
-5. The `EDTN` chunk tag (section 1.5) — present in every file, 4-byte payload, not decoded.
+4. The `EDTN` chunk tag (section 1.5) — present in every file, 4-byte payload, not decoded.
    Low priority: `tools/convert_rfm.py` round-trips it without understanding it.
-6. The coastal table's (`0x00447038`) `+9` "height_seed" byte and the runtime tile value's
+5. The coastal table's (`0x00447038`) `+9` "height_seed" byte and the runtime tile value's
    orientation (bits 14-15) / elevation-ish (bits 25-27) fields set by `FUN_0042e4f0` —
    dumped but not chased; likely physics/movement, not rendering (section 1.5).
-7. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
-8. Are the 3 `ART.CAR` PLUTs meaningfully different, or near-duplicates?
-9. **How is team colouring done?** Palette ranges or separate cels — plausibly the SAME
-   masked-translation-table mechanism as question 2 above, now that that mechanism is
+6. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
+7. Are the 3 `ART.CAR` PLUTs meaningfully different, or near-duplicates?
+8. **How is team colouring done?** Palette ranges or separate cels — plausibly the SAME
+   masked-translation-table mechanism as question 1 above, now that that mechanism is
    known to exist; worth checking together. Blocks section 2.4.3.
-10. Is music Redbook CD audio (`mciSendCommandA`) or `SOUND/DRUMS.WAV`?
-11. Native framebuffer dimensions and the fixed sim tick rate.
-12. Implicit sprite pivots in the original cels — needed for the registry.
+9. Is music Redbook CD audio (`mciSendCommandA`) or `SOUND/DRUMS.WAV`?
+10. Native framebuffer dimensions and the fixed sim tick rate.
+11. Implicit sprite pivots in the original cels — needed for the registry.
 
 **RESOLVED:**
+- **Mapping `.RFM` art ids to `ART.CAR` cels** — **section 1.7**. There is no mapping table:
+  `ART.CAR`'s CCB array is loaded into memory verbatim and indexed directly by art id
+  (`art_id * sizeof(CCB)`), confirmed by decompiling the real per-frame terrain blitter
+  (`FUN_00408d60`) and its source, the `Art\ART.CAR`-loading function (`FUN_00424950`).
+  Verified against all 104 real art ids with zero exceptions. Unblocks Phase 4 step 1.
 - Is palette index 0 transparent in `ART.CAR` cels? **Yes** — confirmed by visual
   inspection of the atlas (section 1.6).
 - Meaning of `ART.CAR` `Flags` bit `0x20`: it is the real 3DO `CCB_BGND` flag (confirmed

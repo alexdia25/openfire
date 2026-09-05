@@ -32,6 +32,11 @@ Result: 240 raw byte values collapse to 104 distinct final art ids, one of
 which (id 0) is an large "unused/blank" catch-all bucket (57 raw values --
 mostly reserved slots and coastal variants whose coastal table entry has
 base_art == 0xff, meaning "no override, leave blank").
+
+The art id returned here is also, directly, the ART.CAR cel index to render --
+RFIRE.BIN's real terrain blitter (FUN_00408d60) indexes ART.CAR's own CCB array
+with this exact value, no separate table involved. See docs/PORTING_PLAN.md
+section 1.7 for how that was confirmed.
 """
 
 import json

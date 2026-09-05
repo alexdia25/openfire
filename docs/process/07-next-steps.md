@@ -6,34 +6,18 @@ how you'd go about it yourself using the recipe from [document 3](03-ghidra-work
 Check the plan doc for the precise, current state before starting any of these — it gets
 updated as work lands, and this document might lag it slightly.
 
-## Highest priority: map the 104 `.RFM` art ids to real `ART.CAR` sprites
+## DONE: map the 104 `.RFM` art ids to real `ART.CAR` sprites
 
-Both halves of this are now individually solved and verified — [document 4](04-worked-example-rfm-format.md)
-gives every level tile a resolved numeric "art id" (0-127ish), and
-[document 5](05-worked-example-art-car.md) correctly classifies all 2165 `ART.CAR` cels
-into sprites vs. effect masks. Neither half tells you **which of the 2072 real sprites is
-art id 42.** That link is what's needed before a level can render with real art in Godot at
-all (Phase 4 step 1 in the plan).
+This was the highest-priority item — the last thing blocking Phase 4 step 1 (render a level
+with real art). It's solved: **the art id *is* the `ART.CAR` cel index**, with no mapping
+table anywhere in the game — the renderer loads `ART.CAR`'s CCB array into memory unmodified
+and indexes it directly with the tile's art id. Of the two approaches this document used to
+suggest, it turned out to need the second one (trace the real rendering code), and that
+route reached an exact answer faster than the empirical guess would have. Full writeup:
+[document 8](08-worked-example-art-id-mapping.md); ground truth: `docs/PORTING_PLAN.md`
+section 1.7.
 
-Two ways to attack this, worth trying in this order:
-
-1. **Empirical, no more Ghidra needed:** generate the `.RFM` debug-render for every level
-   (already implemented, see document 4), and look at *where* each art id appears and how
-   often. `art_id=0`'s huge 57-raw-value bucket is almost certainly "generic buildable
-   land," just from being overwhelmingly the most common tile everywhere. Coastline-range
-   art ids only ever appear adjacent to that bucket, which tells you they're edge variants
-   of it. This gets you most of the way with zero new RE — terrain art in this era is
-   usually a small, guessable set (water, land, a handful of coastline edges) once you can
-   see the *shape* each id traces out across real levels.
-2. **Definitive, more RE:** find where the game's own rendering code converts a *runtime
-   tile value* into a specific cel index for drawing. That code has to exist somewhere —
-   the game itself renders these levels correctly — and finding it would give you the exact
-   mapping instead of an educated guess. Start from `FUN_00414130` (the level loader,
-   already fully decompiled) and look for what happens to its runtime tile buffer once
-   gameplay actually starts rendering, using `FindDataXrefs.java` on the buffer's address
-   the same way the `ART.CAR` render queue was traced in document 5.
-
-## The rest, roughly in priority order (see the plan for full detail)
+## What's next, roughly in priority order (see the plan for full detail)
 
 - **Effect-mask tint colour** ([document 5](05-worked-example-art-car.md)'s open item):
   decompile `FUN_00424420`'s `Art\Trans.tbl` load-or-generate path. Cosmetic — a placeholder
@@ -57,7 +41,7 @@ Two ways to attack this, worth trying in this order:
 
 ## If you want to try one of these yourself
 
-The shape is always the same, and it's the same shape as documents 4 and 5:
+The shape is always the same, and it's the same shape as documents 4, 5, and 8:
 
 1. Pick one item above (or from the plan's section 4).
 2. Find an anchor — a string, an API call, or a data structure already known to be nearby
@@ -75,3 +59,6 @@ engineering in this project has mostly been *reading straightforward decompiled 
 cross-checking it against real files*, not fighting with raw disassembly. That's a
 deliberate consequence of using Ghidra's decompiler rather than working from assembly
 directly, and it's why this is realistically approachable to keep doing yourself.
+
+**Next:** [Worked example: mapping `.RFM` art ids to `ART.CAR` cels](08-worked-example-art-id-mapping.md) —
+this backlog's own top item, solved, as a third full run through the recipe above.

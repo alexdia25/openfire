@@ -31,6 +31,10 @@ them in order for the first time: narrative, worked examples, real commands you 
    the expensive way.
 7. [**Next steps**](07-next-steps.md) — the current open-questions backlog, reframed as
    "here's how you'd go about this one yourself," with pointers back into the workflow doc.
+8. [**Worked example: mapping `.RFM` art ids to `ART.CAR` cels**](08-worked-example-art-id-mapping.md) —
+   the backlog's top item from document 7, solved: the recipe applied a third time, this
+   time chaining two data-structure traces straight to an exact answer with no guessing
+   needed.
 
 ## The one rule that overrides everything else here
 
