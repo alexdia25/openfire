@@ -368,6 +368,25 @@ for _idx in range(1301, 1537):
         "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified")
 
 
+# ---- batch: 1565-1776 ------------------------------------------------------------
+# More VFX library. Carves out three more distinct families before falling back to
+# colour-bucketing: blue splash puffs (distinct from the ring-shaped water_ring
+# family above), a small orange 8-point starburst (muzzle flash / detonation
+# spark), and a long wavy red line built from several cels (likely a trailing
+# effect or a decorative squiggle, not confirmed).
+seq(list(range(1565, 1575)), "effect.water_splash.{n:02d}", "effect", "blue splash puff, not ring-shaped")
+seq([1580, 1581, 1649, 1650], "effect.starburst.{n:02d}", "effect", "small orange 8-point starburst")
+seq(list(range(1763, 1773)), "prop.wavy_line_red.{n:02d}", "prop",
+    "segment of one long wavy red line spanning several cels; purpose unconfirmed (trail? wire? river?)")
+
+for _idx in range(1565, 1777):
+    if _idx in ENTRIES or _idx in _already_classified or _idx not in _cels_by_idx:
+        continue
+    _bucket = _colour_bucket(_idx, _cels_by_idx, _img)
+    seq([_idx], _burst_family[_bucket], "effect",
+        "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified")
+
+
 def main():
     with open(REGISTRY_JSON) as f:
         registry = json.load(f)
