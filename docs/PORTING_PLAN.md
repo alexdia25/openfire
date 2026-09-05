@@ -1139,6 +1139,42 @@ simulations — another reason the integer rule in section 2.1 is absolute.
   differs from desktop. Keyboard must remain a complete control scheme.
 - Fullscreen and pointer lock require user gestures too.
 
+### 2.6 Menu / UI system: everything is custom Godot UI, nothing is a native dialog
+
+**No game-flow screen can be a native OS dialog or Win32 control — all of it has to be built
+as ordinary Godot `Control` scenes.** Two different reasons converge on the same answer for
+two different kinds of screen:
+
+- **In-game flow (main menu, level select, mode/player-count select, options, pause,
+  results):** the original **doesn't use Windows dialogs for these either** — `RFIRE.BIN`'s
+  own import table (section 1.2) has no `COMDLG32` and no `DialogBox`/`CreateDialog` family
+  call anywhere, only `GetKeyboardState` from `USER32`. Its level-select screen is a
+  self-rendered menu drawn through its own software rasterizer: `FUN_00426f70` enumerates
+  `*.rfm` files directly with `FindFirstFileA`/`FindNextFileA` and `FUN_004266d0` reads each
+  one's display name for the list (section 1.5) — the same engine that draws gameplay draws
+  this screen, there's no OS chrome involved at all. That means there's no Win32 dialog to
+  "replace" so much as an entire bespoke UI renderer (input handling, layout, the bitmap art
+  it draws) that has no Godot equivalent and must be designed fresh — this is real new work,
+  not a swap. Reasonable default: build these as Godot `Control` scenes, themed via the asset
+  pack (section 2.4) like everything else — including custom packs, which is what makes a
+  full replacement asset pack a legitimate reskin of the menus too, not just gameplay art.
+- **Engine-level pickers that have no original analogue at all** — chiefly the first-run
+  "point me at your `returnfire` install" flow (Phase 0 step 4): a native OS folder picker
+  (Godot's `DisplayServer.file_dialog_show`, or a `FileDialog` node) is fine and appropriate
+  here on desktop, since this is genuinely a new, one-time, out-of-game-flow operation with
+  no in-universe screen to be faithful to. It does not exist on web at all (section 2.5.1) —
+  the web build skips it entirely and ships a bundled pack instead.
+
+Concrete screens Phase 4 step 9 needs to actually deliver, not just "menus and HUD" as one
+undifferentiated line item: main menu, 1-4 player / team-count select (ties directly into
+the 4-player goal, section 4 item 7 — this screen is where that participant count actually
+gets chosen), map/level select (reading pack manifests, section 2.4, not raw `.rfm` files
+directly — the pack layer is the one thing standing in for `FUN_00426f70`'s directory scan),
+options (video/audio/controls, including the 4:3-vs-widescreen choice from section 2.3),
+pause, and results/scoreboard. None of this needs Ghidra to build; it's ordinary Godot UI
+work, gated only on the pack format (section 2.4) existing first so level-select has
+something real to list.
+
 ---
 
 ## 3. Execution phases
@@ -1156,7 +1192,8 @@ simulations — another reason the integer rule in section 2.1 is absolute.
    /build/            converter output — GITIGNORED
    ```
 3. `.gitignore` must exclude `/build/`, every converted asset, and any copy of original data.
-4. First-run flow asking the user to point at their `returnfire` install.
+4. First-run flow asking the user to point at their `returnfire` install (native OS folder
+   picker is fine here — desktop-only, section 2.6).
 
 ### Phase 1 — Asset pipeline (Python, offline)
 
@@ -1339,7 +1376,8 @@ Keep each step playable, and load everything through the pack layer from step 1:
 6. Enemy AI.
 7. Mission objectives, scoring, level progression.
 8. Audio: SFX and music.
-9. Menus and HUD.
+9. Menus and HUD — all custom Godot `Control` UI, no native dialogs; see section 2.6 for the
+   concrete screen list and why the original gives no shortcut here (it's self-rendered too).
 
 ### Phase 5 — Netplay
 
@@ -1437,6 +1475,17 @@ Web checklist:
    native 2-player cap. Also touches the split-screen viewport layout (section 2.2) and the
    netcode session/handshake design (section 3 Phase 5) — both should be built assuming up to
    4 participants from the start rather than retrofitted from a 2-player assumption.
+8. **A custom Godot UI system for all game-flow screens** (section 2.6, new 2026-09-05) — not
+   a decompilation question, an engineering goal: no native OS dialog can carry menus, level
+   select, mode/player-count select, options, pause, or results, because the target platforms
+   (Linux/ARM/web) have no shared native-dialog story to lean on even if the original used
+   one. It doesn't, as it happens — `RFIRE.BIN` renders its own level-select screen through
+   its own rasterizer (`FUN_00426f70`/`FUN_004266d0`, section 1.5), so there is no Win32
+   dialog being "replaced," just an entirely bespoke original UI with no Godot equivalent to
+   reuse. Needs: the concrete screen list in section 2.6, each built as a themed `Control`
+   scene; level-select reading pack manifests (section 2.4) rather than scanning `.rfm` files
+   directly; and the player-count screen wired to whatever the 4-player goal (item 7) lands
+   on. Blocked only on the pack format existing first — no Ghidra work required here at all.
 
 **RESOLVED:**
 - **The fixed sim tick rate** — **section 1.9** (2026-09-05). There isn't one, and there was

@@ -26,6 +26,7 @@ See plan section 4 for the current, precise state of each — this list is just 
 - Team colouring mechanism (section 4, item 3)
 - 3DO support: base game + "Maps o' Death" expansion — new goal, not yet started (section 4, item 6)
 - 4-player support — new goal, not yet started (section 4, item 7)
+- Custom Godot UI for menus/level-select/etc — new goal, not yet started (section 4, item 8)
 
 ## If you want to try one of these yourself
 
