@@ -1,14 +1,15 @@
 # Return Fire (1996, Silent Software) — Godot Port Plan
 
 **Status:** planning complete. Phase 1 converters (1a/1b/1c/1d) written and verified. Phase 0
-(Godot project scaffold) done, 2026-09-05. The asset ID registry (section 2.4.1), Phase 4's
-gating deliverable, is done as of 2026-09-06 — all 2165 `ART.CAR` cels have a semantic ID,
-at coarse precision for most of them (see 2.4.1 for what that means and what it isn't yet).
+(Godot project scaffold) done, 2026-09-05. Phase 4 step 1e is done as of 2026-09-06: the
+asset ID registry (section 2.4.1, all 2165 cels) and the pack emitter for sprites/terrain
+(section 2.4.2, `tools/build_pack.py` → `packs/original_pc/`) both exist and validate clean.
 **Priority as of 2026-09-05: get the core PC-port game actually running before returning to
 3DO support (section 4 item 6) or new-goal work beyond what's needed to run it** — the user
-explicitly deferred the 3DO disc work until then. Next real blocker: actually building
-Phase 4's terrain/sprite renderer against the registry — nothing in section 4's open
-questions blocks starting that.
+explicitly deferred the 3DO disc work until then. Next real blocker: Phase 4 step 1 itself —
+a Godot scene that loads `packs/original_pc/`, renders `.RFM` terrain through
+`terrain/tileset.json`, and drops static objects. Nothing in section 4's open questions
+blocks starting that.
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
@@ -1302,12 +1303,29 @@ This is a pure lookup, not a guess -- **Phase 3/4 rendering should consume `.art
 the raw `.tiles.bin` bytes**. The art id IS the `ART.CAR` cel index directly (section 1.7,
 verified 2026-09-05) -- render `art_atlas.json.cels[art_id]`, no separate mapping needed.
 
-**1e. Asset ID registry — DONE (2026-09-06, section 2.4.1); pack emitter — NOT STARTED.**
-`packs/registry/asset_ids.json` maps every `ART.CAR` cel to a semantic ID. Still needed
-before Phase 4: make the converters actually emit a proper content pack (section 2.4.2 —
-`sprites.json`, `animations.json`, pivots, etc.) keyed by those IDs, rather than the flat
-atlas manifest they produce today. **Do this before Phase 4** — the engine must consume
-packs from its first line of asset-loading code.
+**1e. Asset ID registry — DONE (2026-09-06, section 2.4.1); pack emitter — DONE for
+sprites/terrain (2026-09-06, section 2.4.2).** `tools/build_pack.py` reads
+`build/car/art_atlas.json` + the registry and emits `packs/original_pc/` (gitignored, like
+`/build/` — it embeds real extracted pixel data): `pack.json`, `sprites/sprites.json` (all
+2165 registry IDs, reusing the existing atlas PNGs as pages rather than re-slicing into
+individual files — section 2.4.2 allows this), `terrain/tileset.json` (art id 0-111 → sprite
+id + a coarse `terrain_class` guess). `tools/validate_pack.py` (section 2.4.3 requirement 7)
+checks it — currently 2165 sprites, 0 errors. Verified end-to-end by rendering sprites from
+nothing but the pack's own files, not `build/`.
+
+**What's honestly still missing, not silently papered over:**
+- **Pivots are a flat centre-of-cel default** (`pivot_source: "default_center"`), not
+  recovered real pivots (section 2.4.3 item 2 is still open). Fine for now since nothing
+  renders yet to notice; revisit once Phase 4 step 1/2 makes a wrong pivot visible.
+- **`terrain_class` is a coarse string-prefix guess** off the registry ID, not derived from
+  gameplay data — good enough to pick a rendering path, not to trust for gameplay logic.
+- **No `animations.json`, `audio/`, `fonts/`, or `ui/` yet.** Grouping the coarse-pass
+  registry IDs into real animation sequences needs those IDs refined first in most cases
+  (section 2.4.1); audio/font/UI packs need their own converters, which don't exist yet.
+  None of this blocks Phase 4 step 1 ("render terrain + static objects").
+- **Team colour is declared but not consumed by anything**: `pack.json` has a
+  `team_colours: {team_a: tan, team_b: green}` field (section 4 item 5) with nowhere yet to
+  read it — the actual mechanism (separate cels vs. palette swap) is still open.
 
 **Validation gate:** a standalone viewer that renders any level's terrain grid using real
 tile art, and plays any sound. Do not start Phase 3 until this looks right.
