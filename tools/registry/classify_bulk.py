@@ -312,6 +312,47 @@ seq([1072, 1073], "prop.dart_icon.{n:02d}", "prop", "small teal jet/dart arrow s
 seq([1075], "decoration.foliage.bush_blue.12", "decoration")
 
 
+# ---- batch: 1077-1300 ------------------------------------------------------------
+# A huge VFX library -- the bulk of this range is explosion/smoke/dust/blood burst
+# animation frames. Two visually distinct exceptions get their own names (a
+# checkered flag/warning pattern, and a set of expanding green rings that read as
+# a shockwave/blast-ring animation); everything else in the range is bucketed by
+# programmatic dominant-colour (same technique as the trooper-run colour split)
+# into three burst families rather than hand-transcribed one at a time -- with
+# ~180 near-identical animation frames in this range, that would be slow and no
+# more reliable than the colour average.
+seq([1081, 1082, 1083], "marker.checkered_flag.{n:02d}", "marker", "yellow/red checkered square")
+seq(list(range(1200, 1211)), "effect.shockwave_ring.{n:02d}", "effect", "expanding green/yellow ring")
+
+_burst_family = {"green": "effect.burst_green.{n:03d}", "brown_tan": "effect.burst_brown.{n:03d}",
+                  "red_pink": "effect.burst_red.{n:03d}"}
+
+
+def _colour_bucket(idx, atlas_cels, atlas_img):
+    c = atlas_cels[idx]
+    crop = atlas_img.crop((c["x"], c["y"], c["x"] + c["w"], c["y"] + c["h"]))
+    pixels = [p for p in crop.getdata() if p[3] > 0]
+    r = sum(p[0] for p in pixels) / len(pixels)
+    g = sum(p[1] for p in pixels) / len(pixels)
+    b = sum(p[2] for p in pixels) / len(pixels)
+    if g >= r and g >= b:
+        return "green"
+    if b >= r and b >= g:
+        return "green"  # the few blue-leaning frames here are still splash/burst, not a separate family
+    return "brown_tan" if g > 110 else "red_pink"
+
+
+with open(REGISTRY_JSON) as _f:
+    _already_classified = {int(k) for k in json.load(_f)["cels"].keys()}
+
+for _idx in range(1077, 1301):
+    if _idx in ENTRIES or _idx in _already_classified or _idx not in _cels_by_idx:
+        continue
+    _bucket = _colour_bucket(_idx, _cels_by_idx, _img)
+    seq([_idx], _burst_family[_bucket], "effect",
+        "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified")
+
+
 def main():
     with open(REGISTRY_JSON) as f:
         registry = json.load(f)
