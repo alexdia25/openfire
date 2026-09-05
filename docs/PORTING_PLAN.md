@@ -1496,29 +1496,49 @@ Web checklist:
    (`01 01`) — confirmed constant across all 204 real files, exact meaning still a guess
    (section 1.5). Very low priority.
 4. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
-5. **How is team colouring done?** Palette ranges or separate cels? Still open, but with a
-   real lead now instead of none. The "4 `PRE0==17` cels are a team-colour swatch" lead from
-   section 1.6 is **RULED OUT (2026-09-06)**: rendered and eyeballed (per section 5's own
-   rule — never trust code alone), the 4 cels are visibly a 16x16 concentric-ring bullseye
-   (purple/black/yellow, one ring recoloured red/blue per cel) — a target-lock reticle, not a
-   colour swatch. `FindConstant.java` found no literal reference anywhere in the binary to
-   any of their 4 cel indices (1969-1972) or the equivalent CCB byte offset, consistent with
-   an animated HUD overlay whose frame index is computed at runtime rather than hardcoded
-   per-frame. The `GetNearestPaletteIndex`-built masked-translation-table infrastructure
-   (section 1.6) is still a plausible *mechanism*, but there is no lead pointing at *where*
-   it's invoked for that purpose.
+5. **How is team colouring done?** Palette ranges or separate cels? Still open at the
+   mechanism level, but **the two team colours themselves are now settled: tan and green**
+   (confirmed by the user, who owns and has played the original, 2026-09-06 — not something
+   this project derived independently, but cross-checked against art before accepting it, see
+   below). The "4 `PRE0==17` cels are a team-colour swatch" lead from section 1.6 is
+   **RULED OUT (2026-09-06)**: rendered and eyeballed (per section 5's own rule — never trust
+   code alone), the 4 cels are visibly a 16x16 concentric-ring bullseye (purple/black/yellow,
+   one ring recoloured red/blue per cel) — a target-lock reticle, not a colour swatch.
+   `FindConstant.java` found no literal reference anywhere in the binary to any of their 4 cel
+   indices (1969-1972) or the equivalent CCB byte offset, consistent with an animated HUD
+   overlay whose frame index is computed at runtime rather than hardcoded per-frame. The
+   `GetNearestPaletteIndex`-built masked-translation-table infrastructure (section 1.6) is
+   still a plausible *mechanism*, but there is no lead pointing at *where* it's invoked.
 
-   **New lead (2026-09-06, from asset ID registry classification, section 2.4.1):** the
-   hovercraft's hull/cab pieces (`ART.CAR` cels 167-209 — hull-top, hull-front, cab-front,
-   panels) recur as matching tan/cyan pairs at the same pose (e.g. 172/173, 177/178, 192/193,
-   197/198). That is consistent with **duplicate art per team, not a palette swap at draw
-   time** — the opposite of what this item and section 2.4.3 requirement 3 had assumed was
-   the likely mechanism. This was found by looking at rendered cels during registry
-   classification, not traced through code — the next step is a fresh Ghidra anchor (still
-   most likely starting from wherever a vehicle's CCB is queued per-frame, e.g. `FUN_0042dd90`)
-   to confirm whether the game actually picks between two pre-built cel sets by team, or
-   whether the tan/cyan duplication is coincidental (e.g. one is unused/leftover art).
-   Blocks section 2.4.3.
+   **Tan/green confirmed independently by art, not just recalled (2026-09-06).** Registry
+   classification (section 2.4.1) had labeled several duplicate-coloured art families
+   "blue"/"cyan"/"teal" by eye. When told the real colours are tan and green, this got
+   checked against actual pixel data rather than just renamed on faith: three large,
+   completely independent cel ranges — the running-trooper animation (`character.trooper_run`,
+   44/44 cels), the trooper head/shoulders rotation (`character.trooper_head.rotation`, 22/22),
+   and the hovercraft's in-level rotation silhouette (`vehicle.hovercraft.rotation`, 9/9) —
+   are **100% green-dominant by mean pixel colour, zero exceptions**. The earlier "cyan" label
+   came from a colour heuristic that only ever compared blue against red and never checked
+   green at all, so real green art was mislabeled throughout; registry IDs corrected (~90
+   cels renamed, see `tools/registry/classify_bulk.py`'s team-colour-fix section).
+
+   **One specific earlier lead walked back.** The hovercraft hull-*icon* pieces at cels
+   173/178/193/198 (batch 3, section 2.4.1) — previously flagged as *the* team-colour lead
+   because they duplicate in tan and a second colour — are genuinely **blue**-dominant when
+   checked (not green). They don't match the confirmed tan/green pair, so that specific lead
+   is no longer good evidence for anything about team colouring; still real duplicate-coloured
+   art, purpose unknown. The tan/green evidence above (found afterward, in unrelated cel
+   ranges) is what actually confirms the colour pair.
+
+   **Still open:** the *mechanism*. Is tan/green done via separate pre-built cel sets (the
+   pattern the still-valid trooper/hovercraft-rotation duplication is consistent with) or a
+   runtime palette swap? Needs a fresh Ghidra anchor, most likely starting from wherever a
+   vehicle's or trooper's CCB is queued per-frame (candidate: `FUN_0042dd90`, already known
+   to do heading-based frame selection off the same `ART.CAR` CCB array, section 1.10) to see
+   whether team is read there. Blocks section 2.4.3 requirement 3's pack-format decision
+   (palette-range field vs. separate team-mask texture) only in the sense that knowing the
+   *real* mechanism would justify supporting just one instead of both defensively — not
+   otherwise a hard blocker.
 6. **3DO support: base game + "Maps o' Death" expansion extraction** (section 1.11, new
    2026-09-05; scope widened 2026-09-05) — **deliberately deprioritized (2026-09-05): the
    user wants the core PC-port game running first** before this gets picked back up.
