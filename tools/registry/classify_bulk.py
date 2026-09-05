@@ -13,10 +13,27 @@ must produce the same registry state.
 import json
 import os
 
+from PIL import Image
+
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ATLAS_JSON = os.path.join(ROOT, "build", "car", "art_atlas.json")
+ATLAS_PNG = os.path.join(ROOT, "build", "car", "art_atlas.png")
 REGISTRY_JSON = os.path.join(ROOT, "packs", "registry", "asset_ids.json")
 
 ENTRIES = {}
+
+
+def dominant_team_colour(idx, atlas_cels, atlas_img):
+    """tan vs blue, by mean RGB of an cel's non-transparent pixels -- used where a
+    long run of near-identical frames alternates between the two known team hues
+    (see the 655-754 trooper-run family) and eyeballing a downscaled contact sheet
+    risks mis-transcribing which frame is which colour."""
+    c = atlas_cels[idx]
+    crop = atlas_img.crop((c["x"], c["y"], c["x"] + c["w"], c["y"] + c["h"]))
+    pixels = [p for p in crop.getdata() if p[3] > 0]
+    r = sum(p[0] for p in pixels) / len(pixels)
+    b = sum(p[2] for p in pixels) / len(pixels)
+    return "blue" if b > r else "tan"
 
 
 def put(idx, id_, category, note=None, confidence="visual_group"):
@@ -163,6 +180,56 @@ seq([613], "prop.hook_claw.cyan.01", "prop")
 seq([616, 617], "prop.riveted_panel_red.{n:02d}", "prop", "large mottled red panel with rivet-like dots")
 seq([618], "prop.panel_solid.tan.02", "prop", "large solid tan panel")
 seq([619], "prop.panel_solid.cyan.02", "prop", "large solid cyan panel")
+
+
+# ---- batch: 630-869 -------------------------------------------------------------
+# Major find: a ~100-cel running/walking trooper animation (655-754) in tan and
+# blue team colours -- almost certainly the on-foot infantry unit (Return Fire's
+# rescue mechanic: pilots eject and can run, and/or hostages to recover). Preceded
+# by a jetski-with-rider vehicle (630-654) and followed by small dust-puff effects
+# (755-800), a chaotic multi-figure clash animation (801-820, possibly a melee/
+# capture struggle), and then what looks like rescue/POW-camp dressing: red-cross-
+# like markers (821-825, 858), barred-cage panels (826-827, 845-846), and building
+# wall segments (834-838, 855-857, 864-869). Worth flagging in PORTING_PLAN.md as a
+# new gameplay-mechanic lead once confirmed.
+with open(ATLAS_JSON) as _f:
+    _atlas = json.load(_f)
+_cels_by_idx = {c["index"]: c for c in _atlas["cels"]}
+_img = Image.open(ATLAS_PNG).convert("RGBA")
+
+_run_counts = {"tan": 0, "blue": 0}
+for _idx in range(655, 755):
+    _colour = dominant_team_colour(_idx, _cels_by_idx, _img)
+    _run_counts[_colour] += 1
+    put(_idx, f"character.trooper_run.{_colour}.{_run_counts[_colour]:03d}", "character",
+        "running/walking infantry animation frame, direction within the cycle not disambiguated"
+        if _run_counts[_colour] == 1 else None)
+
+seq(list(range(630, 640)), "prop.watercraft_distant.{n:02d}", "prop", "small pale boat silhouette, likely distant-LOD")
+seq(list(range(640, 655)), "vehicle.jetski.{n:02d}", "vehicle", "small watercraft with a red-clothed rider, rotation set")
+seq(list(range(755, 801)), "effect.dust_puff.{n:02d}", "effect", "small light blue-white puff, likely footstep/impact dust")
+seq(list(range(801, 821)), "effect.trooper_clash.{n:02d}", "effect",
+    "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation")
+seq([821, 822, 823, 824, 825, 858], "marker.rescue_cross.{n:02d}", "marker",
+    "red panel with a cyan/green cross or plus shape -- possible medic/rescue icon, unconfirmed")
+seq([826, 827, 845, 846], "structure.cage_bars.{n:02d}", "structure", "dark panel with vertical bar pattern, possible POW cage")
+seq([828, 829, 830], "prop.panel_frame_green.{n:02d}", "prop", "green-bordered red panel")
+seq([831], "prop.chain_red.01", "prop", "thin beaded chain/rope pattern")
+seq([832], "marker.sun_burst.01", "marker", "red panel with a yellow sun/star burst symbol")
+seq([833], "marker.diamond_cyan.01", "marker", "cyan panel with a red diamond")
+seq(list(range(834, 839)) + [855, 856, 857] + list(range(864, 870)),
+    "structure.building_wall.{n:02d}", "structure", "pink/red wall segment, some with window/tent details")
+seq([839, 840], "prop.panel_solid.orange.{n:02d}", "prop")
+seq([841, 844], "prop.bar_thin.{n:02d}", "prop", "thin vertical coloured bar")
+seq([847], "prop.composite_tan_blue.01", "prop", "small composite shape, unclear silhouette")
+seq([848], "prop.blob_tan.01", "prop")
+seq([849], "prop.post.tan.01", "prop")
+seq([850], "prop.post.cyan.01", "prop")
+seq([851, 852], "prop.diamond_pattern.{n:02d}", "prop", start=3)
+seq([853, 854], "prop.bar_thin.{n:02d}", "prop", start=3)
+seq([859, 860], "prop.panel_solid.dark_red.{n:02d}", "prop")
+seq([863], "structure.doorway.01", "structure", "red archway with a brown door")
+seq([861, 862], "effect.explosion_large.{n:02d}", "effect", start=13)
 
 
 def main():

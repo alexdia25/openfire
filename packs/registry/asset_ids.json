@@ -3873,35 +3873,412 @@
       "confidence": "visual_group",
       "id": "terrain.coast.forest_water.11"
     },
+    "630": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.watercraft_distant.01",
+      "note": "small pale boat silhouette, likely distant-LOD"
+    },
+    "631": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.watercraft_distant.02",
+      "note": "small pale boat silhouette, likely distant-LOD"
+    },
+    "632": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.watercraft_distant.03",
+      "note": "small pale boat silhouette, likely distant-LOD"
+    },
+    "633": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.watercraft_distant.04",
+      "note": "small pale boat silhouette, likely distant-LOD"
+    },
+    "634": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.watercraft_distant.05",
+      "note": "small pale boat silhouette, likely distant-LOD"
+    },
+    "635": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.watercraft_distant.06",
+      "note": "small pale boat silhouette, likely distant-LOD"
+    },
+    "636": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.watercraft_distant.07",
+      "note": "small pale boat silhouette, likely distant-LOD"
+    },
+    "637": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.watercraft_distant.08",
+      "note": "small pale boat silhouette, likely distant-LOD"
+    },
+    "638": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.watercraft_distant.09",
+      "note": "small pale boat silhouette, likely distant-LOD"
+    },
+    "639": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.watercraft_distant.10",
+      "note": "small pale boat silhouette, likely distant-LOD"
+    },
     "64": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.forest_water.12"
+    },
+    "640": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.jetski.01",
+      "note": "small watercraft with a red-clothed rider, rotation set"
+    },
+    "641": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.jetski.02",
+      "note": "small watercraft with a red-clothed rider, rotation set"
+    },
+    "642": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.jetski.03",
+      "note": "small watercraft with a red-clothed rider, rotation set"
+    },
+    "643": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.jetski.04",
+      "note": "small watercraft with a red-clothed rider, rotation set"
+    },
+    "644": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.jetski.05",
+      "note": "small watercraft with a red-clothed rider, rotation set"
+    },
+    "645": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.jetski.06",
+      "note": "small watercraft with a red-clothed rider, rotation set"
+    },
+    "646": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.jetski.07",
+      "note": "small watercraft with a red-clothed rider, rotation set"
+    },
+    "647": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.jetski.08",
+      "note": "small watercraft with a red-clothed rider, rotation set"
+    },
+    "648": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.jetski.09",
+      "note": "small watercraft with a red-clothed rider, rotation set"
+    },
+    "649": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.jetski.10",
+      "note": "small watercraft with a red-clothed rider, rotation set"
     },
     "65": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.forest_water.13"
     },
+    "650": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.jetski.11",
+      "note": "small watercraft with a red-clothed rider, rotation set"
+    },
+    "651": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.jetski.12",
+      "note": "small watercraft with a red-clothed rider, rotation set"
+    },
+    "652": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.jetski.13",
+      "note": "small watercraft with a red-clothed rider, rotation set"
+    },
+    "653": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.jetski.14",
+      "note": "small watercraft with a red-clothed rider, rotation set"
+    },
+    "654": {
+      "category": "vehicle",
+      "confidence": "visual_group",
+      "id": "vehicle.jetski.15",
+      "note": "small watercraft with a red-clothed rider, rotation set"
+    },
+    "655": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.001",
+      "note": "running/walking infantry animation frame, direction within the cycle not disambiguated"
+    },
+    "656": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.002"
+    },
+    "657": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.003"
+    },
+    "658": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.004"
+    },
+    "659": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.005"
+    },
     "66": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.forest_water.14"
+    },
+    "660": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.006"
+    },
+    "661": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.007"
+    },
+    "662": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.008"
+    },
+    "663": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.009"
+    },
+    "664": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.010"
+    },
+    "665": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.001",
+      "note": "running/walking infantry animation frame, direction within the cycle not disambiguated"
+    },
+    "666": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.002"
+    },
+    "667": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.003"
+    },
+    "668": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.004"
+    },
+    "669": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.005"
     },
     "67": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.forest_water.15"
     },
+    "670": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.011"
+    },
+    "671": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.006"
+    },
+    "672": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.007"
+    },
+    "673": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.008"
+    },
+    "674": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.009"
+    },
+    "675": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.012"
+    },
+    "676": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.013"
+    },
+    "677": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.014"
+    },
+    "678": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.015"
+    },
+    "679": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.016"
+    },
     "68": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.forest_water.16"
     },
+    "680": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.017"
+    },
+    "681": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.018"
+    },
+    "682": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.019"
+    },
+    "683": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.020"
+    },
+    "684": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.021"
+    },
+    "685": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.010"
+    },
+    "686": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.011"
+    },
+    "687": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.012"
+    },
+    "688": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.013"
+    },
+    "689": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.014"
+    },
     "69": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.forest_water.17"
+    },
+    "690": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.015"
+    },
+    "691": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.016"
+    },
+    "692": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.017"
+    },
+    "693": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.022"
+    },
+    "694": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.018"
+    },
+    "695": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.023"
+    },
+    "696": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.024"
+    },
+    "697": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.025"
+    },
+    "698": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.026"
+    },
+    "699": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.027"
     },
     "7": {
       "category": "terrain",
@@ -3913,56 +4290,595 @@
       "confidence": "visual_group",
       "id": "terrain.coast.forest_water.18"
     },
+    "700": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.028"
+    },
+    "701": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.029"
+    },
+    "702": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.030"
+    },
+    "703": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.031"
+    },
+    "704": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.032"
+    },
+    "705": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.019"
+    },
+    "706": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.020"
+    },
+    "707": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.033"
+    },
+    "708": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.021"
+    },
+    "709": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.034"
+    },
     "71": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.forest_water.19"
+    },
+    "710": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.035"
+    },
+    "711": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.022"
+    },
+    "712": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.023"
+    },
+    "713": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.024"
+    },
+    "714": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.025"
+    },
+    "715": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.036"
+    },
+    "716": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.037"
+    },
+    "717": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.038"
+    },
+    "718": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.039"
+    },
+    "719": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.040"
     },
     "72": {
       "category": "terrain",
       "confidence": "visual_group",
       "id": "terrain.coast.forest_water.20"
     },
+    "720": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.041"
+    },
+    "721": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.042"
+    },
+    "722": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.043"
+    },
+    "723": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.044"
+    },
+    "724": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.045"
+    },
+    "725": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.026"
+    },
+    "726": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.027"
+    },
+    "727": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.028"
+    },
+    "728": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.029"
+    },
+    "729": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.030"
+    },
     "73": {
       "category": "terrain",
       "confidence": "visual",
       "id": "terrain.structure.rooftop_red.01"
+    },
+    "730": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.031"
+    },
+    "731": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.032"
+    },
+    "732": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.033"
+    },
+    "733": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.034"
+    },
+    "734": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.035"
+    },
+    "735": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.046"
+    },
+    "736": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.047"
+    },
+    "737": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.048"
+    },
+    "738": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.049"
+    },
+    "739": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.050"
     },
     "74": {
       "category": "terrain",
       "confidence": "visual",
       "id": "terrain.structure.rooftop_red.02"
     },
+    "740": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.051"
+    },
+    "741": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.052"
+    },
+    "742": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.053"
+    },
+    "743": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.054"
+    },
+    "744": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.055"
+    },
+    "745": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.036"
+    },
+    "746": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.037"
+    },
+    "747": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.038"
+    },
+    "748": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.039"
+    },
+    "749": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.040"
+    },
     "75": {
       "category": "terrain",
       "confidence": "visual",
       "id": "terrain.structure.rooftop_red.03"
     },
+    "750": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.041"
+    },
+    "751": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.042"
+    },
+    "752": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.tan.056"
+    },
+    "753": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.043"
+    },
+    "754": {
+      "category": "character",
+      "confidence": "visual_group",
+      "id": "character.trooper_run.blue.044"
+    },
     "755": {
       "category": "effect",
-      "confidence": "confirmed",
-      "id": "effect.shadow.hard.016",
-      "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.01",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "756": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.02",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "757": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.03",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "758": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.04",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "759": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.05",
+      "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "76": {
       "category": "terrain",
       "confidence": "visual",
       "id": "terrain.structure.rooftop_red.04"
     },
+    "760": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.06",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "761": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.07",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "762": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.08",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "763": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.09",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "764": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.10",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "765": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.11",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "766": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.12",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "767": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.13",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "768": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.14",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "769": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.15",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
     "77": {
       "category": "terrain",
       "confidence": "visual",
       "id": "terrain.structure.rooftop_red.05"
+    },
+    "770": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.16",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "771": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.17",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "772": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.18",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "773": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.19",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "774": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.20",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "775": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.21",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "776": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.22",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "777": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.23",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "778": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.24",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "779": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.25",
+      "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "78": {
       "category": "terrain",
       "confidence": "visual",
       "id": "terrain.structure.rooftop_red.06"
     },
+    "780": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.26",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "781": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.27",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "782": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.28",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "783": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.29",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "784": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.30",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "785": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.31",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "786": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.32",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "787": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.33",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "788": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.34",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "789": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.35",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
     "79": {
       "category": "terrain",
       "confidence": "visual",
       "id": "terrain.structure.rooftop_red.07"
+    },
+    "790": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.36",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "791": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.37",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "792": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.38",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "793": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.39",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "794": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.40",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "795": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.41",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "796": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.42",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "797": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.43",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "798": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.44",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "799": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.45",
+      "note": "small light blue-white puff, likely footstep/impact dust"
     },
     "8": {
       "category": "terrain",
@@ -3975,26 +4891,276 @@
       "id": "terrain.ground.blank.a",
       "note": "fully transparent tile (index-0 pixels only)"
     },
+    "800": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.dust_puff.46",
+      "note": "small light blue-white puff, likely footstep/impact dust"
+    },
+    "801": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.01",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "802": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.02",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "803": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.03",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "804": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.04",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "805": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.05",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "806": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.06",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "807": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.07",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "808": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.08",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "809": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.09",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
     "81": {
       "category": "terrain",
       "confidence": "visual",
       "id": "terrain.structure.rooftop_red.08"
+    },
+    "810": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.10",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "811": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.11",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "812": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.12",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "813": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.13",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "814": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.14",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "815": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.15",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "816": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.16",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "817": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.17",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "818": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.18",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "819": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.19",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
     },
     "82": {
       "category": "terrain",
       "confidence": "visual",
       "id": "terrain.structure.rooftop_red.09"
     },
+    "820": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.trooper_clash.20",
+      "note": "chaotic multi-colour burst with a humanoid figure visible -- possibly a melee/capture struggle animation"
+    },
+    "821": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.rescue_cross.01",
+      "note": "red panel with a cyan/green cross or plus shape -- possible medic/rescue icon, unconfirmed"
+    },
+    "822": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.rescue_cross.02",
+      "note": "red panel with a cyan/green cross or plus shape -- possible medic/rescue icon, unconfirmed"
+    },
+    "823": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.rescue_cross.03",
+      "note": "red panel with a cyan/green cross or plus shape -- possible medic/rescue icon, unconfirmed"
+    },
+    "824": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.rescue_cross.04",
+      "note": "red panel with a cyan/green cross or plus shape -- possible medic/rescue icon, unconfirmed"
+    },
+    "825": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.rescue_cross.05",
+      "note": "red panel with a cyan/green cross or plus shape -- possible medic/rescue icon, unconfirmed"
+    },
+    "826": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.cage_bars.01",
+      "note": "dark panel with vertical bar pattern, possible POW cage"
+    },
+    "827": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.cage_bars.02",
+      "note": "dark panel with vertical bar pattern, possible POW cage"
+    },
+    "828": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_frame_green.01",
+      "note": "green-bordered red panel"
+    },
+    "829": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_frame_green.02",
+      "note": "green-bordered red panel"
+    },
     "83": {
       "category": "terrain",
       "confidence": "visual",
       "id": "terrain.structure.rooftop_red.10"
+    },
+    "830": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_frame_green.03",
+      "note": "green-bordered red panel"
+    },
+    "831": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.chain_red.01",
+      "note": "thin beaded chain/rope pattern"
+    },
+    "832": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.sun_burst.01",
+      "note": "red panel with a yellow sun/star burst symbol"
+    },
+    "833": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.diamond_cyan.01",
+      "note": "cyan panel with a red diamond"
+    },
+    "834": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.01",
+      "note": "pink/red wall segment, some with window/tent details"
+    },
+    "835": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.02",
+      "note": "pink/red wall segment, some with window/tent details"
+    },
+    "836": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.03",
+      "note": "pink/red wall segment, some with window/tent details"
+    },
+    "837": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.04",
+      "note": "pink/red wall segment, some with window/tent details"
+    },
+    "838": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.05",
+      "note": "pink/red wall segment, some with window/tent details"
+    },
+    "839": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.orange.01"
     },
     "84": {
       "category": "terrain",
       "confidence": "visual",
       "id": "terrain.ground.furrow_green.01",
       "note": "green striped texture, function unconfirmed (crop rows / hedge / runway marking)"
+    },
+    "840": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.orange.02"
+    },
+    "841": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.bar_thin.01",
+      "note": "thin vertical coloured bar"
     },
     "842": {
       "category": "effect",
@@ -4008,17 +5174,162 @@
       "id": "effect.shadow.hard.018",
       "note": "PRE0=13: flat darken_row4 (~84%) shadow, span-encoded mask -- same table as PRE0 1"
     },
+    "844": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.bar_thin.02",
+      "note": "thin vertical coloured bar"
+    },
+    "845": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.cage_bars.03",
+      "note": "dark panel with vertical bar pattern, possible POW cage"
+    },
+    "846": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.cage_bars.04",
+      "note": "dark panel with vertical bar pattern, possible POW cage"
+    },
+    "847": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.composite_tan_blue.01",
+      "note": "small composite shape, unclear silhouette"
+    },
+    "848": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.blob_tan.01"
+    },
+    "849": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.post.tan.01"
+    },
     "85": {
       "category": "terrain",
       "confidence": "visual",
       "id": "terrain.ground.furrow_green.02",
       "note": "green striped texture, function unconfirmed (crop rows / hedge / runway marking)"
     },
+    "850": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.post.cyan.01"
+    },
+    "851": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.diamond_pattern.03"
+    },
+    "852": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.diamond_pattern.04"
+    },
+    "853": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.bar_thin.03"
+    },
+    "854": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.bar_thin.04"
+    },
+    "855": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.06",
+      "note": "pink/red wall segment, some with window/tent details"
+    },
+    "856": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.07",
+      "note": "pink/red wall segment, some with window/tent details"
+    },
+    "857": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.08",
+      "note": "pink/red wall segment, some with window/tent details"
+    },
+    "858": {
+      "category": "marker",
+      "confidence": "visual_group",
+      "id": "marker.rescue_cross.06",
+      "note": "red panel with a cyan/green cross or plus shape -- possible medic/rescue icon, unconfirmed"
+    },
+    "859": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.dark_red.01"
+    },
     "86": {
       "category": "terrain",
       "confidence": "visual",
       "id": "terrain.ground.furrow_green.03",
       "note": "green striped texture, function unconfirmed (crop rows / hedge / runway marking)"
+    },
+    "860": {
+      "category": "prop",
+      "confidence": "visual_group",
+      "id": "prop.panel_solid.dark_red.02"
+    },
+    "861": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.explosion_large.13"
+    },
+    "862": {
+      "category": "effect",
+      "confidence": "visual_group",
+      "id": "effect.explosion_large.14"
+    },
+    "863": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.doorway.01",
+      "note": "red archway with a brown door"
+    },
+    "864": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.09",
+      "note": "pink/red wall segment, some with window/tent details"
+    },
+    "865": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.10",
+      "note": "pink/red wall segment, some with window/tent details"
+    },
+    "866": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.11",
+      "note": "pink/red wall segment, some with window/tent details"
+    },
+    "867": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.12",
+      "note": "pink/red wall segment, some with window/tent details"
+    },
+    "868": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.13",
+      "note": "pink/red wall segment, some with window/tent details"
+    },
+    "869": {
+      "category": "structure",
+      "confidence": "visual_group",
+      "id": "structure.building_wall.14",
+      "note": "pink/red wall segment, some with window/tent details"
     },
     "87": {
       "category": "terrain",
