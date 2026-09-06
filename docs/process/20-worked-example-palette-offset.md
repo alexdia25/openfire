@@ -18,6 +18,8 @@ pastel sand and grey-blue water. Same shapes, wrong hues -- exactly the kind of 
 purely-visual QA pass (which is most of what document 19 was) will never catch, because
 nothing about a wrong-but-plausible palette *looks* broken in isolation.
 
+![Schematic: the same island shape, once in washed-out pastel colours and once in vivid orange-tan and teal](images/palette-symptom.svg)
+
 ## Ruling out the easy explanations first
 
 Before touching any code, two cheap checks:
@@ -87,6 +89,8 @@ decided at *presentation*, through whatever palette is currently active). Since 
 palette shifts the shared PLUT's entries up by 10 slots, the colour actually shown for byte
 `k` is `shared_plut[k - 10]` (black if `k < 10`) -- not `shared_plut[k]`, which is what every
 converter had been computing since section 1.6.
+
+![Schematic: a palette strip showing raw byte k reading the wrong slot k directly, versus the correct slot k-10](images/palette-offset.svg)
 
 Checked against real numbers before touching any code: cel 2's dominant raw byte, 193, gives
 `shared_plut[183]` = a plausible sand-adjacent tone; more decisively, a value that had been

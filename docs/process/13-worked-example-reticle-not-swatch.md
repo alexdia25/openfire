@@ -37,6 +37,11 @@ over whatever it's tracking, cycling through a short handful of frames as the lo
 Once seen, it's obvious; it was not obvious from the raw bytes, and it was not obvious from
 the code, which only tells you *how* a cel is blitted, never *what it looks like*.
 
+![Schematic: the guessed flat colour swatch on the left, versus the actual concentric-ring reticle on the right](images/reticle-not-swatch.svg)
+
+(Schematic redraw for illustration, not the real cel — this project never commits extracted
+game art, see section 0.)
+
 ## Confirming there's no easy follow-up trail
 
 Before closing the loop, it's worth checking whether the actual reticle-cycling code is easy

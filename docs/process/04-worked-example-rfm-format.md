@@ -181,13 +181,24 @@ file sizes seen: {16756: 154, 16772: 50}
 Two of those renders are worth specifically looking for once you generate them:
 `RFMAP001.debug.png` ("The Cakewalk") shows a single coherent landmass silhouette with one
 red spawn dot correctly sitting on land — confirming the art-id grouping lines up with real
-terrain structure, not noise. `RFMAP046.debug.png` ("Campgrounds Of America") shows 160
+terrain structure, not noise.
+
+![RFMAP001 false-colour art-id render: a coherent island silhouette with a red spawn dot on land](images/rfmap001-artid-debug.png)
+
+`RFMAP046.debug.png` ("Campgrounds Of America") shows 160
 cyan candidate markers arranged in a **perfectly uniform grid** — which is exactly what a
 campground's numbered camping spots should look like, and was the single most convincing
 piece of evidence in this whole investigation that the extraction was reading real level
 design, not an artifact of the decoder. A uniform, structured shape appearing in a
 statistics-only investigation is a strong positive signal; noise is what a wrong decoder
 tends to produce instead (again — see document 5).
+
+![RFMAP046 false-colour art-id render: a perfectly uniform grid of cyan candidate markers](images/rfmap046-artid-debug.png)
+
+Both renders are colour-coded purely by the *numeric* art id / entity type (an arbitrary,
+procedural palette assigned by `render_debug_png()` in `tools/convert_rfm.py`) — they encode
+level-layout structure, not the game's actual sprite art, so they're safe to keep in this
+repo (see section 0's rule against distributing extracted assets).
 
 **Next:** [Worked example: `ART.CAR` and a wrong turn](05-worked-example-art-car.md), where
 that same standard — verify by rendering, not by statistics — is the thing that caught a

@@ -1,0 +1,58 @@
+<svg viewBox="0 0 640 320" xmlns="http://www.w3.org/2000/svg" font-family="Verdana, Arial, sans-serif">
+  <rect width="640" height="320" fill="#f5f3ee"/>
+  <text x="320" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Raw pixel byte k -&gt; which palette slot?</text>
+
+  <!-- generic invented palette strip, 16 boxes representing slots 0..15-ish -->
+  <g transform="translate(60,70)">
+    <text x="0" y="-12" font-size="12" fill="#666">shared PLUT table (file data)</text>
+    <!-- boxes with arbitrary placeholder colours, NOT the real game palette -->
+    <!-- slot indices shown 0..15 as a stand-in for the real 0..255 table -->
+    <g font-size="10" fill="#333" text-anchor="middle">
+      <!-- index 0 -->
+      <rect x="0" y="0" width="32" height="32" fill="#222222"/><text x="16" y="46">0</text>
+      <rect x="34" y="0" width="32" height="32" fill="#eeeeee"/><text x="50" y="46">1</text>
+      <rect x="68" y="0" width="32" height="32" fill="#b06a3c"/><text x="84" y="46">2</text>
+      <rect x="102" y="0" width="32" height="32" fill="#c98a55"/><text x="118" y="46">3</text>
+      <rect x="136" y="0" width="32" height="32" fill="#d9a56e"/><text x="152" y="46">4</text>
+      <rect x="170" y="0" width="32" height="32" fill="#e6bb88"/><text x="186" y="46">5</text>
+      <rect x="204" y="0" width="32" height="32" fill="#5a7a9a"/><text x="220" y="46">6</text>
+      <rect x="238" y="0" width="32" height="32" fill="#6a8aac"/><text x="254" y="46">7</text>
+      <rect x="272" y="0" width="32" height="32" fill="#4a6a4a"/><text x="288" y="46">8</text>
+      <rect x="306" y="0" width="32" height="32" fill="#5a8a5a"/><text x="322" y="46">9</text>
+      <rect x="340" y="0" width="32" height="32" fill="#9a6a9a" stroke="#333" stroke-width="2"/><text x="356" y="46" font-weight="bold">10</text>
+      <rect x="374" y="0" width="32" height="32" fill="#aa7aaa"/><text x="390" y="46">11</text>
+      <rect x="408" y="0" width="32" height="32" fill="#bb8abb"/><text x="424" y="46">12</text>
+      <rect x="442" y="0" width="32" height="32" fill="#cc99cc"/><text x="458" y="46">13</text>
+      <rect x="476" y="0" width="32" height="32" fill="#333366"/><text x="492" y="46">14</text>
+      <rect x="510" y="0" width="32" height="32" fill="#444488" stroke="#333" stroke-width="2"/><text x="526" y="46" font-weight="bold">20</text>
+      <text x="530" y="20" font-size="14" fill="#666">...</text>
+    </g>
+  </g>
+
+  <!-- Wrong path -->
+  <g transform="translate(60,150)">
+    <text x="0" y="0" font-size="13" fill="#c0392b" font-weight="bold">Wrong (what every converter did): shared_plut[k]</text>
+    <path d="M 356,-90 L 356,-15" stroke="#c0392b" stroke-width="2" fill="none" marker-end="url(#arrowRed)"/>
+    <text x="356" y="18" text-anchor="middle" font-size="12" fill="#c0392b">byte k=10 -&gt; slot 10 directly</text>
+    <text x="356" y="34" text-anchor="middle" font-size="12" fill="#c0392b" font-style="italic">plausible-looking, wrong hue</text>
+  </g>
+
+  <!-- Correct path -->
+  <g transform="translate(60,220)">
+    <text x="0" y="0" font-size="13" fill="#1e7a3c" font-weight="bold">Correct: shared_plut[k - 10]</text>
+    <path d="M 526,-170 Q 620,-100 200,-20" stroke="#1e7a3c" stroke-width="2" fill="none" marker-end="url(#arrowGreen)"/>
+    <text x="200" y="20" text-anchor="middle" font-size="12" fill="#1e7a3c">byte k=20 -&gt; slot (20-10)=10, not slot 20</text>
+    <text x="200" y="36" text-anchor="middle" font-size="12" fill="#1e7a3c" font-style="italic">matches the game's real active palette</text>
+  </g>
+
+  <defs>
+    <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="5" refY="8" orient="auto">
+      <path d="M0,0 L5,8 L10,0 z" fill="#c0392b"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="5" refY="8" orient="auto">
+      <path d="M0,0 L5,8 L10,0 z" fill="#1e7a3c"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="300" text-anchor="middle" font-size="11" fill="#888">Placeholder colours for illustration -- not the real PLUT contents. See document 20.</text>
+</svg>

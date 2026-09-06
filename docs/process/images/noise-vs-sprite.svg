@@ -1,0 +1,24 @@
+<svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg" font-family="Verdana, Arial, sans-serif">
+  <defs>
+    <filter id="staticNoise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0"/>
+    </filter>
+  </defs>
+
+  <rect width="640" height="300" fill="#f5f3ee"/>
+  <text x="320" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Byte budget checked out. The render didn't.</text>
+
+  <!-- Left panel: noise -->
+  <text x="150" y="55" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c0392b">Wrong decoder: right byte count, noise</text>
+  <rect x="50" y="70" width="200" height="160" filter="url(#staticNoise)"/>
+  <text x="150" y="255" text-anchor="middle" font-size="12" fill="#666" font-style="italic">visibly, obviously not sprites</text>
+
+  <!-- Right panel: clean shape -->
+  <text x="490" y="55" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1e7a3c">Real mechanism: a clean coverage shape</text>
+  <rect x="390" y="70" width="200" height="160" fill="#111"/>
+  <path d="M 490,90 C 540,95 560,140 545,175 C 535,200 500,215 470,205 C 445,195 435,160 450,130 C 460,108 475,92 490,90 Z" fill="#e8e4da"/>
+  <text x="490" y="255" text-anchor="middle" font-size="12" fill="#666" font-style="italic">a real blob/splat silhouette -- intentional, not noise</text>
+
+  <text x="320" y="285" text-anchor="middle" font-size="11" fill="#888">Illustrative static and silhouette -- not the real cel data. See document 5 / section 1.6.</text>
+</svg>

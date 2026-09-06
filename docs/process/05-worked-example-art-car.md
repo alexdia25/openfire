@@ -42,6 +42,8 @@ consumed a number of bytes broadly consistent with the cel's declared size.
 transparency for the lower-bit-depth ones. Not a subtle bug — visibly, obviously not
 sprites.
 
+![Schematic: a byte-count-correct decode rendering as static noise, versus the real mechanism's clean coverage silhouette](images/noise-vs-sprite.svg)
+
 ## Catching it: the byte-budget checked out, and it didn't matter
 
 This is the moment worth sitting with, because "the decoder ran to completion and used a

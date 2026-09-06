@@ -79,6 +79,8 @@ around, independent of how many rotation-frame sprites `ART.CAR` actually ships 
 (fewer sprites than 64 headings is expected — mirroring and interpolation are the classic ways
 to cover the gap, though this investigation didn't chase which one Return Fire uses).
 
+![Schematic: a flat sprite rotated around a pivot, versus a real 3D quad with 4 projected corners viewed from a camera point](images/3d-projection.svg)
+
 ## Why this isn't just trivia
 
 A vehicle in Return Fire is drawn by: picking the nearest of 64 rotation matrices for its

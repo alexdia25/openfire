@@ -1,0 +1,17 @@
+<svg viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg" font-family="Verdana, Arial, sans-serif">
+  <rect width="640" height="260" fill="#f5f3ee"/>
+
+  <!-- Left: washed out (the bug) -->
+  <text x="150" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#333">Before: pale, wrong hues</text>
+  <rect x="40" y="45" width="220" height="160" fill="#e7d9d0"/>
+  <ellipse cx="150" cy="125" rx="80" ry="50" fill="#dcc8ba" stroke="#c9b3a3" stroke-width="2"/>
+  <text x="150" y="222" text-anchor="middle" font-size="12" fill="#666" font-style="italic">pastel sand, grey-blue water</text>
+
+  <!-- Right: vivid (fixed) -->
+  <text x="490" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#333">After: matches real screenshots</text>
+  <rect x="380" y="45" width="220" height="160" fill="#2a9dc4"/>
+  <ellipse cx="490" cy="125" rx="80" ry="50" fill="#d99a4e" stroke="#a8721f" stroke-width="2"/>
+  <text x="490" y="222" text-anchor="middle" font-size="12" fill="#666" font-style="italic">vivid orange-tan sand, teal water</text>
+
+  <text x="320" y="245" text-anchor="middle" font-size="11" fill="#888">Abstract illustration of the colour shift -- not real level geometry or the real palette. See document 20.</text>
+</svg>

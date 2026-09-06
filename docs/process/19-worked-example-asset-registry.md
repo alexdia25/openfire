@@ -34,6 +34,8 @@ effort sits on — every classification decision below started with generating o
 and reading it with the `Read` tool, the same way any other image gets inspected in this
 project.
 
+![Schematic: a labelled grid of cels, one highlighted and traced to its registry entry](images/contact-sheet-method.svg)
+
 ## Batch 1: the parts already solved by code
 
 The terrain tileset (cels 0-111, section 1.7) and all 89 effect masks (section 1.6) didn't

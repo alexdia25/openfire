@@ -1,0 +1,70 @@
+<svg viewBox="0 0 640 320" xmlns="http://www.w3.org/2000/svg" font-family="Verdana, Arial, sans-serif">
+  <rect width="640" height="320" fill="#f5f3ee"/>
+  <text x="320" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Contact sheet: crop + label + review, one grid at a time</text>
+
+  <!-- grid of generic placeholder cels -->
+  <g transform="translate(50,50)">
+    <!-- checkerboard-ish backing to suggest transparency, generic shapes not real sprites -->
+    <g font-size="9" fill="#333">
+      <!-- row 1 -->
+      <rect x="0" y="0" width="56" height="56" fill="#ded9cc" stroke="#aaa"/>
+      <circle cx="28" cy="28" r="18" fill="#8a9a5b"/>
+      <text x="28" y="70" text-anchor="middle">102</text>
+
+      <rect x="60" y="0" width="56" height="56" fill="#ded9cc" stroke="#aaa"/>
+      <polygon points="88,10 108,46 68,46" fill="#c98a55"/>
+      <text x="88" y="70" text-anchor="middle">103</text>
+
+      <rect x="120" y="0" width="56" height="56" fill="#ded9cc" stroke="#aaa"/>
+      <rect x="132" y="12" width="32" height="32" fill="#6a8aac"/>
+      <text x="148" y="70" text-anchor="middle">104</text>
+
+      <rect x="180" y="0" width="56" height="56" fill="#ded9cc" stroke="#aaa" stroke-width="2.5"/>
+      <rect x="180" y="0" width="56" height="56" fill="none" stroke="#c0392b" stroke-width="3"/>
+      <polygon points="208,8 220,48 196,48" fill="#9a6a3c"/>
+      <text x="208" y="70" text-anchor="middle" font-weight="bold" fill="#c0392b">105</text>
+
+      <rect x="240" y="0" width="56" height="56" fill="#ded9cc" stroke="#aaa"/>
+      <circle cx="268" cy="28" r="16" fill="#5a7a4a"/>
+      <text x="268" y="70" text-anchor="middle">106</text>
+
+      <!-- row 2 -->
+      <rect x="0" y="90" width="56" height="56" fill="#ded9cc" stroke="#aaa"/>
+      <rect x="14" y="102" width="28" height="28" fill="#7a6a52" transform="rotate(20 28 116)"/>
+      <text x="28" y="160" text-anchor="middle">107</text>
+
+      <rect x="60" y="90" width="56" height="56" fill="#ded9cc" stroke="#aaa"/>
+      <ellipse cx="88" cy="118" rx="20" ry="14" fill="#4a6a9a"/>
+      <text x="88" y="160" text-anchor="middle">108</text>
+
+      <rect x="120" y="90" width="56" height="56" fill="#ded9cc" stroke="#aaa"/>
+      <polygon points="148,98 168,140 128,140" fill="#aa5533"/>
+      <text x="148" y="160" text-anchor="middle">109</text>
+
+      <rect x="180" y="90" width="56" height="56" fill="#ded9cc" stroke="#aaa"/>
+      <rect x="192" y="102" width="32" height="32" fill="#997a3a"/>
+      <text x="208" y="160" text-anchor="middle">110</text>
+
+      <rect x="240" y="90" width="56" height="56" fill="#ded9cc" stroke="#aaa"/>
+      <circle cx="268" cy="118" r="17" fill="#886a99"/>
+      <text x="268" y="160" text-anchor="middle">111</text>
+    </g>
+  </g>
+
+  <!-- callout arrow from cel 105 (the highlighted box) to a registry entry -->
+  <path d="M 286,80 Q 350,120 398,178" stroke="#c0392b" stroke-width="2" fill="none" marker-end="url(#a2)"/>
+  <defs>
+    <marker id="a2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#c0392b"/>
+    </marker>
+  </defs>
+  <g transform="translate(400,175)" font-family="Consolas, monospace" font-size="12">
+    <rect x="0" y="0" width="220" height="90" fill="#2b2b2b" rx="4"/>
+    <text x="12" y="22" fill="#e8b04b">"105"</text><text x="55" y="22" fill="#ddd">: {</text>
+    <text x="24" y="42" fill="#7ec699">"id"</text><text x="55" y="42" fill="#ddd">: "structure.rooftop.07",</text>
+    <text x="24" y="60" fill="#7ec699">"confidence"</text>
+    <text x="24" y="78" fill="#ddd">: "visual_group"</text>
+  </g>
+
+  <text x="320" y="305" text-anchor="middle" font-size="11" fill="#888">Placeholder shapes standing in for real cels -- not the actual game art. See document 19.</text>
+</svg>

@@ -112,6 +112,12 @@ committed here is original analysis and original code: which byte means what, an
 converter that acts on that knowledge — never the game's own bytes or code. See
 `docs/PORTING_PLAN.md` section 0 for the full legal rationale.
 
+This is also why the images in `docs/process/images/` are either original schematic
+diagrams (redrawn to illustrate a finding, not real cel pixels) or, where noted, a
+synthetic debug visualization whose colours are procedurally assigned by numeric ID
+(`tools/convert_rfm.py`'s `render_debug_png()`) rather than sampled from the game's own
+art — never a crop of real extracted sprite art, even a small one.
+
 ## Where things actually live
 
 | What | Where |
