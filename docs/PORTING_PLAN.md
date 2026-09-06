@@ -2195,11 +2195,10 @@ Web checklist:
     mini-icons are small map markers, not gameplay sprites. Full writeup:
     [document 31](process/31-worked-example-vehicle-roster.md).
 
-    **Prototyped (2026-09-06): the "little triangles" complaint is a rendering-technique gap,
-    not missing art.** Following up on the user's specific observation about the 90/270-degree
-    frames, `game/vehicle_billboard_3d.gd` gained a second mode
-    (`RF_DEBUG_VEHICLE_QUAD_MODE=ground_decal`, default stays the verified Phase 3 billboard):
-    instead of a `Sprite3D` that always faces the camera, lay the textured quad flat (like the
+    **Prototyped, then adopted as the new default (2026-09-06): the "little triangles"
+    complaint was a rendering-technique gap, not missing art.** Following up on the user's
+    specific observation about the 90/270-degree frames, `game/vehicle_billboard_3d.gd` gained
+    a second mode: instead of a `Sprite3D` that always faces the camera, lay the textured quad flat (like the
     terrain plane) and give it a real, continuous 3D yaw matching the vehicle's actual heading,
     letting Godot's own tilted camera foreshorten it exactly like everything else in the scene
     — no hand-ported projection math, no billboard. Using just **one** canonical texture (not
@@ -2218,11 +2217,16 @@ Web checklist:
     silhouette approaching 90 (`.07`-`.09` are deliberately near-degenerate slivers, document
     25/31), and adding real geometric foreshortening on top compounds that thinning instead
     of complementing it, collapsing the shape almost to nothing. One non-degenerate canonical
-    texture, purely rotated, beats both nine-texture approaches tried. **Not yet decided:**
-    whether to make single-texture `ground_decal` the new default (replacing the billboard).
-    Untested: cycling only the non-degenerate frames (`.01`-`.06`) alongside rotation, which
-    might capture some real shading detail without the compounding-thinning failure. Full
-    writeup: [document 32](process/32-worked-example-ground-decal-prototype.md).
+    texture, purely rotated, beats both nine-texture approaches tried.
+
+    **`GROUND_DECAL` is now the shipped default (2026-09-06)**, replacing the Phase 3
+    billboard — verified with no debug env var set that a real screenshot at heading 90 shows
+    the full, coherent silhouette, not the old sliver. `BILLBOARD` and `GROUND_DECAL_MULTI`
+    remain selectable via `RF_DEBUG_VEHICLE_QUAD_MODE` for comparison, not deleted. Untested:
+    cycling only the non-degenerate frames (`.01`-`.06`) alongside rotation, which might
+    capture some real shading detail without the compounding-thinning failure — a real
+    follow-up, not a blocker. Full writeup:
+    [document 32](process/32-worked-example-ground-decal-prototype.md).
 11. **Terrain-based vehicle passability — NOT STARTED, new backlog item (2026-09-06,
     user-flagged as needed for parity).** Different vehicle types (helicopter, tank,
     support/jeep, armoured car — section 3 Phase 3's own list) should be restricted or slowed
