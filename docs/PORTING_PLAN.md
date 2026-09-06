@@ -1470,6 +1470,10 @@ Extract only what cannot be guessed or tuned by feel:
 
 - Vehicle handling: acceleration, max speed, turn rates, fuel burn per tick, per vehicle
   type (helicopter, tank, support/jeep, armoured car).
+- **Terrain passability per vehicle type** (new, 2026-09-06, user-flagged as needed for
+  parity) — which terrain classes block/slow which vehicle types (e.g. water/mountains
+  impassable to ground vehicles, traversable by a helicopter). Not started. See section 4
+  item 10.
 - Weapon damage, rate of fire, ammo capacity, projectile speed.
 - Building and target hitpoints, destruction rules.
 - Scoring and mission completion conditions.
@@ -1895,7 +1899,30 @@ Web checklist:
    scene; level-select reading pack manifests (section 2.4) rather than scanning `.rfm` files
    directly; and the player-count screen wired to whatever the 4-player goal (item 7) lands
    on. Blocked only on the pack format existing first — no Ghidra work required here at all.
-9. **Is there an on-foot infantry / rescue mechanic?** (new 2026-09-06, from asset ID registry
+10. **Real vehicle-rotation rendering ("the turning sprites") — RE-PRIORITIZED (2026-09-06,
+    user request), no longer just an accepted gap.** Previously recorded in section 3 Phase 4
+    step 2 as "accepted as a known gap for now" — the current renderer mirrors 8-9 real
+    sprite frames across 4 quadrants under an *unconfirmed* assumption that they cover one
+    real quarter-turn, and a full `.data`-segment scan for the inferred facing-table layout
+    (`FindFacingTable.java`/`FindFacingPair.java`) found nothing conclusive. The user has now
+    named this as needed for parity rather than a later-revisit item — next step is either
+    resolving why the facing-table scan came up empty (wrong inferred byte layout vs. a
+    runtime-built table, `FUN_0042d640` is the un-traced candidate constructor) or accepting
+    the mirror approach and fixing whatever specific visual glitches remain in it.
+11. **Terrain-based vehicle passability — NOT STARTED, new backlog item (2026-09-06,
+    user-flagged as needed for parity).** Different vehicle types (helicopter, tank,
+    support/jeep, armoured car — section 3 Phase 3's own list) should be restricted or slowed
+    by terrain type (e.g. water/mountainous terrain impassable to ground vehicles, crossable
+    by a helicopter) — currently every vehicle can drive anywhere the map allows. **Likely
+    connects to already-dumped-but-unchased data**: section 4 item 2's coastal-table `+9`
+    "height_seed" byte and the runtime tile value's elevation-ish bits 25-27 (`FUN_0042e4f0`,
+    section 1.5) were flagged as "likely physics/movement, not rendering" back when first
+    found — this is probably exactly that mechanism, now with a concrete gameplay reason to
+    chase it instead of just a loose end. Also needs the coarse `terrain_class` field
+    (section 2.4.2, currently a string-prefix guess "good enough to pick a rendering path,
+    not to trust for gameplay logic") turned into something a passability rule can actually
+    read. No anchor work done yet.
+12. **Is there an on-foot infantry / rescue mechanic?** (new 2026-09-06, from asset ID registry
    classification, section 2.4.1) — not previously suspected; not in section 0's feature list.
    `ART.CAR` cels 655-754 are a ~100-frame running/walking human animation (tan/blue team
    colours) at real gameplay scale, not a portrait or icon. Nearby cels read as rescue/POW-camp
