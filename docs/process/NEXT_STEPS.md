@@ -118,10 +118,15 @@ related, separately-described life system is a distinct, not-yet-started lead wi
 anchor to start from.
 
 **Note on `run/main_scene` (2026-09-06):** `project.godot` now boots into
-`game/terrain_view_3d.tscn` by default (a bare F5/no-argument run), ahead of the rendering
-plan's own stated cutover order — done purely so the user could see the in-progress 3D work
-directly, not because the rendering migration's remaining phases (projectiles/markers/flag,
-plan section 4 item 13) are finished. They aren't. The flat 2D scene
-(`game/terrain_view.tscn`) is untouched and still works loaded directly; it's just no longer
-what a bare run shows, so playing "the game" right now will visibly lack anything Phase 4
-would add — an honest, known gap.
+`game/terrain_view_3d.tscn` by default (a bare F5/no-argument run) — done purely so the user
+could see the in-progress 3D work directly, not because the rendering migration's remaining
+phase (projectiles/markers/flag, plan section 4 item 13) is finished. It isn't. The flat 2D
+scene (`game/terrain_view.tscn`) is untouched and still works loaded directly, so playing "the
+game" right now will visibly lack anything Phase 4 would add — an honest, known gap.
+
+**Superseded rule (2026-09-06, user direction):** the flat 2D scene no longer needs to stay
+fully working piece-by-piece as things get ported to 3D — that standing rule from Phases 1-3
+is retired. `game/terrain_view.gd`/`.tscn` is left as-is (still needed for target/pool
+markers, spawn markers, and the flag, none of which have a 3D presence yet), not re-verified
+against future 3D-side changes, and gets retired as a whole once Phase 4 finishes porting
+those remaining pieces — not gradually, and not before then. See plan section 2.2.

@@ -1154,20 +1154,30 @@ gap incrementally into the flat architecture:
 **Phased implementation plan — see section 4 item 13 for status:** Phase 0 closes remaining
 RE unknowns (dump the full depth-reciprocal table and fit the real tilt/FOV; confirm no
 rotation term exists in the terrain blitter, i.e. the camera only pans, never yaws). Phases
-1-5 build the 3D scene *alongside* the existing flat one (kept fully working throughout, per
-this project's "keep every step playable" rule) — scaffolding, terrain, vehicles, then
-projectiles/markers, each with a real screenshot verification before moving on — and only cut
-over once every phase is individually proven.
+1-4 build the 3D scene *alongside* the existing flat one — scaffolding, terrain, vehicles,
+then projectiles/markers, each with a real screenshot verification before moving on.
+
+**Superseded rule (2026-09-06, user direction): the flat 2D scene no longer needs to stay
+fully working piece-by-piece as each part gets ported to 3D.** The original plan's "kept
+fully working throughout" language (and Phase 5's own gradual-cutover framing) is retired —
+once something is ported to 3D, its flat-2D equivalent doesn't need continued maintenance or
+re-verification. In practice: `game/terrain_view.gd`/`.tscn` (still needed for target/pool
+markers, spawn markers, and the flag marker, none of which have a 3D presence yet) is left
+as-is, not actively re-verified against future 3D-side changes, and gets retired as a whole
+(deleted or marked-superseded, matching `tools/rfcel.py`'s own precedent for that choice) once
+Phase 4 finishes porting those remaining pieces — not gradually, piece by piece, and not
+before then either.
 
 **Early cutover, ahead of that plan (2026-09-06, user request):** `project.godot`'s
 `run/main_scene` now points at `game/terrain_view_3d.tscn`, not `game/terrain_view.tscn` — so
 plain F5/no-argument runs now boot into the 3D scene by default. This happened purely so the
-user could see the in-progress work directly in the editor, **not** because Phases 4-5 of
-this rendering plan are done — they aren't (see section 4 item 13: projectiles/target-pool
-markers/the flag marker have no 3D presence yet). The flat 2D scene still exists, unmodified,
-and still works when loaded directly (`res://game/terrain_view.tscn`) — it's just no longer
-what a bare run shows. Playing the "main" game now will visibly be missing anything Phase 4
-would have added; that's an honest, known gap, not a regression to chase.
+user could see the in-progress work directly in the editor, **not** because Phase 4 of this
+rendering plan is done — it isn't (see section 4 item 13: projectiles/target-pool markers/the
+flag marker have no 3D presence yet). The flat 2D scene still exists, unmodified, and still
+works when loaded directly (`res://game/terrain_view.tscn`) — it's just no longer what a bare
+run shows, and (per the rule above) no longer something future work needs to keep working.
+Playing the "main" game now will visibly be missing anything Phase 4 would have added; that's
+an honest, known gap, not a regression to chase.
 Full plan retained at
 `C:\Users\Alex\.claude\plans\tingly-booping-wall.md` for the executing agent's reference; that
 file is outside this repo and not guaranteed to survive a fresh clone, so treat this summary
