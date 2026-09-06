@@ -185,6 +185,15 @@ them in order for the first time: narrative, worked examples, real commands you 
     ground-plane-aligned quad that rotates in true 3D to match the vehicle's heading. One
     canonical texture, correctly rotated, produces a smoother, always-coherent silhouette at
     every heading than the old nine-frame mirror-and-flip approach ever did.
+33. [**Worked example: finishing the rendering migration means extracting the game, not just the picture**](33-worked-example-phase4-projectiles-markers-flag.md) —
+    Phase 4 (projectiles, target/pool markers, the flag marker), the rendering-migration
+    plan's last phase. Required extracting terrain_view.gd's gameplay logic (spawning,
+    hit-testing, the flag-spawn trigger) into a new shared MatchController first, so the flat
+    2D and 3D scenes provably run identical rules instead of two hand-copied implementations.
+    Projectiles and the flag reuse Phase 3's real-node-paired-with-a-billboard pattern; the
+    debug spawn/pool markers, which had no dedicated gameplay node to pair with, get Phase 2's
+    baked-SubViewport treatment instead. A driven screenshot confirms all three working
+    together in the 3D scene, foreshortened correctly by the same tilted camera as the terrain.
 
 ## The one rule that overrides everything else here
 

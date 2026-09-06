@@ -53,8 +53,17 @@ instead of a placeholder box, with its own 2D draw output just suppressed rather
 duplicated into a second implementation. Checked, not assumed, that billboarding doesn't
 reintroduce the position-dependent hidden rotation Phase 1 already fixed once: a vehicle
 driven to a heavily edge-clamped, off-centre position renders pixel-identical to the same
-heading dead-centre. Phase 4 (projectiles, target/pool markers, the flag marker) has not
-started yet.
+heading dead-centre. **Phase 4 (projectiles, target/pool markers, the flag marker) is DONE
+too, as of 2026-09-06 — the rendering-migration plan's last phase.** It required extracting
+`terrain_view.gd`'s gameplay logic into a new shared `game/match_controller.gd` first (so the
+2D and 3D front-ends can't drift), then pairing each of its spawned/signalled nodes with a 3D
+presentation the same way Phase 3 already did for the vehicle — a placeholder sphere for
+projectiles, and document 32's `GROUND_DECAL` technique reused for the real capture-flag
+animation. The debug spawn/candidate-pool markers (never their own gameplay node, just inline
+`_draw()` calls) got Phase 2's baked-`SubViewport` treatment instead. A driven, real
+screenshot confirms all of it working together — see section 4 item 13 for the full account.
+With this done, `game/terrain_view.gd`/`.tscn` is retirable per the "Superseded rule" below
+(not yet deleted this session).
 **Major discovery (2026-09-06): the real vehicle roster is Tank, Jeep, MSV, and Helicopter,
 not the one "hovercraft" this project has built its entire history against** (section 4 item
 10). A sharper diagnosis of the turning-sprite bug (heading 0 and 180 render pixel-identical —
@@ -2371,7 +2380,42 @@ Web checklist:
     vector, so with the camera's orientation constant everywhere (Phase 1's whole point), the
     billboard's orientation is provably constant too. Firing isn't wired up in the 3D scene
     yet -- `Vehicle.fired` has no listener here.
-    **Phase 4 (projectiles, target/pool markers, the flag marker) not yet started.**
+    **Phase 4 (projectiles, target/pool markers, the flag marker) DONE (2026-09-06) --
+    the rendering-migration plan's own last phase, and the precondition the "Superseded rule"
+    above set for retiring `game/terrain_view.gd`/`.tscn` as a whole.** Doing this properly
+    first required an extraction that hadn't happened yet: `game/terrain_view.gd`'s gameplay
+    logic (vehicle/enemy spawn, projectile spawn-on-fire, `TargetPool` hit-testing, the
+    flag-spawn trigger) was pulled into a new, rendering-agnostic `game/match_controller.gd`,
+    the same "extract, don't duplicate" move Phase 2/3 made for the tile renderer and the
+    vehicle billboard -- otherwise the 3D scene would have needed a hand-copied second
+    implementation of every one of those rules, exactly the kind of drift risk
+    `classify_bulk.py`'s own auto-numbering bug is this project's standing cautionary tale
+    for. `game/terrain_view.gd` now just instantiates the same `MatchController` the 3D scene
+    does and lets each spawned node draw itself directly, so the two front-ends are
+    provably running identical gameplay rules, not two copies of them. Three new pairing
+    nodes follow the exact Phase 3 `VehicleBillboard3D` pattern (a real, unmodified, invisible
+    logic node plus a 3D presentation, connected to `MatchController`'s new
+    `projectile_spawned`/`flag_spawned` signals): `ProjectileBillboard3D` (a small flat-coloured
+    sphere -- honestly a placeholder, matching `Projectile._draw()`'s own circle, since no
+    confirmed in-flight-projectile art has turned up in the registry), and `FlagMarker3D`
+    (document 32's winning `GROUND_DECAL` technique, reused for the real capture-flag
+    animation -- no rotation needed here since the flag never turns). The remaining piece,
+    the debug spawn/candidate-pool markers, had no per-node pairing to reuse (they aren't
+    drawn by a dedicated gameplay node at all, just inline `_draw()` calls) -- so that overlay
+    was extracted into its own reusable `game/debug_marker_renderer.gd` (Phase 2's
+    `TerrainTileRenderer` pattern, not Phase 3's pairing pattern) and baked onto a second,
+    transparent `SubViewport`-backed plane sitting just above the terrain ground plane
+    (`game/debug_marker_overlay_3d.gd`), re-rendered every frame rather than once since pool
+    state changes at runtime. A real, driven screenshot (vehicle turning and firing on
+    `RF_DEBUG_DRIVE`/`RF_DEBUG_FIRE`) confirms all of it working together in the 3D scene: the
+    tan spawn-marker circle and the magenta pool-B target square both foreshorten correctly
+    under the tilted camera exactly like the terrain does, a projectile sphere is visible in
+    flight, and -- once the pool's one candidate is destroyed -- the real green capture-flag
+    animation appears at the correct world position, lying flat and perspective-projected the
+    same way the vehicle does. This is the rendering-migration plan's last phase; with it done,
+    `game/terrain_view.gd`/`.tscn` has nothing left it does that the 3D scene doesn't, and per
+    the "Superseded rule" above is now retirable as a whole (not yet deleted this session --
+    that's a separate, deliberate follow-up, not bundled into this change).
 
 **RESOLVED:**
 - **The fixed sim tick rate** — **section 1.9** (2026-09-05). There isn't one, and there was
