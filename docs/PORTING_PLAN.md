@@ -1730,12 +1730,79 @@ Web checklist:
 
 ## 4. Open questions
 
-1. **What ends a match?** The per-pool target-replacement budgets (section 1.5) are fully
-   traced, but nothing touching those two globals declares a win/lose state. The most
-   obvious next hop, `FUN_0042c4d0`, was checked and **ruled out** (2026-09-06) — it's a
-   generic object-death utility called from 35+ unrelated sites, not a win-condition
-   trigger. The trail from there runs into a large general AI-targeting/combat subsystem
-   with no clear "declare victory" anchor; left open rather than chased further without one.
+1. **What ends a match? MAJOR NEW LEAD (2026-09-06): a capture-the-flag mechanic, tied
+   directly to the candidate-pool buildings section 1.5 already fully traced.** The user
+   (who owns and has played the original) reported the real win condition is returning an
+   enemy flag to your own base, plus a separate life system — prompting a fresh anchor
+   search rather than continuing to push on the dead-end `FUN_0042c4d0` trail below.
+
+   **Confirmed, from a hidden developer debug menu still shipped in the binary:**
+   `FindSymbol.java flag` turned up `s_Flag_in_first_building:_%s_00442a84` — a debug string
+   reading literally "Flag in first building: %s". It's one of 4 items in a debug-menu
+   table at `0x00442b38` (`FUN_004065c0`, a generic menu-widget renderer reused for several
+   hidden debug screens — this one also has "Display FPS: %s", an "AUDIO SCREEN" sub-menu
+   link, and "EXIT"; a wider string dump nearby also found "Objects: Free %3d, Active %3d,
+   Inactive %3d, Useless %3d", another live debug readout). The "Flag" item's live-value
+   slot is `DAT_00442b00`.
+
+   **Confirmed, from the asset registry:** `marker.capture_flag.01`-`.16` (cels ~1829-1848,
+   already found during document 19's classification pass and originally noted only as "red
+   flag on a pole... possible capture-point marker") is actually **two team-coloured
+   waving-flag animations** — rendered and looked at directly (document 6's rule 1): ~13
+   frames in an orange/red palette, ~7 in green. That's a real, confirmed two-team flag
+   prop, not a guess anymore.
+
+   **Confirmed, the direct code link — this is the part that matters most:** `FUN_00432710`
+   is the *exact same function* section 1.5 already traced as the candidate-pool
+   destruction handler (decrements a pool's replacement budget, calls `FUN_00432600` to
+   activate a replacement target — precisely what `game/target_pool.gd`'s `TargetPool`
+   reimplements, Phase 4 step 5). It reads `DAT_00442b00` — the debug menu's own "Flag in
+   first building" value — via `bVar6 = DAT_00442b00 == 0;`, checked *before* decrementing
+   the budget, and gating whether destroying the active target falls through into a
+   `FUN_0042c290(0x44e3c0, pool_index, ...)` object-spawn call. `0x44e3c0` (a 6-field
+   object-type descriptor: an art/CCB pointer, three callback function pointers, and a
+   template pointer) has **exactly one cross-reference in the entire binary** — this call
+   site — meaning it's a dedicated, unique object type, not a shared/generic effect. Its
+   callbacks: `FUN_004328f0` clears `&DAT_0045ae48[team]` (the same per-team tracking array
+   used elsewhere for locked-on-target/reticle state, section 4 item 5's lead) if this
+   object was the one tracked there; `FUN_00432920` is a real per-frame *homing* update —
+   it computes a heading through `&DAT_00481390`/`&DAT_00481394`, the same cosine/sine
+   lookup tables section 1.10 found driving vehicle heading math, moves the object along
+   that heading every frame, and sets a global status bit (`_DAT_0048c77c |= 0x200`) when
+   its own team-index field differs from another tracked object's.
+
+   **Read together, honestly stated as a strong hypothesis, not yet a closed proof:**
+   destroying a pool's active building normally just triggers section 1.5's ordinary
+   target-replacement bookkeeping (already implemented) — *unless* a flag-related state
+   holds, in which case a unique, homing object (very plausibly the flag itself, dropping
+   out of the destroyed building so a vehicle can carry it) gets spawned instead. This is
+   the first concrete code evidence tying "destructible buildings" to anything resembling a
+   match-ending mechanic, and it lines up with the user's description closely enough to be
+   worth taking seriously — but the loop isn't closed yet.
+
+   **Explicitly NOT yet found, so not yet confirmed:** where `DAT_00442b00` gets *set*
+   (i.e., what actually places/drops/picks up the flag — only its *read* site is traced so
+   far), any "carried by vehicle" state on a vehicle object, a "home base" position check,
+   or an actual win/lose declaration anywhere. `FUN_0042c4d0` was still checked and **ruled
+   out** as the win trigger (see below, unchanged) — the flag lead is a different, better-
+   supported trail than that dead end, not a replacement finding for the same code path.
+
+   **Also from the user, not yet investigated at all: a life system.** A raw byte search
+   (`FindBytes.java`) for literal `"Life"`, `"Lives"`, and `"LIVES"` anywhere in the binary
+   came back with **zero hits** — if a life system exists, it isn't debug-labelled with
+   text anywhere, so string-anchoring (this session's whole approach) won't find it. The
+   registry's `ui.icon.vehicle_mini.01`-`.20` (tiny vehicle silhouettes, already tagged
+   "likely minimap/HUD unit marker") are a plausible but unconfirmed alternative rendering
+   for a lives readout (a row of small vehicle icons, no text needed) — worth checking
+   first before picking a colder anchor (e.g. tracing what happens when a vehicle's health/
+   destruction state reaches zero, `FUN_0042c4d0`'s callers, from the *vehicle* side this
+   time rather than the *building* side).
+
+   **Original dead end below, still accurate, kept for the record:** the previous next hop,
+   `FUN_0042c4d0`, was checked and **ruled out** (2026-09-06) — it's a generic object-death
+   utility called from 35+ unrelated sites, not a win-condition trigger. The trail from
+   there runs into a large general AI-targeting/combat subsystem with no clear "declare
+   victory" anchor.
 2. The coastal table's (`0x00447038`) `+9` "height_seed" byte and the runtime tile value's
    elevation-ish bits 25-27, set by `FUN_0042e4f0` — dumped but not chased; likely
    physics/movement, not rendering (section 1.5). (Bits 14-15 are no longer part of this

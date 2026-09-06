@@ -102,6 +102,6 @@ oldest warning, showing up in test-harness GDScript instead of a converter or de
 - **No pathfinding.** The enemy drives in a straight line toward its target regardless of
   terrain, and Return Fire's levels have plenty of obstacles this ignores entirely.
 
-**Next:** back to [the next-steps doc](NEXT_STEPS.md) for the current backlog -- Phase 4
-step 7 (mission objectives, scoring, level progression) is next, partly blocked on section 4
-item 1 ("what ends a match?"), which is still an open question.
+**Next:** [Worked example: a debug string, a dedicated object, and a capture-the-flag lead](24-worked-example-capture-the-flag-lead.md)
+-- section 4 item 1 ("what ends a match?"), picked back up from user-supplied domain
+knowledge rather than left as the open question this document leaves it.

@@ -5490,8 +5490,8 @@
     "1829": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.capture_flag.01",
-      "note": "red flag on a pole, planted on a terrain patch -- possible capture-point marker"
+      "id": "marker.capture_flag.red.01",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "183": {
       "category": "vehicle",
@@ -5502,62 +5502,62 @@
     "1830": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.capture_flag.02",
-      "note": "red flag on a pole, planted on a terrain patch -- possible capture-point marker"
+      "id": "marker.capture_flag.red.02",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1831": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.capture_flag.03",
-      "note": "red flag on a pole, planted on a terrain patch -- possible capture-point marker"
+      "id": "marker.capture_flag.red.03",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1832": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.capture_flag.04",
-      "note": "red flag on a pole, planted on a terrain patch -- possible capture-point marker"
+      "id": "marker.capture_flag.red.04",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1833": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.capture_flag.05",
-      "note": "red flag on a pole, planted on a terrain patch -- possible capture-point marker"
+      "id": "marker.capture_flag.red.05",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1834": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.capture_flag.06",
-      "note": "red flag on a pole, planted on a terrain patch -- possible capture-point marker"
+      "id": "marker.capture_flag.red.06",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1835": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.capture_flag.07",
-      "note": "red flag on a pole, planted on a terrain patch -- possible capture-point marker"
+      "id": "marker.capture_flag.red.07",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1836": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.capture_flag.08",
-      "note": "red flag on a pole, planted on a terrain patch -- possible capture-point marker"
+      "id": "marker.capture_flag.red.08",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1837": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.capture_flag.09",
-      "note": "red flag on a pole, planted on a terrain patch -- possible capture-point marker"
+      "id": "marker.capture_flag.red.09",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1838": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.capture_flag.10",
-      "note": "red flag on a pole, planted on a terrain patch -- possible capture-point marker"
+      "id": "marker.capture_flag.red.10",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1839": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.capture_flag.11",
-      "note": "red flag on a pole, planted on a terrain patch -- possible capture-point marker"
+      "id": "marker.capture_flag.red.11",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "184": {
       "category": "vehicle",
@@ -5568,56 +5568,56 @@
     "1840": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.capture_flag.12",
-      "note": "red flag on a pole, planted on a terrain patch -- possible capture-point marker"
+      "id": "marker.capture_flag.red.12",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1841": {
-      "category": "decoration",
+      "category": "marker",
       "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.15",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "id": "marker.capture_flag.red.13",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1842": {
-      "category": "decoration",
+      "category": "marker",
       "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.16",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "id": "marker.capture_flag.green.01",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1843": {
-      "category": "decoration",
+      "category": "marker",
       "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.17",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "id": "marker.capture_flag.green.02",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1844": {
-      "category": "decoration",
+      "category": "marker",
       "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.18",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "id": "marker.capture_flag.green.03",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1845": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.capture_flag.13",
-      "note": "red flag on a pole, planted on a terrain patch -- possible capture-point marker"
+      "id": "marker.capture_flag.green.04",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1846": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.capture_flag.14",
-      "note": "red flag on a pole, planted on a terrain patch -- possible capture-point marker"
+      "id": "marker.capture_flag.green.05",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1847": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.capture_flag.15",
-      "note": "red flag on a pole, planted on a terrain patch -- possible capture-point marker"
+      "id": "marker.capture_flag.green.06",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1848": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.capture_flag.16",
-      "note": "red flag on a pole, planted on a terrain patch -- possible capture-point marker"
+      "id": "marker.capture_flag.green.07",
+      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
     },
     "1849": {
       "category": "decoration",

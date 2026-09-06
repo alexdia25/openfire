@@ -32,12 +32,22 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Phase 4 steps 2/3** (a player-controlled vehicle, a scrolling camera) — including a real mirror-flip rendering bug and the registry auto-numbering bug it exposed — [document 21](21-worked-example-vehicle-mirroring-bug.md); plan section 3.
 - **Phase 4 steps 4/5** (weapons/projectiles, destructible targets) — the latter a direct reimplementation of section 1.5's already-traced candidate-pool mechanism, verified by a unit test and a real-scene integration test — [document 22](22-worked-example-weapons-and-targets.md); plan section 3.
 - **Phase 4 step 6** (enemy AI) — a from-scratch seek-and-shoot placeholder with no RE finding behind it, spawned from real per-level spawn data, verified by a deterministic fixed-timestep test — [document 23](23-worked-example-enemy-ai-first-pass.md); plan section 3.
+- **The capture-flag art is two team-coloured animations, not one generic marker** (and 4 misclassified frames corrected) — [document 24](24-worked-example-capture-the-flag-lead.md); plan section 4, item 1.
 
 ## Still open
 
 See plan section 4 for the current, precise state of each — this list is just pointers:
 
-- What ends a match (section 4, item 1)
+- **What ends a match — MAJOR NEW LEAD (2026-09-06), not yet closed.** The user described a
+  capture-the-flag win condition; a hidden debug string, the confirmed two-team flag art, and
+  a direct code link into the already-implemented candidate-pool destruction handler all point
+  the same direction, but where the flag gets picked up/carried/returned and where a win
+  actually gets declared are still untraced — see [document 24](24-worked-example-capture-the-flag-lead.md)
+  and plan section 4 item 1.
+- **A life system the user also described — not yet investigated at all.** No "Life"/"Lives"
+  text exists anywhere in the binary (a raw byte search came back empty), so this needs a
+  non-string anchor — probably tracing what happens when a vehicle's destruction count/health
+  reaches zero, from the vehicle side rather than the building side (section 4, item 1).
 - Team-colouring *mechanism* (separate cels vs. palette swap) — the colours themselves are settled, see above (section 4, item 5)
 - 3DO support: base game + "Maps o' Death" expansion — new goal, **deprioritized** until the core PC-port game runs (section 4, item 6)
 - 4-player support — new goal, not yet started (section 4, item 7)
@@ -57,7 +67,10 @@ replaced from its own candidates on destruction until its budget runs out, verif
 spawn data, verified by a deterministic fixed-timestep test) are all done -- see plan
 section 3. Split-screen itself is not started. Next real blocker: Phase 4 step 7, mission
 objectives/scoring/level progression -- blocked in part on section 4 item 1 ("what ends a
-match?"), still open.
+match?"), still open but with a real, concrete new lead as of 2026-09-06: a capture-the-
+flag mechanic, tied directly to the candidate-pool buildings Phase 4 step 5 already
+implements (see document 24). A related, separately-described life system is a distinct,
+not-yet-started lead with no string anchor to start from.
 
 ## If you want to try one of these yourself
 
@@ -97,4 +110,5 @@ then [classifying 2165 cels without a disassembler](19-worked-example-asset-regi
 then [a wrong palette that never looked wrong enough to notice](20-worked-example-palette-offset.md),
 then ["the sprite looks very wrong after moving" was two bugs, not one](21-worked-example-vehicle-mirroring-bug.md),
 then [reusing a solved RE finding as running code](22-worked-example-weapons-and-targets.md),
-and finally [an opponent with no reverse-engineering behind it at all](23-worked-example-enemy-ai-first-pass.md).
+then [an opponent with no reverse-engineering behind it at all](23-worked-example-enemy-ai-first-pass.md),
+and finally [a debug string, a dedicated object, and a capture-the-flag lead](24-worked-example-capture-the-flag-lead.md).

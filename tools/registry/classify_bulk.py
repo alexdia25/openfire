@@ -9,6 +9,26 @@ This script accumulates entries across many contact-sheet review sessions (each
 section below is one batch, commented with the index range it covers) and is
 re-run after each addition. Keep it idempotent: re-running with the same ENTRIES
 must produce the same registry state.
+
+KNOWN BUG, found 2026-09-06, NOT YET FIXED -- do not just re-run this file to apply a
+new correction block without checking first: `_ensure_seeded()`'s per-call exclusion
+(see its own comment) only excludes the indices of the ONE seq()/put() call currently
+seeding, not every other call in this file that assigns the same id family. Several
+families are legitimately split across multiple calls (structure.building_wall:
+lines ~268/292/319; structure.window: ~306/320, at least). Re-running the whole file
+after those families are already on disk makes each of those calls' seeding scans
+see the OTHER calls' already-assigned numbers as "used", inflating the family's
+counter every run -- the exact drift bug document 21 already found and partially
+fixed, just triggered a different way (one call correctly excludes its own past
+output, but not a sibling call's). Confirmed by re-running this file standalone on
+2026-09-06: structure.building_wall and structure.window entries drifted (e.g.
+.841->.911) with no code change to those families at all. Correction blocks added
+as explicit put() calls with hand-picked numbers (see the capture-flag correction
+below) are unaffected -- they don't touch _family_next. Anything using seq()'s
+auto-numbering for a family already split across multiple calls is at risk on
+re-run; verify with `git diff packs/registry/asset_ids.json` after running this file
+and revert+hand-patch (like the capture-flag fix below did) rather than committing a
+mass renumbering that wasn't the point of the change.
 """
 import json
 import os
@@ -545,6 +565,58 @@ put(52, "terrain.ground.water_open.04", "terrain", "was misclassified as forest 
 for n, idx in enumerate([84, 85, 86], start=1):
     put(idx, f"terrain.ground.wood_planks.{n:02d}", "terrain",
         "was misclassified as green furrow/hedge under the old wrong palette; actually brown wood planks", "visual")
+
+
+# ---- correction: capture-flag is two team-coloured animations, and 4 frames were
+# misclassified as an unrelated decoration (2026-09-06) -----------------------------
+# Found while investigating section 4 item 1 (PORTING_PLAN.md) after the user described
+# a capture-the-flag win condition: a hidden developer debug string in RFIRE.BIN reading
+# "Flag in first building: %s" (FUN_004065c0's debug menu) makes marker.capture_flag's
+# original "possible capture-point marker" guess above look right, so this was worth a
+# closer re-render and look (document 6's rule 1) rather than leaving the old note as-is.
+#
+# That closer look found two things:
+# 1. It's not one flag colour -- cels 1829-1841 are an orange/red waving-flag animation,
+#    1842-1848 are the same animation in green. Two team-coloured flags, not a single
+#    generic marker.
+# 2. cels 1841-1844 were NOT in the original marker.capture_flag seq() call above at all --
+#    they'd been swept into decoration.terrain_patch_blue.{n:02d} instead (that seq() call
+#    explicitly lists 1841-1844 among its indices). Rendered and looked at directly: they
+#    are unmistakably flag-on-a-pole frames (1841 orange, 1842-1844 green), not the
+#    irregular ice-coloured terrain blobs the rest of that family actually is. A real
+#    misclassification, not a borderline judgment call -- corrected here rather than left,
+#    the same way document 20's palette-bug relabeling block above corrects entries that
+#    turned out wrong. decoration.terrain_patch_blue keeps its original 24-item sequence
+#    numbering as a frozen historical record (per this file's own convention -- see the
+#    "individual mislabels" block above for the same approach); its family now has a
+#    4-item numbering gap (.15-.18) as a cosmetic side effect of that choice, not a bug.
+#
+# Not yet confirmed by code (still "visual_group", not upgraded to "confirmed"): that
+# THIS specific cel range is what RFIRE.BIN's flag-drop object (FUN_0042c290, object-type
+# descriptor 0x44e3c0, see PORTING_PLAN.md section 4 item 1) actually renders. The debug
+# string and the object's own dedicated (single-cross-reference) status make it a strong
+# lead, not a traced certainty -- rendering these cels through a mock-up of that object,
+# or reading FUN_0042c290's CCB/art field directly, would close that gap.
+#
+# This block only uses put() with hand-picked numbers, not seq()'s auto-numbering, so
+# it's unaffected by the KNOWN BUG at the top of this file -- but running this file's
+# OTHER, seq()-based calls in the same pass hit that bug (2026-09-06), so the actual
+# registry on disk was hand-patched to match this block's output rather than produced by
+# running this file wholesale. Re-running this file will reproduce this block correctly;
+# check `git diff packs/registry/asset_ids.json` before trusting the rest of the output.
+_FLAG_NOTE = ("waving flag on a pole; two team-coloured animations (red 01-13, green "
+              "01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, "
+              "2026-09-06): a hidden developer debug string reads \"Flag in first "
+              "building: %s\", and the object-destruction handler this project already "
+              "reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same "
+              "debug value before deciding whether to spawn a dedicated, single-use-site "
+              "object -- not yet traced far enough to confirm this exact cel range is what "
+              "that object renders, so still visual_group, not confirmed.")
+for _n, _idx in enumerate([1829, 1830, 1831, 1832, 1833, 1834, 1835, 1836, 1837, 1838, 1839,
+                           1840, 1841], start=1):
+    put(_idx, f"marker.capture_flag.red.{_n:02d}", "marker", _FLAG_NOTE)
+for _n, _idx in enumerate([1842, 1843, 1844, 1845, 1846, 1847, 1848], start=1):
+    put(_idx, f"marker.capture_flag.green.{_n:02d}", "marker", _FLAG_NOTE)
 
 
 def main():

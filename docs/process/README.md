@@ -120,6 +120,15 @@ them in order for the first time: narrative, worked examples, real commands you 
     pasting a second vehicle script, and a rate-dependent behaviour test that had to stop
     relying on headless mode's real (unthrottled) frame timing and drive `_process()`
     directly at a fixed timestep instead.
+24. [**Worked example: a debug string, a dedicated object, and a capture-the-flag lead**](24-worked-example-capture-the-flag-lead.md) —
+    the first anchor in this project that started from user domain knowledge instead of a
+    byte pattern. A hidden developer debug menu still shipped in `RFIRE.BIN` ("Flag in
+    first building: %s"), traced straight into the exact function this project already
+    reimplemented as `TargetPool` (document 22) and a uniquely-single-call-site object with
+    homing movement — a strong, multi-source lead on the win condition, honestly not yet a
+    closed case. Also catches a real asset-registry mislabel (4 flag frames filed as an
+    unrelated terrain decoration) found only by re-rendering a cel range everyone had
+    skimmed past once already.
 
 ## The one rule that overrides everything else here
 
