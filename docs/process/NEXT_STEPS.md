@@ -65,17 +65,21 @@ See plan section 4 for the current, precise state of each — this list is just 
   `C:\WINDOWS\SYSTEM\VMM32\IOS.VXD` load failure in the pre-built `hdd.img`, not a
   dismissible warning. Parked, not resolved — see section 4 item 10 for what a real fix
   attempt should start from (section 3 Phase 4 step 2).
-- **Perspective terrain/object rendering — DECIDED (2026-09-06): migrate to a real 3D scene,
-  not yet started.** The biggest single authenticity gap found so far, bigger than the
-  vehicle-rotation question — it's the game's whole ground-plane look, not one sprite family.
-  Decision: `Camera3D` + textured `MeshInstance3D` ground plane + billboard `Sprite3D`s,
-  reusing all existing gameplay logic and per-heading sprite-selection code unchanged — Godot's
-  own camera does the perspective math instead of hand-porting the original's fixed-point
-  scanline formula. See [document 27](27-worked-example-terrain-perspective.md), plan section
-  2.2 and section 4 item 13, and the 6-phase implementation plan at
+- **Perspective terrain/object rendering — DECIDED (2026-09-06), Phase 0 DONE (2026-09-06),
+  Phase 1 (scaffolding) not yet started.** The biggest single authenticity gap found so far,
+  bigger than the vehicle-rotation question — it's the game's whole ground-plane look, not one
+  sprite family. Decision: `Camera3D` + textured `MeshInstance3D` ground plane + billboard
+  `Sprite3D`s, reusing all existing gameplay logic and per-heading sprite-selection code
+  unchanged — Godot's own camera does the perspective math instead of hand-porting the
+  original's fixed-point scanline formula. Phase 0 closed the remaining RE unknowns: the
+  camera's tilt is a fixed, algebraically-exact 45°, hardcoded once at construction and never
+  rewritten anywhere in the binary, and the terrain blitter has no rotation/yaw term at all —
+  confirming Phase 1's fixed-pitch, X/Z-only-translation `Camera3D` assumption directly from
+  the decompile rather than by guesswork. See
+  [document 27](27-worked-example-terrain-perspective.md), plan section 1.10 point 6, section
+  2.2, and section 4 item 13, and the 6-phase implementation plan at
   `C:\Users\Alex\.claude\plans\tingly-booping-wall.md` (outside this repo — section 2.2 has the
-  durable summary). Phase 0 (closing remaining RE unknowns — the exact tilt/FOV, confirming no
-  camera rotation) hasn't been started yet.
+  durable summary).
 - **Terrain-based vehicle passability — new, user-flagged (2026-09-06) as needed for
   parity.** Not started; likely connects to the still-unchased elevation bits/height_seed
   byte (section 4, items 2 and 11).

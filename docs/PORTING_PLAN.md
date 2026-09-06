@@ -31,6 +31,13 @@ verified by a real-scene integration test. Still nothing declares a match won or
 DOSBox-X reference-capture attempt for a related open question (the vehicle turning-sprite
 rendering, section 4 item 10) hit a Windows 95 boot blocker (`IOS.VXD`) and was parked, not
 resolved.
+**Rendering architecture: DECIDED (2026-09-06) — migrate world rendering from flat 2D to a
+real Godot 3D scene** (section 2.2, section 4 item 13), prompted by the user pointing out real
+footage shows a tilted, moving camera, not a flat top-down map. Phase 0 of that migration
+(closing the remaining RE unknowns) is DONE as of 2026-09-06 (section 1.10 point 6): the
+camera's tilt is a fixed, algebraically-exact 45°, hardcoded once at construction and never
+rewritten anywhere in the binary; the terrain blitter has no rotation/yaw term at all. Phase 1
+(scaffolding) has not started yet.
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
@@ -919,9 +926,56 @@ reads the same table. Prompted by the user pointing out (2026-09-06, from real f
    13 for the resulting open architecture decision. **Not yet determined:** whether the
    camera's tilt/height ever changes at runtime (a real dynamic camera, matching "the camera
    can move" beyond simple panning) or is a fixed constant that only pans as the tracked
-   object moves — `DAT_00443000` (raw value `0x00012c00` = 76800, the `param_1`/focal-length
-   seed for the whole table) has no confirmed write site checked yet, so whether it's a
-   runtime-tunable camera parameter or a boot-time constant is still open.
+   object moves — `DAT_00443000` (the `param_1`/focal-length seed for the whole table) has no
+   confirmed write site checked yet, so whether it's a runtime-tunable camera parameter or a
+   boot-time constant is still open. **Resolved by point 6 below.**
+
+**Point 6 (new, 2026-09-06): Phase 0 of the rendering-migration plan — the tilt is a fixed
+45°, hardcoded once, never rewritten.** Rereading `FUN_0041ae50`'s caller (`FUN_004092d0`,
+game init) and the shared object constructor everything in this rendering system funnels
+through (`FUN_00416cb0`) closes point 5's open question:
+
+- **`DAT_00443000` (focal length) is exactly `0x012C0000` = 300.0 in 16.16 fixed point.**
+  (Correction: point 5 above previously mis-stated this as "raw value 76800" — a hand-hex
+  slip. The real byte dump, `00 00 2c 01` read little-endian, is `0x012C0000`. A clean round
+  300.0 is itself small evidence this is a deliberately chosen constant.)
+- **`FUN_00416cb0`** — the one shared constructor used to build the level/terrain-camera
+  object (`&DAT_0048b270`; confirmed to be the object whose "draw" callback is `FUN_00408d60`
+  itself, the terrain blitter, via `FindCallers.java` on `FUN_00408d60` resolving to
+  `FUN_004184d0`, a thin dispatcher that just invokes whatever `param_1[0x30]` points to) and
+  every individual object (same field layout, operated on by `FUN_00416900`/`FUN_00416ab0`) —
+  **hardcodes the tilt as a literal**: `param_1[9] = 0x200000`. The sin/cos helpers
+  (`FUN_00410be0`/`FUN_00410dc0`: `fcos(angle * DAT_0043d000 * DAT_0043d028)`) decode their two
+  double-precision scale constants to exactly `2π / 0x1000000`, confirming `0x1000000` raw
+  units = one full turn (matching the 64-heading loop's step size) — so `0x200000` is exactly
+  **45.0°, algebraically exact, not estimated.**
+- That literal is written exactly once, at construction, from a call in `FUN_004092d0` that
+  only ever runs at game init (`FUN_00416cb0(&DAT_0048b270, 0x480d50, 0, 0, DAT_00480d40,
+  DAT_00480d24)`). No other call site targets this object, and `FUN_00408d60` never writes
+  back to the angle field itself — it only reads the two derived fixed values that constructor
+  produced once (`param_1[8]` = `0x10E0000` = 17.875 fixed; `param_1[10]` =
+  `-round(cos(45°)*65536)` = -46341). Together with the already-established "no write site to
+  `DAT_00443000`" finding, this closes Phase 0's central question: **the tilt is a genuine
+  fixed constant, not a dynamic camera parameter** — "the camera can move" (the user's
+  original observation) refers only to X/Z translation tracking the vehicle, not a changing
+  pitch/FOV.
+- **No rotation/yaw term exists in the terrain blitter itself** — `FUN_00408d60` never reads a
+  per-frame heading field, only the two fixed constants above, mechanically confirming Phase
+  1's `Camera3D` assumption (fixed pitch, zero yaw, X/Z-only translation) directly from the
+  decompile rather than from absence of counter-evidence.
+- **The exact per-row depth-index formula**, read directly off `FUN_00408d60`'s setup code —
+  recorded for documentation/validation, not reimplementation (Godot's own `Camera3D` replaces
+  this table outright): `idx(row) = (46341 * local_20(row) - 1,114,112) >> 16`, where
+  `local_20` advances by 32 per screen row. This is the concrete arithmetic behind point 5's
+  "per-row scale/offset lookup" — a linear relationship between screen row and world depth,
+  exactly what a real tilted camera produces and a flat top-down blit cannot.
+- **What Phase 0 leaves open, honestly:** the precise effective vertical FOV/eye-height a
+  `Camera3D` needs to visually match this table (as opposed to just "some 45° tilt") isn't
+  algebraically derived here — that would mean tracing several more layered fixed-point
+  constants (`DAT_00480d40`/`DAT_00480d24` screen dimensions, the tile-origin setup) for a
+  number better pinned by the plan's own stated fallback: matching a real windowed screenshot
+  against the user's reference footage once Phase 2 has something to screenshot. A deliberate
+  scoping choice, not a gap that blocks starting Phase 1.
 
 ### 1.11 Reference material obtained: retail PC ISO catalogued; 3DO expansion identified — 2026-09-05
 
@@ -2140,12 +2194,20 @@ Web checklist:
     independently screenshot-verified, existing flat rendering kept working throughout) are in
     section 2.2 and `C:\Users\Alex\.claude\plans\tingly-booping-wall.md` (outside this repo —
     section 2.2's summary is the durable record if that file is ever unavailable).
-    **Not yet started.** Gameplay logic (movement, `TargetPool`, hit-testing, the flag-spawn
-    trigger) does not change — this is scoped as a rendering-layer migration only.
-    **Still not determined:** whether the camera's tilt/height is a fixed constant or changes
-    at runtime — `DAT_00443000` (the focal-length seed, value 76800) shows only read sites
-    across a substantial sample checked this session, no confirmed write, which is why the plan
-    treats it as a likely-fixed constant, but this isn't exhaustively proven.
+    **Phase 0 DONE (2026-09-06) — see section 1.10 point 6.** The tilt is a genuine fixed
+    constant, not a runtime camera parameter: exactly 45.0° (`0x200000` raw angle units,
+    algebraically exact via the confirmed `2π / 0x1000000` angle scale), hardcoded as a literal
+    inside the one shared object constructor (`FUN_00416cb0`) and written exactly once at game
+    init — no other call site touches it, and the terrain blitter itself never writes back to
+    it. `DAT_00443000` (focal length, exactly 300.0 fixed — corrected from an earlier "76800"
+    slip) remains read-only everywhere checked. No rotation/yaw term exists in the terrain
+    blitter at all. This confirms Phase 1's `Camera3D` assumption (fixed pitch, zero yaw,
+    X/Z-only translation) directly from the decompile. The one number Phase 0 leaves for
+    Phase 2 to pin by screenshot-matching rather than algebra: the exact effective FOV/eye
+    height (see section 1.10 point 6 for why that's a deliberate scoping call, not a gap).
+    **Phase 1 (scaffolding) not yet started.** Gameplay logic (movement, `TargetPool`,
+    hit-testing, the flag-spawn trigger) does not change — this is scoped as a rendering-layer
+    migration only.
 
 **RESOLVED:**
 - **The fixed sim tick rate** — **section 1.9** (2026-09-05). There isn't one, and there was
