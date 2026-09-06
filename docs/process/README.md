@@ -159,6 +159,12 @@ them in order for the first time: narrative, worked examples, real commands you 
     black screenshot blamed on a rotation-sign guess turned out to be a missing light, and the
     look_at()-based fix that came from that wrong guess turned out to introduce exactly the
     hidden camera rotation the user had just said shouldn't exist.
+29. [**Worked example: the real terrain art, seen through a real 3D camera, on the first try**](29-worked-example-baked-terrain-3d.md) —
+    Phase 2 extracts terrain_view.gd's tile-drawing loop into its own reusable node (no
+    duplicated logic to drift out of sync) and bakes it into a SubViewport texture on the new
+    3D scene's ground plane. Real terrain art, genuinely perspective-projected, matching the
+    flat 2D scene's own screenshot exactly -- and, unusually for this project, worked on the
+    first real screenshot.
 
 ## The one rule that overrides everything else here
 

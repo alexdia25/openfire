@@ -42,8 +42,12 @@ at that fixed tilt, translating in X/Z to follow a placeholder object, smoothed 
 edge-clamped the same way the existing flat scene's `Camera2D` is, verified with real position
 numbers and several real screenshots — including catching and fixing a real bug (`look_at()`
 quietly introducing rotation the user had explicitly said shouldn't exist). Tilt/height are
-live-adjustable; yaw is not exposed at all. Phase 2 (baking the existing flat terrain-drawing
-code into a real texture on this scaffold) has not started yet.
+live-adjustable; yaw is not exposed at all. Phase 2 (real baked terrain art) is DONE too, as
+of the same day: `terrain_view.gd`'s tile-drawing loop is now a shared, reusable node
+(`game/terrain_tile_renderer.gd`) baked into a `SubViewport` texture on the 3D scaffold's
+ground plane — a real, recognisable level genuinely receding toward a horizon, working
+correctly on the first real screenshot. Phase 3 (real billboard vehicle sprites) has not
+started yet.
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
@@ -2236,8 +2240,26 @@ Web checklist:
     are Phase 3. Gameplay logic (movement, `TargetPool`, hit-testing, the flag-spawn trigger)
     does not change anywhere in this phase — this remains scoped as a rendering-layer
     migration only.
-    **Phase 2 (baking the existing flat terrain-drawing code into a real texture on this
-    scaffold) not yet started.**
+
+    **Phase 2 DONE (2026-09-06) — see [document 29](process/29-worked-example-baked-terrain-3d.md).**
+    `terrain_view.gd`'s tile-drawing loop (art id -> sprite id -> atlas region -> blit) is
+    extracted, byte-for-byte unchanged, into its own reusable node
+    (`game/terrain_tile_renderer.gd`) instead of duplicated — the flat 2D scene uses it as a
+    plain `z_index = -1` child (re-verified via screenshot to render pixel-for-pixel identical
+    output to before the extraction), and the 3D scaffold uses it as the sole content of a
+    `SubViewport` sized to the level's real pixel dimensions, whose texture becomes the ground
+    `MeshInstance3D`'s albedo (nearest-neighbour filtered, matching the source pixel art).
+    Worked correctly on the first real screenshot: a real, recognisable level (the same
+    coastline/road/buildings the flat scene's own screenshot shows), genuinely
+    perspective-projected and receding toward a horizon — re-verified with a curving driven
+    test showing the camera following smoothly over real terrain. One honest, un-fixed
+    cosmetic gap carried over from Phase 1: the ground mesh is sized to the level's exact real
+    bounds (as this step calls for), so a near-horizontal ray can still clear the mesh's edge
+    before reaching the true horizon in one corner of frame — there's no real terrain art
+    beyond a level's actual bounds to extend the mesh with, so this is left for a later
+    skybox/fallback-backdrop pass rather than papered over now.
+    **Phase 3 (real billboard vehicle sprites, reusing `Vehicle._frame_for_heading()`
+    unchanged) not yet started.**
 
 **RESOLVED:**
 - **The fixed sim tick rate** — **section 1.9** (2026-09-05). There isn't one, and there was
