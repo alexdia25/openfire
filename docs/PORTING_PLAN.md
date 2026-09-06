@@ -16,11 +16,15 @@ Phase 4 step 4 (weapons and projectiles) has a first pass done too (2026-09-06):
 not yet authentic, same honesty flag as step 2's movement — see below. Phase 4 step 5
 (destructible targets and buildings) has a first pass done the same day: section 1.5's
 already-traced candidate-pool mechanism is now real, running gameplay logic, verified by
-a 2000-trial unit test plus a full-integration test against a real level.
+a 2000-trial unit test plus a full-integration test against a real level. Phase 4 step 6
+(enemy AI) also has a first pass done the same day: a from-scratch seek-and-shoot
+placeholder (no RE finding to reimplement here — Phase 3's AI backlog item is untouched),
+spawned from real per-level spawn data, verified by a deterministic fixed-timestep test.
 **Priority as of 2026-09-05: get the core PC-port game actually running before returning to
 3DO support (section 4 item 6) or new-goal work beyond what's needed to run it** — the user
-explicitly deferred the 3DO disc work until then. Next real blocker: Phase 4 step 6 —
-enemy AI (nothing opposes the player yet).
+explicitly deferred the 3DO disc work until then. Next real blocker: Phase 4 step 7 —
+mission objectives, scoring, and level progression (nothing ends a match yet, and section 4
+item 1 is still an open question blocking that).
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
@@ -1643,7 +1647,42 @@ Keep each step playable, and load everything through the pack layer from step 1:
    - **No win/lose condition.** Section 4 item 1 is still open — nothing declares a
      match-won/lost state when a pool's budget is fully spent. This step only makes the
      pools themselves behave correctly, not what (if anything) happens when both go silent.
-6. Enemy AI.
+6. **Enemy AI — first pass DONE (playable, not yet authentic; 2026-09-06).** Unlike step 5,
+   this is a from-scratch placeholder, not a reimplementation of anything found in
+   `RFIRE.BIN` — Phase 3's "AI state machines and target selection" backlog item is still
+   completely untouched, no anchor has even been picked yet. `game/vehicle.gd`'s movement/
+   rendering/firing code was refactored to expose two overridable seams, `_get_controls()`
+   and `_wants_to_fire()` (default implementations unchanged: real input or the existing
+   debug hooks) — everything else (movement integration, rotation-frame rendering, firing,
+   cooldown) is shared, not duplicated. New `game/enemy_vehicle.gd` (`EnemyVehicle extends
+   Vehicle`) overrides just those two seams with a seek-and-shoot placeholder: idle beyond
+   `DETECT_RANGE_PX`, otherwise turn toward the target and close in, firing once aimed
+   within `AIM_TOLERANCE_DEG` and inside `FIRE_RANGE_PX`. `terrain_view.gd` spawns one
+   `EnemyVehicle` per spawn point whose team differs from the player's, targeting the
+   player vehicle directly — which means 1-player levels (no second spawn point in the
+   file at all) correctly spawn nothing extra, and 2-player levels get exactly one
+   opponent, straight from real level data, no special-casing needed.
+
+   Verified two ways: a deterministic test drove `EnemyVehicle._process()` directly at a
+   fixed 1/60s timestep (headless mode doesn't hold a stable frame rate, so real
+   `await get_tree().process_frame` timing isn't reliable for a rate-dependent physics
+   check) against a real level's (`RFMAP110`) real spawn data, confirming it turned from a
+   90-degree misaim to face a repositioned target within tolerance and fired 6 times over
+   2 simulated seconds, then confirmed it went fully idle (zero turn, zero thrust) the
+   instant the same target was pushed just past `DETECT_RANGE_PX`. A second, live-scene
+   run with both vehicles moving for real (`RF_DEBUG_DRIVE=1` driving the player,
+   `RF_DEBUG_AI_LOG=1` logging the enemy's own targeting state every 30 frames) showed the
+   enemy actively steering toward a real, continuously-moving player position, not just a
+   static test target.
+
+   **This is a placeholder in every dimension, not just movement/rendering** (flagged the
+   same way steps 2/4/5 flag their own gaps): no pathfinding (it drives straight at the
+   target regardless of terrain or obstacles), no cover or squad behaviour, no difficulty
+   tuning, and no vehicle-vs-vehicle damage yet either — an enemy's shots can hit a
+   destructible target's active position exactly like the player's can (step 5's hit-test
+   is target-agnostic), but nothing yet lets a projectile hit a *vehicle*, player or enemy.
+   That's a real gap for "opposes the player" to eventually mean something, not an
+   oversight being glossed over.
 7. Mission objectives, scoring, level progression.
 8. Audio: SFX and music.
 9. Menus and HUD — all custom Godot `Control` UI, no native dialogs; see section 2.6 for the

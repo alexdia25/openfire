@@ -109,5 +109,5 @@ holds across candidate counts of 0, 1, and 19, or across thousands of random see
   themselves behave correctly; it doesn't answer what, if anything, happens when both go
   silent.
 
-**Next:** back to [the next-steps doc](NEXT_STEPS.md) for the current backlog -- Phase 4
-step 6 (enemy AI) is next; nothing opposes the player yet.
+**Next:** [Worked example: an opponent with no reverse-engineering behind it at all](23-worked-example-enemy-ai-first-pass.md)
+-- Phase 4 step 6, enemy AI.

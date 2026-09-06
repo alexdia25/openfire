@@ -31,6 +31,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **A real palette bug** (raw pixel byte needs a `-10` shift into the shared PLUT) — [document 20](20-worked-example-palette-offset.md); plan section 1.6.
 - **Phase 4 steps 2/3** (a player-controlled vehicle, a scrolling camera) — including a real mirror-flip rendering bug and the registry auto-numbering bug it exposed — [document 21](21-worked-example-vehicle-mirroring-bug.md); plan section 3.
 - **Phase 4 steps 4/5** (weapons/projectiles, destructible targets) — the latter a direct reimplementation of section 1.5's already-traced candidate-pool mechanism, verified by a unit test and a real-scene integration test — [document 22](22-worked-example-weapons-and-targets.md); plan section 3.
+- **Phase 4 step 6** (enemy AI) — a from-scratch seek-and-shoot placeholder with no RE finding behind it, spawned from real per-level spawn data, verified by a deterministic fixed-timestep test — [document 23](23-worked-example-enemy-ai-first-pass.md); plan section 3.
 
 ## Still open
 
@@ -48,12 +49,15 @@ See plan section 4 for the current, precise state of each — this list is just 
 playable but not yet authentic), Phase 4 step 3's single-viewport scrolling camera
 (smoothed + edge-clamped, verified with real position numbers), Phase 4 step 4's first
 pass (fire input -> a moving, visible, self-expiring projectile, same "playable, not yet
-authentic" flag as step 2), and Phase 4 step 5's first pass (section 1.5's traced
+authentic" flag as step 2), Phase 4 step 5's first pass (section 1.5's traced
 candidate-pool mechanism now runs as real gameplay logic -- one active target per pool,
 replaced from its own candidates on destruction until its budget runs out, verified by a
-2000-trial unit test and a full-integration test against a real level) are all done -- see
-plan section 3. Split-screen itself is not started. Next real blocker: Phase 4 step 6,
-enemy AI -- nothing opposes the player yet.
+2000-trial unit test and a full-integration test against a real level), and Phase 4 step
+6's first pass (a from-scratch seek-and-shoot enemy vehicle, spawned from real per-level
+spawn data, verified by a deterministic fixed-timestep test) are all done -- see plan
+section 3. Split-screen itself is not started. Next real blocker: Phase 4 step 7, mission
+objectives/scoring/level progression -- blocked in part on section 4 item 1 ("what ends a
+match?"), still open.
 
 ## If you want to try one of these yourself
 
@@ -92,4 +96,5 @@ then [finding a COM vtable call with no symbol to search for](18-worked-example-
 then [classifying 2165 cels without a disassembler](19-worked-example-asset-registry.md),
 then [a wrong palette that never looked wrong enough to notice](20-worked-example-palette-offset.md),
 then ["the sprite looks very wrong after moving" was two bugs, not one](21-worked-example-vehicle-mirroring-bug.md),
-and finally [reusing a solved RE finding as running code](22-worked-example-weapons-and-targets.md).
+then [reusing a solved RE finding as running code](22-worked-example-weapons-and-targets.md),
+and finally [an opponent with no reverse-engineering behind it at all](23-worked-example-enemy-ai-first-pass.md).

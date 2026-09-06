@@ -113,6 +113,13 @@ them in order for the first time: narrative, worked examples, real commands you 
     the real answer is already known and the only question is whether the reimplementation
     is actually correct (a 2000-trial unit test plus a real-scene integration test, not a
     screenshot).
+23. [**Worked example: an opponent with no reverse-engineering behind it at all**](23-worked-example-enemy-ai-first-pass.md) —
+    Phase 4 step 6 (enemy AI): unlike every other Phase 4 step so far, this one reimplements
+    nothing from `RFIRE.BIN` — Phase 3's AI backlog is still untouched. Covers splitting
+    `Vehicle`'s movement/firing code into two overridable decision seams instead of copy-
+    pasting a second vehicle script, and a rate-dependent behaviour test that had to stop
+    relying on headless mode's real (unthrottled) frame timing and drive `_process()`
+    directly at a fixed timestep instead.
 
 ## The one rule that overrides everything else here
 
