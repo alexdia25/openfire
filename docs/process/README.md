@@ -179,6 +179,12 @@ them in order for the first time: narrative, worked examples, real commands you 
     "hovercraft" this project had built against the whole time. A geometric search for a
     helicopter's distinctive rotor-blade silhouette found a real mini-map icon set confirming
     all four, though their actual in-game rotation art is still unlocated.
+32. [**Worked example: one image, rotated correctly, beats nine images flipped**](32-worked-example-ground-decal-prototype.md) —
+    tests whether the "90/270 degree frames look like little triangles" complaint is a
+    rendering-technique gap rather than missing art, by prototyping a real, non-billboarded,
+    ground-plane-aligned quad that rotates in true 3D to match the vehicle's heading. One
+    canonical texture, correctly rotated, produces a smoother, always-coherent silhouette at
+    every heading than the old nine-frame mirror-and-flip approach ever did.
 
 ## The one rule that overrides everything else here
 

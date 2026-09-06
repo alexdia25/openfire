@@ -2194,6 +2194,25 @@ Web checklist:
     rotation art (the 32x32-scale cels `vehicle.gd` actually renders) for Jeep/MSV/Heli — the
     mini-icons are small map markers, not gameplay sprites. Full writeup:
     [document 31](process/31-worked-example-vehicle-roster.md).
+
+    **Prototyped (2026-09-06): the "little triangles" complaint is a rendering-technique gap,
+    not missing art.** Following up on the user's specific observation about the 90/270-degree
+    frames, `game/vehicle_billboard_3d.gd` gained a second mode
+    (`RF_DEBUG_VEHICLE_QUAD_MODE=ground_decal`, default stays the verified Phase 3 billboard):
+    instead of a `Sprite3D` that always faces the camera, lay the textured quad flat (like the
+    terrain plane) and give it a real, continuous 3D yaw matching the vehicle's actual heading,
+    letting Godot's own tilted camera foreshorten it exactly like everything else in the scene
+    — no hand-ported projection math, no billboard. Using just **one** canonical texture (not
+    `_frame_for_heading()`'s discrete quadrant-and-flip selection — combining both would
+    double-count the rotation), a full 10-heading sweep shows a smooth, always-coherent
+    silhouette at every angle, including exactly the 90/270-degree headings that used to
+    degrade to disconnected slivers under the billboard approach — confirmed with a direct
+    side-by-side (full readable turret vs. a small nub in an empty tile) and a driven test with
+    real turning motion. One image, correctly rotated, beat nine images mirrored and flipped.
+    **Not yet decided:** whether to make this the new default (replacing the billboard), and
+    whether cycling real per-heading textures *combined* with this rotation (capturing
+    shading/detail the original's own art has, not just silhouette) beats either technique
+    alone. Full writeup: [document 32](process/32-worked-example-ground-decal-prototype.md).
 11. **Terrain-based vehicle passability — NOT STARTED, new backlog item (2026-09-06,
     user-flagged as needed for parity).** Different vehicle types (helicopter, tank,
     support/jeep, armoured car — section 3 Phase 3's own list) should be restricted or slowed
