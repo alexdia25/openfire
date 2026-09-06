@@ -46,7 +46,14 @@ live-adjustable; yaw is not exposed at all. Phase 2 (real baked terrain art) is 
 of the same day: `terrain_view.gd`'s tile-drawing loop is now a shared, reusable node
 (`game/terrain_tile_renderer.gd`) baked into a `SubViewport` texture on the 3D scaffold's
 ground plane — a real, recognisable level genuinely receding toward a horizon, working
-correctly on the first real screenshot. Phase 3 (real billboard vehicle sprites) has not
+correctly on the first real screenshot. Phase 3 (real billboard vehicle sprites) is DONE too,
+as of the same day: a real, completely unmodified `Vehicle` (movement, input, firing,
+`_frame_for_heading()`) renders as a billboard `Sprite3D` (`game/vehicle_billboard_3d.gd`)
+instead of a placeholder box, with its own 2D draw output just suppressed rather than
+duplicated into a second implementation. Checked, not assumed, that billboarding doesn't
+reintroduce the position-dependent hidden rotation Phase 1 already fixed once: a vehicle
+driven to a heavily edge-clamped, off-centre position renders pixel-identical to the same
+heading dead-centre. Phase 4 (projectiles, target/pool markers, the flag marker) has not
 started yet.
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
@@ -2258,8 +2265,28 @@ Web checklist:
     before reaching the true horizon in one corner of frame — there's no real terrain art
     beyond a level's actual bounds to extend the mesh with, so this is left for a later
     skybox/fallback-backdrop pass rather than papered over now.
-    **Phase 3 (real billboard vehicle sprites, reusing `Vehicle._frame_for_heading()`
-    unchanged) not yet started.**
+    **Phase 3 DONE (2026-09-06) — see [document 30](process/30-worked-example-billboard-vehicle-3d.md).**
+    `game/vehicle_billboard_3d.gd`: a real, completely unmodified `Vehicle` (still running its
+    own movement integration, input, and firing exactly as in the flat 2D scene) paired with a
+    billboard `Sprite3D` that calls `Vehicle._frame_for_heading()` directly every frame and
+    feeds the `[sprite_id, flip_h, flip_v]` result into the sprite's `region_rect`/`flip_h`/
+    `flip_v` instead of `draw_set_transform` + `draw_texture_rect_region` — the frame-selection
+    logic itself is reused unchanged, not reimplemented. `Vehicle.visible = false` suppresses
+    its own now-redundant 2D draw output; Godot still runs its `_process()` regardless, since
+    visibility only gates rendering. A 12-heading sweep (matching document 21's own
+    verification style) confirms the quadrant-mirror fix still holds through this new
+    rendering path, with no discontinuity at any boundary. A real, non-hypothetical
+    architecture question got checked rather than assumed: since the vehicle art is
+    pre-rendered from one fixed viewing angle, does `Sprite3D`'s billboard mode reintroduce
+    the position-dependent hidden rotation Phase 1 already found and fixed once in the camera
+    itself (`look_at()` reorienting based on actual relative position)? Driving the vehicle to
+    a heavily edge-clamped, off-centre position and comparing its rendered sprite against the
+    same heading dead-centre came back pixel-identical — Godot's `BILLBOARD_ENABLED` copies
+    the camera's fixed rotation basis directly rather than computing a per-object look-at
+    vector, so with the camera's orientation constant everywhere (Phase 1's whole point), the
+    billboard's orientation is provably constant too. Firing isn't wired up in the 3D scene
+    yet -- `Vehicle.fired` has no listener here.
+    **Phase 4 (projectiles, target/pool markers, the flag marker) not yet started.**
 
 **RESOLVED:**
 - **The fixed sim tick rate** — **section 1.9** (2026-09-05). There isn't one, and there was

@@ -165,6 +165,12 @@ them in order for the first time: narrative, worked examples, real commands you 
     3D scene's ground plane. Real terrain art, genuinely perspective-projected, matching the
     flat 2D scene's own screenshot exactly -- and, unusually for this project, worked on the
     first real screenshot.
+30. [**Worked example: the same frame-selection code, a different last step**](30-worked-example-billboard-vehicle-3d.md) —
+    Phase 3 renders a real, completely unmodified Vehicle as a billboard Sprite3D instead of a
+    placeholder box, calling Vehicle._frame_for_heading() -- the exact quadrant-mirror logic
+    document 25 fixed a real bug in -- directly, with Vehicle's own 2D draw output just
+    suppressed rather than duplicated into a second implementation. A 12-heading sweep
+    confirms that fix still holds through the new rendering path.
 
 ## The one rule that overrides everything else here
 
