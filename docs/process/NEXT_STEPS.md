@@ -41,7 +41,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Phase 3 of the same plan** — a real, completely unmodified `Vehicle` rendered as a billboard `Sprite3D` (`game/vehicle_billboard_3d.gd`) instead of Phase 1's placeholder box, calling `Vehicle._frame_for_heading()` — the exact quadrant-mirror logic document 25 fixed a real bug in — directly, rather than duplicating that logic. A 12-heading sweep confirms that fix still holds through this new rendering path; a driven test confirms the vehicle's real movement/camera-follow works together with the real baked terrain for the first time. See [document 30](30-worked-example-billboard-vehicle-3d.md); plan section 2.2, section 4 item 13.
 - **The exact turning-sprite failure mode, and the real vehicle roster it led to** — heading 0 and heading 180 render pixel-identical (flipping a symmetric base frame changes nothing), precisely explaining a user-reported "never turns" symptom. Re-attempting the abandoned real-facing-table trace this time fully decompiled the lookup mechanism and, following it back through the binary's own data, surfaced a genuine string table: the game's real vehicle roster is **Tank, Jeep, MSV, and Helicopter**, not the one "hovercraft" this project has built. A real mini-map icon set (registry corrected) visually confirms all four. Real in-game rotation art for Jeep/MSV/Heli is still unlocated. See [document 31](31-worked-example-vehicle-roster.md); plan section 4 item 10.
 - **The "little triangles" complaint was a rendering-technique gap, not missing art — fixed, and now the shipped default.** A real, non-billboarded quad lying flat like the terrain plane, rotated in true 3D to match the vehicle's actual heading, produces a smooth, always-coherent silhouette at every heading using just **one** source image — better than the old nine-frame mirror-and-flip billboard approach ever achieved. The obvious follow-up (cycling all 9 real frames alongside the same rotation) was tested and is worse, not better: the discrete frames already bake in a thinning silhouette near 90/270 degrees, and real geometric foreshortening on top compounds that instead of complementing it, collapsing the shape almost to nothing at exactly those headings. `game/vehicle_billboard_3d.gd`'s default is now `GROUND_DECAL` (single texture); `BILLBOARD` and `GROUND_DECAL_MULTI` remain available via `RF_DEBUG_VEHICLE_QUAD_MODE` for comparison. See [document 32](32-worked-example-ground-decal-prototype.md); plan section 2.2, section 4 item 10.
-- **Perspective terrain/object rendering — the rendering-migration plan's all six phases are DONE (2026-09-06).** Phase 4 (projectiles, target/pool markers, the flag marker), the last one, first required extracting `terrain_view.gd`'s gameplay logic (vehicle/enemy spawn, projectile spawn-on-fire, target-pool hit-testing, the flag-spawn trigger) into a new shared `game/match_controller.gd`, so the flat 2D and 3D scenes provably run identical rules instead of risking two hand-copied implementations drifting apart. Projectiles and the flag reuse Phase 3's real-node-paired-with-a-3D-presentation pattern (`ProjectileBillboard3D`, `FlagMarker3D`); the debug spawn/pool markers, which had no dedicated gameplay node to pair with, got Phase 2's baked-`SubViewport` treatment instead (`game/debug_marker_renderer.gd` + `game/debug_marker_overlay_3d.gd`). A driven screenshot confirms all three working together in the 3D scene, correctly foreshortened by the same tilted camera as the terrain. With this done, `game/terrain_view.gd`/`.tscn` has nothing left it does that the 3D scene doesn't — it's now retirable per the superseded-rule note below, though the actual deletion is a separate, not-yet-done follow-up. See [document 33](33-worked-example-phase4-projectiles-markers-flag.md); plan section 2.2, section 4 item 13.
+- **Perspective terrain/object rendering — the rendering-migration plan's all six phases are DONE (2026-09-06).** Phase 4 (projectiles, target/pool markers, the flag marker), the last one, first required extracting `terrain_view.gd`'s gameplay logic (vehicle/enemy spawn, projectile spawn-on-fire, target-pool hit-testing, the flag-spawn trigger) into a new shared `game/match_controller.gd`, so the flat 2D and 3D scenes provably run identical rules instead of risking two hand-copied implementations drifting apart. Projectiles and the flag reuse Phase 3's real-node-paired-with-a-3D-presentation pattern (`ProjectileBillboard3D`, `FlagMarker3D`); the debug spawn/pool markers, which had no dedicated gameplay node to pair with, got Phase 2's baked-`SubViewport` treatment instead (`game/debug_marker_renderer.gd` + `game/debug_marker_overlay_3d.gd`). A driven screenshot confirms all three working together in the 3D scene, correctly foreshortened by the same tilted camera as the terrain. With this done, `game/terrain_view.gd`/`.tscn` had nothing left it did that the 3D scene didn't — it has since been retired as a whole (marked-superseded, matching `tools/rfcel.py`'s own precedent; see the superseded-rule note below). See [document 33](33-worked-example-phase4-projectiles-markers-flag.md); plan section 2.2, section 4 item 13.
 
 ## Still open
 
@@ -83,11 +83,6 @@ See plan section 4 for the current, precise state of each — this list is just 
   eyeballing thousands of sprites. **Not resolved:** real in-game rotation art for Jeep/MSV/
   Heli (the icons are small map markers, not gameplay-scale sprites) has not been located —
   see [document 31](31-worked-example-vehicle-roster.md); plan section 4 item 10.
-- **Retiring `game/terrain_view.gd`/`.tscn` as a whole — new, unblocked as of 2026-09-06.**
-  The rendering-migration plan's Phase 4 finishing (see "Resolved so far" above) means the
-  flat 2D scene now has nothing left it does that the 3D scene doesn't. Per the superseded-rule
-  note below, actually deleting (or marking superseded) the file is a deliberate follow-up,
-  not yet done.
 - **Terrain-based vehicle passability — new, user-flagged (2026-09-06) as needed for
   parity.** Not started; likely connects to the still-unchased elevation bits/height_seed
   byte (section 4, items 2 and 11).
@@ -113,17 +108,15 @@ related, separately-described life system is a distinct, not-yet-started lead wi
 anchor to start from.
 
 **Note on `run/main_scene` (2026-09-06):** `project.godot` boots into
-`game/terrain_view_3d.tscn` by default (a bare F5/no-argument run). This was set early, before
-the rendering migration's Phase 4 (projectiles/markers/flag) was finished, purely so the user
-could see the in-progress 3D work directly — as of the same day, Phase 4 is now actually done
-too (see "Resolved so far" above, document 33), so a bare run genuinely does show everything
-the flat 2D scene ever showed. The flat 2D scene (`game/terrain_view.tscn`) still exists,
-still works loaded directly, and still runs the exact same gameplay rules (both scenes share
-`game/match_controller.gd`) — it's just no longer what a bare run shows.
+`game/terrain_view_3d.tscn` by default (a bare F5/no-argument run) — the project's one real
+rendering front-end now that the rendering-migration plan is fully complete.
 
-**Superseded rule (2026-09-06, user direction):** the flat 2D scene no longer needs to stay
-fully working piece-by-piece as things get ported to 3D — that standing rule from Phases 1-3
-is retired. As of Phase 4 finishing (document 33), `game/terrain_view.gd`/`.tscn` has nothing
-left it does that the 3D scene doesn't, so it's now retirable as a whole (deleted or marked
-superseded, matching `tools/rfcel.py`'s own precedent) — that deletion itself is a deliberate,
-not-yet-done follow-up, not something to do incidentally. See plan section 2.2.
+**Superseded rule (2026-09-06, user direction) — actioned the same day:** the flat 2D scene no
+longer needs to stay fully working piece-by-piece as things get ported to 3D — that standing
+rule from Phases 1-3 is retired. With Phase 4 finishing (document 33) leaving
+`game/terrain_view.gd`/`.tscn` with nothing left it did that the 3D scene didn't, it has since
+been retired as a whole, per direct user request: marked-superseded, not deleted (matching
+`tools/rfcel.py`'s own precedent) — its header docstring now says SUPERSEDED and points at
+`game/terrain_view_3d.gd`, the code is otherwise untouched and still runs if loaded directly
+(`res://game/terrain_view.tscn`), and it will not be maintained or re-verified against future
+gameplay/rendering changes. See plan section 2.2.

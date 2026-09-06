@@ -62,8 +62,12 @@ projectiles, and document 32's `GROUND_DECAL` technique reused for the real capt
 animation. The debug spawn/candidate-pool markers (never their own gameplay node, just inline
 `_draw()` calls) got Phase 2's baked-`SubViewport` treatment instead. A driven, real
 screenshot confirms all of it working together — see section 4 item 13 for the full account.
-With this done, `game/terrain_view.gd`/`.tscn` is retirable per the "Superseded rule" below
-(not yet deleted this session).
+**`game/terrain_view.gd`/`.tscn` is now retired (2026-09-06)**, per the "Superseded rule"
+below and matching `tools/rfcel.py`'s own precedent: the file is kept, not deleted, its header
+docstring now says SUPERSEDED and points at `game/terrain_view_3d.gd`, and it's no longer
+maintained against future gameplay/rendering changes — but the code is untouched and still
+runs if loaded directly by path. The rendering-migration plan (section 2.2) is now fully
+complete, all six phases.
 **Major discovery (2026-09-06): the real vehicle roster is Tank, Jeep, MSV, and Helicopter,
 not the one "hovercraft" this project has built its entire history against** (section 4 item
 10). A sharper diagnosis of the turning-sprite bug (heading 0 and 180 render pixel-identical —
@@ -1170,12 +1174,12 @@ then projectiles/markers, each with a real screenshot verification before moving
 fully working piece-by-piece as each part gets ported to 3D.** The original plan's "kept
 fully working throughout" language (and Phase 5's own gradual-cutover framing) is retired —
 once something is ported to 3D, its flat-2D equivalent doesn't need continued maintenance or
-re-verification. In practice: `game/terrain_view.gd`/`.tscn` (still needed for target/pool
-markers, spawn markers, and the flag marker, none of which have a 3D presence yet) is left
-as-is, not actively re-verified against future 3D-side changes, and gets retired as a whole
-(deleted or marked-superseded, matching `tools/rfcel.py`'s own precedent for that choice) once
-Phase 4 finishes porting those remaining pieces — not gradually, piece by piece, and not
-before then either.
+re-verification. **Actioned (2026-09-06):** with Phase 4 done (section 4 item 13),
+`game/terrain_view.gd`/`.tscn` was retired whole, not gradually — marked-superseded (matching
+`tools/rfcel.py`'s own precedent) rather than deleted, so it's kept as a historical/debug
+reference and still runs if loaded directly, but its header docstring now says SUPERSEDED and
+points at `game/terrain_view_3d.gd`, and it will not be maintained or re-verified against any
+future gameplay/rendering change.
 
 **Early cutover, ahead of that plan (2026-09-06, user request):** `project.godot`'s
 `run/main_scene` now points at `game/terrain_view_3d.tscn`, not `game/terrain_view.tscn` — so
@@ -2412,10 +2416,15 @@ Web checklist:
     under the tilted camera exactly like the terrain does, a projectile sphere is visible in
     flight, and -- once the pool's one candidate is destroyed -- the real green capture-flag
     animation appears at the correct world position, lying flat and perspective-projected the
-    same way the vehicle does. This is the rendering-migration plan's last phase; with it done,
-    `game/terrain_view.gd`/`.tscn` has nothing left it does that the 3D scene doesn't, and per
-    the "Superseded rule" above is now retirable as a whole (not yet deleted this session --
-    that's a separate, deliberate follow-up, not bundled into this change).
+    same way the vehicle does. This was the rendering-migration plan's last phase; with it
+    done, `game/terrain_view.gd`/`.tscn` had nothing left it did that the 3D scene didn't, and
+    per the "Superseded rule" above it has since been retired as a whole (2026-09-06,
+    user-requested follow-up): marked-superseded, not deleted, matching `tools/rfcel.py`'s own
+    precedent -- the file's header docstring now says SUPERSEDED and points at
+    `game/terrain_view_3d.gd`, the code is otherwise untouched and still runs if loaded
+    directly (`res://game/terrain_view.tscn`), and it will not be maintained or re-verified
+    against future gameplay/rendering changes. **The rendering-migration plan is now fully
+    complete, all six phases.**
 
 **RESOLVED:**
 - **The fixed sim tick rate** — **section 1.9** (2026-09-05). There isn't one, and there was
