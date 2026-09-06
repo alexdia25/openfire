@@ -1151,13 +1151,24 @@ gap incrementally into the flat architecture:
   fragment shader if palette-cycling or team-colour swapping turns out to need it.
   Any such shader must be WebGL2-compatible — **no compute shaders, no storage buffers**.
 
-**Phased implementation plan (not yet started — see section 4 item 13 for status):** Phase 0
-closes remaining RE unknowns (dump the full depth-reciprocal table and fit the real tilt/FOV;
-confirm no rotation term exists in the terrain blitter, i.e. the camera only pans, never
-yaws). Phases 1-5 build the 3D scene *alongside* the existing flat one (kept fully working
-throughout, per this project's "keep every step playable" rule) — scaffolding, terrain,
-vehicles, then projectiles/markers, each with a real screenshot verification before moving on
-— and only cut over once every phase is individually proven. Full plan retained at
+**Phased implementation plan — see section 4 item 13 for status:** Phase 0 closes remaining
+RE unknowns (dump the full depth-reciprocal table and fit the real tilt/FOV; confirm no
+rotation term exists in the terrain blitter, i.e. the camera only pans, never yaws). Phases
+1-5 build the 3D scene *alongside* the existing flat one (kept fully working throughout, per
+this project's "keep every step playable" rule) — scaffolding, terrain, vehicles, then
+projectiles/markers, each with a real screenshot verification before moving on — and only cut
+over once every phase is individually proven.
+
+**Early cutover, ahead of that plan (2026-09-06, user request):** `project.godot`'s
+`run/main_scene` now points at `game/terrain_view_3d.tscn`, not `game/terrain_view.tscn` — so
+plain F5/no-argument runs now boot into the 3D scene by default. This happened purely so the
+user could see the in-progress work directly in the editor, **not** because Phases 4-5 of
+this rendering plan are done — they aren't (see section 4 item 13: projectiles/target-pool
+markers/the flag marker have no 3D presence yet). The flat 2D scene still exists, unmodified,
+and still works when loaded directly (`res://game/terrain_view.tscn`) — it's just no longer
+what a bare run shows. Playing the "main" game now will visibly be missing anything Phase 4
+would have added; that's an honest, known gap, not a regression to chase.
+Full plan retained at
 `C:\Users\Alex\.claude\plans\tingly-booping-wall.md` for the executing agent's reference; that
 file is outside this repo and not guaranteed to survive a fresh clone, so treat this summary
 as the durable record and re-derive phase details from the principles above if that file is

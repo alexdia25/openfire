@@ -12,15 +12,14 @@ config_version=5
 
 config/name="Return Fire"
 config/description="A from-scratch, data-driven Godot 4 reimplementation of Return Fire (1996, Silent Software). Ships no original assets or decompiled code -- see docs/PORTING_PLAN.md."
-run/main_scene="res://game/terrain_view.tscn"
+run/main_scene="res://game/terrain_view_3d.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[physics]
+
+common/enable_pause_aware_picking=true
 
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-
-[physics]
-
-common/physics_ticks_per_second=60
-common/enable_pause_aware_picking=true

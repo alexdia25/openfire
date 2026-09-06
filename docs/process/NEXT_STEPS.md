@@ -116,3 +116,12 @@ section 4 item 1 is now precisely known (a pool's targets fully exhausted) and i
 or declares a match won or lost, so this is still the real blocker for a complete match. A
 related, separately-described life system is a distinct, not-yet-started lead with no string
 anchor to start from.
+
+**Note on `run/main_scene` (2026-09-06):** `project.godot` now boots into
+`game/terrain_view_3d.tscn` by default (a bare F5/no-argument run), ahead of the rendering
+plan's own stated cutover order — done purely so the user could see the in-progress 3D work
+directly, not because the rendering migration's remaining phases (projectiles/markers/flag,
+plan section 4 item 13) are finished. They aren't. The flat 2D scene
+(`game/terrain_view.tscn`) is untouched and still works loaded directly; it's just no longer
+what a bare run shows, so playing "the game" right now will visibly lack anything Phase 4
+would add — an honest, known gap.
