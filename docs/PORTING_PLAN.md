@@ -1934,12 +1934,24 @@ Web checklist:
     the deeper question is unchanged: this whole approach is a flat-sprite-mirror
     approximation of a technique section 1.10 already found isn't how the original renders
     vehicles at all (real perspective-projected 3D quads, 64 discrete headings). Fixing the
-    frame-count bug makes the approximation less bad; it doesn't make it authentic. **Next
-    step, per the user (2026-09-06): DOSBox-X has Windows 95 installed and can boot
-    `RFIRE.BIN` directly** — a real side-by-side capture of the original's own turning
-    behaviour would finally give this question actual ground truth instead of guessing from
-    static `.data`-segment layouts, and would settle whether the flat-mirror approach is even
-    worth refining further versus implementing the real projected-quad technique.
+    frame-count bug makes the approximation less bad; it doesn't make it authentic.
+
+    **Attempted (2026-09-06), blocked, not resolved: a real reference capture via DOSBox-X.**
+    `C:\DOSBox-X` has a pre-built Windows 95 install (`hdd.img`, `win95.conf`) with the real
+    game already copied to `C:\Games\Return Fire\RFIRE.BIN` — confirmed present via `IMGMOUNT`
+    and `dir` (401,920 bytes, matching the known file size). Booting Windows 95 itself
+    (`cd \windows`, `win`) consistently stops at "Cannot load a device file... 
+    C:\WINDOWS\SYSTEM\VMM32\IOS.VXD" — not a cosmetic missing-driver warning like the other
+    VXD messages this project has seen; `IOS.VXD` is Windows 95's core 32-bit disk-access
+    supervisor. Pressing a key sometimes appeared to let DOSBox-X exit entirely with no crash
+    logged (no Windows Event Viewer entry), and on a later attempt did not advance past the
+    message at all even after confirming DOSBox-X had real keyboard focus — a genuine boot
+    blocker with this specific disk image/config pairing, not something to keep retrying blind.
+    **Parked, not chased further this session** (user's call, 2026-09-06) — next real attempt
+    should start from *why* `IOS.VXD` fails to load in this `hdd.img` (a corrupt/incomplete
+    Windows 95 install, a DOSBox-X IDE/CPU-type config mismatch with this particular image, or
+    a missing file that needs restoring from the original install media) rather than repeating
+    the same boot sequence again.
 11. **Terrain-based vehicle passability — NOT STARTED, new backlog item (2026-09-06,
     user-flagged as needed for parity).** Different vehicle types (helicopter, tank,
     support/jeep, armoured car — section 3 Phase 3's own list) should be restricted or slowed

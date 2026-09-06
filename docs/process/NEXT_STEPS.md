@@ -56,9 +56,11 @@ See plan section 4 for the current, precise state of each — this list is just 
 - **The turning-sprite mirror rendering — one real bug fixed (2026-09-06, see above), the
   deeper architecture question still open.** The flat-sprite-quadrant-mirror approach itself
   is still just an approximation of a technique section 1.10 already found isn't how the
-  original renders vehicles (real perspective-projected 3D quads) — next step per the user:
-  boot `RFIRE.BIN` in DOSBox-X (Windows 95 already installed there) for a real reference
-  capture (section 4, item 10; section 3 Phase 4 step 2).
+  original renders vehicles (real perspective-projected 3D quads). A DOSBox-X reference
+  capture was attempted (2026-09-06) but **blocked**: Windows 95 boot hangs at a
+  `C:\WINDOWS\SYSTEM\VMM32\IOS.VXD` load failure in the pre-built `hdd.img`, not a
+  dismissible warning. Parked, not resolved — see section 4 item 10 for what a real fix
+  attempt should start from (section 3 Phase 4 step 2).
 - **Terrain-based vehicle passability — new, user-flagged (2026-09-06) as needed for
   parity.** Not started; likely connects to the still-unchased elevation bits/height_seed
   byte (section 4, items 2 and 11).
