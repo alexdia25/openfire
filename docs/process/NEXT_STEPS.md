@@ -29,6 +29,8 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Team colours are tan and green** (user-confirmed, cross-checked against art across three independent cel families) — plan section 4, item 5.
 - **The pack emitter + Phase 4 step 1** — a real level renders in Godot through a real content pack, verified with a screenshot — plan sections 2.4.2 and 3 (Phase 4 step 1).
 - **A real palette bug** (raw pixel byte needs a `-10` shift into the shared PLUT) — [document 20](20-worked-example-palette-offset.md); plan section 1.6.
+- **Phase 4 steps 2/3** (a player-controlled vehicle, a scrolling camera) — including a real mirror-flip rendering bug and the registry auto-numbering bug it exposed — [document 21](21-worked-example-vehicle-mirroring-bug.md); plan section 3.
+- **Phase 4 steps 4/5** (weapons/projectiles, destructible targets) — the latter a direct reimplementation of section 1.5's already-traced candidate-pool mechanism, verified by a unit test and a real-scene integration test — [document 22](22-worked-example-weapons-and-targets.md); plan section 3.
 
 ## Still open
 
@@ -88,4 +90,6 @@ then [there's no sprite pivot, because it's not 2D](16-worked-example-3d-project
 then [reference discs arrive, and a stale guess gets corrected for free](17-worked-example-reference-iso.md),
 then [finding a COM vtable call with no symbol to search for](18-worked-example-vtable-flip.md),
 then [classifying 2165 cels without a disassembler](19-worked-example-asset-registry.md),
-and finally [a wrong palette that never looked wrong enough to notice](20-worked-example-palette-offset.md).
+then [a wrong palette that never looked wrong enough to notice](20-worked-example-palette-offset.md),
+then ["the sprite looks very wrong after moving" was two bugs, not one](21-worked-example-vehicle-mirroring-bug.md),
+and finally [reusing a solved RE finding as running code](22-worked-example-weapons-and-targets.md).

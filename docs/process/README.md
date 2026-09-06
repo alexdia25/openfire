@@ -101,6 +101,18 @@ them in order for the first time: narrative, worked examples, real commands you 
     the binary. Caught only because the user compared it against real screenshots — internal
     consistency checks (this project's usual habit) can't catch a bug that's wrong everywhere
     in the same plausible way.
+21. [**Worked example: "the sprite looks very wrong after moving" was two bugs, not one**](21-worked-example-vehicle-mirroring-bug.md) —
+    Phase 4 steps 2/3 (a player-controlled vehicle, a scrolling camera): a real mirror-flip
+    bug in the vehicle's rotation rendering, and how tracing it surfaced a second, unrelated
+    bug — an asset-registry auto-numbering script quietly undoing an already-confirmed
+    team-colour rename every time it ran.
+22. [**Worked example: reusing a solved RE finding as running code**](22-worked-example-weapons-and-targets.md) —
+    Phase 4 steps 4/5 (weapons/projectiles, destructible targets): step 4 is an honestly-
+    flagged placeholder, but step 5 turns a mechanism section 1.5 already fully traced from
+    the binary directly into running Godot code — and shows what verification looks like when
+    the real answer is already known and the only question is whether the reimplementation
+    is actually correct (a 2000-trial unit test plus a real-scene integration test, not a
+    screenshot).
 
 ## The one rule that overrides everything else here
 

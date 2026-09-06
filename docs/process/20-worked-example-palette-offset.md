@@ -148,5 +148,5 @@ this match a real screenshot" as a standing check going forward, not a one-time 
 same blind spot could exist anywhere else this project has only ever checked its own output
 against itself.
 
-**Next:** back to [the next-steps doc](NEXT_STEPS.md) for the current backlog -- Phase 4
-step 2 (a player-controlled vehicle) is next, now against correctly-coloured art.
+**Next:** [Worked example: "the sprite looks very wrong after moving" was two bugs, not one](21-worked-example-vehicle-mirroring-bug.md)
+-- Phase 4 step 2 (a player-controlled vehicle), now against correctly-coloured art.
