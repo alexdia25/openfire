@@ -40,9 +40,9 @@
   <!-- Correct path -->
   <g transform="translate(60,220)">
     <text x="0" y="0" font-size="13" fill="#1e7a3c" font-weight="bold">Correct: shared_plut[k - 10]</text>
-    <path d="M 526,-170 Q 620,-100 200,-20" stroke="#1e7a3c" stroke-width="2" fill="none" marker-end="url(#arrowGreen)"/>
-    <text x="200" y="20" text-anchor="middle" font-size="12" fill="#1e7a3c">byte k=20 -&gt; slot (20-10)=10, not slot 20</text>
-    <text x="200" y="36" text-anchor="middle" font-size="12" fill="#1e7a3c" font-style="italic">matches the game's real active palette</text>
+    <path d="M 526,-115 Q 440,-60 372,-122" stroke="#1e7a3c" stroke-width="2" fill="none" marker-end="url(#arrowGreen)"/>
+    <text x="372" y="20" text-anchor="middle" font-size="12" fill="#1e7a3c">byte k=20 -&gt; slot (20-10)=10, not slot 20</text>
+    <text x="372" y="36" text-anchor="middle" font-size="12" fill="#1e7a3c" font-style="italic">matches the game's real active palette</text>
   </g>
 
   <defs>
