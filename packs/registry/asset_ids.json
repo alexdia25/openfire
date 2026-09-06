@@ -7214,40 +7214,40 @@
       "id": "decoration.dashed_line.05"
     },
     "2094": {
-      "category": "ui",
-      "confidence": "visual_group",
-      "id": "ui.icon.vehicle_mini.01",
-      "note": "tiny vehicle icon, likely minimap/HUD unit marker"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "ui.icon.tank_mini.tan",
+      "note": "mini-map/radar icon, identified 2026-09-06 by matching its silhouette against the real vehicle roster confirmed via RFIRE.BIN's own string table (\"MSV\"/\"JEEP\"/\"Tank\"/\"HELI\", offset ~0x00445280 and ~0x004462c0) -- not the vehicle's actual in-game rotation art, which renders at a different scale and has not been located for anything but the tank. See docs/process/31-worked-example-vehicle-roster.md."
     },
     "2095": {
-      "category": "ui",
-      "confidence": "visual_group",
-      "id": "ui.icon.vehicle_mini.02",
-      "note": "tiny vehicle icon, likely minimap/HUD unit marker"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "ui.icon.tank_mini.green",
+      "note": "mini-map/radar icon, identified 2026-09-06 by matching its silhouette against the real vehicle roster confirmed via RFIRE.BIN's own string table (\"MSV\"/\"JEEP\"/\"Tank\"/\"HELI\", offset ~0x00445280 and ~0x004462c0) -- not the vehicle's actual in-game rotation art, which renders at a different scale and has not been located for anything but the tank. See docs/process/31-worked-example-vehicle-roster.md."
     },
     "2096": {
-      "category": "ui",
-      "confidence": "visual_group",
-      "id": "ui.icon.vehicle_mini.03",
-      "note": "tiny vehicle icon, likely minimap/HUD unit marker"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "ui.icon.jeep_mini.tan",
+      "note": "mini-map/radar icon, identified 2026-09-06 by matching its silhouette against the real vehicle roster confirmed via RFIRE.BIN's own string table (\"MSV\"/\"JEEP\"/\"Tank\"/\"HELI\", offset ~0x00445280 and ~0x004462c0) -- not the vehicle's actual in-game rotation art, which renders at a different scale and has not been located for anything but the tank. See docs/process/31-worked-example-vehicle-roster.md."
     },
     "2097": {
-      "category": "ui",
-      "confidence": "visual_group",
-      "id": "ui.icon.vehicle_mini.04",
-      "note": "tiny vehicle icon, likely minimap/HUD unit marker"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "ui.icon.jeep_mini.green",
+      "note": "mini-map/radar icon, identified 2026-09-06 by matching its silhouette against the real vehicle roster confirmed via RFIRE.BIN's own string table (\"MSV\"/\"JEEP\"/\"Tank\"/\"HELI\", offset ~0x00445280 and ~0x004462c0) -- not the vehicle's actual in-game rotation art, which renders at a different scale and has not been located for anything but the tank. See docs/process/31-worked-example-vehicle-roster.md."
     },
     "2098": {
-      "category": "ui",
+      "category": "vehicle",
       "confidence": "visual_group",
-      "id": "ui.icon.vehicle_mini.05",
-      "note": "tiny vehicle icon, likely minimap/HUD unit marker"
+      "id": "ui.icon.wheeled_vehicle_mini_a.tan",
+      "note": "mini-map/radar icon, identified 2026-09-06 by matching its silhouette against the real vehicle roster confirmed via RFIRE.BIN's own string table (\"MSV\"/\"JEEP\"/\"Tank\"/\"HELI\", offset ~0x00445280 and ~0x004462c0) -- not the vehicle's actual in-game rotation art, which renders at a different scale and has not been located for anything but the tank. See docs/process/31-worked-example-vehicle-roster.md."
     },
     "2099": {
-      "category": "ui",
+      "category": "vehicle",
       "confidence": "visual_group",
-      "id": "ui.icon.vehicle_mini.06",
-      "note": "tiny vehicle icon, likely minimap/HUD unit marker"
+      "id": "ui.icon.wheeled_vehicle_mini_a.green",
+      "note": "mini-map/radar icon, identified 2026-09-06 by matching its silhouette against the real vehicle roster confirmed via RFIRE.BIN's own string table (\"MSV\"/\"JEEP\"/\"Tank\"/\"HELI\", offset ~0x00445280 and ~0x004462c0) -- not the vehicle's actual in-game rotation art, which renders at a different scale and has not been located for anything but the tank. See docs/process/31-worked-example-vehicle-roster.md."
     },
     "21": {
       "category": "terrain",
@@ -7266,22 +7266,22 @@
       "id": "ui.icon.helicopter_mini.01"
     },
     "2101": {
-      "category": "ui",
-      "confidence": "visual_group",
-      "id": "ui.icon.vehicle_mini.07",
-      "note": "tiny vehicle icon, likely minimap/HUD unit marker"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "ui.icon.heli_mini",
+      "note": "mini-map/radar icon, identified 2026-09-06 by matching its silhouette against the real vehicle roster confirmed via RFIRE.BIN's own string table (\"MSV\"/\"JEEP\"/\"Tank\"/\"HELI\", offset ~0x00445280 and ~0x004462c0) -- not the vehicle's actual in-game rotation art, which renders at a different scale and has not been located for anything but the tank. See docs/process/31-worked-example-vehicle-roster.md."
     },
     "2102": {
-      "category": "ui",
+      "category": "vehicle",
       "confidence": "visual_group",
-      "id": "ui.icon.vehicle_mini.08",
-      "note": "tiny vehicle icon, likely minimap/HUD unit marker"
+      "id": "ui.icon.tank_mini_alt.tan",
+      "note": "mini-map/radar icon, identified 2026-09-06 by matching its silhouette against the real vehicle roster confirmed via RFIRE.BIN's own string table (\"MSV\"/\"JEEP\"/\"Tank\"/\"HELI\", offset ~0x00445280 and ~0x004462c0) -- not the vehicle's actual in-game rotation art, which renders at a different scale and has not been located for anything but the tank. See docs/process/31-worked-example-vehicle-roster.md."
     },
     "2103": {
-      "category": "ui",
+      "category": "vehicle",
       "confidence": "visual_group",
-      "id": "ui.icon.vehicle_mini.09",
-      "note": "tiny vehicle icon, likely minimap/HUD unit marker"
+      "id": "ui.icon.tank_mini_alt.green",
+      "note": "mini-map/radar icon, identified 2026-09-06 by matching its silhouette against the real vehicle roster confirmed via RFIRE.BIN's own string table (\"MSV\"/\"JEEP\"/\"Tank\"/\"HELI\", offset ~0x00445280 and ~0x004462c0) -- not the vehicle's actual in-game rotation art, which renders at a different scale and has not been located for anything but the tank. See docs/process/31-worked-example-vehicle-roster.md."
     },
     "2104": {
       "category": "ui",
@@ -7301,16 +7301,16 @@
       "note": "small vertical coloured bars"
     },
     "2107": {
-      "category": "ui",
+      "category": "vehicle",
       "confidence": "visual_group",
-      "id": "ui.icon.vehicle_mini.11",
-      "note": "tiny vehicle icon, likely minimap/HUD unit marker"
+      "id": "ui.icon.wheeled_vehicle_mini_b.tan",
+      "note": "mini-map/radar icon, identified 2026-09-06 by matching its silhouette against the real vehicle roster confirmed via RFIRE.BIN's own string table (\"MSV\"/\"JEEP\"/\"Tank\"/\"HELI\", offset ~0x00445280 and ~0x004462c0) -- not the vehicle's actual in-game rotation art, which renders at a different scale and has not been located for anything but the tank. See docs/process/31-worked-example-vehicle-roster.md."
     },
     "2108": {
-      "category": "ui",
+      "category": "vehicle",
       "confidence": "visual_group",
-      "id": "ui.icon.vehicle_mini.12",
-      "note": "tiny vehicle icon, likely minimap/HUD unit marker"
+      "id": "ui.icon.wheeled_vehicle_mini_b.green",
+      "note": "mini-map/radar icon, identified 2026-09-06 by matching its silhouette against the real vehicle roster confirmed via RFIRE.BIN's own string table (\"MSV\"/\"JEEP\"/\"Tank\"/\"HELI\", offset ~0x00445280 and ~0x004462c0) -- not the vehicle's actual in-game rotation art, which renders at a different scale and has not been located for anything but the tank. See docs/process/31-worked-example-vehicle-roster.md."
     },
     "2109": {
       "category": "ui",
@@ -7335,16 +7335,16 @@
       "id": "decoration.plant.flower_red.04"
     },
     "2112": {
-      "category": "ui",
+      "category": "vehicle",
       "confidence": "visual_group",
-      "id": "ui.icon.vehicle_mini.14",
-      "note": "tiny vehicle icon, likely minimap/HUD unit marker"
+      "id": "ui.icon.tank_mini_alt2.tan",
+      "note": "mini-map/radar icon, identified 2026-09-06 by matching its silhouette against the real vehicle roster confirmed via RFIRE.BIN's own string table (\"MSV\"/\"JEEP\"/\"Tank\"/\"HELI\", offset ~0x00445280 and ~0x004462c0) -- not the vehicle's actual in-game rotation art, which renders at a different scale and has not been located for anything but the tank. See docs/process/31-worked-example-vehicle-roster.md."
     },
     "2113": {
-      "category": "ui",
+      "category": "vehicle",
       "confidence": "visual_group",
-      "id": "ui.icon.vehicle_mini.15",
-      "note": "tiny vehicle icon, likely minimap/HUD unit marker"
+      "id": "ui.icon.tank_mini_alt2.green",
+      "note": "mini-map/radar icon, identified 2026-09-06 by matching its silhouette against the real vehicle roster confirmed via RFIRE.BIN's own string table (\"MSV\"/\"JEEP\"/\"Tank\"/\"HELI\", offset ~0x00445280 and ~0x004462c0) -- not the vehicle's actual in-game rotation art, which renders at a different scale and has not been located for anything but the tank. See docs/process/31-worked-example-vehicle-roster.md."
     },
     "2114": {
       "category": "ui",

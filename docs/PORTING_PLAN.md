@@ -55,6 +55,14 @@ reintroduce the position-dependent hidden rotation Phase 1 already fixed once: a
 driven to a heavily edge-clamped, off-centre position renders pixel-identical to the same
 heading dead-centre. Phase 4 (projectiles, target/pool markers, the flag marker) has not
 started yet.
+**Major discovery (2026-09-06): the real vehicle roster is Tank, Jeep, MSV, and Helicopter,
+not the one "hovercraft" this project has built its entire history against** (section 4 item
+10). A sharper diagnosis of the turning-sprite bug (heading 0 and 180 render pixel-identical —
+no mirror scheme can fix that) led back into the abandoned real-facing-table trace, which
+surfaced a genuine string table naming all four vehicle types and resolved the old "no
+confirmed helicopter sprite" question — a real mini-map icon set (registry corrected)
+visually confirms all four. Real in-game rotation art for Jeep/MSV/Heli is still unlocated;
+this project has only ever implemented the Tank.
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
@@ -2163,6 +2171,29 @@ Web checklist:
     Windows 95 install, a DOSBox-X IDE/CPU-type config mismatch with this particular image, or
     a missing file that needs restoring from the original install media) rather than repeating
     the same boot sequence again.
+
+    **Precisely re-diagnosed (2026-09-06), and led to a much bigger discovery.** A sharper
+    user observation ("it looks like the tank is ALWAYS facing the same way, no matter what")
+    confirmed the exact failure mode: heading 0 and heading 180 render pixel-identical, because
+    `_frame_for_heading()`'s quadrant math always folds a heading to the same base frame index
+    and only ever flips it, and the base frame happens to be left-right symmetric — flipping a
+    symmetric image changes nothing. No mirror scheme built from a single 90-degree arc of
+    source art can fix this. Re-attempting the abandoned real-facing-table trace (`FUN_
+    0042dd90`/`FUN_0042d640`) this time fully decompiled the lookup function, found the table
+    is addressed through a per-object-type data pointer (not a flat `.data` array — why the
+    earlier scan found nothing), and, chasing that function's shared object vtable back through
+    the binary's own `.data`, surfaced a real string table: **the game's actual vehicle roster
+    is Tank, Jeep, MSV, and Helicopter** — not the one "hovercraft" this project has built
+    against its entire history. This directly resolves a standing open question from Phase 4 step
+    2 (recorded in project memory, not previously committed here): whether a helicopter sprite
+    exists at all, despite that being Return Fire's best-known vehicle. It does — a real
+    mini-map/radar icon set (cels 2094-2114/2161-2164, registry corrected) confirms all four
+    vehicle types, including an unmistakable rotor-blade silhouette for the helicopter — found
+    by a cheap geometric search for the atlas's most extreme-aspect-ratio cels rather than
+    eyeballing thousands of sprites. **What's still unlocated:** real in-game
+    rotation art (the 32x32-scale cels `vehicle.gd` actually renders) for Jeep/MSV/Heli — the
+    mini-icons are small map markers, not gameplay sprites. Full writeup:
+    [document 31](process/31-worked-example-vehicle-roster.md).
 11. **Terrain-based vehicle passability — NOT STARTED, new backlog item (2026-09-06,
     user-flagged as needed for parity).** Different vehicle types (helicopter, tank,
     support/jeep, armoured car — section 3 Phase 3's own list) should be restricted or slowed

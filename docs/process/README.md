@@ -171,6 +171,14 @@ them in order for the first time: narrative, worked examples, real commands you 
     document 25 fixed a real bug in -- directly, with Vehicle's own 2D draw output just
     suppressed rather than duplicated into a second implementation. A 12-heading sweep
     confirms that fix still holds through the new rendering path.
+31. [**Worked example: chasing a rotation-mirroring bug found a whole vehicle roster**](31-worked-example-vehicle-roster.md) —
+    a precise diagnosis of the "same sprite, no matter what" heading bug (turning 180 degrees
+    renders pixel-identical, since flipping a symmetric base frame changes nothing) led back
+    into the long-abandoned real-facing-table trace, which surfaced a genuine string table
+    naming the game's actual vehicle roster: Tank, Jeep, MSV, and Helicopter -- not the one
+    "hovercraft" this project had built against the whole time. A geometric search for a
+    helicopter's distinctive rotor-blade silhouette found a real mini-map icon set confirming
+    all four, though their actual in-game rotation art is still unlocated.
 
 ## The one rule that overrides everything else here
 

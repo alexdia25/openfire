@@ -39,6 +39,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **The rendering-migration plan's Phase 0 and Phase 1** — the camera tilt is exactly 45 degrees (algebraically, from decoding the binary's own angle-to-radians constants), hardcoded once and never rewritten; a real `Camera3D` scaffold (`game/terrain_view_3d.gd`, built alongside the still-fully-working flat 2D scene) proves that tilt translating in X/Z, edge-clamped and smoothed the same way the existing `Camera2D` is, with tilt/zoom left live-adjustable but no rotation control at all (a real bug — `look_at()` quietly introducing rotation whenever edge-clamping kicked in — was caught and fixed along the way) — see [document 28](28-worked-example-3d-camera-scaffold.md); plan section 1.10 point 6, section 2.2, section 4 item 13.
 - **Phase 2 of the same plan** — the level's real terrain art, genuinely perspective-projected through that `Camera3D`, not a placeholder colour. `terrain_view.gd`'s tile-drawing loop was extracted into a reusable node (`game/terrain_tile_renderer.gd`) instead of duplicated, so the flat 2D scene and the new 3D scene's baked `SubViewport` texture share the exact same drawing code — verified working correctly on the first real screenshot, including a driven test over a curving path. See [document 29](29-worked-example-baked-terrain-3d.md); plan section 2.2, section 4 item 13.
 - **Phase 3 of the same plan** — a real, completely unmodified `Vehicle` rendered as a billboard `Sprite3D` (`game/vehicle_billboard_3d.gd`) instead of Phase 1's placeholder box, calling `Vehicle._frame_for_heading()` — the exact quadrant-mirror logic document 25 fixed a real bug in — directly, rather than duplicating that logic. A 12-heading sweep confirms that fix still holds through this new rendering path; a driven test confirms the vehicle's real movement/camera-follow works together with the real baked terrain for the first time. See [document 30](30-worked-example-billboard-vehicle-3d.md); plan section 2.2, section 4 item 13.
+- **The exact turning-sprite failure mode, and the real vehicle roster it led to** — heading 0 and heading 180 render pixel-identical (flipping a symmetric base frame changes nothing), precisely explaining a user-reported "never turns" symptom. Re-attempting the abandoned real-facing-table trace this time fully decompiled the lookup mechanism and, following it back through the binary's own data, surfaced a genuine string table: the game's real vehicle roster is **Tank, Jeep, MSV, and Helicopter**, not the one "hovercraft" this project has built. A real mini-map icon set (registry corrected) visually confirms all four. Real in-game rotation art for Jeep/MSV/Heli is still unlocated. See [document 31](31-worked-example-vehicle-roster.md); plan section 4 item 10.
 
 ## Still open
 
@@ -60,39 +61,35 @@ See plan section 4 for the current, precise state of each — this list is just 
 - Custom Godot UI for menus/level-select/etc — new goal, not yet started; **visual style should
   be based on the 3DO original, not the PC port** (user direction, 2026-09-06), which also
   makes this depend on the still-deprioritized 3DO disc extraction (section 4, items 6 and 8)
-- **The turning-sprite mirror rendering — one real bug fixed (2026-09-06, see above), the
-  deeper architecture question still open.** The flat-sprite-quadrant-mirror approach itself
-  is still just an approximation of a technique section 1.10 already found isn't how the
-  original renders vehicles (real perspective-projected 3D quads). A DOSBox-X reference
-  capture was attempted (2026-09-06) but **blocked**: Windows 95 boot hangs at a
-  `C:\WINDOWS\SYSTEM\VMM32\IOS.VXD` load failure in the pre-built `hdd.img`, not a
-  dismissible warning. Parked, not resolved — see section 4 item 10 for what a real fix
-  attempt should start from (section 3 Phase 4 step 2).
-- **Perspective terrain/object rendering — DECIDED (2026-09-06), Phase 0/1/2 DONE
-  (2026-09-06), Phase 3 (real billboard vehicle sprites) not yet started.** The biggest single
-  authenticity gap found so far, bigger than the vehicle-rotation question — it's the game's
-  whole ground-plane look, not one sprite family. Decision: `Camera3D` + textured
-  `MeshInstance3D` ground plane + billboard `Sprite3D`s, reusing all existing gameplay logic
-  and per-heading sprite-selection code unchanged — Godot's own camera does the perspective
-  math instead of hand-porting the original's fixed-point scanline formula. Phase 0 closed the
-  remaining RE unknowns: the camera's tilt is a fixed, algebraically-exact 45°, hardcoded once
-  at construction and never rewritten anywhere in the binary, and the terrain blitter has no
-  rotation/yaw term at all. Phase 1 (`game/terrain_view_3d.gd`, built alongside the still-fully-
-  working flat 2D scene) proves a real `Camera3D` at that fixed tilt, translating in X/Z to
-  follow a placeholder tracked object, smoothed and edge-clamped the same way the existing
-  `Camera2D` is, verified with real position numbers over a 1500-frame driven test and several
-  real screenshots. Tilt and height (zoom) are exposed as live-adjustable properties per user
-  direction (2026-09-06); rotation/yaw is not exposed at all — a real bug (`look_at()` quietly
-  introducing rotation whenever edge-clamping put the camera off-axis from the tracked object)
-  was caught by that same driven test and fixed. Phase 2 replaces the placeholder ground colour
-  with the level's real terrain art: `terrain_view.gd`'s tile-drawing loop was extracted into
-  its own reusable node (`game/terrain_tile_renderer.gd`, not duplicated) and baked into a
-  `SubViewport` texture on the 3D ground plane — worked correctly on the first real screenshot,
-  a real recognisable level genuinely receding toward a horizon. See
-  [document 29](29-worked-example-baked-terrain-3d.md),
-  [document 28](28-worked-example-3d-camera-scaffold.md),
-  [document 27](27-worked-example-terrain-perspective.md), plan section 1.10 point 6, section
-  2.2, and section 4 item 13, and the 6-phase implementation plan at
+- **The turning-sprite mirror rendering — precisely re-diagnosed (2026-09-06): flipping a
+  symmetric frame can't fix front/back, so no mirror scheme fixes this.** A sharper user
+  observation ("it looks like the tank is ALWAYS facing the same way") led to an exact
+  diagnosis: heading 0 and heading 180 render pixel-identical, since `_frame_for_heading()`'s
+  quadrant math folds both to the same base frame and the base frame is left-right symmetric.
+  Real front/back-distinct art is the only real fix — see the vehicle-roster item below for
+  where that trace led. A DOSBox-X reference capture was attempted (2026-09-06) but
+  **blocked**: Windows 95 boot hangs at a `C:\WINDOWS\SYSTEM\VMM32\IOS.VXD` load failure in
+  the pre-built `hdd.img`, not a dismissible warning. Parked, not resolved — see section 4
+  item 10 for what a real fix attempt should start from (section 3 Phase 4 step 2).
+- **The real vehicle roster: Tank, Jeep, MSV, and Helicopter — confirmed (2026-09-06), not the
+  one "hovercraft" this project has built against its whole history.** Re-attempting the
+  abandoned real-facing-table trace (`FUN_0042dd90`/`FUN_0042d640`) surfaced a genuine string
+  table in the binary naming all four vehicle types, resolving the old "no confirmed
+  helicopter sprite" question. A real mini-map/radar icon set (cels 2094-2114/2161-2164,
+  registry corrected) visually confirms all four, including an unmistakable helicopter rotor
+  silhouette — found via a cheap geometric search for extreme-aspect-ratio cels, not by
+  eyeballing thousands of sprites. **Not resolved:** real in-game rotation art for Jeep/MSV/
+  Heli (the icons are small map markers, not gameplay-scale sprites) has not been located —
+  see [document 31](31-worked-example-vehicle-roster.md); plan section 4 item 10.
+- **Perspective terrain/object rendering — DECIDED (2026-09-06), Phase 0/1/2/3 DONE
+  (2026-09-06), Phase 4 (projectiles, target/pool markers, the flag marker) not yet started.**
+  The biggest single authenticity gap found so far, bigger than the vehicle-rotation
+  question — it's the game's whole ground-plane look, not one sprite family. Decision:
+  `Camera3D` + textured `MeshInstance3D` ground plane + billboard `Sprite3D`s, reusing all
+  existing gameplay logic and per-heading sprite-selection code unchanged — Godot's own camera
+  does the perspective math instead of hand-porting the original's fixed-point scanline
+  formula. See "Resolved so far" above for Phases 0-3's details (documents 27-30), plan section
+  1.10 point 6, section 2.2, and section 4 item 13, and the 6-phase implementation plan at
   `C:\Users\Alex\.claude\plans\tingly-booping-wall.md` (outside this repo — section 2.2 has the
   durable summary).
 - **Terrain-based vehicle passability — new, user-flagged (2026-09-06) as needed for

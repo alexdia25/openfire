@@ -647,6 +647,43 @@ _ROTATION_GAP_NOTE = ("continues the vehicle.hovercraft.rotation.tan sequence (c
                       "same way and are genuinely blank padding, not further real frames.")
 put(226, "vehicle.hovercraft.rotation.tan.09", "vehicle", _ROTATION_GAP_NOTE)
 
+# --- 2026-09-06: real vehicle roster confirmed via a string table (RFIRE.BIN offset
+# 0x00445280-ish: "MSV", "JEEP", "Tank", "Vehicle", "Destroyed Vehicle" -- plus a second,
+# separate sound-cue-name table at ~0x004462c0: "HELI Death"/"Heli 1"/"Heli 2", "MSV
+# Death"/"MSV 1", "Jeep Death"/"Jeep 1", "Tank Death"/"Tank 1/2/3"). This confirms the game
+# has (at least) four distinct vehicle types -- not the one "hovercraft" this project had
+# assumed throughout -- which directly resolves the old open question "no confirmed
+# helicopter sprite exists despite that being Return Fire's best-known vehicle" (plan section
+# 4 item 12): a real mini-map/radar icon set for exactly these vehicles sits at cels
+# 2094-2114/2161-2164 (already bulk-classified generically as "ui.icon.vehicle_mini.NN"),
+# found by searching for a helicopter's distinctive rotor-blade silhouette among the atlas's
+# unusually long/thin cels, then recognising the surrounding icon family. This does NOT mean
+# real playable rotation art for jeep/msv/heli has been located -- these are small map icons,
+# not the 32x32-scale rotation cels vehicle.gd actually renders -- see PORTING_PLAN.md section
+# 4 for that status.
+_VEHICLE_ICON_NOTE = ("mini-map/radar icon, identified 2026-09-06 by matching its silhouette "
+                      "against the real vehicle roster confirmed via RFIRE.BIN's own string "
+                      "table (\"MSV\"/\"JEEP\"/\"Tank\"/\"HELI\", offset ~0x00445280 and "
+                      "~0x004462c0) -- not the vehicle's actual in-game rotation art, which "
+                      "renders at a different scale and has not been located for anything but "
+                      "the tank. See docs/process/31-worked-example-vehicle-roster.md.")
+put(2094, "ui.icon.tank_mini.tan", "vehicle", _VEHICLE_ICON_NOTE, confidence="visual")
+put(2095, "ui.icon.tank_mini.green", "vehicle", _VEHICLE_ICON_NOTE, confidence="visual")
+put(2096, "ui.icon.jeep_mini.tan", "vehicle", _VEHICLE_ICON_NOTE, confidence="visual")
+put(2097, "ui.icon.jeep_mini.green", "vehicle", _VEHICLE_ICON_NOTE, confidence="visual")
+put(2101, "ui.icon.heli_mini", "vehicle", _VEHICLE_ICON_NOTE, confidence="visual")
+# Unclear which of the two remaining silhouette families is "MSV" specifically (a wheeled
+# personnel-carrier-like shape) vs. some other unit/marker -- both are real vehicle icons, not
+# guessed at further than that, honestly short of full identification.
+put(2098, "ui.icon.wheeled_vehicle_mini_a.tan", "vehicle", _VEHICLE_ICON_NOTE)
+put(2099, "ui.icon.wheeled_vehicle_mini_a.green", "vehicle", _VEHICLE_ICON_NOTE)
+put(2107, "ui.icon.wheeled_vehicle_mini_b.tan", "vehicle", _VEHICLE_ICON_NOTE)
+put(2108, "ui.icon.wheeled_vehicle_mini_b.green", "vehicle", _VEHICLE_ICON_NOTE)
+put(2102, "ui.icon.tank_mini_alt.tan", "vehicle", _VEHICLE_ICON_NOTE)
+put(2103, "ui.icon.tank_mini_alt.green", "vehicle", _VEHICLE_ICON_NOTE)
+put(2112, "ui.icon.tank_mini_alt2.tan", "vehicle", _VEHICLE_ICON_NOTE)
+put(2113, "ui.icon.tank_mini_alt2.green", "vehicle", _VEHICLE_ICON_NOTE)
+
 
 def main():
     with open(REGISTRY_JSON) as f:
