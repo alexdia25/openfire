@@ -44,11 +44,14 @@ See plan section 4 for the current, precise state of each — this list is just 
 **Current priority (2026-09-06):** the asset ID registry, the pack emitter, Phase 4 step 1
 (terrain + markers), a real palette-bug fix, Phase 4 step 2 (a player-controlled vehicle,
 playable but not yet authentic), Phase 4 step 3's single-viewport scrolling camera
-(smoothed + edge-clamped, verified with real position numbers), and Phase 4 step 4's first
+(smoothed + edge-clamped, verified with real position numbers), Phase 4 step 4's first
 pass (fire input -> a moving, visible, self-expiring projectile, same "playable, not yet
-authentic" flag as step 2) are all done -- see plan section 3. Split-screen itself is not
-started. Next real blocker: Phase 4 step 5, destructible targets and buildings -- there's
-nothing for the new projectiles to hit yet.
+authentic" flag as step 2), and Phase 4 step 5's first pass (section 1.5's traced
+candidate-pool mechanism now runs as real gameplay logic -- one active target per pool,
+replaced from its own candidates on destruction until its budget runs out, verified by a
+2000-trial unit test and a full-integration test against a real level) are all done -- see
+plan section 3. Split-screen itself is not started. Next real blocker: Phase 4 step 6,
+enemy AI -- nothing opposes the player yet.
 
 ## If you want to try one of these yourself
 

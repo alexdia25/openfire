@@ -13,11 +13,14 @@ user caught and a registry auto-numbering drift bug it exposed (both fixed, sect
 Phase 4 step 3's single-viewport half (smoothed, edge-clamped scrolling camera) is done as of
 2026-09-06 as well — split-screen itself is not started.
 Phase 4 step 4 (weapons and projectiles) has a first pass done too (2026-09-06): playable,
-not yet authentic, same honesty flag as step 2's movement — see below.
+not yet authentic, same honesty flag as step 2's movement — see below. Phase 4 step 5
+(destructible targets and buildings) has a first pass done the same day: section 1.5's
+already-traced candidate-pool mechanism is now real, running gameplay logic, verified by
+a 2000-trial unit test plus a full-integration test against a real level.
 **Priority as of 2026-09-05: get the core PC-port game actually running before returning to
 3DO support (section 4 item 6) or new-goal work beyond what's needed to run it** — the user
-explicitly deferred the 3DO disc work until then. Next real blocker: Phase 4 step 5 —
-destructible targets and buildings (nothing to hit yet with the new projectiles).
+explicitly deferred the 3DO disc work until then. Next real blocker: Phase 4 step 6 —
+enemy AI (nothing opposes the player yet).
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
@@ -1591,7 +1594,55 @@ Keep each step playable, and load everything through the pack layer from step 1:
    - **No collision yet.** Projectiles don't hit terrain, vehicles, or targets — there's
      nothing to hit until step 5 (destructible targets/buildings) exists. This is
      "fire input produces a moving, visible, self-expiring projectile," nothing more.
-5. Destructible targets and buildings.
+5. **Destructible targets and buildings — first pass DONE (playable, not yet authentic;
+   2026-09-06).** New `game/target_pool.gd` (`TargetPool`) reimplements section 1.5's fully
+   -traced candidate-pool mechanism directly — not a guess, the algorithm was already known
+   from the `FUN_00432600`/`FUN_00432710`/`_DAT_0048ca20` trace: build one `TargetPool` per
+   pool id from `level.candidate_pools`, each picking one candidate at random as its active
+   target and starting with a replacement budget of `candidates.size() >> 1`; when the
+   active target is destroyed, decrement the budget and — if budget and another intact
+   candidate both remain — activate a new random one, exactly `FUN_00432600`'s behaviour;
+   otherwise the pool goes silent for the rest of the match. `terrain_view.gd` wires this
+   to the Phase 4 step 4 projectiles: any projectile within `TARGET_HIT_RADIUS_PX` of a
+   pool's active target destroys it. The debug marker rendering (originally just a hollow
+   outline per candidate, all identical) now distinguishes the pool's one live target
+   (bright filled square) from remaining intact candidates (hollow outline) from spent ones
+   (dim X) — a real gameplay-state read, not just a static rect.
+
+   **Verified two ways**, deliberately not relying on real vehicle aim (not practical to
+   make deterministic in a short automated run): a standalone `TargetPool` unit test
+   (2000 random trials x candidate counts 0-19) confirmed budget decrements by exactly 1 per
+   destruction, replacement only activates an intact, previously-inactive candidate, the
+   pool never goes silent early while budget and an intact candidate both remain, and never
+   takes more than `budget + 1` destructions to go silent. A second, full-integration test
+   loaded the real scene, read a real level's (`RFMAP110`, 11 candidates/pool) actual active
+   target position, spawned a projectile directly on it, and confirmed
+   `TerrainView._check_target_hits()` destroyed it and activated a different real candidate
+   from the same level file, budget 5 -> 4. Also spot-checked pool construction against
+   several real levels via a debug print (`RF_DEBUG_TARGET_LOG=1`): `RFMAP001` (1 candidate
+   in pool B, budget 0 — the single-candidate levels this project has mostly been testing
+   against so far never exercise the replacement path at all) and `RFMAP110` (11/11,
+   budget 5/5) both matched section 1.5's formula exactly.
+
+   **Two things this deliberately isn't yet**, flagged the same way steps 2 and 4 flag
+   their own placeholders:
+   - **Not authentic hit detection or hitpoints.** `TARGET_HIT_RADIUS_PX` is a placeholder
+     — targets die in exactly one hit here. RFIRE.BIN's real building/target hitpoints and
+     destruction rules are still Phase 3's untouched backlog item.
+   - **Not real target/building art.** This was flagged as a known gap back in step 1
+     ("building-candidate resolution happens at match-start... so there's no fixed art to
+     place from the file alone yet") — now that match-start resolution is real, rendering
+     is still the same flat-colour-marker approach as spawn points, not real building art.
+     The asset registry does have plausible candidates worth tracing next —
+     `structure.bunker.tan.*`/`structure.bunker.teal.*` and a 20-frame
+     `structure.building_wall_damaged.*` sequence (a strong hint the "intact" bit-field
+     state this project already decoded, `tile & 0x3f80 == 0xb00`, is one of several
+     progressive-damage frames, not a binary intact/gone flag) — but which cel(s) `FUN_0042e4f0`
+     or its neighbors actually pick for these tiles hasn't been traced. Left open rather than
+     guessed at.
+   - **No win/lose condition.** Section 4 item 1 is still open — nothing declares a
+     match-won/lost state when a pool's budget is fully spent. This step only makes the
+     pools themselves behave correctly, not what (if anything) happens when both go silent.
 6. Enemy AI.
 7. Mission objectives, scoring, level progression.
 8. Audio: SFX and music.
