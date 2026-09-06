@@ -145,6 +145,13 @@ them in order for the first time: narrative, worked examples, real commands you 
     spawns precisely when its targets are fully exhausted, exactly what `TargetPool.
     destroy_active()` already returns `false` for. Made real with a new `FlagMarker` node and
     the confirmed flag art, verified by a real-scene integration test.
+27. [**Worked example: a screenshot catches a gap between a finding and what got built**](27-worked-example-terrain-perspective.md) —
+    no new anchor this time, just rereading a decompile this project already had the address
+    for. Document 16's own "terrain and objects share one perspective system" note turns out
+    to mean the terrain blitter runs a genuine per-scanline perspective projection (Mode
+    7-style, receding toward a horizon), not a flat top-down grid — and Phase 4 step 1 was
+    built flat anyway because the two findings never got connected. Reframes an accepted-plan
+    bullet into a real, still-open architecture decision instead of fixing anything outright.
 
 ## The one rule that overrides everything else here
 

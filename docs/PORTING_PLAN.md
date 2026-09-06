@@ -837,7 +837,7 @@ trying to match "the game's real tick rate," because the original's own effectiv
 just whatever the display's refresh rate happened to be while running fullscreen, and
 uncapped while windowed.
 
-### 1.10 Object rendering is real perspective-projected 3D, not 2D sprite-pivot rotation — SOLVED (2026-09-06)
+### 1.10 Object *and terrain* rendering are real perspective-projected 3D, not 2D sprite-pivot rotation or a flat top-down map — SOLVED (2026-09-06), terrain half confirmed 2026-09-06
 
 The backlog's "implicit sprite pivots" question assumed the original renders vehicles as flat
 2D sprites rotated around some anchor point baked into the cel art. Tracing the actual
@@ -883,6 +883,45 @@ object instead of a plain `Sprite2D`, feeding it the same per-heading local geom
 ported perspective-scale table — or (b) deliberately accepting a simpler flat 2D
 rotate-in-place approximation as a scoped-down visual target. Either is now an informed
 choice; before this it was an unknown risk. See section 2.2 (Rendering).
+
+**Point 5 (new, 2026-09-06): the terrain half of point 2 above ("terrain and objects share one
+perspective system") is a genuine per-scanline perspective floor projection, not flat top-down
+tile blitting** — confirmed by fully decompiling the terrain blitter itself, not just noting it
+reads the same table. Prompted by the user pointing out (2026-09-06, from real footage) that the
+   original's camera is visibly tilted, not straight overhead, and can move. Read in full,
+   `FUN_00408d60` (the real per-frame terrain blitter, section 1.7) does not iterate a fixed
+   grid of screen tiles at a constant world-space step — it runs a scanline loop (`local_18`,
+   incrementing once per screen row) where **both the starting world-X offset and the
+   per-column world-X step size are looked up per row** from `PTR_DAT_00449400` (the exact
+   same depth-reciprocal table from point 2, built once by `FUN_0041ae50` alongside the
+   heading cosine/sine tables — one shared camera setup, not two systems that happen to reuse
+   a table) combined with a hidden x87-float calculation (`FUN_00410c10`, whose real
+   parameter is passed on the FPU stack rather than as a normal argument — Ghidra's decompiler
+   can't lift it into the pseudo-C parameter list, but the call pattern, `__ftol` conversion
+   included, is unambiguous). This is the textbook technique classic "Mode 7"/raycasting-style
+   tilted-plane renderers use: precompute `scale(depth) = focal_length / depth` once, then
+   drive each screen row's horizontal step and offset from that row's depth — exactly why the
+   ground plane looks like it recedes toward a horizon instead of a flat overhead map. A
+   second, previously-unnamed function, `FUN_00413d00`, is a generic N-point 3D-to-screen
+   projector using this identical table (`screen_xy = ((local_xy + camera_xy) >> 0xe) *
+   scale[depth] + screen_center`) — the same formula point 3 above already found driving
+   per-object quad corners. **One camera, one perspective table, used by the terrain blitter
+   directly and by objects through this generic projector.**
+
+   **Consequence, and it's a bigger one than the vehicle-rotation question:** `terrain_view.gd`
+   currently draws the level as a flat, straight-down orthographic tile grid
+   (`draw_texture_rect_region` per tile, no depth/scale variation) — section 2.2's rendering
+   plan only ever posed the projected-quad-vs-flat-rotation choice for *objects* (Phase 4 step
+   2), never revisited the terrain bullet ("`TileMapLayer` built from the 128x128 grid") in
+   light of this same section's own point 2 finding that terrain shares the perspective
+   system. That's a real gap between what was found and what got built, not a deliberate,
+   flagged simplification the way the vehicle-rotation approximation was — see section 4 item
+   13 for the resulting open architecture decision. **Not yet determined:** whether the
+   camera's tilt/height ever changes at runtime (a real dynamic camera, matching "the camera
+   can move" beyond simple panning) or is a fixed constant that only pans as the tracked
+   object moves — `DAT_00443000` (raw value `0x00012c00` = 76800, the `param_1`/focal-length
+   seed for the whole table) has no confirmed write site checked yet, so whether it's a
+   runtime-tunable camera parameter or a boot-time constant is still open.
 
 ### 1.11 Reference material obtained: retail PC ISO catalogued; 3DO expansion identified — 2026-09-05
 
@@ -994,7 +1033,12 @@ tradeoff can be revisited — but the integer-only rule stands either way.
 **Use the Compatibility rendering backend** (WebGL2-class). Web export requires it, and
 targeting it from day one avoids discovering late that an effect does not survive the port.
 
-- Terrain: `TileMapLayer` built from the 128 x 128 `.RFM` grid.
+- Terrain: **section 1.10 point 5 (2026-09-06) found the original renders terrain through the
+  same real per-scanline perspective camera as objects, not a flat top-down grid** — a plain
+  `TileMapLayer` (what Phase 4 step 1 actually built) is a knowingly simpler approximation now,
+  the same category of decision as the vehicle-rotation choice below, not a settled plan. See
+  section 4 item 13 for the open decision (replicate the tilted perspective floor technique vs.
+  keep the flat approximation) before investing further in terrain-adjacent rendering work.
 - Sprites: `Sprite2D`, or `MultiMeshInstance2D` if unit counts justify it. **Decide up front
   whether to reproduce the original's projected-quad object rendering (section 1.10 —
   vehicles are real perspective-projected 3D quads with 64 discrete headings, not flat
@@ -2026,6 +2070,26 @@ Web checklist:
    whatever renders a non-vehicle CCB at human scale. If confirmed, this is a real feature
    addition to scope, not just an art-classification footnote — the original 2-player PC port
    may have had a rescue objective type never mentioned in this plan before now.
+13. **Should Godot replicate the original's perspective-projected terrain rendering, or keep
+    the flat `TileMapLayer` approximation? NEW (2026-09-06), prompted by the user pointing at
+    real footage.** Section 1.10 point 5 confirms (by fully decompiling the terrain blitter,
+    not just noting it shares a table) that the original's ground plane is a genuine
+    per-scanline perspective projection — the same real 3D camera system vehicles already use
+    (section 1.10 points 1-4) — not a flat top-down map with 3D objects on top of it. This is
+    a materially bigger authenticity gap than the vehicle-rotation question (section 4 item
+    10): it's the single most visually defining trait of this game's look (the tilted,
+    horizon-receding island view the user's screenshot shows), and it affects every level, not
+    one sprite family. Two real options, same shape as the vehicle-rendering decision section
+    2.2 already poses: **(a)** replicate the technique — port the depth-reciprocal table and
+    per-scanline projection math (or an equivalent shader-based tilted-plane/Mode-7-style
+    approach) so Godot's terrain view genuinely recedes toward a horizon; or **(b)** knowingly
+    keep the flat top-down `TileMapLayer` Phase 4 step 1 already built, explicitly flagged as
+    an accepted simplification rather than an oversight (which is what it currently is, having
+    been built before this finding existed). **Not yet determined:** whether the camera's
+    tilt/height is a fixed constant or changes at runtime (`DAT_00443000`'s write sites are
+    unchecked), which matters for scoping option (a) — a fixed tilt is a much smaller
+    implementation than a dynamically adjustable camera height/pitch. No implementation
+    attempted yet either way; this is a decision to make, not a bug to fix.
 
 **RESOLVED:**
 - **The fixed sim tick rate** — **section 1.9** (2026-09-05). There isn't one, and there was

@@ -35,6 +35,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **The capture-flag art is two team-coloured animations, not one generic marker** (and 4 misclassified frames corrected) — [document 24](24-worked-example-capture-the-flag-lead.md); plan section 4, item 1.
 - **One real cause of the "turning sprites" bug** — the tan rotation set was missing a 9th frame (misfiled as debris), found by tracking a user-supplied video frame-by-frame and comparing raw cel pixel counts. Fixed (registry + pack regen, no code change) and verified with a headless heading-to-frame dump — [document 25](25-worked-example-turning-sprite-video.md); plan section 4, item 10.
 - **The exact flag-spawn trigger condition, and a first-pass implementation of it** — `DAT_00442b00` has no write site anywhere except a hidden debug menu, so it's always 0 in real play; reading the destruction handler's full branch under that condition pins down the precise rule (a pool's flag object spawns exactly when its targets are fully exhausted), exactly what `TargetPool.destroy_active()` already returns `false` for. Made real with a new `FlagMarker` node, verified by a real-scene integration test — [document 26](26-worked-example-flag-spawn-condition.md); plan section 4 item 1, plan section 3 Phase 4 step 7.
+- **Terrain rendering is also real perspective-projected 3D, not a flat top-down map** — confirmed by fully decompiling the terrain blitter (document 16's "shares a table" note turned out to mean a genuine per-scanline perspective floor). Reframes Phase 4 step 1's flat `TileMapLayer` render as an unflagged simplification, not a settled decision — see [document 27](27-worked-example-terrain-perspective.md); plan section 1.10 point 5, section 2.2, section 4 item 13.
 
 ## Still open
 
@@ -62,6 +63,13 @@ See plan section 4 for the current, precise state of each — this list is just 
   `C:\WINDOWS\SYSTEM\VMM32\IOS.VXD` load failure in the pre-built `hdd.img`, not a
   dismissible warning. Parked, not resolved — see section 4 item 10 for what a real fix
   attempt should start from (section 3 Phase 4 step 2).
+- **Should Godot replicate the original's perspective-projected terrain rendering? NEW
+  (2026-09-06), prompted by the user pointing at real footage.** Confirmed real, not started:
+  the biggest single authenticity gap found so far, bigger than the vehicle-rotation question
+  — it's the game's whole ground-plane look, not one sprite family. See
+  [document 27](27-worked-example-terrain-perspective.md) and plan section 4 item 13 for the
+  two real options (replicate the tilted-floor technique vs. knowingly keep the flat
+  `TileMapLayer`).
 - **Terrain-based vehicle passability — new, user-flagged (2026-09-06) as needed for
   parity.** Not started; likely connects to the still-unchased elevation bits/height_seed
   byte (section 4, items 2 and 11).
