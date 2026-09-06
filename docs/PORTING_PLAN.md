@@ -1033,27 +1033,56 @@ tradeoff can be revisited — but the integer-only rule stands either way.
 **Use the Compatibility rendering backend** (WebGL2-class). Web export requires it, and
 targeting it from day one avoids discovering late that an effect does not survive the port.
 
-- Terrain: **section 1.10 point 5 (2026-09-06) found the original renders terrain through the
-  same real per-scanline perspective camera as objects, not a flat top-down grid** — a plain
-  `TileMapLayer` (what Phase 4 step 1 actually built) is a knowingly simpler approximation now,
-  the same category of decision as the vehicle-rotation choice below, not a settled plan. See
-  section 4 item 13 for the open decision (replicate the tilted perspective floor technique vs.
-  keep the flat approximation) before investing further in terrain-adjacent rendering work.
-- Sprites: `Sprite2D`, or `MultiMeshInstance2D` if unit counts justify it. **Decide up front
-  whether to reproduce the original's projected-quad object rendering (section 1.10 —
-  vehicles are real perspective-projected 3D quads with 64 discrete headings, not flat
-  rotated sprites) or accept a simpler flat-rotation approximation.** The former needs a
-  vertex-mapped `Polygon2D`/shader per object fed the ported per-heading local geometry and
-  perspective table, not a plain `Sprite2D`; the latter is simpler but visibly diverges from
-  the original's subtle depth-skew look. Pick one before building the vehicle-rendering step
-  (Phase 4 step 2) — retrofitting later means redoing every vehicle's rendering path.
-- Split-screen: one `SubViewport` per player inside `SubViewportContainer`s. The original
-  only ever needs 2 (section 0's 4-player goal, section 4 item 7); design the
-  `SubViewportContainer` grid to scale to 4 from the start (e.g. a 2x2 grid that collapses to
-  a 1x2 split for 2 players) rather than hardcoding a 2-way layout and retrofitting later.
+**DECIDED (2026-09-06): migrate world rendering from flat 2D to a real 3D scene, 2D UI
+overlay.** Section 1.10 (points 1-5) established that RFIRE.BIN renders terrain *and* objects
+through one unified real perspective camera (64 discrete headings, a shared 1/z scale table) —
+not a flat top-down map with sprites on it, which is what Phase 4 steps 1-7 actually built.
+Prompted by the user pointing at real footage showing the camera's visible tilt (section 4 item
+13), and the user's own observation that this affects "everything else," rather than patch the
+gap incrementally into the flat architecture:
+
+- **Terrain:** a `MeshInstance3D` ground plane, textured by baking the existing (unchanged)
+  `terrain_view.gd` tile-drawing code into a `SubViewport` and applying that texture as the
+  plane's albedo. No shader/projection math to write — a real `Camera3D` viewing a real 3D
+  plane does the perspective for free.
+- **Vehicles, projectiles, the flag marker:** each becomes a `Node3D` positioned at
+  `(world_x, height, world_y)` with a child `Sprite3D` in billboard mode. `Vehicle`'s existing
+  `_frame_for_heading()` (quadrant-mirror logic, fixed and verified this session — document 25)
+  is reused **unchanged**; only the final draw call changes from `draw_texture_rect_region` to
+  setting the `Sprite3D`'s texture region. This works because each heading's pre-rendered art
+  is already "as seen from the fixed camera angle" — a plain billboard reproduces it directly,
+  without needing the original's own quad-corner CCB projection (section 1.10 point 4), which
+  was solving a problem specific to *its* pipeline that a real 3D engine doesn't have.
+- **Camera:** a `Camera3D` at a fixed tilt/height (derived from the real `DAT_00443000`=76800
+  focal-length constant and the depth-reciprocal table, section 1.10 point 5 — confirmed
+  read-only, so very likely a boot-time constant, not something that changes at runtime),
+  translating in X/Z to follow the tracked vehicle with the same smoothing already built for
+  the current `Camera2D` (section 3 Phase 4 step 3).
+- **Gameplay logic is unaffected.** Movement, `TargetPool`, hit-testing, spawn positions, the
+  flag-spawn trigger — all already operate on plain world X/Y and don't change; only how those
+  numbers become pixels does. Existing gameplay tests must keep passing unmodified through this
+  migration as the regression guard.
+- **Split-screen** (section 0, section 4 item 7): a `Camera3D` + `SubViewport` per player is,
+  if anything, a more natural fit in 3D than the 2D equivalent — same "design the layout to
+  scale to 4 from the start" guidance as before applies to the `SubViewportContainer` grid.
+- **UI/HUD** stays exactly as section 2.6 already planned: ordinary 2D `Control` scenes in a
+  `CanvasLayer` on top of the 3D viewport — a standard, common Godot pattern, not a new problem
+  this migration introduces.
 - Palette: bake to RGBA8 at conversion time, or keep indexed and apply the palette in a
   fragment shader if palette-cycling or team-colour swapping turns out to need it.
   Any such shader must be WebGL2-compatible — **no compute shaders, no storage buffers**.
+
+**Phased implementation plan (not yet started — see section 4 item 13 for status):** Phase 0
+closes remaining RE unknowns (dump the full depth-reciprocal table and fit the real tilt/FOV;
+confirm no rotation term exists in the terrain blitter, i.e. the camera only pans, never
+yaws). Phases 1-5 build the 3D scene *alongside* the existing flat one (kept fully working
+throughout, per this project's "keep every step playable" rule) — scaffolding, terrain,
+vehicles, then projectiles/markers, each with a real screenshot verification before moving on
+— and only cut over once every phase is individually proven. Full plan retained at
+`C:\Users\Alex\.claude\plans\tingly-booping-wall.md` for the executing agent's reference; that
+file is outside this repo and not guaranteed to survive a fresh clone, so treat this summary
+as the durable record and re-derive phase details from the principles above if that file is
+ever unavailable.
 
 ### 2.3 Widescreen warning
 
@@ -2091,25 +2120,32 @@ Web checklist:
    addition to scope, not just an art-classification footnote — the original 2-player PC port
    may have had a rescue objective type never mentioned in this plan before now.
 13. **Should Godot replicate the original's perspective-projected terrain rendering, or keep
-    the flat `TileMapLayer` approximation? NEW (2026-09-06), prompted by the user pointing at
-    real footage.** Section 1.10 point 5 confirms (by fully decompiling the terrain blitter,
-    not just noting it shares a table) that the original's ground plane is a genuine
-    per-scanline perspective projection — the same real 3D camera system vehicles already use
-    (section 1.10 points 1-4) — not a flat top-down map with 3D objects on top of it. This is
-    a materially bigger authenticity gap than the vehicle-rotation question (section 4 item
-    10): it's the single most visually defining trait of this game's look (the tilted,
-    horizon-receding island view the user's screenshot shows), and it affects every level, not
-    one sprite family. Two real options, same shape as the vehicle-rendering decision section
-    2.2 already poses: **(a)** replicate the technique — port the depth-reciprocal table and
-    per-scanline projection math (or an equivalent shader-based tilted-plane/Mode-7-style
-    approach) so Godot's terrain view genuinely recedes toward a horizon; or **(b)** knowingly
-    keep the flat top-down `TileMapLayer` Phase 4 step 1 already built, explicitly flagged as
-    an accepted simplification rather than an oversight (which is what it currently is, having
-    been built before this finding existed). **Not yet determined:** whether the camera's
-    tilt/height is a fixed constant or changes at runtime (`DAT_00443000`'s write sites are
-    unchecked), which matters for scoping option (a) — a fixed tilt is a much smaller
-    implementation than a dynamically adjustable camera height/pitch. No implementation
-    attempted yet either way; this is a decision to make, not a bug to fix.
+    the flat `TileMapLayer` approximation? DECIDED (2026-09-06): replicate it, via a real 3D
+    scene — not yet implemented.** Section 1.10 point 5 confirms (by fully decompiling the
+    terrain blitter, not just noting it shares a table) that the original's ground plane is a
+    genuine per-scanline perspective projection — the same real 3D camera system vehicles
+    already use (section 1.10 points 1-4) — not a flat top-down map with 3D objects on top of
+    it. This is a materially bigger authenticity gap than the vehicle-rotation question
+    (section 4 item 10): it's the single most visually defining trait of this game's look (the
+    tilted, horizon-receding island view the user's screenshot shows), and it affects every
+    level, not one sprite family.
+
+    **The decision:** migrate world rendering to a real Godot 3D scene (`Camera3D` + a textured
+    `MeshInstance3D` ground plane + billboard `Sprite3D`s for vehicles/objects) rather than
+    hand-porting the original's fixed-point per-scanline reciprocal-table math into a custom 2D
+    shader — Godot's own camera pipeline does the actual perspective projection for both
+    terrain and objects "for free," which was judged lower-risk and less custom math than
+    reimplementing a non-affine 2D warp by hand. Full rationale and a 6-phase implementation
+    plan (RE unknowns first, then scaffolding/terrain/vehicles/objects/cutover, each
+    independently screenshot-verified, existing flat rendering kept working throughout) are in
+    section 2.2 and `C:\Users\Alex\.claude\plans\tingly-booping-wall.md` (outside this repo —
+    section 2.2's summary is the durable record if that file is ever unavailable).
+    **Not yet started.** Gameplay logic (movement, `TargetPool`, hit-testing, the flag-spawn
+    trigger) does not change — this is scoped as a rendering-layer migration only.
+    **Still not determined:** whether the camera's tilt/height is a fixed constant or changes
+    at runtime — `DAT_00443000` (the focal-length seed, value 76800) shows only read sites
+    across a substantial sample checked this session, no confirmed write, which is why the plan
+    treats it as a likely-fixed constant, but this isn't exhaustively proven.
 
 **RESOLVED:**
 - **The fixed sim tick rate** — **section 1.9** (2026-09-05). There isn't one, and there was
