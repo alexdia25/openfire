@@ -1306,6 +1306,19 @@ pause, and results/scoreboard. None of this needs Ghidra to build; it's ordinary
 work, gated only on the pack format (section 2.4) existing first so level-select has
 something real to list.
 
+**Visual style: base the menus on the 3DO original, not the PC port — user direction
+(2026-09-06), not derived from RE work.** The *flow*/*behaviour* findings above (level-select
+scanning files directly, no OS dialogs, self-rendered) come from `RFIRE.BIN` and still apply —
+but the actual look or the menus should draw shows the 3DO version's UI, not the PC port's own
+menu bitmaps already sitting in `ART/*.RFA` (`PS240.RFA`, `NEWREQLG.RFA`, `1PBSCRH.RFA`, etc. —
+section 1.3). **This creates a real dependency this project doesn't have yet:** the 3DO base
+game disc (promised, not yet provided) or the already-in-hand "Maps o' Death" expansion disc
+(section 1.11) would need their UI assets extracted before authentic 3DO-styled menus can be
+built — currently blocked behind the same 3DO extraction work section 4 item 6 already
+deprioritizes until the core PC-port game runs. Phase 4 step 9 can still build the *screens*
+(layout, flow, state) against placeholder/PC-port styling now without waiting on this; treat
+the final visual skin as a separate, later pass once 3DO assets are in hand.
+
 ---
 
 ## 3. Execution phases
@@ -1966,7 +1979,10 @@ Web checklist:
    expect them to differ substantially from the PC `.RFM`/`ART.CAR`/`.SDT` formats
    documented elsewhere in this file. Whatever reader/format work happens here should be
    written generically enough to also read the base game disc once it arrives, since both
-   are the same platform and (almost certainly) the same asset formats.
+   are the same platform and (almost certainly) the same asset formats. **Also now a
+   dependency for menu visual styling** (2026-09-06, section 2.6, item 8) — the user wants
+   the menus based on the 3DO version's look, not the PC port's, so this extraction work
+   eventually unblocks that too, not just the "Maps o' Death" goal.
 7. **4-player support** (section 0, new 2026-09-05) — a whole new goal, not a single
    question: the original engine is 2-player only, so there's no decompiled logic to trace
    here, just a design decision to make and thread through. Every real `.RFM` file defines
@@ -1990,6 +2006,10 @@ Web checklist:
    scene; level-select reading pack manifests (section 2.4) rather than scanning `.rfm` files
    directly; and the player-count screen wired to whatever the 4-player goal (item 7) lands
    on. Blocked only on the pack format existing first — no Ghidra work required here at all.
+   **Visual style directive (2026-09-06, user):** base the look on the 3DO original, not the
+   PC port's own menu bitmaps — see section 2.6's new note. Adds a real dependency on the 3DO
+   disc extraction work (item 6) for the actual skin, though the screens themselves (layout,
+   flow, state) don't need to wait on it.
 10. **Real vehicle-rotation rendering ("the turning sprites") — RE-PRIORITIZED (2026-09-06,
     user request); one real bug found and fixed, the deeper architecture question still
     open.** Previously recorded in section 3 Phase 4 step 2 as "accepted as a known gap for

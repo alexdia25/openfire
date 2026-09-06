@@ -54,7 +54,9 @@ See plan section 4 for the current, precise state of each — this list is just 
 - Team-colouring *mechanism* (separate cels vs. palette swap) — the colours themselves are settled, see above (section 4, item 5)
 - 3DO support: base game + "Maps o' Death" expansion — new goal, **deprioritized** until the core PC-port game runs (section 4, item 6)
 - 4-player support — new goal, not yet started (section 4, item 7)
-- Custom Godot UI for menus/level-select/etc — new goal, not yet started (section 4, item 8)
+- Custom Godot UI for menus/level-select/etc — new goal, not yet started; **visual style should
+  be based on the 3DO original, not the PC port** (user direction, 2026-09-06), which also
+  makes this depend on the still-deprioritized 3DO disc extraction (section 4, items 6 and 8)
 - **The turning-sprite mirror rendering — one real bug fixed (2026-09-06, see above), the
   deeper architecture question still open.** The flat-sprite-quadrant-mirror approach itself
   is still just an approximation of a technique section 1.10 already found isn't how the
