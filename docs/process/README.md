@@ -129,6 +129,14 @@ them in order for the first time: narrative, worked examples, real commands you 
     closed case. Also catches a real asset-registry mislabel (4 flag frames filed as an
     unrelated terrain decoration) found only by re-rendering a cel range everyone had
     skimmed past once already.
+25. [**Worked example: a user's screen recording, tracked frame-by-frame, finds a real registry bug**](25-worked-example-turning-sprite-video.md) —
+    the first anchor that starts from a video instead of a byte pattern or an art range. A
+    small ffmpeg + colour-tracking pipeline turns a 16-second recording into per-frame crops,
+    confirming the "sprite breaks apart while turning" report is real, not a compression
+    artifact — and comparing the raw source cels pixel-by-pixel finds the actual cause: the
+    tan rotation set was missing a 9th frame that green already had, misfiled as debris by
+    the original bulk pass. Fixed with a registry correction and no code change; verified with
+    a headless heading-to-frame dump instead of another video.
 
 ## The one rule that overrides everything else here
 

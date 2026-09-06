@@ -7717,9 +7717,10 @@
       "id": "vehicle.hovercraft.rotation.tan.08"
     },
     "226": {
-      "category": "prop",
+      "category": "vehicle",
       "confidence": "visual_group",
-      "id": "prop.debris_faint.420"
+      "id": "vehicle.hovercraft.rotation.tan.09",
+      "note": "continues the vehicle.hovercraft.rotation.tan sequence (cels 218-225) one frame further -- an 11-pixel, near-edge-on sliver. Originally misclassified as prop.debris_faint by the original bulk pass; corrected 2026-09-06 after comparing pixel counts against its neighbours (220, 166, 69, 34, 11 non-transparent pixels, monotonically thinning) while diagnosing a user-reported turning-sprite bug (PORTING_PLAN.md section 4 item 10). Cels 227-231 were checked the same way and are genuinely blank padding, not further real frames."
     },
     "227": {
       "category": "reserved",

@@ -1900,15 +1900,46 @@ Web checklist:
    directly; and the player-count screen wired to whatever the 4-player goal (item 7) lands
    on. Blocked only on the pack format existing first — no Ghidra work required here at all.
 10. **Real vehicle-rotation rendering ("the turning sprites") — RE-PRIORITIZED (2026-09-06,
-    user request), no longer just an accepted gap.** Previously recorded in section 3 Phase 4
-    step 2 as "accepted as a known gap for now" — the current renderer mirrors 8-9 real
-    sprite frames across 4 quadrants under an *unconfirmed* assumption that they cover one
-    real quarter-turn, and a full `.data`-segment scan for the inferred facing-table layout
-    (`FindFacingTable.java`/`FindFacingPair.java`) found nothing conclusive. The user has now
-    named this as needed for parity rather than a later-revisit item — next step is either
-    resolving why the facing-table scan came up empty (wrong inferred byte layout vs. a
-    runtime-built table, `FUN_0042d640` is the un-traced candidate constructor) or accepting
-    the mirror approach and fixing whatever specific visual glitches remain in it.
+    user request); one real bug found and fixed, the deeper architecture question still
+    open.** Previously recorded in section 3 Phase 4 step 2 as "accepted as a known gap for
+    now" — the current renderer mirrors 8-9 real sprite frames across 4 quadrants under an
+    *unconfirmed* assumption that they cover one real quarter-turn, and a full `.data`-segment
+    scan for the inferred facing-table layout (`FindFacingTable.java`/`FindFacingPair.java`)
+    found nothing conclusive.
+
+    **A real bug, found from a user-supplied screen recording of the glitch (2026-09-06).**
+    Extracted and tracked the vehicle sprite across the video frame-by-frame (ffmpeg +
+    a colour-threshold tracker): during a turn, the sprite genuinely breaks into disconnected
+    fragments (a thin "hook" shape, then a lone sliver) for several frames right around the
+    90-degree quadrant boundary, not just a rendering-tool artifact. Comparing the raw
+    `vehicle.hovercraft.rotation.tan` cels (218-225, non-transparent pixel counts 220, 166,
+    69, 34) directly against `.green` (232-240, 9 frames) found the root cause: **tan only had
+    8 registered rotation frames where green has 9** — cel 226 (11 non-transparent pixels,
+    same hue/shape family, a clean continuation of tan's thinning sequence) had been
+    misclassified by the original bulk pass as `prop.debris_faint.420` (cels 227-231 checked
+    the same way and are genuinely blank padding, confirming 226 is the real last frame).
+    `vehicle.gd`'s `_frame_for_heading()` was therefore stretching tan's last frame (225,
+    already a disconnected-looking "hook") across a wider heading range than green's
+    equivalent, and mirroring that same broken-looking frame across the quadrant seam.
+    **Fixed**: registry corrected (cel 226 → `vehicle.hovercraft.rotation.tan.09`,
+    `tools/registry/classify_bulk.py`'s established correction-block pattern), pack
+    regenerated — no code change needed, `Vehicle.setup()` already builds `_frames` by
+    scanning the pack for every matching id. Verified with a headless script dumping
+    `_frame_for_heading()`'s heading-to-frame mapping directly: frame `.08` (the "hook") now
+    covers only heading `[74,85)` instead of running to the exact 90-degree seam, and the new
+    `.09` (an 11-pixel sliver) is confined to `[85,90]` — a measured, not just eyeballed,
+    improvement. Full writeup: [document 25](process/25-worked-example-turning-sprite-video.md).
+
+    **What this does and doesn't fix.** This closes one real, confirmed asymmetry bug, but
+    the deeper question is unchanged: this whole approach is a flat-sprite-mirror
+    approximation of a technique section 1.10 already found isn't how the original renders
+    vehicles at all (real perspective-projected 3D quads, 64 discrete headings). Fixing the
+    frame-count bug makes the approximation less bad; it doesn't make it authentic. **Next
+    step, per the user (2026-09-06): DOSBox-X has Windows 95 installed and can boot
+    `RFIRE.BIN` directly** — a real side-by-side capture of the original's own turning
+    behaviour would finally give this question actual ground truth instead of guessing from
+    static `.data`-segment layouts, and would settle whether the flat-mirror approach is even
+    worth refining further versus implementing the real projected-quad technique.
 11. **Terrain-based vehicle passability — NOT STARTED, new backlog item (2026-09-06,
     user-flagged as needed for parity).** Different vehicle types (helicopter, tank,
     support/jeep, armoured car — section 3 Phase 3's own list) should be restricted or slowed

@@ -618,6 +618,35 @@ for _n, _idx in enumerate([1829, 1830, 1831, 1832, 1833, 1834, 1835, 1836, 1837,
 for _n, _idx in enumerate([1842, 1843, 1844, 1845, 1846, 1847, 1848], start=1):
     put(_idx, f"marker.capture_flag.green.{_n:02d}", "marker", _FLAG_NOTE)
 
+# Correction (2026-09-06), found while diagnosing a user-reported "turning sprites" visual
+# bug (a real Godot recording showed the vehicle's rotation sprite breaking into disconnected
+# fragments partway through a turn -- see PORTING_PLAN.md section 4 item 10). Cel 226 was
+# originally classified at line 159 above as `prop.debris_faint.226` (an 11-pixel, near-
+# invisible fleck -- a reasonable-looking guess in isolation). Comparing it directly against
+# its neighbours revealed it isn't debris at all: cels 218-225 are `vehicle.hovercraft.
+# rotation.tan.01`-`.08`, a monotonically-thinning silhouette (220, 166, 69, 34 non-transparent
+# pixels) as the vehicle turns edge-on -- and cel 226 continues that exact sequence at 11
+# pixels, same hue, same shape family. Cels 227-231 (checked the same way) are genuinely
+# fully-transparent padding, confirming 226 is the last real frame, not a fluke. This means
+# the tan rotation set was one frame short of green's (`vehicle.hovercraft.rotation.green.01`-
+# `.09`, cels 232-240, 9 frames) -- an asymmetry between the two teams' rotation sets that had
+# no reason to exist and directly explains part of the reported bug: `vehicle.gd`'s
+# `_frame_for_heading()` was stretching the same 8 frames (the last of which is already a
+# disconnected-looking sliver) across the full 90-degree quarter-turn and then mirroring that
+# same sliver frame across the quadrant boundary, instead of having a 9th, even-thinner real
+# frame to hand off to first. `game/vehicle.gd` builds its frame list dynamically from every
+# `vehicle.hovercraft.rotation.<team>.*` id already in the pack (`setup()`), so no code change
+# is needed -- fixing the registry and regenerating the pack is the whole fix.
+_ROTATION_GAP_NOTE = ("continues the vehicle.hovercraft.rotation.tan sequence (cels 218-225) "
+                      "one frame further -- an 11-pixel, near-edge-on sliver. Originally "
+                      "misclassified as prop.debris_faint (line 159 above) by the original "
+                      "bulk pass; corrected 2026-09-06 after comparing pixel counts against "
+                      "its neighbours (220, 166, 69, 34, 11 non-transparent pixels, "
+                      "monotonically thinning) while diagnosing a user-reported turning-sprite "
+                      "bug (PORTING_PLAN.md section 4 item 10). Cels 227-231 were checked the "
+                      "same way and are genuinely blank padding, not further real frames.")
+put(226, "vehicle.hovercraft.rotation.tan.09", "vehicle", _ROTATION_GAP_NOTE)
+
 
 def main():
     with open(REGISTRY_JSON) as f:

@@ -33,6 +33,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Phase 4 steps 4/5** (weapons/projectiles, destructible targets) — the latter a direct reimplementation of section 1.5's already-traced candidate-pool mechanism, verified by a unit test and a real-scene integration test — [document 22](22-worked-example-weapons-and-targets.md); plan section 3.
 - **Phase 4 step 6** (enemy AI) — a from-scratch seek-and-shoot placeholder with no RE finding behind it, spawned from real per-level spawn data, verified by a deterministic fixed-timestep test — [document 23](23-worked-example-enemy-ai-first-pass.md); plan section 3.
 - **The capture-flag art is two team-coloured animations, not one generic marker** (and 4 misclassified frames corrected) — [document 24](24-worked-example-capture-the-flag-lead.md); plan section 4, item 1.
+- **One real cause of the "turning sprites" bug** — the tan rotation set was missing a 9th frame (misfiled as debris), found by tracking a user-supplied video frame-by-frame and comparing raw cel pixel counts. Fixed (registry + pack regen, no code change) and verified with a headless heading-to-frame dump — [document 25](25-worked-example-turning-sprite-video.md); plan section 4, item 10.
 
 ## Still open
 
@@ -52,8 +53,12 @@ See plan section 4 for the current, precise state of each — this list is just 
 - 3DO support: base game + "Maps o' Death" expansion — new goal, **deprioritized** until the core PC-port game runs (section 4, item 6)
 - 4-player support — new goal, not yet started (section 4, item 7)
 - Custom Godot UI for menus/level-select/etc — new goal, not yet started (section 4, item 8)
-- **The turning-sprite mirror rendering — user-flagged (2026-09-06) as needed for parity**,
-  not just an accepted gap to revisit later (section 4, item 10; section 3 Phase 4 step 2).
+- **The turning-sprite mirror rendering — one real bug fixed (2026-09-06, see above), the
+  deeper architecture question still open.** The flat-sprite-quadrant-mirror approach itself
+  is still just an approximation of a technique section 1.10 already found isn't how the
+  original renders vehicles (real perspective-projected 3D quads) — next step per the user:
+  boot `RFIRE.BIN` in DOSBox-X (Windows 95 already installed there) for a real reference
+  capture (section 4, item 10; section 3 Phase 4 step 2).
 - **Terrain-based vehicle passability — new, user-flagged (2026-09-06) as needed for
   parity.** Not started; likely connects to the still-unchased elevation bits/height_seed
   byte (section 4, items 2 and 11).
