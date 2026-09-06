@@ -12,10 +12,12 @@ Phase 4 step 2 (a player-controlled vehicle) is done too, including a real mirro
 user caught and a registry auto-numbering drift bug it exposed (both fixed, section 3/2.4.1).
 Phase 4 step 3's single-viewport half (smoothed, edge-clamped scrolling camera) is done as of
 2026-09-06 as well — split-screen itself is not started.
+Phase 4 step 4 (weapons and projectiles) has a first pass done too (2026-09-06): playable,
+not yet authentic, same honesty flag as step 2's movement — see below.
 **Priority as of 2026-09-05: get the core PC-port game actually running before returning to
 3DO support (section 4 item 6) or new-goal work beyond what's needed to run it** — the user
-explicitly deferred the 3DO disc work until then. Next real blocker: Phase 4 step 4 — weapons
-and projectiles.
+explicitly deferred the 3DO disc work until then. Next real blocker: Phase 4 step 5 —
+destructible targets and buildings (nothing to hit yet with the new projectiles).
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
@@ -1560,7 +1562,35 @@ Keep each step playable, and load everything through the pack layer from step 1:
    screen itself (multiple viewports) is not started** — it needs either a second local
    player or the 4-player goal (section 4 item 7) to exist first before there's anything to
    split the screen between.
-4. Weapons and projectiles.
+4. **Weapons and projectiles — first pass DONE (playable, not yet authentic; 2026-09-06).**
+   `game/vehicle.gd`'s `Vehicle` gained a `fired` signal: holding `ui_accept` (or
+   `RF_DEBUG_FIRE=1`, off by default) fires a projectile from a fixed muzzle offset ahead
+   of the vehicle's nose, gated by a fire-cooldown timer. `game/terrain_view.gd` connects
+   that signal and spawns `game/projectile.gd`'s `Projectile` as its own sibling (not a
+   child of the vehicle, so its transform doesn't inherit the vehicle's rotation/position
+   after launch) — a straight-line mover that self-frees after a fixed lifetime. Verified
+   two ways: `RF_DEBUG_DRIVE=1 RF_DEBUG_FIRE=1` plus a screenshot shows multiple
+   projectiles visibly in flight along the vehicle's curved path, and a debug print (the
+   same pattern as `RF_DEBUG_CAMERA_LOG`) logged real fire events — heading and muzzle
+   position at each shot, confirming the cooldown actually gates firing to roughly once
+   per `FIRE_COOLDOWN_SEC` of elapsed time rather than once per rendered frame.
+
+   **Two things this deliberately isn't yet**, flagged the same way step 2 flags its own
+   movement constants:
+   - **Not authentic weapon stats.** `FIRE_COOLDOWN_SEC`, `MUZZLE_OFFSET_PX`,
+     `Projectile.SPEED` and `Projectile.LIFETIME_SEC` are reasonable placeholders, not
+     traced from `RFIRE.BIN`. Weapon damage, rate of fire, ammo capacity and projectile
+     speed are still Phase 3's untouched backlog item ("Extract gameplay constants" —
+     `DirectDrawCreate`/input-mapping anchors haven't been visited yet either, section
+     2 item 2 of the Ghidra checklist above).
+   - **Not a real projectile sprite.** No cel in `packs/registry/asset_ids.json` has been
+     confirmed as an in-flight shot — only mounted, static `prop.missile_pod.*` /
+     `prop.missile_rack.*` decoration cels exist. Rather than guess an unverified sprite
+     id, `Projectile._draw()` reuses `terrain_view.gd`'s existing flat-colour-marker
+     approach (team-coloured filled circle) already used for spawn/candidate markers.
+   - **No collision yet.** Projectiles don't hit terrain, vehicles, or targets — there's
+     nothing to hit until step 5 (destructible targets/buildings) exists. This is
+     "fire input produces a moving, visible, self-expiring projectile," nothing more.
 5. Destructible targets and buildings.
 6. Enemy AI.
 7. Mission objectives, scoring, level progression.
