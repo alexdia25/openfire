@@ -2209,10 +2209,20 @@ Web checklist:
     degrade to disconnected slivers under the billboard approach — confirmed with a direct
     side-by-side (full readable turret vs. a small nub in an empty tile) and a driven test with
     real turning motion. One image, correctly rotated, beat nine images mirrored and flipped.
-    **Not yet decided:** whether to make this the new default (replacing the billboard), and
-    whether cycling real per-heading textures *combined* with this rotation (capturing
-    shading/detail the original's own art has, not just silhouette) beats either technique
-    alone. Full writeup: [document 32](process/32-worked-example-ground-decal-prototype.md).
+
+    **Follow-up tested (2026-09-06): combining real per-heading textures with the same
+    rotation makes it worse, not better.** `ground_decal_multi` mode keeps `_frame_for_
+    heading()`'s quadrant-folded texture selection but discards its flip flags (the real yaw
+    already supplies facing direction). Result: worse than either technique alone, and worse
+    specifically at 90/270 degrees — the discrete frames already bake in a thinning
+    silhouette approaching 90 (`.07`-`.09` are deliberately near-degenerate slivers, document
+    25/31), and adding real geometric foreshortening on top compounds that thinning instead
+    of complementing it, collapsing the shape almost to nothing. One non-degenerate canonical
+    texture, purely rotated, beats both nine-texture approaches tried. **Not yet decided:**
+    whether to make single-texture `ground_decal` the new default (replacing the billboard).
+    Untested: cycling only the non-degenerate frames (`.01`-`.06`) alongside rotation, which
+    might capture some real shading detail without the compounding-thinning failure. Full
+    writeup: [document 32](process/32-worked-example-ground-decal-prototype.md).
 11. **Terrain-based vehicle passability — NOT STARTED, new backlog item (2026-09-06,
     user-flagged as needed for parity).** Different vehicle types (helicopter, tank,
     support/jeep, armoured car — section 3 Phase 3's own list) should be restricted or slowed

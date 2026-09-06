@@ -59,15 +59,41 @@ Real geometric rotation under a real perspective camera did more for visual qual
 hand-picked, mirrored, flipped frames — direct evidence that Phase 3's billboard choice, not
 a lack of source art, was the actual limiting factor.
 
+## The follow-up: combining real per-heading art with real rotation — tested, and it's worse
+
+The obvious next question: the original's own art has genuine shading/detail differences
+across the 9 real frames, not just a rotating silhouette — does cycling through all of them
+*while also* applying the same continuous 3D yaw capture that extra detail without giving up
+the smooth coherence the single-texture version won?
+
+Tested directly: `RF_DEBUG_VEHICLE_QUAD_MODE=ground_decal_multi` keeps
+`Vehicle._frame_for_heading()`'s quadrant-folded texture selection (which of the 9 real
+frames is closest to this heading) but discards its flip flags, since the real continuous
+yaw already supplies the facing direction — using both would double-count. The result is
+worse than either technique on its own, and worse specifically at the headings this whole
+investigation started from. The discrete texture selection already bakes in a thinning
+silhouette as heading approaches 90 (frames `.07`-`.09` are deliberately near-degenerate
+slivers, per document 25/31's own findings) — adding real geometric foreshortening *on top*
+of an already-thin sliver compounds the effect instead of complementing it, collapsing the
+shape to almost nothing at exactly 90 and 270 degrees. A direct crop comparison at heading 90
+shows it plainly: the single-texture version's full, readable turret shape next to the
+multi-texture version's near-invisible fragment — worse than the original billboard problem
+this was meant to fix.
+
+**Conclusion:** for this specific vehicle's art, one canonical (non-degenerate) texture,
+rotated purely by real 3D geometry, is the better technique of the three tried. The 9 real
+per-heading frames' extra shading detail isn't free to add on top of real rotation — the two
+mechanisms fight each other at exactly the angles where the source art itself changes the
+most.
+
 ## What this doesn't settle yet
 
-This is a prototype, not a finished replacement:
-- Only one canonical texture was tried. The original's own art shows genuine shading/detail
-  differences across headings (not just silhouette rotation) — whether cycling through
-  several real textures *combined* with continuous rotation looks better than either
-  technique alone is untested.
+This is still a prototype, not a finished replacement:
 - The exact yaw sign/offset was matched empirically against a visual sweep, not derived from
   a traced heading convention.
+- A middle ground — cycling only among the *non-degenerate* real frames (roughly `.01`-`.06`,
+  skipping the already-thinning `.07`-`.09`) alongside real rotation — was not tried; whether
+  it captures useful extra shading without the compounding-thinning failure mode is untested.
 - Team-colour switching, projectile/marker parity with this same technique, and the flip
   side (does this now under-use the real per-heading art this project already has, or should
   it) are all open follow-ups, not resolved here.
