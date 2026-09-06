@@ -36,6 +36,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **One real cause of the "turning sprites" bug** — the tan rotation set was missing a 9th frame (misfiled as debris), found by tracking a user-supplied video frame-by-frame and comparing raw cel pixel counts. Fixed (registry + pack regen, no code change) and verified with a headless heading-to-frame dump — [document 25](25-worked-example-turning-sprite-video.md); plan section 4, item 10.
 - **The exact flag-spawn trigger condition, and a first-pass implementation of it** — `DAT_00442b00` has no write site anywhere except a hidden debug menu, so it's always 0 in real play; reading the destruction handler's full branch under that condition pins down the precise rule (a pool's flag object spawns exactly when its targets are fully exhausted), exactly what `TargetPool.destroy_active()` already returns `false` for. Made real with a new `FlagMarker` node, verified by a real-scene integration test — [document 26](26-worked-example-flag-spawn-condition.md); plan section 4 item 1, plan section 3 Phase 4 step 7.
 - **Terrain rendering is also real perspective-projected 3D, not a flat top-down map** — confirmed by fully decompiling the terrain blitter (document 16's "shares a table" note turned out to mean a genuine per-scanline perspective floor). Reframes Phase 4 step 1's flat `TileMapLayer` render as an unflagged simplification, not a settled decision — see [document 27](27-worked-example-terrain-perspective.md); plan section 1.10 point 5, section 2.2, section 4 item 13.
+- **The rendering-migration plan's Phase 0 and Phase 1** — the camera tilt is exactly 45 degrees (algebraically, from decoding the binary's own angle-to-radians constants), hardcoded once and never rewritten; a real `Camera3D` scaffold (`game/terrain_view_3d.gd`, built alongside the still-fully-working flat 2D scene) proves that tilt translating in X/Z, edge-clamped and smoothed the same way the existing `Camera2D` is, with tilt/zoom left live-adjustable but no rotation control at all (a real bug — `look_at()` quietly introducing rotation whenever edge-clamping kicked in — was caught and fixed along the way) — see [document 28](28-worked-example-3d-camera-scaffold.md); plan section 1.10 point 6, section 2.2, section 4 item 13.
 
 ## Still open
 
@@ -65,17 +66,24 @@ See plan section 4 for the current, precise state of each — this list is just 
   `C:\WINDOWS\SYSTEM\VMM32\IOS.VXD` load failure in the pre-built `hdd.img`, not a
   dismissible warning. Parked, not resolved — see section 4 item 10 for what a real fix
   attempt should start from (section 3 Phase 4 step 2).
-- **Perspective terrain/object rendering — DECIDED (2026-09-06), Phase 0 DONE (2026-09-06),
-  Phase 1 (scaffolding) not yet started.** The biggest single authenticity gap found so far,
-  bigger than the vehicle-rotation question — it's the game's whole ground-plane look, not one
-  sprite family. Decision: `Camera3D` + textured `MeshInstance3D` ground plane + billboard
-  `Sprite3D`s, reusing all existing gameplay logic and per-heading sprite-selection code
-  unchanged — Godot's own camera does the perspective math instead of hand-porting the
-  original's fixed-point scanline formula. Phase 0 closed the remaining RE unknowns: the
-  camera's tilt is a fixed, algebraically-exact 45°, hardcoded once at construction and never
-  rewritten anywhere in the binary, and the terrain blitter has no rotation/yaw term at all —
-  confirming Phase 1's fixed-pitch, X/Z-only-translation `Camera3D` assumption directly from
-  the decompile rather than by guesswork. See
+- **Perspective terrain/object rendering — DECIDED (2026-09-06), Phase 0 and Phase 1 DONE
+  (2026-09-06), Phase 2 (real baked terrain art) not yet started.** The biggest single
+  authenticity gap found so far, bigger than the vehicle-rotation question — it's the game's
+  whole ground-plane look, not one sprite family. Decision: `Camera3D` + textured
+  `MeshInstance3D` ground plane + billboard `Sprite3D`s, reusing all existing gameplay logic
+  and per-heading sprite-selection code unchanged — Godot's own camera does the perspective
+  math instead of hand-porting the original's fixed-point scanline formula. Phase 0 closed the
+  remaining RE unknowns: the camera's tilt is a fixed, algebraically-exact 45°, hardcoded once
+  at construction and never rewritten anywhere in the binary, and the terrain blitter has no
+  rotation/yaw term at all. Phase 1 (`game/terrain_view_3d.gd`, built alongside the still-fully-
+  working flat 2D scene) proves a real `Camera3D` at that fixed tilt, translating in X/Z to
+  follow a placeholder tracked object, smoothed and edge-clamped the same way the existing
+  `Camera2D` is, verified with real position numbers over a 1500-frame driven test and several
+  real screenshots. Tilt and height (zoom) are exposed as live-adjustable properties per user
+  direction (2026-09-06); rotation/yaw is not exposed at all — a real bug (`look_at()` quietly
+  introducing rotation whenever edge-clamping put the camera off-axis from the tracked object)
+  was caught by that same driven test and fixed. See
+  [document 28](28-worked-example-3d-camera-scaffold.md),
   [document 27](27-worked-example-terrain-perspective.md), plan section 1.10 point 6, section
   2.2, and section 4 item 13, and the 6-phase implementation plan at
   `C:\Users\Alex\.claude\plans\tingly-booping-wall.md` (outside this repo — section 2.2 has the

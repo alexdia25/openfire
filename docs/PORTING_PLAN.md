@@ -37,7 +37,13 @@ footage shows a tilted, moving camera, not a flat top-down map. Phase 0 of that 
 (closing the remaining RE unknowns) is DONE as of 2026-09-06 (section 1.10 point 6): the
 camera's tilt is a fixed, algebraically-exact 45°, hardcoded once at construction and never
 rewritten anywhere in the binary; the terrain blitter has no rotation/yaw term at all. Phase 1
-(scaffolding) has not started yet.
+(3D scaffolding, `game/terrain_view_3d.gd`) is also DONE as of 2026-09-06: a real `Camera3D`
+at that fixed tilt, translating in X/Z to follow a placeholder object, smoothed and
+edge-clamped the same way the existing flat scene's `Camera2D` is, verified with real position
+numbers and several real screenshots — including catching and fixing a real bug (`look_at()`
+quietly introducing rotation the user had explicitly said shouldn't exist). Tilt/height are
+live-adjustable; yaw is not exposed at all. Phase 2 (baking the existing flat terrain-drawing
+code into a real texture on this scaffold) has not started yet.
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
@@ -2205,9 +2211,33 @@ Web checklist:
     X/Z-only translation) directly from the decompile. The one number Phase 0 leaves for
     Phase 2 to pin by screenshot-matching rather than algebra: the exact effective FOV/eye
     height (see section 1.10 point 6 for why that's a deliberate scoping call, not a gap).
-    **Phase 1 (scaffolding) not yet started.** Gameplay logic (movement, `TargetPool`,
-    hit-testing, the flag-spawn trigger) does not change — this is scoped as a rendering-layer
+
+    **Phase 1 DONE (2026-09-06) — see [document 28](process/28-worked-example-3d-camera-scaffold.md).**
+    `game/terrain_view_3d.gd`/`.tscn` (new, alongside the still-fully-working flat
+    `game/terrain_view.gd`) is a real 3D scene: a `Camera3D` at the confirmed 45° tilt,
+    translating in X/Z to follow a placeholder tracked object, smoothed and edge-clamped the
+    same way the flat scene's `Camera2D` already is. Verified with real numbers, not just "no
+    errors": a 1500-frame driven test shows the camera's X converging to exactly
+    `map_width - pull_back` and holding there while the tracked object visibly drifts
+    off-centre once clamped, proving the camera translates only and never rotates to
+    compensate. Per user direction (2026-09-06), `camera_tilt_deg`/`camera_height_px` are
+    exposed as live-adjustable properties (tilt and zoom) — confirmed working via debug-env
+    overrides — while yaw/rotation is not exposed anywhere in the file at all, matching the
+    user's explicit "tilt and zoom, not rotate." Caught and fixed a real bug along the way:
+    an earlier version used `camera.look_at()` aimed at the tracked object, which seemed like
+    a safe way to avoid guessing Godot's rotation-axis sign convention but actually
+    reintroduced rotation implicitly whenever the edge clamp put the camera off-axis from what
+    it was tracking — found by the same driven edge-clamp test, fixed by going back to a fixed
+    `rotation_degrees.x = -camera_tilt_deg` set once per frame and never re-aimed. (The
+    original black-screenshot symptom that first suggested "wrong rotation sign" was actually
+    just a missing `DirectionalLight3D` — an unrelated bug fixed separately; the `-45°` sign
+    was correct from the start.) The ground plane (flat colour) and tracked object (a plain
+    box) are still placeholders — real terrain art is Phase 2, real billboard vehicle sprites
+    are Phase 3. Gameplay logic (movement, `TargetPool`, hit-testing, the flag-spawn trigger)
+    does not change anywhere in this phase — this remains scoped as a rendering-layer
     migration only.
+    **Phase 2 (baking the existing flat terrain-drawing code into a real texture on this
+    scaffold) not yet started.**
 
 **RESOLVED:**
 - **The fixed sim tick rate** — **section 1.9** (2026-09-05). There isn't one, and there was

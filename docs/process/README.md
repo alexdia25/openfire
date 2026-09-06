@@ -152,6 +152,13 @@ them in order for the first time: narrative, worked examples, real commands you 
     7-style, receding toward a horizon), not a flat top-down grid — and Phase 4 step 1 was
     built flat anyway because the two findings never got connected. Reframes an accepted-plan
     bullet into a real, still-open architecture decision instead of fixing anything outright.
+28. [**Worked example: the fix that made the camera work was lighting, not rotation**](28-worked-example-3d-camera-scaffold.md) —
+    Phase 0 (closing the last RE unknowns) confirms the camera's tilt is exactly 45 degrees,
+    algebraically, hardcoded once and never rewritten anywhere in the binary. Phase 1 builds
+    the first real 3D scaffold and hits two wrong guesses in a row before the actual bug: a
+    black screenshot blamed on a rotation-sign guess turned out to be a missing light, and the
+    look_at()-based fix that came from that wrong guess turned out to introduce exactly the
+    hidden camera rotation the user had just said shouldn't exist.
 
 ## The one rule that overrides everything else here
 
