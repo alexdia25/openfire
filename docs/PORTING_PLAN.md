@@ -22,9 +22,15 @@ placeholder (no RE finding to reimplement here — Phase 3's AI backlog item is 
 spawned from real per-level spawn data, verified by a deterministic fixed-timestep test.
 **Priority as of 2026-09-05: get the core PC-port game actually running before returning to
 3DO support (section 4 item 6) or new-goal work beyond what's needed to run it** — the user
-explicitly deferred the 3DO disc work until then. Next real blocker: Phase 4 step 7 —
-mission objectives, scoring, and level progression (nothing ends a match yet, and section 4
-item 1 is still an open question blocking that).
+explicitly deferred the 3DO disc work until then. Phase 4 step 7 (mission objectives, scoring,
+level progression) has a first pass too as of 2026-09-06: reading `FUN_00432710`'s exact
+branch logic (not just its summary) pinned down the precise condition for section 4 item 1's
+flag-object spawn — a pool's targets being fully exhausted, exactly what `TargetPool.
+destroy_active()` already returns `false` for — and `game/flag_marker.gd` makes it real,
+verified by a real-scene integration test. Still nothing declares a match won or lost; a
+DOSBox-X reference-capture attempt for a related open question (the vehicle turning-sprite
+rendering, section 4 item 10) hit a Windows 95 boot blocker (`IOS.VXD`) and was parked, not
+resolved.
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
@@ -1687,7 +1693,30 @@ Keep each step playable, and load everything through the pack layer from step 1:
    is target-agnostic), but nothing yet lets a projectile hit a *vehicle*, player or enemy.
    That's a real gap for "opposes the player" to eventually mean something, not an
    oversight being glossed over.
-7. Mission objectives, scoring, level progression.
+7. **Mission objectives, scoring, level progression — first pass DONE for the flag-spawn
+   trigger only (2026-09-06); everything past that is still missing.** Reading
+   `FUN_00432710`'s exact branch logic (section 4 item 1) rather than just its "gates
+   whether..." summary found the precise condition: in real (non-debug) play, where
+   `DAT_00442b00` is confirmed to stay 0 forever (no code anywhere writes it except the
+   hidden debug menu itself), the function falls through to spawn its dedicated object
+   exactly when a pool's active target is destroyed **and no replacement is available**
+   (budget exhausted, or no intact candidate left) — precisely the condition
+   `TargetPool.destroy_active()` (Phase 4 step 5) already returns `false` for, with no
+   changes needed to that class at all. New `game/flag_marker.gd` (`FlagMarker`) makes this
+   real: `terrain_view.gd`'s `_check_target_hits()` spawns one, using the confirmed
+   `marker.capture_flag.<team>` art (section 4 item 1 / document 24), exactly when a pool
+   goes silent. Verified with a real-scene integration test against `RFMAP001` (whose pool
+   "b" has a single candidate and budget 0, so one hit exhausts it immediately): confirms
+   exactly one `FlagMarker` spawns, at the destroyed target's position, with real sprite
+   frames loaded, and that firing again doesn't spawn a second one.
+
+   **What this deliberately isn't:** the flag marker doesn't move, can't be picked up by any
+   vehicle, there's no "carry" state, no home-base check, and nothing declares a match won or
+   lost — section 4 item 1's "explicitly not yet found" list is unchanged. Which physical
+   pool ("a" tile `0xB4` vs "b" tile `0xDC`) corresponds to which team's flag colour is also
+   still unconfirmed; `POOL_FLAG_COLOURS` picks a fixed, arbitrary mapping purely so two
+   pools in the same level are visually distinguishable. This is the spawn *trigger* made
+   real and precisely verified, not mission objectives/scoring/level progression as a whole.
 8. Audio: SFX and music.
 9. Menus and HUD — all custom Godot `Control` UI, no native dialogs; see section 2.6 for the
    concrete screen list and why the original gives no shortcut here (it's self-rendered too).
@@ -1775,21 +1804,39 @@ Web checklist:
    that heading every frame, and sets a global status bit (`_DAT_0048c77c |= 0x200`) when
    its own team-index field differs from another tracked object's.
 
-   **Read together, honestly stated as a strong hypothesis, not yet a closed proof:**
-   destroying a pool's active building normally just triggers section 1.5's ordinary
-   target-replacement bookkeeping (already implemented) — *unless* a flag-related state
-   holds, in which case a unique, homing object (very plausibly the flag itself, dropping
-   out of the destroyed building so a vehicle can carry it) gets spawned instead. This is
-   the first concrete code evidence tying "destructible buildings" to anything resembling a
-   match-ending mechanic, and it lines up with the user's description closely enough to be
-   worth taking seriously — but the loop isn't closed yet.
+   **The exact trigger condition — SOLVED (2026-09-06), read from `FUN_00432710`'s full
+   decompile rather than just its summary.** `DAT_00442b00` has **exactly 2 code
+   cross-references in the entire binary**: this read, and one more inside `FUN_004065c0`
+   itself (the debug-menu renderer reading its own live value to display it) — **no write
+   site anywhere**, confirmed by exhaustive `FindDataXrefs.java` search. The debug menu's
+   generic widget-navigation code *can* increment/decrement it (through an indirect
+   `*(int**)(item+0x1c)` pointer, the same mechanism every live-value menu item uses), but
+   only while that hidden menu is open — nothing in normal gameplay code ever touches it.
+   Its raw file bytes are `00 00 00 00` (confirmed zero at rest). Put together: **in every
+   real, non-debug game, `DAT_00442b00` is always 0**, and `bVar6 = (DAT_00442b00 == 0)` is
+   therefore always `true`. Reading the actual branch under that condition (not just its
+   gloss) gives the precise rule: the flag-object spawn (`FUN_0042c290(0x44e3c0, ...)`) is
+   reached exactly when **the destroyed tile was the pool's tracked active target, AND no
+   replacement is available** — either the budget was already exhausted before this
+   destruction, or `FUN_00432600` finds no remaining intact candidate to activate. (A
+   nonzero `DAT_00442b00`, reachable only by a developer leaving the debug menu forced on,
+   skips replacement checking entirely and always falls through to the flag spawn — a
+   plausible manual test hook for the flag object itself, not something a real match ever
+   exercises.) This is *exactly* the condition `game/target_pool.gd`'s `TargetPool.
+   destroy_active()` (Phase 4 step 5, already fully verified against this same traced
+   algorithm) returns `false` for — no reinterpretation needed, the existing class already
+   computes the right answer. **Read together, this is no longer just a hypothesis about a
+   code link: it's a precisely known, verified trigger condition** — a pool's flag object
+   appears exactly when that pool's destructible targets are fully used up. Made real in
+   Phase 4 step 7's first pass (`game/flag_marker.gd`, section 3).
 
-   **Explicitly NOT yet found, so not yet confirmed:** where `DAT_00442b00` gets *set*
-   (i.e., what actually places/drops/picks up the flag — only its *read* site is traced so
-   far), any "carried by vehicle" state on a vehicle object, a "home base" position check,
-   or an actual win/lose declaration anywhere. `FUN_0042c4d0` was still checked and **ruled
-   out** as the win trigger (see below, unchanged) — the flag lead is a different, better-
-   supported trail than that dead end, not a replacement finding for the same code path.
+   **Explicitly still NOT found, so still not a closed case overall:** what actually
+   places/drops/picks up the flag object once spawned (only the *spawn* trigger is now
+   precisely known), any "carried by vehicle" state on a vehicle object, a "home base"
+   position check, or an actual win/lose declaration anywhere. `FUN_0042c4d0` was still
+   checked and **ruled out** as the win trigger (see below, unchanged) — the flag lead is a
+   different, better-supported trail than that dead end, not a replacement finding for the
+   same code path.
 
    **Also from the user, not yet investigated at all: a life system.** A raw byte search
    (`FindBytes.java`) for literal `"Life"`, `"Lives"`, and `"LIVES"` anywhere in the binary

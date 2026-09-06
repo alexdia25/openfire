@@ -137,6 +137,14 @@ them in order for the first time: narrative, worked examples, real commands you 
     tan rotation set was missing a 9th frame that green already had, misfiled as debris by
     the original bulk pass. Fixed with a registry correction and no code change; verified with
     a headless heading-to-frame dump instead of another video.
+26. [**Worked example: reading a branch to the end instead of its summary**](26-worked-example-flag-spawn-condition.md) —
+    document 24's flag lead, closed one step further: exhaustively re-checking cross-references
+    finds the flag-state value has no write site anywhere except a hidden debug menu, so it's
+    always 0 in real play — and reading the destruction handler's full branch logic under that
+    condition (not just its earlier summary) pins down the exact trigger: a pool's flag object
+    spawns precisely when its targets are fully exhausted, exactly what `TargetPool.
+    destroy_active()` already returns `false` for. Made real with a new `FlagMarker` node and
+    the confirmed flag art, verified by a real-scene integration test.
 
 ## The one rule that overrides everything else here
 

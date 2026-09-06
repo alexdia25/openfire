@@ -34,17 +34,18 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Phase 4 step 6** (enemy AI) — a from-scratch seek-and-shoot placeholder with no RE finding behind it, spawned from real per-level spawn data, verified by a deterministic fixed-timestep test — [document 23](23-worked-example-enemy-ai-first-pass.md); plan section 3.
 - **The capture-flag art is two team-coloured animations, not one generic marker** (and 4 misclassified frames corrected) — [document 24](24-worked-example-capture-the-flag-lead.md); plan section 4, item 1.
 - **One real cause of the "turning sprites" bug** — the tan rotation set was missing a 9th frame (misfiled as debris), found by tracking a user-supplied video frame-by-frame and comparing raw cel pixel counts. Fixed (registry + pack regen, no code change) and verified with a headless heading-to-frame dump — [document 25](25-worked-example-turning-sprite-video.md); plan section 4, item 10.
+- **The exact flag-spawn trigger condition, and a first-pass implementation of it** — `DAT_00442b00` has no write site anywhere except a hidden debug menu, so it's always 0 in real play; reading the destruction handler's full branch under that condition pins down the precise rule (a pool's flag object spawns exactly when its targets are fully exhausted), exactly what `TargetPool.destroy_active()` already returns `false` for. Made real with a new `FlagMarker` node, verified by a real-scene integration test — [document 26](26-worked-example-flag-spawn-condition.md); plan section 4 item 1, plan section 3 Phase 4 step 7.
 
 ## Still open
 
 See plan section 4 for the current, precise state of each — this list is just pointers:
 
-- **What ends a match — MAJOR NEW LEAD (2026-09-06), not yet closed.** The user described a
-  capture-the-flag win condition; a hidden debug string, the confirmed two-team flag art, and
-  a direct code link into the already-implemented candidate-pool destruction handler all point
-  the same direction, but where the flag gets picked up/carried/returned and where a win
-  actually gets declared are still untraced — see [document 24](24-worked-example-capture-the-flag-lead.md)
-  and plan section 4 item 1.
+- **What ends a match — the flag-spawn trigger is now precisely known (2026-09-06); the rest
+  is still not.** The exact condition that spawns the flag object is solved and implemented
+  (see above, document 26) — but where the flag gets picked up/carried/returned and where a
+  win actually gets declared are still completely untraced — see
+  [document 24](24-worked-example-capture-the-flag-lead.md),
+  [document 26](26-worked-example-flag-spawn-condition.md), and plan section 4 item 1.
 - **A life system the user also described — not yet investigated at all.** No "Life"/"Lives"
   text exists anywhere in the binary (a raw byte search came back empty), so this needs a
   non-string anchor — probably tracing what happens when a vehicle's destruction count/health
@@ -77,9 +78,10 @@ replaced from its own candidates on destruction until its budget runs out, verif
 2000-trial unit test and a full-integration test against a real level), and Phase 4 step
 6's first pass (a from-scratch seek-and-shoot enemy vehicle, spawned from real per-level
 spawn data, verified by a deterministic fixed-timestep test) are all done -- see plan
-section 3. Split-screen itself is not started. Next real blocker: Phase 4 step 7, mission
-objectives/scoring/level progression -- blocked in part on section 4 item 1 ("what ends a
-match?"), still open but with a real, concrete new lead as of 2026-09-06: a capture-the-
-flag mechanic, tied directly to the candidate-pool buildings Phase 4 step 5 already
-implements (see document 24). A related, separately-described life system is a distinct,
-not-yet-started lead with no string anchor to start from.
+section 3. Split-screen itself is not started. Phase 4 step 7 (mission objectives/scoring/
+level progression) has a first pass too as of 2026-09-06: the flag-object spawn trigger from
+section 4 item 1 is now precisely known (a pool's targets fully exhausted) and implemented
+(`game/flag_marker.gd`, see document 26) -- but nothing carries the flag, checks a home base,
+or declares a match won or lost, so this is still the real blocker for a complete match. A
+related, separately-described life system is a distinct, not-yet-started lead with no string
+anchor to start from.
