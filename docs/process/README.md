@@ -212,8 +212,11 @@ them in order for the first time: narrative, worked examples, real commands you 
     blended ground texture, and optionally queue a real decoration object. Following that
     descriptor's own callbacks (real code Ghidra had never disassembled) all the way through
     confirms decorations use the *identical* CCB cel-index-plus-quad-corner rendering vehicles
-    do -- one object renderer for the whole game, not two. Only a real numeric cel-index
-    example remains unfound, blocked on a not-yet-located per-instance constructor.
+    do -- one object renderer for the whole game, not two. A new script then walked all 91
+    coastal ids mechanically: 82 resolved to real, registry-verified decoration definitions
+    (saved to `tools/data/coastal_decorations.json`), spot-checked and found universally
+    coherent -- bushes, saplings, flowers, coral, dock frame-posts. Only 3 ids remain
+    unresolved.
 
 ## The one rule that overrides everything else here
 

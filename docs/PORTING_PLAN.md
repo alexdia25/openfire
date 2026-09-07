@@ -2468,10 +2468,21 @@ Web checklist:
     vehicles use.** This fully closes the mechanism question: a decoration "type" is an array
     of one or more parts, each a plain `ART.CAR` cel index plus per-part quad-corner offsets,
     rendered through the *identical* per-object pipeline as vehicles -- there is exactly one
-    object renderer in this game, not a separate vehicle path and decoration path. **Not yet
-    found:** an actual numeric cel index for any specific decoration -- the cel index is read
-    from per-*instance* data, populated by a constructor this project hasn't located yet
-    (the same shape of function `FUN_0042d640` already is for vehicles, document 31). See
+    object renderer in this game, not a separate vehicle path and decoration path.
+    **RESOLVED, real data extracted (2026-09-07, same session):** the parts array turned out to
+    be reachable directly from the shared descriptor itself (a part count and array pointer at
+    two more fixed offsets) -- no per-instance constructor needed after all, contrary to what
+    this entry said a moment earlier in the same session. A new script,
+    `tools/ghidra_scripts/DumpCoastalDecorations.java`, walks all 91 coastal ids mechanically;
+    **82 resolved cleanly to real, registry-verified decoration definitions**, saved to
+    `tools/data/coastal_decorations.json` (6 confirmed to carry no decoration at all; 2 use a
+    different, not-yet-walked code branch; 1, id 76, reads a genuinely implausible pointer
+    value and is left unresolved rather than guessed at). Coastal id 1, for example, is a
+    three-part scattered bush cluster (`decoration.foliage.bush_white.01`/`bush_green.01`/
+    `.02`) -- every recovered id resolves to something semantically coherent (foliage, saplings,
+    flowers, coral, dock frame-posts, rubble, debris), never a misfire. **This closes the
+    decoration lead: the mechanism and a near-complete real decoration catalogue both now
+    exist**, ready for implementation. See
     [document 35](process/35-worked-example-coastal-decoration-mechanism.md).
 
 **RESOLVED:**

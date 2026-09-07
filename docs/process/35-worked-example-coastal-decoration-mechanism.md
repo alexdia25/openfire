@@ -112,20 +112,37 @@ per-part quad-corner offsets, submitted through the identical CCB-quadrilateral 
 use. There is no separate decoration renderer to reimplement; there is exactly one per-object
 renderer in this game, and both vehicles and decorations are just different data fed into it.
 
+## Extracting the whole table, not just one example
+
+The `piVar7` parts array turned out to be reachable directly from the shared descriptor itself
+(two more fields at fixed offsets: a part count and a pointer to the array) -- no per-instance
+constructor to find after all; an earlier pass through this write-up assumed one was needed and
+was wrong about that. That means the *entire* coastal decoration catalogue is static data,
+walkable mechanically for every coastal id at once. A new script,
+`tools/ghidra_scripts/DumpCoastalDecorations.java`, does exactly that: walks all 91 coastal
+table entries, follows each nonzero `valid` pointer, and dumps every part's real cel index and
+flags. Result, saved to `tools/data/coastal_decorations.json`: **82 of 91 coastal ids resolved
+cleanly**, 6 are confirmed to carry no decoration at all (ids 18, 19, 20, 21, 52, 91 -- `valid`
+is genuinely 0), 2 take a different code path this script doesn't walk (ids 49, 50), and
+exactly one (id 76) reads a `valid` value (`0x1f4`) that isn't a plausible pointer at all --
+left unresolved rather than guessed at.
+
+Every recovered cel index was spot-checked against the asset registry and came back
+semantically coherent -- coastal id 1, for instance, is a three-part cluster of `cel=116`
+(`decoration.foliage.bush_white.01`), `cel=112` (`bush_green.01`), and `cel=113`
+(`bush_green.02`): three small bushes placed together as one scattered clump, exactly the kind
+of natural-looking coastline dressing this whole mechanism was clearly built for. Other
+recovered ids resolve to saplings, flowers, coral, dock frame-posts, rubble, and debris --
+never anything that looks like a misfire.
+
 ## What's still open
 
-The `*piVar7` cel index is read from **per-instance** data (an offset off the queued render
-entry, itself populated when a decoration instance is created), not from the shared
-type-descriptor this document traced statically from the coastal table. Getting an actual
-number (e.g., "coastal id N's decoration uses cel 138") means finding the constructor that
-copies a static parts-array template into a fresh instance -- the same shape of function
-`FUN_0042d640` already is for vehicles (document 31) -- and hasn't been located yet. That's a
-well-defined next step, not an open-ended one, but it's a new function to find, not just one
-more field to read off an address already in hand.
-
-Also unconfirmed: whether *every* nonzero-`valid` coastal tile really does spawn something
-visible every time it's drawn (as the code reads), or whether some other condition gates it --
-worth checking against a real screenshot's decoration density once an art id can actually be
-rendered to compare against.
+Ids 49, 50, and 76 in `tools/data/coastal_decorations.json` remain unresolved -- 49/50 take a
+branch of `FUN_0041b2b0` this investigation didn't need to walk (the `local_8 < 1` "single
+flags array" path, a different but likely analogous per-part format), and 76's data is
+genuinely anomalous, not just unread. Also unconfirmed: whether *every* nonzero-`valid` coastal
+tile really does spawn something visible every time it's drawn (as the code reads), or whether
+some other condition gates it -- worth checking against a real screenshot's decoration density
+once these cel ids are actually rendered in Godot to compare against.
 
 **Next:** back to [the next-steps doc](NEXT_STEPS.md) for the current backlog.
