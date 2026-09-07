@@ -108,8 +108,12 @@ See plan section 4 for the current, precise state of each — this list is just 
   tile's coastal id, `tools/build_pack.py` resolves it to real sprite ids, and
   `game/terrain_tile_renderer.gd` draws each tile's decoration parts (baked, like the terrain
   itself, since decorations never move after level load) — both the flat 2D scene and the 3D
-  scene get the same real, individually-readable coastline foliage for free. See
-  [document 35](35-worked-example-coastal-decoration-mechanism.md) and
+  scene get the same real, individually-readable coastline foliage for free. Follow-up: the
+  palm-frond cels had no trunk pixels of their own, so the fronds floated with nothing
+  visibly holding them up. A real, matching trunk cel (`decoration.tree.palm`) sat completely
+  unused in the registry — now drawn under any decoration built entirely from a small,
+  hand-verified set of frond cels, an explicit compositional choice rather than a new RE
+  finding. See [document 35](35-worked-example-coastal-decoration-mechanism.md) and
   [document 36](36-worked-example-decorations-in-3d.md); plan section 4 item 14.
 
 **Current priority (2026-09-06):** the asset ID registry, the pack emitter, Phase 4 step 1

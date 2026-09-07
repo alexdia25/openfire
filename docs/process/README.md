@@ -226,6 +226,9 @@ them in order for the first time: narrative, worked examples, real commands you 
     baking it alongside the terrain gives the same real perspective projection a live node
     would, far more cheaply. A real screenshot shows dense, individually readable coastline
     foliage where every earlier screenshot this session showed one flat, mottled texture.
+    Addendum: the palm-frond cels turned out to have no trunk pixels of their own -- a real,
+    matching trunk cel sat completely unused in the registry, now drawn under any decoration
+    built entirely from a small, hand-verified set of frond cels.
 
 ## The one rule that overrides everything else here
 

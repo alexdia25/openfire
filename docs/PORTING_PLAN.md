@@ -2494,11 +2494,20 @@ Web checklist:
     flat 2D scene and the 3D scene pick it up for free since they already share this node. A
     real screenshot of `RFMAP001` (179 decorated tiles) shows dense, individually readable
     coastline foliage where every earlier screenshot this session showed one flat, mottled
-    texture. **This closes the decoration lead completely: mechanism, catalogue, and
-    implementation.** Known simplifications: 3 of 91 coastal ids (49, 50, 76) still have no
-    decoration; multi-part decorations use a placeholder ring-scatter layout instead of the
-    real (undecoded) per-part corner offsets; the team-colour-offset flag bit is not applied.
-    See [document 36](process/36-worked-example-decorations-in-3d.md).
+    texture. **Follow-up (2026-09-07, same session): the palm-frond cels have no trunk pixels
+    of their own** (confirmed by direct atlas inspection) -- `decoration.tree.palm` (cel 138,
+    two crossed trunks) sits unused in the registry, never referenced by any extracted coastal
+    id, including 49/50 (decoded specifically to check -- they turned out to use an
+    angle-dependent depth-order table, a real structural finding, but reference unrelated
+    `prop.post`/`prop.composite` cels, not a tree trunk). `game/terrain_tile_renderer.gd` now
+    draws that trunk under any decoration built entirely from a small, hand-verified set of
+    frond cels -- an explicit compositional choice, not a new RE finding, documented as such.
+    **This closes the decoration lead completely: mechanism, catalogue, implementation, and a
+    visible trunk.** Known simplifications: id 76 still has no decoration (49/50 are now
+    understood but not yet wired into the extraction script); multi-part decorations use a
+    placeholder ring-scatter layout instead of the real (undecoded) per-part corner offsets;
+    the team-colour-offset flag bit is not applied. See
+    [document 36](process/36-worked-example-decorations-in-3d.md).
 
 **RESOLVED:**
 - **The fixed sim tick rate** — **section 1.9** (2026-09-05). There isn't one, and there was
