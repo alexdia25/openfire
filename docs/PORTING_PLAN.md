@@ -2294,6 +2294,17 @@ Web checklist:
     `VehicleBillboard3D` -- the same correction the new box's own facing needed, for the same
     underlying reason. See
     [document 37](process/37-worked-example-real-tank-geometry.md) for the full trace.
+    **Follow-up (2026-09-08): the real descriptor actually has 8 parts, not 6, and even that
+    isn't the whole tank.** Rechecking the angle-bucket draw-order data for a stray high value
+    found two more real parts (cels 202, 212) this document's first pass missed -- but unlike
+    the other six, their four corners don't lie in one plane, so `Sprite3D` can't represent
+    them; a hand-built `ArrayMesh` was added (`VehicleBoxRender3D._build_warped_mesh()`) but
+    every triangulation tried produced a visible glitch, not a coherent panel. Recorded as
+    real, verified data (`WARPED_PARTS`) but deliberately not rendered rather than ship
+    something visibly wrong. Separately, and still completely unresolved: the reference
+    screenshots show a raised turret box and gun barrel that nothing found in this
+    per-vehicle-type record accounts for at all -- not the six implemented parts, not the two
+    unplaced ones. See document 37's addendum.
 11. **Terrain-based vehicle passability — NOT STARTED, new backlog item (2026-09-06,
     user-flagged as needed for parity).** Different vehicle types (helicopter, tank,
     support/jeep, armoured car — section 3 Phase 3's own list) should be restricted or slowed

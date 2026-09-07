@@ -62,6 +62,11 @@ worked-example docs: what got resolved, in what order, and where to read the ful
   [document 37](37-worked-example-real-tank-geometry.md); plan section 4 item 10. The DOSBox-X
   reference-capture attempt from 2026-09-06 (blocked on a Windows 95 boot failure) is now moot
   for this specific question, though still parked for anything else that might need it.
+  **Not fully closed:** the real descriptor turned out to have 8 parts, not 6 -- 2 more
+  (cels 202/212) are real, verified data but not yet rendered (every triangulation tried
+  produced a visible glitch). Separately, and still completely open: a raised turret box and
+  gun barrel visible in reference footage aren't accounted for anywhere in this
+  per-vehicle-type record at all. See document 37's addendum.
 
 ## Still open
 

@@ -100,4 +100,42 @@ A real, driven screenshot shows the Tank's tread clearly and continuously visibl
 whichever side faces the camera, coherent through a full turn, in both team colours -- not
 approximated, not a placeholder, the game's own real art in its own real arrangement.
 
+## Addendum: the real descriptor has eight parts, not six -- and still isn't the whole tank
+
+Two follow-up user observations kept this going. First: something looked off around the
+wheels. Rechecking the angle-bucket draw-order data this document already decoded (the table
+that reorders parts for correct depth-sorting per viewing angle) for a stray high value found
+one bucket referencing indices 6 and 7 -- parts this document's main text never extracted.
+They're real: cel 202 (`vehicle.hovercraft.hull.16`) and cel 212
+(`vehicle.hovercraft.wheel_hub.01`), each with its own four real corners, taken directly from
+the same corner array as the other six.
+
+Unlike those six, neither is a flat rectangle -- their four corners don't lie in one plane
+the way `Sprite3D` (an axis-aligned rectangle in its own local plane) can represent, so
+placing them needed a real `ArrayMesh` built by hand (`_build_warped_mesh()` in
+`game/vehicle_box_3d.gd`): four vertices at the real corner positions, two triangles, UVs
+computed from the same atlas region as everywhere else in this file. Both triangulations tried
+(splitting the quad along either diagonal) produced the same problem: a thin, visibly wrong
+stray spike, not a coherent panel. The corner data itself is real (it reproduces cleanly from
+RFIRE.BIN, the same way every other number in this document does); what's still missing is
+the correct way to interpret four corners that don't form a simple planar loop -- possibly a
+different vertex order than "as extracted," possibly a hint this project hasn't found yet
+about how the original's own CCB arbitrary-quadrilateral mode handles a non-planar quad.
+
+**Rather than ship a visible glitch, these two parts are recorded as data
+(`WARPED_PARTS` in `game/vehicle_box_3d.gd`) but not currently rendered.** A second follow-up
+observation ("missing the top box part of the turret") also means this document's own
+guess at what these two parts *are* (a fender-like panel, a centre ridge) shouldn't be trusted
+either -- that guess was never confirmed, just a plausible-sounding label attached to real
+numbers.
+
+That second observation points at something else entirely: the reference screenshots show a
+raised turret box and a gun barrel that **nothing found so far accounts for at all** -- not
+the six implemented parts, not the two unplaced ones. If the real Tank has a turret, it isn't
+in this per-vehicle-type record (the whole record was walked; there is no ninth part). Whether
+it's a separate object entirely (attached the way `game/flag_marker.gd`'s spawn already reuses
+the same generic `FUN_0042c290` construction call with a different descriptor argument), or
+lives somewhere in this record this document hasn't identified, is genuinely unresolved --
+not started, not just unfinished.
+
 **Next:** back to [the next-steps doc](NEXT_STEPS.md) for the current backlog.
