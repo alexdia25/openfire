@@ -87,15 +87,20 @@ See plan section 4 for the current, precise state of each — this list is just 
   parity.** Not started; likely connects to the still-unchased elevation bits/height_seed
   byte (section 4, items 2 and 11).
 - Possible on-foot infantry / rescue mechanic — new, unconfirmed, found while classifying the asset registry (section 4, item 12)
-- **Decorations (trees, at minimum) are never placed via the flat terrain tile grid — new
-  lead (2026-09-07), unstarted.** No level actually places any tree art; the one registry
-  entry that claimed to be a tree (`decoration.tree`, cel 101) was a misclassification,
-  corrected. Real tree art exists in `ART.CAR` but sits above the terrain blitter's confirmed
-  7-bit art-id ceiling (`& 0x7F`, section 1.5/1.7), so the flat tile mechanism can't reach it
-  in the original binary either — the same structural reason vehicles need their own
-  per-object 3D corner projection (section 1.10). Where a tree's actual placement gets
-  recorded is unknown — no unexplained `.RFM` chunk exists to point to. See
-  [document 34](34-worked-example-decoration-not-tile-art.md); plan section 4 item 14.
+- **Decorations (trees, at minimum) are never placed via the flat terrain tile grid — the
+  mechanism is now found (2026-09-07); the exact art id still isn't.** No level actually
+  places any tree art via the ordinary tile grid; the one registry entry that claimed to be a
+  tree (`decoration.tree`, cel 101) was a misclassification, corrected. Real tree art exists
+  in `ART.CAR` but sits above the terrain blitter's confirmed 7-bit art-id ceiling (`& 0x7F`,
+  section 1.5/1.7) — see [document 34](34-worked-example-decoration-not-tile-art.md).
+  Continuing the same thread found how decorations actually get placed: the coastal-blend id
+  every coastline tile already carries (used since section 1.5 to pick a blended ground
+  texture) *also* queues a real per-object decoration through the same depth-sorted render
+  path vehicles use, via a pointer field (`COASTAL_TABLE[id]["valid"]`) this project had
+  dumped since section 1.5 but only ever read as a boolean flag. 85 of 91 real coastal ids
+  carry one. Not yet found: which field of that object descriptor actually names the `ART.CAR`
+  cel to draw. See [document 35](35-worked-example-coastal-decoration-mechanism.md); plan
+  section 4 item 14.
 
 **Current priority (2026-09-06):** the asset ID registry, the pack emitter, Phase 4 step 1
 (terrain + markers), a real palette-bug fix, Phase 4 step 2 (a player-controlled vehicle,

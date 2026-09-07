@@ -203,6 +203,14 @@ them in order for the first time: narrative, worked examples, real commands you 
     section 1.5/1.7) and the real tree cels are numbered above that ceiling -- the same
     structural reason vehicles need the separate per-object 3D projection path section 1.10
     found. Where tree placements are actually recorded is still unknown.
+35. [**Worked example: the coastline-blend id is also the decoration-spawn id**](35-worked-example-coastal-decoration-mechanism.md) —
+    finds the mechanism document 34 left open. Decompiling the level loader's coastal-blend
+    helper in full shows it writes the coastal id into a second, previously-undecoded field of
+    the tile's runtime word; the terrain blitter reads it back and, when nonzero, passes the
+    coastal table's own pointer field -- long dumped, but only ever read as a boolean flag --
+    into the same depth-sorted per-object render queue vehicles use. One id, two jobs: pick a
+    blended ground texture, and optionally queue a real decoration object. The exact field
+    naming which `ART.CAR` cel to draw is still unidentified.
 
 ## The one rule that overrides everything else here
 

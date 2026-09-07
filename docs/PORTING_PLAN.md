@@ -2426,26 +2426,41 @@ Web checklist:
     against future gameplay/rendering changes. **The rendering-migration plan is now fully
     complete, all six phases.**
 
-14. **Decorations (trees, at minimum) are never placed via the flat terrain tile grid — NEW
-    LEAD (2026-09-07), unstarted.** Chasing a user-reported "the reference footage's trees look
-    real/camera-aware, not flat" observation found that no level in this game places any tree
-    art at all: the one registry entry named `decoration.tree` (cel 101) was a
-    misclassification (corrected to `terrain.structure.small_bunker` -- no canopy/foliage
-    anywhere in the actual atlas crop), and real tree art (cels 135/138/139/140, unmistakable
-    palm fronds and crossed coconut trunks) is never referenced by any of the 204 real levels'
-    tile grids. Why: section 1.5/1.7 already established that every raw tile byte resolves to a
-    **0-127** art id (`*puVar4 & 0x7f`, confirmed straight from RFIRE.BIN, reproduced in
-    `tools/rf_tile_art.py`) -- the real tree cels are all numbered above 127, so the flat
-    terrain blitter is structurally incapable of ever addressing them, in the original binary,
-    not just this port. This is the same underlying fact behind the vehicle's own per-object 3D
-    corner projection (section 1.10): anything above the 128-cel terrain ceiling has to go
-    through that separate per-object path instead, whatever renders it. **Not yet found:** where
-    a tree's actual position/type gets recorded at all -- no unexplained `.RFM` chunk exists
-    (`EDTN` was already confirmed unused, document 11; no other unrecognized chunk tag appears
-    in any of the 204 real level files), so it's either encoded inside a chunk this project
-    already parses for something else, generated procedurally from terrain data at load time,
-    or lives in object-spawning code not yet traced. See
-    [document 34](process/34-worked-example-decoration-not-tile-art.md).
+14. **Decorations (trees, at minimum) are never placed via the flat terrain tile grid —
+    MECHANISM FOUND (2026-09-07), exact art id still open.** Chasing a user-reported "the
+    reference footage's trees look real/camera-aware, not flat" observation found that no
+    level in this game places any tree art at all via the ordinary tile grid: the one registry
+    entry named `decoration.tree` (cel 101) was a misclassification (corrected to
+    `terrain.structure.small_bunker` -- no canopy/foliage anywhere in the actual atlas crop),
+    and real tree art (cels 135/138/139/140, unmistakable palm fronds and crossed coconut
+    trunks) is never referenced by any of the 204 real levels' tile grids. Why: section 1.5/1.7
+    already established that every raw tile byte resolves to a **0-127** art id
+    (`*puVar4 & 0x7f`, confirmed straight from RFIRE.BIN, reproduced in `tools/rf_tile_art.py`)
+    -- the real tree cels are all numbered above 127, so the flat terrain blitter is
+    structurally incapable of ever addressing them, in the original binary, not just this port.
+    This is the same underlying fact behind the vehicle's own per-object 3D corner projection
+    (section 1.10): anything above the 128-cel terrain ceiling has to go through that separate
+    per-object path instead. See [document 34](process/34-worked-example-decoration-not-tile-art.md).
+    **Continuing the same thread found the actual mechanism (2026-09-07):** decompiling the
+    level loader's coastal-blend helper (`FUN_0042e4f0`) in full for the first time showed it
+    writes the coastal id into a second, previously-undecoded 7-bit field of the tile's runtime
+    word (bits 7-13, separate from the art-id field in bits 0-6). The terrain blitter's own
+    per-tile helper (`FUN_00408c80`) reads that field back and, when nonzero, passes
+    `tools/rf_tile_art.py`'s already-dumped `COASTAL_TABLE[id]["valid"]` field -- previously
+    read only as a boolean "is this coastal id real" flag -- to `FUN_0041afb0` as a genuine
+    object-type descriptor pointer, queuing a real object at that tile's exact centre through
+    the *same* depth-sorted render queue vehicles use (confirmed by decompiling
+    `FUN_0041afb0` itself: it reads position-offset fields and two callback pointers from that
+    descriptor, exactly the "art/CCB pointer plus callback pointers" shape document 31 already
+    found for the shared vehicle object-type table, and inserts the result into a depth-sorted
+    linked list for later rendering). **In short: resolving a tile's coastal id was always
+    understood to pick a blended ground texture; the same table entry's own pointer field also
+    optionally queues a real per-object decoration, using the exact rendering pipeline vehicles
+    use.** 85 of the coastal table's 91 real entries have a nonzero `valid` pointer. **Not yet
+    found:** the descriptor struct's exact field layout -- in particular, which field names the
+    actual `ART.CAR` cel to draw is still unidentified; the two callback pointers found in the
+    struct are the natural next thing to follow. See
+    [document 35](process/35-worked-example-coastal-decoration-mechanism.md).
 
 **RESOLVED:**
 - **The fixed sim tick rate** — **section 1.9** (2026-09-05). There isn't one, and there was
