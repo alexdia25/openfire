@@ -2480,10 +2480,25 @@ Web checklist:
     value and is left unresolved rather than guessed at). Coastal id 1, for example, is a
     three-part scattered bush cluster (`decoration.foliage.bush_white.01`/`bush_green.01`/
     `.02`) -- every recovered id resolves to something semantically coherent (foliage, saplings,
-    flowers, coral, dock frame-posts, rubble, debris), never a misfire. **This closes the
-    decoration lead: the mechanism and a near-complete real decoration catalogue both now
-    exist**, ready for implementation. See
+    flowers, coral, dock frame-posts, rubble, debris), never a misfire. See
     [document 35](process/35-worked-example-coastal-decoration-mechanism.md).
+    **DONE (2026-09-07, same session): wired into both rendering scenes.**
+    `tools/convert_rfm.py` now records every tile's coastal id as a `decorations` entry in the
+    level JSON (`tools/rf_tile_art.py` gained `raw_tile_to_coastal_id()` to expose it);
+    `tools/build_pack.py` resolves document 35's cel indices into real sprite ids through the
+    same registry lookup `terrain/tileset.json` already uses, writing `terrain/
+    decorations.json`. Rendered by extending `game/terrain_tile_renderer.gd`'s existing
+    one-shot draw (`Pack.get_decoration_parts()`) rather than a new per-object node type -- a
+    decoration never moves after level load, so baking it alongside the terrain gives the
+    same real perspective projection a live `Node3D` would, far more cheaply, and both the
+    flat 2D scene and the 3D scene pick it up for free since they already share this node. A
+    real screenshot of `RFMAP001` (179 decorated tiles) shows dense, individually readable
+    coastline foliage where every earlier screenshot this session showed one flat, mottled
+    texture. **This closes the decoration lead completely: mechanism, catalogue, and
+    implementation.** Known simplifications: 3 of 91 coastal ids (49, 50, 76) still have no
+    decoration; multi-part decorations use a placeholder ring-scatter layout instead of the
+    real (undecoded) per-part corner offsets; the team-colour-offset flag bit is not applied.
+    See [document 36](process/36-worked-example-decorations-in-3d.md).
 
 **RESOLVED:**
 - **The fixed sim tick rate** — **section 1.9** (2026-09-05). There isn't one, and there was

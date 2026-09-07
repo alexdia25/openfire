@@ -65,13 +65,15 @@ raw byte when the file was saved. Cross-checked against all 204 real files: zero
 fail to resolve to an art id, and the 104 art ids the lookup predicts are exactly the
 104 actually used.
 
-Output per level: <name>.json (metadata + entities), <name>.tiles.bin (raw width*height
-tile bytes, entity-tile cells zeroed to a neutral 0 -- the true default terrain under a
-spawn/candidate marker is not recoverable from the file), and <name>.art.bin (the same
-grid run through raw_tile_to_art_id -- this is what Phase 3/4 rendering should consume,
-not the raw bytes). A debug PNG is also written, colour-coded by art id, so the grid
-and extracted entities can be checked visually rather than trusted from statistics
-alone.
+Output per level: <name>.json (metadata + entities -- including "decorations", every
+tile's nonzero coastal-blend id, document 35's second use for that id; see
+tools/build_pack.py for how that becomes real placed objects), <name>.tiles.bin (raw
+width*height tile bytes, entity-tile cells zeroed to a neutral 0 -- the true default
+terrain under a spawn/candidate marker is not recoverable from the file), and
+<name>.art.bin (the same grid run through raw_tile_to_art_id -- this is what Phase 3/4
+rendering should consume, not the raw bytes). A debug PNG is also written, colour-coded
+by art id, so the grid and extracted entities can be checked visually rather than
+trusted from statistics alone.
 
 Usage:
     python convert_rfm.py <returnfire_dir> <out_dir> [--limit N]
@@ -83,7 +85,7 @@ import struct
 import sys
 
 from rfpng import write_png_rgba
-from rf_tile_art import raw_tile_to_art_id
+from rf_tile_art import raw_tile_to_art_id, raw_tile_to_coastal_id
 
 MAGIC = b"WRL\x00"
 CHUNK_TABLE_START = 0x50
@@ -275,6 +277,20 @@ def parse_rfm(path, filename):
     # stored art bits), so this is not lossy the way the raw grid's zeroing is.
     art_grid = bytearray(raw_tile_to_art_id(val) or 0 for val in grid)
 
+    # Document 35 (docs/process/): a tile's coastal-blend id doubles as a decoration-spawn
+    # id -- resolving one was always understood to pick a blended ground texture; the same
+    # id, via a separate lookup this converter doesn't do (tools/data/coastal_decorations.json,
+    # Ghidra-extracted, consumed by tools/build_pack.py), can also place a real object.
+    # Recorded here purely as "this tile's coastal id, if any" -- every nonzero id is kept,
+    # same "extract everything, let the pack decide what's known" choice already made for
+    # art ids; the pack/engine side is what decides whether a given id actually resolves to
+    # a decoration (most coastal ids do; a handful don't, or aren't extracted yet).
+    decorations = []
+    for idx, val in enumerate(grid):
+        coastal_id = raw_tile_to_coastal_id(val)
+        if coastal_id:
+            decorations.append({"x": idx % width, "y": idx // width, "coastal_id": coastal_id})
+
     spawn_points = []
     candidates_a = []
     candidates_b = []
@@ -315,6 +331,7 @@ def parse_rfm(path, filename):
         "unrecognized_chunks": unrecognized_chunks,
         "spawn_points": spawn_points,
         "candidate_pools": {"a": candidates_a, "b": candidates_b},
+        "decorations": decorations,
     }, grid, art_grid
 
 

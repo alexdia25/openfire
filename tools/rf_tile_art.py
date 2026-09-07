@@ -75,6 +75,24 @@ def raw_tile_to_art_id(raw_byte):
     return art_id & 0x7F
 
 
+def raw_tile_to_coastal_id(raw_byte):
+    """Return the coastal-blend id (int, 0 if none) for a raw on-disk tile byte.
+
+    Section 1.5/1.7 already used this id to resolve a tile's *ground* art id
+    (raw_tile_to_art_id, above). Document 35 (docs/process/) found it does a second job:
+    the coastal table entry's own "valid" pointer, when nonzero, is also a real decoration
+    object -- see tools/data/coastal_decorations.json (coastal id -> ART.CAR cel indices,
+    extracted directly from RFIRE.BIN) for which ids actually carry one. This function
+    doesn't check that itself -- it just exposes the same id raw_tile_to_art_id already
+    computes internally and discards, so callers (convert_rfm.py) can record every tile's
+    coastal id and let the pack/registry side decide which ones resolve to a real
+    decoration.
+    """
+    if raw_byte >= 240:
+        raw_byte = 0
+    return PRIMARY_TABLE[raw_byte]["coastal_id"]
+
+
 def is_dispatch_tile(raw_byte):
     """True for the 4 special tile values that mark spawn points / building
     candidates (0x39, 0x4D, 0xB4, 0xDC) -- these are entities, not terrain,

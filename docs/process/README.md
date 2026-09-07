@@ -217,6 +217,15 @@ them in order for the first time: narrative, worked examples, real commands you 
     (saved to `tools/data/coastal_decorations.json`), spot-checked and found universally
     coherent -- bushes, saplings, flowers, coral, dock frame-posts. Only 3 ids remain
     unresolved.
+36. [**Worked example: putting the decoration catalogue on screen**](36-worked-example-decorations-in-3d.md) —
+    wires document 35's real decoration catalogue into the converter and both rendering
+    scenes. `tools/convert_rfm.py` records every tile's coastal id; `tools/build_pack.py`
+    resolves it into real sprite ids through the same registry lookup terrain tiles already
+    use. Rendered by extending `game/terrain_tile_renderer.gd`'s existing one-shot draw rather
+    than adding a new per-object node type -- a decoration never moves after level load, so
+    baking it alongside the terrain gives the same real perspective projection a live node
+    would, far more cheaply. A real screenshot shows dense, individually readable coastline
+    foliage where every earlier screenshot this session showed one flat, mottled texture.
 
 ## The one rule that overrides everything else here
 

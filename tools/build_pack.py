@@ -34,6 +34,14 @@ format output (JSON + a resolved art-id byte grid, not copyrighted .RFM bytes
 verbatim), but it's still derived from the user's own level files, so it lives in the
 same gitignored pack, not the repo -- same reasoning as the sprite pixel data above.
 
+Also emits terrain/decorations.json -- coastal-blend id (every level.json's own
+"decorations" list is keyed by this, per tile) -> the real ART.CAR parts that id spawns
+(document 35, docs/process/): resolves tools/data/coastal_decorations.json's cel indices
+through the same registry the sprite atlas already uses, so the engine only ever sees
+sprite ids, never raw cel numbers, exactly like terrain/tileset.json already does for
+plain ground tiles. Ids tools/data/coastal_decorations.json doesn't (yet) resolve are
+simply absent -- callers treat an unknown coastal id as "no decoration", not an error.
+
 Usage:
     python tools/build_pack.py <returnfire_dir> <out_dir>
     (out_dir defaults to packs/original_pc; expects build/car/art_atlas.json and
@@ -50,6 +58,7 @@ DEFAULT_BUILD_CAR = os.path.join(ROOT, "build", "car")
 DEFAULT_BUILD_RFM = os.path.join(ROOT, "build", "rfm")
 DEFAULT_OUT = os.path.join(ROOT, "packs", "original_pc")
 REGISTRY_JSON = os.path.join(ROOT, "packs", "registry", "asset_ids.json")
+COASTAL_DECORATIONS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decorations.json")
 
 PACK_ID = "original_pc"
 PIXELS_PER_WORLD_UNIT = 32  # matches the original's 32x32 terrain tile, section 2.4.3 item 1
@@ -140,6 +149,34 @@ def main():
         json.dump({"tile_size_px": 32, "tiles": tileset}, f, indent=2, sort_keys=True)
         f.write("\n")
 
+    # Coastal decorations (document 35, docs/process/): resolve each known coastal id's real
+    # ART.CAR cel indices into sprite ids, same lookup terrain/tileset.json already does above.
+    # tools/data/coastal_decorations.json is itself incomplete (3 of 91 ids unresolved, see its
+    # own "_missing" field) -- an id missing here just means no decoration for that id yet, not
+    # an error; game/pack.gd is written to treat an unknown id exactly like a "no decoration"
+    # entry, not a load failure.
+    n_decoration_ids = 0
+    if os.path.exists(COASTAL_DECORATIONS_JSON):
+        with open(COASTAL_DECORATIONS_JSON) as f:
+            coastal_decorations = json.load(f)["decorations"]
+        decoration_types = {}
+        for coastal_id, parts in coastal_decorations.items():
+            resolved_parts = []
+            for part in parts:
+                cel = part["cel"]
+                if cel not in cels:
+                    continue  # a cel index this build's ART.CAR atlas doesn't have -- skip it
+                resolved_parts.append({
+                    "sprite_id": registry[str(cel)]["id"],
+                    "flags": part["flags"],
+                })
+            if resolved_parts:
+                decoration_types[coastal_id] = resolved_parts
+        with open(os.path.join(terrain_dir, "decorations.json"), "w") as f:
+            json.dump({"decoration_types": decoration_types}, f, indent=2, sort_keys=True)
+            f.write("\n")
+        n_decoration_ids = len(decoration_types)
+
     pack_manifest = {
         "id": PACK_ID,
         "name": "Return Fire (1996) -- Original PC Port Assets",
@@ -176,7 +213,7 @@ def main():
             n_levels += 1
 
     print(f"wrote pack {PACK_ID!r} to {args.out_dir}: {len(sprites)} sprites, "
-          f"{len(tileset)} terrain tiles, {n_levels} levels")
+          f"{len(tileset)} terrain tiles, {n_decoration_ids} decoration types, {n_levels} levels")
 
 
 if __name__ == "__main__":
