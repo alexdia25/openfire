@@ -209,8 +209,11 @@ them in order for the first time: narrative, worked examples, real commands you 
     the tile's runtime word; the terrain blitter reads it back and, when nonzero, passes the
     coastal table's own pointer field -- long dumped, but only ever read as a boolean flag --
     into the same depth-sorted per-object render queue vehicles use. One id, two jobs: pick a
-    blended ground texture, and optionally queue a real decoration object. The exact field
-    naming which `ART.CAR` cel to draw is still unidentified.
+    blended ground texture, and optionally queue a real decoration object. Following that
+    descriptor's own callbacks (real code Ghidra had never disassembled) all the way through
+    confirms decorations use the *identical* CCB cel-index-plus-quad-corner rendering vehicles
+    do -- one object renderer for the whole game, not two. Only a real numeric cel-index
+    example remains unfound, blocked on a not-yet-located per-instance constructor.
 
 ## The one rule that overrides everything else here
 

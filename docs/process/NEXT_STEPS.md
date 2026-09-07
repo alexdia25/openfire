@@ -88,19 +88,26 @@ See plan section 4 for the current, precise state of each — this list is just 
   byte (section 4, items 2 and 11).
 - Possible on-foot infantry / rescue mechanic — new, unconfirmed, found while classifying the asset registry (section 4, item 12)
 - **Decorations (trees, at minimum) are never placed via the flat terrain tile grid — the
-  mechanism is now found (2026-09-07); the exact art id still isn't.** No level actually
-  places any tree art via the ordinary tile grid; the one registry entry that claimed to be a
-  tree (`decoration.tree`, cel 101) was a misclassification, corrected. Real tree art exists
-  in `ART.CAR` but sits above the terrain blitter's confirmed 7-bit art-id ceiling (`& 0x7F`,
-  section 1.5/1.7) — see [document 34](34-worked-example-decoration-not-tile-art.md).
-  Continuing the same thread found how decorations actually get placed: the coastal-blend id
-  every coastline tile already carries (used since section 1.5 to pick a blended ground
-  texture) *also* queues a real per-object decoration through the same depth-sorted render
-  path vehicles use, via a pointer field (`COASTAL_TABLE[id]["valid"]`) this project had
-  dumped since section 1.5 but only ever read as a boolean flag. 85 of 91 real coastal ids
-  carry one. Not yet found: which field of that object descriptor actually names the `ART.CAR`
-  cel to draw. See [document 35](35-worked-example-coastal-decoration-mechanism.md); plan
-  section 4 item 14.
+  full mechanism is now traced end to end (2026-09-07); only a real numeric example is
+  missing.** No level actually places any tree art via the ordinary tile grid; the one
+  registry entry that claimed to be a tree (`decoration.tree`, cel 101) was a
+  misclassification, corrected. Real tree art exists in `ART.CAR` but sits above the terrain
+  blitter's confirmed 7-bit art-id ceiling (`& 0x7F`, section 1.5/1.7) — see
+  [document 34](34-worked-example-decoration-not-tile-art.md). Continuing the same thread (user
+  direction: authentic asset placement matters here) found how decorations actually get
+  placed and rendered: the coastal-blend id every coastline tile already carries (used since
+  section 1.5 to pick a blended ground texture) *also* queues a real per-object decoration
+  through the same depth-sorted render path vehicles use, via a pointer field
+  (`COASTAL_TABLE[id]["valid"]`) this project had dumped since section 1.5 but only ever read
+  as a boolean flag. Following that descriptor's own callbacks (real code Ghidra had never
+  disassembled -- `ForceDecompile.java` was needed) led all the way to the literal `ART.CAR`
+  CCB-array indexing and the same corner-projection function vehicles use: **a decoration
+  "type" is just an array of cel-index + quad-corner parts, rendered by the exact same
+  per-object pipeline as vehicles — there's one object renderer in this game, not two.** Still
+  missing: an actual numeric cel index for any specific decoration, which lives in
+  per-instance data from a not-yet-found constructor (the vehicle equivalent, `FUN_0042d640`,
+  is already known — document 31). See
+  [document 35](35-worked-example-coastal-decoration-mechanism.md); plan section 4 item 14.
 
 **Current priority (2026-09-06):** the asset ID registry, the pack emitter, Phase 4 step 1
 (terrain + markers), a real palette-bug fix, Phase 4 step 2 (a player-controlled vehicle,

@@ -2456,10 +2456,22 @@ Web checklist:
     linked list for later rendering). **In short: resolving a tile's coastal id was always
     understood to pick a blended ground texture; the same table entry's own pointer field also
     optionally queues a real per-object decoration, using the exact rendering pipeline vehicles
-    use.** 85 of the coastal table's 91 real entries have a nonzero `valid` pointer. **Not yet
-    found:** the descriptor struct's exact field layout -- in particular, which field names the
-    actual `ART.CAR` cel to draw is still unidentified; the two callback pointers found in the
-    struct are the natural next thing to follow. See
+    use.** 85 of the coastal table's 91 real entries have a nonzero `valid` pointer.
+    **Continuing further (2026-09-07, same session): the descriptor's two callback pointers are
+    real, previously-undisassembled code (`ForceDecompile.java` was needed -- this project's
+    `-noanalysis` Ghidra mode never touches a function until something forces it to). One is a
+    small position-jitter routine (scatters a decoration slightly off tile-centre, not art
+    selection). The other leads to `FUN_0041b2b0`, which walks an array of "part" records and,
+    for each, indexes `ART.CAR`'s own CCB array with `sizeof(CCB)` exactly the way section 1.7
+    already confirmed for terrain tiles, then submits it through `FUN_00436fb0` -- section
+    1.10's own already-found CCB arbitrary-quadrilateral corner-mapping function, the same one
+    vehicles use.** This fully closes the mechanism question: a decoration "type" is an array
+    of one or more parts, each a plain `ART.CAR` cel index plus per-part quad-corner offsets,
+    rendered through the *identical* per-object pipeline as vehicles -- there is exactly one
+    object renderer in this game, not a separate vehicle path and decoration path. **Not yet
+    found:** an actual numeric cel index for any specific decoration -- the cel index is read
+    from per-*instance* data, populated by a constructor this project hasn't located yet
+    (the same shape of function `FUN_0042d640` already is for vehicles, document 31). See
     [document 35](process/35-worked-example-coastal-decoration-mechanism.md).
 
 **RESOLVED:**
