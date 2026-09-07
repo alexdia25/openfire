@@ -74,8 +74,15 @@ not the one "hovercraft" this project has built its entire history against** (se
 no mirror scheme can fix that) led back into the abandoned real-facing-table trace, which
 surfaced a genuine string table naming all four vehicle types and resolved the old "no
 confirmed helicopter sprite" question — a real mini-map icon set (registry corrected)
-visually confirms all four. Real in-game rotation art for Jeep/MSV/Heli is still unlocated;
-this project has only ever implemented the Tank.
+visually confirms all four. Real in-game rotation art for Jeep/MSV/Heli is still unlocated.
+**The Tank itself is now correctly implemented (2026-09-08): it was never actually the flat
+`rotation.tan.01-09` sprite this project rendered for its entire history** (section 4 item
+10) — the real Tank is a genuine six-face 3D box (hull top/bottom + four side faces,
+including the tank-tread graphic, confirmed completely unused until traced) built from real
+local 3D corner coordinates read directly out of RFIRE.BIN's own per-vehicle-type data. This
+retroactively explains the session's very first observation (visible tread varying with
+camera position) — a real box under a tilted camera naturally does that; a flat card never
+could. See [document 37](process/37-worked-example-real-tank-geometry.md).
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
@@ -2261,6 +2268,32 @@ Web checklist:
     capture some real shading detail without the compounding-thinning failure — a real
     follow-up, not a blocker. Full writeup:
     [document 32](process/32-worked-example-ground-decal-prototype.md).
+
+    **SUPERSEDED (2026-09-08): the deeper architecture question is now fully resolved, and the
+    answer is bigger than a rendering technique.** Chasing a user-reported "no visible tank
+    tread" observation found that `vehicle.hovercraft.rotation.tan.01-09` (cels 218-226 --
+    everything sections 1.10/4 item 10 analysed above) was never the game's real Tank art at
+    all. Traced the actual per-vehicle-type data (a real cross-reference chase through the
+    generic object constructor, document 31's shared vtable, and a real per-team vehicle-spawn
+    function down to a 4-entry vehicle-type table at `0x004452d8` -- entry 0's own name string
+    reads literally `"Tank"`): the real Tank is a genuine **six-face 3D box** (bottom, top, two
+    tread side-faces, two small detail side-faces), each face a real `ART.CAR` cel
+    (167/168, 172/173, **182/183 -- the tank-tread graphic, confirmed completely unused until
+    now**, 187/188) placed at real local 3D corner coordinates read directly out of the
+    binary, not approximated. `game/vehicle_box_3d.gd` (`VehicleBoxRender3D`) now builds this
+    real box from six `Sprite3D` faces and is the new default vehicle presentation;
+    `VehicleBillboard3D`'s flat-card approach is kept only as a debug fallback
+    (`RF_DEBUG_VEHICLE_RENDER=billboard`). This also retroactively explains the very first
+    finding that started this whole rendering-migration thread: a real 3D box under a tilted
+    camera naturally shows more or less of its side faces depending on where it sits in
+    frame -- exactly the "different tread depending on camera positioning" observation that
+    kicked all of this off. A second real bug was found and fixed along the way: cel 218's own
+    raw art has its front-indicator nub facing the wrong screen direction relative to
+    `vehicle.gd`'s own heading convention (a previously-unverified assumption, not a new
+    regression), corrected with an empirically-matched `+90` degree offset in
+    `VehicleBillboard3D` -- the same correction the new box's own facing needed, for the same
+    underlying reason. See
+    [document 37](process/37-worked-example-real-tank-geometry.md) for the full trace.
 11. **Terrain-based vehicle passability — NOT STARTED, new backlog item (2026-09-06,
     user-flagged as needed for parity).** Different vehicle types (helicopter, tank,
     support/jeep, armoured car — section 3 Phase 3's own list) should be restricted or slowed

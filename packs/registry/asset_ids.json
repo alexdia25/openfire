@@ -5824,10 +5824,10 @@
       "note": "thin blue wavy line segment"
     },
     "188": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.stripe_band.01",
-      "note": "horizontal orange/green/tan banded strip, purpose unconfirmed"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.hull.21",
+      "note": "corrected 2026-09-08 (was misclassified as decoration.stripe_band.01) -- confirmed by direct RE trace (document 37) as the green-team counterpart of cel 187 (vehicle.hovercraft.hull.10), one of the Tank real 3D box model's six real faces; same rivet-detail shape, green instead of brown"
     },
     "1880": {
       "category": "prop",

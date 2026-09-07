@@ -229,6 +229,16 @@ them in order for the first time: narrative, worked examples, real commands you 
     Addendum: the palm-frond cels turned out to have no trunk pixels of their own -- a real,
     matching trunk cel sat completely unused in the registry, now drawn under any decoration
     built entirely from a small, hand-verified set of frond cels.
+37. [**Worked example: the Tank was never a flat sprite**](37-worked-example-real-tank-geometry.md) —
+    chasing a user-reported "no visible tank tread" observation all the way through found that
+    `vehicle.hovercraft.rotation.tan.01-09`, this project's Tank art since Phase 4 step 2, was
+    never the game's real Tank at all. Traces a real cross-reference chase (spawn-position
+    table -> per-team spawn function -> a 4-entry vehicle-type table whose entry 0 name string
+    reads literally "Tank") down to the real Tank's own per-vehicle-type data: a genuine
+    six-face 3D box built from real local 3D corner coordinates, including the tank-tread
+    graphic this project had sitting completely unused the whole time. Also fixes a real
+    front-facing/movement-direction mismatch found along the way. `game/vehicle_box_3d.gd`
+    replaces the old flat-card approach as the default vehicle presentation.
 
 ## The one rule that overrides everything else here
 

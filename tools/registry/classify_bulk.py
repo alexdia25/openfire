@@ -695,6 +695,17 @@ put(101, "terrain.structure.small_bunker", "terrain",
     "on a sand clearing, no canopy/foliage anywhere; exact gameplay role unconfirmed, name is "
     "descriptive only)", confidence="visual")
 
+# Confirmed wrong 2026-09-08, tracing the Tank's real 3D box model (document 37) all the way
+# to RFIRE.BIN's own per-vehicle-type descriptor: cel 188 was classified as
+# "decoration.stripe_band.01", but it's the green-team counterpart of cel 187
+# (vehicle.hovercraft.hull.10, one of the Tank's six real faces) -- same rivet-detail shape,
+# green instead of brown. Direct atlas crop confirms it visually.
+put(188, "vehicle.hovercraft.hull.21", "vehicle",
+    "corrected 2026-09-08 (was misclassified as decoration.stripe_band.01) -- confirmed by "
+    "direct RE trace (document 37) as the green-team counterpart of cel 187 "
+    "(vehicle.hovercraft.hull.10), one of the Tank real 3D box model's six real faces; same "
+    "rivet-detail shape, green instead of brown", confidence="visual")
+
 
 def main():
     with open(REGISTRY_JSON) as f:

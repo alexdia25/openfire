@@ -43,6 +43,26 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **The "little triangles" complaint was a rendering-technique gap, not missing art — fixed, and now the shipped default.** A real, non-billboarded quad lying flat like the terrain plane, rotated in true 3D to match the vehicle's actual heading, produces a smooth, always-coherent silhouette at every heading using just **one** source image — better than the old nine-frame mirror-and-flip billboard approach ever achieved. The obvious follow-up (cycling all 9 real frames alongside the same rotation) was tested and is worse, not better: the discrete frames already bake in a thinning silhouette near 90/270 degrees, and real geometric foreshortening on top compounds that instead of complementing it, collapsing the shape almost to nothing at exactly those headings. `game/vehicle_billboard_3d.gd`'s default is now `GROUND_DECAL` (single texture); `BILLBOARD` and `GROUND_DECAL_MULTI` remain available via `RF_DEBUG_VEHICLE_QUAD_MODE` for comparison. See [document 32](32-worked-example-ground-decal-prototype.md); plan section 2.2, section 4 item 10.
 - **Perspective terrain/object rendering — the rendering-migration plan's all six phases are DONE (2026-09-06).** Phase 4 (projectiles, target/pool markers, the flag marker), the last one, first required extracting `terrain_view.gd`'s gameplay logic (vehicle/enemy spawn, projectile spawn-on-fire, target-pool hit-testing, the flag-spawn trigger) into a new shared `game/match_controller.gd`, so the flat 2D and 3D scenes provably run identical rules instead of risking two hand-copied implementations drifting apart. Projectiles and the flag reuse Phase 3's real-node-paired-with-a-3D-presentation pattern (`ProjectileBillboard3D`, `FlagMarker3D`); the debug spawn/pool markers, which had no dedicated gameplay node to pair with, got Phase 2's baked-`SubViewport` treatment instead (`game/debug_marker_renderer.gd` + `game/debug_marker_overlay_3d.gd`). A driven screenshot confirms all three working together in the 3D scene, correctly foreshortened by the same tilted camera as the terrain. With this done, `game/terrain_view.gd`/`.tscn` had nothing left it did that the 3D scene didn't — it has since been retired as a whole (marked-superseded, matching `tools/rfcel.py`'s own precedent; see the superseded-rule note below). See [document 33](33-worked-example-phase4-projectiles-markers-flag.md); plan section 2.2, section 4 item 13.
 
+- **The turning-sprite rendering — RESOLVED for real (2026-09-08): the "flat sprite" premise
+  itself was wrong.** The earlier diagnosis (heading 0 and 180 render pixel-identical, since a
+  symmetric base frame can't be fixed by mirroring alone) was correct as far as it went, but
+  chasing a further user observation — no visible tank tread, ever — found that
+  `vehicle.hovercraft.rotation.tan.01-09` was never the game's real Tank art at all. The real
+  Tank is a genuine six-face 3D box, traced directly out of RFIRE.BIN's own per-vehicle-type
+  data (a real cross-reference chase down to a vehicle-type table whose entry 0 name string
+  reads literally `"Tank"`), including the tank-tread graphic (cels 182/183) this project had
+  sitting unused the whole time. `game/vehicle_box_3d.gd` now builds this real box and is the
+  default vehicle presentation; the old flat-card approach is a debug fallback only
+  (`RF_DEBUG_VEHICLE_RENDER=billboard`). A second real bug (the vehicle's rendered front facing
+  90 degrees away from its actual movement direction — a previously-unverified assumption, not
+  a regression) was found and fixed along the way, with the identical `+90` correction needed
+  for both the old flat card and the new box. This also retroactively explains the very first
+  observation that started this whole thread: a real 3D box under a tilted camera naturally
+  shows more or less tread depending on where it sits in frame. See
+  [document 37](37-worked-example-real-tank-geometry.md); plan section 4 item 10. The DOSBox-X
+  reference-capture attempt from 2026-09-06 (blocked on a Windows 95 boot failure) is now moot
+  for this specific question, though still parked for anything else that might need it.
+
 ## Still open
 
 See plan section 4 for the current, precise state of each — this list is just pointers:
@@ -63,26 +83,9 @@ See plan section 4 for the current, precise state of each — this list is just 
 - Custom Godot UI for menus/level-select/etc — new goal, not yet started; **visual style should
   be based on the 3DO original, not the PC port** (user direction, 2026-09-06), which also
   makes this depend on the still-deprioritized 3DO disc extraction (section 4, items 6 and 8)
-- **The turning-sprite mirror rendering — precisely re-diagnosed (2026-09-06): flipping a
-  symmetric frame can't fix front/back, so no mirror scheme fixes this.** A sharper user
-  observation ("it looks like the tank is ALWAYS facing the same way") led to an exact
-  diagnosis: heading 0 and heading 180 render pixel-identical, since `_frame_for_heading()`'s
-  quadrant math folds both to the same base frame and the base frame is left-right symmetric.
-  Real front/back-distinct art is the only real fix — see the vehicle-roster item below for
-  where that trace led. A DOSBox-X reference capture was attempted (2026-09-06) but
-  **blocked**: Windows 95 boot hangs at a `C:\WINDOWS\SYSTEM\VMM32\IOS.VXD` load failure in
-  the pre-built `hdd.img`, not a dismissible warning. Parked, not resolved — see section 4
-  item 10 for what a real fix attempt should start from (section 3 Phase 4 step 2).
-- **The real vehicle roster: Tank, Jeep, MSV, and Helicopter — confirmed (2026-09-06), not the
-  one "hovercraft" this project has built against its whole history.** Re-attempting the
-  abandoned real-facing-table trace (`FUN_0042dd90`/`FUN_0042d640`) surfaced a genuine string
-  table in the binary naming all four vehicle types, resolving the old "no confirmed
-  helicopter sprite" question. A real mini-map/radar icon set (cels 2094-2114/2161-2164,
-  registry corrected) visually confirms all four, including an unmistakable helicopter rotor
-  silhouette — found via a cheap geometric search for extreme-aspect-ratio cels, not by
-  eyeballing thousands of sprites. **Not resolved:** real in-game rotation art for Jeep/MSV/
-  Heli (the icons are small map markers, not gameplay-scale sprites) has not been located —
-  see [document 31](31-worked-example-vehicle-roster.md); plan section 4 item 10.
+- Real in-game rotation art for Jeep/MSV/Heli — still unlocated (the roster itself is
+  confirmed, see above; only the Tank's real art has actually been found and implemented,
+  document 37)
 - **Terrain-based vehicle passability — new, user-flagged (2026-09-06) as needed for
   parity.** Not started; likely connects to the still-unchased elevation bits/height_seed
   byte (section 4, items 2 and 11).
