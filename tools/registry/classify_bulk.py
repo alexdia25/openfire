@@ -684,6 +684,17 @@ put(2103, "ui.icon.tank_mini_alt.green", "vehicle", _VEHICLE_ICON_NOTE)
 put(2112, "ui.icon.tank_mini_alt2.tan", "vehicle", _VEHICLE_ICON_NOTE)
 put(2113, "ui.icon.tank_mini_alt2.green", "vehicle", _VEHICLE_ICON_NOTE)
 
+# Confirmed wrong 2026-09-07, chasing a user-reported "trees don't look real" observation
+# (docs/process/34, once written): cel 101 was classified as "decoration.tree" ("dark green
+# canopy on a post/trunk") but a direct atlas crop shows no canopy/foliage at all -- a small
+# gray structure with two flanking wall segments and a yellow/black hazard-striped base on a
+# sand clearing. Renamed to something descriptive rather than guessing its gameplay role.
+put(101, "terrain.structure.small_bunker", "terrain",
+    "corrected 2026-09-07 (was misclassified as decoration.tree -- direct atlas crop shows a "
+    "small gray structure with flanking wall segments and a yellow/black hazard-striped base "
+    "on a sand clearing, no canopy/foliage anywhere; exact gameplay role unconfirmed, name is "
+    "descriptive only)", confidence="visual")
+
 
 def main():
     with open(REGISTRY_JSON) as f:

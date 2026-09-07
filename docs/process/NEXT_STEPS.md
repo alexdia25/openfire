@@ -87,6 +87,15 @@ See plan section 4 for the current, precise state of each — this list is just 
   parity.** Not started; likely connects to the still-unchased elevation bits/height_seed
   byte (section 4, items 2 and 11).
 - Possible on-foot infantry / rescue mechanic — new, unconfirmed, found while classifying the asset registry (section 4, item 12)
+- **Decorations (trees, at minimum) are never placed via the flat terrain tile grid — new
+  lead (2026-09-07), unstarted.** No level actually places any tree art; the one registry
+  entry that claimed to be a tree (`decoration.tree`, cel 101) was a misclassification,
+  corrected. Real tree art exists in `ART.CAR` but sits above the terrain blitter's confirmed
+  7-bit art-id ceiling (`& 0x7F`, section 1.5/1.7), so the flat tile mechanism can't reach it
+  in the original binary either — the same structural reason vehicles need their own
+  per-object 3D corner projection (section 1.10). Where a tree's actual placement gets
+  recorded is unknown — no unexplained `.RFM` chunk exists to point to. See
+  [document 34](34-worked-example-decoration-not-tile-art.md); plan section 4 item 14.
 
 **Current priority (2026-09-06):** the asset ID registry, the pack emitter, Phase 4 step 1
 (terrain + markers), a real palette-bug fix, Phase 4 step 2 (a player-controlled vehicle,

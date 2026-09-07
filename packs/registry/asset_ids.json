@@ -77,8 +77,8 @@
     "101": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "decoration.tree",
-      "note": "dark green canopy on a post/trunk"
+      "id": "terrain.structure.small_bunker",
+      "note": "corrected 2026-09-07 (was misclassified as decoration.tree -- direct atlas crop shows a small gray structure with flanking wall segments and a yellow/black hazard-striped base on a sand clearing, no canopy/foliage anywhere; exact gameplay role unconfirmed, name is descriptive only)"
     },
     "1010": {
       "category": "structure",

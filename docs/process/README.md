@@ -194,6 +194,15 @@ them in order for the first time: narrative, worked examples, real commands you 
     debug spawn/pool markers, which had no dedicated gameplay node to pair with, get Phase 2's
     baked-SubViewport treatment instead. A driven screenshot confirms all three working
     together in the 3D scene, foreshortened correctly by the same tilted camera as the terrain.
+34. [**Worked example: trees can't be tile art, and neither can vehicles — the same 7-bit mask proves it**](34-worked-example-decoration-not-tile-art.md) —
+    chasing a user observation that reference footage shows real, camera-aware trees (not flat
+    paint) found that no level actually places any tree art at all -- the one registry entry
+    named "decoration.tree" was a misclassification (a small bunker structure, corrected).
+    Real tree art exists in ART.CAR but is never referenced by any level's tile grid, because
+    the terrain blitter masks every tile's art id to 7 bits (`& 0x7F`, already known from
+    section 1.5/1.7) and the real tree cels are numbered above that ceiling -- the same
+    structural reason vehicles need the separate per-object 3D projection path section 1.10
+    found. Where tree placements are actually recorded is still unknown.
 
 ## The one rule that overrides everything else here
 
