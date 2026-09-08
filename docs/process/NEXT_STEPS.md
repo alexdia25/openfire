@@ -81,16 +81,30 @@ worked-example docs: what got resolved, in what order, and where to read the ful
   the missing gun barrel itself (its atlas art is unmistakably a barrel with a red band and
   bright tip) -- unconfirmed which of two things is wrong: the original really does look this
   distorted here, or this project's part identification is still subtly off.
-  **Still completely open:** a raised turret box and gun barrel visible in reference footage
-  still aren't accounted for anywhere in this per-vehicle-type record -- now *conclusively*
-  ruled out via a colour-coded footprint map, not just unsearched: none of the 14 real parts'
-  corners extend past the hull's own bounding box, regardless of whether any of them render
-  correctly. Whatever draws the turret/barrel is a separate mechanism, still untraced.
   This same session also built a general registry-vs-real-code audit tool
   (`tools/registry/audit_code_referenced_cels.py`) and used it to extract Jeep/MSV/Heli's real
   geometry for the first time (none are rendered in 3D yet) and fix 33 cels that were flatly
   misclassified against what real code proves them to be. See
   [document 38](38-worked-example-classification-audit.md).
+  **Update (2026-09-08, document 39) -- the turret/barrel mystery is solved, and the "14
+  parts" finding above was itself wrong.** The Tank's hull really only has document 37's
+  original 6 real parts. The other 8 were never hull parts at all: decompiling the real
+  vehicle draw dispatcher (`FUN_00402dc0`, one level up from the generic per-descriptor
+  renderer document 38 had decompiled) found it draws the hull once, then -- when a linked
+  turret sub-object exists -- swaps in a **wholly separate descriptor** and draws again with
+  an independently composed rotation (hull heading + turret aim). That separate descriptor's
+  parts array sits in memory immediately after the hull's own (which is exactly why
+  boundary-detection walked into it and misread it as more hull parts, resolved against the
+  wrong -- the hull's -- corner array, which is why every attempt at these 8 cels looked
+  distorted no matter what got fixed). Read against the turret's own, correct corner array,
+  the same 8 cels resolve into a real, coherent turret box with a barrel and muzzle ring,
+  matching the user's reference screenshots directly. **Still open:** the muzzle ring (cel
+  212) renders at the wrong size/position -- checked three separate ways this session
+  (backface-culling flags, the rotation-matrix construction, the angle-bucket draw lists) and
+  confirmed none of them explain it; a hand-adjustment attempt made it worse in a different
+  way and was reverted. Independent turret aim also isn't modelled (no aim-angle state exists
+  in this project yet) -- the turret renders at hull heading, a documented simplification. See
+  [document 39](39-worked-example-real-turret-and-barrel.md).
 
 ## Still open
 

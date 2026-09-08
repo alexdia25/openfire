@@ -77,15 +77,21 @@ confirmed helicopter sprite" question — a real mini-map icon set (registry cor
 visually confirms all four. Real in-game rotation art for Jeep/MSV/Heli is still unlocated.
 **The Tank itself is now correctly implemented (2026-09-08): it was never actually the flat
 `rotation.tan.01-09` sprite this project rendered for its entire history** (section 4 item
-10) — the real Tank is a genuine multi-face 3D box (6 of its real 14 parts shipped and
-correct; the other 8 are real, verified data but not yet rendered correctly -- see document 38
--- including the tank-tread graphic, confirmed completely unused until traced) built from real
-local 3D corner coordinates read directly out of RFIRE.BIN's own per-vehicle-type data. This
-retroactively explains the session's very first observation (visible tread varying with
-camera position) — a real box under a tilted camera naturally does that; a flat card never
-could. See [document 37](process/37-worked-example-real-tank-geometry.md) and, for the real
-14-part count plus a general classification audit that also fixed 33 wrong registry entries
-for Jeep/MSV/Heli, [document 38](process/38-worked-example-classification-audit.md).
+10) — the real Tank is a genuine multi-face 3D box (the hull's real 6 parts, document 37,
+correct all along) **plus a real, separate turret+barrel object** (document 39) drawn on top
+of it with its own independently composed rotation — including the tank-tread graphic,
+confirmed completely unused until traced. Built from real local 3D corner coordinates read
+directly out of RFIRE.BIN's own per-vehicle-type data. This retroactively explains the
+session's very first observation (visible tread varying with camera position) — a real box
+under a tilted camera naturally does that; a flat card never could. See
+[document 37](process/37-worked-example-real-tank-geometry.md) for the hull,
+[document 38](process/38-worked-example-classification-audit.md) for a general classification
+audit that also fixed 33 wrong registry entries for Jeep/MSV/Heli (its own "14 real hull
+parts" finding was itself superseded by document 39 -- the other 8 were the turret's data,
+misread against the hull's own corner array), and
+[document 39](process/39-worked-example-real-turret-and-barrel.md) for the turret/barrel
+itself, now found, extracted, and rendered — one part (the muzzle ring) still renders at the
+wrong size, confirmed genuinely unresolved rather than guessed at further.
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
@@ -2332,6 +2338,30 @@ Web checklist:
     for the first time (`tools/data/vehicle_type_parts.json` -- none rendered in 3D yet), and
     fixed 33 registry cels that were flatly misclassified against what real code proves them
     to be. See [document 38](process/38-worked-example-classification-audit.md).
+    **Third follow-up (2026-09-08, document 39): the "14 real hull parts" finding above was
+    itself wrong -- the hull really only has document 37's original 6.** The user's direction
+    to "understand the original code" pointed at the actual vehicle draw *dispatcher*
+    (`FUN_00402dc0`), one level up from the generic per-descriptor renderer (`FUN_0041b2b0`)
+    document 38 had already decompiled. It draws the hull once with the vehicle's own
+    descriptor, then -- when a linked turret sub-object exists -- swaps in a **wholly separate
+    descriptor** (`0x0043e9b8`) and draws again with an independently composed rotation (hull
+    heading + turret aim angle). That separate descriptor's parts array sits in memory exactly
+    6 part-records after the hull's own, and its corner array sits exactly where the hull's own
+    ends -- which is precisely why document 38's boundary-detection walk found "8 more hull
+    parts" there: real data, just resolved against the wrong (hull's) corner array, which is
+    why every one of those 8 cels looked distorted no matter which of 2 real bugs got fixed
+    along the way. Read against the turret's own correct corner array, the identical 8 cels
+    (177, 192 x2, 197, 207, 202 x2, 212) resolve into a coherent turret box with a barrel and
+    muzzle ring, matching the user's reference screenshots directly -- extracted with a small
+    generalization of the existing tooling (`tools/ghidra_scripts/DumpDescriptorParts.java
+    <descAddr>`) and now rendered as `TURRET_PARTS` in `game/vehicle_box_3d.gd`. **Still open:**
+    the muzzle ring (cel 212) renders at the wrong size/position -- checked three separate ways
+    (backface-culling flags, the rotation-matrix construction, the angle-bucket draw-order
+    lists) with none explaining it; a hand-adjustment attempt fixed the size but broke the
+    aspect ratio, and was reverted rather than shipped as a second guess. Independent turret
+    aim also isn't modelled (no aim-angle state exists in this project yet) -- the turret
+    renders at the hull's own heading, a documented simplification. See
+    [document 39](process/39-worked-example-real-turret-and-barrel.md).
 11. **Terrain-based vehicle passability — NOT STARTED, new backlog item (2026-09-06,
     user-flagged as needed for parity).** Different vehicle types (helicopter, tank,
     support/jeep, armoured car — section 3 Phase 3's own list) should be restricted or slowed

@@ -1,0 +1,360 @@
+{
+  "_source": "RFIRE.BIN, Ghidra static analysis, 2026-09-08 (docs/process/39)",
+  "_note": "The Tank's real, SEPARATE turret+barrel descriptor (0x0043e9b8), found by decompiling the real vehicle draw dispatcher FUN_00402dc0 -- it draws the hull once with the vehicle's own descriptor, then swaps in this wholly different descriptor and draws again with an independently composed rotation (hull heading + turret aim angle, not modelled by this project yet). This descriptor's own parts array (0x0043e7c0) sits in memory immediately after the hull's own (exactly 6 part-records later), and its own corner array (0x0043e538, 22 corners) sits immediately after the hull's own (24 corners) -- which is why an earlier boundary-detection pass mistakenly walked into this data and misread it as 8 more hull parts, with each part's corners resolved against the WRONG (hull's) corner array. Extracted with tools/ghidra_scripts/DumpDescriptorParts.java 0043e9b8.",
+  "descriptor_addr": "0x0043e9b8",
+  "corner_count": 22,
+  "corner_ptr": "0x0043e538",
+  "parts_ptr": "0x0043e7c0",
+  "real_part_count": 8,
+  "parts": [
+    {
+      "part_idx": 0,
+      "cel": 177,
+      "flags": "0x8",
+      "corner_idx": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "corners_fixed16_16": [
+        [
+          -327696,
+          -393216,
+          589824
+        ],
+        [
+          327696,
+          -393216,
+          589824
+        ],
+        [
+          327696,
+          393216,
+          589824
+        ],
+        [
+          -327696,
+          393216,
+          589824
+        ]
+      ]
+    },
+    {
+      "part_idx": 1,
+      "cel": 192,
+      "flags": "0x8",
+      "corner_idx": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "corners_fixed16_16": [
+        [
+          -196608,
+          -327696,
+          589824
+        ],
+        [
+          -196608,
+          393216,
+          589824
+        ],
+        [
+          -196608,
+          262127,
+          327680
+        ],
+        [
+          -196608,
+          -245760,
+          327680
+        ]
+      ]
+    },
+    {
+      "part_idx": 2,
+      "cel": 192,
+      "flags": "0x8",
+      "corner_idx": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "corners_fixed16_16": [
+        [
+          196608,
+          -327696,
+          589824
+        ],
+        [
+          196608,
+          393216,
+          589824
+        ],
+        [
+          196608,
+          262127,
+          327680
+        ],
+        [
+          196608,
+          -245760,
+          327680
+        ]
+      ]
+    },
+    {
+      "part_idx": 3,
+      "cel": 197,
+      "flags": "0x8",
+      "corner_idx": [
+        5,
+        9,
+        10,
+        6
+      ],
+      "corners_fixed16_16": [
+        [
+          -196608,
+          393216,
+          589824
+        ],
+        [
+          196608,
+          393216,
+          589824
+        ],
+        [
+          196608,
+          262127,
+          327680
+        ],
+        [
+          -196608,
+          262127,
+          327680
+        ]
+      ]
+    },
+    {
+      "part_idx": 4,
+      "cel": 207,
+      "flags": "0x8",
+      "corner_idx": [
+        4,
+        8,
+        11,
+        7
+      ],
+      "corners_fixed16_16": [
+        [
+          -196608,
+          -327696,
+          589824
+        ],
+        [
+          196608,
+          -327696,
+          589824
+        ],
+        [
+          196608,
+          -245760,
+          327680
+        ],
+        [
+          -196608,
+          -245760,
+          327680
+        ]
+      ]
+    },
+    {
+      "part_idx": 5,
+      "cel": 202,
+      "flags": "0x8",
+      "corner_idx": [
+        12,
+        17,
+        16,
+        13
+      ],
+      "corners_fixed16_16": [
+        [
+          196608,
+          -344064,
+          458752
+        ],
+        [
+          196608,
+          -786432,
+          458752
+        ],
+        [
+          0,
+          -786432,
+          720896
+        ],
+        [
+          0,
+          -344064,
+          589824
+        ]
+      ]
+    },
+    {
+      "part_idx": 6,
+      "cel": 202,
+      "flags": "0x8",
+      "corner_idx": [
+        14,
+        15,
+        16,
+        13
+      ],
+      "corners_fixed16_16": [
+        [
+          -196608,
+          -344064,
+          458752
+        ],
+        [
+          -196608,
+          -786432,
+          458752
+        ],
+        [
+          0,
+          -786432,
+          720896
+        ],
+        [
+          0,
+          -344064,
+          589824
+        ]
+      ]
+    },
+    {
+      "part_idx": 7,
+      "cel": 212,
+      "flags": "0x8",
+      "corner_idx": [
+        18,
+        19,
+        20,
+        21
+      ],
+      "corners_fixed16_16": [
+        [
+          -245760,
+          -786432,
+          720896
+        ],
+        [
+          245760,
+          -786432,
+          720896
+        ],
+        [
+          245760,
+          -786432,
+          196608
+        ],
+        [
+          -245760,
+          -786432,
+          196608
+        ]
+      ]
+    }
+  ],
+  "angle_buckets": [
+    [
+      7,
+      5,
+      6,
+      4,
+      1,
+      2,
+      3,
+      0
+    ],
+    [
+      1,
+      4,
+      7,
+      5,
+      6,
+      3,
+      2,
+      0
+    ],
+    [
+      1,
+      4,
+      5,
+      6,
+      7,
+      3,
+      2,
+      0
+    ],
+    [
+      3,
+      2,
+      1,
+      4,
+      0,
+      5,
+      6,
+      7
+    ],
+    [
+      2,
+      3,
+      1,
+      4,
+      0,
+      6,
+      5,
+      7
+    ],
+    [
+      2,
+      3,
+      6,
+      5,
+      7,
+      4,
+      1,
+      0
+    ],
+    [
+      7,
+      6,
+      5,
+      4,
+      2,
+      1,
+      3,
+      0
+    ],
+    [
+      7,
+      6,
+      5,
+      4,
+      1,
+      2,
+      3,
+      0
+    ]
+  ],
+  "known_issues": {
+    "part_7_cel_212_muzzle_ring": "Renders visibly larger/lower than the barrel tip it caps, once converted to Godot space and rendered. Confirmed real, unmodified data (corner table re-checked directly 3 times). Confirmed NOT explained by: backface-culling flag bits (unset here, inert), the rotation-matrix construction (pure rotation, no embedded scale, FUN_0041ae10), or the angle-bucket lists (index 7 present at every viewing angle, draw-order only). A hand-adjustment constraining the ring's height to the barrel's own tip band fixed the size but broke the aspect ratio into a visibly squashed oval -- reverted. Genuinely unresolved."
+  }
+}

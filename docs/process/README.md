@@ -241,12 +241,22 @@ them in order for the first time: narrative, worked examples, real commands you 
     replaces the old flat-card approach as the default vehicle presentation.
 38. [**Worked example: the Tank has 14 real parts, not 8 -- and a general classification
     audit**](38-worked-example-classification-audit.md) — document 37's own "8 parts, not 6"
-    addendum was itself an undercount; re-deriving the real boundary generally (not
-    eyeballed) finds 14, ships 4 more of them, and precisely diagnoses (a texture-UV problem,
-    not a triangulation one) why the last 4 still don't render. Also builds a reusable
-    registry-vs-real-code audit (`tools/registry/audit_code_referenced_cels.py`), extracts
-    Jeep/MSV/Heli's real geometry for the first time, and fixes 33 flatly wrong registry
-    classifications it found this way.
+    addendum was itself an undercount; re-deriving the real boundary generally (not eyeballed)
+    finds 14 -- reduced back to document 37's original 6 by document 39, which found the other
+    8 were never hull parts at all. Also builds a reusable registry-vs-real-code audit
+    (`tools/registry/audit_code_referenced_cels.py`), extracts Jeep/MSV/Heli's real geometry
+    for the first time, and fixes 33 flatly wrong registry classifications it found this way.
+39. [**Worked example: the turret and gun barrel are a real, separate object**](39-worked-example-real-turret-and-barrel.md)
+    — decompiling the real vehicle draw dispatcher (`FUN_00402dc0`, one level up from the
+    generic per-descriptor renderer document 38 had already decompiled) found it draws the
+    hull once, then swaps in a wholly different descriptor and draws again with an
+    independently composed rotation -- a genuine, separate turret+barrel object, sitting in
+    memory immediately after the hull's own data (which is exactly why document 38's boundary
+    detection walked into it and misread it as 8 more hull parts, resolved against the wrong
+    corner array). The turret is now found, extracted, and rendered, matching the user's
+    reference screenshots directly. One part (the muzzle ring) still renders at the wrong
+    size/position -- checked three ways and confirmed genuinely unresolved, not guessed at
+    further.
 
 ## The one rule that overrides everything else here
 

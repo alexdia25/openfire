@@ -867,6 +867,28 @@ put(901, "decoration.splatter_red.01", "decoration",
     "exact identity unconfirmed.",
     confidence="code_verified")
 
+# --- 2026-09-08 (document 39): decompiling the Tank's real vehicle draw dispatcher
+# (FUN_00402dc0, not FUN_0041b430 -- that's the generic per-descriptor renderer both the hull
+# and the turret call through) found it draws the hull once, then swaps in a wholly separate
+# descriptor (0x0043e9b8, its own real corner array, contiguous with but distinct from the
+# hull's) and draws again with an independently composed rotation -- a genuine, separate
+# turret+barrel object. These 8 cels are its real parts, previously misclassified as generic
+# Tank hull panels (document 38 upgraded their confidence without knowing this) because
+# nothing had traced the turret descriptor's existence yet -- not a wrong guess so much as an
+# incomplete one, corrected now that the real object they belong to is known.
+_TURRET_NOTE = ("corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle "
+                "draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own "
+                "SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the "
+                "previous id was a guess made before this descriptor was known to exist at all.")
+put(177, "vehicle.hovercraft.turret.top.01", "vehicle", _TURRET_NOTE, confidence="code_verified")
+put(192, "vehicle.hovercraft.turret.side.01", "vehicle", _TURRET_NOTE, confidence="code_verified")
+put(197, "vehicle.hovercraft.turret.back.01", "vehicle", _TURRET_NOTE, confidence="code_verified")
+put(207, "vehicle.hovercraft.turret.front.01", "vehicle", _TURRET_NOTE, confidence="code_verified")
+put(202, "vehicle.hovercraft.turret.barrel.01", "vehicle", _TURRET_NOTE, confidence="code_verified")
+put(203, "vehicle.hovercraft.turret.barrel.02", "vehicle", _TURRET_NOTE, confidence="code_verified")
+put(212, "vehicle.hovercraft.turret.muzzle_ring.01", "vehicle", _TURRET_NOTE, confidence="code_verified")
+put(213, "vehicle.hovercraft.turret.muzzle_ring.02", "vehicle", _TURRET_NOTE, confidence="code_verified")
+
 
 def main():
     with open(REGISTRY_JSON) as f:
