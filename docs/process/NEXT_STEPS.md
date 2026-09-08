@@ -108,6 +108,16 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 
 ## Still open
 
+**Session paused here (2026-09-08), user direction: fix the Tank's muzzle ring before starting
+anything else.** The turret+barrel find above (document 39) is real and correct as a whole,
+but the muzzle ring (cel 212, `TURRET_PARTS` in `game/vehicle_box_3d.gd`) still renders
+visibly larger/lower than the barrel tip it caps. Three things were already checked and ruled
+out this session (see document 39's own "what's still open" section for the detail): the
+backface-culling flags, the rotation-matrix construction, and the angle-bucket draw-order
+lists. A hand-adjustment (constrain the ring to the barrel's own tip band) fixed the size but
+broke the aspect ratio into a visibly squashed oval -- reverted. This needs a real code-level
+answer, not another guessed adjustment -- start there before picking up anything else below.
+
 See plan section 4 for the current, precise state of each — this list is just pointers:
 
 - **What ends a match — the flag-spawn trigger is now precisely known (2026-09-06); the rest
