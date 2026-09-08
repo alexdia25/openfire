@@ -77,12 +77,14 @@ confirmed helicopter sprite" question — a real mini-map icon set (registry cor
 visually confirms all four. Real in-game rotation art for Jeep/MSV/Heli is still unlocated.
 **The Tank itself is now correctly implemented (2026-09-08): it was never actually the flat
 `rotation.tan.01-09` sprite this project rendered for its entire history** (section 4 item
-10) — the real Tank is a genuine six-face 3D box (hull top/bottom + four side faces,
+10) — the real Tank is a genuine multi-face 3D box (10 of its real 14 parts now shipped,
 including the tank-tread graphic, confirmed completely unused until traced) built from real
 local 3D corner coordinates read directly out of RFIRE.BIN's own per-vehicle-type data. This
 retroactively explains the session's very first observation (visible tread varying with
 camera position) — a real box under a tilted camera naturally does that; a flat card never
-could. See [document 37](process/37-worked-example-real-tank-geometry.md).
+could. See [document 37](process/37-worked-example-real-tank-geometry.md) and, for the real
+14-part count plus a general classification audit that also fixed 33 wrong registry entries
+for Jeep/MSV/Heli, [document 38](process/38-worked-example-classification-audit.md).
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
 in this file; do not assume prior conversation is available.
 
@@ -2294,17 +2296,28 @@ Web checklist:
     `VehicleBillboard3D` -- the same correction the new box's own facing needed, for the same
     underlying reason. See
     [document 37](process/37-worked-example-real-tank-geometry.md) for the full trace.
-    **Follow-up (2026-09-08): the real descriptor actually has 8 parts, not 6, and even that
-    isn't the whole tank.** Rechecking the angle-bucket draw-order data for a stray high value
-    found two more real parts (cels 202, 212) this document's first pass missed -- but unlike
-    the other six, their four corners don't lie in one plane, so `Sprite3D` can't represent
-    them; a hand-built `ArrayMesh` was added (`VehicleBoxRender3D._build_warped_mesh()`) but
-    every triangulation tried produced a visible glitch, not a coherent panel. Recorded as
-    real, verified data (`WARPED_PARTS`) but deliberately not rendered rather than ship
-    something visibly wrong. Separately, and still completely unresolved: the reference
-    screenshots show a raised turret box and gun barrel that nothing found in this
-    per-vehicle-type record accounts for at all -- not the six implemented parts, not the two
-    unplaced ones. See document 37's addendum.
+    **Follow-up (2026-09-08, document 37 addendum): 8 parts, not 6 -- still an undercount.**
+    Rechecking the angle-bucket draw-order data for a stray high value found two more real
+    parts (cels 202, 212) this document's first pass missed -- but unlike the other six, their
+    four corners don't lie in one plane, so `Sprite3D` can't represent them; a hand-built
+    `ArrayMesh` was added but every triangulation tried produced a visible glitch.
+    **Second follow-up (2026-09-08, document 38): 14 parts, not 8 -- the angle-bucket
+    heuristic itself was the bug.** Generalizing the extraction (`tools/ghidra_scripts/
+    DumpVehicleTypeParts.java`) and re-deriving the real part count by walking the parts array
+    until the data goes implausible (not trusting angle-bucket indices, which only ever cover
+    6 of the 14 -- a depth-sort *order* for the primary hull faces, not a manifest) found 6
+    more real parts. 4 are now shipped (177, 192 x2, 212), confirmed clean at every heading.
+    The other 4 (197, 207, and cel 202's *two* real parts -- it's two separate flat quads, not
+    one warped one) are precisely diagnosed now, not just "every triangulation glitched": a
+    magenta-debug-colour render proved the mesh geometry is complete and gap-free; the actual
+    defect is a texture-UV mapping problem for non-rectangular quads. **The turret/gun-barrel
+    gap is now conclusively ruled out of this record** (the boundary-detected walk covers
+    every real part, no gaps left unchecked) -- still completely untraced where it actually
+    lives. The same session built a general registry-vs-real-code audit
+    (`tools/registry/audit_code_referenced_cels.py`), extracted Jeep/MSV/Heli's real geometry
+    for the first time (`tools/data/vehicle_type_parts.json` -- none rendered in 3D yet), and
+    fixed 33 registry cels that were flatly misclassified against what real code proves them
+    to be. See [document 38](process/38-worked-example-classification-audit.md).
 11. **Terrain-based vehicle passability — NOT STARTED, new backlog item (2026-09-06,
     user-flagged as needed for parity).** Different vehicle types (helicopter, tank,
     support/jeep, armoured car — section 3 Phase 3's own list) should be restricted or slowed

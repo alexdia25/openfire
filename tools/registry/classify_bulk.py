@@ -706,6 +706,167 @@ put(188, "vehicle.hovercraft.hull.21", "vehicle",
     "(vehicle.hovercraft.hull.10), one of the Tank real 3D box model's six real faces; same "
     "rivet-detail shape, green instead of brown", confidence="visual")
 
+# --- 2026-09-08 (document 38): tools/registry/audit_code_referenced_cels.py cross-checked
+# every cel now proven, by real code (tools/data/vehicle_type_parts.json, extracted from all 4
+# vehicle-type descriptors, not just the Tank), to be part of a specific vehicle -- against this
+# registry's own guess for that same cel. It found 29 cels for JEEP/MSV/HELI classified as
+# something else entirely (character/prop/effect/marker/ui/pickup/decoration) -- not a
+# vague-but-plausible guess like the Tank's old cel 188, but a flat category error, because
+# nothing had ever traced these three vehicles' real parts before (JEEP/MSV/HELI's real geometry
+# was extracted for the first time this session; only the Tank's had been fully decoded, in
+# document 37). This is exactly the failure mode the user asked this audit to prevent from
+# recurring. Renamed with a neutral "part.NN" sequence (numbered by their real part index in the
+# descriptor, not a guess at what each panel visually depicts -- unlike the Tank's hull/track/
+# wheel_hub names, no visual review pass has been done on these yet) rather than invent new
+# descriptive names this audit has no visual basis for. confidence="code_verified" -- a
+# strictly stronger claim than "confirmed" elsewhere in this file (which has sometimes just
+# meant "eyeballed twice"): every cel below is proven by walking RFIRE.BIN's own vehicle-type
+# descriptor data, not visual comparison. None of these 3 vehicles are rendered in 3D yet (only
+# the Tank is, in game/vehicle_box_3d.gd) -- this is a registry-accuracy fix, not a rendering
+# one.
+#
+# IMPORTANT re-run note: this whole block is a DOCUMENTATION record of what was applied, not
+# the mechanism that applied it. Running this file's own main() to apply it hit the exact
+# "known bug" this file's own header already warns about (a seq() family recomputing different
+# numbers than what's on disk once a sibling cel's id changes -- here, cel 188's document-37
+# correction freed up "decoration.stripe_band.01", shifting what the "decoration.stripe_band."
+# seq() call at line ~337 computes as the next free number). The corrections below were applied
+# by a small one-off script that edited packs/registry/asset_ids.json directly with these exact
+# id/category/confidence/note values (bypassing ENTRIES/main() entirely) -- re-running this
+# file's main() is still unsafe for the reason the file header already documents.
+_JEEP_NOTE = ("real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own "
+              "vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document "
+              "39) -- corrects a flat category error, not a refinement of a plausible guess.")
+put(422, "vehicle.jeep.part.01", "vehicle", _JEEP_NOTE, confidence="code_verified")
+put(432, "vehicle.jeep.part.02", "vehicle", _JEEP_NOTE, confidence="code_verified")
+put(437, "vehicle.jeep.part.03", "vehicle", _JEEP_NOTE, confidence="code_verified")
+put(442, "vehicle.jeep.part.04", "vehicle", _JEEP_NOTE, confidence="code_verified")
+put(417, "vehicle.jeep.part.05", "vehicle", _JEEP_NOTE, confidence="code_verified")
+put(427, "vehicle.jeep.part.06", "vehicle", _JEEP_NOTE, confidence="code_verified")
+put(447, "vehicle.jeep.part.07", "vehicle", _JEEP_NOTE, confidence="code_verified")
+put(452, "vehicle.jeep.part.08", "vehicle", _JEEP_NOTE, confidence="code_verified")
+put(457, "vehicle.jeep.part.09", "vehicle", _JEEP_NOTE, confidence="code_verified")
+
+_MSV_NOTE = ("real MSV vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own "
+             "vehicle-type descriptor #2 (see tools/data/vehicle_type_parts.json, document "
+             "39) -- corrects a flat category error, not a refinement of a plausible guess.")
+put(279, "vehicle.msv.part.01", "vehicle", _MSV_NOTE, confidence="code_verified")
+put(284, "vehicle.msv.part.02", "vehicle", _MSV_NOTE, confidence="code_verified")
+put(294, "vehicle.msv.part.03", "vehicle", _MSV_NOTE, confidence="code_verified")
+put(314, "vehicle.msv.part.04", "vehicle", _MSV_NOTE, confidence="code_verified")
+put(309, "vehicle.msv.part.05", "vehicle", _MSV_NOTE, confidence="code_verified")
+put(324, "vehicle.msv.part.06", "vehicle", _MSV_NOTE, confidence="code_verified")
+put(319, "vehicle.msv.part.07", "vehicle", _MSV_NOTE, confidence="code_verified")
+# These 3 were already category="vehicle" (as "cart"/"mobile_gun" -- a guess that they were
+# small standalone vehicles in their own right, not parts of a larger one) -- confirmed by
+# document 38 to actually be MSV body parts instead. Left under their existing ids rather than
+# folded into vehicle.msv.part.NN above: renaming risks fragmenting the "cart"/"mobile_gun"
+# families' *other* members (e.g. cels 290/291/300/301/433/434), which this audit did not
+# re-check and may or may not be MSV parts too -- that's a separate pass, not assumed here.
+put(289, "vehicle.cart.tan.04", "vehicle",
+    "confirmed 2026-09-08: actually an MSV body part (document 38), not a standalone small "
+    "vehicle -- kept under its existing id, see this section's own note on why.",
+    confidence="code_verified")
+put(299, "vehicle.cart.tread.01", "vehicle",
+    "confirmed 2026-09-08: actually an MSV body part (document 38), not a standalone small "
+    "vehicle -- kept under its existing id, see this section's own note on why.",
+    confidence="code_verified")
+put(304, "vehicle.mobile_gun.detailed.01", "vehicle",
+    "confirmed 2026-09-08: actually an MSV body part (document 38), not a standalone small "
+    "vehicle -- kept under its existing id, see this section's own note on why.",
+    confidence="code_verified")
+
+_HELI_NOTE = ("real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own "
+              "vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document "
+              "39) -- corrects a flat category error (several of these were classified as "
+              "character/marker cels), not a refinement of a plausible guess. This is Return "
+              "Fire's best-known vehicle and, until now, this project had never located any "
+              "real part of it at all (PORTING_PLAN.md section 4 item 12).")
+put(524, "vehicle.heli.part.01", "vehicle", _HELI_NOTE, confidence="code_verified")
+put(529, "vehicle.heli.part.02", "vehicle", _HELI_NOTE, confidence="code_verified")
+put(564, "vehicle.heli.part.03", "vehicle", _HELI_NOTE, confidence="code_verified")
+put(539, "vehicle.heli.part.04", "vehicle", _HELI_NOTE, confidence="code_verified")
+put(544, "vehicle.heli.part.05", "vehicle", _HELI_NOTE, confidence="code_verified")
+put(574, "vehicle.heli.part.06", "vehicle", _HELI_NOTE, confidence="code_verified")
+put(549, "vehicle.heli.part.07", "vehicle", _HELI_NOTE, confidence="code_verified")
+put(554, "vehicle.heli.part.08", "vehicle", _HELI_NOTE, confidence="code_verified")
+put(534, "vehicle.heli.part.09", "vehicle", _HELI_NOTE, confidence="code_verified")
+put(569, "vehicle.heli.part.10", "vehicle", _HELI_NOTE, confidence="code_verified")
+put(559, "vehicle.heli.part.11", "vehicle", _HELI_NOTE, confidence="code_verified")
+
+# The Tank's own 10 already-correctly-categorized cels (6 from document 37's main text, 4 more
+# from document 38) upgraded from "visual_group" to "code_verified" -- same real code trace,
+# just recording that the category/id were already right, only the confidence tier was stale.
+_TANK_VERIFIED_NOTE = ("category/id were already correct -- upgraded from visual_group to "
+                       "code_verified 2026-09-08 (document 38) since this cel is now proven, "
+                       "not guessed, to be a real Tank part.")
+put(167, "vehicle.hovercraft.hull.01", "vehicle", _TANK_VERIFIED_NOTE, confidence="code_verified")
+put(172, "vehicle.hovercraft.hull.04", "vehicle", _TANK_VERIFIED_NOTE, confidence="code_verified")
+put(177, "vehicle.hovercraft.hull.07", "vehicle", _TANK_VERIFIED_NOTE, confidence="code_verified")
+put(182, "vehicle.hovercraft.track.01", "vehicle", _TANK_VERIFIED_NOTE, confidence="code_verified")
+put(187, "vehicle.hovercraft.hull.10", "vehicle", _TANK_VERIFIED_NOTE, confidence="code_verified")
+put(192, "vehicle.hovercraft.hull.12", "vehicle", _TANK_VERIFIED_NOTE, confidence="code_verified")
+put(197, "vehicle.hovercraft.hull.14", "vehicle", _TANK_VERIFIED_NOTE, confidence="code_verified")
+put(202, "vehicle.hovercraft.hull.16", "vehicle", _TANK_VERIFIED_NOTE, confidence="code_verified")
+put(207, "vehicle.hovercraft.hull.18", "vehicle", _TANK_VERIFIED_NOTE, confidence="code_verified")
+put(212, "vehicle.hovercraft.wheel_hub.01", "vehicle", _TANK_VERIFIED_NOTE, confidence="code_verified")
+
+# The ~30 coastal-decoration cels (document 35/36's coastal catalogue, tools/data/
+# coastal_decorations.json) whose category was already "decoration" -- upgraded the same way,
+# same reasoning: real code proves these are decoration parts, not just a visual guess anymore.
+_DECORATION_VERIFIED_NOTE = ("category/id were already correct -- upgraded from visual/"
+                             "visual_group to code_verified 2026-09-08 (document 38) since "
+                             "tools/data/coastal_decorations.json proves this cel is a real "
+                             "coastal-decoration part, not a guess.")
+with open(REGISTRY_JSON) as _f:
+    _on_disk_cels = json.load(_f)["cels"]
+for _cel in (112, 113, 114, 115, 116, 117, 120, 121, 122, 124, 135, 136, 139, 140, 143, 144,
+             145, 147, 154, 155, 156, 157, 158, 159, 160, 161, 162, 1001, 1003, 1025, 1937):
+    # These ids were seeded by classify_batch1-3.py, not this file (ENTRIES only holds this
+    # file's own put()/seq() calls) -- read the CURRENT on-disk id/category for each rather
+    # than re-typing 30 ids by hand and risking a transcription mismatch that would silently
+    # rename instead of just re-confirming.
+    _existing = _on_disk_cels.get(str(_cel))
+    if _existing is None:
+        raise ValueError(f"cel {_cel} not already in the on-disk registry -- can't upgrade its "
+                          f"confidence without knowing its current id/category")
+    put(_cel, _existing["id"], _existing["category"], _DECORATION_VERIFIED_NOTE,
+        confidence="code_verified")
+
+# 4 more coastal-decoration cels this same audit found classified under a category that is
+# *structurally* incompatible with being a decoration part, not just a plausible-either-way
+# naming choice (unlike the ~100 structure/prop/marker/effect cels this audit deliberately left
+# alone -- see document 38's own discussion of that distinction): "ui" cels are HUD overlays,
+# never world-space geometry, and "pickup" cels are collectible objects with their own spawn/
+# pickup logic, never a static part of something else. Both roles are mutually exclusive with
+# "this cel is one immovable part of a decoration object", regardless of what the cel looks
+# like -- confirmed by a direct atlas crop for each, same as the rest of this file's fixes.
+put(125, "decoration.wreath_ring.01", "decoration",
+    "corrected 2026-09-08 (document 38): was 'ui.radar.icon.01', but real code (coastal "
+    "decoration 83) proves it's a world-space decoration part, not a HUD overlay -- those are "
+    "mutually exclusive rendering paths. Direct atlas crop shows a green/gold ring with a tan "
+    "centre -- read as a wreath or life-preserver-like ring shape, not a radar screen.",
+    confidence="code_verified")
+put(898, "decoration.arch_trim.01", "decoration",
+    "corrected 2026-09-08 (document 38): was 'pickup.star.01', but real code (coastal "
+    "decoration 47/48) proves it's a static decoration part, not a collectible. Direct atlas "
+    "crop shows a small brown curved/arched shape (16x8px), not a star; exact identity beyond "
+    "'small curved architectural trim piece' is unconfirmed.",
+    confidence="code_verified")
+put(900, "effect.blend_mask.01", "effect",
+    "corrected 2026-09-08 (document 38): was 'pickup.star.03', but the atlas's own metadata "
+    "says kind=effect_mask (a blend layer, not a drawable icon) -- consistent with cel "
+    "1043/1061 (effect.shadow.hard.032/034), which the same audit found are also real "
+    "decoration parts despite being masks, not objects. Real code (coastal decoration 47/48) "
+    "proves it's used as a decoration part; 'pickup' was never plausible for a blend mask.",
+    confidence="code_verified")
+put(901, "decoration.splatter_red.01", "decoration",
+    "corrected 2026-09-08 (document 38): was 'pickup.star.04', but real code (coastal "
+    "decoration 64) proves it's a static decoration part, not a collectible. Direct atlas crop "
+    "shows a red/brown starburst-like splatter shape, not a clean pickup-style star icon; "
+    "exact identity unconfirmed.",
+    confidence="code_verified")
+
 
 def main():
     with open(REGISTRY_JSON) as f:

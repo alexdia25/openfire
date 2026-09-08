@@ -62,11 +62,22 @@ worked-example docs: what got resolved, in what order, and where to read the ful
   [document 37](37-worked-example-real-tank-geometry.md); plan section 4 item 10. The DOSBox-X
   reference-capture attempt from 2026-09-06 (blocked on a Windows 95 boot failure) is now moot
   for this specific question, though still parked for anything else that might need it.
-  **Not fully closed:** the real descriptor turned out to have 8 parts, not 6 -- 2 more
-  (cels 202/212) are real, verified data but not yet rendered (every triangulation tried
-  produced a visible glitch). Separately, and still completely open: a raised turret box and
-  gun barrel visible in reference footage aren't accounted for anywhere in this
-  per-vehicle-type record at all. See document 37's addendum.
+  **Update (2026-09-08, document 38):** the real descriptor actually has **14 parts, not 8**
+  -- document 37's own "8, not 6" addendum was itself still an undercount (it trusted the
+  angle-bucket draw-order lists as a full part manifest; they only cover 6 of the 14). 4 of
+  the remaining 8 are now shipped (177, 192 x2, 212), confirmed clean at every heading. The
+  other 4 (197, 207, cel 202's two real parts) are diagnosed precisely now, not just "every
+  triangulation glitched": the geometry is complete and gap-free (proven with a
+  magenta-debug-colour render), the actual defect is a texture-UV mapping problem for
+  non-rectangular quads. **Still completely open:** a raised turret box and gun barrel visible
+  in reference footage still aren't accounted for anywhere in this per-vehicle-type record --
+  now *conclusively* ruled out, not just unsearched, since this session's boundary-detected
+  walk covers every real part with no gaps left to check.
+  This same session also built a general registry-vs-real-code audit tool
+  (`tools/registry/audit_code_referenced_cels.py`) and used it to extract Jeep/MSV/Heli's real
+  geometry for the first time (none are rendered in 3D yet) and fix 33 cels that were flatly
+  misclassified against what real code proves them to be. See
+  [document 38](38-worked-example-classification-audit.md).
 
 ## Still open
 
@@ -88,9 +99,12 @@ See plan section 4 for the current, precise state of each — this list is just 
 - Custom Godot UI for menus/level-select/etc — new goal, not yet started; **visual style should
   be based on the 3DO original, not the PC port** (user direction, 2026-09-06), which also
   makes this depend on the still-deprioritized 3DO disc extraction (section 4, items 6 and 8)
-- Real in-game rotation art for Jeep/MSV/Heli — still unlocated (the roster itself is
-  confirmed, see above; only the Tank's real art has actually been found and implemented,
-  document 37)
+- Real in-game rotation art for Jeep/MSV/Heli — the old flat-rotation-sprite question is still
+  unlocated, but document 38 (2026-09-08) found and extracted all 3 vehicles' real 3D box
+  geometry (the same kind of per-vehicle-type descriptor document 37 decoded for the Tank),
+  now sitting in `tools/data/vehicle_type_parts.json`. None of the 3 have a 3D presentation
+  implemented yet (only the Tank does, `game/vehicle_box_3d.gd`) — this is real, ready-to-use
+  data for whoever implements them next, not a rendering.
 - **Terrain-based vehicle passability — new, user-flagged (2026-09-06) as needed for
   parity.** Not started; likely connects to the still-unchased elevation bits/height_seed
   byte (section 4, items 2 and 11).

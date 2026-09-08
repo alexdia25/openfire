@@ -31,8 +31,9 @@
     },
     "1001": {
       "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.dashed_line.01"
+      "confidence": "code_verified",
+      "id": "decoration.dashed_line.01",
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1002": {
       "category": "decoration",
@@ -41,8 +42,9 @@
     },
     "1003": {
       "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.stripe_band.03"
+      "confidence": "code_verified",
+      "id": "decoration.stripe_band.03",
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1004": {
       "category": "decoration",
@@ -166,9 +168,9 @@
     },
     "1025": {
       "category": "decoration",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "decoration.moss_patch.01",
-      "note": "dark green mottled square"
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1026": {
       "category": "effect",
@@ -787,9 +789,9 @@
     },
     "112": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.foliage.bush_green.01",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1120": {
       "category": "effect",
@@ -853,9 +855,9 @@
     },
     "113": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.foliage.bush_green.02",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1130": {
       "category": "effect",
@@ -919,9 +921,9 @@
     },
     "114": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.foliage.bush_green.03",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1140": {
       "category": "effect",
@@ -985,9 +987,9 @@
     },
     "115": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.foliage.bush_green.04",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1150": {
       "category": "effect",
@@ -1051,9 +1053,9 @@
     },
     "116": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.foliage.bush_white.01",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1160": {
       "category": "effect",
@@ -1117,9 +1119,9 @@
     },
     "117": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.foliage.bush_white.02",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1170": {
       "category": "effect",
@@ -1320,9 +1322,9 @@
     },
     "120": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.foliage.bush_white.03",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1200": {
       "category": "effect",
@@ -1386,9 +1388,9 @@
     },
     "121": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.foliage.bush_white.04",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1210": {
       "category": "effect",
@@ -1452,9 +1454,9 @@
     },
     "122": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.foliage.leaf_patch",
-      "note": "small textured square, ground clutter"
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1220": {
       "category": "effect",
@@ -1584,9 +1586,9 @@
     },
     "124": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.dot_red",
-      "note": "single small red blob, purpose unconfirmed (berry/marker/projectile)"
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1240": {
       "category": "reserved",
@@ -1649,10 +1651,10 @@
       "note": "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified"
     },
     "125": {
-      "category": "ui",
-      "confidence": "visual",
-      "id": "ui.radar.icon.01",
-      "note": "green radar-screen background with a black silhouette blip; 131-132 shift to a red/orange alert palette"
+      "category": "decoration",
+      "confidence": "code_verified",
+      "id": "decoration.wreath_ring.01",
+      "note": "corrected 2026-09-08 (document 39): was 'ui.radar.icon.01', but real code (coastal decoration 83) proves it's a world-space decoration part, not a HUD overlay -- those are mutually exclusive rendering paths, so the old classification couldn't have been right regardless of appearance. Direct atlas crop shows a green/gold ring with a tan centre -- read as a wreath or life-preserver-like ring shape, not a radar screen."
     },
     "1250": {
       "category": "reserved",
@@ -2315,9 +2317,9 @@
     },
     "135": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.foliage.frond_blue",
-      "note": "single palm-frond fan shape"
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1350": {
       "category": "effect",
@@ -2381,9 +2383,9 @@
     },
     "136": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.foliage.bush_green.07",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1360": {
       "category": "effect",
@@ -2579,9 +2581,9 @@
     },
     "139": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.foliage.bush_green.08",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1390": {
       "category": "effect",
@@ -2650,9 +2652,9 @@
     },
     "140": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.foliage.bush_green.09",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1400": {
       "category": "effect",
@@ -2848,9 +2850,9 @@
     },
     "143": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.foliage.bush_green.10",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1430": {
       "category": "effect",
@@ -2914,9 +2916,9 @@
     },
     "144": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.foliage.bush_green.11",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1440": {
       "category": "effect",
@@ -2980,9 +2982,9 @@
     },
     "145": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.foliage.bush_white.08",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1450": {
       "category": "effect",
@@ -3112,9 +3114,9 @@
     },
     "147": {
       "category": "decoration",
-      "confidence": "visual",
+      "confidence": "code_verified",
       "id": "decoration.tree.branch_brown.02",
-      "note": "brown branch/trunk with blue-green leaf clusters"
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1470": {
       "category": "effect",
@@ -3579,8 +3581,9 @@
     },
     "154": {
       "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.plant.sapling.01"
+      "confidence": "code_verified",
+      "id": "decoration.plant.sapling.01",
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1540": {
       "category": "effect",
@@ -3644,8 +3647,9 @@
     },
     "155": {
       "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.plant.sapling.02"
+      "confidence": "code_verified",
+      "id": "decoration.plant.sapling.02",
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1550": {
       "category": "effect",
@@ -3709,8 +3713,9 @@
     },
     "156": {
       "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.plant.sapling.03"
+      "confidence": "code_verified",
+      "id": "decoration.plant.sapling.03",
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1560": {
       "category": "effect",
@@ -3774,8 +3779,9 @@
     },
     "157": {
       "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.plant.flower_red.01"
+      "confidence": "code_verified",
+      "id": "decoration.plant.flower_red.01",
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1570": {
       "category": "effect",
@@ -3839,8 +3845,9 @@
     },
     "158": {
       "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.plant.flower_red.02"
+      "confidence": "code_verified",
+      "id": "decoration.plant.flower_red.02",
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1580": {
       "category": "effect",
@@ -3904,8 +3911,9 @@
     },
     "159": {
       "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.plant.coral_red.01"
+      "confidence": "code_verified",
+      "id": "decoration.plant.coral_red.01",
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1590": {
       "category": "effect",
@@ -3974,8 +3982,9 @@
     },
     "160": {
       "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.plant.coral_red.02"
+      "confidence": "code_verified",
+      "id": "decoration.plant.coral_red.02",
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1600": {
       "category": "effect",
@@ -4039,8 +4048,9 @@
     },
     "161": {
       "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.plant.reeds.01"
+      "confidence": "code_verified",
+      "id": "decoration.plant.reeds.01",
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1610": {
       "category": "effect",
@@ -4104,8 +4114,9 @@
     },
     "162": {
       "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.plant.reeds.02"
+      "confidence": "code_verified",
+      "id": "decoration.plant.reeds.02",
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1620": {
       "category": "effect",
@@ -4429,9 +4440,9 @@
     },
     "167": {
       "category": "vehicle",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "vehicle.hovercraft.hull.01",
-      "note": "tan pillar"
+      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 39) since this cel is now proven, not guessed, to be a real Tank part."
     },
     "1670": {
       "category": "effect",
@@ -4764,9 +4775,9 @@
     },
     "172": {
       "category": "vehicle",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "vehicle.hovercraft.hull.04",
-      "note": "tan oval hull-top"
+      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 39) since this cel is now proven, not guessed, to be a real Tank part."
     },
     "1720": {
       "category": "effect",
@@ -5094,9 +5105,9 @@
     },
     "177": {
       "category": "vehicle",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "vehicle.hovercraft.hull.07",
-      "note": "tan block, red-dot windows"
+      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 39) since this cel is now proven, not guessed, to be a real Tank part."
     },
     "1770": {
       "category": "prop",
@@ -5429,9 +5440,9 @@
     },
     "182": {
       "category": "vehicle",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "vehicle.hovercraft.track.01",
-      "note": "tank-tread segment"
+      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 39) since this cel is now proven, not guessed, to be a real Tank part."
     },
     "1820": {
       "category": "decoration",
@@ -5759,9 +5770,9 @@
     },
     "187": {
       "category": "vehicle",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "vehicle.hovercraft.hull.10",
-      "note": "possible team-colour lead (2026-09-06): this hovercraft hull piece recurs in both tan and cyan with matching pose -- see PORTING_PLAN.md section 4 item 3 (team colouring). Not confirmed against code."
+      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 39) since this cel is now proven, not guessed, to be a real Tank part."
     },
     "1870": {
       "category": "decoration",
@@ -6088,9 +6099,9 @@
     },
     "192": {
       "category": "vehicle",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "vehicle.hovercraft.hull.12",
-      "note": "tan cab, red eyes+mouth trim"
+      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 39) since this cel is now proven, not guessed, to be a real Tank part."
     },
     "1920": {
       "category": "pickup",
@@ -6188,9 +6199,9 @@
     },
     "1937": {
       "category": "decoration",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "decoration.camo_swatch.122",
-      "note": "mottled green/olive square, camo-netting-like"
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 39) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
     },
     "1938": {
       "category": "prop",
@@ -6396,9 +6407,9 @@
     },
     "197": {
       "category": "vehicle",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "vehicle.hovercraft.hull.14",
-      "note": "tan panel"
+      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 39) since this cel is now proven, not guessed, to be a real Tank part."
     },
     "1970": {
       "category": "ui",
@@ -6734,9 +6745,9 @@
     },
     "202": {
       "category": "vehicle",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "vehicle.hovercraft.hull.16",
-      "note": "assembled composite side view w/ barrel-like extension"
+      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 39) since this cel is now proven, not guessed, to be a real Tank part."
     },
     "2020": {
       "category": "effect",
@@ -7063,9 +7074,9 @@
     },
     "207": {
       "category": "vehicle",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "vehicle.hovercraft.hull.18",
-      "note": "tan panel"
+      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 39) since this cel is now proven, not guessed, to be a real Tank part."
     },
     "2070": {
       "category": "effect",
@@ -7382,9 +7393,9 @@
     },
     "212": {
       "category": "vehicle",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "vehicle.hovercraft.wheel_hub.01",
-      "note": "concentric-ring wheel/turret-base icon"
+      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 39) since this cel is now proven, not guessed, to be a real Tank part."
     },
     "2120": {
       "category": "decoration",
@@ -8054,10 +8065,10 @@
       "id": "prop.fuel_drum.tan.01"
     },
     "279": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.fuel_drum.tan_capped.01",
-      "note": "tan drum with red end caps"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.part.01",
+      "note": "real MSV vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #2 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error, not a refinement of a plausible guess."
     },
     "28": {
       "category": "terrain",
@@ -8088,9 +8099,10 @@
       "note": "red-spark/blue-splash burst, likely a hit or small-explosion animation"
     },
     "284": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.fuel_drum.tan.02"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.part.02",
+      "note": "real MSV vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #2 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error, not a refinement of a plausible guess."
     },
     "285": {
       "category": "prop",
@@ -8117,9 +8129,9 @@
     },
     "289": {
       "category": "vehicle",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "vehicle.cart.tan.04",
-      "note": "small wheeled cart/mobile unit"
+      "note": "confirmed 2026-09-08: actually an MSV body part (document 39), not a standalone small vehicle -- kept under its existing id (renaming risks fragmenting the 'vehicle.cart.tan' family's other members, which this audit did not re-check)."
     },
     "29": {
       "category": "terrain",
@@ -8150,10 +8162,10 @@
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "294": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.ordnance_horizontal.01",
-      "note": "elongated red horizontal shape, missile or fuel tank"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.part.03",
+      "note": "real MSV vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #2 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error, not a refinement of a plausible guess."
     },
     "295": {
       "category": "vehicle",
@@ -8181,9 +8193,9 @@
     },
     "299": {
       "category": "vehicle",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "vehicle.cart.tread.01",
-      "note": "tracked (not wheeled) small mobile unit"
+      "note": "confirmed 2026-09-08: actually an MSV body part (document 39), not a standalone small vehicle -- kept under its existing id (renaming risks fragmenting the 'vehicle.cart.tread' family's other members, which this audit did not re-check)."
     },
     "3": {
       "category": "terrain",
@@ -8223,9 +8235,9 @@
     },
     "304": {
       "category": "vehicle",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "vehicle.mobile_gun.detailed.01",
-      "note": "multi-colour detailed mobile weapon unit"
+      "note": "confirmed 2026-09-08: actually an MSV body part (document 39), not a standalone small vehicle -- kept under its existing id (renaming risks fragmenting the 'vehicle.mobile_gun.detailed' family's other members, which this audit did not re-check)."
     },
     "305": {
       "category": "prop",
@@ -8252,10 +8264,10 @@
       "note": "very faint tan dashes/dots"
     },
     "309": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.control_panel.tan.01",
-      "note": "panel with a green display screen"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.part.05",
+      "note": "real MSV vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #2 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error, not a refinement of a plausible guess."
     },
     "31": {
       "category": "terrain",
@@ -8287,10 +8299,10 @@
       "note": "small blocky tan shapes"
     },
     "314": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.missile_rack.tan.01",
-      "note": "panel with 3 vertical red missile capsules"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.part.04",
+      "note": "real MSV vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #2 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error, not a refinement of a plausible guess."
     },
     "315": {
       "category": "prop",
@@ -8315,10 +8327,10 @@
       "id": "prop.sensor_array.cyan.01"
     },
     "319": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.emblem.06",
-      "note": "green/tan ornate camo panel"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.part.07",
+      "note": "real MSV vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #2 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error, not a refinement of a plausible guess."
     },
     "32": {
       "category": "terrain",
@@ -8348,10 +8360,10 @@
       "note": "bundled vertical capsules, red/blue"
     },
     "324": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.fuel_canister.cluster_blue.01",
-      "note": "bundled vertical capsules, blue/tan"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.part.06",
+      "note": "real MSV vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #2 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error, not a refinement of a plausible guess."
     },
     "325": {
       "category": "prop",
@@ -8935,10 +8947,10 @@
       "id": "prop.debris_faint.432"
     },
     "417": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.tank_cylinder.tan.01",
-      "note": "cylindrical tank with a red valve/cross detail"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.part.05",
+      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error, not a refinement of a plausible guess."
     },
     "418": {
       "category": "prop",
@@ -8969,10 +8981,10 @@
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "422": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.frame.tan.01",
-      "note": "rectangular frame/window shape"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.part.01",
+      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error, not a refinement of a plausible guess."
     },
     "423": {
       "category": "prop",
@@ -8995,10 +9007,10 @@
       "id": "prop.debris_faint.433"
     },
     "427": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.frame.tan.02",
-      "note": "open rectangular frame"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.part.06",
+      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error, not a refinement of a plausible guess."
     },
     "428": {
       "category": "prop",
@@ -9027,9 +9039,10 @@
       "id": "prop.debris_faint.435"
     },
     "432": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.436"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.part.02",
+      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error, not a refinement of a plausible guess."
     },
     "433": {
       "category": "vehicle",
@@ -9054,10 +9067,10 @@
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "437": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.beam.85",
-      "note": "thin vertical red line"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.part.03",
+      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error, not a refinement of a plausible guess."
     },
     "438": {
       "category": "prop",
@@ -9089,10 +9102,10 @@
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "442": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.control_panel.cyan.02",
-      "note": "elongated, train-car-like, yellow lights"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.part.04",
+      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error, not a refinement of a plausible guess."
     },
     "443": {
       "category": "prop",
@@ -9119,10 +9132,10 @@
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "447": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper.tan.01",
-      "note": "humanoid infantry figure, torso up, bandolier strap"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.part.07",
+      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error, not a refinement of a plausible guess."
     },
     "448": {
       "category": "character",
@@ -9152,10 +9165,10 @@
       "note": "thin vertical red line"
     },
     "452": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.window_brown.01",
-      "note": "brown-framed blue glass window/screen"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.part.08",
+      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error, not a refinement of a plausible guess."
     },
     "453": {
       "category": "prop",
@@ -9181,10 +9194,10 @@
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "457": {
-      "category": "ui",
-      "confidence": "visual_group",
-      "id": "ui.map_blip.01",
-      "note": "small red dot icon"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.part.09",
+      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error, not a refinement of a plausible guess."
     },
     "458": {
       "category": "ui",
@@ -9604,10 +9617,10 @@
       "id": "prop.debris_faint.443"
     },
     "524": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.wave_horizon.159",
-      "note": "teal wave/water/sky horizon-shaped strip"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.heli.part.01",
+      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
     },
     "525": {
       "category": "prop",
@@ -9632,10 +9645,10 @@
       "id": "prop.dome_turret.cyan.01"
     },
     "529": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.camo_strip.03",
-      "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.heli.part.02",
+      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
     },
     "53": {
       "category": "terrain",
@@ -9667,10 +9680,10 @@
       "note": "red bullseye in a coloured frame (tan/green/blue/brown/orange) -- likely a mission-objective icon set"
     },
     "534": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.objective_target.03",
-      "note": "red bullseye in a coloured frame (tan/green/blue/brown/orange) -- likely a mission-objective icon set"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.heli.part.09",
+      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
     },
     "535": {
       "category": "marker",
@@ -9697,9 +9710,10 @@
       "note": "red bullseye in a coloured frame (tan/green/blue/brown/orange) -- likely a mission-objective icon set"
     },
     "539": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.ammo_panel_red.01"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.heli.part.04",
+      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
     },
     "54": {
       "category": "terrain",
@@ -9730,10 +9744,10 @@
       "note": "thin object with a red dot, cable or rope"
     },
     "544": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.camo_strip.05",
-      "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.heli.part.05",
+      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
     },
     "545": {
       "category": "prop",
@@ -9760,10 +9774,10 @@
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "549": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.camo_strip.09",
-      "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.heli.part.07",
+      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
     },
     "55": {
       "category": "terrain",
@@ -9795,10 +9809,10 @@
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "554": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.wave_horizon.164",
-      "note": "teal wave/water/sky horizon-shaped strip"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.heli.part.08",
+      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
     },
     "555": {
       "category": "prop",
@@ -9825,10 +9839,10 @@
       "note": "teal wave/water/sky horizon-shaped strip"
     },
     "559": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.camo_strip.11",
-      "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.heli.part.11",
+      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
     },
     "56": {
       "category": "terrain",
@@ -9860,10 +9874,10 @@
       "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
     },
     "564": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_squad.01",
-      "note": "standing full-body trooper figure, several colour variants"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.heli.part.03",
+      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
     },
     "565": {
       "category": "character",
@@ -9890,10 +9904,10 @@
       "note": "standing full-body trooper figure, several colour variants"
     },
     "569": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_squad.06",
-      "note": "standing full-body trooper figure, several colour variants"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.heli.part.10",
+      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
     },
     "57": {
       "category": "terrain",
@@ -9925,10 +9939,10 @@
       "note": "standing full-body trooper figure, several colour variants"
     },
     "574": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_squad.11",
-      "note": "standing full-body trooper figure, several colour variants"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.heli.part.06",
+      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 39) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
     },
     "575": {
       "category": "effect",
@@ -11924,10 +11938,10 @@
       "note": "long road/path/water strip"
     },
     "898": {
-      "category": "pickup",
-      "confidence": "visual_group",
-      "id": "pickup.star.01",
-      "note": "small yellow star-burst shape, likely a pickup/power-up"
+      "category": "decoration",
+      "confidence": "code_verified",
+      "id": "decoration.arch_trim.01",
+      "note": "corrected 2026-09-08 (document 39): was 'pickup.star.01', but real code (coastal decoration 47/48) proves it's a static decoration part, not a collectible -- those are mutually exclusive roles. Direct atlas crop shows a small brown curved/arched shape (16x8px), not a star; exact identity beyond 'small curved architectural trim piece' is unconfirmed."
     },
     "899": {
       "category": "pickup",
@@ -11947,16 +11961,16 @@
       "note": "red-bordered square, green-and-red bullseye centre"
     },
     "900": {
-      "category": "pickup",
-      "confidence": "visual_group",
-      "id": "pickup.star.03",
-      "note": "small yellow star-burst shape, likely a pickup/power-up"
+      "category": "effect",
+      "confidence": "code_verified",
+      "id": "effect.blend_mask.01",
+      "note": "corrected 2026-09-08 (document 39): was 'pickup.star.03', but the atlas's own metadata says kind=effect_mask (a blend layer, not a drawable icon) -- consistent with cel 1043/1061 (effect.shadow.hard.032/034), which the same audit found are also real decoration parts despite being masks, not objects. Real code (coastal decoration 47/48) proves it's used as a decoration part; 'pickup' was never plausible for a blend mask."
     },
     "901": {
-      "category": "pickup",
-      "confidence": "visual_group",
-      "id": "pickup.star.04",
-      "note": "small yellow star-burst shape, likely a pickup/power-up"
+      "category": "decoration",
+      "confidence": "code_verified",
+      "id": "decoration.splatter_red.01",
+      "note": "corrected 2026-09-08 (document 39): was 'pickup.star.04', but real code (coastal decoration 64) proves it's a static decoration part, not a collectible. Direct atlas crop shows a red/brown starburst-like splatter shape, not a clean pickup-style star icon; exact identity unconfirmed."
     },
     "902": {
       "category": "pickup",

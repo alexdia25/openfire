@@ -239,6 +239,14 @@ them in order for the first time: narrative, worked examples, real commands you 
     graphic this project had sitting completely unused the whole time. Also fixes a real
     front-facing/movement-direction mismatch found along the way. `game/vehicle_box_3d.gd`
     replaces the old flat-card approach as the default vehicle presentation.
+38. [**Worked example: the Tank has 14 real parts, not 8 -- and a general classification
+    audit**](38-worked-example-classification-audit.md) — document 37's own "8 parts, not 6"
+    addendum was itself an undercount; re-deriving the real boundary generally (not
+    eyeballed) finds 14, ships 4 more of them, and precisely diagnoses (a texture-UV problem,
+    not a triangulation one) why the last 4 still don't render. Also builds a reusable
+    registry-vs-real-code audit (`tools/registry/audit_code_referenced_cels.py`), extracts
+    Jeep/MSV/Heli's real geometry for the first time, and fixes 33 flatly wrong registry
+    classifications it found this way.
 
 ## The one rule that overrides everything else here
 
