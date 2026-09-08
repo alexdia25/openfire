@@ -64,21 +64,28 @@ worked-example docs: what got resolved, in what order, and where to read the ful
   for this specific question, though still parked for anything else that might need it.
   **Update (2026-09-08, document 38):** the real descriptor actually has **14 parts, not 8**
   -- document 37's own "8, not 6" addendum was itself still an undercount (it trusted the
-  angle-bucket draw-order lists as a full part manifest; they only cover 6 of the 14). 4 of
-  the remaining 8 (177, 192 x2, 212) were briefly shipped, then **reverted** once a direct
-  comparison against the user's own real reference screenshots (not just this project's own
-  renders) found a real bug an 8-heading no-holes sweep couldn't catch: several of these cels'
-  native pixel size is far smaller than the corner span they were being stretched across (a
-  16x16 icon stretched over a ~16x52 span), producing a smeared, visibly-wrong result. All 8
-  are back to unrendered, verified data (`REMAINING_PARTS` in `game/vehicle_box_3d.gd`) pending
-  the real fix -- almost certainly native-size placement anchored within the corner span, not
-  stretch-to-fill; untraced. Cel 202 is now identified with fair confidence as the missing gun
-  barrel itself (its atlas art is unmistakably a barrel with a red band and bright tip).
+  angle-bucket draw-order lists as a full part manifest; they only cover 6 of the 14). The
+  remaining 8 went through two full rounds of "looks fixed, ship it" -- each undone once
+  compared against the user's own real reference screenshots (the second time, live, mid-fix).
+  Round 1's theory (these cels need native-size placement, not stretch-to-fill) is now
+  confirmed WRONG by decompiling the actual CCB corner-assignment code (`FUN_00419820`):
+  stretch-to-fill is the only mode that exists anywhere in this path. Round 2 fixed a real bug
+  (a missing `.transparency` line rendering transparent pixels as opaque black) but exposed a
+  different, still-unsolved one: non-uniform stretching distorts detailed/circular content
+  (confirmed concretely -- cel 212, a 16x16 ring, spilling visibly past the tread's own wheel
+  graphics once stretched ~3.25x more in one axis than the other) even when the destination is
+  a genuine rectangle, not just a skewed one. All 8 are back to unrendered, verified data
+  (`DETAIL_PARTS`/`WARPED_DETAIL_PARTS` in `game/vehicle_box_3d.gd`) -- the real placement rule
+  for these 8 (vs. the 6 primary faces, which really do match their corner span 1:1) is
+  genuinely unknown, not just unattempted. Cel 202 is still identified with fair confidence as
+  the missing gun barrel itself (its atlas art is unmistakably a barrel with a red band and
+  bright tip) -- unconfirmed which of two things is wrong: the original really does look this
+  distorted here, or this project's part identification is still subtly off.
   **Still completely open:** a raised turret box and gun barrel visible in reference footage
   still aren't accounted for anywhere in this per-vehicle-type record -- now *conclusively*
-  ruled out, not just unsearched, since this session's boundary-detected walk covers every
-  real part with no gaps left to check (the barrel is very likely cel 202 itself, once its
-  scale problem is solved -- not a wholly separate untraced object after all).
+  ruled out via a colour-coded footprint map, not just unsearched: none of the 14 real parts'
+  corners extend past the hull's own bounding box, regardless of whether any of them render
+  correctly. Whatever draws the turret/barrel is a separate mechanism, still untraced.
   This same session also built a general registry-vs-real-code audit tool
   (`tools/registry/audit_code_referenced_cels.py`) and used it to extract Jeep/MSV/Heli's real
   geometry for the first time (none are rendered in 3D yet) and fix 33 cels that were flatly

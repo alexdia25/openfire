@@ -2307,20 +2307,27 @@ Web checklist:
     DumpVehicleTypeParts.java`) and re-deriving the real part count by walking the parts array
     until the data goes implausible (not trusting angle-bucket indices, which only ever cover
     6 of the 14 -- a depth-sort *order* for the primary hull faces, not a manifest) found 6
-    more real parts (10 total including document 37's own +2). 4 of these (177, 192 x2, 212)
-    were briefly shipped, "confirmed clean" against an 8-heading no-holes sweep -- **then
-    reverted** once a direct comparison against the user's own real reference screenshots found
-    a real bug that check couldn't catch: several of these cels' native pixel size is far
-    smaller than the corner span they were stretched across (a 16x16 icon over a ~16x52 span),
-    producing a smeared, visibly-wrong result, not a hole. All 8 of the real parts beyond the
-    original 6 are back to unrendered, verified data (`REMAINING_PARTS`) pending the real fix
-    -- almost certainly native-size placement anchored within the corner span, not
-    stretch-to-fill; untraced. Cel 202 is now identified with fair confidence as the gun barrel
-    itself (its atlas art is unmistakably a barrel with a red band and bright tip) -- meaning
-    **the turret/gun-barrel gap may not be a separate untraced object after all**, just this
-    same scale problem; conclusively ruled out only in the sense that nothing else in this
-    per-vehicle-type record could be it (boundary-detected, no gaps left unchecked). The same
-    session built a general registry-vs-real-code audit
+    more real parts (10 total including document 37's own +2). These 8 (beyond the original 6)
+    went through **two full rounds** of "looks fixed, ship it," each undone by comparing
+    against the user's own real reference screenshots -- the second time, live, mid-fix. Round
+    1's theory (these cels need native-size placement, not stretch-to-fill) is confirmed WRONG:
+    decompiling the actual CCB corner-assignment code (`FUN_00419820`) shows stretch-to-fill is
+    the *only* mode that exists anywhere in this render path, for any part. Round 2 fixed a
+    real bug (a missing `.transparency` line rendering transparent pixels as opaque black) but
+    exposed a different, still-open one: **non-uniform stretching distorts detailed/circular
+    content even when the destination is a genuine rectangle** -- concretely, cel 212 (a 16x16
+    ring) stretched ~3.25x more in one axis than the other spills visibly past the tread's own
+    wheel graphics. All 8 are back to unrendered, verified data (`DETAIL_PARTS`/
+    `WARPED_DETAIL_PARTS`) -- the real placement rule for these 8 (vs. the 6 primary faces,
+    confirmed to match their own corner span 1:1) remains genuinely unknown. Cel 202 is still
+    identified with fair confidence as the gun barrel itself (its atlas art is unmistakably a
+    barrel with a red band and bright tip) -- unconfirmed whether the original really looks
+    this distorted too, or this project's part identification is still subtly wrong. **The
+    turret/gun-barrel gap is conclusively confirmed NOT to be anywhere in this per-vehicle-type
+    record** via a colour-coded footprint map (`RF_DEBUG_PART_MAP=1`) showing none of the 14
+    real parts' corners ever leave the hull's own bounding box, independent of whether any of
+    them render correctly -- whatever draws it is a wholly separate, still-untraced mechanism.
+    The same session built a general registry-vs-real-code audit
     (`tools/registry/audit_code_referenced_cels.py`), extracted Jeep/MSV/Heli's real geometry
     for the first time (`tools/data/vehicle_type_parts.json` -- none rendered in 3D yet), and
     fixed 33 registry cels that were flatly misclassified against what real code proves them

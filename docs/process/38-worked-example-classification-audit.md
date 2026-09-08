@@ -53,10 +53,9 @@ warps badly for a non-rectangular quad, very likely sampling into the atlas's tr
 padding around the real sprite for some pixels. This is a materially more precise diagnosis
 than document 37's "every triangulation looked glitched" -- the geometry was never the problem.
 
-**Initially shipped, then reverted (see the addendum below):** 4 of the 8 new parts (177,
-192 x2, 212) were briefly shipped, "confirmed clean" against an 8-heading sweep that only
-checked for silhouette holes. **Not shipped, recorded as data** (`REMAINING_PARTS` in
-`game/vehicle_box_3d.gd`): all 8, including those 4, once a real problem with them was found.
+**Not shipped, recorded as data** (`DETAIL_PARTS`/`WARPED_DETAIL_PARTS` in
+`game/vehicle_box_3d.gd`): all 8. See the addendum below for the full journey -- two rounds of
+"looks fixed," each undone by comparing against the user's own reference screenshots.
 
 ## The turret and gun barrel are conclusively not in this descriptor
 
@@ -68,41 +67,58 @@ original -- if the Tank really has them as a persistent 3D structure and not, sa
 overlay drawn by an entirely different system -- it is **not** in this specific record. That
 rules out one whole hypothesis rather than just leaving it untested.
 
-## Addendum: comparing against the user's real screenshots found a worse problem, and reverted it
+## Addendum: two rounds of "looks fixed," each undone by the user's real reference screenshots
 
-The 4 shipped parts got a real regression check: an 8-heading sweep confirming no silhouette
-holes. That check was not enough. Pulling the user's own original reference screenshots back
-out of this session's transcript (they'd been shown once, then lost to context) and doing a
-direct, same-scale side-by-side against a fresh render found the shipped parts didn't
-resemble the reference at all -- not "missing a detail," visibly wrong.
+**Round 1.** All 8 new parts got a regression check: an 8-heading sweep confirming no
+silhouette holes. That check was not enough. Pulling the user's own original reference
+screenshots back out of this session's transcript (they'd been shown once, then lost to
+context) and doing a direct, same-scale side-by-side against a fresh render found the shipped
+parts didn't resemble the reference at all -- not "missing a detail," visibly wrong. Reverted.
 
-The root cause: several of these cels' own native pixel size is much smaller than the corner
-span `_build_warped_mesh()` was stretching them across, something the "any holes?" check
-could never catch. Cel 212 -- a 16x16 icon -- was being stretched across a corner span
-roughly 16x52: more than 3x too long in one dimension, smearing whatever it depicts into an
-unrecognizable streak. 177 (32x32) and 192 (32x16) were each stretched across a panel with
-roughly 4x their own area. Direct atlas crops (`tools/data/` -- see the atlas viewer used this
-session) confirm what these cels actually depict: cel 172 (already correctly rendered) is a
-detailed top-down hull panel with rounded ports and a hatch; cel 202 is unmistakably a **gun
-barrel** (a pipe shape with a red band and a bright tip) -- almost certainly the missing
-barrel from the very first reference screenshot, not some unrelated hull panel. Confirming
-that identity only sharpens the problem: naive stretch-to-corner-span cannot be the right way
-to place a small barrel graphic across a corner span sized for something else.
+The theory that revert first landed on -- these cels need to render at native pixel size,
+anchored within the corner span, not stretched to fill it -- turned out to be wrong. Digging
+into the actual mechanism (decompiling `FUN_0041b2b0`, the per-part render loop, down to
+`FUN_00419820`, the function that actually writes the 4 CCB corner fields) found the real
+answer directly in code: `FUN_00419820` looks up the real projected screen position of exactly
+the 4 corner indices a part record specifies and writes all 4 into the CCB's corner fields,
+unconditionally, for every part -- there is no separate native-size or anchored mode anywhere
+in this path. Stretch-to-fill was the correct model the whole time.
 
-The 6 primary `FACES` don't have this problem because they were already confirmed (document
-37) to match their own corner span exactly at native pixel size -- stretch-to-fill and
-render-at-native-size are the same operation for those 6. They are **not** the same operation
-for the other 8, which is exactly why blindly reusing the same rendering function for both
-produced a real, visible bug this project's own regression check didn't catch.
+**Round 2.** With that confirmed, the actual bug found was much simpler: the hand-built
+`StandardMaterial3D` in `_build_warped_mesh()` never set `.transparency`, so every fully
+transparent pixel in a source cel rendered as opaque black instead of see-through -- exactly
+the "black gaps" a magenta-debug-colour comparison had already shown were not geometry holes.
+One line (`mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA`) fixed it, and a fresh
+8-heading sweep looked genuinely clean this time -- real hull detail, no black gaps, a
+red/yellow marking consistent with cel 202's own barrel-like atlas art appearing at some
+headings. Re-shipped.
 
-**Reverted.** All 8 of the real 14 parts beyond the original 6 are back to unrendered,
-verified-but-unplaced data (`REMAINING_PARTS`) pending the real fix: almost certainly, these
-smaller decal cels need to be placed at (or near) their own native size, anchored somewhere
-within the corner span rather than stretched to fill it -- what exact anchor rule the original
-uses is untraced. The lesson generalizes past this one file: a regression sweep that only
-checks "does the geometry have holes" is not a substitute for comparing against real reference
-material -- this project had the user's own screenshots the whole time and simply didn't
-check against them before calling the result clean.
+**Still not enough.** The user immediately flagged it again, live: "there's a lot of textures
+rendering outside the bounds of the wheels." Cel 212 -- a 16x16 *circular* graphic -- was being
+stretched across a corner span roughly 16 wide by 52 long: a genuine rectangle, not skewed, but
+stretched about 3.25x more in one axis than the other. **Non-uniform stretching distorts
+circular or detailed content even when the destination is a true rectangle** -- a materially
+different failure from either bug already fixed (a triangulation winding bug; a missing
+transparency flag), and one neither fix could have caught, because neither produces a hole or
+an opaque-black artifact -- it produces a plausible-looking but wrong-shaped smear that only
+close visual comparison catches. 177 and 192 have the same problem at a smaller, less obvious
+magnitude (the 6 primary `FACES` don't, because they were already confirmed, document 37, to
+match their own corner span exactly in *both* dimensions -- a uniform 1:1 scale, not a stretch).
+Reverted again, this time completely -- see `game/vehicle_box_3d.gd`'s own `DETAIL_PARTS` and
+`WARPED_DETAIL_PARTS` comments for the full, honest accounting.
+
+**What's confirmed, kept, and real regardless:** the winding fix and the transparency fix are
+both genuine, verified bug fixes in `_build_warped_mesh()`, worth keeping for whenever these 8
+parts' actual placement rule is found. The turret/gun-barrel conclusion (below) doesn't depend
+on any of these 8 ever rendering correctly -- it depends only on their real 3D corners, which a
+colour-coded footprint map (`RF_DEBUG_PART_MAP=1`) confirmed never leave the hull's own
+bounding box, texture bugs or not.
+
+**The lesson, twice now:** a regression sweep that only checks "does the geometry have holes"
+or "is it still black" is not a substitute for comparing against real reference material --
+this project had the user's own screenshots (and, the second time, the user's own live
+testing) the whole time, and two different failure modes both slipped past automated-looking
+checks that weren't actually checking the thing that mattered.
 
 ## The general classification audit
 
@@ -158,10 +174,12 @@ should make unilaterally.
 
 ## What this doesn't settle
 
-- All 8 of the Tank's real parts beyond the original 6 -- `REMAINING_PARTS`, all reverted.
-  The likely real fix (native-size placement, anchored within the corner span, not stretched
-  to fill it) is a real hypothesis, not yet attempted. 197/207 additionally need a non-planar
-  fix on top of that once scale is solved.
+- All 8 of the Tank's real parts beyond the original 6 -- `DETAIL_PARTS`/
+  `WARPED_DETAIL_PARTS`, all reverted, twice. The "native-size, anchored" theory is
+  confirmed WRONG (decompiled code proves stretch-to-fill is the only mode that exists). What
+  the real fix actually is remains open: either RFIRE.BIN has some per-part scale/placement
+  correction this project hasn't found yet, or this project's corner-to-part mapping for
+  indices 6-13 is still subtly wrong despite passing every consistency check tried so far.
 - Jeep/MSV/Heli have zero 3D rendering -- this document only fixed their registry accuracy.
   Real geometry for all three now exists in `tools/data/vehicle_type_parts.json`, ready for
   whoever implements them the way `game/vehicle_box_3d.gd` implements the Tank.
