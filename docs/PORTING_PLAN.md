@@ -77,8 +77,9 @@ confirmed helicopter sprite" question — a real mini-map icon set (registry cor
 visually confirms all four. Real in-game rotation art for Jeep/MSV/Heli is still unlocated.
 **The Tank itself is now correctly implemented (2026-09-08): it was never actually the flat
 `rotation.tan.01-09` sprite this project rendered for its entire history** (section 4 item
-10) — the real Tank is a genuine multi-face 3D box (10 of its real 14 parts now shipped,
-including the tank-tread graphic, confirmed completely unused until traced) built from real
+10) — the real Tank is a genuine multi-face 3D box (6 of its real 14 parts shipped and
+correct; the other 8 are real, verified data but not yet rendered correctly -- see document 38
+-- including the tank-tread graphic, confirmed completely unused until traced) built from real
 local 3D corner coordinates read directly out of RFIRE.BIN's own per-vehicle-type data. This
 retroactively explains the session's very first observation (visible tread varying with
 camera position) — a real box under a tilted camera naturally does that; a flat card never
@@ -2306,14 +2307,20 @@ Web checklist:
     DumpVehicleTypeParts.java`) and re-deriving the real part count by walking the parts array
     until the data goes implausible (not trusting angle-bucket indices, which only ever cover
     6 of the 14 -- a depth-sort *order* for the primary hull faces, not a manifest) found 6
-    more real parts. 4 are now shipped (177, 192 x2, 212), confirmed clean at every heading.
-    The other 4 (197, 207, and cel 202's *two* real parts -- it's two separate flat quads, not
-    one warped one) are precisely diagnosed now, not just "every triangulation glitched": a
-    magenta-debug-colour render proved the mesh geometry is complete and gap-free; the actual
-    defect is a texture-UV mapping problem for non-rectangular quads. **The turret/gun-barrel
-    gap is now conclusively ruled out of this record** (the boundary-detected walk covers
-    every real part, no gaps left unchecked) -- still completely untraced where it actually
-    lives. The same session built a general registry-vs-real-code audit
+    more real parts (10 total including document 37's own +2). 4 of these (177, 192 x2, 212)
+    were briefly shipped, "confirmed clean" against an 8-heading no-holes sweep -- **then
+    reverted** once a direct comparison against the user's own real reference screenshots found
+    a real bug that check couldn't catch: several of these cels' native pixel size is far
+    smaller than the corner span they were stretched across (a 16x16 icon over a ~16x52 span),
+    producing a smeared, visibly-wrong result, not a hole. All 8 of the real parts beyond the
+    original 6 are back to unrendered, verified data (`REMAINING_PARTS`) pending the real fix
+    -- almost certainly native-size placement anchored within the corner span, not
+    stretch-to-fill; untraced. Cel 202 is now identified with fair confidence as the gun barrel
+    itself (its atlas art is unmistakably a barrel with a red band and bright tip) -- meaning
+    **the turret/gun-barrel gap may not be a separate untraced object after all**, just this
+    same scale problem; conclusively ruled out only in the sense that nothing else in this
+    per-vehicle-type record could be it (boundary-detected, no gaps left unchecked). The same
+    session built a general registry-vs-real-code audit
     (`tools/registry/audit_code_referenced_cels.py`), extracted Jeep/MSV/Heli's real geometry
     for the first time (`tools/data/vehicle_type_parts.json` -- none rendered in 3D yet), and
     fixed 33 registry cels that were flatly misclassified against what real code proves them

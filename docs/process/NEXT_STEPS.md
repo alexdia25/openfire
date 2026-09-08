@@ -65,14 +65,20 @@ worked-example docs: what got resolved, in what order, and where to read the ful
   **Update (2026-09-08, document 38):** the real descriptor actually has **14 parts, not 8**
   -- document 37's own "8, not 6" addendum was itself still an undercount (it trusted the
   angle-bucket draw-order lists as a full part manifest; they only cover 6 of the 14). 4 of
-  the remaining 8 are now shipped (177, 192 x2, 212), confirmed clean at every heading. The
-  other 4 (197, 207, cel 202's two real parts) are diagnosed precisely now, not just "every
-  triangulation glitched": the geometry is complete and gap-free (proven with a
-  magenta-debug-colour render), the actual defect is a texture-UV mapping problem for
-  non-rectangular quads. **Still completely open:** a raised turret box and gun barrel visible
-  in reference footage still aren't accounted for anywhere in this per-vehicle-type record --
-  now *conclusively* ruled out, not just unsearched, since this session's boundary-detected
-  walk covers every real part with no gaps left to check.
+  the remaining 8 (177, 192 x2, 212) were briefly shipped, then **reverted** once a direct
+  comparison against the user's own real reference screenshots (not just this project's own
+  renders) found a real bug an 8-heading no-holes sweep couldn't catch: several of these cels'
+  native pixel size is far smaller than the corner span they were being stretched across (a
+  16x16 icon stretched over a ~16x52 span), producing a smeared, visibly-wrong result. All 8
+  are back to unrendered, verified data (`REMAINING_PARTS` in `game/vehicle_box_3d.gd`) pending
+  the real fix -- almost certainly native-size placement anchored within the corner span, not
+  stretch-to-fill; untraced. Cel 202 is now identified with fair confidence as the missing gun
+  barrel itself (its atlas art is unmistakably a barrel with a red band and bright tip).
+  **Still completely open:** a raised turret box and gun barrel visible in reference footage
+  still aren't accounted for anywhere in this per-vehicle-type record -- now *conclusively*
+  ruled out, not just unsearched, since this session's boundary-detected walk covers every
+  real part with no gaps left to check (the barrel is very likely cel 202 itself, once its
+  scale problem is solved -- not a wholly separate untraced object after all).
   This same session also built a general registry-vs-real-code audit tool
   (`tools/registry/audit_code_referenced_cels.py`) and used it to extract Jeep/MSV/Heli's real
   geometry for the first time (none are rendered in 3D yet) and fix 33 cels that were flatly
