@@ -2362,23 +2362,25 @@ Web checklist:
     aim also isn't modelled (no aim-angle state exists in this project yet) -- the turret
     renders at the hull's own heading, a documented simplification. See
     [document 39](process/39-worked-example-real-turret-and-barrel.md).
-    **Fourth follow-up (2026-09-09, document 40): the muzzle ring's corners were never static
-    to begin with.** The "unrelated small 7-corner linkage computation" document 39 skipped
-    over is real: `FUN_00402dc0` unconditionally overwrites, every frame, exactly the far
-    barrel-tip corners plus all 4 muzzle-ring corners, from two other static tables via a plain
-    vector add (optionally preceded by a single-plane rotation when a linked sub-object
-    supplies a nonzero angle). One of those two tables' latter entries occupies the same bytes
-    as the hull's own corner array's first six corners -- confirmed a real fact about the data
-    layout, not a boundary-walk mistake this time (the read count is a literal compiled
-    argument). Net effect: the static corner values this project has rendered for that cluster
-    were never guaranteed to match a real in-game pose, since the game always overwrites them
-    before the first frame. Also confirmed by direct pixel inspection: cel 212/213 are plain
-    painted ring/cap art with no fire-triggered visibility or texture swap -- the ring should
-    always be visible whenever the turret is. **Still open:** the actual replacement formula --
-    what the driving angle equals at rest (not recoverable from static analysis alone) and
-    whether the hull-corner overlap is the right correspondence to use for the "offset" table.
-    Not guessed at further this session. See
-    [document 40](process/40-worked-example-turret-tip-linkage.md).
+    **Fourth follow-up (2026-09-09, document 40): FIXED -- the muzzle ring's corners were never
+    static to begin with.** The "unrelated small 7-corner linkage computation" document 39
+    skipped over is real: `FUN_00402dc0` unconditionally overwrites, every frame, exactly the
+    far barrel-tip corners plus all 4 muzzle-ring corners, from a small local "base" shape plus
+    one constant translation (optionally preceded by a single-plane rotation when a linked
+    sub-object supplies a nonzero angle) -- found by noticing `FUN_00409b10`'s offset-pointer
+    argument is never advanced inside its own loop, so it's one constant vec3 added to all 7
+    base corners, not 7 separate ones (an easy misread of the decompile at first). The static
+    corner values this project had rendered for that cluster were whatever the compiler left in
+    a scratch slot the game always overwrites before the first frame -- not real geometry.
+    Recomputing those 7 corners as base+offset (the identity/no-turret-aim case) and rendering
+    the result gives a correctly-sized, correctly-positioned ring at the barrel's actual tapered
+    tip, confirmed by screenshot at all 8 discrete headings against the previous (oversized)
+    rendering, applied in `TURRET_PARTS` (parts 5/6/7). Also confirmed by direct pixel
+    inspection: cel 212/213 are plain painted ring/cap art with no fire-triggered visibility or
+    texture swap -- the ring is always visible whenever the turret is, as it should be. Still a
+    documented simplification, not a bug: independent gun elevation isn't modelled (no aim-angle
+    state exists in this project), so the identity/level-gun case is what's rendered
+    unconditionally. See [document 40](process/40-worked-example-turret-tip-linkage.md).
 11. **Terrain-based vehicle passability — NOT STARTED, new backlog item (2026-09-06,
     user-flagged as needed for parity).** Different vehicle types (helicopter, tank,
     support/jeep, armoured car — section 3 Phase 3's own list) should be restricted or slowed

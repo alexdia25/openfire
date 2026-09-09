@@ -39,9 +39,13 @@
     ]
   },
   "decompiled_dispatcher_excerpt": "void FUN_00402dc0(int param_1,int param_2) {\n  FUN_0041b430(param_1,param_2);\n  if (**(int **)(*(int *)(param_1 + 0x2c) + 0x14) == 1) {\n    iVar1 = *(int *)(*(int *)(param_1 + 0x2c) + 0x60);\n    *(uint *)(param_1 + 0x1c) = *(int *)(iVar1 + 0x58) + *(int *)(param_1 + 0x1c) & 0x3fffff;\n    iVar1 = *(int *)(iVar1 + 0x50);\n  } else {\n    iVar1 = 0;\n  }\n  if (iVar1 == 0) {\n    FUN_00409b10(&DAT_0043e5ec,&DAT_0043e640,(int *)&DAT_0043e40c,7);\n  } else {\n    FUN_0041ae10((undefined4 *)&DAT_00488850,iVar1 << 2);\n    FUN_00410c60(&DAT_0043e5ec,&DAT_0043e640,(int *)&DAT_00488850,7);\n    FUN_00409b10(&DAT_0043e5ec,&DAT_0043e5ec,(int *)&DAT_0043e40c,7);\n  }\n  *(undefined ***)(param_1 + 0xc) = &PTR_FUN_0043e9b8;\n  FUN_0041b430(param_1,param_2);\n}",
-  "known_issues": {
-    "open_question_1": "iVar1's real value at rest/during normal play is a runtime fact, not recoverable from static analysis -- determines whether the identity-add branch or the rotate-then-add branch actually fires.",
-    "open_question_2": "Whether the offset table's hull-corner overlap is the correct correspondence to use, or coincidental adjacent static layout (this project has been burned by that exact pattern before, see document 38/39's hull/turret parts-array mixup).",
-    "tried_and_rejected": "Summing base[i]+offset[i] directly (the iVar1==0 branch) does not reproduce a symmetric, plausible shape from this dump -- not pursued further as a guessed replacement."
+  "resolution": {
+    "status": "FIXED, confirmed by screenshot at all 8 discrete headings",
+    "key_correction": "FUN_00409b10's third argument pointer (offset) is never advanced inside the loop -- it's dst[i] = base[i] + offset (one constant vec3), not three 7-entry arrays summed index-for-index. Getting this right (not the naive per-index read) is what makes the formula produce a plausible shape.",
+    "offset_value_fixed16_16": [0, -344064, 458752],
+    "offset_value_float": [0.0, -5.25, 7.0],
+    "applied_in": "game/vehicle_box_3d.gd TURRET_PARTS, parts 5/6 (barrel far corners) and 7 (muzzle ring)",
+    "hull_corner_overlap_resolved": "A coincidence of static layout, not a real correspondence -- since offset is never advanced, only the one vec3 at DAT_0043e40c is ever read; the hull-corner bytes immediately after it are never touched by this code.",
+    "still_open": "iVar1's real value during actual gameplay (gun elevation, if any) is unrecoverable from static analysis; this project renders the identity/no-rotation case unconditionally, confirmed correct for a level gun but not modelling elevation itself (no aim-angle state exists yet, same documented simplification as document 39)."
   }
 }

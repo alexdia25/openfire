@@ -105,28 +105,23 @@ worked-example docs: what got resolved, in what order, and where to read the ful
   way and was reverted. Independent turret aim also isn't modelled (no aim-angle state exists
   in this project yet) -- the turret renders at hull heading, a documented simplification. See
   [document 39](39-worked-example-real-turret-and-barrel.md).
-  **Update (2026-09-09, document 40) -- found what the muzzle ring's corners actually are, not
-  yet what to do about it.** The "unrelated small 7-corner linkage computation" document 39
-  explicitly skipped is real: `FUN_00402dc0` unconditionally overwrites, every frame, exactly
-  the 7 corners covering the barrel's far tip *and* all 4 muzzle-ring corners, from two other
-  static tables (one of which unexpectedly aliases the hull's own corner data). This means the
-  static corner values this project has been rendering for that cluster were never guaranteed
-  to be a real in-game pose -- they're whatever the compiler put in a scratch slot the game
-  always overwrites before the first frame. Also confirmed: the ring is a plain painted asset
-  (cropped and inspected directly), no fire-triggered visibility/texture change exists. See
+  **Update (2026-09-09, document 40) -- FIXED.** The "unrelated small 7-corner linkage
+  computation" document 39 explicitly skipped is real: `FUN_00402dc0` unconditionally
+  overwrites, every frame, exactly the 7 corners covering the barrel's far tip *and* all 4
+  muzzle-ring corners, from a small local "base" shape plus one constant translation (found by
+  noticing `FUN_00409b10`'s offset-pointer argument is never advanced in its loop -- it's one
+  offset added to all 7 base corners, not 7 separate ones). The static corner values this
+  project had been rendering for that cluster were whatever the compiler left in a scratch slot
+  the game always overwrites before the first frame -- not real geometry. Recomputing those 7
+  corners as base+offset and rendering the result gives a correctly-sized, correctly-positioned
+  ring at the barrel's real tip, confirmed by screenshot at all 8 discrete headings against the
+  previous (oversized) rendering. Also confirmed along the way: the ring is a plain painted
+  asset (cropped and inspected directly), no fire-triggered visibility/texture change exists.
+  Independent gun elevation still isn't modelled (no aim-angle state exists in this project) --
+  the identity/level-gun case is what's rendered, a documented simplification, not a bug. See
   [document 40](40-worked-example-turret-tip-linkage.md).
 
 ## Still open
-
-**Continue from document 40's own "what's still open" section.** The corner cluster
-responsible for the muzzle-ring bug is now known to be dynamically recomputed, not static --
-but the exact replacement formula isn't nailed down yet: what the driving angle equals at rest
-(unrecoverable from static analysis alone) and whether the "offset" table's apparent overlap
-with the hull's own corners is the right correspondence to use are both still open. Do not
-hand-guess a new constant here -- this project already tried and reverted one hand-adjustment
-(document 39) for exactly that reason. Earlier three things were checked and ruled out
-(backface-culling flags, the rotation-matrix construction, the angle-bucket draw-order lists)
--- still true, see document 39's own "what's still open" for that detail.
 
 See plan section 4 for the current, precise state of each — this list is just pointers:
 

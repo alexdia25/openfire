@@ -260,12 +260,13 @@ them in order for the first time: narrative, worked examples, real commands you 
 40. [**Worked example: the muzzle ring's corners are never static in the first place**](40-worked-example-turret-tip-linkage.md)
     — the "unrelated small 7-corner linkage computation" document 39 skipped over turns out to
     be a previously-untraced, always-executing block of code that overwrites exactly the far
-    barrel-tip + muzzle-ring corner cluster every frame, from two other static tables (one of
-    which unexpectedly aliases the hull's own corner data). The values this project read as
-    static geometry for that cluster were never guaranteed to be what a running game actually
+    barrel-tip + muzzle-ring corner cluster every frame, from a small local "base" shape plus
+    one constant offset (found by catching that a helper function's offset-pointer argument is
+    never advanced in its own loop — an easy misread of the decompile at first). The values this
+    project had read as static geometry for that cluster were never what a running game actually
     shows. Confirmed the ring itself is a plain painted asset with no fire-triggered visibility
-    or texture change. A verified replacement formula for the affected corners is not yet
-    found -- honestly left open rather than guessed at again.
+    or texture change. Recomputing the affected corners the correct way and rendering the result
+    fixes the bug, confirmed by screenshot across all 8 discrete headings.
 
 ## The one rule that overrides everything else here
 
