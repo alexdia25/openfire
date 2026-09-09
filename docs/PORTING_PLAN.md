@@ -2628,6 +2628,23 @@ Web checklist:
     placeholder ring-scatter layout instead of the real (undecoded) per-part corner offsets;
     the team-colour-offset flag bit is not applied. See
     [document 36](process/36-worked-example-decorations-in-3d.md).
+    **Follow-up (2026-09-09, document 41): decorations are real Node3D entities now, not baked
+    into the ground texture.** User-flagged: document 36's "baking it alongside the terrain
+    gives the same real perspective projection a live Node3D would" reasoning was wrong for
+    anything with real height -- content baked flush with the ground texture's own Y can never
+    look like it stands up, no matter how correctly the tilted Camera3D foreshortens it, since
+    it never leaves the ground plane. Direct atlas inspection confirmed the two cel families
+    involved actually have different intended orientations: `decoration.foliage.frond_blue`
+    (and the rest of `CANOPY_SPRITE_IDS`) is drawn as seen from directly above, so it lies flat
+    like a decal; `decoration.tree.palm` (the trunk, cel 138) is drawn side-on, so it stands as
+    a plain vertical card. New `game/decoration_field_3d.gd` renders exactly document 36's own
+    composition rule (canopy-only decorations get a trunk) as real elevated 3D geometry instead
+    of two flat marks at the same Y -- trunk standing from ground level to a placeholder height,
+    canopy lying flat at the top of it; every other decoration (rocks, bushes, coral, debris)
+    becomes a real ground-level Node3D quad instead of baked texture, with no invented height.
+    `game/terrain_tile_renderer.gd` is tile-grid-only again. Confirmed by screenshot: trees now
+    show real standing trunks and layered canopies with visible depth between rows, not flat
+    green marks on the sand. See [document 41](process/41-worked-example-decorations-as-3d-entities.md).
 
 **RESOLVED:**
 - **The fixed sim tick rate** — **section 1.9** (2026-09-05). There isn't one, and there was

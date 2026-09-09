@@ -179,6 +179,18 @@ See plan section 4 for the current, precise state of each — this list is just 
   hand-verified set of frond cels, an explicit compositional choice rather than a new RE
   finding. See [document 35](35-worked-example-coastal-decoration-mechanism.md) and
   [document 36](36-worked-example-decorations-in-3d.md); plan section 4 item 14.
+  **Update (2026-09-09, document 41) -- user-flagged: baked decorations can't look like they
+  stand up.** Document 36's "baking it alongside the terrain is exactly as correct as a live
+  Node3D" reasoning held for flat ground tiles but not for anything with real height -- content
+  baked flush with the ground texture's own Y never leaves that Y, so it reads as a mark on the
+  dirt no matter how correctly the camera projects it. Direct atlas inspection confirmed the
+  canopy cels are drawn from above (meant to lie flat) while the trunk cel is drawn side-on
+  (meant to stand) -- two different shapes, not one. New `game/decoration_field_3d.gd` gives
+  every decoration real Node3D presence: canopy-only decorations get a real vertical trunk
+  raising a real elevated flat canopy, everything else becomes a real ground-level quad instead
+  of baked texture. `game/terrain_tile_renderer.gd` is tile-grid-only again. Confirmed by
+  screenshot: trees now show standing trunks and layered canopies, not flat green ground marks.
+  See [document 41](41-worked-example-decorations-as-3d-entities.md).
 
 **Current priority (2026-09-06):** the asset ID registry, the pack emitter, Phase 4 step 1
 (terrain + markers), a real palette-bug fix, Phase 4 step 2 (a player-controlled vehicle,

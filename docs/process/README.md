@@ -268,6 +268,18 @@ them in order for the first time: narrative, worked examples, real commands you 
     or texture change. Recomputing the affected corners the correct way and rendering the result
     fixes the bug, confirmed by screenshot across all 8 discrete headings.
 
+41. [**Worked example: decorations are real 3D entities, not paint on the ground**](41-worked-example-decorations-as-3d-entities.md)
+    — document 36's choice to bake decorations flush into the ground texture (reasoned to be
+    "as correct as a live Node3D" since a real Camera3D projects it either way) turns out to be
+    wrong for anything with real height: flat-with-the-dirt content can never look like it
+    stands up, no matter how correct the projection math is. Direct atlas inspection found the
+    two cel families involved are drawn from genuinely different implied angles (canopy from
+    above, trunk from the side) -- confirming which one needed to lie flat and which needed to
+    stand. New `game/decoration_field_3d.gd` gives every decoration real Node3D presence,
+    elevating canopy-only ones on a real vertical trunk and keeping ground-hugging decorations
+    at ground level, all still using document 36's own composition rule, just rendered as real
+    geometry instead of baked texture.
+
 ## The one rule that overrides everything else here
 
 **Never commit extracted game assets or decompiled code to this repository.** Every
