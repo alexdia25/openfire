@@ -280,6 +280,17 @@ them in order for the first time: narrative, worked examples, real commands you 
     at ground level, all still using document 36's own composition rule, just rendered as real
     geometry instead of baked texture.
 
+42. [**Worked example: a symmetric hull hid a 180-degree facing bug for four documents**](42-worked-example-turret-facing-backwards.md)
+    — the box hull's yaw-correction constant has been 180 degrees wrong since document 37, but
+    the hull is fully symmetric front-to-back, so no screenshot comparison of it alone could
+    ever have caught a full 180-degree error. The turret (document 39) is the vehicle's first
+    directional feature, and a real driven-forward test showed it faithfully rendering that
+    pre-existing error for the first time anyone could see it: the barrel pointed exactly
+    opposite the vehicle's own confirmed direction of travel. One constant fix, reverified the
+    same way. Also answers a real design question the same report raised: yes, the original
+    does aim the turret independently of the hull's own heading -- this project doesn't model
+    that yet, a documented simplification, not touched by this fix.
+
 ## The one rule that overrides everything else here
 
 **Never commit extracted game assets or decompiled code to this repository.** Every

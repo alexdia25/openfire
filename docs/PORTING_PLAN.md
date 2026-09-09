@@ -2381,6 +2381,20 @@ Web checklist:
     documented simplification, not a bug: independent gun elevation isn't modelled (no aim-angle
     state exists in this project), so the identity/level-gun case is what's rendered
     unconditionally. See [document 40](process/40-worked-example-turret-tip-linkage.md).
+    **Fifth follow-up (2026-09-09, document 42): FIXED -- a real 180-degree facing bug,
+    unrelated to the turret's own geometry.** User-reported: "the turret and barrel is facing
+    backwards." `vehicle_box_3d.gd`'s `FACING_OFFSET_DEG` (the yaw correction aligning the
+    box's local front with `Vehicle.heading_deg`) has been 180 degrees wrong since document 37
+    -- invisible until now because `FACES` (the hull) is fully symmetric front-to-back, so a
+    full 180-degree yaw rotates it into itself and no screenshot comparison of the hull alone
+    could ever have caught it. The turret is the vehicle's first directional feature; a real
+    `RF_DEBUG_DRIVE` test (confirmed real `+X` motion via `RF_DEBUG_CAMERA_LOG`) showed the
+    barrel pointing exactly opposite the logged direction of travel. Fixed (`90.0` ->
+    `-90.0`), reverified the same way. Also confirms independent turret aim is real in
+    RFIRE.BIN (document 39's own `FUN_00402dc0` composes hull heading plus a separate aim
+    angle) -- still not modelled in this project (no aim-angle state exists), an unchanged,
+    documented simplification, not touched by this fix. See
+    [document 42](process/42-worked-example-turret-facing-backwards.md).
 11. **Terrain-based vehicle passability — NOT STARTED, new backlog item (2026-09-06,
     user-flagged as needed for parity).** Different vehicle types (helicopter, tank,
     support/jeep, armoured car — section 3 Phase 3's own list) should be restricted or slowed

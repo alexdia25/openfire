@@ -120,6 +120,17 @@ worked-example docs: what got resolved, in what order, and where to read the ful
   Independent gun elevation still isn't modelled (no aim-angle state exists in this project) --
   the identity/level-gun case is what's rendered, a documented simplification, not a bug. See
   [document 40](40-worked-example-turret-tip-linkage.md).
+  **Update (2026-09-09, document 42) -- FIXED, a real 180-degree facing bug, not related to the
+  turret's own geometry.** User-reported: "the turret and barrel is facing backwards." The
+  box hull's `FACING_OFFSET_DEG` has been 180 degrees wrong since document 37, invisible until
+  now because the hull is fully symmetric front-to-back (a 180-degree yaw rotates it into
+  itself) -- the turret is the vehicle's first directional feature, and a real RF_DEBUG_DRIVE
+  test (confirmed real +X motion via RF_DEBUG_CAMERA_LOG) showed the barrel pointing exactly
+  opposite the logged direction of travel. One constant fixed (`90.0` -> `-90.0`), reverified
+  the same way. Also answered: yes, the original composes the turret's rotation from the hull's
+  heading *plus* a separate aim angle (document 39's own `FUN_00402dc0` finding) -- independent
+  turret aim is real in RFIRE.BIN, just not modelled in this project yet (no aim-angle state
+  exists), unchanged backlog item. See [document 42](42-worked-example-turret-facing-backwards.md).
 
 ## Still open
 
