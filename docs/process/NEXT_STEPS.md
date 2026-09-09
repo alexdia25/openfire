@@ -105,18 +105,28 @@ worked-example docs: what got resolved, in what order, and where to read the ful
   way and was reverted. Independent turret aim also isn't modelled (no aim-angle state exists
   in this project yet) -- the turret renders at hull heading, a documented simplification. See
   [document 39](39-worked-example-real-turret-and-barrel.md).
+  **Update (2026-09-09, document 40) -- found what the muzzle ring's corners actually are, not
+  yet what to do about it.** The "unrelated small 7-corner linkage computation" document 39
+  explicitly skipped is real: `FUN_00402dc0` unconditionally overwrites, every frame, exactly
+  the 7 corners covering the barrel's far tip *and* all 4 muzzle-ring corners, from two other
+  static tables (one of which unexpectedly aliases the hull's own corner data). This means the
+  static corner values this project has been rendering for that cluster were never guaranteed
+  to be a real in-game pose -- they're whatever the compiler put in a scratch slot the game
+  always overwrites before the first frame. Also confirmed: the ring is a plain painted asset
+  (cropped and inspected directly), no fire-triggered visibility/texture change exists. See
+  [document 40](40-worked-example-turret-tip-linkage.md).
 
 ## Still open
 
-**Session paused here (2026-09-08), user direction: fix the Tank's muzzle ring before starting
-anything else.** The turret+barrel find above (document 39) is real and correct as a whole,
-but the muzzle ring (cel 212, `TURRET_PARTS` in `game/vehicle_box_3d.gd`) still renders
-visibly larger/lower than the barrel tip it caps. Three things were already checked and ruled
-out this session (see document 39's own "what's still open" section for the detail): the
-backface-culling flags, the rotation-matrix construction, and the angle-bucket draw-order
-lists. A hand-adjustment (constrain the ring to the barrel's own tip band) fixed the size but
-broke the aspect ratio into a visibly squashed oval -- reverted. This needs a real code-level
-answer, not another guessed adjustment -- start there before picking up anything else below.
+**Continue from document 40's own "what's still open" section.** The corner cluster
+responsible for the muzzle-ring bug is now known to be dynamically recomputed, not static --
+but the exact replacement formula isn't nailed down yet: what the driving angle equals at rest
+(unrecoverable from static analysis alone) and whether the "offset" table's apparent overlap
+with the hull's own corners is the right correspondence to use are both still open. Do not
+hand-guess a new constant here -- this project already tried and reverted one hand-adjustment
+(document 39) for exactly that reason. Earlier three things were checked and ruled out
+(backface-culling flags, the rotation-matrix construction, the angle-bucket draw-order lists)
+-- still true, see document 39's own "what's still open" for that detail.
 
 See plan section 4 for the current, precise state of each — this list is just pointers:
 

@@ -1,0 +1,47 @@
+{
+  "_source": "RFIRE.BIN, Ghidra static analysis, 2026-09-09 (docs/process/40)",
+  "_note": "FUN_00402dc0 unconditionally overwrites corner indices 15-21 of the turret descriptor's own corner array (corner_ptr 0x0043e538, see tank_turret_parts.json) every frame, via FUN_00409b10 (plain per-component vector add over 7 vec3) and, when a linked sub-object supplies a nonzero angle, FUN_0041ae10 (builds a single-plane rotation matrix) + FUN_00410c60 (applies a 3x3 matrix to N corners) first. These 7 indices are exactly the far barrel-tip corners (15, 16, 17) and all 4 muzzle-ring corners (18-21) -- the same cluster this project has been unable to size/place correctly across documents 38-39. Raw values below are the compiled .data contents (not a live game snapshot) for the three addresses involved; 'dest' is what DumpDescriptorParts.java already reads as corners 15-21 (matches tank_turret_parts.json exactly). Interpreting 'offset' item[1..6] as an alias of the hull's own corner array (corner_ptr 0x0043e418, see vehicle_type_parts.json Tank entry) is a real fact about the compiled data layout (the read count of 7 is a literal argument in the decompiled call, not an extraction heuristic), not yet confirmed as the *intended* correspondence for reconstructing correct geometry. See docs/process/40-worked-example-turret-tip-linkage.md for the full account and what's still open.",
+  "dispatcher_fn": "FUN_00402dc0",
+  "corner_indices_affected": [15, 16, 17, 18, 19, 20, 21],
+  "dest_addr": "0x0043e5ec",
+  "dest_note": "7 corner-slots inside the turret descriptor's own 22-corner array (indices 15-21); this is the write target, refreshed every frame -- NOT a static value a running game necessarily ever displays as-is.",
+  "base_addr": "0x0043e640",
+  "base_note": "7-corner 'base' shape (FUN_00409b10/FUN_00410c60's param_2), immediately follows dest_addr's array bounds in memory.",
+  "offset_addr": "0x0043e40c",
+  "offset_note": "7-corner 'offset' table (FUN_00409b10's param_3). Item 0 (at 0x0043e40c) is its own value; items 1-6 (starting at 0x0043e418) occupy the exact same bytes as the hull's own corner array's first 6 corners.",
+  "raw_fixed16_16": {
+    "dest": [
+      [-196608, -786432, 458752],
+      [0, -786432, 720896],
+      [196608, -786432, 458752],
+      [-245760, -786432, 720896],
+      [245760, -786432, 720896],
+      [245760, -786432, 196608],
+      [-245760, -786432, 196608]
+    ],
+    "base": [
+      [-143122, -442368, 0],
+      [0, -442368, 131072],
+      [144674, -442368, 0],
+      [-65519, -442368, 104857],
+      [65519, -442368, 104857],
+      [65519, -442368, -32768],
+      [-65519, -442368, -32768]
+    ],
+    "offset": [
+      [0, -344064, 458752],
+      [-786432, -786432, 0],
+      [786432, -786432, 0],
+      [786432, 786432, 0],
+      [-786432, 786432, 0],
+      [-786432, -786432, 327680],
+      [786432, -786432, 327680]
+    ]
+  },
+  "decompiled_dispatcher_excerpt": "void FUN_00402dc0(int param_1,int param_2) {\n  FUN_0041b430(param_1,param_2);\n  if (**(int **)(*(int *)(param_1 + 0x2c) + 0x14) == 1) {\n    iVar1 = *(int *)(*(int *)(param_1 + 0x2c) + 0x60);\n    *(uint *)(param_1 + 0x1c) = *(int *)(iVar1 + 0x58) + *(int *)(param_1 + 0x1c) & 0x3fffff;\n    iVar1 = *(int *)(iVar1 + 0x50);\n  } else {\n    iVar1 = 0;\n  }\n  if (iVar1 == 0) {\n    FUN_00409b10(&DAT_0043e5ec,&DAT_0043e640,(int *)&DAT_0043e40c,7);\n  } else {\n    FUN_0041ae10((undefined4 *)&DAT_00488850,iVar1 << 2);\n    FUN_00410c60(&DAT_0043e5ec,&DAT_0043e640,(int *)&DAT_00488850,7);\n    FUN_00409b10(&DAT_0043e5ec,&DAT_0043e5ec,(int *)&DAT_0043e40c,7);\n  }\n  *(undefined ***)(param_1 + 0xc) = &PTR_FUN_0043e9b8;\n  FUN_0041b430(param_1,param_2);\n}",
+  "known_issues": {
+    "open_question_1": "iVar1's real value at rest/during normal play is a runtime fact, not recoverable from static analysis -- determines whether the identity-add branch or the rotate-then-add branch actually fires.",
+    "open_question_2": "Whether the offset table's hull-corner overlap is the correct correspondence to use, or coincidental adjacent static layout (this project has been burned by that exact pattern before, see document 38/39's hull/turret parts-array mixup).",
+    "tried_and_rejected": "Summing base[i]+offset[i] directly (the iVar1==0 branch) does not reproduce a symmetric, plausible shape from this dump -- not pursued further as a guessed replacement."
+  }
+}

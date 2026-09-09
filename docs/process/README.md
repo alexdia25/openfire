@@ -257,6 +257,15 @@ them in order for the first time: narrative, worked examples, real commands you 
     reference screenshots directly. One part (the muzzle ring) still renders at the wrong
     size/position -- checked three ways and confirmed genuinely unresolved, not guessed at
     further.
+40. [**Worked example: the muzzle ring's corners are never static in the first place**](40-worked-example-turret-tip-linkage.md)
+    — the "unrelated small 7-corner linkage computation" document 39 skipped over turns out to
+    be a previously-untraced, always-executing block of code that overwrites exactly the far
+    barrel-tip + muzzle-ring corner cluster every frame, from two other static tables (one of
+    which unexpectedly aliases the hull's own corner data). The values this project read as
+    static geometry for that cluster were never guaranteed to be what a running game actually
+    shows. Confirmed the ring itself is a plain painted asset with no fire-triggered visibility
+    or texture change. A verified replacement formula for the affected corners is not yet
+    found -- honestly left open rather than guessed at again.
 
 ## The one rule that overrides everything else here
 
