@@ -59,6 +59,7 @@ DEFAULT_BUILD_RFM = os.path.join(ROOT, "build", "rfm")
 DEFAULT_OUT = os.path.join(ROOT, "packs", "original_pc")
 REGISTRY_JSON = os.path.join(ROOT, "packs", "registry", "asset_ids.json")
 COASTAL_DECORATIONS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decorations.json")
+COASTAL_DAMAGE_JSON = os.path.join(ROOT, "tools", "data", "coastal_damage.json")
 COASTAL_DECORATION_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
 
 PACK_ID = "original_pc"
@@ -205,6 +206,15 @@ def main():
             json.dump({"decoration_types": decoration_types}, f, indent=2, sort_keys=True)
             f.write("\n")
         n_decoration_ids = len(decoration_types)
+
+    # Document 44: per-coastal-id hit points and destroyed-state chain (e.g. a candidate building
+    # 22 -> 62 -> 63), consumed by game/pack.gd's get_coastal_damage().
+    if os.path.exists(COASTAL_DAMAGE_JSON):
+        with open(COASTAL_DAMAGE_JSON) as f:
+            damage = json.load(f)["coastal"]
+        with open(os.path.join(terrain_dir, "coastal_damage.json"), "w") as f:
+            json.dump({"coastal": damage}, f, indent=1, sort_keys=True)
+            f.write("\n")
 
     pack_manifest = {
         "id": PACK_ID,

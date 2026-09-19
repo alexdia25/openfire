@@ -72,8 +72,20 @@ units wide** (on a 32-unit tile; matches the ~24-unit road). Scale = 24/64 = **0
   the green-roofed building with its doorway, and the spawn tile's striped pad is plain ground art
   (cel 90); both appear in the reference shots once the debug markers are hidden. New debug env
   vars for comparing: `RF_DEBUG_NO_MARKERS=1`, `RF_DEBUG_FOCUS_TILE=x,y`, `RF_DEBUG_LEVEL=RFMAPnnn`.
-  What is NOT done here is the *gameplay* side (a destroyed building switching to its damaged
-  decoration id): the pool logic still only tracks which candidate is active.
+  The tile's own life cycle was then traced (`FUN_0042e4f0` / `FUN_0042e8c0` / `FUN_0042e6a0`,
+  `FUN_00432710`): every coastal-table entry carries initial hit points (`E+9`), its ground art
+  (`E+8`) and a destroyed result coastal id (`E+0x29`); when a tile's hit points (bits 25-27 of
+  its word) run out it becomes that id, keeping its team variant. Only id 22 has the pool handler
+  (`E+0x14 = 0x432710`). Chain: **22** (intact, 6 HP, ground art 109) -> **62** (damaged, 6 HP,
+  art 110) -> **63** (ruins, art 111). Extracted to `tools/data/coastal_damage.json`
+  (`tools/extract_coastal_damage.py`, from `DumpDwords.java 0x00447038 1300`) and emitted as
+  `terrain/coastal_damage.json`.
+  **Implemented:** when a projectile destroys a pool's active target, `terrain_view_3d.gd`
+  turns the tile into its destroyed state (decoration id + ground art, terrain re-baked,
+  decorations rebuilt); `RF_DEBUG_DESTROY_TILE=x,y` triggers it for screenshots (verified on
+  RFMAP001 tile (75,56): intact building -> broken-roof ruin). **Not traced/modelled:** weapon
+  damage vs hit points (one hit destroys, as the first-pass pool logic already did), the second
+  stage 62 -> 63, and the per-hit intermediate damage states.
 - Angle-bucket lists 1-7 (vehicle-style rotation) are unused by decorations and not extracted.
 - Part culling flags (bits 0/1) rely on the depth buffer here rather than the original's
   screen-space test.
