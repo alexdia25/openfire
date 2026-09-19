@@ -10878,7 +10878,8 @@
     "73": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.structure.rooftop_red.01"
+      "id": "terrain.ground.pavement.01",
+      "note": "grey pavement/road tile with sand edge inset (was mislabeled rooftop_red); renamed 2026-09-19"
     },
     "730": {
       "category": "character",
@@ -10933,7 +10934,8 @@
     "74": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.structure.rooftop_red.02"
+      "id": "terrain.ground.pavement.02",
+      "note": "grey pavement/road tile with sand edge inset (was mislabeled rooftop_red); renamed 2026-09-19"
     },
     "740": {
       "category": "character",
@@ -10988,7 +10990,8 @@
     "75": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.structure.rooftop_red.03"
+      "id": "terrain.ground.pavement.03",
+      "note": "grey pavement/road tile with sand edge inset (was mislabeled rooftop_red); renamed 2026-09-19"
     },
     "750": {
       "category": "character",
@@ -11048,7 +11051,8 @@
     "76": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.structure.rooftop_red.04"
+      "id": "terrain.ground.pavement.04",
+      "note": "grey pavement/road tile with sand edge inset (was mislabeled rooftop_red); renamed 2026-09-19"
     },
     "760": {
       "category": "effect",
@@ -11113,7 +11117,8 @@
     "77": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.structure.rooftop_red.05"
+      "id": "terrain.ground.pavement.05",
+      "note": "grey pavement/road tile with sand edge inset (was mislabeled rooftop_red); renamed 2026-09-19"
     },
     "770": {
       "category": "effect",
@@ -11178,7 +11183,8 @@
     "78": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.structure.rooftop_red.06"
+      "id": "terrain.ground.pavement.06",
+      "note": "grey pavement/road tile with sand edge inset (was mislabeled rooftop_red); renamed 2026-09-19"
     },
     "780": {
       "category": "effect",
@@ -11243,7 +11249,8 @@
     "79": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.structure.rooftop_red.07"
+      "id": "terrain.ground.pavement.07",
+      "note": "grey pavement/road tile with sand edge inset (was mislabeled rooftop_red); renamed 2026-09-19"
     },
     "790": {
       "category": "effect",
@@ -11379,7 +11386,8 @@
     "81": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.structure.rooftop_red.08"
+      "id": "terrain.ground.pavement.08",
+      "note": "grey pavement/road tile with sand edge inset (was mislabeled rooftop_red); renamed 2026-09-19"
     },
     "810": {
       "category": "effect",
@@ -11444,7 +11452,8 @@
     "82": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.structure.rooftop_red.09"
+      "id": "terrain.ground.pavement.09",
+      "note": "grey pavement/road tile with sand edge inset (was mislabeled rooftop_red); renamed 2026-09-19"
     },
     "820": {
       "category": "effect",
@@ -11509,7 +11518,8 @@
     "83": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.structure.rooftop_red.10"
+      "id": "terrain.ground.pavement.10",
+      "note": "grey pavement/road tile with sand edge inset (was mislabeled rooftop_red); renamed 2026-09-19"
     },
     "830": {
       "category": "prop",
@@ -11759,7 +11769,8 @@
     "87": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.structure.rooftop_red.11"
+      "id": "terrain.ground.wood_planks.04",
+      "note": "wooden plank/bridge tile (was mislabeled rooftop_red); renamed 2026-09-19"
     },
     "870": {
       "category": "effect",
@@ -11823,7 +11834,8 @@
     "88": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.structure.rooftop_red.12"
+      "id": "terrain.ground.pavement.11",
+      "note": "grey pavement/road tile with sand edge inset (was mislabeled rooftop_red); renamed 2026-09-19"
     },
     "880": {
       "category": "structure",
@@ -11888,7 +11900,8 @@
     "89": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.structure.rooftop_red.13"
+      "id": "terrain.ground.pavement.12",
+      "note": "grey pavement/road tile with sand edge inset (was mislabeled rooftop_red); renamed 2026-09-19"
     },
     "890": {
       "category": "structure",

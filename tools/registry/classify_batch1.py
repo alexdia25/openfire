@@ -73,7 +73,11 @@ def terrain_entries():
     for n, idx in enumerate(range(53, 73), start=1):
         put(idx, f"terrain.coast.forest_water.{n:02d}")
 
-    # red-roofed building/structure tileset
+    # CORRECTED 2026-09-19 (registry hand-edited, not re-generated -- see PORTING_PLAN standing
+    # rules): these were labelled "red-roofed building" but the art is grey pavement with a sand
+    # edge inset (this is the L-shaped road at RFMAP001's spawn); cel 87 is wooden planks.
+    #   73-79, 81-83, 88, 89 -> terrain.ground.pavement.01..12 (in that order)
+    #   87                   -> terrain.ground.wood_planks.04
     rooftop_indices = list(range(73, 80)) + list(range(81, 84)) + list(range(87, 90))
     for n, idx in enumerate(rooftop_indices, start=1):
         put(idx, f"terrain.structure.rooftop_red.{n:02d}", confidence="visual")

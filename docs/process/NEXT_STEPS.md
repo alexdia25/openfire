@@ -132,6 +132,8 @@ worked-example docs: what got resolved, in what order, and where to read the ful
   turret aim is real in RFIRE.BIN, just not modelled in this project yet (no aim-angle state
   exists), unchanged backlog item. See [document 42](42-worked-example-turret-facing-backwards.md).
 
+- **Camera calibrated to the traced focal length (300 -> 56.6 degree HFOV, height 212), and the Tank scaled to 0.4 (estimated from user's Win95 reference shots, not traced)** — the tank had been built ~2.7x too wide for the road. Also fixed mislabeled pavement cels in the registry (`rooftop_red` -> `pavement`). See [document 43](43-worked-example-camera-and-tank-scale.md).
+
 ## Still open
 
 See plan section 4 for the current, precise state of each — this list is just pointers:
