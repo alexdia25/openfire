@@ -30,17 +30,46 @@ units wide** (on a 32-unit tile; matches the ~24-unit road). Scale = 24/64 = **0
   approximation of it and is removed. `PALM_SCALE` is gone: 32px frond cel on a 16-unit quad is 0.5.
 - `game/decoration_field_3d.gd` now builds every part as its real quad (one batched mesh per atlas
   page, alpha-scissor, cel stretched to the corners like `_build_warped_mesh`).
-- The ground quads (cels 133/137) live on the **effect page** (document 9's translucent darken
-  masks, registry name `bush_white.*` is wrong): they are the palm shadows. Drawn as black at
-  `SHADOW_ALPHA = 0.3` -- **placeholder strength, not traced** (doc 9: rows 2/4 of the darken table).
-- `tools/build_pack.py` emits corners into `terrain/decorations.json` for covered ids.
+- The ground quads (cels 133/137) live on the **effect page**: they are PRE0=13 masks, document 9's
+  "darken row 4" blend, i.e. the palm shadows. Drawn black at `SHADOW_ALPHA = 5/32`: the darken
+  table generator (FUN_00424420) scales each channel by `(31 - row) >> 5`-style `(31 - k) / 32`,
+  so row 4 keeps 27/32. (The original then snaps to the nearest palette index; not reproduced.)
+- `tools/build_pack.py` emits corners into `terrain/decorations.json`; `zoff` (descriptor +0x1c,
+  skipped when flag byte +0x10 has 0x10) and `jitter` ride along.
 
-## Still not modelled / open
+## The three follow-ups (same day)
 
-- The original's per-tile position jitter (descriptor callback +0x28, document 35) -- decorations
-  sit on tile centres here.
-- Team-colour cel variant for flag bit 3; ids 49, 50 (angle-bucket path, part count 0) and 76.
-- Shadow strength; registry names for cels 133/137 (shadows) and 134 (called `rock_tan`).
-- Camera FOV/tilt came from traced constants in document 43; the tank/tree *sizes* now do too.
+1. **Shadow strength** -- traced, above (was a 0.3 placeholder).
+2. **Per-tile position jitter** -- `FUN_004365c0` (descriptor `+0x28` callback, set on 28 parts)
+   adds `table[(tile_y & 15) * 16 + (tile_x & 15)]` = `(dx, dy)`, each `rand(25) - 12` world units,
+   to the tile-centre position; the queue function re-copies the original position per chained
+   link, so every link of one decoration shifts identically. The table (`FUN_00436540`) is built
+   at level load from the MSVC LCG (`seed*214013 + 2531011`, `>>16 & 0x7fff`, range as
+   `(r*2*n)>>16`; `FUN_0041d3d0`) seeded with **the 32-bit sum of every raw tile byte**
+   (`FUN_00414130`), now recorded as `tile_seed` by `tools/convert_rfm.py` and reproduced in
+   `DecorationField3D`. Palms now scatter organically as in the reference. **Caveat:** the
+   seed rule is read from the decompile, not cross-checked against a real capture of the
+   original's palm positions.
+3. **Team colour + the missing ids.** A flag-8 part's cel is offset by bits 14-15 of the tile word
+   (`FUN_0041b2b0`), which `FUN_0042e4f0` fills from `primary_table[raw].param4` (0 or 1 on every
+   tile that spawns a flag-8 decoration: tan/green). Carried per decoration as `variant`, resolved in
+   `build_pack.py` to `variant_sprite_ids`. Ids **49 and 50** (17,907 and 33,477 tiles across the
+   levels) turned out to be the **buildings**: part count 0 means "draw the parts named by angle-
+   bucket list 0" (decorations always use bucket 0), a truncated-pyramid roof (32x32 base to
+   ~18x18 top, 24 / 34 units tall) with team-varied walls, a small raised cap, and a ground quad.
+   Extracted; RFMAP117 (`RF_DEBUG_LEVEL=RFMAP117`) now renders whole bases (huts, walls, barracks).
+   Id 76 (corner count 0) is used by no level and is still skipped.
+   Registry: cels 133/137/116/117/141/120/121 are shadow masks (`effect.shadow.hard.*`), 134/138/
+   142 palm trunks (`decoration.tree.palm_trunk.01-03`); cel 145 is a real sprite and keeps its name.
+
+## Still open
+
+- The **candidate-pool buildings** (the striped pad + building at RFMAP001's spawn) are a different
+  system from these decorations -- destructible target objects spawned by the pool logic (document
+  10/22); their own object descriptors have not been traced, so that site still shows a debug marker.
+- Angle-bucket lists 1-7 (vehicle-style rotation) are unused by decorations and not extracted.
+- Part culling flags (bits 0/1) rely on the depth buffer here rather than the original's
+  screen-space test.
+- Cels 52-55 / 48-51 biome-name swap (registry) is still unrenamed.
 
 **Next:** back to [the next-steps doc](NEXT_STEPS.md).

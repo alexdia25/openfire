@@ -34,6 +34,10 @@ def put(idx, id_, category, note=None, confidence="visual"):
 for n, idx in enumerate([112, 113, 114, 115, 118, 119, 136, 139, 140, 143, 144], start=1):
     put(idx, f"decoration.foliage.bush_blue.{n:02d}", "decoration", DESTRUCT_NOTE)
 
+# CORRECTED 2026-09-19 (registry hand-edited, not re-generated; document 44): 116, 117, 120, 121,
+# 133, 137, 141 are PRE0=13 shadow masks (-> effect.shadow.hard.*), 134/138/142 are palm trunk quads
+# (-> decoration.tree.palm_trunk.01-03; 138 was "decoration.tree.palm"). Only 145 is a real
+# ordinary sprite and keeps its bush_white name.
 for n, idx in enumerate([116, 117, 120, 121, 133, 137, 141, 145], start=1):
     put(idx, f"decoration.foliage.bush_white.{n:02d}", "decoration", DESTRUCT_NOTE)
 

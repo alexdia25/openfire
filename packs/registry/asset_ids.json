@@ -1052,10 +1052,10 @@
       "note": "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified"
     },
     "116": {
-      "category": "decoration",
+      "category": "effect",
       "confidence": "code_verified",
-      "id": "decoration.foliage.bush_white.01",
-      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
+      "id": "effect.shadow.hard.deco_116",
+      "note": "PRE0=13 darken_row4 mask; ground shadow quad (z=0) of coastal id 1 -- document 44. Was mislabeled decoration.foliage.bush_white.*"
     },
     "1160": {
       "category": "effect",
@@ -1118,10 +1118,10 @@
       "note": "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified"
     },
     "117": {
-      "category": "decoration",
+      "category": "effect",
       "confidence": "code_verified",
-      "id": "decoration.foliage.bush_white.02",
-      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
+      "id": "effect.shadow.hard.deco_117",
+      "note": "PRE0=13 darken_row4 mask; ground shadow quad (z=0) of coastal id 2 -- document 44. Was mislabeled decoration.foliage.bush_white.*"
     },
     "1170": {
       "category": "effect",
@@ -1321,10 +1321,10 @@
       "id": "terrain.coast.sand_water.09"
     },
     "120": {
-      "category": "decoration",
+      "category": "effect",
       "confidence": "code_verified",
-      "id": "decoration.foliage.bush_white.03",
-      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
+      "id": "effect.shadow.hard.deco_120",
+      "note": "PRE0=13 darken_row4 mask used by coastal id 87 (raised ~3 units) -- document 44. Was mislabeled decoration.foliage.bush_white.*"
     },
     "1200": {
       "category": "effect",
@@ -1387,10 +1387,10 @@
       "note": "expanding green/yellow ring"
     },
     "121": {
-      "category": "decoration",
+      "category": "effect",
       "confidence": "code_verified",
-      "id": "decoration.foliage.bush_white.04",
-      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
+      "id": "effect.shadow.hard.deco_121",
+      "note": "PRE0=13 darken_row4 mask used by coastal id 88 (raised ~1.5 units) -- document 44. Was mislabeled decoration.foliage.bush_white.*"
     },
     "1210": {
       "category": "effect",
@@ -2184,10 +2184,10 @@
       "note": "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified"
     },
     "133": {
-      "category": "decoration",
-      "confidence": "visual",
-      "id": "decoration.foliage.bush_white.05",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "category": "effect",
+      "confidence": "code_verified",
+      "id": "effect.shadow.hard.palm_small",
+      "note": "PRE0=13 darken_row4 mask; ground shadow quad (16x16 units) of coastal id 3 (palm), link 1 -- document 44. Was mislabeled decoration.foliage.bush_white.05."
     },
     "1330": {
       "category": "effect",
@@ -2251,9 +2251,9 @@
     },
     "134": {
       "category": "decoration",
-      "confidence": "visual",
-      "id": "decoration.rock_tan.01",
-      "note": "tan craggy vertical shape (rock or dead trunk)"
+      "confidence": "code_verified",
+      "id": "decoration.tree.palm_trunk.01",
+      "note": "vertical trunk quad of coastal id 3 (palm), link 1 -- document 44. Was mislabeled decoration.rock_tan.01."
     },
     "1340": {
       "category": "effect",
@@ -2448,10 +2448,10 @@
       "note": "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified"
     },
     "137": {
-      "category": "decoration",
-      "confidence": "visual",
-      "id": "decoration.foliage.bush_white.06",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "category": "effect",
+      "confidence": "code_verified",
+      "id": "effect.shadow.hard.palm_wide",
+      "note": "PRE0=13 darken_row4 mask; ground shadow quad (32x16 units) of coastal id 4 (leaning palm), link 1 -- document 44. Was mislabeled decoration.foliage.bush_white.06."
     },
     "1370": {
       "category": "effect",
@@ -2515,9 +2515,9 @@
     },
     "138": {
       "category": "decoration",
-      "confidence": "visual",
-      "id": "decoration.tree.palm",
-      "note": "full palm tree: trunk + ball canopy"
+      "confidence": "code_verified",
+      "id": "decoration.tree.palm_trunk.02",
+      "note": "leaning trunk quad of coastal id 4, link 1 -- document 44. Was decoration.tree.palm (\"full palm tree\")."
     },
     "1380": {
       "category": "effect",
@@ -2717,10 +2717,10 @@
       "note": "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified"
     },
     "141": {
-      "category": "decoration",
-      "confidence": "visual",
-      "id": "decoration.foliage.bush_white.07",
-      "note": "one of three recurring colour families (blue-green/white/black) across cels 112-152; possibly intact/flash/destroyed states of the same destructible-scenery object (Return Fire has destructible terrain foliage) -- UNCONFIRMED, not traced through code."
+      "category": "effect",
+      "confidence": "code_verified",
+      "id": "effect.shadow.hard.deco_141",
+      "note": "PRE0=13 darken_row4 mask; ground shadow quad (z=0) of coastal id 5 -- document 44. Was mislabeled decoration.foliage.bush_white.*"
     },
     "1410": {
       "category": "effect",
@@ -2784,9 +2784,9 @@
     },
     "142": {
       "category": "decoration",
-      "confidence": "visual",
-      "id": "decoration.rock_tan.02",
-      "note": "tan craggy shape, same family as 134"
+      "confidence": "code_verified",
+      "id": "decoration.tree.palm_trunk.03",
+      "note": "vertical trunk quad of coastal id 5 (same pattern as ids 3/4), link 1 -- document 44. Was mislabeled decoration.rock_tan.02."
     },
     "1420": {
       "category": "effect",

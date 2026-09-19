@@ -85,7 +85,7 @@ import struct
 import sys
 
 from rfpng import write_png_rgba
-from rf_tile_art import raw_tile_to_art_id, raw_tile_to_coastal_id
+from rf_tile_art import PRIMARY_TABLE, raw_tile_to_art_id, raw_tile_to_coastal_id
 
 MAGIC = b"WRL\x00"
 CHUNK_TABLE_START = 0x50
@@ -277,6 +277,12 @@ def parse_rfm(path, filename):
     # stored art bits), so this is not lossy the way the raw grid's zeroing is.
     art_grid = bytearray(raw_tile_to_art_id(val) or 0 for val in grid)
 
+    # Document 44: the original seeds its per-tile decoration position-jitter table
+    # (FUN_00436540 <- FUN_00414130) with the plain 32-bit sum of every raw tile byte as the
+    # level loads, spawn/candidate markers included -- so it must be taken here, before the
+    # entity-tile zeroing below.
+    tile_seed = sum(grid) & 0xFFFFFFFF
+
     # Document 35 (docs/process/): a tile's coastal-blend id doubles as a decoration-spawn
     # id -- resolving one was always understood to pick a blended ground texture; the same
     # id, via a separate lookup this converter doesn't do (tools/data/coastal_decorations.json,
@@ -289,7 +295,12 @@ def parse_rfm(path, filename):
     for idx, val in enumerate(grid):
         coastal_id = raw_tile_to_coastal_id(val)
         if coastal_id:
-            decorations.append({"x": idx % width, "y": idx // width, "coastal_id": coastal_id})
+            # Document 44: primary_table[raw].param4 becomes bits 14-15 of the tile word
+            # (FUN_0042e4f0), which the part renderer adds to the cel of every flag-8 part (0 = tan,
+            # 1 = green on the building-wall decorations that use it).
+            variant = PRIMARY_TABLE[val if val < 240 else 0]["param4"]
+            decorations.append({"x": idx % width, "y": idx // width, "coastal_id": coastal_id,
+                                "variant": variant})
 
     spawn_points = []
     candidates_a = []
@@ -332,6 +343,7 @@ def parse_rfm(path, filename):
         "spawn_points": spawn_points,
         "candidate_pools": {"a": candidates_a, "b": candidates_b},
         "decorations": decorations,
+        "tile_seed": tile_seed,
     }, grid, art_grid
 
 

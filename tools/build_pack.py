@@ -169,18 +169,28 @@ def main():
             with open(COASTAL_DECORATION_CORNERS_JSON) as f:
                 corner_doc = json.load(f)["decorations"]
         decoration_types = {}
-        for coastal_id, parts in coastal_decorations.items():
+        for coastal_id in sorted(set(coastal_decorations) | set(corner_doc), key=int):
+            parts = coastal_decorations.get(coastal_id, [])
             resolved_parts = []
             if coastal_id in corner_doc:
                 for part in corner_doc[coastal_id]:
                     if part["cel"] not in cels:
                         continue
-                    resolved_parts.append({
+                    entry = {
                         "sprite_id": registry[str(part["cel"])]["id"],
                         "flags": part["flags"],
                         "corners": part["corners"],
                         "offset": part["offset"],
-                    })
+                        "zoff": part.get("zoff", 0.0),
+                        "jitter": part.get("jitter", False),
+                    }
+                    if part["flags"] & 8:
+                        # Flag bit 3: the part's cel is shifted by the tile's variant (0..3) at
+                        # draw time -- pre-resolve those 4 cels to sprite ids (None if absent).
+                        entry["variant_sprite_ids"] = [
+                            registry[str(part["cel"] + v)]["id"] if (part["cel"] + v) in cels else None
+                            for v in range(4)]
+                    resolved_parts.append(entry)
             else:
                 for part in parts:
                     if part["cel"] not in cels:
