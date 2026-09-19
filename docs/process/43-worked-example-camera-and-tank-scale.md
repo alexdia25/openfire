@@ -37,7 +37,11 @@ renamed `terrain.ground.pavement.01-12`. Cel 87 (wooden planks) -> `terrain.grou
 Hand-edited (not via `main()`), noted in `classify_batch1.py`, pack rebuilt, screenshot identical.
 Not done: cels 52-55 are labelled water/forest_water but look like plain sand in the atlas; unverified.
 
-## Trees (same day, follow-up)
+## Trees (same day, follow-up) -- SUPERSEDED by document 44
+
+The 0.5 palm scale and 0.4 tank scale below were estimates; document 44 replaces both with values
+traced from RFIRE.BIN (tank 0.375, palm geometry from real corners). Kept as the story of how the
+estimate arose.
 
 Measured against the reference at the calibrated camera: palm canopy ~36 native px wide / ~38
 tall here vs ~18 / ~21 in the reference shots; small ground bushes already matched (~half the

@@ -133,6 +133,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
   exists), unchanged backlog item. See [document 42](42-worked-example-turret-facing-backwards.md).
 
 - **Camera calibrated to the traced focal length (300 -> 56.6 degree HFOV, height 212), and the Tank scaled to 0.4 (estimated from user's Win95 reference shots, not traced)** — the tank had been built ~2.7x too wide for the road. Also fixed mislabeled pavement cels in the registry (`rooftop_red` -> `pavement`). See [document 43](43-worked-example-camera-and-tank-scale.md).
+- **Sizes traced from RFIRE.BIN instead of estimated (2026-09-19):** world unit = 16.16 fixed, tile = 32 units, so the Tank is exactly 24 units wide (scale 0.375), and every decoration part now renders from its real quad corners — including the previously-missed chained sub-object that holds palm trunks and ground shadows. See [document 44](44-worked-example-traced-world-scale.md).
 
 ## Still open
 

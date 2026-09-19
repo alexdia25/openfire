@@ -59,6 +59,7 @@ DEFAULT_BUILD_RFM = os.path.join(ROOT, "build", "rfm")
 DEFAULT_OUT = os.path.join(ROOT, "packs", "original_pc")
 REGISTRY_JSON = os.path.join(ROOT, "packs", "registry", "asset_ids.json")
 COASTAL_DECORATIONS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decorations.json")
+COASTAL_DECORATION_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
 
 PACK_ID = "original_pc"
 PIXELS_PER_WORLD_UNIT = 32  # matches the original's 32x32 terrain tile, section 2.4.3 item 1
@@ -159,17 +160,35 @@ def main():
     if os.path.exists(COASTAL_DECORATIONS_JSON):
         with open(COASTAL_DECORATIONS_JSON) as f:
             coastal_decorations = json.load(f)["decorations"]
+        # Document 44: real per-part quad corners (world units, tile = 32) for every part of every
+        # chained sub-object, from tools/data/coastal_decoration_corners.json. Ids it covers use
+        # ONLY that data (it is a superset of coastal_decorations.json's link-0 list); ids it
+        # doesn't cover fall back to the older cel/flags-only list (no geometry, so not drawn).
+        corner_doc = {}
+        if os.path.exists(COASTAL_DECORATION_CORNERS_JSON):
+            with open(COASTAL_DECORATION_CORNERS_JSON) as f:
+                corner_doc = json.load(f)["decorations"]
         decoration_types = {}
         for coastal_id, parts in coastal_decorations.items():
             resolved_parts = []
-            for part in parts:
-                cel = part["cel"]
-                if cel not in cels:
-                    continue  # a cel index this build's ART.CAR atlas doesn't have -- skip it
-                resolved_parts.append({
-                    "sprite_id": registry[str(cel)]["id"],
-                    "flags": part["flags"],
-                })
+            if coastal_id in corner_doc:
+                for part in corner_doc[coastal_id]:
+                    if part["cel"] not in cels:
+                        continue
+                    resolved_parts.append({
+                        "sprite_id": registry[str(part["cel"])]["id"],
+                        "flags": part["flags"],
+                        "corners": part["corners"],
+                        "offset": part["offset"],
+                    })
+            else:
+                for part in parts:
+                    if part["cel"] not in cels:
+                        continue  # a cel index this build's ART.CAR atlas doesn't have -- skip it
+                    resolved_parts.append({
+                        "sprite_id": registry[str(part["cel"])]["id"],
+                        "flags": part["flags"],
+                    })
             if resolved_parts:
                 decoration_types[coastal_id] = resolved_parts
         with open(os.path.join(terrain_dir, "decorations.json"), "w") as f:
