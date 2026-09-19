@@ -62,6 +62,28 @@ units wide** (on a 32-unit tile; matches the ~24-unit road). Scale = 24/64 = **0
    Registry: cels 133/137/116/117/141/120/121 are shadow masks (`effect.shadow.hard.*`), 134/138/
    142 palm trunks (`decoration.tree.palm_trunk.01-03`); cel 145 is a real sprite and keeps its name.
 
+## Follow-up: weapon damage vs tile hit points (partially traced, not implemented)
+
+`FUN_0042e8c0(damage, obj, tile, entry)` is the single tile-damage routine (damage is 16.16; it
+is shifted down to whole units and compared against the tile's 3-bit hit points, 6 for an intact
+building). Its callers pass:
+
+| caller | damage | what it is |
+|---|---|---|
+| `FUN_0042d850`, `FUN_0042d8d0`, `FUN_00432460`, `FUN_00431be0` | `0xff0000` = 255 | scripted/flag/target-object paths (the last two sit in the flag/target descriptor tables at 0x44e2dc-0x44e37c) -- always lethal |
+| `FUN_0040cea0` | `0x220000` = 34 | a vehicle-type tile-collision callback (its pointer is in the Tank/vehicle-type record, +0x144 of the 0x4452d8 table entry) -- lethal to a 6-HP building; also sets a flag when the object's speed exceeds 1.0 |
+| `FUN_0042dcd0` | `-(*(obj->owner+0x68)) * DAT_00480d2c` if negative, else that field | a projectile-type tile-hit callback (pointer at 0x44bba4, in the record starting near 0x44bb64); the actual per-weapon damage lives in a field of the firing object's record and was **not** traced |
+
+So every damage source found so far can destroy a 6-HP building in one hit, which is what the
+first-pass pool logic already assumes; what is still unknown is the *actual* weapon stats and
+whether ordinary machine-gun fire chips buildings instead of destroying them. Also dumped (raw,
+unlabelled): the Tank vehicle-type record at 0x4456b8 -- e.g. `+0xe8 = 100.0`, `+0xec = 64.0`,
+`+0x28 = 22.0`, `+0x1b0..0x1bc = 31/34/76/115`, plus many 0.01-0.8 fractions that look like
+acceleration/turn/friction factors. Reading them properly needs the vehicle update function
+(the constants are not self-describing), so vehicle speed/acceleration/health and weapon damage,
+rate of fire and projectile speed remain untraced (`Vehicle.MAX_SPEED = 220` is still the
+document 22 placeholder -- far too fast for a 24-unit tank).
+
 ## Still open
 
 - **Candidate-pool buildings: resolved, no new system.** `FUN_00432600` treats a candidate as
