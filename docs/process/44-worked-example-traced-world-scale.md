@@ -64,9 +64,16 @@ units wide** (on a 32-unit tile; matches the ~24-unit road). Scale = 24/64 = **0
 
 ## Still open
 
-- The **candidate-pool buildings** (the striped pad + building at RFMAP001's spawn) are a different
-  system from these decorations -- destructible target objects spawned by the pool logic (document
-  10/22); their own object descriptors have not been traced, so that site still shows a debug marker.
+- **Candidate-pool buildings: resolved, no new system.** `FUN_00432600` treats a candidate as
+  "intact" when its tile word's coastal id is 22 (`(word & 0x3f80) == 0xb00`), and the raw
+  candidate tiles 0xB4/0xDC carry exactly coastal id 22 (param4 0/1 = tan/green). So a pool's
+  buildings are ordinary coastal-id decorations (22 intact; the neighbouring ids are its damaged
+  states) -- already rendered by `DecorationField3D`. RFMAP001's candidate at tile (75,56) draws
+  the green-roofed building with its doorway, and the spawn tile's striped pad is plain ground art
+  (cel 90); both appear in the reference shots once the debug markers are hidden. New debug env
+  vars for comparing: `RF_DEBUG_NO_MARKERS=1`, `RF_DEBUG_FOCUS_TILE=x,y`, `RF_DEBUG_LEVEL=RFMAPnnn`.
+  What is NOT done here is the *gameplay* side (a destroyed building switching to its damaged
+  decoration id): the pool logic still only tracks which candidate is active.
 - Angle-bucket lists 1-7 (vehicle-style rotation) are unused by decorations and not extracted.
 - Part culling flags (bits 0/1) rely on the depth buffer here rather than the original's
   screen-space test.
