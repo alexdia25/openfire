@@ -225,6 +225,55 @@ for _cel, _id, _cat, _note, _conf in AUDIT3:
     put(_cel, _id, _cat, _note, _conf)
 
 
+# AUDIT 2026-09-20, part 4 (registry hand-edited, not re-generated; document 49): cels 1084-1739 are
+# animation clips, found as animated parts in the draw descriptors (tools/data/effect_animations.json).
+# The old effect.burst_red/brown/green names were colour guesses that cut across clips. Blank cels stay
+# reserved.blank.
+EFFECT_ANIM_CLIPS = {
+    1084: "explosion_smoke_column",
+    1109: "fireball_smoke",
+    1123: "smoke_puff",
+    1139: "flame_burst",
+    1159: "smoke_wisp",
+    1172: "explosion_large",
+    1197: "fireball_ring",
+    1210: "explosion_fireball",
+    1251: "flame_column",
+    1275: "explosion_dust",
+    1291: "smoke_and_flames",
+    1380: "explosion_big",
+    1416: "explosion_medium",
+    1436: "explosion_small",
+    1452: "explosion_spark",
+    1468: "explosion_spark_b",
+    1484: "explosion_flash",
+    1504: "explosion_flash_b",
+    1523: "debris_chunks",
+    1529: "smoke_puffs",
+    1537: "water_ring",
+    1555: "water_ring_small",
+    1565: "water_splash",
+    1580: "sand_explosion",
+    1598: "sand_puff",
+    1612: "sand_puff_b",
+    1626: "sand_puff_c",
+    1640: "sand_puff_d",
+    1654: "grey_explosion",
+    1672: "smoke_puff_a",
+    1686: "smoke_puff_b",
+    1700: "smoke_puff_c",
+    1714: "smoke_puff_d",
+}
+EFFECT_ANIM_BLANK = {1122, 1138, 1171, 1221, 1240, 1250, 1303, 1364, 1379, 1415, 1435, 1436, 1451, 1467, 1483, 1522, 1536, 1564, 1611, 1625, 1638, 1639, 1652, 1653, 1685, 1699, 1712, 1713, 1726, 1727}
+_starts = sorted(EFFECT_ANIM_CLIPS)
+for _i, _st in enumerate(_starts):
+    _nx = _starts[_i + 1] if _i + 1 < len(_starts) else 1740
+    for _c in range(_st, _nx):
+        if _c in EFFECT_ANIM_BLANK:
+            continue
+        put(_c, f"effect.anim.{EFFECT_ANIM_CLIPS[_st]}.{_c - _st:02d}", "effect", "animation frame (document 49)", "code_verified" if _c == _st else "visual")
+
+
 def main():
     with open(REGISTRY_JSON) as f:
         registry = json.load(f)

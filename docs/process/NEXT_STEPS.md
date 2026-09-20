@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-48
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-49
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -138,7 +138,8 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Registry terrain names corrected (2026-09-20):** cels 0-72 were mislabelled (water called dune/sand, sand called water/forest, grass called forest_water); renamed by what each cel shows. See [document 44](44-worked-example-traced-world-scale.md), open-items list.
 - **Registry audit against code (2026-09-20):** vehicle parts are groups of five cels (tan, green, yellow, two more), structures pair tan/green, projectile art and stats identified, all 84 coastal decorations labelled by look, 200+ cels renamed. Unresolved: heli rotor/missile bars, explosion frame lists, several unowned families. See [document 46](46-worked-example-registry-audit.md).
 - **Vehicle hit points and armour traced; enemies can now be killed (2026-09-20):** the vehicle class's hit callback `FUN_0040c460`, explosion objects identified as bytecode scripts, the water state. See [document 47](47-worked-example-vehicle-damage.md).
-- **Descriptor scan and wrecks (2026-09-20):** every draw descriptor found by scanning the binary; Heli rotor, flag, wreck art identified (`game/wreck_3d.gd`), the shell now uses its real cel. Explosion frames (animation-list tables at `0x44aa80`) and the object at `0x443740` remain. See [document 48](48-worked-example-descriptor-scan-and-wrecks.md).
+- **Descriptor scan and wrecks (2026-09-20):** every draw descriptor found by scanning the binary; Heli rotor, flag, wreck art identified (`game/wreck_3d.gd`), the shell now uses its real cel. The object at `0x443740` remains. See [document 48](48-worked-example-descriptor-scan-and-wrecks.md).
+- **Explosion/effect frames decoded (2026-09-20):** cels 1084-1739 are 33 animation clips (frame count and timing packed into a second part layout); registry renamed `effect.anim.*`. Nothing plays them in the port yet. See [document 49](49-worked-example-effect-animations.md).
 
 ## Still open
 
