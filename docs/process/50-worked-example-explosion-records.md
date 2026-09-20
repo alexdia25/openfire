@@ -38,7 +38,8 @@ until progress reaches the next byte; anything else calls handler `n` of the tab
 | 18, 19 | 3 | damage a neighbouring tile by 255 if its coastal id matches (document 44) |
 | 15 | 2 | does nothing (two ignored bytes) |
 | 22 | 2 | if the tile's coastal id equals `a`, set its team/variant bits to `b` |
-| 20, 21 | | 20 repeats the following ops; 21 (`FUN_004146d0`) is not decoded |
+| 20 | | repeats the following ops |
+| 21 | 1 | clears the tile's decoration now and schedules the tile's state change `n` ticks later (`FUN_004146d0` -> `FUN_0042da50` -> `FUN_0042e600`; document 53) |
 
 ## Only one explosion damages anything
 
