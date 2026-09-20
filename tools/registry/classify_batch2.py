@@ -124,8 +124,8 @@ put(72, "terrain.coast.grass_sand.12", "terrain", "grass meeting sand (edge/corn
 # AUDIT 2026-09-20 (registry hand-edited, not re-generated; document 46): every vehicle part in the
 # type descriptors (tools/data/vehicle_type_parts.json) is a group of 5 consecutive cels starting at
 # the descriptor's cel: +0 tan, +1 green (the same shape, verified by identical size and pixel count),
-# +2 a smaller "yellow" version (purpose untraced), +3/+4 two more variant slots (a wreck decal for
-# the Tank/MSV/Jeep, unclear for the Heli). Descriptor flag 0x8 shifts the cel by the variant. The
+# +2 a smaller "yellow" version (purpose untraced), +3/+4 two more variant slots (debris pieces for
+# the Tank/MSV/Jeep, purpose untraced; unclear for the Heli). Descriptor flag 0x8 shifts the cel by the variant. The
 # registry had scattered these across prop/effect/character/ui families. Tank slots 0/1 keep their
 # names (game/vehicle_box_3d.gd looks them up by name); every other non-blank slot is renamed.
 # MSV 324 (1/2/3 blue canisters) and Jeep 457 (5 same-size frames) are not team groups.
@@ -194,6 +194,34 @@ AUDIT2 = [
     (1083, "effect.ember_small.03", "effect", "small dark ember with red centre, 8x8", "visual"),
 ]
 for _cel, _id, _cat, _note, _conf in AUDIT2:
+    put(_cel, _id, _cat, _note, _conf)
+
+
+# AUDIT 2026-09-20, part 3 (registry hand-edited, not re-generated; document 48): owners found by
+# scanning RFIRE.BIN for every draw descriptor (tools/ghidra_scripts/ScanDescriptors.java) and by the
+# vehicle class's wreck object (class 0x4453e8 switches to the type record's +0x164 descriptor).
+AUDIT3 = [
+    (274, "effect.shadow.hard.wreck_small", "effect", "wreck ground shadow, Tank and Jeep (descriptors 0x43ece8, 0x440218)", "code_verified"),
+    (275, "vehicle.wreck.small.a.tan", "vehicle", "Tank/Jeep wreck decal, ground level, 24x24 units (flag 0x8: +1 green)", "code_verified"),
+    (276, "vehicle.wreck.small.a.green", "vehicle", "green variant of 275", "visual"),
+    (277, "vehicle.wreck.small.b.tan", "vehicle", "Tank/Jeep wreck debris decal, 2 units above the ground (+1 green)", "code_verified"),
+    (278, "vehicle.wreck.small.b.green", "vehicle", "green variant of 277", "visual"),
+    (412, "effect.shadow.hard.wreck_large", "effect", "MSV wreck ground shadow (descriptor 0x43f628)", "code_verified"),
+    (413, "vehicle.wreck.large.a.tan", "vehicle", "MSV wreck decal (+1 green)", "code_verified"),
+    (414, "vehicle.wreck.large.a.green", "vehicle", "green variant of 413", "visual"),
+    (415, "vehicle.wreck.large.b.tan", "vehicle", "MSV wreck debris decal (+1 green)", "code_verified"),
+    (416, "vehicle.wreck.large.b.green", "vehicle", "green variant of 415", "visual"),
+    (606, "vehicle.wreck.heli.tan", "vehicle", "Heli wreck debris (descriptor 0x440fa0, flag 0x8: +1 green)", "code_verified"),
+    (607, "vehicle.wreck.heli.green", "vehicle", "green variant of 606", "visual"),
+    (580, "vehicle.heli.rotor.a.tan", "vehicle", "Heli rotor blade, chained sub-object 0x440708 of the Heli descriptor (+1 green)", "code_verified"),
+    (581, "vehicle.heli.rotor.a.green", "vehicle", "green variant of 580", "visual"),
+    (584, "vehicle.heli.rotor.b.tan", "vehicle", "Heli rotor blade, sub-object 0x440708 (+1 green)", "code_verified"),
+    (585, "vehicle.heli.rotor.b.green", "vehicle", "green variant of 584", "visual"),
+    (588, "vehicle.heli.rotor.c", "vehicle", "Heli rotor part (descriptors 0x4406c0, 0x440708)", "code_verified"),
+    (579, "effect.shadow.hard.heli_body", "effect", "Heli ground shadow (descriptors 0x440e90, 0x440ed8)", "code_verified"),
+    (1881, "marker.capture_flag_base.01", "marker", "part of the capture-flag object (descriptor 0x440448, with cel 1829)", "code_verified"),
+]
+for _cel, _id, _cat, _note, _conf in AUDIT3:
     put(_cel, _id, _cat, _note, _conf)
 
 

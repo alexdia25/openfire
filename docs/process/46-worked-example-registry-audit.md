@@ -14,7 +14,7 @@ re-screenshot (unchanged).
 **Every vehicle part is a group of five consecutive cels.** For each part cel `c` in a vehicle-type
 descriptor: `c` = tan, `c+1` = green (identical size, near-identical pixel count), `c+2` = a
 "yellow" version (half size for the Tank/MSV/Jeep, full size for the Heli), `c+3`/`c+4` = two more
-slots (a wreck decal for the Tank/MSV/Jeep; unclear for the Heli). The descriptor's part flag `0x8`
+slots (dark debris pieces for the Tank/MSV/Jeep, purpose untraced -- NOT the wreck object, whose art is in document 48; unclear for the Heli). The descriptor's part flag `0x8`
 adds the variant to the cel (document 44). The registry had scattered these across `prop`, `effect`,
 `character` and `ui` families (a Jeep's green hull panel was `prop.tank_cylinder.cyan`, the MSV's
 green body `prop.fuel_drum.cyan`, its wreck decals `effect.explosion_splash`...). 147 cels renamed to

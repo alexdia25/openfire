@@ -5960,9 +5960,9 @@
     },
     "1881": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.mine_icon.01",
-      "note": "red pattern with a blue dotted border"
+      "confidence": "code_verified",
+      "id": "marker.capture_flag_base.01",
+      "note": "part of the capture-flag object (descriptor 0x440448, with cel 1829)"
     },
     "1882": {
       "category": "decoration",
@@ -8165,32 +8165,33 @@
     },
     "274": {
       "category": "effect",
-      "confidence": "confirmed",
-      "id": "effect.shadow.hard.010",
-      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+      "confidence": "code_verified",
+      "id": "effect.shadow.hard.wreck_small",
+      "note": "wreck ground shadow, Tank and Jeep (descriptors 0x43ece8, 0x440218)"
     },
     "275": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.explosion_splash.01",
-      "note": "red-spark/blue-splash burst, likely a hit or small-explosion animation"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.wreck.small.a.tan",
+      "note": "Tank/Jeep wreck decal, ground level, 24x24 units (flag 0x8: +1 green)"
     },
     "276": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.explosion_splash.02",
-      "note": "red-spark/blue-splash burst, likely a hit or small-explosion animation"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.wreck.small.a.green",
+      "note": "green variant of 275"
     },
     "277": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.explosion_splash.03",
-      "note": "red-spark/blue-splash burst, likely a hit or small-explosion animation"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.wreck.small.b.tan",
+      "note": "Tank/Jeep wreck debris decal, 2 units above the ground (+1 green)"
     },
     "278": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.fuel_drum.tan.01"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.wreck.small.b.green",
+      "note": "green variant of 277"
     },
     "279": {
       "category": "vehicle",
@@ -9070,29 +9071,33 @@
     },
     "412": {
       "category": "effect",
-      "confidence": "confirmed",
-      "id": "effect.shadow.hard.012",
-      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+      "confidence": "code_verified",
+      "id": "effect.shadow.hard.wreck_large",
+      "note": "MSV wreck ground shadow (descriptor 0x43f628)"
     },
     "413": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.explosion_large.231"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.wreck.large.a.tan",
+      "note": "MSV wreck decal (+1 green)"
     },
     "414": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.explosion_large.232"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.wreck.large.a.green",
+      "note": "green variant of 413"
     },
     "415": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.431"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.wreck.large.b.tan",
+      "note": "MSV wreck debris decal (+1 green)"
     },
     "416": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.432"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.wreck.large.b.green",
+      "note": "green variant of 415"
     },
     "417": {
       "category": "vehicle",
@@ -10146,9 +10151,9 @@
     },
     "579": {
       "category": "effect",
-      "confidence": "confirmed",
-      "id": "effect.shadow.hard.015",
-      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+      "confidence": "code_verified",
+      "id": "effect.shadow.hard.heli_body",
+      "note": "Heli ground shadow (descriptors 0x440e90, 0x440ed8)"
     },
     "58": {
       "category": "terrain",
@@ -10157,14 +10162,16 @@
       "note": "plain sand, no water or grass"
     },
     "580": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.brick_red.01"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.heli.rotor.a.tan",
+      "note": "Heli rotor blade, chained sub-object 0x440708 of the Heli descriptor (+1 green)"
     },
     "581": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.brick_red.02"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.rotor.a.green",
+      "note": "green variant of 580"
     },
     "582": {
       "category": "effect",
@@ -10179,16 +10186,16 @@
       "note": "PRE0=3: per-pixel tint-target index into the 256x256 aa0c table"
     },
     "584": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.hook_pipe.tan.01",
-      "note": "curved pipe/hook shape"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.heli.rotor.b.tan",
+      "note": "Heli rotor blade, sub-object 0x440708 (+1 green)"
     },
     "585": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.pipe_grey.02",
-      "note": "thin grey hook/pipe shape with small red accents (re-checked after the section 1.6 palette fix -- mostly grey, not red/orange)"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.rotor.b.green",
+      "note": "green variant of 584"
     },
     "586": {
       "category": "effect",
@@ -10203,9 +10210,10 @@
       "note": "PRE0=3: per-pixel tint-target index into the 256x256 aa0c table"
     },
     "588": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.bar_dark_red.01"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.heli.rotor.c",
+      "note": "Heli rotor part (descriptors 0x4406c0, 0x440708)"
     },
     "589": {
       "category": "effect",
@@ -10327,15 +10335,16 @@
       "note": "PRE0=2: flat darken_row2 (~91%) shadow, linear mask, real bytes {0,243}"
     },
     "606": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.spike_ball.01",
-      "note": "red spiky ball, possibly a mine"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.wreck.heli.tan",
+      "note": "Heli wreck debris (descriptor 0x440fa0, flag 0x8: +1 green)"
     },
     "607": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.panel_solid.tan.01"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.wreck.heli.green",
+      "note": "green variant of 606"
     },
     "608": {
       "category": "prop",
