@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-58
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-59
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -149,6 +149,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Team gates traced and applied (2026-09-20):** coastal ids 43/44 are gates that open for an own-team vehicle (bars slide apart at 0.5/tick, the door leaves retract, the light turns blue), stay open while it is within 32 units, close behind it and hand the tile back; enemy-colour gates stay shut and shells damage the tile through them. See [document 56](56-worked-example-team-gates.md).
 - **The flag and the match end (2026-09-20):** only a Jeep can take the flag (confirmed in three places); it hangs from the carrier, the action key drops or takes it, and a Jeep carrying the other pool's flag onto its home tile wins the match. The Jeep is now playable (traced stats, shape, fuel; no gun yet); `V` switches Tank/Jeep at the home tile and `F` is the flag action (port conveniences). See [document 57](57-worked-example-flag-and-match-end.md).
 - **The MSV is playable (2026-09-20):** shots are generalised (projectile table extracted, `Vehicle.shot` signal, descriptor-drawn projectiles); the MSV fires its traced three-rocket salvo with reload and back-blast. Mines, the Jeep gun/missile and the Heli follow. See [document 58](58-worked-example-msv-rockets.md).
+- **Vehicle part animation traced (2026-09-20):** the draw callbacks do all vehicle animation. Applied: the Jeep's wheel strip and the MSV's canister count/slide. The Tank's tracks are not animated by its code; the Heli's gear/rotor and the Jeep's water look wait for flight and water mode. See [document 59](59-worked-example-vehicle-part-animation.md).
 
 ## Still open
 
