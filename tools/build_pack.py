@@ -62,6 +62,7 @@ COASTAL_DECORATIONS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decorati
 COASTAL_DAMAGE_JSON = os.path.join(ROOT, "tools", "data", "coastal_damage.json")
 EXPLOSION_RECORDS_JSON = os.path.join(ROOT, "tools", "data", "explosion_records.json")
 COASTAL_SHAPES_JSON = os.path.join(ROOT, "tools", "data", "coastal_shapes.json")
+GATES_JSON = os.path.join(ROOT, "tools", "data", "gates.json")
 COASTAL_DECORATION_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
 
 PACK_ID = "original_pc"
@@ -234,6 +235,20 @@ def main():
     with open(os.path.join(args.out_dir, "pack.json"), "w") as f:
         json.dump(pack_manifest, f, indent=2, sort_keys=True)
         f.write("\n")
+
+    # Team gates (document 56): parts with their sprite ids resolved (flag 8 = +variant), for game/gate.gd.
+    if os.path.exists(GATES_JSON):
+        with open(GATES_JSON) as f:
+            gj = json.load(f)["gates"]
+        for gid, g in gj.items():
+            for d in g["descs"]:
+                for part in d["parts"]:
+                    n = 2 if part["flags"] & 8 else 1
+                    part["sprite_ids"] = [registry[str(part["cel"] + v)]["id"] for v in range(n)]
+                d["sprite_open"] = registry[str(d["cel_open"])]["id"]
+                d["sprite_closed"] = registry[str(d["cel_closed"])]["id"]
+        with open(os.path.join(terrain_dir, "gates.json"), "w") as f:
+            json.dump({"gates": gj}, f)
 
     # Collision shapes of each coastal id's tile (document 53), consumed by game/pack.gd's get_coastal_shapes().
     if os.path.exists(COASTAL_SHAPES_JSON):

@@ -14,7 +14,7 @@ kinds, from `tools/data/coastal_shapes.json` (`b8` / `b9`):
 | --- | --- | --- |
 | 1 refuel | 39, 40, 41, 42 | 6 x 6 at 12 units from the tile centre, z 0-3 (a pump's nozzle spot, beside a solid octagonal body) |
 | 2 rearm | 14 (15-17 have the same zone but no callback, so it blocks) | 32 x 12, 8 units off the centre |
-| 3 pick-up | 43, 44 | 64 x 64 around the tile |
+| 3 gate | 43, 44 | 64 x 64 around the tile (document 56: the "pick-up" is a team gate) |
 
 The coastal id labels in `tools/data/coastal_id_labels.json` for these ids were visual guesses; they are
 corrected there.
@@ -30,9 +30,9 @@ stays remembered. While it **stands still**, each tick:
    rising.
 3. **Rearm (kind 2):** each weapon slot's ammunition rises by `max(1, dt / 2)` per tick up to its cap (record
    slot `+0x14`: 150 for the Tank's gun), slot after slot.
-4. **Pick-up (kind 3):** if the tile's variant bits equal the player's index, `FUN_00432550` clears the tile's
-   decoration and spawns a carried object (class `0x44e370`, drawn from the descriptor of coastal id 43 or 44)
-   attached to the vehicle.
+4. **Gate (kind 3):** if the tile's variant bits equal the player's index, `FUN_00432550` clears the tile's
+   decoration and spawns a gate object (class `0x44e370`, document 56) attached to the vehicle. (An earlier
+   reading here called it a carried object.)
 
 ## The other end: fuel and ammunition
 

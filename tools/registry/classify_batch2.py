@@ -274,6 +274,21 @@ for _i, _st in enumerate(_starts):
         put(_c, f"effect.anim.{EFFECT_ANIM_CLIPS[_st]}.{_c - _st:02d}", "effect", "animation frame (document 49)", "code_verified" if _c == _st else "visual")
 
 
+# AUDIT 2026-09-20, part 5 (registry hand-edited, not re-generated; document 56): the cels of the team gate
+# objects (coastal ids 43/44, class 0x44e370): parts of their draw descriptors 0x44d160 / 0x44d628.
+AUDIT5 = [
+    (853, "structure.gate.frame_a", "structure", "gate frame strip (descriptor part cel 0x355)", "code_verified"),
+    (854, "structure.gate.frame_b", "structure", "gate frame strip (part cel 0x356)", "code_verified"),
+    (856, "structure.gate.wall", "structure", "gate wall face with a doorway (part cel 0x358)", "code_verified"),
+    (857, "structure.gate.light_off", "structure", "gate door face while closed (part cel 0x359, swapped for 0x35a when open)", "code_verified"),
+    (858, "structure.gate.light_on", "structure", "gate door face while open (cel 0x35a)", "code_verified"),
+    (859, "structure.gate.panel.tan", "structure", "gate door panel, tan (part cel 0x35b, flag 8: +1 green)", "code_verified"),
+    (860, "structure.gate.panel.green", "structure", "gate door panel, green variant of 859", "visual"),
+]
+for _cel, _id, _cat, _note, _conf in AUDIT5:
+    put(_cel, _id, _cat, _note, _conf)
+
+
 def main():
     with open(REGISTRY_JSON) as f:
         registry = json.load(f)

@@ -11899,14 +11899,16 @@
       "variant": "green"
     },
     "853": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.bar_thin.51"
+      "category": "structure",
+      "confidence": "code_verified",
+      "id": "structure.gate.frame_a",
+      "note": "gate frame strip (descriptor part cel 0x355)"
     },
     "854": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.bar_thin.52"
+      "category": "structure",
+      "confidence": "code_verified",
+      "id": "structure.gate.frame_b",
+      "note": "gate frame strip (part cel 0x356)"
     },
     "855": {
       "category": "structure",
@@ -11916,26 +11918,27 @@
     },
     "856": {
       "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.building_wall.791",
-      "note": "pink/red wall segment, some with window/tent details"
+      "confidence": "code_verified",
+      "id": "structure.gate.wall",
+      "note": "gate wall face with a doorway (part cel 0x358)"
     },
     "857": {
       "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.building_wall.792",
-      "note": "pink/red wall segment, some with window/tent details"
+      "confidence": "code_verified",
+      "id": "structure.gate.light_off",
+      "note": "gate door face while closed (part cel 0x359, swapped for 0x35a when open)"
     },
     "858": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.rescue_cross.84",
-      "note": "red panel with a cyan/green cross or plus shape -- possible medic/rescue icon, unconfirmed"
+      "category": "structure",
+      "confidence": "code_verified",
+      "id": "structure.gate.light_on",
+      "note": "gate door face while open (cel 0x35a)"
     },
     "859": {
-      "category": "prop",
+      "category": "structure",
       "confidence": "code_verified",
-      "id": "prop.panel_solid.dark_red.01",
+      "id": "structure.gate.panel.tan",
+      "note": "gate door panel, tan (part cel 0x35b, flag 8: +1 green)",
       "pair_cel": 859,
       "variant": "tan"
     },
@@ -11946,9 +11949,10 @@
       "note": "was misclassified as green furrow/hedge under the old wrong palette; actually brown wood planks"
     },
     "860": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.panel_solid.dark_red.02",
+      "category": "structure",
+      "confidence": "visual",
+      "id": "structure.gate.panel.green",
+      "note": "gate door panel, green variant of 859",
       "pair_cel": 859,
       "variant": "green"
     },
