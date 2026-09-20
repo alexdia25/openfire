@@ -250,6 +250,7 @@ def main():
             ex = json.load(f)
         records = {}
         by_coastal = {}
+        by_coastal_crush = {}
         for addr, r in ex["records"].items():
             parts = []
             for part in r["parts"]:
@@ -263,9 +264,11 @@ def main():
                              "parts": parts, "script": r["script"]}
             for cid in r["coastal_destroy_effect_ids"]:
                 by_coastal[str(cid)] = addr
+            for cid in r["coastal_field10_ids"]:
+                by_coastal_crush[str(cid)] = addr
         os.makedirs(os.path.join(args.out_dir, "effects"), exist_ok=True)
         with open(os.path.join(args.out_dir, "effects", "explosions.json"), "w") as f:
-            json.dump({"records": records, "coastal_destroy_effect": by_coastal,
+            json.dump({"records": records, "coastal_destroy_effect": by_coastal, "coastal_crush_effect": by_coastal_crush,
                        "impact_tables": ex["impact_tables"]}, f)
 
     levels_dir = os.path.join(args.out_dir, "levels")

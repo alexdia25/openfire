@@ -102,7 +102,7 @@ rocket smoke trail `0x445238` (cel 1529) from the projectile update `FUN_0041510
 ## Still open
 
 - **How a clip's frame is chosen:** resolved in [document 51](51-worked-example-explosion-playback.md).
-- Field `+0x28` of the coastal entries; what spawns mines; the sub-script table use in `0x444c80`.
+- Field `+0x28` of the coastal entries is the crush effect of the bush ids (document 54); what spawns mines; the sub-script table use in `0x444c80`.
 - Explosion damage to vehicles is now defined (record `0x445058`, 1.0 per tick in a growing box) but is
   only reachable through mines, which are not spawned by anything traced.
 

@@ -29,7 +29,7 @@ public class DumpCoastalShapes extends GhidraScript {
         for (int id = 1; id <= 91; id++) {
             long d = u32(0x00447038L + id * 0x38L);
             if (!ok(d)) continue;
-            println("ID " + id + " jitter=" + (u32(d + 0x28) == 0x4365c0L));
+            println("ID " + id + " jitter=" + (u32(d + 0x28) == 0x4365c0L) + " callback=0x" + Long.toHexString(u32(0x00447038L + id * 0x38L + 0xc)));
             int g = 0;
             while (ok(d) && g++ < 8) {
                 long sh = u32(d + 8);
@@ -38,6 +38,7 @@ public class DumpCoastalShapes extends GhidraScript {
                     int type = s32(sh);
                     StringBuilder sb = new StringBuilder("SHAPE " + id + " desc=0x" + Long.toHexString(d));
                     sb.append(" type=").append(type);
+                    sb.append(" b9=").append(mem.getByte(toAddr(sh + 9)) & 0xFF);
                     sb.append(" layer=").append(mem.getByte(toAddr(sh + 10)) & 0xFF);
                     sb.append(" mask=").append(mem.getByte(toAddr(sh + 11)) & 0xFF);
                     sb.append(" z=").append(s32(sh + 0xc) / 65536.0).append(",").append(s32(sh + 0x10) / 65536.0);
