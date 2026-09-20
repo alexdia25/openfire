@@ -159,7 +159,7 @@ See plan section 4 for the current, precise state of each — this list is just 
   non-string anchor — probably tracing what happens when a vehicle's destruction count/health
   reaches zero, from the vehicle side rather than the building side (section 4, item 1).
 - **Vehicle damage: partly resolved (document 47).** Hit points/armour traced (Tank 22/0.3, Jeep 1/0, MSV 26/0.5, Heli 15/0.2) and applied to the Tank; hit-flash, the dying handler, water sinking (the wreck is now built, document 48), explosion damage to vehicles, the real collision shape and the life system remain.
-- **Smaller traced-but-unfinished gameplay pieces (document 45):** the muzzle offset (placeholder), the "in water" speed cap (what sets state `+0x70` is untraced), the building 62 -> 63 stage, auto-steer (the "in water" cap is now understood, document 47, but not modelled). Ammo (150 rounds, rearm tiles) is deliberately skipped for now (user, 2026-09-20). Jeep/MSV/Heli movement and weapon values are tabulated but not applied.
+- **Smaller traced-but-unfinished gameplay pieces (document 45):** the "in water" speed cap (what sets state `+0x70` is untraced), the building 62 -> 63 stage, auto-steer (the "in water" cap is now understood, document 47, but not modelled). Ammo (150 rounds, rearm tiles) is deliberately skipped for now (user, 2026-09-20). Jeep/MSV/Heli movement and weapon values are tabulated but not applied.
 - Team-colouring *mechanism* (separate cels vs. palette swap) — the colours themselves are settled, see above (section 4, item 5)
 - 3DO support: base game + "Maps o' Death" expansion — new goal, **deprioritized** until the core PC-port game runs (section 4, item 6)
 - 4-player support — new goal, not yet started (section 4, item 7)
