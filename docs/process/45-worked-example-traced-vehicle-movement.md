@@ -57,14 +57,63 @@ variable number of 16 ms steps per frame, so speeds are frame-rate independent.
 `game/vehicle.gd` now uses these (previously 220 / 260 / 90 / 140 / 160 -- the Tank was 3.4x too
 fast, which is why it looked huge-strided now that its size is traced).
 
+## The other three vehicles (same offsets, same units)
+
+| | Tank | Jeep | MSV | Heli |
+| --- | --- | --- | --- | --- |
+| max forward (units/tick) | 1.05 | 1.40 | 0.72 | 1.80 |
+| max reverse | -0.4 | -0.8 | -0.3 | -0.6 |
+| accel / brake | 0.05 | 0.05 | 0.04 | 0.02 |
+| friction | 0.025 | 0.01 | 0.025 | 0.02 |
+| turn (steps/tick) | 0.25 | 0.5 | 0.2 | 0.75 |
+| forward, units/s | 65.6 | 87.5 | 45 | 112.5 |
+
+(Read from the four records at `0x4456b8 + n*0x2e8`; the Jeep and the Heli install their own drive
+handlers at record `+0x18`, so these values may not be the whole story for them. The Tank and MSV
+use the default `FUN_0040c190`.) `Vehicle` still hard-codes the Tank's.
+
+## Weapons: the Tank shell
+
+The record's weapon slots start at `+0x194`, stride `0x34`; the fire handler is `FUN_0040d240`
+(record `+0x17c`) and `FUN_0040c540` refills ammo. Per slot: `+0x00` projectile type index,
+`+0x10` cooldown in ticks, `+0x14` maximum ammo. The Tank's slot 0 = type 0, **cooldown 20 ticks
+(0.32 s)**, **150 rounds** (refilled at 0.5 round/tick while on a rearm tile; not modelled).
+
+Projectile types are a table of 12 entries x 0x3c bytes at `0x4489a0`, spawned by `FUN_00415480`
+and initialised by `FUN_004148f0`:
+
+| Entry field | Meaning | Type 0 (Tank shell) |
+| --- | --- | --- |
+| `+0x0c` | speed, units/tick | 3.0 (187.5 units/s) |
+| `+0x24` | **damage** passed to `FUN_0042e8c0` on hitting a tile (`FUN_00414dd0`) | 1.0 |
+| `+0x38` (byte) | lifetime in ticks | 0x50 = 80 (1.28 s, range 240 units = 7.5 tiles) |
+
+Other types' speed/damage: 1: 2.5/2.0, 2: 2.3/4.0, 3: 6.0/1.0, 4: 4.0/1.5, 5: 3.0/1.0, 6: 3.0/4.0,
+7: 3.0/1.0, 8: 2.3/2.0, 9: 2.3/2.0, **10: 3.0/400 (0x1900000, a super-weapon)**, 11: 3.5/0.95.
+Which vehicle slot fires which type is only read for the Tank.
+
+Earlier this document's predecessor flagged `FUN_0042dcd0` as the projectile hit callback. It is
+not: it is an *explosion-object* callback (damage -(speed x dt) per tick from `obj+0x58`'s record).
+The projectile's own tile hit is `FUN_00414dd0`, so damage is the entry field above.
+
+## Tile hit points, completed
+
+`FUN_0042e8c0` (all 91 coastal entries have armour threshold `E+0x20 = 0` and multiplier
+`E+0x24 = 0`): a hit removes `max(1, damage >> 16)` from the 3-bit hit-point field (tile word bits
+25-27), and the tile is destroyed when its hit points are <= that amount. So a 6-HP candidate
+building (id 22) takes **six Tank-shell hits** to become id 62; before, the port destroyed it in one.
+`MatchController` now tracks per-tile hit points and subtracts `Projectile.damage_hp`, verified by a
+scripted run: shots 1-5 leave 5..1 HP, shot 6 destroys and triggers the pool replacement.
+
+## Applied in the port
+
+`Vehicle`: traced speeds/accel/friction/turn, plus the 1.2x pavement cap (art ids 0x49-0x59).
+`Projectile`: 187.5 px/s, 1.28 s life, `damage_hp = 1`. `Vehicle.FIRE_COOLDOWN_SEC = 0.32`.
+
 ## Not done
 
-- Jeep / MSV / Heli have their own records at the same offsets (untraced values); `Vehicle` and
-  `EnemyVehicle` still use the Tank's.
-- Road 1.2x and water penalties (need a terrain lookup in `Vehicle`), auto-steer, and the `+0xec`
-  smoothing (a second, tilt-like value eased by the per-type pair at `0x4453a8`).
-- Weapons (damage, cooldown, projectile speed) are in the same records; still placeholders.
-
-Tooling added: `tools/ghidra_scripts/FindDataWrites.java` (only WRITE xrefs to an address, then
-decompiles the writers) -- the quickest way to find where a runtime-initialised global such as the
-tick scale or the heading table is set.
+- Ammo (150, rearm tiles) and the muzzle offset; the state-flag "in water" speed cap (what sets
+  state `+0x70` is untraced); auto-steer; the `+0xec` tilt smoothing.
+- Jeep/MSV/Heli behaviour in the port (they aren't playable here), and their weapon slots.
+- Vehicle-vs-vehicle damage (health `+0xe8` = 100/250/?/200 looks like hit points; untraced).
+- The 62 -> 63 stage of a building.

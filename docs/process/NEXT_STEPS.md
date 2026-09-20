@@ -238,4 +238,4 @@ been retired as a whole, per direct user request: marked-superseded, not deleted
 `game/terrain_view_3d.gd`, the code is otherwise untouched and still runs if loaded directly
 (`res://game/terrain_view.tscn`), and it will not be maintained or re-verified against future
 gameplay/rendering changes. See plan section 2.2.
-- **Tank movement traced from RFIRE.BIN (2026-09-20):** speed 65.6 units/s (~2 tiles/s), reverse 25, accel 195/s², friction 97.6/s², turn 87.9°/s, from the Tank record read by `FUN_0040c190`, on a 16 ms (62.5 Hz) tick. Road 1.2× and the other three vehicle types are untraced. See [document 45](45-worked-example-traced-vehicle-movement.md).
+- **Tank movement traced from RFIRE.BIN (2026-09-20):** speed 65.6 units/s (~2 tiles/s), reverse 25, accel 195/s², friction 97.6/s², turn 87.9°/s, from the Tank record read by `FUN_0040c190`, on a 16 ms (62.5 Hz) tick. Also the pavement 1.2× cap, the Tank shell (3.0 units/tick, 1.28 s, damage 1, 20-tick cooldown) and per-hit tile hit points (a building now takes 6 shots); other vehicles' values are tabulated but not applied. See [document 45](45-worked-example-traced-vehicle-movement.md).
