@@ -61,6 +61,7 @@ REGISTRY_JSON = os.path.join(ROOT, "packs", "registry", "asset_ids.json")
 COASTAL_DECORATIONS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decorations.json")
 COASTAL_DAMAGE_JSON = os.path.join(ROOT, "tools", "data", "coastal_damage.json")
 EXPLOSION_RECORDS_JSON = os.path.join(ROOT, "tools", "data", "explosion_records.json")
+COASTAL_SHAPES_JSON = os.path.join(ROOT, "tools", "data", "coastal_shapes.json")
 COASTAL_DECORATION_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
 
 PACK_ID = "original_pc"
@@ -233,6 +234,13 @@ def main():
     with open(os.path.join(args.out_dir, "pack.json"), "w") as f:
         json.dump(pack_manifest, f, indent=2, sort_keys=True)
         f.write("\n")
+
+    # Collision shapes of each coastal id's tile (document 53), consumed by game/pack.gd's get_coastal_shapes().
+    if os.path.exists(COASTAL_SHAPES_JSON):
+        with open(COASTAL_SHAPES_JSON) as f:
+            cs = json.load(f)
+        with open(os.path.join(terrain_dir, "coastal_shapes.json"), "w") as f:
+            json.dump(cs, f)
 
     # Explosion records (document 50/51): per record its scale/rate/duration and parts with the frame sprite
     # ids (cel + 0 .. end - start) resolved through the registry, plus the coastal-id -> destroy-effect map
