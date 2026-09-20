@@ -64,6 +64,7 @@ EXPLOSION_RECORDS_JSON = os.path.join(ROOT, "tools", "data", "explosion_records.
 COASTAL_SHAPES_JSON = os.path.join(ROOT, "tools", "data", "coastal_shapes.json")
 GATES_JSON = os.path.join(ROOT, "tools", "data", "gates.json")
 VEHICLE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "vehicle_types.json")
+PROJECTILE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "projectile_types.json")
 COASTAL_DECORATION_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
 
 PACK_ID = "original_pc"
@@ -248,6 +249,18 @@ def main():
         os.makedirs(os.path.join(args.out_dir, "vehicles"), exist_ok=True)
         with open(os.path.join(args.out_dir, "vehicles", "vehicle_types.json"), "w") as f:
             json.dump({"types": vt}, f)
+
+    # Projectile types and their draw descriptors (documents 46, 58); parts carry sprite ids (flag 8: + team).
+    if os.path.exists(PROJECTILE_TYPES_JSON):
+        with open(PROJECTILE_TYPES_JSON) as f:
+            pj = json.load(f)
+        for parts in pj["descriptors"].values():
+            for part in parts:
+                n = 2 if part["flags"] & 8 else 1
+                part["sprite_ids"] = [registry[str(part["cel"] + v)]["id"] for v in range(n)]
+        os.makedirs(os.path.join(args.out_dir, "vehicles"), exist_ok=True)
+        with open(os.path.join(args.out_dir, "vehicles", "projectile_types.json"), "w") as f:
+            json.dump({"types": pj["types"], "descriptors": pj["descriptors"]}, f)
 
     # Team gates (document 56): parts with their sprite ids resolved (flag 8 = +variant), for game/gate.gd.
     if os.path.exists(GATES_JSON):

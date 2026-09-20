@@ -99,17 +99,16 @@ def _collect_decoration_cels(path):
 
 
 def _collect_projectile_cels(path):
-    """{cel: [labels]} from projectile_types.json (document 46): body, shadow and trail cels of
-    the 12 projectile types."""
+    """{cel: [labels]} from projectile_types.json (documents 46, 58): every part of the body, shadow and trail
+    descriptors the 12 projectile types point at."""
     if not os.path.exists(path):
         return {}
     with open(path, encoding="utf-8") as f:
         data = json.load(f)
     out = {}
-    for t in data["types"]:
-        for key in ("body_cel", "shadow_cel", "trail_cel"):
-            if t.get(key):
-                out.setdefault(t[key], []).append(f"projectile type {t['type']} {key}")
+    for addr, parts in data["descriptors"].items():
+        for part in parts:
+            out.setdefault(part["cel"], []).append(f"projectile descriptor {addr}")
     return out
 
 
