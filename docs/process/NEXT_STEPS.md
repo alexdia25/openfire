@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-49
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-50
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -140,6 +140,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Vehicle hit points and armour traced; enemies can now be killed (2026-09-20):** the vehicle class's hit callback `FUN_0040c460`, explosion objects identified as bytecode scripts, the water state. See [document 47](47-worked-example-vehicle-damage.md).
 - **Descriptor scan and wrecks (2026-09-20):** every draw descriptor found by scanning the binary; Heli rotor, flag, wreck art identified (`game/wreck_3d.gd`), the shell now uses its real cel. The object at `0x443740` remains. See [document 48](48-worked-example-descriptor-scan-and-wrecks.md).
 - **Explosion/effect frames decoded (2026-09-20):** cels 1084-1739 are 33 animation clips (frame count and timing packed into a second part layout); registry renamed `effect.anim.*`. Nothing plays them in the port yet. See [document 49](49-worked-example-effect-animations.md).
+- **Explosion records traced (2026-09-20):** 26 explosion scripts decoded (`tools/data/explosion_records.json`); which coastal id, projectile surface and fire handler plays which clip is now read from the code, and the only area-damage explosion is the mine's (class 10). How a clip's frame is chosen is the remaining blocker before playing any of it. See [document 50](50-worked-example-explosion-records.md).
 
 ## Still open
 

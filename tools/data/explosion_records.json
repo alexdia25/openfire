@@ -1,0 +1,1555 @@
+{
+ "_source": "RFIRE.BIN explosion ('Expl', class 0x44bb70) records, document 50. Record layout: [0] script ptr, [1] descriptor-table ptr (op 10/12), [3] duration, [5] progress per tick; the tail of the record doubles as an animated-part descriptor at record-0x10 (6-dword parts: cel, flags(mode|frames<<8|timing<<16), 4 corner idx). Script ops per docs/process/50. 'coastal_destroy_effect_ids' = coastal-table field +0x2c (FUN_0042e6a0 spawns it when the tile is destroyed). Clip frame selection is NOT traced.",
+ "impact_tables": {
+  "0x448970": {
+   "used_by": "projectile types 0,3,5,7,11 (entry+0x34)",
+   "surface": {
+    "0 land": "0x444740",
+    "1 water": "0x4445b8",
+    "2 road": "0x444968",
+    "3 object hit": "0x444b68",
+    "4 tile hit": "0x444ac8"
+   }
+  },
+  "0x448988": {
+   "used_by": "projectile types 1,2,4,6,8,9,10",
+   "surface": {
+    "0 land": "0x444840",
+    "1 water": "0x4445e8",
+    "2 road": "0x444a30",
+    "3 object hit": "0x444b68",
+    "4 tile hit": "0x444ac8"
+   }
+  }
+ },
+ "records": {
+  "0x443b90": {
+   "duration": 24.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "DRAW_LIST",
+     6
+    ],
+    [
+     "OP21",
+     40
+    ],
+    [
+     "SOUND",
+     2
+    ],
+    [
+     "WAIT",
+     3
+    ],
+    [
+     "DESC_TBL",
+     0
+    ],
+    [
+     "STOP"
+    ],
+    [
+     "DESC_DEFAULT"
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1139,
+     "frames": 20,
+     "timing": 20,
+     "mode": 1
+    },
+    {
+     "cel": 1159,
+     "frames": 24,
+     "timing": 20,
+     "mode": 13
+    }
+   ],
+   "coastal_destroy_effect_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    11
+   ],
+   "coastal_field10_ids": [],
+   "code_refs": []
+  },
+  "0x443cc0": {
+   "duration": 29.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "SOUND",
+     14
+    ],
+    [
+     "OP15",
+     0,
+     10
+    ],
+    [
+     "WAIT",
+     3
+    ],
+    [
+     "DESC_TBL",
+     0
+    ],
+    [
+     "STOP"
+    ],
+    [
+     "DESC_DEFAULT"
+    ],
+    [
+     "WAIT",
+     11
+    ],
+    [
+     "OP22",
+     39,
+     0
+    ],
+    [
+     "OP22",
+     40,
+     1
+    ],
+    [
+     "OP22",
+     41,
+     2
+    ],
+    [
+     "OP22",
+     42,
+     3
+    ],
+    [
+     "TILE_STATE"
+    ],
+    [
+     "SOUND",
+     1
+    ],
+    [
+     "DESC_TBL",
+     1
+    ],
+    [
+     "STOP"
+    ],
+    [
+     "DESC_DEFAULT"
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1172,
+     "frames": 25,
+     "timing": 20,
+     "mode": 1
+    },
+    {
+     "cel": 1197,
+     "frames": 29,
+     "timing": 26,
+     "mode": 18
+    },
+    {
+     "cel": 1210,
+     "frames": 25,
+     "timing": 22,
+     "mode": 14
+    }
+   ],
+   "coastal_destroy_effect_ids": [
+    39,
+    40,
+    41,
+    42
+   ],
+   "coastal_field10_ids": [],
+   "code_refs": []
+  },
+  "0x443e10": {
+   "duration": 27.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "SOUND",
+     1
+    ],
+    [
+     "OP15",
+     0,
+     10
+    ],
+    [
+     "WAIT",
+     3
+    ],
+    [
+     "DESC_TBL",
+     1
+    ],
+    [
+     "STOP"
+    ],
+    [
+     "DESC_DEFAULT"
+    ],
+    [
+     "WAIT",
+     11
+    ],
+    [
+     "TILE_SET",
+     -1,
+     0,
+     54,
+     56
+    ],
+    [
+     "TILE_SET",
+     1,
+     0,
+     55,
+     56
+    ],
+    [
+     "TILE_SET",
+     -1,
+     0,
+     46,
+     55
+    ],
+    [
+     "TILE_SET",
+     1,
+     0,
+     46,
+     54
+    ],
+    [
+     "TILE_SET",
+     0,
+     -1,
+     57,
+     59
+    ],
+    [
+     "TILE_SET",
+     0,
+     1,
+     58,
+     59
+    ],
+    [
+     "TILE_SET",
+     0,
+     -1,
+     45,
+     58
+    ],
+    [
+     "TILE_SET",
+     0,
+     1,
+     45,
+     57
+    ],
+    [
+     "TILE_DMG_B",
+     -1,
+     0,
+     88
+    ],
+    [
+     "TILE_DMG_B",
+     1,
+     0,
+     88
+    ],
+    [
+     "TILE_DMG_B",
+     0,
+     -1,
+     89
+    ],
+    [
+     "TILE_DMG_B",
+     0,
+     1,
+     89
+    ],
+    [
+     "TILE_STATE"
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1084,
+     "frames": 25,
+     "timing": 22,
+     "mode": 1
+    },
+    {
+     "cel": 1109,
+     "frames": 18,
+     "timing": 18,
+     "mode": 5
+    },
+    {
+     "cel": 1123,
+     "frames": 24,
+     "timing": 18,
+     "mode": 9
+    }
+   ],
+   "coastal_destroy_effect_ids": [
+    12,
+    13,
+    43,
+    44,
+    45,
+    46,
+    49,
+    50,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    68,
+    90
+   ],
+   "coastal_field10_ids": [],
+   "code_refs": []
+  },
+  "0x443ee8": {
+   "duration": 17.0,
+   "rate_per_tick": 0.1667,
+   "script": [
+    [
+     "SOUND",
+     1
+    ],
+    [
+     "OP15",
+     0,
+     10
+    ],
+    [
+     "WAIT",
+     3
+    ],
+    [
+     "DESC_TBL",
+     1
+    ],
+    [
+     "STOP"
+    ],
+    [
+     "DESC_DEFAULT"
+    ],
+    [
+     "WAIT",
+     4
+    ],
+    [
+     "DRAW_LIST",
+     4
+    ],
+    [
+     "OP21",
+     60
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1580,
+     "frames": 17,
+     "timing": 14,
+     "mode": 1
+    },
+    {
+     "cel": 1084,
+     "frames": 17,
+     "timing": 14,
+     "mode": 5
+    }
+   ],
+   "coastal_destroy_effect_ids": [
+    18,
+    19,
+    20,
+    21,
+    35,
+    69,
+    70,
+    71,
+    72
+   ],
+   "coastal_field10_ids": [],
+   "code_refs": []
+  },
+  "0x443f30": {
+   "duration": 17.0,
+   "rate_per_tick": 0.1667,
+   "script": [
+    [
+     "SOUND",
+     1
+    ],
+    [
+     "OP15",
+     0,
+     10
+    ],
+    [
+     "WAIT",
+     3
+    ],
+    [
+     "DESC_TBL",
+     1
+    ],
+    [
+     "STOP"
+    ],
+    [
+     "DESC_DEFAULT"
+    ],
+    [
+     "WAIT",
+     4
+    ],
+    [
+     "DRAW_LIST",
+     4
+    ],
+    [
+     "TILE_STATE"
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1580,
+     "frames": 17,
+     "timing": 14,
+     "mode": 1
+    },
+    {
+     "cel": 1084,
+     "frames": 17,
+     "timing": 14,
+     "mode": 5
+    }
+   ],
+   "coastal_destroy_effect_ids": [
+    22
+   ],
+   "coastal_field10_ids": [],
+   "code_refs": []
+  },
+  "0x444000": {
+   "duration": 22.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "SOUND",
+     1
+    ],
+    [
+     "OP15",
+     0,
+     10
+    ],
+    [
+     "WAIT",
+     3
+    ],
+    [
+     "DESC_TBL",
+     0
+    ],
+    [
+     "STOP"
+    ],
+    [
+     "DESC_DEFAULT"
+    ],
+    [
+     "WAIT",
+     6
+    ],
+    [
+     "TILE_STATE"
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1537,
+     "frames": 22,
+     "timing": 22,
+     "mode": 5
+    },
+    {
+     "cel": 1484,
+     "frames": 19,
+     "timing": 12,
+     "mode": 1
+    }
+   ],
+   "coastal_destroy_effect_ids": [
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89
+   ],
+   "coastal_field10_ids": [],
+   "code_refs": []
+  },
+  "0x4440d0": {
+   "duration": 25.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "SOUND",
+     1
+    ],
+    [
+     "OP15",
+     0,
+     10
+    ],
+    [
+     "WAIT",
+     3
+    ],
+    [
+     "DESC_TBL",
+     0
+    ],
+    [
+     "STOP"
+    ],
+    [
+     "DESC_DEFAULT"
+    ],
+    [
+     "TILE_STATE"
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1251,
+     "frames": 25,
+     "timing": 25,
+     "mode": 1
+    },
+    {
+     "cel": 1210,
+     "frames": 18,
+     "timing": 16,
+     "mode": 4
+    }
+   ],
+   "coastal_destroy_effect_ids": [
+    36,
+    37,
+    38
+   ],
+   "coastal_field10_ids": [],
+   "code_refs": []
+  },
+  "0x4441a0": {
+   "duration": 25.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "SOUND",
+     1
+    ],
+    [
+     "OP15",
+     0,
+     10
+    ],
+    [
+     "WAIT",
+     3
+    ],
+    [
+     "DESC_TBL",
+     1
+    ],
+    [
+     "STOP"
+    ],
+    [
+     "DESC_DEFAULT"
+    ],
+    [
+     "WAIT",
+     11
+    ],
+    [
+     "TILE_STATE"
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1580,
+     "frames": 18,
+     "timing": 15,
+     "mode": 1
+    },
+    {
+     "cel": 1275,
+     "frames": 20,
+     "timing": 17,
+     "mode": 1
+    }
+   ],
+   "coastal_destroy_effect_ids": [
+    15,
+    16,
+    17
+   ],
+   "coastal_field10_ids": [],
+   "code_refs": []
+  },
+  "0x444330": {
+   "duration": 25.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "SOUND",
+     1
+    ],
+    [
+     "OP15",
+     0,
+     10
+    ],
+    [
+     "WAIT",
+     3
+    ],
+    [
+     "DESC_TBL",
+     1
+    ],
+    [
+     "STOP"
+    ],
+    [
+     "DESC_DEFAULT"
+    ],
+    [
+     "TILE_STATE"
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1580,
+     "frames": 18,
+     "timing": 15,
+     "mode": 1
+    },
+    {
+     "cel": 1251,
+     "frames": 25,
+     "timing": 15,
+     "mode": 1
+    },
+    {
+     "cel": 1197,
+     "frames": 18,
+     "timing": 16,
+     "mode": 5
+    },
+    {
+     "cel": 1197,
+     "frames": 18,
+     "timing": 16,
+     "mode": 5
+    },
+    {
+     "cel": 1197,
+     "frames": 18,
+     "timing": 16,
+     "mode": 5
+    },
+    {
+     "cel": 1291,
+     "frames": 17,
+     "timing": 14,
+     "mode": 5
+    },
+    {
+     "cel": 1291,
+     "frames": 17,
+     "timing": 14,
+     "mode": 5
+    },
+    {
+     "cel": 1291,
+     "frames": 17,
+     "timing": 14,
+     "mode": 5
+    }
+   ],
+   "coastal_destroy_effect_ids": [
+    23,
+    24,
+    25,
+    26,
+    30,
+    31,
+    32,
+    33,
+    34
+   ],
+   "coastal_field10_ids": [],
+   "code_refs": []
+  },
+  "0x4444a8": {
+   "duration": 25.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "SOUND",
+     1
+    ],
+    [
+     "OP15",
+     0,
+     10
+    ],
+    [
+     "WAIT",
+     3
+    ],
+    [
+     "DESC_TBL",
+     1
+    ],
+    [
+     "STOP"
+    ],
+    [
+     "DESC_DEFAULT"
+    ],
+    [
+     "WAIT",
+     9
+    ],
+    [
+     "TILE_STATE"
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1484,
+     "frames": 20,
+     "timing": 17,
+     "mode": 1
+    },
+    {
+     "cel": 1523,
+     "frames": 20,
+     "timing": 17,
+     "mode": 7
+    },
+    {
+     "cel": 1523,
+     "frames": 20,
+     "timing": 17,
+     "mode": 7
+    },
+    {
+     "cel": 1523,
+     "frames": 20,
+     "timing": 17,
+     "mode": 7
+    },
+    {
+     "cel": 1123,
+     "frames": 22,
+     "timing": 18,
+     "mode": 8
+    },
+    {
+     "cel": 1123,
+     "frames": 22,
+     "timing": 18,
+     "mode": 8
+    },
+    {
+     "cel": 1123,
+     "frames": 22,
+     "timing": 18,
+     "mode": 8
+    },
+    {
+     "cel": 1109,
+     "frames": 18,
+     "timing": 15,
+     "mode": 5
+    }
+   ],
+   "coastal_destroy_effect_ids": [
+    27,
+    28,
+    29,
+    62,
+    63
+   ],
+   "coastal_field10_ids": [],
+   "code_refs": []
+  },
+  "0x4445b8": {
+   "duration": 10.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "SOUND",
+     29
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1555,
+     "frames": 10,
+     "timing": 20,
+     "mode": 1
+    }
+   ],
+   "coastal_destroy_effect_ids": [],
+   "coastal_field10_ids": [],
+   "code_refs": [
+    "FUN_0042b0e0"
+   ]
+  },
+  "0x4445e8": {
+   "duration": 18.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "SOUND",
+     28
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1537,
+     "frames": 18,
+     "timing": 20,
+     "mode": 1
+    },
+    {
+     "cel": 1565,
+     "frames": 15,
+     "timing": 10,
+     "mode": 1
+    }
+   ],
+   "coastal_destroy_effect_ids": [],
+   "coastal_field10_ids": [],
+   "code_refs": [
+    "FUN_0042b0e0"
+   ]
+  },
+  "0x444618": {
+   "duration": 18.0,
+   "rate_per_tick": 0.1667,
+   "script": [
+    [
+     "SOUND",
+     28
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1537,
+     "frames": 18,
+     "timing": 20,
+     "mode": 1
+    },
+    {
+     "cel": 1565,
+     "frames": 15,
+     "timing": 10,
+     "mode": 1
+    }
+   ],
+   "coastal_destroy_effect_ids": [],
+   "coastal_field10_ids": [],
+   "code_refs": [
+    "FUN_0040c8f0",
+    "FUN_0042b0e0"
+   ]
+  },
+  "0x444740": {
+   "duration": 18.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "SOUND",
+     37
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1612,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1612,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1612,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1626,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1626,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1626,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1640,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1640,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    }
+   ],
+   "coastal_destroy_effect_ids": [
+    64,
+    65,
+    66,
+    67
+   ],
+   "coastal_field10_ids": [],
+   "code_refs": [
+    "FUN_0042b0e0",
+    "FUN_0042ec50"
+   ]
+  },
+  "0x444778": {
+   "duration": 1.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "DRAW_LIST",
+     4
+    ],
+    [
+     "SOUND",
+     13
+    ],
+    [
+     "TILE_STATE"
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1612,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1612,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1612,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1626,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1626,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1626,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1640,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1640,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    }
+   ],
+   "coastal_destroy_effect_ids": [
+    47,
+    48
+   ],
+   "coastal_field10_ids": [],
+   "code_refs": []
+  },
+  "0x444840": {
+   "duration": 18.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "SOUND",
+     36
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1580,
+     "frames": 18,
+     "timing": 14,
+     "mode": 1
+    },
+    {
+     "cel": 1598,
+     "frames": 18,
+     "timing": 14,
+     "mode": 5
+    }
+   ],
+   "coastal_destroy_effect_ids": [],
+   "coastal_field10_ids": [],
+   "code_refs": [
+    "FUN_0042ec50"
+   ]
+  },
+  "0x444968": {
+   "duration": 18.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "SOUND",
+     35
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1686,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1686,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1686,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1700,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1700,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1700,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1714,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    },
+    {
+     "cel": 1714,
+     "frames": 14,
+     "timing": 11,
+     "mode": 1
+    }
+   ],
+   "coastal_destroy_effect_ids": [],
+   "coastal_field10_ids": [],
+   "code_refs": [
+    "FUN_0042b0e0"
+   ]
+  },
+  "0x444a30": {
+   "duration": 18.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "SOUND",
+     34
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1654,
+     "frames": 18,
+     "timing": 14,
+     "mode": 1
+    },
+    {
+     "cel": 1672,
+     "frames": 18,
+     "timing": 14,
+     "mode": 5
+    }
+   ],
+   "coastal_destroy_effect_ids": [],
+   "coastal_field10_ids": [],
+   "code_refs": []
+  },
+  "0x444ac8": {
+   "duration": 16.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "SOUND",
+     2
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1452,
+     "frames": 16,
+     "timing": 14,
+     "mode": 1
+    },
+    {
+     "cel": 1468,
+     "frames": 16,
+     "timing": 14,
+     "mode": 1
+    }
+   ],
+   "coastal_destroy_effect_ids": [],
+   "coastal_field10_ids": [],
+   "code_refs": []
+  },
+  "0x444b68": {
+   "duration": 16.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "REPEAT",
+     4
+    ],
+    [
+     "SOUND",
+     30
+    ],
+    [
+     "SOUND",
+     31
+    ],
+    [
+     "SOUND",
+     32
+    ],
+    [
+     "SOUND",
+     33
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1452,
+     "frames": 16,
+     "timing": 14,
+     "mode": 1
+    },
+    {
+     "cel": 1468,
+     "frames": 16,
+     "timing": 14,
+     "mode": 1
+    }
+   ],
+   "coastal_destroy_effect_ids": [],
+   "coastal_field10_ids": [],
+   "code_refs": []
+  },
+  "0x445058": {
+   "duration": 25.0,
+   "rate_per_tick": 0.1667,
+   "script": [
+    [
+     "DAMAGE_BOX",
+     -4,
+     4,
+     8,
+     8,
+     67,
+     -1
+    ],
+    [
+     "SOUND",
+     14
+    ],
+    [
+     "WAIT",
+     4
+    ],
+    [
+     "BOX_EXTENT",
+     25
+    ],
+    [
+     "DESC_TBL",
+     1
+    ],
+    [
+     "STOP"
+    ],
+    [
+     "BOX_EXTENT",
+     12
+    ],
+    [
+     "DESC_DEFAULT"
+    ],
+    [
+     "WAIT",
+     8
+    ],
+    [
+     "BOX_EXTENT",
+     16
+    ],
+    [
+     "WAIT",
+     12
+    ],
+    [
+     "BOX_EXTENT",
+     20
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1484,
+     "frames": 20,
+     "timing": 16,
+     "mode": 1
+    },
+    {
+     "cel": 1452,
+     "frames": 16,
+     "timing": 16,
+     "mode": 1
+    },
+    {
+     "cel": 1504,
+     "frames": 20,
+     "timing": 15,
+     "mode": 2
+    },
+    {
+     "cel": 1523,
+     "frames": 20,
+     "timing": 14,
+     "mode": 7
+    }
+   ],
+   "coastal_destroy_effect_ids": [],
+   "coastal_field10_ids": [],
+   "code_refs": [
+    "FUN_00409d80"
+   ]
+  },
+  "0x4450d8": {
+   "duration": 25.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "WAIT",
+     5
+    ],
+    [
+     "DETACH"
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1746,
+     "frames": 16,
+     "timing": 10,
+     "mode": 1
+    }
+   ],
+   "coastal_destroy_effect_ids": [],
+   "coastal_field10_ids": [],
+   "code_refs": [
+    "FUN_0040d520"
+   ]
+  },
+  "0x445138": {
+   "duration": 25.0,
+   "rate_per_tick": 0.3333,
+   "script": [
+    [
+     "WAIT",
+     5
+    ],
+    [
+     "DETACH"
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1746,
+     "frames": 16,
+     "timing": 10,
+     "mode": 1
+    }
+   ],
+   "coastal_destroy_effect_ids": [],
+   "coastal_field10_ids": [],
+   "code_refs": [
+    "FUN_0040d240"
+   ]
+  },
+  "0x445168": {
+   "duration": 25.0,
+   "rate_per_tick": 0.25,
+   "script": [
+    [
+     "WAIT",
+     5
+    ],
+    [
+     "DETACH"
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1746,
+     "frames": 16,
+     "timing": 10,
+     "mode": 1
+    }
+   ],
+   "coastal_destroy_effect_ids": [],
+   "coastal_field10_ids": [],
+   "code_refs": [
+    "FUN_0040e600"
+   ]
+  },
+  "0x4451b8": {
+   "duration": 2.0,
+   "rate_per_tick": 0.3333,
+   "script": [
+    [
+     "WAIT",
+     1
+    ],
+    [
+     "DRAW_LIST",
+     7
+    ],
+    [
+     "SOUND",
+     13
+    ],
+    [
+     "TILE_STATE"
+    ],
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1746,
+     "frames": 16,
+     "timing": 10,
+     "mode": 5
+    }
+   ],
+   "coastal_destroy_effect_ids": [],
+   "coastal_field10_ids": [
+    1,
+    2,
+    6,
+    11,
+    12,
+    13
+   ],
+   "code_refs": []
+  },
+  "0x445238": {
+   "duration": 17.0,
+   "rate_per_tick": 0.1667,
+   "script": [
+    [
+     "END"
+    ]
+   ],
+   "clips": [
+    {
+     "cel": 1529,
+     "frames": 7,
+     "timing": 15,
+     "mode": 1
+    }
+   ],
+   "coastal_destroy_effect_ids": [],
+   "coastal_field10_ids": [],
+   "code_refs": [
+    "FUN_00415100"
+   ]
+  }
+ }
+}
