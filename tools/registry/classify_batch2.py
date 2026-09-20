@@ -121,6 +121,82 @@ put(71, "terrain.coast.grass_sand.11", "terrain", "grass meeting sand (edge/corn
 put(72, "terrain.coast.grass_sand.12", "terrain", "grass meeting sand (edge/corner blend)")
 
 
+# AUDIT 2026-09-20 (registry hand-edited, not re-generated; document 46): every vehicle part in the
+# type descriptors (tools/data/vehicle_type_parts.json) is a group of 5 consecutive cels starting at
+# the descriptor's cel: +0 tan, +1 green (the same shape, verified by identical size and pixel count),
+# +2 a smaller "yellow" version (purpose untraced), +3/+4 two more variant slots (a wreck decal for
+# the Tank/MSV/Jeep, unclear for the Heli). Descriptor flag 0x8 shifts the cel by the variant. The
+# registry had scattered these across prop/effect/character/ui families. Tank slots 0/1 keep their
+# names (game/vehicle_box_3d.gd looks them up by name); every other non-blank slot is renamed.
+# MSV 324 (1/2/3 blue canisters) and Jeep 457 (5 same-size frames) are not team groups.
+VEHICLE_PART_GROUPS = {
+    "hovercraft": [167, 172, 177, 182, 187, 192, 197, 202, 207, 212],
+    "jeep": [417, 422, 427, 432, 437, 442, 447, 452],
+    "msv": [279, 284, 289, 294, 299, 304, 309, 314, 319],
+    "heli": [524, 529, 534, 539, 544, 549, 554, 559, 564, 569, 574],
+}
+VEHICLE_SLOTS = ["tan", "green", "yellow", "alt3", "alt4"]
+BLANK_SLOTS = {(177, 3), (177, 4), (182, 3), (182, 4), (187, 3), (187, 4), (192, 3), (192, 4),
+               (197, 3), (197, 4), (207, 3), (207, 4), (417, 2), (417, 3), (417, 4),
+               (432, 3), (432, 4), (437, 3), (437, 4), (442, 3), (442, 4), (452, 3), (452, 4),
+               (289, 3), (289, 4), (294, 3), (294, 4), (299, 3), (299, 4), (549, 3), (549, 4)}
+for _type, _cels in VEHICLE_PART_GROUPS.items():
+    for _c in _cels:
+        for _k, _slot in enumerate(VEHICLE_SLOTS):
+            if (_c, _k) in BLANK_SLOTS or (_type == "hovercraft" and _k < 2):
+                continue
+            put(_c + _k, f"vehicle.{_type}.p{_c}.{_slot}", "vehicle",
+                "vehicle part variant group (document 46): " + ("code-verified part cel" if _k == 0
+                else f"slot {_k} of the group starting at cel {_c}"),
+                "code_verified" if _k == 0 else "visual")
+for _n, _c in enumerate([324, 325, 326], start=1):
+    put(_c, f"vehicle.msv.p324.canisters_{_n}", "vehicle", "1/2/3 blue canisters on the MSV (document 46)", "visual")
+for _n, _c in enumerate(range(457, 462), start=1):
+    put(_c, f"vehicle.jeep.p457.frame_{_n:02d}", "vehicle", "five same-size frames; Jeep parts 9/10 (document 46)", "visual" if _c > 457 else "code_verified")
+
+
+# AUDIT 2026-09-20, part 2 (registry hand-edited, not re-generated; document 46): names for cels the
+# audit identified by their code owner or by a flat composite of the coastal decorations that use them.
+AUDIT2 = [
+    # (cel, id, category, note, confidence)
+    (157, "decoration.rock_grey.01", "decoration", "small grey rock (coastal id 8)", "code_verified"),
+    (158, "decoration.rock_grey.02", "decoration", "grey rock (coastal ids 7, 8)", "code_verified"),
+    (159, "decoration.rock_shallows.01", "decoration", "rock with cyan surf ring (coastal id 10)", "code_verified"),
+    (160, "decoration.rock_shallows.02", "decoration", "rock with cyan surf ring (coastal ids 9, 10)", "code_verified"),
+    (123, "decoration.flowers_red.01", "decoration", "scatter of red flowers (coastal id 12)", "code_verified"),
+    (124, "decoration.pebble.01", "decoration", "single pebble (coastal id 13)", "code_verified"),
+    (161, "decoration.dock_planks.01", "decoration", "wooden dock planks, vertical (coastal id 74)", "code_verified"),
+    (162, "decoration.dock_planks.02", "decoration", "wooden dock planks, horizontal (coastal id 75)", "code_verified"),
+    (1882, "decoration.wreckage.01", "decoration", "destroyed-building debris, tan (coastal id 73; +1 is the green variant)", "code_verified"),
+    (1883, "decoration.wreckage.02", "decoration", "destroyed-building debris, green variant of 1882", "visual"),
+    (1884, "decoration.wreckage.03", "decoration", "destroyed-building debris, tan (coastal id 53; +1 is the green variant)", "code_verified"),
+    (1885, "decoration.wreckage.04", "decoration", "destroyed-building debris, green variant of 1884", "visual"),
+    (1886, "decoration.wreckage.05", "decoration", "destroyed-building debris (coastal id 51)", "code_verified"),
+    (1887, "decoration.wreckage.06", "decoration", "destroyed-building debris, variant of 1886", "visual"),
+    # Projectile art: the 12 projectile types at 0x4489a0 point (entry+0x2c) at ordinary draw descriptors.
+    (1075, "projectile.shell.01", "projectile", "Tank shell body, 4x4 units (types 0, 7, 11)", "code_verified"),
+    (1066, "projectile.rocket_blue.01", "projectile", "blue rocket body 4x8 units (types 2, 8, 9)", "code_verified"),
+    (1067, "projectile.rocket_blue.02", "projectile", "blue rocket, brighter variant of 1066", "visual"),
+    (1069, "projectile.rocket_red.01", "projectile", "red rocket body (types 1, 3, 4, 5, 6)", "code_verified"),
+    (1070, "projectile.rocket_red.02", "projectile", "red rocket, brighter variant of 1069", "visual"),
+    (1072, "projectile.rocket_orange.01", "projectile", "large orange rocket (type 10, damage 400)", "code_verified"),
+    (1073, "projectile.rocket_orange.02", "projectile", "orange rocket, brighter variant of 1072", "visual"),
+    (1077, "projectile.trail.01", "projectile", "exhaust flame drawn behind rockets; flag 0x8 = variant shifted (types 1-4, 6, 8-10)", "code_verified"),
+    (1078, "projectile.trail.02", "projectile", "rocket exhaust flame, variant of 1077", "visual"),
+    (1079, "projectile.trail.03", "projectile", "rocket exhaust flame, variant of 1077", "visual"),
+    (1080, "projectile.trail.04", "projectile", "rocket exhaust flame, variant of 1077", "visual"),
+    (1068, "effect.shadow.hard.projectile_blue", "effect", "ground shadow of the blue rocket (types 2, 8, 9)", "code_verified"),
+    (1071, "effect.shadow.hard.projectile_red", "effect", "ground shadow of the red rocket (types 1, 3, 4, 5, 6)", "code_verified"),
+    (1074, "effect.shadow.hard.projectile_orange", "effect", "ground shadow of the orange rocket (type 10)", "code_verified"),
+    (1076, "effect.shadow.hard.projectile_shell", "effect", "ground shadow of the shell (types 0, 7, 11)", "code_verified"),
+    (1081, "effect.ember_small.01", "effect", "small dark ember/dot, 8x8 (was marker.checkered_flag)", "visual"),
+    (1082, "effect.ember_small.02", "effect", "small dark ember with red centre, 8x8", "visual"),
+    (1083, "effect.ember_small.03", "effect", "small dark ember with red centre, 8x8", "visual"),
+]
+for _cel, _id, _cat, _note, _conf in AUDIT2:
+    put(_cel, _id, _cat, _note, _conf)
+
+
 def main():
     with open(REGISTRY_JSON) as f:
         registry = json.load(f)

@@ -1,0 +1,149 @@
+{
+ "_source": "RFIRE.BIN projectile type table 0x4489a0 (12 entries x 0x3c bytes), DumpDwords.java + DumpDescriptorParts.java on each entry's +0x2c/+0x30 descriptors; document 46. Speed/damage 16.16 -> float; tick = 16 ms.",
+ "types": [
+  {
+   "type": 0,
+   "speed_units_per_tick": 3.0,
+   "damage": 1.0,
+   "lifetime_ticks": 80,
+   "body_descriptor": "0x4547f0",
+   "body_cel": 1075,
+   "shadow_descriptor": "0x454858",
+   "shadow_cel": 1076,
+   "has_trail": false,
+   "trail_cel": null
+  },
+  {
+   "type": 1,
+   "speed_units_per_tick": 2.5,
+   "damage": 2.0,
+   "lifetime_ticks": 100,
+   "body_descriptor": "0x454410",
+   "body_cel": 1069,
+   "shadow_descriptor": "0x454478",
+   "shadow_cel": 1071,
+   "has_trail": true,
+   "trail_cel": 1077
+  },
+  {
+   "type": 2,
+   "speed_units_per_tick": 2.29998779296875,
+   "damage": 4.0,
+   "lifetime_ticks": 90,
+   "body_descriptor": "0x454580",
+   "body_cel": 1066,
+   "shadow_descriptor": "0x4545e8",
+   "shadow_cel": 1068,
+   "has_trail": true,
+   "trail_cel": 1077
+  },
+  {
+   "type": 3,
+   "speed_units_per_tick": 6.0,
+   "damage": 1.0,
+   "lifetime_ticks": 90,
+   "body_descriptor": "0x454410",
+   "body_cel": 1069,
+   "shadow_descriptor": "0x454478",
+   "shadow_cel": 1071,
+   "has_trail": true,
+   "trail_cel": 1077
+  },
+  {
+   "type": 4,
+   "speed_units_per_tick": 4.0,
+   "damage": 1.5,
+   "lifetime_ticks": 150,
+   "body_descriptor": "0x454410",
+   "body_cel": 1069,
+   "shadow_descriptor": "0x454478",
+   "shadow_cel": 1071,
+   "has_trail": true,
+   "trail_cel": 1077
+  },
+  {
+   "type": 5,
+   "speed_units_per_tick": 3.0,
+   "damage": 1.0,
+   "lifetime_ticks": 90,
+   "body_descriptor": "0x454410",
+   "body_cel": 1069,
+   "shadow_descriptor": "0x454478",
+   "shadow_cel": 1071,
+   "has_trail": true,
+   "trail_cel": 1077
+  },
+  {
+   "type": 6,
+   "speed_units_per_tick": 3.0,
+   "damage": 4.0,
+   "lifetime_ticks": 100,
+   "body_descriptor": "0x454410",
+   "body_cel": 1069,
+   "shadow_descriptor": "0x454478",
+   "shadow_cel": 1071,
+   "has_trail": true,
+   "trail_cel": 1077
+  },
+  {
+   "type": 7,
+   "speed_units_per_tick": 3.0,
+   "damage": 1.0,
+   "lifetime_ticks": 80,
+   "body_descriptor": "0x4547f0",
+   "body_cel": 1075,
+   "shadow_descriptor": "0x454858",
+   "shadow_cel": 1076,
+   "has_trail": false,
+   "trail_cel": null
+  },
+  {
+   "type": 8,
+   "speed_units_per_tick": 2.29998779296875,
+   "damage": 2.0,
+   "lifetime_ticks": 90,
+   "body_descriptor": "0x454580",
+   "body_cel": 1066,
+   "shadow_descriptor": "0x4545e8",
+   "shadow_cel": 1068,
+   "has_trail": true,
+   "trail_cel": 1077
+  },
+  {
+   "type": 9,
+   "speed_units_per_tick": 2.29998779296875,
+   "damage": 2.0,
+   "lifetime_ticks": 90,
+   "body_descriptor": "0x454580",
+   "body_cel": 1066,
+   "shadow_descriptor": "0x4545e8",
+   "shadow_cel": 1068,
+   "has_trail": true,
+   "trail_cel": 1077
+  },
+  {
+   "type": 10,
+   "speed_units_per_tick": 3.0,
+   "damage": 400.0,
+   "lifetime_ticks": 90,
+   "body_descriptor": "0x4546f0",
+   "body_cel": 1072,
+   "shadow_descriptor": "0x454758",
+   "shadow_cel": 1074,
+   "has_trail": true,
+   "trail_cel": 1077
+  },
+  {
+   "type": 11,
+   "speed_units_per_tick": 3.5,
+   "damage": 0.9499969482421875,
+   "lifetime_ticks": 90,
+   "body_descriptor": "0x4547f0",
+   "body_cel": 1075,
+   "shadow_descriptor": "0x454858",
+   "shadow_cel": 1076,
+   "has_trail": false,
+   "trail_cel": null
+  }
+ ]
+}

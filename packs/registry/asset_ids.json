@@ -27,54 +27,74 @@
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.dome_roof.04",
-      "note": "rounded dome/tent roof shape"
+      "note": "rounded dome/tent roof shape",
+      "pair_cel": 999,
+      "variant": "green"
     },
     "1001": {
       "category": "decoration",
       "confidence": "code_verified",
       "id": "decoration.dashed_line.01",
-      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess.",
+      "pair_cel": 1001,
+      "variant": "tan"
     },
     "1002": {
       "category": "decoration",
       "confidence": "visual_group",
-      "id": "decoration.stripe_band.02"
+      "id": "decoration.stripe_band.02",
+      "pair_cel": 1001,
+      "variant": "green"
     },
     "1003": {
       "category": "decoration",
       "confidence": "code_verified",
       "id": "decoration.stripe_band.03",
-      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess.",
+      "pair_cel": 1003,
+      "variant": "tan"
     },
     "1004": {
       "category": "decoration",
       "confidence": "visual_group",
-      "id": "decoration.stripe_band.04"
+      "id": "decoration.stripe_band.04",
+      "pair_cel": 1003,
+      "variant": "green"
     },
     "1005": {
       "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.building_wall.841"
+      "confidence": "code_verified",
+      "id": "structure.building_wall.841",
+      "pair_cel": 1005,
+      "variant": "tan"
     },
     "1006": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.842"
+      "id": "structure.building_wall.842",
+      "pair_cel": 1005,
+      "variant": "green"
     },
     "1007": {
       "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.building_wall.843"
+      "confidence": "code_verified",
+      "id": "structure.building_wall.843",
+      "pair_cel": 1007,
+      "variant": "tan"
     },
     "1008": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.844"
+      "id": "structure.building_wall.844",
+      "pair_cel": 1007,
+      "variant": "green"
     },
     "1009": {
       "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.building_wall.845"
+      "confidence": "code_verified",
+      "id": "structure.building_wall.845",
+      "pair_cel": 1009,
+      "variant": "tan"
     },
     "101": {
       "category": "terrain",
@@ -85,7 +105,9 @@
     "1010": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.846"
+      "id": "structure.building_wall.846",
+      "pair_cel": 1009,
+      "variant": "green"
     },
     "1011": {
       "category": "effect",
@@ -95,43 +117,59 @@
     },
     "1012": {
       "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.window.93"
+      "confidence": "code_verified",
+      "id": "structure.window.93",
+      "pair_cel": 1012,
+      "variant": "tan"
     },
     "1013": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.window.94"
+      "id": "structure.window.94",
+      "pair_cel": 1012,
+      "variant": "green"
     },
     "1014": {
       "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.window.95"
+      "confidence": "code_verified",
+      "id": "structure.window.95",
+      "pair_cel": 1014,
+      "variant": "tan"
     },
     "1015": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.window.96"
+      "id": "structure.window.96",
+      "pair_cel": 1014,
+      "variant": "green"
     },
     "1016": {
       "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.building_wall.847"
+      "confidence": "code_verified",
+      "id": "structure.building_wall.847",
+      "pair_cel": 1016,
+      "variant": "tan"
     },
     "1017": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.848"
+      "id": "structure.building_wall.848",
+      "pair_cel": 1016,
+      "variant": "green"
     },
     "1018": {
       "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.building_wall.849"
+      "confidence": "code_verified",
+      "id": "structure.building_wall.849",
+      "pair_cel": 1018,
+      "variant": "tan"
     },
     "1019": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.850"
+      "id": "structure.building_wall.850",
+      "pair_cel": 1018,
+      "variant": "green"
     },
     "102": {
       "category": "terrain",
@@ -142,23 +180,31 @@
     },
     "1020": {
       "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.building_wall.851"
+      "confidence": "code_verified",
+      "id": "structure.building_wall.851",
+      "pair_cel": 1020,
+      "variant": "tan"
     },
     "1021": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.852"
+      "id": "structure.building_wall.852",
+      "pair_cel": 1020,
+      "variant": "green"
     },
     "1022": {
       "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.building_wall.853"
+      "confidence": "code_verified",
+      "id": "structure.building_wall.853",
+      "pair_cel": 1022,
+      "variant": "tan"
     },
     "1023": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.building_wall.854"
+      "id": "structure.building_wall.854",
+      "pair_cel": 1022,
+      "variant": "green"
     },
     "1024": {
       "category": "structure",
@@ -186,15 +232,19 @@
     },
     "1028": {
       "category": "prop",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "prop.pole_striped.01",
-      "note": "thin vertical red/blue striped pole"
+      "note": "thin vertical red/blue striped pole",
+      "pair_cel": 1028,
+      "variant": "tan"
     },
     "1029": {
       "category": "prop",
       "confidence": "visual_group",
       "id": "prop.pole_striped.02",
-      "note": "thin vertical red/blue striped pole"
+      "note": "thin vertical red/blue striped pole",
+      "pair_cel": 1028,
+      "variant": "green"
     },
     "103": {
       "category": "terrain",
@@ -204,63 +254,83 @@
     },
     "1030": {
       "category": "prop",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "prop.pole_striped.03",
-      "note": "thin vertical red/blue striped pole"
+      "note": "thin vertical red/blue striped pole",
+      "pair_cel": 1030,
+      "variant": "tan"
     },
     "1031": {
       "category": "prop",
       "confidence": "visual_group",
       "id": "prop.pole_striped.04",
-      "note": "thin vertical red/blue striped pole"
+      "note": "thin vertical red/blue striped pole",
+      "pair_cel": 1030,
+      "variant": "green"
     },
     "1032": {
       "category": "prop",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "prop.pole_striped.05",
-      "note": "thin vertical red/blue striped pole"
+      "note": "thin vertical red/blue striped pole",
+      "pair_cel": 1032,
+      "variant": "tan"
     },
     "1033": {
       "category": "prop",
       "confidence": "visual_group",
       "id": "prop.pole_striped.06",
-      "note": "thin vertical red/blue striped pole"
+      "note": "thin vertical red/blue striped pole",
+      "pair_cel": 1032,
+      "variant": "green"
     },
     "1034": {
       "category": "prop",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "prop.pole_striped.07",
-      "note": "thin vertical red/blue striped pole"
+      "note": "thin vertical red/blue striped pole",
+      "pair_cel": 1034,
+      "variant": "tan"
     },
     "1035": {
       "category": "prop",
       "confidence": "visual_group",
       "id": "prop.pole_striped.08",
-      "note": "thin vertical red/blue striped pole"
+      "note": "thin vertical red/blue striped pole",
+      "pair_cel": 1034,
+      "variant": "green"
     },
     "1036": {
       "category": "prop",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "prop.pole_striped.09",
-      "note": "thin vertical red/blue striped pole"
+      "note": "thin vertical red/blue striped pole",
+      "pair_cel": 1036,
+      "variant": "tan"
     },
     "1037": {
       "category": "prop",
       "confidence": "visual_group",
       "id": "prop.pole_striped.10",
-      "note": "thin vertical red/blue striped pole"
+      "note": "thin vertical red/blue striped pole",
+      "pair_cel": 1036,
+      "variant": "green"
     },
     "1038": {
       "category": "prop",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "prop.pole_striped.11",
-      "note": "thin vertical red/blue striped pole"
+      "note": "thin vertical red/blue striped pole",
+      "pair_cel": 1038,
+      "variant": "tan"
     },
     "1039": {
       "category": "prop",
       "confidence": "visual_group",
       "id": "prop.pole_striped.12",
-      "note": "thin vertical red/blue striped pole"
+      "note": "thin vertical red/blue striped pole",
+      "pair_cel": 1038,
+      "variant": "green"
     },
     "104": {
       "category": "terrain",
@@ -294,13 +364,17 @@
     },
     "1044": {
       "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.rubble_patch.42"
+      "confidence": "code_verified",
+      "id": "prop.rubble_patch.42",
+      "pair_cel": 1044,
+      "variant": "tan"
     },
     "1045": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.238"
+      "id": "effect.explosion_large.238",
+      "pair_cel": 1044,
+      "variant": "green"
     },
     "1046": {
       "category": "effect",
@@ -314,13 +388,17 @@
     },
     "1048": {
       "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.panel_solid.tan.03"
+      "confidence": "code_verified",
+      "id": "prop.panel_solid.tan.03",
+      "pair_cel": 1048,
+      "variant": "tan"
     },
     "1049": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.panel_solid.cyan.03"
+      "id": "prop.panel_solid.cyan.03",
+      "pair_cel": 1048,
+      "variant": "green"
     },
     "105": {
       "category": "terrain",
@@ -331,51 +409,67 @@
     },
     "1050": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.834",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 1050,
+      "variant": "tan"
     },
     "1051": {
       "category": "prop",
       "confidence": "visual_group",
       "id": "prop.roof_box.01",
-      "note": "small tan/brown roof/box shape"
+      "note": "small tan/brown roof/box shape",
+      "pair_cel": 1050,
+      "variant": "green"
     },
     "1052": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.835",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 1052,
+      "variant": "tan"
     },
     "1053": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.836",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 1052,
+      "variant": "green"
     },
     "1054": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.837",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 1054,
+      "variant": "tan"
     },
     "1055": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.838",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 1054,
+      "variant": "green"
     },
     "1056": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.839",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 1056,
+      "variant": "tan"
     },
     "1057": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.840",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 1056,
+      "variant": "green"
     },
     "1058": {
       "category": "effect",
@@ -385,8 +479,10 @@
     },
     "1059": {
       "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.explosion_large.241"
+      "confidence": "code_verified",
+      "id": "effect.explosion_large.241",
+      "pair_cel": 1059,
+      "variant": "tan"
     },
     "106": {
       "category": "terrain",
@@ -398,7 +494,9 @@
     "1060": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.242"
+      "id": "effect.explosion_large.242",
+      "pair_cel": 1059,
+      "variant": "green"
     },
     "1061": {
       "category": "effect",
@@ -430,26 +528,28 @@
       "note": "hollow square outline, orange or red-dotted"
     },
     "1066": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.446"
+      "category": "projectile",
+      "confidence": "code_verified",
+      "id": "projectile.rocket_blue.01",
+      "note": "blue rocket body 4x8 units (types 2, 8, 9)"
     },
     "1067": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.447"
+      "category": "projectile",
+      "confidence": "visual",
+      "id": "projectile.rocket_blue.02",
+      "note": "blue rocket, brighter variant of 1066"
     },
     "1068": {
       "category": "effect",
-      "confidence": "confirmed",
-      "id": "effect.shadow.hard.035",
-      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+      "confidence": "code_verified",
+      "id": "effect.shadow.hard.projectile_blue",
+      "note": "ground shadow of the blue rocket (types 2, 8, 9)"
     },
     "1069": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.bone_shape.01",
-      "note": "white curved bone/tusk-like shape, unconfirmed purpose"
+      "category": "projectile",
+      "confidence": "code_verified",
+      "id": "projectile.rocket_red.01",
+      "note": "red rocket body (types 1, 3, 4, 5, 6)"
     },
     "107": {
       "category": "terrain",
@@ -459,63 +559,64 @@
       "seen_in_retail_levels": false
     },
     "1070": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.bone_shape.02",
-      "note": "white curved bone/tusk-like shape, unconfirmed purpose"
+      "category": "projectile",
+      "confidence": "visual",
+      "id": "projectile.rocket_red.02",
+      "note": "red rocket, brighter variant of 1069"
     },
     "1071": {
       "category": "effect",
-      "confidence": "confirmed",
-      "id": "effect.shadow.hard.036",
-      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+      "confidence": "code_verified",
+      "id": "effect.shadow.hard.projectile_red",
+      "note": "ground shadow of the red rocket (types 1, 3, 4, 5, 6)"
     },
     "1072": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.dart_icon.01",
-      "note": "small teal jet/dart arrow shape"
+      "category": "projectile",
+      "confidence": "code_verified",
+      "id": "projectile.rocket_orange.01",
+      "note": "large orange rocket (type 10, damage 400)"
     },
     "1073": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.dart_icon.02",
-      "note": "small teal jet/dart arrow shape"
+      "category": "projectile",
+      "confidence": "visual",
+      "id": "projectile.rocket_orange.02",
+      "note": "orange rocket, brighter variant of 1072"
     },
     "1074": {
       "category": "effect",
-      "confidence": "confirmed",
-      "id": "effect.shadow.hard.037",
-      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+      "confidence": "code_verified",
+      "id": "effect.shadow.hard.projectile_orange",
+      "note": "ground shadow of the orange rocket (type 10)"
     },
     "1075": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.foliage.bush_green.12"
+      "category": "projectile",
+      "confidence": "code_verified",
+      "id": "projectile.shell.01",
+      "note": "Tank shell body, 4x4 units (types 0, 7, 11)"
     },
     "1076": {
       "category": "effect",
-      "confidence": "confirmed",
-      "id": "effect.shadow.hard.038",
-      "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
+      "confidence": "code_verified",
+      "id": "effect.shadow.hard.projectile_shell",
+      "note": "ground shadow of the shell (types 0, 7, 11)"
     },
     "1077": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.burst_brown.001",
-      "note": "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified"
+      "category": "projectile",
+      "confidence": "code_verified",
+      "id": "projectile.trail.01",
+      "note": "exhaust flame drawn behind rockets; flag 0x8 = variant shifted (types 1-4, 6, 8-10)"
     },
     "1078": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.burst_brown.002",
-      "note": "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified"
+      "category": "projectile",
+      "confidence": "visual",
+      "id": "projectile.trail.02",
+      "note": "rocket exhaust flame, variant of 1077"
     },
     "1079": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.burst_red.001",
-      "note": "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified"
+      "category": "projectile",
+      "confidence": "visual",
+      "id": "projectile.trail.03",
+      "note": "rocket exhaust flame, variant of 1077"
     },
     "108": {
       "category": "terrain",
@@ -525,28 +626,28 @@
       "seen_in_retail_levels": false
     },
     "1080": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.burst_brown.003",
-      "note": "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified"
+      "category": "projectile",
+      "confidence": "visual",
+      "id": "projectile.trail.04",
+      "note": "rocket exhaust flame, variant of 1077"
     },
     "1081": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.checkered_flag.01",
-      "note": "yellow/red checkered square"
+      "category": "effect",
+      "confidence": "visual",
+      "id": "effect.ember_small.01",
+      "note": "small dark ember/dot, 8x8 (was marker.checkered_flag)"
     },
     "1082": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.checkered_flag.02",
-      "note": "yellow/red checkered square"
+      "category": "effect",
+      "confidence": "visual",
+      "id": "effect.ember_small.02",
+      "note": "small dark ember with red centre, 8x8"
     },
     "1083": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.checkered_flag.03",
-      "note": "yellow/red checkered square"
+      "category": "effect",
+      "confidence": "visual",
+      "id": "effect.ember_small.03",
+      "note": "small dark ember with red centre, 8x8"
     },
     "1084": {
       "category": "effect",
@@ -1519,10 +1620,10 @@
       "note": "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified"
     },
     "123": {
-      "category": "effect",
-      "confidence": "visual",
-      "id": "effect.sparkle.small",
-      "note": "scattered small yellow/tan dots, particle-like"
+      "category": "decoration",
+      "confidence": "code_verified",
+      "id": "decoration.flowers_red.01",
+      "note": "scatter of red flowers (coastal id 12)"
     },
     "1230": {
       "category": "effect",
@@ -1587,8 +1688,8 @@
     "124": {
       "category": "decoration",
       "confidence": "code_verified",
-      "id": "decoration.dot_red",
-      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
+      "id": "decoration.pebble.01",
+      "note": "single pebble (coastal id 13)"
     },
     "1240": {
       "category": "reserved",
@@ -1654,7 +1755,9 @@
       "category": "decoration",
       "confidence": "code_verified",
       "id": "decoration.wreath_ring.01",
-      "note": "corrected 2026-09-08 (document 38): was 'ui.radar.icon.01', but real code (coastal decoration 83) proves it's a world-space decoration part, not a HUD overlay -- those are mutually exclusive rendering paths, so the old classification couldn't have been right regardless of appearance. Direct atlas crop shows a green/gold ring with a tan centre -- read as a wreath or life-preserver-like ring shape, not a radar screen."
+      "note": "corrected 2026-09-08 (document 38): was 'ui.radar.icon.01', but real code (coastal decoration 83) proves it's a world-space decoration part, not a HUD overlay -- those are mutually exclusive rendering paths, so the old classification couldn't have been right regardless of appearance. Direct atlas crop shows a green/gold ring with a tan centre -- read as a wreath or life-preserver-like ring shape, not a radar screen.",
+      "pair_cel": 125,
+      "variant": "tan"
     },
     "1250": {
       "category": "reserved",
@@ -1720,7 +1823,9 @@
       "category": "ui",
       "confidence": "visual",
       "id": "ui.radar.icon.02",
-      "note": "green radar-screen background with a black silhouette blip; 131-132 shift to a red/orange alert palette"
+      "note": "green radar-screen background with a black silhouette blip; 131-132 shift to a red/orange alert palette",
+      "pair_cel": 125,
+      "variant": "green"
     },
     "1260": {
       "category": "effect",
@@ -2984,7 +3089,9 @@
       "category": "decoration",
       "confidence": "code_verified",
       "id": "decoration.foliage.bush_white.08",
-      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess.",
+      "pair_cel": 145,
+      "variant": "tan"
     },
     "1450": {
       "category": "effect",
@@ -3050,7 +3157,9 @@
       "category": "decoration",
       "confidence": "visual",
       "id": "decoration.tree.branch_brown.01",
-      "note": "brown branch/trunk with blue-green leaf clusters"
+      "note": "brown branch/trunk with blue-green leaf clusters",
+      "pair_cel": 145,
+      "variant": "green"
     },
     "1460": {
       "category": "effect",
@@ -3116,7 +3225,9 @@
       "category": "decoration",
       "confidence": "code_verified",
       "id": "decoration.tree.branch_brown.02",
-      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
+      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess.",
+      "pair_cel": 147,
+      "variant": "tan"
     },
     "1470": {
       "category": "effect",
@@ -3182,7 +3293,9 @@
       "category": "decoration",
       "confidence": "visual",
       "id": "decoration.tree.branch_brown.03",
-      "note": "brown branch/trunk with blue-green leaf clusters"
+      "note": "brown branch/trunk with blue-green leaf clusters",
+      "pair_cel": 147,
+      "variant": "green"
     },
     "1480": {
       "category": "effect",
@@ -3780,8 +3893,8 @@
     "157": {
       "category": "decoration",
       "confidence": "code_verified",
-      "id": "decoration.plant.flower_red.01",
-      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
+      "id": "decoration.rock_grey.01",
+      "note": "small grey rock (coastal id 8)"
     },
     "1570": {
       "category": "effect",
@@ -3846,8 +3959,8 @@
     "158": {
       "category": "decoration",
       "confidence": "code_verified",
-      "id": "decoration.plant.flower_red.02",
-      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
+      "id": "decoration.rock_grey.02",
+      "note": "grey rock (coastal ids 7, 8)"
     },
     "1580": {
       "category": "effect",
@@ -3912,8 +4025,8 @@
     "159": {
       "category": "decoration",
       "confidence": "code_verified",
-      "id": "decoration.plant.coral_red.01",
-      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
+      "id": "decoration.rock_shallows.01",
+      "note": "rock with cyan surf ring (coastal id 10)"
     },
     "1590": {
       "category": "effect",
@@ -3983,8 +4096,8 @@
     "160": {
       "category": "decoration",
       "confidence": "code_verified",
-      "id": "decoration.plant.coral_red.02",
-      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
+      "id": "decoration.rock_shallows.02",
+      "note": "rock with cyan surf ring (coastal ids 9, 10)"
     },
     "1600": {
       "category": "effect",
@@ -4049,8 +4162,8 @@
     "161": {
       "category": "decoration",
       "confidence": "code_verified",
-      "id": "decoration.plant.reeds.01",
-      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
+      "id": "decoration.dock_planks.01",
+      "note": "wooden dock planks, vertical (coastal id 74)"
     },
     "1610": {
       "category": "effect",
@@ -4115,8 +4228,8 @@
     "162": {
       "category": "decoration",
       "confidence": "code_verified",
-      "id": "decoration.plant.reeds.02",
-      "note": "category/id were already correct -- upgraded from visual/visual_group to code_verified 2026-09-08 (document 38) since tools/data/coastal_decorations.json proves this cel is a real coastal-decoration part, not a guess."
+      "id": "decoration.dock_planks.02",
+      "note": "wooden dock planks, horizontal (coastal id 75)"
     },
     "1620": {
       "category": "effect",
@@ -4572,9 +4685,9 @@
     },
     "169": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.hovercraft.hull.03",
-      "note": "tan pillar"
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p167.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 167"
     },
     "1690": {
       "category": "effect",
@@ -4642,10 +4755,10 @@
       "id": "terrain.coast.sand_water.14"
     },
     "170": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.emblem.01",
-      "note": "ornate insignia-like pattern, not clearly a hull piece"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p167.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 167"
     },
     "1700": {
       "category": "effect",
@@ -4708,10 +4821,10 @@
       "note": "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified"
     },
     "171": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.emblem.02",
-      "note": "ornate insignia-like pattern, not clearly a hull piece"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p167.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 167"
     },
     "1710": {
       "category": "effect",
@@ -4907,9 +5020,9 @@
     },
     "174": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.hovercraft.hull.06",
-      "note": "orange/gold ornate oval hull-top"
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p172.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 172"
     },
     "1740": {
       "category": "reserved",
@@ -4972,10 +5085,10 @@
       "note": "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified"
     },
     "175": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.debris.01",
-      "note": "small loose chip, tan/blue"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p172.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 172"
     },
     "1750": {
       "category": "effect",
@@ -5038,10 +5151,10 @@
       "note": "explosion/smoke/dust/blood burst frame, dominant-colour family; not individually verified"
     },
     "176": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.debris.02",
-      "note": "small loose chip, tan/blue"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p172.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 172"
     },
     "1760": {
       "category": "effect",
@@ -5236,10 +5349,10 @@
       "note": "rock/netting blob cluster, colour shifts tan-green-teal"
     },
     "179": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.emblem.03",
-      "note": "ornate insignia-like pattern, not clearly a hull piece"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p177.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 177"
     },
     "1790": {
       "category": "decoration",
@@ -5572,9 +5685,9 @@
     },
     "184": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.hovercraft.hull.09",
-      "note": "tan panel"
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p182.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 182"
     },
     "1840": {
       "category": "marker",
@@ -5852,39 +5965,52 @@
       "note": "red pattern with a blue dotted border"
     },
     "1882": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.mine_icon.02",
-      "note": "red pattern with a blue dotted border"
+      "category": "decoration",
+      "confidence": "code_verified",
+      "id": "decoration.wreckage.01",
+      "note": "destroyed-building debris, tan (coastal id 73; +1 is the green variant)",
+      "pair_cel": 1882,
+      "variant": "tan"
     },
     "1883": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.mine_icon.03",
-      "note": "red pattern with a blue dotted border"
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.wreckage.02",
+      "note": "destroyed-building debris, green variant of 1882",
+      "pair_cel": 1882,
+      "variant": "green"
     },
     "1884": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.mine_icon.04",
-      "note": "red pattern with a blue dotted border"
+      "category": "decoration",
+      "confidence": "code_verified",
+      "id": "decoration.wreckage.03",
+      "note": "destroyed-building debris, tan (coastal id 53; +1 is the green variant)",
+      "pair_cel": 1884,
+      "variant": "tan"
     },
     "1885": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.mine_icon.05",
-      "note": "red pattern with a blue dotted border"
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.wreckage.04",
+      "note": "destroyed-building debris, green variant of 1884",
+      "pair_cel": 1884,
+      "variant": "green"
     },
     "1886": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.mine_icon.06",
-      "note": "red pattern with a blue dotted border"
+      "category": "decoration",
+      "confidence": "code_verified",
+      "id": "decoration.wreckage.05",
+      "note": "destroyed-building debris (coastal id 51)",
+      "pair_cel": 1886,
+      "variant": "tan"
     },
     "1887": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.burst_red.414"
+      "category": "decoration",
+      "confidence": "visual",
+      "id": "decoration.wreckage.06",
+      "note": "destroyed-building debris, variant of 1886",
+      "pair_cel": 1886,
+      "variant": "green"
     },
     "1888": {
       "category": "decoration",
@@ -5900,9 +6026,9 @@
     },
     "189": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.hovercraft.hull.11",
-      "note": "tan cab, red visor+trim"
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p187.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 187"
     },
     "1890": {
       "category": "decoration",
@@ -6215,10 +6341,10 @@
       "note": "thin horizontal red line/wire"
     },
     "194": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.emblem.04",
-      "note": "ornate insignia-like pattern, not clearly a hull piece"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p192.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 192"
     },
     "1940": {
       "category": "vehicle",
@@ -6536,10 +6662,10 @@
       "note": "purple/blue spiral swirl"
     },
     "199": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.emblem.05",
-      "note": "ornate insignia-like pattern, not clearly a hull piece"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p197.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 197"
     },
     "1990": {
       "category": "effect",
@@ -6877,10 +7003,10 @@
       "note": "grid of small red circles"
     },
     "204": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.tire_track.01",
-      "note": "yellow dashed ground mark"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p202.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 202"
     },
     "2040": {
       "category": "marker",
@@ -6943,10 +7069,10 @@
       "note": "grid of small red circles"
     },
     "205": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.tire_track.02",
-      "note": "yellow dashed ground mark"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p202.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 202"
     },
     "2050": {
       "category": "marker",
@@ -7010,9 +7136,9 @@
     },
     "206": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.hovercraft.hull.17",
-      "note": "tan panel"
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p202.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 202"
     },
     "2060": {
       "category": "effect",
@@ -7202,9 +7328,9 @@
     },
     "209": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.hovercraft.hull.20",
-      "note": "brown/green camo cab variant"
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p207.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 207"
     },
     "2090": {
       "category": "marker",
@@ -7522,9 +7648,9 @@
     },
     "214": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.hovercraft.wheel_hub.03",
-      "note": "concentric-ring wheel/turret-base icon"
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p212.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 212"
     },
     "2140": {
       "category": "effect",
@@ -7582,10 +7708,10 @@
       "note": "HUD numeric font glyph"
     },
     "215": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.tire_track.03",
-      "note": "yellow dashed ground mark"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p212.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 212"
     },
     "2150": {
       "category": "font",
@@ -7644,10 +7770,10 @@
       "id": "prop.rocket_small.01"
     },
     "216": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.tire_track.04",
-      "note": "yellow dashed ground mark"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.hovercraft.p212.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 212"
     },
     "2160": {
       "category": "prop",
@@ -8069,8 +8195,8 @@
     "279": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.msv.part.01",
-      "note": "real MSV vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #2 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error, not a refinement of a plausible guess."
+      "id": "vehicle.msv.p279.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "28": {
       "category": "terrain",
@@ -8079,61 +8205,64 @@
       "note": "plain open water, no coastline"
     },
     "280": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.fuel_drum.cyan.01"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p279.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 279"
     },
     "281": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.fuel_drum.orange.01"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p279.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 279"
     },
     "282": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.explosion_splash.04",
-      "note": "red-spark/blue-splash burst, likely a hit or small-explosion animation"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p279.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 279"
     },
     "283": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.explosion_splash.05",
-      "note": "red-spark/blue-splash burst, likely a hit or small-explosion animation"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p279.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 279"
     },
     "284": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.msv.part.02",
-      "note": "real MSV vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #2 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error, not a refinement of a plausible guess."
+      "id": "vehicle.msv.p284.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "285": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.fuel_drum.cyan.02"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p284.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 284"
     },
     "286": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.fuel_drum.hazard_stripe.01",
-      "note": "orange drum with black warning stripes"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p284.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 284"
     },
     "287": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.explosion_splash.06",
-      "note": "red-spark/blue-splash burst, likely a hit or small-explosion animation"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p284.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 284"
     },
     "288": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.explosion_splash.07",
-      "note": "red-spark/blue-splash burst, likely a hit or small-explosion animation"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p284.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 284"
     },
     "289": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.cart.tan.04",
-      "note": "confirmed 2026-09-08: actually an MSV body part (document 38), not a standalone small vehicle -- kept under its existing id (renaming risks fragmenting the 'vehicle.cart.tan' family's other members, which this audit did not re-check)."
+      "id": "vehicle.msv.p289.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "29": {
       "category": "terrain",
@@ -8143,13 +8272,15 @@
     },
     "290": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.cart.cyan.04"
+      "confidence": "visual",
+      "id": "vehicle.msv.p289.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 289"
     },
     "291": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.cart.orange.01"
+      "confidence": "visual",
+      "id": "vehicle.msv.p289.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 289"
     },
     "292": {
       "category": "reserved",
@@ -8166,20 +8297,20 @@
     "294": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.msv.part.03",
-      "note": "real MSV vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #2 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error, not a refinement of a plausible guess."
+      "id": "vehicle.msv.p294.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "295": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.mobile_gun.tan.01",
-      "note": "gun barrel on a wheeled mount"
+      "confidence": "visual",
+      "id": "vehicle.msv.p294.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 294"
     },
     "296": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.mobile_gun.orange.01",
-      "note": "vertical-striped barrel on wheels"
+      "confidence": "visual",
+      "id": "vehicle.msv.p294.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 294"
     },
     "297": {
       "category": "reserved",
@@ -8196,8 +8327,8 @@
     "299": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.cart.tread.01",
-      "note": "confirmed 2026-09-08: actually an MSV body part (document 38), not a standalone small vehicle -- kept under its existing id (renaming risks fragmenting the 'vehicle.cart.tread' family's other members, which this audit did not re-check)."
+      "id": "vehicle.msv.p299.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "3": {
       "category": "terrain",
@@ -8213,15 +8344,15 @@
     },
     "300": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.cart.tan.05",
-      "note": "small wheeled cart/mobile unit"
+      "confidence": "visual",
+      "id": "vehicle.msv.p299.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 299"
     },
     "301": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.cart.red.01",
-      "note": "solid red/dark tank-tread cart (corrected: was miscategorised as cyan)"
+      "confidence": "visual",
+      "id": "vehicle.msv.p299.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 299"
     },
     "302": {
       "category": "reserved",
@@ -8238,38 +8369,38 @@
     "304": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.mobile_gun.detailed.01",
-      "note": "confirmed 2026-09-08: actually an MSV body part (document 38), not a standalone small vehicle -- kept under its existing id (renaming risks fragmenting the 'vehicle.mobile_gun.detailed' family's other members, which this audit did not re-check)."
+      "id": "vehicle.msv.p304.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "305": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.missile_pod.01",
-      "note": "small horizontal green/blue pod with red tip"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p304.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 304"
     },
     "306": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.missile_pod.02",
-      "note": "small horizontal green/blue pod with red tip"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p304.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 304"
     },
     "307": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.416",
-      "note": "very faint tan dashes/dots"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p304.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 304"
     },
     "308": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.417",
-      "note": "very faint tan dashes/dots"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p304.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 304"
     },
     "309": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.msv.part.05",
-      "note": "real MSV vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #2 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error, not a refinement of a plausible guess."
+      "id": "vehicle.msv.p309.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "31": {
       "category": "terrain",
@@ -8278,61 +8409,64 @@
       "note": "plain open water, no coastline"
     },
     "310": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.control_panel.cyan.01"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p309.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 309"
     },
     "311": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.control_panel.ornate.01",
-      "note": "orange panel, darker ornate screen"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p309.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 309"
     },
     "312": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.crate.tan.01",
-      "note": "small blocky tan shapes"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p309.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 309"
     },
     "313": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.crate.tan.02",
-      "note": "small blocky tan shapes"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p309.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 309"
     },
     "314": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.msv.part.04",
-      "note": "real MSV vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #2 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error, not a refinement of a plausible guess."
+      "id": "vehicle.msv.p314.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "315": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.missile_rack.cyan.01"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p314.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 314"
     },
     "316": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.missile_rack.red.01",
-      "note": "solid red/orange, larger rack variant"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p314.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 314"
     },
     "317": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.sensor_array.tan.01",
-      "note": "panel with small red dot pattern"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p314.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 314"
     },
     "318": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.sensor_array.cyan.01"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p314.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 314"
     },
     "319": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.msv.part.07",
-      "note": "real MSV vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #2 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error, not a refinement of a plausible guess."
+      "id": "vehicle.msv.p319.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "32": {
       "category": "terrain",
@@ -8341,44 +8475,46 @@
       "note": "plain open water, no coastline"
     },
     "320": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.418"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p319.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 319"
     },
     "321": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.419"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p319.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 319"
     },
     "322": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.fuel_canister.single.01",
-      "note": "single vertical capsule, blue body tan cap"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p319.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 319"
     },
     "323": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.fuel_canister.cluster_red.01",
-      "note": "bundled vertical capsules, red/blue"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p319.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 319"
     },
     "324": {
       "category": "vehicle",
-      "confidence": "code_verified",
-      "id": "vehicle.msv.part.06",
-      "note": "real MSV vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #2 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error, not a refinement of a plausible guess."
+      "confidence": "visual",
+      "id": "vehicle.msv.p324.canisters_1",
+      "note": "1/2/3 blue canisters on the MSV (document 46)"
     },
     "325": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.fuel_canister.cluster_blue.02",
-      "note": "2-capsule blue/red/white cluster"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p324.canisters_2",
+      "note": "1/2/3 blue canisters on the MSV (document 46)"
     },
     "326": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.fuel_canister.cluster_blue.03",
-      "note": "3-capsule blue/red/white cluster"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.msv.p324.canisters_3",
+      "note": "1/2/3 blue canisters on the MSV (document 46)"
     },
     "327": {
       "category": "effect",
@@ -8961,13 +9097,14 @@
     "417": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.jeep.part.05",
-      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error, not a refinement of a plausible guess."
+      "id": "vehicle.jeep.p417.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "418": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.tank_cylinder.cyan.01"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p417.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 417"
     },
     "419": {
       "category": "reserved",
@@ -8996,45 +9133,50 @@
     "422": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.jeep.part.01",
-      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error, not a refinement of a plausible guess."
+      "id": "vehicle.jeep.p422.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "423": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.frame.cyan.01"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p422.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 422"
     },
     "424": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.panel_icon.tan.01"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p422.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 422"
     },
     "425": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.panel_icon.teal.01"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p422.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 422"
     },
     "426": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.433"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p422.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 422"
     },
     "427": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.jeep.part.06",
-      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error, not a refinement of a plausible guess."
+      "id": "vehicle.jeep.p427.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "428": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.frame.cyan.02"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p427.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 427"
     },
     "429": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.frame.tan.03",
-      "note": "thin outline frame"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p427.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 427"
     },
     "43": {
       "category": "terrain",
@@ -9043,30 +9185,34 @@
       "note": "plain open water, no coastline"
     },
     "430": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.434"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p427.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 427"
     },
     "431": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.435"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p427.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 427"
     },
     "432": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.jeep.part.02",
-      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error, not a refinement of a plausible guess."
+      "id": "vehicle.jeep.p432.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "433": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.cart.tan.03"
+      "confidence": "visual",
+      "id": "vehicle.jeep.p432.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 432"
     },
     "434": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.cart.cyan.03"
+      "confidence": "visual",
+      "id": "vehicle.jeep.p432.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 432"
     },
     "435": {
       "category": "reserved",
@@ -9083,20 +9229,20 @@
     "437": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.jeep.part.03",
-      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error, not a refinement of a plausible guess."
+      "id": "vehicle.jeep.p437.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "438": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.control_panel.tan.02",
-      "note": "panel with small yellow lights"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p437.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 437"
     },
     "439": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.control_panel.orange.02",
-      "note": "larger, yellow lights"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p437.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 437"
     },
     "44": {
       "category": "terrain",
@@ -9119,20 +9265,20 @@
     "442": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.jeep.part.04",
-      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error, not a refinement of a plausible guess."
+      "id": "vehicle.jeep.p442.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "443": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.control_panel.red.02",
-      "note": "elongated, larger, yellow lights"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p442.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 442"
     },
     "444": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.beam.86",
-      "note": "thin vertical red line"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p442.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 442"
     },
     "445": {
       "category": "reserved",
@@ -9149,18 +9295,20 @@
     "447": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.jeep.part.07",
-      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error, not a refinement of a plausible guess."
+      "id": "vehicle.jeep.p447.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "448": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper.cyan.01"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p447.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 447"
     },
     "449": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper.brown.01"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p447.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 447"
     },
     "45": {
       "category": "terrain",
@@ -9169,33 +9317,34 @@
       "note": "plain open water, no coastline"
     },
     "450": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.beam.87",
-      "note": "thin vertical red line"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p447.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 447"
     },
     "451": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.beam.88",
-      "note": "thin vertical red line"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p447.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 447"
     },
     "452": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.jeep.part.08",
-      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error, not a refinement of a plausible guess."
+      "id": "vehicle.jeep.p452.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "453": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.display_screen.blue.01"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p452.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 452"
     },
     "454": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.display_screen.blue_striped.01",
-      "note": "same screen, diagonal-stripe state"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p452.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 452"
     },
     "455": {
       "category": "reserved",
@@ -9212,20 +9361,20 @@
     "457": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.jeep.part.09",
-      "note": "real JEEP vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #1 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error, not a refinement of a plausible guess."
+      "id": "vehicle.jeep.p457.frame_01",
+      "note": "five same-size frames; Jeep parts 9/10 (document 46)"
     },
     "458": {
-      "category": "ui",
-      "confidence": "visual_group",
-      "id": "ui.map_blip.02",
-      "note": "small red dot icon"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p457.frame_02",
+      "note": "five same-size frames; Jeep parts 9/10 (document 46)"
     },
     "459": {
-      "category": "ui",
-      "confidence": "visual_group",
-      "id": "ui.map_blip.03",
-      "note": "small red dot icon"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p457.frame_03",
+      "note": "five same-size frames; Jeep parts 9/10 (document 46)"
     },
     "46": {
       "category": "terrain",
@@ -9234,16 +9383,16 @@
       "note": "plain open water, no coastline"
     },
     "460": {
-      "category": "ui",
-      "confidence": "visual_group",
-      "id": "ui.map_blip.04",
-      "note": "small red dot icon"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p457.frame_04",
+      "note": "five same-size frames; Jeep parts 9/10 (document 46)"
     },
     "461": {
-      "category": "ui",
-      "confidence": "visual_group",
-      "id": "ui.map_blip.05",
-      "note": "small red dot icon"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.jeep.p457.frame_05",
+      "note": "five same-size frames; Jeep parts 9/10 (document 46)"
     },
     "462": {
       "category": "effect",
@@ -9638,36 +9787,38 @@
     "524": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.heli.part.01",
-      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
+      "id": "vehicle.heli.p524.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "525": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.444"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p524.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 524"
     },
     "526": {
-      "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.hatch_green.01",
-      "note": "door/hatch with yellow border"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p524.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 524"
     },
     "527": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.dome_turret.tan.01",
-      "note": "rounded pod/dome shape with a dark visor band"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p524.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 524"
     },
     "528": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.dome_turret.cyan.01"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p524.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 524"
     },
     "529": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.heli.part.02",
-      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
+      "id": "vehicle.heli.p529.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "53": {
       "category": "terrain",
@@ -9676,64 +9827,64 @@
       "note": "plain sand, no water or grass"
     },
     "530": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.wave_horizon.160",
-      "note": "teal wave/water/sky horizon-shaped strip"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p529.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 529"
     },
     "531": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.wave_horizon.161",
-      "note": "teal wave/water/sky horizon-shaped strip"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p529.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 529"
     },
     "532": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.objective_target.01",
-      "note": "red bullseye in a coloured frame (tan/green/blue/brown/orange) -- likely a mission-objective icon set"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p529.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 529"
     },
     "533": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.objective_target.02",
-      "note": "red bullseye in a coloured frame (tan/green/blue/brown/orange) -- likely a mission-objective icon set"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p529.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 529"
     },
     "534": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.heli.part.09",
-      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
+      "id": "vehicle.heli.p534.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "535": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.objective_target.04",
-      "note": "red bullseye in a coloured frame (tan/green/blue/brown/orange) -- likely a mission-objective icon set"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p534.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 534"
     },
     "536": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.objective_target.05",
-      "note": "red bullseye in a coloured frame (tan/green/blue/brown/orange) -- likely a mission-objective icon set"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p534.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 534"
     },
     "537": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.objective_target.06",
-      "note": "red bullseye in a coloured frame (tan/green/blue/brown/orange) -- likely a mission-objective icon set"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p534.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 534"
     },
     "538": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.objective_target.07",
-      "note": "red bullseye in a coloured frame (tan/green/blue/brown/orange) -- likely a mission-objective icon set"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p534.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 534"
     },
     "539": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.heli.part.04",
-      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
+      "id": "vehicle.heli.p539.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "54": {
       "category": "terrain",
@@ -9742,63 +9893,64 @@
       "note": "plain sand, no water or grass"
     },
     "540": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.ammo_panel_red.02"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p539.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 539"
     },
     "541": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.spark_bolt.60",
-      "note": "yellow lightning-bolt/zigzag shape"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p539.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 539"
     },
     "542": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.camo_strip.04",
-      "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p539.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 539"
     },
     "543": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.wire_tan.01",
-      "note": "thin object with a red dot, cable or rope"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p539.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 539"
     },
     "544": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.heli.part.05",
-      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
+      "id": "vehicle.heli.p544.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "545": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.camo_strip.06",
-      "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p544.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 544"
     },
     "546": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.camo_strip.07",
-      "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p544.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 544"
     },
     "547": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.wave_horizon.162",
-      "note": "teal wave/water/sky horizon-shaped strip"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p544.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 544"
     },
     "548": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.camo_strip.08",
-      "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p544.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 544"
     },
     "549": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.heli.part.07",
-      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
+      "id": "vehicle.heli.p549.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "55": {
       "category": "terrain",
@@ -9807,16 +9959,16 @@
       "note": "plain sand, no water or grass"
     },
     "550": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.camo_strip.10",
-      "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p549.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 549"
     },
     "551": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.wave_horizon.163",
-      "note": "teal wave/water/sky horizon-shaped strip"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p549.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 549"
     },
     "552": {
       "category": "reserved",
@@ -9833,38 +9985,38 @@
     "554": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.heli.part.08",
-      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
+      "id": "vehicle.heli.p554.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "555": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.wave_horizon.165",
-      "note": "teal wave/water/sky horizon-shaped strip"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p554.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 554"
     },
     "556": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.wave_horizon.166",
-      "note": "teal wave/water/sky horizon-shaped strip"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p554.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 554"
     },
     "557": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.wave_horizon.167",
-      "note": "teal wave/water/sky horizon-shaped strip"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p554.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 554"
     },
     "558": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.wave_horizon.168",
-      "note": "teal wave/water/sky horizon-shaped strip"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p554.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 554"
     },
     "559": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.heli.part.11",
-      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
+      "id": "vehicle.heli.p559.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "56": {
       "category": "terrain",
@@ -9873,64 +10025,64 @@
       "note": "plain sand, no water or grass"
     },
     "560": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.camo_strip.12",
-      "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p559.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 559"
     },
     "561": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.camo_strip.13",
-      "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p559.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 559"
     },
     "562": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.camo_strip.14",
-      "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p559.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 559"
     },
     "563": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.camo_strip.15",
-      "note": "long mottled green/tan/brown horizontal strip, dressing/structure"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p559.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 559"
     },
     "564": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.heli.part.03",
-      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
+      "id": "vehicle.heli.p564.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "565": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_squad.02",
-      "note": "standing full-body trooper figure, several colour variants"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p564.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 564"
     },
     "566": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_squad.03",
-      "note": "standing full-body trooper figure, several colour variants"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p564.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 564"
     },
     "567": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_squad.04",
-      "note": "standing full-body trooper figure, several colour variants"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p564.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 564"
     },
     "568": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_squad.05",
-      "note": "standing full-body trooper figure, several colour variants"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p564.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 564"
     },
     "569": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.heli.part.10",
-      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
+      "id": "vehicle.heli.p569.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "57": {
       "category": "terrain",
@@ -9939,55 +10091,58 @@
       "note": "plain sand, no water or grass"
     },
     "570": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_squad.07",
-      "note": "standing full-body trooper figure, several colour variants"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p569.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 569"
     },
     "571": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_squad.08",
-      "note": "standing full-body trooper figure, several colour variants"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p569.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 569"
     },
     "572": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_squad.09",
-      "note": "standing full-body trooper figure, several colour variants"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p569.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 569"
     },
     "573": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_squad.10",
-      "note": "standing full-body trooper figure, several colour variants"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p569.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 569"
     },
     "574": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.heli.part.06",
-      "note": "real HELI vehicle part, confirmed 2026-09-08 by walking RFIRE.BIN's own vehicle-type descriptor #3 (see tools/data/vehicle_type_parts.json, document 38) -- corrects a flat category error (several of these were classified as character/marker cels), not a refinement of a plausible guess. This is Return Fire's best-known vehicle and, until now, this project had never located any real part of it at all (PORTING_PLAN.md section 4 item 12)."
+      "id": "vehicle.heli.p574.tan",
+      "note": "vehicle part variant group (document 46): code-verified part cel"
     },
     "575": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.beam.89"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p574.green",
+      "note": "vehicle part variant group (document 46): slot 1 of the group starting at cel 574"
     },
     "576": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.beam.90"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p574.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 574"
     },
     "577": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.beam.91"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p574.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 574"
     },
     "578": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_squad.12",
-      "note": "standing full-body trooper figure, several colour variants"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.heli.p574.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 574"
     },
     "579": {
       "category": "effect",
@@ -11573,50 +11728,66 @@
     },
     "832": {
       "category": "marker",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "marker.sun_burst.01",
-      "note": "red panel with a yellow sun/star burst symbol"
+      "note": "red panel with a yellow sun/star burst symbol",
+      "pair_cel": 832,
+      "variant": "tan"
     },
     "833": {
       "category": "marker",
       "confidence": "visual_group",
       "id": "marker.diamond_cyan.01",
-      "note": "cyan panel with a red diamond"
+      "note": "cyan panel with a red diamond",
+      "pair_cel": 832,
+      "variant": "green"
     },
     "834": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.785",
-      "note": "pink/red wall segment, some with window/tent details"
+      "note": "pink/red wall segment, some with window/tent details",
+      "pair_cel": 834,
+      "variant": "tan"
     },
     "835": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.786",
-      "note": "pink/red wall segment, some with window/tent details"
+      "note": "pink/red wall segment, some with window/tent details",
+      "pair_cel": 834,
+      "variant": "green"
     },
     "836": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.787",
-      "note": "pink/red wall segment, some with window/tent details"
+      "note": "pink/red wall segment, some with window/tent details",
+      "pair_cel": 836,
+      "variant": "tan"
     },
     "837": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.788",
-      "note": "pink/red wall segment, some with window/tent details"
+      "note": "pink/red wall segment, some with window/tent details",
+      "pair_cel": 836,
+      "variant": "green"
     },
     "838": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.789",
-      "note": "pink/red wall segment, some with window/tent details"
+      "note": "pink/red wall segment, some with window/tent details",
+      "pair_cel": 838,
+      "variant": "tan"
     },
     "839": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.panel_solid.orange.01"
+      "id": "prop.panel_solid.orange.01",
+      "pair_cel": 838,
+      "variant": "green"
     },
     "84": {
       "category": "terrain",
@@ -11626,14 +11797,18 @@
     },
     "840": {
       "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.panel_solid.orange.02"
+      "confidence": "code_verified",
+      "id": "prop.panel_solid.orange.02",
+      "pair_cel": 840,
+      "variant": "tan"
     },
     "841": {
       "category": "prop",
       "confidence": "visual_group",
       "id": "prop.bar_thin.49",
-      "note": "thin vertical coloured bar"
+      "note": "thin vertical coloured bar",
+      "pair_cel": 840,
+      "variant": "green"
     },
     "842": {
       "category": "effect",
@@ -11667,19 +11842,25 @@
     },
     "847": {
       "category": "prop",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "prop.composite_tan_blue.01",
-      "note": "small composite shape, unclear silhouette"
+      "note": "small composite shape, unclear silhouette",
+      "pair_cel": 847,
+      "variant": "tan"
     },
     "848": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.blob_tan.01"
+      "id": "prop.blob_tan.01",
+      "pair_cel": 847,
+      "variant": "green"
     },
     "849": {
       "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.post.tan.01"
+      "confidence": "code_verified",
+      "id": "prop.post.tan.01",
+      "pair_cel": 849,
+      "variant": "tan"
     },
     "85": {
       "category": "terrain",
@@ -11690,17 +11871,23 @@
     "850": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.post.cyan.01"
+      "id": "prop.post.cyan.01",
+      "pair_cel": 849,
+      "variant": "green"
     },
     "851": {
       "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.diamond_pattern.51"
+      "confidence": "code_verified",
+      "id": "prop.diamond_pattern.51",
+      "pair_cel": 851,
+      "variant": "tan"
     },
     "852": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.diamond_pattern.52"
+      "id": "prop.diamond_pattern.52",
+      "pair_cel": 851,
+      "variant": "green"
     },
     "853": {
       "category": "prop",
@@ -11738,8 +11925,10 @@
     },
     "859": {
       "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.panel_solid.dark_red.01"
+      "confidence": "code_verified",
+      "id": "prop.panel_solid.dark_red.01",
+      "pair_cel": 859,
+      "variant": "tan"
     },
     "86": {
       "category": "terrain",
@@ -11750,53 +11939,71 @@
     "860": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.panel_solid.dark_red.02"
+      "id": "prop.panel_solid.dark_red.02",
+      "pair_cel": 859,
+      "variant": "green"
     },
     "861": {
       "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.explosion_large.236"
+      "confidence": "code_verified",
+      "id": "effect.explosion_large.236",
+      "pair_cel": 861,
+      "variant": "tan"
     },
     "862": {
       "category": "effect",
       "confidence": "visual_group",
-      "id": "effect.explosion_large.237"
+      "id": "effect.explosion_large.237",
+      "pair_cel": 861,
+      "variant": "green"
     },
     "863": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.doorway.01",
-      "note": "red archway with a brown door"
+      "note": "red archway with a brown door",
+      "pair_cel": 863,
+      "variant": "tan"
     },
     "864": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.793",
-      "note": "pink/red wall segment, some with window/tent details"
+      "note": "pink/red wall segment, some with window/tent details",
+      "pair_cel": 863,
+      "variant": "green"
     },
     "865": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.794",
-      "note": "pink/red wall segment, some with window/tent details"
+      "note": "pink/red wall segment, some with window/tent details",
+      "pair_cel": 865,
+      "variant": "tan"
     },
     "866": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.795",
-      "note": "pink/red wall segment, some with window/tent details"
+      "note": "pink/red wall segment, some with window/tent details",
+      "pair_cel": 865,
+      "variant": "green"
     },
     "867": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.796",
-      "note": "pink/red wall segment, some with window/tent details"
+      "note": "pink/red wall segment, some with window/tent details",
+      "pair_cel": 867,
+      "variant": "tan"
     },
     "868": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.797",
-      "note": "pink/red wall segment, some with window/tent details"
+      "note": "pink/red wall segment, some with window/tent details",
+      "pair_cel": 867,
+      "variant": "green"
     },
     "869": {
       "category": "structure",
@@ -11818,39 +12025,51 @@
     },
     "871": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.frame_post.01",
-      "note": "A-frame post/pillar shape, brown or blue"
+      "note": "A-frame post/pillar shape, brown or blue",
+      "pair_cel": 871,
+      "variant": "tan"
     },
     "872": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.frame_post.02",
-      "note": "A-frame post/pillar shape, brown or blue"
+      "note": "A-frame post/pillar shape, brown or blue",
+      "pair_cel": 871,
+      "variant": "green"
     },
     "873": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.frame_post.03",
-      "note": "A-frame post/pillar shape, brown or blue"
+      "note": "A-frame post/pillar shape, brown or blue",
+      "pair_cel": 873,
+      "variant": "tan"
     },
     "874": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.frame_post.04",
-      "note": "A-frame post/pillar shape, brown or blue"
+      "note": "A-frame post/pillar shape, brown or blue",
+      "pair_cel": 873,
+      "variant": "green"
     },
     "875": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.frame_post.05",
-      "note": "A-frame post/pillar shape, brown or blue"
+      "note": "A-frame post/pillar shape, brown or blue",
+      "pair_cel": 875,
+      "variant": "tan"
     },
     "876": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.frame_post.06",
-      "note": "A-frame post/pillar shape, brown or blue"
+      "note": "A-frame post/pillar shape, brown or blue",
+      "pair_cel": 875,
+      "variant": "green"
     },
     "877": {
       "category": "structure",
@@ -11979,27 +12198,35 @@
     },
     "896": {
       "category": "prop",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "prop.path_strip.02",
-      "note": "long road/path/water strip"
+      "note": "long road/path/water strip",
+      "pair_cel": 896,
+      "variant": "tan"
     },
     "897": {
       "category": "prop",
       "confidence": "visual_group",
       "id": "prop.path_strip.03",
-      "note": "long road/path/water strip"
+      "note": "long road/path/water strip",
+      "pair_cel": 896,
+      "variant": "green"
     },
     "898": {
       "category": "decoration",
       "confidence": "code_verified",
       "id": "decoration.arch_trim.01",
-      "note": "corrected 2026-09-08 (document 38): was 'pickup.star.01', but real code (coastal decoration 47/48) proves it's a static decoration part, not a collectible -- those are mutually exclusive roles. Direct atlas crop shows a small brown curved/arched shape (16x8px), not a star; exact identity beyond 'small curved architectural trim piece' is unconfirmed."
+      "note": "corrected 2026-09-08 (document 38): was 'pickup.star.01', but real code (coastal decoration 47/48) proves it's a static decoration part, not a collectible -- those are mutually exclusive roles. Direct atlas crop shows a small brown curved/arched shape (16x8px), not a star; exact identity beyond 'small curved architectural trim piece' is unconfirmed.",
+      "pair_cel": 898,
+      "variant": "tan"
     },
     "899": {
       "category": "pickup",
       "confidence": "visual_group",
       "id": "pickup.star.02",
-      "note": "small yellow star-burst shape, likely a pickup/power-up"
+      "note": "small yellow star-burst shape, likely a pickup/power-up",
+      "pair_cel": 898,
+      "variant": "green"
     },
     "9": {
       "category": "terrain",
@@ -12022,13 +12249,17 @@
       "category": "decoration",
       "confidence": "code_verified",
       "id": "decoration.splatter_red.01",
-      "note": "corrected 2026-09-08 (document 38): was 'pickup.star.04', but real code (coastal decoration 64) proves it's a static decoration part, not a collectible. Direct atlas crop shows a red/brown starburst-like splatter shape, not a clean pickup-style star icon; exact identity unconfirmed."
+      "note": "corrected 2026-09-08 (document 38): was 'pickup.star.04', but real code (coastal decoration 64) proves it's a static decoration part, not a collectible. Direct atlas crop shows a red/brown starburst-like splatter shape, not a clean pickup-style star icon; exact identity unconfirmed.",
+      "pair_cel": 901,
+      "variant": "tan"
     },
     "902": {
       "category": "pickup",
       "confidence": "visual_group",
       "id": "pickup.star.05",
-      "note": "small yellow star-burst shape, likely a pickup/power-up"
+      "note": "small yellow star-burst shape, likely a pickup/power-up",
+      "pair_cel": 901,
+      "variant": "green"
     },
     "903": {
       "category": "pickup",
@@ -12068,8 +12299,10 @@
     },
     "909": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.panel_icon_red.01"
+      "confidence": "code_verified",
+      "id": "marker.panel_icon_red.01",
+      "pair_cel": 909,
+      "variant": "tan"
     },
     "91": {
       "category": "terrain",
@@ -12080,60 +12313,80 @@
     "910": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.panel_icon_red.02"
+      "id": "marker.panel_icon_red.02",
+      "pair_cel": 909,
+      "variant": "green"
     },
     "911": {
       "category": "marker",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "marker.letter_icon.01",
-      "note": "panel with a dark letter-like glyph, purpose unconfirmed"
+      "note": "panel with a dark letter-like glyph, purpose unconfirmed",
+      "pair_cel": 911,
+      "variant": "tan"
     },
     "912": {
       "category": "marker",
       "confidence": "visual_group",
       "id": "marker.letter_icon.02",
-      "note": "panel with a dark letter-like glyph, purpose unconfirmed"
+      "note": "panel with a dark letter-like glyph, purpose unconfirmed",
+      "pair_cel": 911,
+      "variant": "green"
     },
     "913": {
       "category": "marker",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "marker.letter_icon.03",
-      "note": "panel with a dark letter-like glyph, purpose unconfirmed"
+      "note": "panel with a dark letter-like glyph, purpose unconfirmed",
+      "pair_cel": 913,
+      "variant": "tan"
     },
     "914": {
       "category": "marker",
       "confidence": "visual_group",
-      "id": "marker.panel_icon_red.03"
+      "id": "marker.panel_icon_red.03",
+      "pair_cel": 913,
+      "variant": "green"
     },
     "915": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.810",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 915,
+      "variant": "tan"
     },
     "916": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.811",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 915,
+      "variant": "green"
     },
     "917": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.812",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 917,
+      "variant": "tan"
     },
     "918": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.813",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 917,
+      "variant": "green"
     },
     "919": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.814",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 919,
+      "variant": "tan"
     },
     "92": {
       "category": "terrain",
@@ -12146,43 +12399,57 @@
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.815",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 919,
+      "variant": "green"
     },
     "921": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.816",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 921,
+      "variant": "tan"
     },
     "922": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.817",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 921,
+      "variant": "green"
     },
     "923": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.818",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 923,
+      "variant": "tan"
     },
     "924": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.819",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 923,
+      "variant": "green"
     },
     "925": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.820",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 925,
+      "variant": "tan"
     },
     "926": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.821",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 925,
+      "variant": "green"
     },
     "927": {
       "category": "effect",
@@ -12257,13 +12524,17 @@
     },
     "938": {
       "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.door.59"
+      "confidence": "code_verified",
+      "id": "structure.door.59",
+      "pair_cel": 938,
+      "variant": "tan"
     },
     "939": {
       "category": "structure",
       "confidence": "visual_group",
-      "id": "structure.door.60"
+      "id": "structure.door.60",
+      "pair_cel": 938,
+      "variant": "green"
     },
     "94": {
       "category": "terrain",
@@ -12273,62 +12544,82 @@
     },
     "940": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.window.91",
-      "note": "cyan or tan-bordered window panel"
+      "note": "cyan or tan-bordered window panel",
+      "pair_cel": 940,
+      "variant": "tan"
     },
     "941": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.window.92",
-      "note": "cyan or tan-bordered window panel"
+      "note": "cyan or tan-bordered window panel",
+      "pair_cel": 940,
+      "variant": "green"
     },
     "942": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.door.57",
-      "note": "coloured door panel, red/green"
+      "note": "coloured door panel, red/green",
+      "pair_cel": 942,
+      "variant": "tan"
     },
     "943": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.door.58",
-      "note": "coloured door panel, red/green"
+      "note": "coloured door panel, red/green",
+      "pair_cel": 942,
+      "variant": "green"
     },
     "944": {
       "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.445"
+      "confidence": "code_verified",
+      "id": "prop.debris_faint.445",
+      "pair_cel": 944,
+      "variant": "tan"
     },
     "945": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.823",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 944,
+      "variant": "green"
     },
     "946": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.824",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 946,
+      "variant": "tan"
     },
     "947": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.825",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 946,
+      "variant": "green"
     },
     "948": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.826",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 948,
+      "variant": "tan"
     },
     "949": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.827",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 948,
+      "variant": "green"
     },
     "95": {
       "category": "terrain",
@@ -12338,15 +12629,19 @@
     },
     "950": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.828",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 950,
+      "variant": "tan"
     },
     "951": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.829",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 950,
+      "variant": "green"
     },
     "952": {
       "category": "structure",
@@ -12374,15 +12669,19 @@
     },
     "956": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall.832",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 956,
+      "variant": "tan"
     },
     "957": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall.833",
-      "note": "red or blue wall segment with window/door/flag details"
+      "note": "red or blue wall segment with window/door/flag details",
+      "pair_cel": 956,
+      "variant": "green"
     },
     "958": {
       "category": "structure",
@@ -12450,13 +12749,17 @@
     },
     "968": {
       "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.panel_solid.blue.01"
+      "confidence": "code_verified",
+      "id": "prop.panel_solid.blue.01",
+      "pair_cel": 968,
+      "variant": "tan"
     },
     "969": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.panel_solid.blue.02"
+      "id": "prop.panel_solid.blue.02",
+      "pair_cel": 968,
+      "variant": "green"
     },
     "97": {
       "category": "terrain",
@@ -12466,58 +12769,78 @@
     },
     "970": {
       "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.panel_solid.blue.03"
+      "confidence": "code_verified",
+      "id": "prop.panel_solid.blue.03",
+      "pair_cel": 970,
+      "variant": "tan"
     },
     "971": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.panel_solid.blue.04"
+      "id": "prop.panel_solid.blue.04",
+      "pair_cel": 970,
+      "variant": "green"
     },
     "972": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall_gable.01",
-      "note": "wall with a pointed gable/roof silhouette along the top"
+      "note": "wall with a pointed gable/roof silhouette along the top",
+      "pair_cel": 972,
+      "variant": "tan"
     },
     "973": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall_gable.02",
-      "note": "wall with a pointed gable/roof silhouette along the top"
+      "note": "wall with a pointed gable/roof silhouette along the top",
+      "pair_cel": 972,
+      "variant": "green"
     },
     "974": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall_gable.03",
-      "note": "wall with a pointed gable/roof silhouette along the top"
+      "note": "wall with a pointed gable/roof silhouette along the top",
+      "pair_cel": 974,
+      "variant": "tan"
     },
     "975": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall_gable.04",
-      "note": "wall with a pointed gable/roof silhouette along the top"
+      "note": "wall with a pointed gable/roof silhouette along the top",
+      "pair_cel": 974,
+      "variant": "green"
     },
     "976": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall_gable.05",
-      "note": "wall with a pointed gable/roof silhouette along the top"
+      "note": "wall with a pointed gable/roof silhouette along the top",
+      "pair_cel": 976,
+      "variant": "tan"
     },
     "977": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.panel_solid.blue.05"
+      "id": "prop.panel_solid.blue.05",
+      "pair_cel": 976,
+      "variant": "green"
     },
     "978": {
       "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.panel_solid.blue.06"
+      "confidence": "code_verified",
+      "id": "prop.panel_solid.blue.06",
+      "pair_cel": 978,
+      "variant": "tan"
     },
     "979": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.panel_solid.blue.07"
+      "id": "prop.panel_solid.blue.07",
+      "pair_cel": 978,
+      "variant": "green"
     },
     "98": {
       "category": "terrain",
@@ -12527,13 +12850,17 @@
     },
     "980": {
       "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.panel_solid.blue.08"
+      "confidence": "code_verified",
+      "id": "prop.panel_solid.blue.08",
+      "pair_cel": 980,
+      "variant": "tan"
     },
     "981": {
       "category": "prop",
       "confidence": "visual_group",
-      "id": "prop.panel_solid.blue.09"
+      "id": "prop.panel_solid.blue.09",
+      "pair_cel": 980,
+      "variant": "green"
     },
     "982": {
       "category": "effect",
@@ -12543,39 +12870,51 @@
     },
     "983": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall_damaged.08",
-      "note": "same wall family with a jagged rubble/destroyed edge"
+      "note": "same wall family with a jagged rubble/destroyed edge",
+      "pair_cel": 983,
+      "variant": "tan"
     },
     "984": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall_damaged.09",
-      "note": "same wall family with a jagged rubble/destroyed edge"
+      "note": "same wall family with a jagged rubble/destroyed edge",
+      "pair_cel": 983,
+      "variant": "green"
     },
     "985": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall_damaged.10",
-      "note": "same wall family with a jagged rubble/destroyed edge"
+      "note": "same wall family with a jagged rubble/destroyed edge",
+      "pair_cel": 985,
+      "variant": "tan"
     },
     "986": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall_damaged.11",
-      "note": "same wall family with a jagged rubble/destroyed edge"
+      "note": "same wall family with a jagged rubble/destroyed edge",
+      "pair_cel": 985,
+      "variant": "green"
     },
     "987": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall_damaged.12",
-      "note": "same wall family with a jagged rubble/destroyed edge"
+      "note": "same wall family with a jagged rubble/destroyed edge",
+      "pair_cel": 987,
+      "variant": "tan"
     },
     "988": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall_damaged.13",
-      "note": "same wall family with a jagged rubble/destroyed edge"
+      "note": "same wall family with a jagged rubble/destroyed edge",
+      "pair_cel": 987,
+      "variant": "green"
     },
     "989": {
       "category": "structure",
@@ -12591,39 +12930,51 @@
     },
     "990": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall_damaged.15",
-      "note": "same wall family with a jagged rubble/destroyed edge"
+      "note": "same wall family with a jagged rubble/destroyed edge",
+      "pair_cel": 990,
+      "variant": "tan"
     },
     "991": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall_damaged.16",
-      "note": "same wall family with a jagged rubble/destroyed edge"
+      "note": "same wall family with a jagged rubble/destroyed edge",
+      "pair_cel": 990,
+      "variant": "green"
     },
     "992": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall_damaged.17",
-      "note": "same wall family with a jagged rubble/destroyed edge"
+      "note": "same wall family with a jagged rubble/destroyed edge",
+      "pair_cel": 992,
+      "variant": "tan"
     },
     "993": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall_damaged.18",
-      "note": "same wall family with a jagged rubble/destroyed edge"
+      "note": "same wall family with a jagged rubble/destroyed edge",
+      "pair_cel": 992,
+      "variant": "green"
     },
     "994": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.building_wall_damaged.19",
-      "note": "same wall family with a jagged rubble/destroyed edge"
+      "note": "same wall family with a jagged rubble/destroyed edge",
+      "pair_cel": 994,
+      "variant": "tan"
     },
     "995": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.building_wall_damaged.20",
-      "note": "same wall family with a jagged rubble/destroyed edge"
+      "note": "same wall family with a jagged rubble/destroyed edge",
+      "pair_cel": 994,
+      "variant": "green"
     },
     "996": {
       "category": "effect",
@@ -12633,21 +12984,27 @@
     },
     "997": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.dome_roof.01",
-      "note": "rounded dome/tent roof shape"
+      "note": "rounded dome/tent roof shape",
+      "pair_cel": 997,
+      "variant": "tan"
     },
     "998": {
       "category": "structure",
       "confidence": "visual_group",
       "id": "structure.dome_roof.02",
-      "note": "rounded dome/tent roof shape"
+      "note": "rounded dome/tent roof shape",
+      "pair_cel": 997,
+      "variant": "green"
     },
     "999": {
       "category": "structure",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "structure.dome_roof.03",
-      "note": "rounded dome/tent roof shape"
+      "note": "rounded dome/tent roof shape",
+      "pair_cel": 999,
+      "variant": "tan"
     }
   },
   "schema_version": "0.1.0",

@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-45
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-46
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -136,6 +136,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Sizes traced from RFIRE.BIN instead of estimated (2026-09-19):** world unit = 16.16 fixed, tile = 32 units, so the Tank is exactly 24 units wide (scale 0.375), and every decoration part now renders from its real quad corners — including the previously-missed chained sub-object that holds palm trunks and ground shadows, traced shadow strength, the original's per-tile jitter, team-colour variants, and the base buildings (coastal ids 49/50). See [document 44](44-worked-example-traced-world-scale.md).
 - **Tank movement traced from RFIRE.BIN (2026-09-20):** speed 65.6 units/s (~2 tiles/s), reverse 25, accel 195/s², friction 97.6/s², turn 87.9°/s, from the Tank record read by `FUN_0040c190`, on a 16 ms (62.5 Hz) tick. Also the pavement 1.2× cap, the Tank shell (3.0 units/tick, 1.28 s, damage 1, 20-tick cooldown) and per-hit tile hit points (a building now takes 6 shots); other vehicles' values are tabulated but not applied. See [document 45](45-worked-example-traced-vehicle-movement.md).
 - **Registry terrain names corrected (2026-09-20):** cels 0-72 were mislabelled (water called dune/sand, sand called water/forest, grass called forest_water); renamed by what each cel shows. See [document 44](44-worked-example-traced-world-scale.md), open-items list.
+- **Registry audit against code (2026-09-20):** vehicle parts are groups of five cels (tan, green, yellow, two more), structures pair tan/green, projectile art and stats identified, all 84 coastal decorations labelled by look, 200+ cels renamed. Unresolved: heli rotor/missile bars, explosion frame lists, several unowned families. See [document 46](46-worked-example-registry-audit.md).
 
 ## Still open
 

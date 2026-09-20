@@ -16,6 +16,8 @@ RFIRE.BIN code, to be part of a specific game object -- this is a categorically 
 than any "visual_group"/"visual" registry entry, which is a human guess from a thumbnail):
   - tools/data/vehicle_type_parts.json (tools/ghidra_scripts/DumpVehicleTypeParts.java) --
     every real part of all 4 vehicle-type descriptors (Tank/Jeep/MSV/Heli).
+  - tools/data/coastal_decoration_corners.json (document 44) and tools/data/projectile_types.json
+    (document 46) -- coastal decoration parts with their quads, and the 12 projectile types' art.
   - tools/data/coastal_decorations.json (tools/ghidra_scripts/DumpCoastalDecorations.java) --
     every real part of every coastal decoration id.
 
@@ -40,6 +42,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 REGISTRY_JSON = os.path.join(ROOT, "packs", "registry", "asset_ids.json")
 VEHICLE_PARTS_JSON = os.path.join(ROOT, "tools", "data", "vehicle_type_parts.json")
 COASTAL_DECORATIONS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decorations.json")
+COASTAL_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
+PROJECTILE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "projectile_types.json")
 
 STRONG_CONFIDENCE = {"confirmed", "code_verified"}
 
@@ -94,6 +98,21 @@ def _collect_decoration_cels(path):
     return out
 
 
+def _collect_projectile_cels(path):
+    """{cel: [labels]} from projectile_types.json (document 46): body, shadow and trail cels of
+    the 12 projectile types."""
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    out = {}
+    for t in data["types"]:
+        for key in ("body_cel", "shadow_cel", "trail_cel"):
+            if t.get(key):
+                out.setdefault(t[key], []).append(f"projectile type {t['type']} {key}")
+    return out
+
+
 def main():
     with open(REGISTRY_JSON, encoding="utf-8") as f:
         registry = json.load(f)
@@ -102,6 +121,8 @@ def main():
     sources = [
         ("vehicle", _collect_vehicle_cels(VEHICLE_PARTS_JSON)),
         ("decoration", _collect_decoration_cels(COASTAL_DECORATIONS_JSON)),
+        ("decoration", _collect_decoration_cels(COASTAL_CORNERS_JSON)),
+        ("projectile", _collect_projectile_cels(PROJECTILE_TYPES_JSON)),
     ]
 
     hard_mismatches = []
