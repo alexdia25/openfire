@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-51
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-52
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -141,7 +141,8 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Descriptor scan and wrecks (2026-09-20):** every draw descriptor found by scanning the binary; Heli rotor, flag, wreck art identified (`game/wreck_3d.gd`), the shell now uses its real cel. The object at `0x443740` remains. See [document 48](48-worked-example-descriptor-scan-and-wrecks.md).
 - **Explosion/effect frames decoded (2026-09-20):** cels 1084-1739 are 33 animation clips (frame count and timing packed into a second part layout); registry renamed `effect.anim.*`. Nothing plays them in the port yet. See [document 49](49-worked-example-effect-animations.md).
 - **Explosion records traced (2026-09-20):** 26 explosion scripts decoded (`tools/data/explosion_records.json`); which coastal id, projectile surface and fire handler plays which clip is now read from the code, and the only area-damage explosion is the mine's (class 10). See [document 50](50-worked-example-explosion-records.md).
-- **Explosions play in the port (2026-09-20):** how an explosion is drawn traced (`FUN_0042dd90`: start/end/fade progress bytes, variants, scale); destroyed pool targets and vehicle/target hits now play their traced records, and a collapsing tile changes state at the script's TILE_STATE op, not at the hit. Land/water/pavement impacts, muzzle flashes and sounds wait on tracing where a shot ends and how the muzzle offset is applied. See [document 51](51-worked-example-explosion-playback.md).
+- **Explosions play in the port (2026-09-20):** how an explosion is drawn traced (`FUN_0042dd90`: start/end/fade progress bytes, variants, scale); destroyed pool targets and vehicle/target hits now play their traced records, and a collapsing tile changes state at the script's TILE_STATE op, not at the hit. Sounds and the arcing/elevated shots (see document 52) remain. See [document 51](51-worked-example-explosion-playback.md).
+- **Muzzle and shell flight traced (2026-09-20):** the Tank's muzzle is 12 units ahead and 7 up, a level shell keeps that height and vanishes silently at its lifetime unless it hits something (so land/water/pavement impacts belong only to arcing types and the elevated shot), and the muzzle flash plays attached to the vehicle. See [document 52](52-worked-example-shell-flight-and-muzzle.md).
 
 ## Still open
 

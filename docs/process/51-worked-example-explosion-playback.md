@@ -48,11 +48,9 @@ explosion already burning -- not at the hit.
 
 - Sounds, the ground glow, neighbour tiles' `TILE_SET` / `TILE_DMG` ops, the damage box (mines), the tile's
   own position offset callback.
-- Projectile impacts on land, water and pavement: a shot in the original ends when its height reaches the
-  ground (`FUN_00414b10`), not at a fixed lifetime, and the port's shell still expires by lifetime, so where
-  it would land is not yet defined.
-- The muzzle flash: its record (`0x445138`) is spawned through `FUN_0042e0b0` with a vehicle-relative
-  offset and heading whose handling is not traced.
+- Projectile impacts on land, water and pavement, and the muzzle flash: traced in
+  [document 52](52-worked-example-shell-flight-and-muzzle.md) (a level Tank shell never lands; the flash is
+  now played).
 - The z of an effect (drawn at the ground here).
 
 **Next:** back to [the next-steps doc](NEXT_STEPS.md).
