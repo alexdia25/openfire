@@ -115,5 +115,5 @@ scripted run: shots 1-5 leave 5..1 HP, shot 6 destroys and triggers the pool rep
 - Ammo (150, rearm tiles) and the muzzle offset; the state-flag "in water" speed cap (what sets
   state `+0x70` is untraced); auto-steer; the `+0xec` tilt smoothing.
 - Jeep/MSV/Heli behaviour in the port (they aren't playable here), and their weapon slots.
-- Vehicle-vs-vehicle damage (health `+0xe8` = 100/250/?/200 looks like hit points; untraced).
+- Vehicle-vs-vehicle damage: solved in [document 47](47-worked-example-vehicle-damage.md) (hit points are record `+0x28`, not `+0xe8`).
 - The 62 -> 63 stage of a building.

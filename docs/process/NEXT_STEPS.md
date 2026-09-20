@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-46
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-47
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -137,6 +137,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Tank movement traced from RFIRE.BIN (2026-09-20):** speed 65.6 units/s (~2 tiles/s), reverse 25, accel 195/s², friction 97.6/s², turn 87.9°/s, from the Tank record read by `FUN_0040c190`, on a 16 ms (62.5 Hz) tick. Also the pavement 1.2× cap, the Tank shell (3.0 units/tick, 1.28 s, damage 1, 20-tick cooldown) and per-hit tile hit points (a building now takes 6 shots); other vehicles' values are tabulated but not applied. See [document 45](45-worked-example-traced-vehicle-movement.md).
 - **Registry terrain names corrected (2026-09-20):** cels 0-72 were mislabelled (water called dune/sand, sand called water/forest, grass called forest_water); renamed by what each cel shows. See [document 44](44-worked-example-traced-world-scale.md), open-items list.
 - **Registry audit against code (2026-09-20):** vehicle parts are groups of five cels (tan, green, yellow, two more), structures pair tan/green, projectile art and stats identified, all 84 coastal decorations labelled by look, 200+ cels renamed. Unresolved: heli rotor/missile bars, explosion frame lists, several unowned families. See [document 46](46-worked-example-registry-audit.md).
+- **Vehicle hit points and armour traced; enemies can now be killed (2026-09-20):** the vehicle class's hit callback `FUN_0040c460`, explosion objects identified as bytecode scripts, the water state. See [document 47](47-worked-example-vehicle-damage.md).
 
 ## Still open
 
@@ -152,8 +153,8 @@ See plan section 4 for the current, precise state of each — this list is just 
   text exists anywhere in the binary (a raw byte search came back empty), so this needs a
   non-string anchor — probably tracing what happens when a vehicle's destruction count/health
   reaches zero, from the vehicle side rather than the building side (section 4, item 1).
-- **Vehicle health and vehicle-vs-vehicle damage** — the Tank record's `+0xe8` (100; Jeep 250, Heli 200) looks like hit points but is unconfirmed, and nothing traced yet says how a projectile hit reaches a vehicle (document 45). Enemies can't be killed.
-- **Smaller traced-but-unfinished gameplay pieces (document 45):** the muzzle offset (placeholder), the "in water" speed cap (what sets state `+0x70` is untraced), the building 62 -> 63 stage, auto-steer. Ammo (150 rounds, rearm tiles) is deliberately skipped for now (user, 2026-09-20). Jeep/MSV/Heli movement and weapon values are tabulated but not applied.
+- **Vehicle damage: partly resolved (document 47).** Hit points/armour traced (Tank 22/0.3, Jeep 1/0, MSV 26/0.5, Heli 15/0.2) and applied to the Tank; hit-flash, the wreck object, the dying handler, water sinking, explosion damage to vehicles, the real collision shape and the life system remain.
+- **Smaller traced-but-unfinished gameplay pieces (document 45):** the muzzle offset (placeholder), the "in water" speed cap (what sets state `+0x70` is untraced), the building 62 -> 63 stage, auto-steer (the "in water" cap is now understood, document 47, but not modelled). Ammo (150 rounds, rearm tiles) is deliberately skipped for now (user, 2026-09-20). Jeep/MSV/Heli movement and weapon values are tabulated but not applied.
 - Team-colouring *mechanism* (separate cels vs. palette swap) — the colours themselves are settled, see above (section 4, item 5)
 - 3DO support: base game + "Maps o' Death" expansion — new goal, **deprioritized** until the core PC-port game runs (section 4, item 6)
 - 4-player support — new goal, not yet started (section 4, item 7)
