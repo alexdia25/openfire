@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-56
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-57
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -147,6 +147,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Vehicle collision traced and applied (2026-09-20):** vehicles are blocked by tile shapes and other vehicles (turn undone, then a quarter-speed bounce), bushes and crates are flattened above 0.5 units/tick, rocks and zones are passed; See [document 54](54-worked-example-vehicle-collision.md).
 - **Fuel and service zones traced and applied (2026-09-20):** 400 fuel burns one per 32 units driven and destroys the vehicle at 0; standing over a pump's zone refuels 62.5 per second. Rearm zones (ammo 150, refilled ~1 per tick) are traced but not applied (ammo deliberately skipped); the kind-3 zones turned out to be team gates (document 56). See [document 55](55-worked-example-fuel-and-service-zones.md).
 - **Team gates traced and applied (2026-09-20):** coastal ids 43/44 are gates that open for an own-team vehicle (bars slide apart at 0.5/tick, the door leaves retract, the light turns blue), stay open while it is within 32 units, close behind it and hand the tile back; enemy-colour gates stay shut and shells damage the tile through them. See [document 56](56-worked-example-team-gates.md).
+- **The flag and the match end (2026-09-20):** only a Jeep can take the flag (confirmed in three places); it hangs from the carrier, the action key drops or takes it, and a Jeep carrying the other pool's flag onto its home tile wins the match. The Jeep is now playable (traced stats, shape, fuel; no gun yet); `V` switches Tank/Jeep at the home tile and `F` is the flag action (port conveniences). See [document 57](57-worked-example-flag-and-match-end.md).
 
 ## Still open
 

@@ -63,6 +63,7 @@ COASTAL_DAMAGE_JSON = os.path.join(ROOT, "tools", "data", "coastal_damage.json")
 EXPLOSION_RECORDS_JSON = os.path.join(ROOT, "tools", "data", "explosion_records.json")
 COASTAL_SHAPES_JSON = os.path.join(ROOT, "tools", "data", "coastal_shapes.json")
 GATES_JSON = os.path.join(ROOT, "tools", "data", "gates.json")
+VEHICLE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "vehicle_types.json")
 COASTAL_DECORATION_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
 
 PACK_ID = "original_pc"
@@ -235,6 +236,18 @@ def main():
     with open(os.path.join(args.out_dir, "pack.json"), "w") as f:
         json.dump(pack_manifest, f, indent=2, sort_keys=True)
         f.write("\n")
+
+    # Vehicle types (document 57): stats and collision shape, and each part with its sprite ids (tan, green).
+    if os.path.exists(VEHICLE_TYPES_JSON):
+        with open(VEHICLE_TYPES_JSON) as f:
+            vt = json.load(f)["types"]
+        for t in vt.values():
+            for part in t["parts"]:
+                n = 2 if part["flags"] & 8 else 1
+                part["sprite_ids"] = [registry[str(part["cel"] + v)]["id"] for v in range(n)]
+        os.makedirs(os.path.join(args.out_dir, "vehicles"), exist_ok=True)
+        with open(os.path.join(args.out_dir, "vehicles", "vehicle_types.json"), "w") as f:
+            json.dump({"types": vt}, f)
 
     # Team gates (document 56): parts with their sprite ids resolved (flag 8 = +variant), for game/gate.gd.
     if os.path.exists(GATES_JSON):
