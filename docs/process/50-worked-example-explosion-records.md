@@ -100,10 +100,7 @@ rocket smoke trail `0x445238` (cel 1529) from the projectile update `FUN_0041510
 
 ## Still open
 
-- **How a clip's frame is chosen.** The animated parts carry a frame count and a timing byte, but the
-  draw path for parts with that layout (they are not drawn by the generic `FUN_0042b4e0`, which uses
-  8-int parts) has not been traced, so nothing here is played in the port. Doing it from the duration
-  and the frame count would be a guess.
+- **How a clip's frame is chosen:** resolved in [document 51](51-worked-example-explosion-playback.md).
 - Field `+0x28` of the coastal entries; what spawns mines; the sub-script table use in `0x444c80`.
 - Explosion damage to vehicles is now defined (record `0x445058`, 1.0 per tick in a growing box) but is
   only reachable through mines, which are not spawned by anything traced.

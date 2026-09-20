@@ -60,6 +60,7 @@ DEFAULT_OUT = os.path.join(ROOT, "packs", "original_pc")
 REGISTRY_JSON = os.path.join(ROOT, "packs", "registry", "asset_ids.json")
 COASTAL_DECORATIONS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decorations.json")
 COASTAL_DAMAGE_JSON = os.path.join(ROOT, "tools", "data", "coastal_damage.json")
+EXPLOSION_RECORDS_JSON = os.path.join(ROOT, "tools", "data", "explosion_records.json")
 COASTAL_DECORATION_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
 
 PACK_ID = "original_pc"
@@ -232,6 +233,32 @@ def main():
     with open(os.path.join(args.out_dir, "pack.json"), "w") as f:
         json.dump(pack_manifest, f, indent=2, sort_keys=True)
         f.write("\n")
+
+    # Explosion records (document 50/51): per record its scale/rate/duration and parts with the frame sprite
+    # ids (cel + 0 .. end - start) resolved through the registry, plus the coastal-id -> destroy-effect map
+    # and the projectile surface tables. Consumed by game/pack.gd's get_explosion().
+    if os.path.exists(EXPLOSION_RECORDS_JSON):
+        with open(EXPLOSION_RECORDS_JSON) as f:
+            ex = json.load(f)
+        records = {}
+        by_coastal = {}
+        for addr, r in ex["records"].items():
+            parts = []
+            for part in r["parts"]:
+                frames = []
+                for k in range(part["end"] - part["start"] + 1):
+                    entry = registry.get(str(part["cel"] + k))
+                    frames.append(entry["id"] if entry else "")
+                parts.append({"start": part["start"], "end": part["end"], "fade": part["fade"],
+                              "variant_mode": part["variant_mode"], "corners": part["corners"], "frames": frames})
+            records[addr] = {"duration": r["duration"], "rate_per_tick": r["rate_per_tick"], "scale": r["scale"],
+                             "parts": parts, "script": r["script"]}
+            for cid in r["coastal_destroy_effect_ids"]:
+                by_coastal[str(cid)] = addr
+        os.makedirs(os.path.join(args.out_dir, "effects"), exist_ok=True)
+        with open(os.path.join(args.out_dir, "effects", "explosions.json"), "w") as f:
+            json.dump({"records": records, "coastal_destroy_effect": by_coastal,
+                       "impact_tables": ex["impact_tables"]}, f)
 
     levels_dir = os.path.join(args.out_dir, "levels")
     n_levels = 0

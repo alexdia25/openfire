@@ -4,6 +4,11 @@ Document 48 ended with the explosion cels (1084 upward) owned by no draw descrip
 `0x44aa80` turned out to be render-mode tables (blend/shadow modes passed to the part drawer), not
 frames. The frames are referenced from a second part layout inside ordinary descriptors.
 
+> **Correction (document 51):** the flags bytes below were misread here. Byte 0 is the *start* progress, byte 1
+> the *end* progress, byte 2 the *fade-start* progress, and byte 3 a variant selector; `frames` and `timing`
+> in `tools/data/effect_animations.json` are now `end` and `fade`. The clip boundaries and the renaming
+> stand (they came from the cels themselves).
+
 ## The animated part layout
 
 Some descriptors (for example the one at `0x443e00`: corner count `0x0c`, corners `0x443cf0`, 3 parts at
