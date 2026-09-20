@@ -35,7 +35,7 @@ of the tank, etc." Our own render of that spot matched the scene, so the compari
 Cels 73-79, 81-83, 88, 89 were labelled `terrain.structure.rooftop_red.*` but are grey pavement;
 renamed `terrain.ground.pavement.01-12`. Cel 87 (wooden planks) -> `terrain.ground.wood_planks.04`.
 Hand-edited (not via `main()`), noted in `classify_batch1.py`, pack rebuilt, screenshot identical.
-Not done: cels 52-55 are labelled water/forest_water but look like plain sand in the atlas; unverified.
+Not done here: cels 52-55 are labelled water/forest_water but look like plain sand in the atlas. (Verified and fixed 2026-09-20, see the update in document 44.)
 
 ## Trees (same day, follow-up) -- SUPERSEDED by document 44
 

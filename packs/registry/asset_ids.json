@@ -3,14 +3,14 @@
     "0": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.ground.water_open.01",
-      "note": "was misclassified as sand under the old wrong palette; actually open water"
+      "id": "terrain.ground.sand_plain.01",
+      "note": "plain sand, no water or grass"
     },
     "1": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.ground.water_open.02",
-      "note": "was misclassified as sand under the old wrong palette; actually open water"
+      "id": "terrain.ground.water_open.01",
+      "note": "plain open water, no coastline"
     },
     "10": {
       "category": "terrain",
@@ -6604,7 +6604,8 @@
     "2": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.ground.sand_warm"
+      "id": "terrain.ground.water_open.02",
+      "note": "plain open water, no coastline"
     },
     "20": {
       "category": "terrain",
@@ -7811,9 +7812,9 @@
     },
     "24": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.sand_water.21",
-      "note": "thin water sliver at tile edge"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.03",
+      "note": "plain open water, no coastline"
     },
     "240": {
       "category": "vehicle",
@@ -7876,9 +7877,9 @@
     },
     "25": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.sand_water.22",
-      "note": "thin water sliver at tile edge"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.04",
+      "note": "plain open water, no coastline"
     },
     "250": {
       "category": "prop",
@@ -7942,9 +7943,9 @@
     },
     "26": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.sand_light.b",
-      "note": "plain, no water visible"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.05",
+      "note": "plain open water, no coastline"
     },
     "260": {
       "category": "prop",
@@ -8008,9 +8009,9 @@
     },
     "27": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.sand_water.23",
-      "note": "thin water sliver at tile edge"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.06",
+      "note": "plain open water, no coastline"
     },
     "270": {
       "category": "prop",
@@ -8073,9 +8074,9 @@
     },
     "28": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.sand_light.c",
-      "note": "plain, no water visible"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.07",
+      "note": "plain open water, no coastline"
     },
     "280": {
       "category": "prop",
@@ -8136,9 +8137,9 @@
     },
     "29": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.sand_water.24",
-      "note": "thin water sliver at tile edge"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.08",
+      "note": "plain open water, no coastline"
     },
     "290": {
       "category": "vehicle",
@@ -8201,14 +8202,14 @@
     "3": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.ground.water_open.03",
-      "note": "was misclassified as forest under the old wrong palette; actually open water"
+      "id": "terrain.ground.sand_plain.02",
+      "note": "plain sand, no water or grass"
     },
     "30": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.sand_light.d",
-      "note": "plain, no water visible"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.09",
+      "note": "plain open water, no coastline"
     },
     "300": {
       "category": "vehicle",
@@ -8272,9 +8273,9 @@
     },
     "31": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.sand_light.e",
-      "note": "plain, no water visible"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.10",
+      "note": "plain open water, no coastline"
     },
     "310": {
       "category": "prop",
@@ -8335,8 +8336,9 @@
     },
     "32": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.01"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.11",
+      "note": "plain open water, no coastline"
     },
     "320": {
       "category": "prop",
@@ -8398,8 +8400,9 @@
     },
     "33": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.02"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.12",
+      "note": "plain open water, no coastline"
     },
     "330": {
       "category": "prop",
@@ -8463,8 +8466,9 @@
     },
     "34": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.03"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.13",
+      "note": "plain open water, no coastline"
     },
     "340": {
       "category": "reserved",
@@ -8527,8 +8531,9 @@
     },
     "35": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.04"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.14",
+      "note": "plain open water, no coastline"
     },
     "350": {
       "category": "reserved",
@@ -8592,8 +8597,9 @@
     },
     "36": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.05"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.15",
+      "note": "plain open water, no coastline"
     },
     "360": {
       "category": "prop",
@@ -8657,8 +8663,9 @@
     },
     "37": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.06"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.16",
+      "note": "plain open water, no coastline"
     },
     "370": {
       "category": "prop",
@@ -8721,8 +8728,9 @@
     },
     "38": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.07"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.17",
+      "note": "plain open water, no coastline"
     },
     "380": {
       "category": "structure",
@@ -8783,8 +8791,9 @@
     },
     "39": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.08"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.18",
+      "note": "plain open water, no coastline"
     },
     "390": {
       "category": "prop",
@@ -8848,8 +8857,9 @@
     },
     "40": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.09"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.19",
+      "note": "plain open water, no coastline"
     },
     "400": {
       "category": "effect",
@@ -8906,8 +8916,9 @@
     },
     "41": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.10"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.20",
+      "note": "plain open water, no coastline"
     },
     "410": {
       "category": "reserved",
@@ -8966,8 +8977,9 @@
     },
     "42": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.11"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.21",
+      "note": "plain open water, no coastline"
     },
     "420": {
       "category": "reserved",
@@ -9026,8 +9038,9 @@
     },
     "43": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.12"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.22",
+      "note": "plain open water, no coastline"
     },
     "430": {
       "category": "prop",
@@ -9087,8 +9100,9 @@
     },
     "44": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.13"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.23",
+      "note": "plain open water, no coastline"
     },
     "440": {
       "category": "reserved",
@@ -9150,8 +9164,9 @@
     },
     "45": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.14"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.24",
+      "note": "plain open water, no coastline"
     },
     "450": {
       "category": "effect",
@@ -9214,8 +9229,9 @@
     },
     "46": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.15"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.25",
+      "note": "plain open water, no coastline"
     },
     "460": {
       "category": "ui",
@@ -9272,8 +9288,9 @@
     },
     "47": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.16"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.26",
+      "note": "plain open water, no coastline"
     },
     "470": {
       "category": "prop",
@@ -9333,8 +9350,9 @@
     },
     "48": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.ground.dune_plain.17"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.27",
+      "note": "plain open water, no coastline"
     },
     "480": {
       "category": "character",
@@ -9393,9 +9411,9 @@
     },
     "49": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.dune_water.01",
-      "note": "soft ripple edge, no hard coastline border"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.28",
+      "note": "plain open water, no coastline"
     },
     "490": {
       "category": "reserved",
@@ -9464,9 +9482,9 @@
     },
     "50": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.dune_water.02",
-      "note": "soft ripple edge, no hard coastline border"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.29",
+      "note": "plain open water, no coastline"
     },
     "500": {
       "category": "character",
@@ -9526,9 +9544,9 @@
     },
     "51": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.dune_water.03",
-      "note": "soft ripple edge, no hard coastline border"
+      "confidence": "visual",
+      "id": "terrain.ground.water_open.30",
+      "note": "plain open water, no coastline"
     },
     "510": {
       "category": "effect",
@@ -9591,8 +9609,8 @@
     "52": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "terrain.ground.water_open.04",
-      "note": "was misclassified as forest under the old wrong palette; actually open water"
+      "id": "terrain.ground.sand_plain.03",
+      "note": "plain sand, no water or grass"
     },
     "520": {
       "category": "prop",
@@ -9653,8 +9671,9 @@
     },
     "53": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.01"
+      "confidence": "visual",
+      "id": "terrain.ground.sand_plain.04",
+      "note": "plain sand, no water or grass"
     },
     "530": {
       "category": "prop",
@@ -9718,8 +9737,9 @@
     },
     "54": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.02"
+      "confidence": "visual",
+      "id": "terrain.ground.sand_plain.05",
+      "note": "plain sand, no water or grass"
     },
     "540": {
       "category": "prop",
@@ -9782,8 +9802,9 @@
     },
     "55": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.03"
+      "confidence": "visual",
+      "id": "terrain.ground.sand_plain.06",
+      "note": "plain sand, no water or grass"
     },
     "550": {
       "category": "prop",
@@ -9847,8 +9868,9 @@
     },
     "56": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.04"
+      "confidence": "visual",
+      "id": "terrain.ground.sand_plain.07",
+      "note": "plain sand, no water or grass"
     },
     "560": {
       "category": "prop",
@@ -9912,8 +9934,9 @@
     },
     "57": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.05"
+      "confidence": "visual",
+      "id": "terrain.ground.sand_plain.08",
+      "note": "plain sand, no water or grass"
     },
     "570": {
       "category": "character",
@@ -9974,8 +9997,9 @@
     },
     "58": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.06"
+      "confidence": "visual",
+      "id": "terrain.ground.sand_plain.09",
+      "note": "plain sand, no water or grass"
     },
     "580": {
       "category": "prop",
@@ -10036,8 +10060,9 @@
     },
     "59": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.07"
+      "confidence": "visual",
+      "id": "terrain.ground.sand_plain.10",
+      "note": "plain sand, no water or grass"
     },
     "590": {
       "category": "effect",
@@ -10106,8 +10131,9 @@
     },
     "60": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.08"
+      "confidence": "visual",
+      "id": "terrain.ground.grass_plain.01",
+      "note": "plain grass"
     },
     "600": {
       "category": "effect",
@@ -10170,8 +10196,9 @@
     },
     "61": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.09"
+      "confidence": "visual",
+      "id": "terrain.coast.grass_sand.01",
+      "note": "grass meeting sand (edge/corner blend)"
     },
     "610": {
       "category": "prop",
@@ -10233,8 +10260,9 @@
     },
     "62": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.10"
+      "confidence": "visual",
+      "id": "terrain.coast.grass_sand.02",
+      "note": "grass meeting sand (edge/corner blend)"
     },
     "620": {
       "category": "effect",
@@ -10295,8 +10323,9 @@
     },
     "63": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.11"
+      "confidence": "visual",
+      "id": "terrain.coast.grass_sand.03",
+      "note": "grass meeting sand (edge/corner blend)"
     },
     "630": {
       "category": "prop",
@@ -10360,8 +10389,9 @@
     },
     "64": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.12"
+      "confidence": "visual",
+      "id": "terrain.coast.grass_sand.04",
+      "note": "grass meeting sand (edge/corner blend)"
     },
     "640": {
       "category": "vehicle",
@@ -10425,8 +10455,9 @@
     },
     "65": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.13"
+      "confidence": "visual",
+      "id": "terrain.coast.grass_sand.05",
+      "note": "grass meeting sand (edge/corner blend)"
     },
     "650": {
       "category": "vehicle",
@@ -10486,8 +10517,9 @@
     },
     "66": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.14"
+      "confidence": "visual",
+      "id": "terrain.coast.grass_sand.06",
+      "note": "grass meeting sand (edge/corner blend)"
     },
     "660": {
       "category": "character",
@@ -10542,8 +10574,9 @@
     },
     "67": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.15"
+      "confidence": "visual",
+      "id": "terrain.coast.grass_sand.07",
+      "note": "grass meeting sand (edge/corner blend)"
     },
     "670": {
       "category": "character",
@@ -10597,8 +10630,9 @@
     },
     "68": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.16"
+      "confidence": "visual",
+      "id": "terrain.coast.grass_sand.08",
+      "note": "grass meeting sand (edge/corner blend)"
     },
     "680": {
       "category": "character",
@@ -10652,8 +10686,9 @@
     },
     "69": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.17"
+      "confidence": "visual",
+      "id": "terrain.coast.grass_sand.09",
+      "note": "grass meeting sand (edge/corner blend)"
     },
     "690": {
       "category": "character",
@@ -10712,8 +10747,9 @@
     },
     "70": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.18"
+      "confidence": "visual",
+      "id": "terrain.coast.grass_sand.10",
+      "note": "grass meeting sand (edge/corner blend)"
     },
     "700": {
       "category": "character",
@@ -10767,8 +10803,9 @@
     },
     "71": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.19"
+      "confidence": "visual",
+      "id": "terrain.coast.grass_sand.11",
+      "note": "grass meeting sand (edge/corner blend)"
     },
     "710": {
       "category": "character",
@@ -10822,8 +10859,9 @@
     },
     "72": {
       "category": "terrain",
-      "confidence": "visual_group",
-      "id": "terrain.coast.forest_water.20"
+      "confidence": "visual",
+      "id": "terrain.coast.grass_sand.12",
+      "note": "grass meeting sand (edge/corner blend)"
     },
     "720": {
       "category": "character",

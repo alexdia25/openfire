@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-18
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-45
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -134,6 +134,8 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 
 - **Camera calibrated to the traced focal length (300 -> 56.6 degree HFOV, height 212), and the Tank scaled to 0.4 (estimated from user's Win95 reference shots, not traced)** — the tank had been built ~2.7x too wide for the road. Also fixed mislabeled pavement cels in the registry (`rooftop_red` -> `pavement`). See [document 43](43-worked-example-camera-and-tank-scale.md).
 - **Sizes traced from RFIRE.BIN instead of estimated (2026-09-19):** world unit = 16.16 fixed, tile = 32 units, so the Tank is exactly 24 units wide (scale 0.375), and every decoration part now renders from its real quad corners — including the previously-missed chained sub-object that holds palm trunks and ground shadows, traced shadow strength, the original's per-tile jitter, team-colour variants, and the base buildings (coastal ids 49/50). See [document 44](44-worked-example-traced-world-scale.md).
+- **Tank movement traced from RFIRE.BIN (2026-09-20):** speed 65.6 units/s (~2 tiles/s), reverse 25, accel 195/s², friction 97.6/s², turn 87.9°/s, from the Tank record read by `FUN_0040c190`, on a 16 ms (62.5 Hz) tick. Also the pavement 1.2× cap, the Tank shell (3.0 units/tick, 1.28 s, damage 1, 20-tick cooldown) and per-hit tile hit points (a building now takes 6 shots); other vehicles' values are tabulated but not applied. See [document 45](45-worked-example-traced-vehicle-movement.md).
+- **Registry terrain names corrected (2026-09-20):** cels 0-72 were mislabelled (water called dune/sand, sand called water/forest, grass called forest_water); renamed by what each cel shows. See [document 44](44-worked-example-traced-world-scale.md), open-items list.
 
 ## Still open
 
@@ -149,6 +151,8 @@ See plan section 4 for the current, precise state of each — this list is just 
   text exists anywhere in the binary (a raw byte search came back empty), so this needs a
   non-string anchor — probably tracing what happens when a vehicle's destruction count/health
   reaches zero, from the vehicle side rather than the building side (section 4, item 1).
+- **Vehicle health and vehicle-vs-vehicle damage** — the Tank record's `+0xe8` (100; Jeep 250, Heli 200) looks like hit points but is unconfirmed, and nothing traced yet says how a projectile hit reaches a vehicle (document 45). Enemies can't be killed.
+- **Smaller traced-but-unfinished gameplay pieces (document 45):** the muzzle offset (placeholder), the "in water" speed cap (what sets state `+0x70` is untraced), the building 62 -> 63 stage, auto-steer. Ammo (150 rounds, rearm tiles) is deliberately skipped for now (user, 2026-09-20). Jeep/MSV/Heli movement and weapon values are tabulated but not applied.
 - Team-colouring *mechanism* (separate cels vs. palette swap) — the colours themselves are settled, see above (section 4, item 5)
 - 3DO support: base game + "Maps o' Death" expansion — new goal, **deprioritized** until the core PC-port game runs (section 4, item 6)
 - 4-player support — new goal, not yet started (section 4, item 7)
@@ -181,17 +185,17 @@ See plan section 4 for the current, precise state of each — this list is just 
   same corner-projection function vehicles use (document 35). A Ghidra script then extracted
   the real catalogue: **82 of 91 coastal ids resolved to real, registry-verified decoration
   definitions** (`tools/data/coastal_decorations.json`; coastal id 1, for example, is a
-  three-part scattered bush cluster; 3 ids remain unresolved, a small well-scoped follow-up).
+  three-part scattered bush cluster). **Superseded by document 44:** the per-part quad corners of
+  84 ids (chained sub-objects and building ids 49/50 included) are now extracted from the
+  descriptors, replacing the hand-made palm-trunk composition below; id 76 is empty and unused.
   That catalogue is now wired all the way through: `tools/convert_rfm.py` records every
   tile's coastal id, `tools/build_pack.py` resolves it to real sprite ids, and
   `game/terrain_tile_renderer.gd` draws each tile's decoration parts (baked, like the terrain
   itself, since decorations never move after level load) — both the flat 2D scene and the 3D
   scene get the same real, individually-readable coastline foliage for free. Follow-up: the
   palm-frond cels had no trunk pixels of their own, so the fronds floated with nothing
-  visibly holding them up. A real, matching trunk cel (`decoration.tree.palm`) sat completely
-  unused in the registry — now drawn under any decoration built entirely from a small,
-  hand-verified set of frond cels, an explicit compositional choice rather than a new RE
-  finding. See [document 35](35-worked-example-coastal-decoration-mechanism.md) and
+  visibly holding them up. (This was later found to be an invented composition: the real trunk
+  and ground shadow are a chained sub-object of the same descriptor, document 44.) See [document 35](35-worked-example-coastal-decoration-mechanism.md) and
   [document 36](36-worked-example-decorations-in-3d.md); plan section 4 item 14.
   **Update (2026-09-09, document 41) -- user-flagged: baked decorations can't look like they
   stand up.** Document 36's "baking it alongside the terrain is exactly as correct as a live
@@ -200,9 +204,8 @@ See plan section 4 for the current, precise state of each — this list is just 
   dirt no matter how correctly the camera projects it. Direct atlas inspection confirmed the
   canopy cels are drawn from above (meant to lie flat) while the trunk cel is drawn side-on
   (meant to stand) -- two different shapes, not one. New `game/decoration_field_3d.gd` gives
-  every decoration real Node3D presence: canopy-only decorations get a real vertical trunk
-  raising a real elevated flat canopy, everything else becomes a real ground-level quad instead
-  of baked texture. `game/terrain_tile_renderer.gd` is tile-grid-only again. Confirmed by
+  every decoration real Node3D presence (since rebuilt from the traced quad corners, document 44,
+  rather than the hand-made trunk-and-canopy composition first used). `game/terrain_tile_renderer.gd` is tile-grid-only again. Confirmed by
   screenshot: trees now show standing trunks and layered canopies, not flat green ground marks.
   See [document 41](41-worked-example-decorations-as-3d-entities.md).
 
@@ -238,4 +241,3 @@ been retired as a whole, per direct user request: marked-superseded, not deleted
 `game/terrain_view_3d.gd`, the code is otherwise untouched and still runs if loaded directly
 (`res://game/terrain_view.tscn`), and it will not be maintained or re-verified against future
 gameplay/rendering changes. See plan section 2.2.
-- **Tank movement traced from RFIRE.BIN (2026-09-20):** speed 65.6 units/s (~2 tiles/s), reverse 25, accel 195/s², friction 97.6/s², turn 87.9°/s, from the Tank record read by `FUN_0040c190`, on a 16 ms (62.5 Hz) tick. Also the pavement 1.2× cap, the Tank shell (3.0 units/tick, 1.28 s, damage 1, 20-tick cooldown) and per-hit tile hit points (a building now takes 6 shots); other vehicles' values are tabulated but not applied. See [document 45](45-worked-example-traced-vehicle-movement.md).

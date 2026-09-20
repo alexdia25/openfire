@@ -111,6 +111,15 @@ document 22 placeholder -- far too fast for a 24-unit tank).
 - Angle-bucket lists 1-7 (vehicle-style rotation) are unused by decorations and not extracted.
 - Part culling flags (bits 0/1) rely on the depth buffer here rather than the original's
   screen-space test.
-- Cels 52-55 / 48-51 biome-name swap (registry) is still unrenamed.
+- ~~Cels 52-55 / 48-51 biome-name swap~~ **Fixed 2026-09-20.** A contact sheet of cels 0-72 showed
+  the whole range was mislabelled, not just those: 0, 3 and 52-59 are plain sand; 1, 2 and 24-51 plain
+  open water (they were `sand_water`/`sand_light`/`dune_plain`/`dune_water`); 60 is plain grass and
+  61-72 are grass/sand coast blends (they were `forest_water`); 4-23 are the real sand/water coast
+  pieces. Renamed to `terrain.ground.sand_plain.01-10`, `water_open.01-30`, `grass_plain.01`,
+  `terrain.coast.grass_sand.01-12` by direct registry edit with a matching `put()` block in
+  `classify_batch2.py`; nothing in `game/` referenced the old names, and a screenshot after the pack
+  rebuild is unchanged.
+- Coastal id 76 has corner count 0 -- an empty descriptor used by no level -- so there is nothing to
+  extract; closed.
 
 **Next:** back to [the next-steps doc](NEXT_STEPS.md).
