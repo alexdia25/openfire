@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-54
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-55
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -144,7 +144,8 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Explosions play in the port (2026-09-20):** how an explosion is drawn traced (`FUN_0042dd90`: start/end/fade progress bytes, variants, scale); destroyed pool targets and vehicle/target hits now play their traced records, and a collapsing tile changes state at the script's TILE_STATE op, not at the hit. Sounds and the arcing/elevated shots (see document 52) remain. See [document 51](51-worked-example-explosion-playback.md).
 - **Muzzle and shell flight traced (2026-09-20):** the Tank's muzzle is 12 units ahead and 7 up, a level shell keeps that height and vanishes silently at its lifetime unless it hits something (so land/water/pavement impacts belong only to arcing types and the elevated shot), and the muzzle flash plays attached to the vehicle. See [document 52](52-worked-example-shell-flight-and-muzzle.md).
 - **Collision shapes traced (2026-09-20):** shells are swept points tested against real shapes -- a 15 x 22.5 polygon for the Tank, per-id boxes for 62 coastal ids -- replacing the placeholder hit radii; any tile with a shape can be shot and destroyed (palms burn to debris via the op-21 timer). The pool accounting for non-active candidates remains. See [document 53](53-worked-example-collision-shapes.md).
-- **Vehicle collision traced and applied (2026-09-20):** vehicles are blocked by tile shapes and other vehicles (turn undone, then a quarter-speed bounce), bushes and crates are flattened above 0.5 units/tick, rocks and zones are passed; the fuel model (400 units, `|speed| x dt / 32` per tick, destroyed at 0) is traced but not applied. See [document 54](54-worked-example-vehicle-collision.md).
+- **Vehicle collision traced and applied (2026-09-20):** vehicles are blocked by tile shapes and other vehicles (turn undone, then a quarter-speed bounce), bushes and crates are flattened above 0.5 units/tick, rocks and zones are passed; See [document 54](54-worked-example-vehicle-collision.md).
+- **Fuel and service zones traced and applied (2026-09-20):** 400 fuel burns one per 32 units driven and destroys the vehicle at 0; standing over a pump's zone refuels 62.5 per second. Rearm zones (ammo 150, refilled ~1 per tick) and pick-up zones are traced but not applied (ammo deliberately skipped, pick-ups untraced beyond spawning a carried object). See [document 55](55-worked-example-fuel-and-service-zones.md).
 
 ## Still open
 

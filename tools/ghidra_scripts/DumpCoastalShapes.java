@@ -38,6 +38,7 @@ public class DumpCoastalShapes extends GhidraScript {
                     int type = s32(sh);
                     StringBuilder sb = new StringBuilder("SHAPE " + id + " desc=0x" + Long.toHexString(d));
                     sb.append(" type=").append(type);
+                    sb.append(" b8=").append(mem.getByte(toAddr(sh + 8)) & 0xFF);
                     sb.append(" b9=").append(mem.getByte(toAddr(sh + 9)) & 0xFF);
                     sb.append(" layer=").append(mem.getByte(toAddr(sh + 10)) & 0xFF);
                     sb.append(" mask=").append(mem.getByte(toAddr(sh + 11)) & 0xFF);

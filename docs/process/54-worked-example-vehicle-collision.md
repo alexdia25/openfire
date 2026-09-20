@@ -35,7 +35,7 @@ Only these coastal ids have one (all return 0, i.e. defer to "blocked", for a mo
 | --- | --- | --- |
 | `FUN_00436640` | 1, 2, 6, 11, 12, 13 (bushes) | shapes with mask 4 are ignored; a Jeep (type 1) is blocked; otherwise **faster than 0.5 units/tick it flattens the tile** (damage 100 through `FUN_0042e8c0`, with the entry's field `+0x28` swapped in as the effect record, and the tile's variant bits set to 1) and passes; slower, it is blocked |
 | `FUN_00436610` | 7-10 (rocks) | everything but a Jeep passes over them |
-| `FUN_004366f0` | 14, 39-44 | a shape flagged as a zone (byte `+9` bit 1) is passed and remembered in the vehicle state (`+0x68`, `+0x6c`, read by the ammo/rearm code `FUN_0040c540`); other shapes block |
+| `FUN_004366f0` | 14, 39-44 | a shape flagged as a zone (byte `+8` bit 1; document 55 corrects an earlier reading of byte `+9`) is passed and remembered in the vehicle state (`+0x68`, `+0x6c`, read by the ammo/rearm code `FUN_0040c540`); other shapes block |
 | `FUN_00436a50` | 47, 48 (crates) | faster than 0.5 units/tick: flattened by damage 100 with the ordinary destroy effect, and passed; slower: blocked |
 | `FUN_00432d80` | 63 | if one of the two tracked objects in the list at `0x45ae48` sits on this tile and is not yet carried, attaches it to the vehicle (`FUN_0042cc50`) and plays a sound; returns 0, so the tile still blocks |
 

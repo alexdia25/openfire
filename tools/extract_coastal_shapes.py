@@ -3,7 +3,7 @@
 shapes of the id's FIRST descriptor plus the tile callback (coastal entry +0x14, 0x0 = none; document 54) (FUN_0042bb10 tests only `*(descriptor + 8)`, not the chained
 sub-objects). Usage: python extract_coastal_shapes.py <dump.txt>
 
-A shape: `flags` is the shape's byte +9 (bit 1 = a trigger zone, document 54); type 2 = axis-aligned box [minx, miny, maxx, maxy], type 3 = convex polygon (also has a box), all
+A shape: `b8` is the shape's byte +8 (bit 1 = a zone a vehicle may enter) and `b9` byte +9 (its kind: 1 refuel, 2 rearm, 3 pick-up; document 55); type 2 = axis-aligned box [minx, miny, maxx, maxy], type 3 = convex polygon (also has a box), all
 relative to the tile centre plus the shape's own offset; z0..z1 its height range; `layer` / `mask` bit sets
 (two shapes collide only if a.mask & b.layer and b.mask & a.layer).
 """
@@ -19,7 +19,7 @@ for line in open(sys.argv[1]):
         cur = int(m.group(1))
         out[str(cur)] = {"jitter": m.group(2) == "true", "callback": m.group(3), "shapes": []}
         continue
-    m = re.match(r"SHAPE (\d+) desc=(0x\w+) type=(\d+) b9=(\d+) layer=(\d+) mask=(\d+) z=([-\d.]+),([-\d.]+) off=([-\d.]+),([-\d.]+)(.*)", line)
+    m = re.match(r"SHAPE (\d+) desc=(0x\w+) type=(\d+) b8=(\d+) b9=(\d+) layer=(\d+) mask=(\d+) z=([-\d.]+),([-\d.]+) off=([-\d.]+),([-\d.]+)(.*)", line)
     if not m:
         continue
     i = int(m.group(1))
@@ -27,9 +27,10 @@ for line in open(sys.argv[1]):
     first_desc.setdefault(i, desc)
     if desc != first_desc[i]:
         continue  # only the first descriptor's shapes are tested by the collision code
-    shape = {"type": int(m.group(3)), "flags": int(m.group(4)), "layer": int(m.group(5)), "mask": int(m.group(6)),
-             "z": [float(m.group(7)), float(m.group(8))], "off": [float(m.group(9)), float(m.group(10))]}
-    rest = m.group(11)
+    shape = {"type": int(m.group(3)), "b8": int(m.group(4)), "b9": int(m.group(5)), "layer": int(m.group(6)),
+             "mask": int(m.group(7)), "z": [float(m.group(8)), float(m.group(9))],
+             "off": [float(m.group(10)), float(m.group(11))]}
+    rest = m.group(12)
     b = re.search(r"box=([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)", rest)
     if b:
         shape["box"] = [float(x) for x in b.groups()]
