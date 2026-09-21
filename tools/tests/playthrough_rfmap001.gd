@@ -58,6 +58,8 @@ func _init() -> void:
 		_step()
 	v.moving = false
 	mc.switch_player_vehicle()
+	mc.select_move(1)   # Tank -> Jeep in the vehicle-choice grid
+	mc.confirm_selection()
 	if v.vehicle_type != 1:
 		mc.debug_swap_vehicle(1)
 		print("  (test swapped to the Jeep; the home-tile switch did not fire)")

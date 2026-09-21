@@ -37,6 +37,8 @@ out = {
              "y": [21.5] * 8 + [38.5] * 8},
     "panels": panels,
     # kind 8 (FUN_00412960): cel celtable + 0x20b04 = 1969 for a flag target (negative value), + 0x20b8c = 1971 for home; document 71
+    # the vehicle-choice screen (documents 66, 76): mini icons by type index (FUN_004116a0: cels 0x873, 0x871, 0x874, 0x872) and the red digit cels 0x862 + n
+    "select": {"icon_cels": [2163, 2161, 2164, 2162], "digit_base_cel": 2146},
     "compass": {"flag_cel": 1969, "home_cel": 1971},
 }
 path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "hud_panels.json")

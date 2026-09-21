@@ -317,6 +317,8 @@ def main():
                 return list(min(runtime, key=lambda c: (c[0] - r) ** 2 + (c[1] - g) ** 2 + (c[2] - b) ** 2))
             hp["fuel_rgb"] = {k: nearest(v) for k, v in hp["fuel_colour_words"].items()}
             hp["ammo_rgb"] = {k: nearest(v) for k, v in hp["ammo_colour_words"].items()}
+        hp["select"]["icon_ids"] = [registry[str(c)]["id"] for c in hp["select"]["icon_cels"]]
+        hp["select"]["digit_ids"] = [registry[str(hp["select"]["digit_base_cel"] + i)]["id"] for i in range(10)]
         hp["pips"]["sprite_id"] = registry[str(hp["pips"]["cel"])]["id"]
         for k in ("flag_cel", "home_cel"):
             hp["compass"][k.replace("_cel", "_sprite_id")] = registry[str(hp["compass"][k])]["id"]

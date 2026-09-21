@@ -217,6 +217,15 @@
    }
   }
  },
+ "select": {
+  "icon_cels": [
+   2163,
+   2161,
+   2164,
+   2162
+  ],
+  "digit_base_cel": 2146
+ },
  "compass": {
   "flag_cel": 1969,
   "home_cel": 1971
