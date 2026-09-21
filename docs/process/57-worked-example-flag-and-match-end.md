@@ -60,7 +60,7 @@ Because only the Jeep can capture, the port needs a playable Jeep. `tools/extrac
 armour, hit points, **fuel (Tank 400, Jeep 500, MSV 320, Heli 400)** and the collision polygon (Jeep 9 x 15,
 MSV 15 x 23.25, Heli a pentagon), plus each type's draw parts. `Vehicle` now takes all of them from the pack by
 type, and `game/vehicle_render_3d.gd` draws the Jeep from its descriptor (verified by screenshot: hull, the
-driver, the windscreen). The Jeep has no gun here: its machine gun (`FUN_0040df00` -> `FUN_00415b00`), its
+driver, the windscreen). The Jeep's weapon is the lobbed missile of [document 61](61-worked-example-jeep-missile.md) (its "machine gun" `FUN_0040df00` -> `FUN_00415b00` is that missile), its
 amphibious mode (`FUN_0040dfe0`, `state+0x84`) and its own drive handler (`FUN_0040db80`, which adds automatic
 steering) are not traced; it uses the shared drive function.
 

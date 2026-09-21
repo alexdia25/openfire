@@ -289,6 +289,25 @@ for _cel, _id, _cat, _note, _conf in AUDIT5:
     put(_cel, _id, _cat, _note, _conf)
 
 
+# AUDIT 2026-09-21, part 6 (registry hand-edited, not re-generated; documents 60 and 61):
+# - 1081-1083: the mine's light (descriptor 0x454200: cel 0x439, flag 8, variant = the mine's state 0 / 1 / 2).
+# - 1779-1802: the Jeep's missile body, 12 spin frames per team (descriptor 0x4548f0 part cel 0x6f3; its init callback
+#   0x436be0 draws cel + frame + 12 for team 1, frame = whole(obj+0x70) advancing every 6 ticks). Not decorations.
+AUDIT6 = [
+    (1081, "effect.ember_small.01", "effect", "mine light, state 0 (unlit blink phase); descriptor 0x454200 part cel (document 60)", "code_verified"),
+    (1082, "effect.ember_small.02", "effect", "mine light, state 1 (armed, steady); variant 1 of the mine's part (document 60)", "visual"),
+    (1083, "effect.ember_small.03", "effect", "mine light, state 2 (blink phase on); variant 2 of the mine's part (document 60)", "visual"),
+]
+for _n in range(12):
+    AUDIT6.append((1779 + _n, f"projectile.jeep_missile.tan.{_n + 1:02d}", "projectile",
+                   "Jeep missile body, spin frame " + str(_n + 1) + " of 12, tan (descriptor 0x4548f0 part cel 0x6f3; document 61)",
+                   "code_verified" if _n == 0 else "visual"))
+    AUDIT6.append((1791 + _n, f"projectile.jeep_missile.green.{_n + 1:02d}", "projectile",
+                   "Jeep missile body, spin frame " + str(_n + 1) + " of 12, green (cel 1779 + 12 + frame; document 61)", "visual"))
+for _cel, _id, _cat, _note, _conf in AUDIT6:
+    put(_cel, _id, _cat, _note, _conf)
+
+
 def main():
     with open(REGISTRY_JSON) as f:
         registry = json.load(f)

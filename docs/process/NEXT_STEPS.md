@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-60
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-61
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -152,6 +152,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Vehicle part animation traced (2026-09-20):** the draw callbacks do all vehicle animation. Applied: the Jeep's wheel strip and the MSV's canister count/slide. The Tank's tracks are not animated by its code (both init callbacks are now read too: variant 2 is the 10-tick hit flash, now applied to all three playable types); the Heli's gear/rotor and the Jeep's water look wait for flight and water mode. See [document 59](59-worked-example-vehicle-part-animation.md).
 - **Debug vehicle swap (2026-09-21):** `F1` / `F2` / `F3` turn the player into a Tank / Jeep / MSV anywhere, at once, with fresh hit points, fuel and weapon state (a flag carried by a non-Jeep is dropped). `RF_DEBUG_SWAP="frame:type,..."` swaps at given frames for scripted checks (with `RF_DEBUG_DRIVE=1`, while moving). Port-only, alongside the `V` home-tile switch and `RF_VEHICLE=tank|jeep|msv`.
 - **The MSV's mines and the explosion damage box (2026-09-21):** `M` lays a mine (every 140 ticks). It is inert for 158 ticks (blinking and beeping faster: a fuse), then armed, and a moving vehicle touching it sets it off. Its explosion owns a damage box that hurts vehicles and buildings for 2.4 s. The dropper is safe because the mine has no collision shapes until it arms (traced; the earlier placeholder is gone). See [document 60](60-worked-example-mines.md).
+- **The Jeep's weapon (2026-09-21):** the Jeep's "machine gun" and its "homing missile" turned out to be one lobbed missile that picks its target (an enemy within 61 units, else the last tile it bumped, else a random point ahead) and lands on it, doing 1.5 damage. The space bar fires it every 30 ticks; the missile's cels were mislabelled decorations. See [document 61](61-worked-example-jeep-missile.md).
 
 ## Still open
 
