@@ -309,6 +309,21 @@ for _cel, _id, _cat, _note, _conf in AUDIT6:
     put(_cel, _id, _cat, _note, _conf)
 
 
+# AUDIT 2026-09-21, part 7 (registry hand-edited, not re-generated; document 65): the capture flag's cels. Each draw callback of
+# the flag (0x403300 ground, 0x4032a0 carried) draws part cel + whole(obj+0x5c) + 13 * (team != 0): 13 wave frames per team, three
+# sets of 26 cels (carried side view 1803, ground cloth with pole 1829, carried top view 1855).
+AUDIT7 = []
+for _set, _base, _what in (("carried_side", 1803, "carried flag, side view"), ("cloth", 1829, "ground flag (cloth and pole)"),
+                           ("carried_top", 1855, "carried flag, top view")):
+    for _team_i, _team in enumerate(("tan", "green")):
+        for _f in range(13):
+            AUDIT7.append((_base + _team_i * 13 + _f, f"marker.flag.{_set}.{_team}.{_f + 1:02d}", "marker",
+                           f"{_what}, {_team}, wave frame {_f} of 13 (descriptor part cel {_base}; document 65)",
+                           "code_verified"))
+for _cel, _id, _cat, _note, _conf in AUDIT7:
+    put(_cel, _id, _cat, _note, _conf)
+
+
 def main():
     with open(REGISTRY_JSON) as f:
         registry = json.load(f)

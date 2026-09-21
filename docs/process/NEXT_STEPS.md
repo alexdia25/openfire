@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-64
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-65
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -155,6 +155,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Water, sinking and the Jeep's swim mode (2026-09-21):** the rule everything called "in water" is traced (land / shallow / deep from the tile under a vehicle, with shore polygons). A vehicle in deep water now sinks and is lost after ~35 ticks unless it is a Jeep in swim mode (`B`; a one-second ramp during which it cannot move; 0.25 speed in water, 0.01 on land); water slows everything to 0.75; mines are refused and missiles splash. The Jeep also creeps forward when a turn key is held without the throttle, and its wheels reshape and a wheel square appears under it as it goes into swim mode. See [document 62](62-worked-example-water-and-swim-mode.md).
 - **The helicopter (2026-09-21):** it flies (turns with inertia, strafes with `Q`/`E`, banks, climbs to 50 and stays there, clear of every building), fires guns (`Space` down, `Z` level) and bombs (`X` switches), and draws a blurred spinning rotor, its tilt and a ground shadow. Start-up and landing at the base, ammo, sounds and being shot down (needs the MSV's raised rocket) are open. See [document 63](63-worked-example-helicopter.md).
 - **Turret aim and raised fire (2026-09-21):** the Tank's turret turns independently (`Q`/`E`, `R` recentres) and both the Tank and the MSV have a raised gun (`Z`: 25 degrees up, shots 40 degrees up that climb to 55, the Heli's altitude). The Heli can now be shot down. See [document 64](64-worked-example-turret-and-raised-fire.md), which also corrects the MSV rack corners of document 59.
+- **The flag object (2026-09-21):** the original's flag drawing (base plate, waving cloth with 13 frames per team, the carried two-quad version), its wave counter, heading easing, attachment offset and water drift are traced and applied; the registry's mislabelled flag cels are fixed; the flag's "flutter child" turned out to be a radar blip. See [document 65](65-worked-example-the-flag-object.md).
 
 ## Level 1 (RFMAP001) end to end (2026-09-21)
 
@@ -170,6 +171,7 @@ applies the tile states); an end-to-end run inside the real scene is still to do
 
 Rule (user, 2026-09-21): never make our own choice silently; if one is unavoidable, mark it in the code and list it here to trace later.
 
+- **The ground flag's camera tilt** (`(cam+0x24 + 0xffe70000) >> 3`) is not reproduced (document 65).
 - **Port-only input keys** (Space / Z fire, X weapon switch, Q / E strafe, M mines, B swim, F flag, V and F1-F4 vehicle swap): the original reads input bits; the key layout is not its concern.
 - **The mine's drop offset** is reproduced as coded (only the y component), which looks odd; confirmed as the code, not as the intent (document 60).
 - **The Jeep missile quad** is drawn from the descriptor's half-width corners as read; the draw function `0x41b750` was not shown to mirror it (document 61).

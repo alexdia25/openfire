@@ -64,6 +64,7 @@ EXPLOSION_RECORDS_JSON = os.path.join(ROOT, "tools", "data", "explosion_records.
 COASTAL_SHAPES_JSON = os.path.join(ROOT, "tools", "data", "coastal_shapes.json")
 GATES_JSON = os.path.join(ROOT, "tools", "data", "gates.json")
 WATER_JSON = os.path.join(ROOT, "tools", "data", "water_tables.json")
+FLAG_JSON = os.path.join(ROOT, "tools", "data", "flag.json")
 VEHICLE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "vehicle_types.json")
 PROJECTILE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "projectile_types.json")
 COASTAL_DECORATION_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
@@ -264,6 +265,18 @@ def main():
         os.makedirs(os.path.join(args.out_dir, "vehicles"), exist_ok=True)
         with open(os.path.join(args.out_dir, "vehicles", "projectile_types.json"), "w") as f:
             json.dump({"types": pj["types"], "descriptors": pj["descriptors"]}, f)
+
+    # The capture flag (document 65): sprite ids per wave frame (13 tan, then 13 green)
+    if os.path.exists(FLAG_JSON):
+        with open(FLAG_JSON) as f:
+            fl = json.load(f)
+        for group in ("ground", "carried"):
+            for part in fl[group].values():
+                n = 1 if part["cel"] == 1881 else 26
+                part["sprite_ids"] = [registry[str(part["cel"] + i)]["id"] for i in range(n)]
+        os.makedirs(os.path.join(args.out_dir, "markers"), exist_ok=True)
+        with open(os.path.join(args.out_dir, "markers", "flag.json"), "w") as f:
+            json.dump(fl, f)
 
     # Water classification tables (document 62)
     if os.path.exists(WATER_JSON):

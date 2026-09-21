@@ -5444,46 +5444,46 @@
       "note": "Jeep missile body, spin frame 12 of 12, green (cel 1779 + 12 + frame; document 61)"
     },
     "1803": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_brown.01",
-      "note": "irregular map-shaped blob, brown/green"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.tan.01",
+      "note": "carried flag, side view, tan, wave frame 0 of 13 (descriptor part cel 1803; document 65)"
     },
     "1804": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_brown.02",
-      "note": "irregular map-shaped blob, brown/green"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.tan.02",
+      "note": "carried flag, side view, tan, wave frame 1 of 13 (descriptor part cel 1803; document 65)"
     },
     "1805": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_brown.03",
-      "note": "irregular map-shaped blob, brown/green"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.tan.03",
+      "note": "carried flag, side view, tan, wave frame 2 of 13 (descriptor part cel 1803; document 65)"
     },
     "1806": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_brown.04",
-      "note": "irregular map-shaped blob, brown/green"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.tan.04",
+      "note": "carried flag, side view, tan, wave frame 3 of 13 (descriptor part cel 1803; document 65)"
     },
     "1807": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_brown.05",
-      "note": "irregular map-shaped blob, brown/green"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.tan.05",
+      "note": "carried flag, side view, tan, wave frame 4 of 13 (descriptor part cel 1803; document 65)"
     },
     "1808": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_brown.06",
-      "note": "irregular map-shaped blob, brown/green"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.tan.06",
+      "note": "carried flag, side view, tan, wave frame 5 of 13 (descriptor part cel 1803; document 65)"
     },
     "1809": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_brown.07",
-      "note": "irregular map-shaped blob, brown/green"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.tan.07",
+      "note": "carried flag, side view, tan, wave frame 6 of 13 (descriptor part cel 1803; document 65)"
     },
     "181": {
       "category": "reserved",
@@ -5492,64 +5492,64 @@
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "1810": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_brown.08",
-      "note": "irregular map-shaped blob, brown/green"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.tan.08",
+      "note": "carried flag, side view, tan, wave frame 7 of 13 (descriptor part cel 1803; document 65)"
     },
     "1811": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_brown.09",
-      "note": "irregular map-shaped blob, brown/green"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.tan.09",
+      "note": "carried flag, side view, tan, wave frame 8 of 13 (descriptor part cel 1803; document 65)"
     },
     "1812": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_brown.10",
-      "note": "irregular map-shaped blob, brown/green"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.tan.10",
+      "note": "carried flag, side view, tan, wave frame 9 of 13 (descriptor part cel 1803; document 65)"
     },
     "1813": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_brown.11",
-      "note": "irregular map-shaped blob, brown/green"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.tan.11",
+      "note": "carried flag, side view, tan, wave frame 10 of 13 (descriptor part cel 1803; document 65)"
     },
     "1814": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_brown.12",
-      "note": "irregular map-shaped blob, brown/green"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.tan.12",
+      "note": "carried flag, side view, tan, wave frame 11 of 13 (descriptor part cel 1803; document 65)"
     },
     "1815": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.01",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.tan.13",
+      "note": "carried flag, side view, tan, wave frame 12 of 13 (descriptor part cel 1803; document 65)"
     },
     "1816": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.02",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.green.01",
+      "note": "carried flag, side view, green, wave frame 0 of 13 (descriptor part cel 1803; document 65)"
     },
     "1817": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.03",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.green.02",
+      "note": "carried flag, side view, green, wave frame 1 of 13 (descriptor part cel 1803; document 65)"
     },
     "1818": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.04",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.green.03",
+      "note": "carried flag, side view, green, wave frame 2 of 13 (descriptor part cel 1803; document 65)"
     },
     "1819": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.05",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.green.04",
+      "note": "carried flag, side view, green, wave frame 3 of 13 (descriptor part cel 1803; document 65)"
     },
     "182": {
       "category": "vehicle",
@@ -5558,64 +5558,64 @@
       "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 38) since this cel is now proven, not guessed, to be a real Tank part."
     },
     "1820": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.06",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.green.05",
+      "note": "carried flag, side view, green, wave frame 4 of 13 (descriptor part cel 1803; document 65)"
     },
     "1821": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.07",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.green.06",
+      "note": "carried flag, side view, green, wave frame 5 of 13 (descriptor part cel 1803; document 65)"
     },
     "1822": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.08",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.green.07",
+      "note": "carried flag, side view, green, wave frame 6 of 13 (descriptor part cel 1803; document 65)"
     },
     "1823": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.09",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.green.08",
+      "note": "carried flag, side view, green, wave frame 7 of 13 (descriptor part cel 1803; document 65)"
     },
     "1824": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.10",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.green.09",
+      "note": "carried flag, side view, green, wave frame 8 of 13 (descriptor part cel 1803; document 65)"
     },
     "1825": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.11",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.green.10",
+      "note": "carried flag, side view, green, wave frame 9 of 13 (descriptor part cel 1803; document 65)"
     },
     "1826": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.12",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.green.11",
+      "note": "carried flag, side view, green, wave frame 10 of 13 (descriptor part cel 1803; document 65)"
     },
     "1827": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.13",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.green.12",
+      "note": "carried flag, side view, green, wave frame 11 of 13 (descriptor part cel 1803; document 65)"
     },
     "1828": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.14",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_side.green.13",
+      "note": "carried flag, side view, green, wave frame 12 of 13 (descriptor part cel 1803; document 65)"
     },
     "1829": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.red.01",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.tan.01",
+      "note": "ground flag (cloth and pole), tan, wave frame 0 of 13 (descriptor part cel 1829; document 65)"
     },
     "183": {
       "category": "vehicle",
@@ -5625,63 +5625,63 @@
     },
     "1830": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.red.02",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.tan.02",
+      "note": "ground flag (cloth and pole), tan, wave frame 1 of 13 (descriptor part cel 1829; document 65)"
     },
     "1831": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.red.03",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.tan.03",
+      "note": "ground flag (cloth and pole), tan, wave frame 2 of 13 (descriptor part cel 1829; document 65)"
     },
     "1832": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.red.04",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.tan.04",
+      "note": "ground flag (cloth and pole), tan, wave frame 3 of 13 (descriptor part cel 1829; document 65)"
     },
     "1833": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.red.05",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.tan.05",
+      "note": "ground flag (cloth and pole), tan, wave frame 4 of 13 (descriptor part cel 1829; document 65)"
     },
     "1834": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.red.06",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.tan.06",
+      "note": "ground flag (cloth and pole), tan, wave frame 5 of 13 (descriptor part cel 1829; document 65)"
     },
     "1835": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.red.07",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.tan.07",
+      "note": "ground flag (cloth and pole), tan, wave frame 6 of 13 (descriptor part cel 1829; document 65)"
     },
     "1836": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.red.08",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.tan.08",
+      "note": "ground flag (cloth and pole), tan, wave frame 7 of 13 (descriptor part cel 1829; document 65)"
     },
     "1837": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.red.09",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.tan.09",
+      "note": "ground flag (cloth and pole), tan, wave frame 8 of 13 (descriptor part cel 1829; document 65)"
     },
     "1838": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.red.10",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.tan.10",
+      "note": "ground flag (cloth and pole), tan, wave frame 9 of 13 (descriptor part cel 1829; document 65)"
     },
     "1839": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.red.11",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.tan.11",
+      "note": "ground flag (cloth and pole), tan, wave frame 10 of 13 (descriptor part cel 1829; document 65)"
     },
     "184": {
       "category": "vehicle",
@@ -5691,63 +5691,63 @@
     },
     "1840": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.red.12",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.tan.12",
+      "note": "ground flag (cloth and pole), tan, wave frame 11 of 13 (descriptor part cel 1829; document 65)"
     },
     "1841": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.red.13",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.tan.13",
+      "note": "ground flag (cloth and pole), tan, wave frame 12 of 13 (descriptor part cel 1829; document 65)"
     },
     "1842": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.green.01",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.green.01",
+      "note": "ground flag (cloth and pole), green, wave frame 0 of 13 (descriptor part cel 1829; document 65)"
     },
     "1843": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.green.02",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.green.02",
+      "note": "ground flag (cloth and pole), green, wave frame 1 of 13 (descriptor part cel 1829; document 65)"
     },
     "1844": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.green.03",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.green.03",
+      "note": "ground flag (cloth and pole), green, wave frame 2 of 13 (descriptor part cel 1829; document 65)"
     },
     "1845": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.green.04",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.green.04",
+      "note": "ground flag (cloth and pole), green, wave frame 3 of 13 (descriptor part cel 1829; document 65)"
     },
     "1846": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.green.05",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.green.05",
+      "note": "ground flag (cloth and pole), green, wave frame 4 of 13 (descriptor part cel 1829; document 65)"
     },
     "1847": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.green.06",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.green.06",
+      "note": "ground flag (cloth and pole), green, wave frame 5 of 13 (descriptor part cel 1829; document 65)"
     },
     "1848": {
       "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.capture_flag.green.07",
-      "note": "waving flag on a pole; two team-coloured animations (red 01-13, green 01-07). Strong candidate for RFIRE.BIN's flag object (section 4 item 1, 2026-09-06): a hidden developer debug string reads \"Flag in first building: %s\", and the object-destruction handler this project already reimplements as TargetPool (section 1.5 / Phase 4 step 5) reads that same debug value before deciding whether to spawn a dedicated, single-use-site object -- not yet traced far enough to confirm this exact cel range is what that object renders, so still visual_group, not confirmed."
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.green.07",
+      "note": "ground flag (cloth and pole), green, wave frame 6 of 13 (descriptor part cel 1829; document 65)"
     },
     "1849": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.19",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.green.08",
+      "note": "ground flag (cloth and pole), green, wave frame 7 of 13 (descriptor part cel 1829; document 65)"
     },
     "185": {
       "category": "reserved",
@@ -5756,64 +5756,64 @@
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "1850": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.20",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.green.09",
+      "note": "ground flag (cloth and pole), green, wave frame 8 of 13 (descriptor part cel 1829; document 65)"
     },
     "1851": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.21",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.green.10",
+      "note": "ground flag (cloth and pole), green, wave frame 9 of 13 (descriptor part cel 1829; document 65)"
     },
     "1852": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.22",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.green.11",
+      "note": "ground flag (cloth and pole), green, wave frame 10 of 13 (descriptor part cel 1829; document 65)"
     },
     "1853": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.23",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.green.12",
+      "note": "ground flag (cloth and pole), green, wave frame 11 of 13 (descriptor part cel 1829; document 65)"
     },
     "1854": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.terrain_patch_blue.24",
-      "note": "irregular map-shaped blob, light blue/ice-like"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.cloth.green.13",
+      "note": "ground flag (cloth and pole), green, wave frame 12 of 13 (descriptor part cel 1829; document 65)"
     },
     "1855": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.dirt_trail.01",
-      "note": "thin brown wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.tan.01",
+      "note": "carried flag, top view, tan, wave frame 0 of 13 (descriptor part cel 1855; document 65)"
     },
     "1856": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.dirt_trail.02",
-      "note": "thin brown wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.tan.02",
+      "note": "carried flag, top view, tan, wave frame 1 of 13 (descriptor part cel 1855; document 65)"
     },
     "1857": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.dirt_trail.03",
-      "note": "thin brown wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.tan.03",
+      "note": "carried flag, top view, tan, wave frame 2 of 13 (descriptor part cel 1855; document 65)"
     },
     "1858": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.dirt_trail.04",
-      "note": "thin brown wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.tan.04",
+      "note": "carried flag, top view, tan, wave frame 3 of 13 (descriptor part cel 1855; document 65)"
     },
     "1859": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.dirt_trail.05",
-      "note": "thin brown wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.tan.05",
+      "note": "carried flag, top view, tan, wave frame 4 of 13 (descriptor part cel 1855; document 65)"
     },
     "186": {
       "category": "reserved",
@@ -5822,64 +5822,64 @@
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "1860": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.dirt_trail.06",
-      "note": "thin brown wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.tan.06",
+      "note": "carried flag, top view, tan, wave frame 5 of 13 (descriptor part cel 1855; document 65)"
     },
     "1861": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.dirt_trail.07",
-      "note": "thin brown wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.tan.07",
+      "note": "carried flag, top view, tan, wave frame 6 of 13 (descriptor part cel 1855; document 65)"
     },
     "1862": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.dirt_trail.08",
-      "note": "thin brown wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.tan.08",
+      "note": "carried flag, top view, tan, wave frame 7 of 13 (descriptor part cel 1855; document 65)"
     },
     "1863": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.dirt_trail.09",
-      "note": "thin brown wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.tan.09",
+      "note": "carried flag, top view, tan, wave frame 8 of 13 (descriptor part cel 1855; document 65)"
     },
     "1864": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.dirt_trail.10",
-      "note": "thin brown wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.tan.10",
+      "note": "carried flag, top view, tan, wave frame 9 of 13 (descriptor part cel 1855; document 65)"
     },
     "1865": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.dirt_trail.11",
-      "note": "thin brown wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.tan.11",
+      "note": "carried flag, top view, tan, wave frame 10 of 13 (descriptor part cel 1855; document 65)"
     },
     "1866": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.dirt_trail.12",
-      "note": "thin brown wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.tan.12",
+      "note": "carried flag, top view, tan, wave frame 11 of 13 (descriptor part cel 1855; document 65)"
     },
     "1867": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.dirt_trail.13",
-      "note": "thin brown wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.tan.13",
+      "note": "carried flag, top view, tan, wave frame 12 of 13 (descriptor part cel 1855; document 65)"
     },
     "1868": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.dirt_trail.14",
-      "note": "thin brown wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.green.01",
+      "note": "carried flag, top view, green, wave frame 0 of 13 (descriptor part cel 1855; document 65)"
     },
     "1869": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.water_trail.01",
-      "note": "thin blue wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.green.02",
+      "note": "carried flag, top view, green, wave frame 1 of 13 (descriptor part cel 1855; document 65)"
     },
     "187": {
       "category": "vehicle",
@@ -5888,64 +5888,64 @@
       "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 38) since this cel is now proven, not guessed, to be a real Tank part."
     },
     "1870": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.water_trail.02",
-      "note": "thin blue wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.green.03",
+      "note": "carried flag, top view, green, wave frame 2 of 13 (descriptor part cel 1855; document 65)"
     },
     "1871": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.water_trail.03",
-      "note": "thin blue wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.green.04",
+      "note": "carried flag, top view, green, wave frame 3 of 13 (descriptor part cel 1855; document 65)"
     },
     "1872": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.water_trail.04",
-      "note": "thin blue wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.green.05",
+      "note": "carried flag, top view, green, wave frame 4 of 13 (descriptor part cel 1855; document 65)"
     },
     "1873": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.water_trail.05",
-      "note": "thin blue wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.green.06",
+      "note": "carried flag, top view, green, wave frame 5 of 13 (descriptor part cel 1855; document 65)"
     },
     "1874": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.water_trail.06",
-      "note": "thin blue wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.green.07",
+      "note": "carried flag, top view, green, wave frame 6 of 13 (descriptor part cel 1855; document 65)"
     },
     "1875": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.water_trail.07",
-      "note": "thin blue wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.green.08",
+      "note": "carried flag, top view, green, wave frame 7 of 13 (descriptor part cel 1855; document 65)"
     },
     "1876": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.water_trail.08",
-      "note": "thin blue wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.green.09",
+      "note": "carried flag, top view, green, wave frame 8 of 13 (descriptor part cel 1855; document 65)"
     },
     "1877": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.water_trail.09",
-      "note": "thin blue wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.green.10",
+      "note": "carried flag, top view, green, wave frame 9 of 13 (descriptor part cel 1855; document 65)"
     },
     "1878": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.water_trail.10",
-      "note": "thin blue wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.green.11",
+      "note": "carried flag, top view, green, wave frame 10 of 13 (descriptor part cel 1855; document 65)"
     },
     "1879": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.water_trail.11",
-      "note": "thin blue wavy line segment"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.green.12",
+      "note": "carried flag, top view, green, wave frame 11 of 13 (descriptor part cel 1855; document 65)"
     },
     "188": {
       "category": "vehicle",
@@ -5954,9 +5954,10 @@
       "note": "corrected 2026-09-08 (was misclassified as decoration.stripe_band.01) -- confirmed by direct RE trace (document 37) as the green-team counterpart of cel 187 (vehicle.hovercraft.hull.10), one of the Tank real 3D box model's six real faces; same rivet-detail shape, green instead of brown"
     },
     "1880": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.gem_red.01"
+      "category": "marker",
+      "confidence": "code_verified",
+      "id": "marker.flag.carried_top.green.13",
+      "note": "carried flag, top view, green, wave frame 12 of 13 (descriptor part cel 1855; document 65)"
     },
     "1881": {
       "category": "marker",
