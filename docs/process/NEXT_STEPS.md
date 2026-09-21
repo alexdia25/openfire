@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-65
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-67
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -156,6 +156,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **The helicopter (2026-09-21):** it flies (turns with inertia, strafes with `Q`/`E`, banks, climbs to 50 and stays there, clear of every building), fires guns (`Space` down, `Z` level) and bombs (`X` switches), and draws a blurred spinning rotor, its tilt and a ground shadow. Start-up and landing at the base, ammo, sounds and being shot down (needs the MSV's raised rocket) are open. See [document 63](63-worked-example-helicopter.md).
 - **Turret aim and raised fire (2026-09-21):** the Tank's turret turns independently (`Q`/`E`, `R` recentres) and both the Tank and the MSV have a raised gun (`Z`: 25 degrees up, shots 40 degrees up that climb to 55, the Heli's altitude). The Heli can now be shot down. See [document 64](64-worked-example-turret-and-raised-fire.md), which also corrects the MSV rack corners of document 59.
 - **The flag object (2026-09-21):** the original's flag drawing (base plate, waving cloth with 13 frames per team, the carried two-quad version), its wave counter, heading easing, attachment offset and water drift are traced and applied; the registry's mislabelled flag cels are fixed; the flag's "flutter child" turned out to be a radar blip. See [document 65](65-worked-example-the-flag-object.md).
+- **The ruin grabs the flag (2026-09-21):** contact with any post of the finished building (coastal 63) takes the flag for a Jeep, through the tile callback `FUN_00432d80`, which the port lacked (the Jeep looked stuck on it). Level 1 is also completed by an in-scene autoplay (`RF_DEBUG_AUTOPLAY=1`), and the interface's per-player panel is first-pass traced (frame, vehicle icon, weapon counts). See [document 66](66-worked-example-the-hud-panel.md) and [document 67](67-worked-example-autoplay-placeholder-hud-and-ruin-grab.md).
 
 ## Level 1 (RFMAP001) end to end (2026-09-21)
 
@@ -163,15 +164,14 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 with one spawn (tan, tile 67,67), one target building (pool b, tile 75,56; pool a is empty) and no enemy vehicles. The route: a Tank shoots the building
 (6 hits, 126 ticks) -> the ruin `62` (6 hits of its own, 120 ticks; the flag appears at once but sits inside the ruin's solid box) -> id `63` (four corner posts, the
 flag reachable) -> back to the home tile, `V` for a Jeep (only a Jeep can carry) -> the flag -> home: `match_over(tan)`. Notes from the run: the Jeep cannot crush
-bushes or pass rocks, so it must route around them; palms block the Tank too. **Gaps for a player**: nothing tells them what to do (no objective text, no vehicle or fuel
-readout, no control hints), `V` at the home tile is a port convenience, the win banner has no restart, and the whole thing has only been run without the scene (the view
-applies the tile states); an end-to-end run inside the real scene is still to do.
+bushes or pass rocks, so it must route around them; palms block the Tank too. **Update:** it is also completed inside the real scene by the debug autoplay, and a placeholder panel (vehicle, hit points, fuel, objective, keys, restart with Enter) exists (documents 66, 67). Still port-only: `V` at the home tile switches vehicle.
 
 ## Untraced choices (revisit; a standing list, kept short on purpose)
 
 Rule (user, 2026-09-21): never make our own choice silently; if one is unavoidable, mark it in the code and list it here to trace later.
 
 - **The ground flag's camera tilt** (`(cam+0x24 + 0xffe70000) >> 3`) is not reproduced (document 65).
+- **The placeholder panel** (`game/placeholder_hud.gd`: labels, the objective wording, the restart key Enter) and the debug autoplay are the port's own; the original's panel is frame cel 1940 + vehicle icon + weapon counts + radar (document 66), fuel/health displays and announcer still untraced.
 - **Port-only input keys** (Space / Z fire, X weapon switch, Q / E strafe, M mines, B swim, F flag, V and F1-F4 vehicle swap): the original reads input bits; the key layout is not its concern.
 - **The mine's drop offset** is reproduced as coded (only the y component), which looks odd; confirmed as the code, not as the intent (document 60).
 - **The Jeep missile quad** is drawn from the descriptor's half-width corners as read; the draw function `0x41b750` was not shown to mirror it (document 61).
