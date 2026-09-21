@@ -156,6 +156,17 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Water, sinking and the Jeep's swim mode (2026-09-21):** the rule everything called "in water" is traced (land / shallow / deep from the tile under a vehicle, with shore polygons). A vehicle in deep water now sinks and is lost after ~35 ticks unless it is a Jeep in swim mode (`B`; a one-second ramp during which it cannot move; 0.25 speed in water, 0.01 on land); water slows everything to 0.75; mines are refused and missiles splash. The Jeep also creeps forward when a turn key is held without the throttle, and its wheels reshape and a wheel square appears under it as it goes into swim mode. See [document 62](62-worked-example-water-and-swim-mode.md).
 - **The helicopter (2026-09-21):** it flies (turns with inertia, strafes with `Q`/`E`, banks, climbs to 50 and stays there, clear of every building), fires guns (`Space` down, `Z` level) and bombs (`X` switches), and draws a blurred spinning rotor, its tilt and a ground shadow. Start-up and landing at the base, ammo, sounds and being shot down (needs the MSV's raised rocket) are open. See [document 63](63-worked-example-helicopter.md).
 
+## Untraced choices (revisit; a standing list, kept short on purpose)
+
+Rule (user, 2026-09-21): never make our own choice silently; if one is unavoidable, mark it in the code and list it here to trace later.
+
+- **Port-only input keys** (Space / Z fire, X weapon switch, Q / E strafe, M mines, B swim, F flag, V and F1-F4 vehicle swap): the original reads input bits; the key layout is not its concern.
+- **The mine's drop offset** is reproduced as coded (only the y component), which looks odd; confirmed as the code, not as the intent (document 60).
+- **The Jeep missile quad** is drawn from the descriptor's half-width corners as read; the draw function `0x41b750` was not shown to mirror it (document 61).
+- **The Heli's start-up and landing** (gear, rotor spin-up, the folded rotor of mode 4, the base glide) are not modelled: it flies at once (document 63). Its shadow lacks the rotor-spin frames.
+- **Respawn and enemy AI** are placeholders written before tracing (`MatchController._on_player_destroyed`, `enemy_vehicle.gd`).
+- **Water landing of shots** uses "any water" for shallow as well; the exact sampling of `FUN_0042f5b0` was read but its box argument is a compiler-garbled stack layout (document 61).
+
 ## Still open
 
 See plan section 4 for the current, precise state of each — this list is just pointers:

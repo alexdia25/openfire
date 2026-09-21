@@ -101,12 +101,29 @@ renderers draw the height, and `VehicleRender3D` tilts the whole Heli by its pit
 the shadow. A screenshot shows the banked Heli with its blurred rotor, its shadow on the ground, and dust puffs where its rounds
 land.
 
-## What is a choice and what is missing
+## Choices that were checked afterwards
 
-- **Signs.** Which way the bank leans and that the nose dips are chosen for realism (roll into the turn, nose down); the
-  drawing matrix's sign convention was not worked out. The rotor's turn direction is arbitrary.
-- **The shadow's placement** (moved by the height in x and y) is copied from the missile's shadow object; the Heli's own
-  shadow object was not read. The second shadow parts (`0x440ed8`, the rotor-spin frames 589-605) are not drawn.
+Three things were first chosen "for realism" and were then traced (2026-09-21, at your request that nothing be left as our own choice):
+
+- **The lean signs.** `FUN_0041b590` builds two matrices (`0x458c38` for the pitch, `0x458c60` for the bank) and `FUN_00410c60`
+  multiplies a point (a row vector) by a matrix. Reading the stores: the pitch matrix is `[1 0 0; 0 c s; 0 -s c]`, so a nose point
+  `(0, -1, 0)` (forward is minus y) goes to height `-s`: **a positive pitch (the speed's) dips the nose**. The bank matrix is
+  `[c 0 s; 0 1 0; -s 0 c]`, so a right-hand point `(1, 0, 0)` goes to height `+s`: **a negative bank lowers the right side**,
+  and a right turn sets a target of `-3` steps. The heading matrix table (`FUN_0041ae50` at `0x41aea0-0x41af3f`) is
+  `[c s 0; -s c 0; 0 0 1]`, which turns `(0, -1, 0)` into `(sin, -cos, 0)`: heading grows clockwise, x is to the right.
+  So the Heli rolls into the turn and dips its nose, exactly as drawn.
+- **The rotor's direction:** its angle goes through the same heading-matrix table, so it turns clockwise as its angle grows.
+- **The shadow's place.** The shadow object (class 4, `0x443078`) is moved every tick by `FUN_00409bd0`: to the parent's
+  position plus **(0.332 x height, -0.5 x height)** (`85 * (z >> 8)` and `-(z / 2)`). The earlier "+height in both" belonged to its
+  init function only, and had also been used for the Jeep missile; both now use the traced offset, and shells' shadows
+  (drawn straight below before) are offset the same way (2.3, -3.5 at their height 7).
+
+## What is still a choice or missing
+
+- **Port keys** (Space, Z, X, Q, E): the original reads input bits; which physical key sets them is the port's business.
+- **The Heli's shadow is only the body shadow.** The full shadow (`0x440ed8` chaining `0x440e90` and the rotor-spin frames
+  589-605 of `0x440da8`, chosen by the rotor angle) is not drawn; the draw callback `0x403760` also slides the shadow by
+  `18 x (1 - state+0x58)` during start-up. **To trace and add.**
 - **Not done:** the start-up sequence at the base (the state handlers at `0x40e8c0`, `0x40e930`, `0x40e9c0`: gear, rotor spin-up,
   modes 0-2 and the folded mode 4 of the rotor), the landing at the base and leaving the vehicle (`0x40eb00`, `0x40eb40`: it turns to a
   fixed heading of 24 steps and glides onto the tile centre), the hover wobble, the dying handler (`0x40eae0`, record `+0x234`),
