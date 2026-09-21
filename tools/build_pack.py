@@ -67,6 +67,7 @@ WATER_JSON = os.path.join(ROOT, "tools", "data", "water_tables.json")
 FLAG_JSON = os.path.join(ROOT, "tools", "data", "flag.json")
 RADAR_JSON = os.path.join(ROOT, "tools", "data", "radar.json")
 HUD_PANELS_JSON = os.path.join(ROOT, "tools", "data", "hud_panels.json")
+SELECTOR_JSON = os.path.join(ROOT, "tools", "data", "selector.json")
 GAME_ART_CAR = os.path.join(os.environ.get("RF_GAME_DIR", "C:/Users/Alex/Documents/returnfire"), "ART", "ART.CAR")
 VEHICLE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "vehicle_types.json")
 PROJECTILE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "projectile_types.json")
@@ -325,6 +326,16 @@ def main():
         os.makedirs(os.path.join(args.out_dir, "hud"), exist_ok=True)
         with open(os.path.join(args.out_dir, "hud", "panels.json"), "w") as f:
             json.dump(hp, f)
+
+    # The docked vehicle-choice screen (document 78): layout data plus the sprite id of every cel it draws
+    if os.path.exists(SELECTOR_JSON):
+        with open(SELECTOR_JSON) as f:
+            sel = json.load(f)
+        wanted = set(range(2074, 2112)) | set(range(2146, 2165)) | {1940, 1942, 1981, 1982}
+        sel["sprite_ids"] = {str(c): registry[str(c)]["id"] for c in sorted(wanted) if str(c) in registry}
+        os.makedirs(os.path.join(args.out_dir, "hud"), exist_ok=True)
+        with open(os.path.join(args.out_dir, "hud", "selector.json"), "w") as f:
+            json.dump(sel, f)
 
     # Water classification tables (document 62)
     if os.path.exists(WATER_JSON):

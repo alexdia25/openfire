@@ -45,6 +45,13 @@ func _init() -> void:
 			ticks += 1
 		print("  choice opened after ", ticks, " ticks, docked ", v.docked, " stock ", mc.vehicle_stock, " reserve ", mc.mine_reserve)
 		mc.select_move(1)
+		for i in 40:
+			mc._process(dt)
 		mc.confirm_selection()
+		var g := 0
+		while mc.undocking and g < 1000:
+			mc._process(dt)
+			g += 1
+		print("  the confirm script took ", g, " ticks")
 		print("  confirmed ", ["Tank", "Jeep", "MSV", "Heli"][v.vehicle_type], " at ", v.position - pad, " heading ", v.heading_deg, " docked ", v.docked, " stock ", mc.vehicle_stock)
 	quit()

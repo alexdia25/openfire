@@ -51,4 +51,6 @@ The level playthrough and the autoplay now pick the Jeep through the grid and st
 **Port-only:** the docking trigger (`V` on the home tile, the original docks when the vehicle drives onto the pad), the keys, no cancel, the frame, the 6x scale, the position, the digit shown for "unlimited" (255; the original's display is untraced), and the respawn after a death, which still takes stock without a choice.
 **Not done:** the fade in and out, the sound `0x44b640`, the lost sequence's end screen, the confirm's second and third buttons, the choice on the panel's frame at the table's rectangles.
 
+**Correction (document 78):** the four neighbour bytes are *up, down, left, right* and the screen is Heli, Tank on top, MSV, Jeep below; the port's grid was redrawn as the original's hangar picture there.
+
 **Next:** [the next-steps doc](NEXT_STEPS.md).

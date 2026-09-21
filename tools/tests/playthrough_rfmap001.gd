@@ -58,8 +58,14 @@ func _init() -> void:
 		_step()
 	v.moving = false
 	mc.switch_player_vehicle()
-	mc.select_move(1)   # Tank -> Jeep in the vehicle-choice grid
+	mc.select_move(1)   # Tank -> Jeep in the vehicle-choice grid (down)
+	for i in 40:
+		_step()   # the view fades in
 	mc.confirm_selection()
+	var guard := 0
+	while mc.undocking and guard < 1000:
+		_step()   # the confirm script: the picture slides onto the lift, the lift rises, the view fades
+		guard += 1
 	if v.vehicle_type != 1:
 		mc.debug_swap_vehicle(1)
 		print("  (test swapped to the Jeep; the home-tile switch did not fire)")
