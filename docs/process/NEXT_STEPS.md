@@ -156,6 +156,16 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **The helicopter (2026-09-21):** it flies (turns with inertia, strafes with `Q`/`E`, banks, climbs to 50 and stays there, clear of every building), fires guns (`Space` down, `Z` level) and bombs (`X` switches), and draws a blurred spinning rotor, its tilt and a ground shadow. Start-up and landing at the base, ammo, sounds and being shot down (needs the MSV's raised rocket) are open. See [document 63](63-worked-example-helicopter.md).
 - **Turret aim and raised fire (2026-09-21):** the Tank's turret turns independently (`Q`/`E`, `R` recentres) and both the Tank and the MSV have a raised gun (`Z`: 25 degrees up, shots 40 degrees up that climb to 55, the Heli's altitude). The Heli can now be shot down. See [document 64](64-worked-example-turret-and-raised-fire.md), which also corrects the MSV rack corners of document 59.
 
+## Level 1 (RFMAP001) end to end (2026-09-21)
+
+`tools/tests/playthrough_rfmap001.gd` plays the level through the real game logic with a crude autopilot: **it is completable**. The level is a 766-tile island
+with one spawn (tan, tile 67,67), one target building (pool b, tile 75,56; pool a is empty) and no enemy vehicles. The route: a Tank shoots the building
+(6 hits, 126 ticks) -> the ruin `62` (6 hits of its own, 120 ticks; the flag appears at once but sits inside the ruin's solid box) -> id `63` (four corner posts, the
+flag reachable) -> back to the home tile, `V` for a Jeep (only a Jeep can carry) -> the flag -> home: `match_over(tan)`. Notes from the run: the Jeep cannot crush
+bushes or pass rocks, so it must route around them; palms block the Tank too. **Gaps for a player**: nothing tells them what to do (no objective text, no vehicle or fuel
+readout, no control hints), `V` at the home tile is a port convenience, the win banner has no restart, and the whole thing has only been run without the scene (the view
+applies the tile states); an end-to-end run inside the real scene is still to do.
+
 ## Untraced choices (revisit; a standing list, kept short on purpose)
 
 Rule (user, 2026-09-21): never make our own choice silently; if one is unavoidable, mark it in the code and list it here to trace later.
