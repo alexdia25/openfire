@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-76
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-77
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -165,6 +165,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Vehicle stock (2026-09-21):** the level's T, J, A, H (default 3, 8, 3, 3; 255 = unlimited) are how many vehicles of each type the player has; creating one spends one, docking returns one, all four at 0 is the lost condition (handler `0x418390`, untraced). The port tracks the stock with placeholder choice logic and a text line. Open: what the original does at its base to choose a vehicle (and shows with the counts panel), the mine reserve, `M`. See [document 73](73-worked-example-vehicle-stock.md).
 - **Bar colours and mines (2026-09-21):** the bars are drawn in blit mode 10, whose colour word is 15-bit RGB matched to the nearest palette entry (applied, document 74). Mines: tile bit 31 means a mine lies there (purple on the radar); `M` mines are scattered at the start of one-player levels (road-side tiles first), and the MSV's layer works only with two players (document 75). Open: the mine reserve, `unk4`'s pools, the original's random positions.
 - **Vehicle choice at the base (2026-09-21):** the original's choice is a 2 x 2 grid (Heli, MSV / Tank, Jeep) with the counts left, a neighbour table that skips empty types, and a confirm button; the port reproduces the cursor logic and draws it with the traced icons and digits (`V` on the home tile opens it). Open: the docking trigger, the fades and sounds, the lost sequence's end screen, the respawn choice. See [document 76](76-worked-example-vehicle-choice-at-the-base.md).
+- **Docking and undocking (2026-09-21):** to dock, stand still on your pad within a small distance of its centre and press any fire button (Tank / MSV at once; Jeep after returning its own flag; Heli lands itself first); the vehicle sinks 70 ticks, the view fades, the choice grid opens, and a confirm puts the new vehicle on the pad at once. The port does this (`V` stays as a port-only quick swap). Open: the sounds and fades, the pad art change / glow, the dock object's drawing, the Heli's rotor and gear stages, the flag delivery in the lift update, the view scripts. See [document 77](77-worked-example-docking-and-undocking.md).
 
 ## Level 1 (RFMAP001) end to end (2026-09-21)
 
@@ -184,7 +185,7 @@ Rule (user, 2026-09-21): never make our own choice silently; if one is unavoidab
 - **The compass's home position** (taken as the player's spawn) and its per-value palette (document 71).
 - **Enemy placeholder vehicles fire without limit** (`infinite_ammo`; document 72).
 - **The scattered mines' positions** use a seeded generator, not the original's (document 75); the MSV keeps a full 10 mines whenever the (two-player only) layer is on.
-- **Vehicle choice and loss:** the grid's logic is traced (document 76); the `V` docking, the keys, no cancel, respawn taking stock without a choice, the lost banner and the stock text line are placeholders; the MSV keeps a full 10 mines instead of drawing on the reserve (document 73).
+- **Vehicle choice and loss:** the grid's logic is traced (document 76); the `V` quick swap (an option), the keys, no cancel, respawn taking stock without a choice, the lost banner and the stock text line are placeholders; the MSV keeps a full 10 mines instead of drawing on the reserve (document 73).
 - **Port-only input keys** (Space / Z fire, X weapon switch, Q / E strafe, M mines, B swim, F flag, V and F1-F4 vehicle swap): the original reads input bits; the key layout is not its concern.
 - **The mine's drop offset** is reproduced as coded (only the y component), which looks odd; confirmed as the code, not as the intent (document 60).
 - **The Jeep missile quad** is drawn from the descriptor's half-width corners as read; the draw function `0x41b750` was not shown to mirror it (document 61).
