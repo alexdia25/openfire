@@ -48,7 +48,12 @@ A vehicle can carry at most one flag (the callbacks refuse a vehicle that alread
   end-of-match handler (`0x4222a0`), starts a fade (`FUN_0042fdd0(0, 1000)`), records the **winner** in
   `DAT_00458d14` and sets the game-over flag. So a match is won by driving the enemy pool's flag home with a
   Jeep after destroying all of that pool's targets.
-- A Jeep that dies while carrying leaves the flag where it is (the port drops it at the moment of death: the player respawns at once, and the check that ran only every frame let the flag ride the respawned Jeep home and win the match; fixed 2026-09-21). At the base, a Jeep carrying its *own* pool's flag
+- A Jeep that dies while carrying leaves the flag where it is (the port drops it at the moment of death: the player respawns at once, and the check that ran only every frame let the flag ride the respawned Jeep home and win the match; fixed 2026-09-21).
+  **Checked against the code (2026-09-21):** the flag is a *child* of its carrier (`flag+0x2c` = carrier, linked in the carrier's child list at
+  `+0x30`, attached by `FUN_0042cc50`). The generic object destroy `FUN_0042c0f0` runs `while (children) FUN_0042cc50(child, 0)`, which clears
+  `child+0x2c` and calls the class callbacks, so **the flag is detached at the instant its carrier is destroyed, where it hangs**; the flag's own
+  update `FUN_00432920` then treats `+0x2c == 0` as dropped (falls to the ground, records its last safe position). The original has no instant
+  respawn: that is a port placeholder (`_on_player_destroyed`), which is what made the bug. At the base, a Jeep carrying its *own* pool's flag
   and leaving its vehicle (`record +0x258` = `FUN_0040e090`) calls `FUN_00432600`: the flag is removed and a
   target is re-activated if any candidate is still intact (else it moves to a random candidate tile). Not
   modelled.
