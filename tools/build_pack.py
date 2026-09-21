@@ -65,6 +65,8 @@ COASTAL_SHAPES_JSON = os.path.join(ROOT, "tools", "data", "coastal_shapes.json")
 GATES_JSON = os.path.join(ROOT, "tools", "data", "gates.json")
 WATER_JSON = os.path.join(ROOT, "tools", "data", "water_tables.json")
 FLAG_JSON = os.path.join(ROOT, "tools", "data", "flag.json")
+RADAR_JSON = os.path.join(ROOT, "tools", "data", "radar.json")
+GAME_ART_CAR = os.path.join(os.environ.get("RF_GAME_DIR", "C:/Users/Alex/Documents/returnfire"), "ART", "ART.CAR")
 VEHICLE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "vehicle_types.json")
 PROJECTILE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "projectile_types.json")
 COASTAL_DECORATION_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
@@ -277,6 +279,23 @@ def main():
         os.makedirs(os.path.join(args.out_dir, "markers"), exist_ok=True)
         with open(os.path.join(args.out_dir, "markers", "flag.json"), "w") as f:
             json.dump(fl, f)
+
+    # The radar's colours (document 69): the palette indices of tools/data/radar.json as RGB. The runtime palette is
+    # runtime[10 + i] = shared_plut[i] (convert_car.py), the shared PLUT being at 0x282CC of ART.CAR.
+    if os.path.exists(RADAR_JSON) and os.path.exists(GAME_ART_CAR):
+        with open(RADAR_JSON) as f:
+            rd = json.load(f)
+        car = open(GAME_ART_CAR, "rb").read()
+
+        def rgb(k):
+            o = 0x282CC + (k - 10) * 4
+            return [car[o + 2], car[o + 1], car[o]] if k >= 10 else [0, 0, 0]
+        used = {rd["land"], rd["water"], rd["flagged_tile"], *rd["flag_blip"]["colours"],
+                *[c for v in rd["coastal_colours"].values() for c in v]}
+        rd["rgb"] = {str(k): rgb(k) for k in used}
+        os.makedirs(os.path.join(args.out_dir, "hud"), exist_ok=True)
+        with open(os.path.join(args.out_dir, "hud", "radar.json"), "w") as f:
+            json.dump(rd, f)
 
     # Water classification tables (document 62)
     if os.path.exists(WATER_JSON):
