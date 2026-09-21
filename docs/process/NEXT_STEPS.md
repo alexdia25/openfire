@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-68
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-69
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -158,6 +158,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **The flag object (2026-09-21):** the original's flag drawing (base plate, waving cloth with 13 frames per team, the carried two-quad version), its wave counter, heading easing, attachment offset and water drift are traced and applied; the registry's mislabelled flag cels are fixed; the flag's "flutter child" turned out to be a radar blip. See [document 65](65-worked-example-the-flag-object.md).
 - **The ruin grabs the flag (2026-09-21):** contact with any post of the finished building (coastal 63) takes the flag for a Jeep, through the tile callback `FUN_00432d80`, which the port lacked (the Jeep looked stuck on it). Level 1 is also completed by an in-scene autoplay (`RF_DEBUG_AUTOPLAY=1`), and the interface's per-player panel is first-pass traced (frame, vehicle icon, weapon counts). See [document 66](66-worked-example-the-hud-panel.md) and [document 67](67-worked-example-autoplay-placeholder-hud-and-ruin-grab.md).
 - **HUD elements (2026-09-21):** each vehicle type adds elements to its player's panel through `FUN_00412cd0` (kinds 1-9 at `0x446930`); kind 5 is the fuel bar (40 x 4 at panel + (88, 12) for the Tank, tweened, colour by fill), kind 6 the radar (a 32 x 32 tile window of a 128 x 128 bitmap at panel + (19, 11), a grid cel, and probably the Jeep direction arrow). Open: kinds 2-4 and 7-9 (health?), the palette at `0x446760`, the radar painter `FUN_00412dc0` and blips `FUN_00413100`, the other types' blocks. See [document 68](68-worked-example-fuel-bar-and-radar-element.md).
+- **Radar bitmap and blips (2026-09-21):** one byte per tile (land `0x87`, water `0x91`, flagged tile `0xc9`, per-coastal-id colours for buildings/structures split by team), painted by `FUN_00412dc0`; blips are point lists (`FUN_00413100`): the flag is a 4-pixel pole with a 2 x 2 pennant (`0x45` tan, `0x67` green) that blinks every 15 ticks. Open: **which palette the match uses** (the colours), the other element kinds, the announcer. See [document 69](69-worked-example-radar-bitmap-and-blips.md).
 
 ## Level 1 (RFMAP001) end to end (2026-09-21)
 
