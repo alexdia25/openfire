@@ -47,21 +47,26 @@ draw descriptor `0x454200`, **priority `0x96` (150)**, object-collision callback
 gave the smaller ones):
 
 - **Init:** state (draw variant, `obj+0x10`) = 0, age `obj+0x60` = **5.0**, blink counter `obj+0x5c` = 0, plays a sound.
+  The object's descriptor (`obj+0x3c`, copied from the class's `+0x14`) is `0x454200`, whose shape-chain field (`+8`)
+  is **0**: with no shapes, the collision code (`FUN_0042bd40`, and the loop in `FUN_0042bb10` that runs `FUN_0041e4c0`)
+  never reports a hit. So a fresh mine is **inert**.
 - **Update:** `age += 8738 * dt` (raw 16.16, so 0.1333 per tick); the blink counter counts ticks and wraps at 30; the
   variant is **2 while whole(age) > counter, else 0**, and a beep plays on each switch to 2. When age reaches **26.0**
-  (about 158 ticks) the mine is removed from the collision lists (`FUN_0042c250`) and the variant becomes 1:
-  **an inert dud that stays drawn**.
+  (about 158 ticks) it does `obj+0x3c = 0x4542c8`, calls `FUN_0042c250`, and sets the variant to 1. Descriptor
+  `0x4542c8` is a copy of the mine's with `+8` = `0x454288`: **a shape chain**. From then on the mine collides. So the
+  fast-beeping blink is a **fuse that speeds up** (5 of every 30 ticks lit at first, 25 of 30 at the end), and the
+  steady variant 1 means **armed**.
 - **Destroy** (`0x409d80`): only if flag `0x200` is set (set by the two callbacks below) it spawns explosion record
-  `0x445058` at its position; expiry does not set it, so **an expired mine never explodes**.
+  `0x445058` at its position. An armed mine stays until something sets it off.
 - **Collision callback** (`0x409dd0`): if the other object's class is 1 (a vehicle), set flag `0x200` and destroy.
 - **Hit callback** (`0x409e00`): if the damage is **above 1.5** (`0x18000`), do the same.
 - **Art:** descriptor `0x454200` is one quad, cel `0x439` = 1081 with flag 8 (+ variant), corners +-6 in x and y at
   z = 1. The three cels are 8 x 8 "ember" sprites: a small blinking light on the ground.
 
-**Shapes.** Its collision shapes are at `0x454248` (32 x 32 box, layer 1, mask 2) and `0x454288` (12 x 12, layer 1,
-mask 6), both z from -50 to 0.1. Who triggers it, using the pair rule of [document 53](53-worked-example-collision-shapes.md):
-a vehicle (layer 2) touches the big box; a shell (layer 4) could only touch the small box, but a shell flies at z 7, above
-the box's 0.1 top, so **level shots never touch mines**.
+**Shapes (armed only).** The chain from `0x454288` holds a 12 x 12 box (layer 1, mask 6) and, linked from it, the 32 x 32
+box at `0x454248` (layer 1, mask 2); both span z from -50 to 0.1. Who triggers it, using the pair rule of
+[document 53](53-worked-example-collision-shapes.md): a vehicle (layer 2) touches either box; a shell (layer 4) could only
+touch the small one, but a shell flies at z 7, above the boxes' 0.1 top, so **level shots never touch mines**.
 
 ## Step 4: who calls which callback
 
@@ -95,28 +100,33 @@ mask `0xff`) qualify; mines (masks 2 and 6, no `0x20`) do not, so **explosions d
 
 ## Applied in the port
 
-- `game/mine.gd` (age, blink, beep, expiry, and the trigger boxes), `game/mine_view_3d.gd` (the quad),
+- `game/mine.gd` (age, blink, beep, arming, and the trigger boxes), `game/mine_view_3d.gd` (the quad),
   `game/explosion_box.gd` (the timeline of the box, mirroring the script runner of `explosion_effect_3d.gd`).
 - `Vehicle` (MSV only): key `M` (or `RF_DEBUG_MINE=1`) lays a mine every 140 ticks at the traced offset.
-- `MatchController`: mines age; any moving vehicle overlapping a live mine's trigger box sets it off; the explosion
+- `MatchController`: mines age; any moving vehicle overlapping an armed mine's trigger box sets it off; the explosion
   plays record `0x445058` and its box damages vehicles and tile shapes every tick (a building with 6 hit points falls
   in six ticks). `_damage_tile` now takes an amount.
-- Checked by a scripted run: a drop facing east lands on the vehicle, one facing south 5 units ahead; a mine expires
-  after 158 ticks with 6 beeps and 79 lit ticks and ends as variant 1; a vehicle moving onto a fresh mine sets it off and
-  loses 0.5 hit points per tick until it dies. Screenshots: the unlit mine on the ground, and the explosion with the
-  vehicle in its hit flash (`RF_DEBUG_MINE_LITERAL=1`).
+- Checked by a scripted run: a drop facing east lands on the vehicle, one facing south 5 units ahead; a mine arms after
+  158 ticks with 6 beeps; **a vehicle that keeps driving over its own fresh mine does nothing until the fuse ends**;
+  armed, a stationary vehicle on it does not set it off but the first movement does, and the vehicle then loses 0.5 hit
+  points per tick until it is gone. Screenshots: the unlit mine on the ground, and an explosion with the vehicle in its
+  hit flash.
 
-## Open questions and placeholders (say so, not guessed)
+## The dropper question (resolved)
 
-1. **The dropper.** The code has no exemption for the vehicle that laid the mine, and the mine lands inside that
-   vehicle's own shape, so taken literally the MSV sets it off the moment it moves. **Placeholder:** the dropper is
-   ignored until it has left the trigger box once (`Mine.dropper_immune_until_clear`; `RF_DEBUG_MINE_LITERAL=1` shows the
-   literal behaviour). Whether the original does the same is not known.
-2. **The offset quirk** of step 2 is reproduced as coded.
-3. **Explosion clock.** `FUN_0042dbe0` has a first-tick special case (`flag 0x40` sets the progress to 1.0); the port's
+Document 60's first version kept a placeholder: it assumed a mine started colliding at once, so the MSV laying it would
+set it off the moment it moved (the code has no owner rule). Reading the creation function (`FUN_0042c290`) and the
+mine's descriptor showed the real mechanism: the mine has **no collision shapes for its first 158 ticks**, so the
+dropper, which lays it inside its own shape and drives away in well under 2.5 s, is never in danger unless it stays
+or comes back. The placeholder and its debug switch were removed.
+
+## Open questions
+
+1. **The offset quirk** of step 2 is reproduced as coded.
+2. **Explosion clock.** `FUN_0042dbe0` has a first-tick special case (`flag 0x40` sets the progress to 1.0); the port's
    explosions (documents 50-51) start at 0, so the box timeline is up to 1 progress unit (6 ticks) late if the flag is set
    for this object. Not checked.
-4. Not modelled: ammo (10), the deep-water refusal, the sound, the elevated rocket and everything the Jeep and Heli
+3. Not modelled: ammo (10), the deep-water refusal, the sound, the elevated rocket and everything the Jeep and Heli
    add.
 
 **Next:** back to [the next-steps doc](NEXT_STEPS.md).
