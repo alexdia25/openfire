@@ -11,6 +11,7 @@
    "armor": 0.29998779296875,
    "hit_points": 22.0,
    "fuel": 400,
+   "sink_depth": 14.0,
    "shape": {
     "layer": 2,
     "mask": 39,
@@ -498,6 +499,7 @@
    "armor": 0.0,
    "hit_points": 1.0,
    "fuel": 500,
+   "sink_depth": 13.0,
    "shape": {
     "layer": 2,
     "mask": 39,
@@ -889,6 +891,7 @@
    "armor": 0.5,
    "hit_points": 26.0,
    "fuel": 320,
+   "sink_depth": 14.0,
    "shape": {
     "layer": 2,
     "mask": 39,
@@ -1376,6 +1379,7 @@
    "armor": 0.1999969482421875,
    "hit_points": 15.0,
    "fuel": 400,
+   "sink_depth": 14.0,
    "shape": {
     "layer": 2,
     "mask": 39,

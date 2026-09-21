@@ -47,6 +47,7 @@ for t in range(4):
         "armor": field(t, 0x24) / 65536,
         "hit_points": field(t, 0x28) / 65536,
         "fuel": field(t, 0x210),  # a plain integer (the game shifts it into 16.16, FUN_0040b980)
+        "sink_depth": field(t, 0x158) / 65536,  # FUN_0040cf90: a vehicle in deep water is lost below this depth (document 62)
         "shape": {"layer": 2, "mask": 0x27, **SHAPES[t]},
         "parts": [{"cel": p["cel"], "flags": int(p["flags"], 16), "corner_idx": p["corner_idx"],
                    "corners": [[c / 65536 for c in corner] for corner in p["corners_fixed16_16"]]}
