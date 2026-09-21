@@ -102,8 +102,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
   212) renders at the wrong size/position -- checked three separate ways this session
   (backface-culling flags, the rotation-matrix construction, the angle-bucket draw lists) and
   confirmed none of them explain it; a hand-adjustment attempt made it worse in a different
-  way and was reverted. Independent turret aim also isn't modelled (no aim-angle state exists
-  in this project yet) -- the turret renders at hull heading, a documented simplification. See
+  way and was reverted. Independent turret aim was not modelled at this point (now done, [document 64](64-worked-example-turret-and-raised-fire.md)). See
   [document 39](39-worked-example-real-turret-and-barrel.md).
   **Update (2026-09-09, document 40) -- FIXED.** The "unrelated small 7-corner linkage
   computation" document 39 explicitly skipped is real: `FUN_00402dc0` unconditionally
