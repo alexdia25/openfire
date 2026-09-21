@@ -68,6 +68,7 @@ export JAVA_HOME=/c/Users/Alex/Documents/code/tools/jdk-21.0.12.1+1
 | Who *writes* a field of an object? | `FindDispOps.java 0x40b000 0x410800 "+ 0x58],"` (every instruction in the range containing the text; the trailing `],` limits it to writes) |
 | What does this function do? | `DecompileMany.java 0x0040c190 0x0040c390` |
 | Decompiler finds nothing here | `DisasmForce.java 0x402d20 0x402dc0` (a callback reachable only through a data pointer: Ghidra never marked it as code; prints the instructions) |
+| Who calls this function, even in code Ghidra never disassembled? | `FindCallRel.java 409c50` (scans memory for `E8 rel32` calls with that target) |
 | Raw instructions of a known function | `DumpDisasm.java 0x0040bb80 0x0040bd20` |
 
 Things that trip people up:

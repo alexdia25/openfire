@@ -45,7 +45,7 @@ Because it flies at z 50 and its shape is 0-10 high above that, **it clears ever
 level fire**: the collision test of document 53 needs the heights to overlap. While it climbs (the first 100 ticks) it can
 still bump into tall tiles. The port shifts the shape's heights by `z` in the tile and vehicle blocking tests for this.
 
-## Step 3: the rotor and the shadow
+## Step 3: the rotor
 
 The Heli's draw descriptor (`0x440b70`, twelve parts of the body) has a next-link at `+4` (found in document 48) pointing
 at the rotor descriptor `0x440708`. Its init callback `0x403350` copies the parent's heading, pitch (`obj+0x70`), bank
@@ -56,7 +56,7 @@ at the rotor descriptor `0x440708`. Its init callback `0x403350` copies the pare
 cel 584 + team for y from -27.2 to 0, cel 580 + team for 0 to 27.2. So a fast rotor is the same 32 x 8 blade art stretched to
 four times its natural width (a blur), spinning. During flight the speed is `0x40000` = 4.0 (the start-up handler at
 `0x40e930` ramps `state+0x84` up to it and adds it to the angle each tick: **4 steps of 5.625 degrees a tick**), so mode 3.
-The ground shadow is cel 579 (flag `0x10`, `0x440e90`): a quad x -12.75..13.6, y -19.55..34 on the ground.
+The Heli's shadow art (cel 579 and the rotor-spin frames) is covered under "Shadows" below: **a live Heli has none**.
 
 ## Step 4: the weapons `FUN_0040e600`
 
@@ -98,7 +98,7 @@ left, right with headings -2.8, +2.8, -2.8 degrees; the switch selects the bomb 
 downward buttons, `Z` the level ones, `X` switches weapon (port keys), `Q`/`E` strafe, `F4` and `V` reach the Heli, `RF_VEHICLE=heli`
 starts as one. `Projectile` gained pitched flight; `MatchController` handles the launch fields and the ground impact; both
 renderers draw the height, and `VehicleRender3D` tilts the whole Heli by its pitch and bank, spins the rotor at 4 steps a tick and draws
-the shadow. A screenshot shows the banked Heli with its blurred rotor, its shadow on the ground, and dust puffs where its rounds
+the rotor (no shadow: see "Shadows"). A screenshot shows the banked Heli with its blurred rotor and dust puffs where its rounds
 land.
 
 ## Choices that were checked afterwards
@@ -113,17 +113,31 @@ Three things were first chosen "for realism" and were then traced (2026-09-21, a
   `[c s 0; -s c 0; 0 0 1]`, which turns `(0, -1, 0)` into `(sin, -cos, 0)`: heading grows clockwise, x is to the right.
   So the Heli rolls into the turn and dips its nose, exactly as drawn.
 - **The rotor's direction:** its angle goes through the same heading-matrix table, so it turns clockwise as its angle grows.
-- **The shadow's place.** The shadow object (class 4, `0x443078`) is moved every tick by `FUN_00409bd0`: to the parent's
-  position plus **(0.332 x height, -0.5 x height)** (`85 * (z >> 8)` and `-(z / 2)`). The earlier "+height in both" belonged to its
-  init function only, and had also been used for the Jeep missile; both now use the traced offset, and shells' shadows
-  (drawn straight below before) are offset the same way (2.3, -3.5 at their height 7).
+- **The shadow's place.** Every shadow object (class 4, `0x443078`) is moved each tick by `FUN_00409bd0` to the parent's position
+  plus **(0.332 x height, -0.5 x height)** (`85 * (z >> 8)` and `-(z / 2)`). The earlier "+height in both" belonged to its init
+  function only, and had also been used for the Jeep missile; both now use the traced offset, and shells' shadows (drawn straight
+  below before) are offset the same way (2.3, -3.5 at their height 7).
+
+## Shadows: a double check (2026-09-21) found that a flying Heli casts none
+
+The port drew the Heli's body shadow (cel 579) under it. Checking who creates shadow objects:
+
+- `FindPointerRefsMulti.java 443078` (the shadow class) finds exactly four creators: the projectile init `FUN_004148f0`, the missile
+  `FUN_004159a0`, an unrelated spawner at height 50 (`FUN_0040a7b0`, class `0x443838`) and **`FUN_00409c50`**, which takes an object and a shadow
+  descriptor. `FindCallRel.java 409c50` (a new script that finds `E8` calls even in code Ghidra never disassembled) finds **one caller: `0x40eaed`,
+  inside the Heli's dying handler `0x40eae0` (record `+0x234`), which pushes the descriptor `0x440ed8`.** Nothing creates a shadow
+  for a Tank, Jeep, MSV or a live Heli.
+- The other references to the shadow descriptors agree: `0x440ed8` (draw callback `0x403760`) is used only by that call and by the wreck-draw
+  dispatcher `0x42eae0`, which draws `0x440ed8`, the body `0x440b70` and the stopped rotor `0x4406c0` for a *dying* vehicle;
+  `0x403760` itself reads the parent's rotor speed and start-up state and picks `0x440e90` (cel 579 with the rotor-spin frames 589-605
+  of `0x440da8`, chosen by the rotor angle) once the speed is 4.0 or more, else shifts its corners by `18 x (1 - state+0x58)`.
+
+So the shadow (body and rotor frames) belongs to the **dying Heli sequence**, which is not modelled; a live Heli casts nothing, exactly like the
+ground vehicles. The port's Heli shadow was removed. (The rest of the dying sequence, from `0x40eae0`, is open: see below.)
 
 ## What is still a choice or missing
 
 - **Port keys** (Space, Z, X, Q, E): the original reads input bits; which physical key sets them is the port's business.
-- **The Heli's shadow is only the body shadow.** The full shadow (`0x440ed8` chaining `0x440e90` and the rotor-spin frames
-  589-605 of `0x440da8`, chosen by the rotor angle) is not drawn; the draw callback `0x403760` also slides the shadow by
-  `18 x (1 - state+0x58)` during start-up. **To trace and add.**
 - **Not done:** the start-up sequence at the base (the state handlers at `0x40e8c0`, `0x40e930`, `0x40e9c0`: gear, rotor spin-up,
   modes 0-2 and the folded mode 4 of the rotor), the landing at the base and leaving the vehicle (`0x40eb00`, `0x40eb40`: it turns to a
   fixed heading of 24 steps and glides onto the tile centre), the hover wobble, the dying handler (`0x40eae0`, record `+0x234`),

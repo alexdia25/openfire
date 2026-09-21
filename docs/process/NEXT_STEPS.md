@@ -163,7 +163,7 @@ Rule (user, 2026-09-21): never make our own choice silently; if one is unavoidab
 - **Port-only input keys** (Space / Z fire, X weapon switch, Q / E strafe, M mines, B swim, F flag, V and F1-F4 vehicle swap): the original reads input bits; the key layout is not its concern.
 - **The mine's drop offset** is reproduced as coded (only the y component), which looks odd; confirmed as the code, not as the intent (document 60).
 - **The Jeep missile quad** is drawn from the descriptor's half-width corners as read; the draw function `0x41b750` was not shown to mirror it (document 61).
-- **The Heli's start-up and landing** (gear, rotor spin-up, the folded rotor of mode 4, the base glide) are not modelled: it flies at once (document 63). Its shadow lacks the rotor-spin frames.
+- **The Heli's start-up and landing** (gear, rotor spin-up, the folded rotor of mode 4, the base glide) are not modelled: it flies at once (document 63). A live Heli casts no shadow (only its dying sequence does, traced 2026-09-21); the dying sequence itself (record `+0x234`, `0x40eae0`: a shadow, the falling body, the stopped rotor) is not modelled.
 - **Respawn and enemy AI** are placeholders written before tracing (`MatchController._on_player_destroyed`, `enemy_vehicle.gd`).
 - **Water landing of shots** uses "any water" for shallow as well; the exact sampling of `FUN_0042f5b0` was read but its box argument is a compiler-garbled stack layout (document 61).
 
