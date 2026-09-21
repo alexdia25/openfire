@@ -30,6 +30,8 @@ them in order for the first time: narrative, worked examples, real commands you 
    rules that came out of documents 4 and 5, distilled so you don't have to relearn them
    the expensive way.
 
+   **Keep [`TRACING_CHEATSHEET.md`](TRACING_CHEATSHEET.md) open** while reading the game-logic documents (45 onward): the object/field maps, how to read the assembly, and which script answers which question.
+
    **Before continuing to document 8, check [`NEXT_STEPS.md`](NEXT_STEPS.md).** It's
    deliberately not numbered into this sequence — everything above and below it is a frozen
    snapshot of how one specific question got answered, but `NEXT_STEPS.md` is the opposite:
