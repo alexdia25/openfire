@@ -304,6 +304,19 @@ def main():
             hp = json.load(f)
         for pn in hp["panels"].values():
             pn["sprite_id"] = registry[str(pn["base_cel"])]["id"]
+        # The bars are drawn in mode 10 (FUN_00418ef0 case 10): the word at PLUTPtr + 2 is 15-bit RGB, turned into the NEAREST entry of the
+        # game's palette by GetNearestPaletteIndex (document 74). The runtime palette is slots 0-9 black, then the shared PLUT (0x282CC).
+        if os.path.exists(GAME_ART_CAR):
+            car_bytes = open(GAME_ART_CAR, "rb").read()
+            runtime = [(0, 0, 0)] * 10 + [(car_bytes[0x282CC + 4 * i + 2], car_bytes[0x282CC + 4 * i + 1], car_bytes[0x282CC + 4 * i])
+                                          for i in range(246)]
+
+            def nearest(word):
+                r, g, b = ((word >> 10) & 31) * 255 // 31, ((word >> 5) & 31) * 255 // 31, (word & 31) * 255 // 31
+                r, g, b = (word >> 7) & 0xF8, (word >> 2) & 0xF8, (word << 3) & 0xF8   # the game's own conversion (0xf8 masks)
+                return list(min(runtime, key=lambda c: (c[0] - r) ** 2 + (c[1] - g) ** 2 + (c[2] - b) ** 2))
+            hp["fuel_rgb"] = {k: nearest(v) for k, v in hp["fuel_colour_words"].items()}
+            hp["ammo_rgb"] = {k: nearest(v) for k, v in hp["ammo_colour_words"].items()}
         hp["pips"]["sprite_id"] = registry[str(hp["pips"]["cel"])]["id"]
         for k in ("flag_cel", "home_cel"):
             hp["compass"][k.replace("_cel", "_sprite_id")] = registry[str(hp["compass"][k])]["id"]

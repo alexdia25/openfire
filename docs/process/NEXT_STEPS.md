@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-73
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-75
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -163,6 +163,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Jeep compass and announcer (2026-09-21):** the Jeep's compass value (how well it points at the other flag, else home; -16..16) is traced and drawn as a ring on its panel; the announcer's 18 voice lines and trigger logic are recorded (no audio yet, which audio file each line uses is untraced). See [document 71](71-worked-example-jeep-compass-and-announcer.md). The radar has a ping element (cels 1947-1962), not drawn.
 - **Ammunition (2026-09-21):** stocks (150 / 16 / 100 + 10 / 100 + 50), one round per projectile, the empty click's cooldown and the rearm zone's refill (one per tick, slot after slot) are applied, with ammo bars and the Jeep's 16 pips on the panel. Open: the sounds, the pips' animation, the vehicle-stock counts. See [document 72](72-worked-example-ammunition-and-panel-bars.md).
 - **Vehicle stock (2026-09-21):** the level's T, J, A, H (default 3, 8, 3, 3; 255 = unlimited) are how many vehicles of each type the player has; creating one spends one, docking returns one, all four at 0 is the lost condition (handler `0x418390`, untraced). The port tracks the stock with placeholder choice logic and a text line. Open: what the original does at its base to choose a vehicle (and shows with the counts panel), the mine reserve, `M`. See [document 73](73-worked-example-vehicle-stock.md).
+- **Bar colours and mines (2026-09-21):** the bars are drawn in blit mode 10, whose colour word is 15-bit RGB matched to the nearest palette entry (applied, document 74). Mines: tile bit 31 means a mine lies there (purple on the radar); `M` mines are scattered at the start of one-player levels (road-side tiles first), and the MSV's layer works only with two players (document 75). Open: the mine reserve, `unk4`'s pools, the original's random positions.
 
 ## Level 1 (RFMAP001) end to end (2026-09-21)
 
@@ -181,6 +182,7 @@ Rule (user, 2026-09-21): never make our own choice silently; if one is unavoidab
 - **The panel's scale and position** (3 px per original pixel, bottom-left), the radar's black outside-the-map background, and the **fuel bar colours read as 15-bit RGB** (unverified format, document 70) are the port's; the original's frame, grid, bracket cursor and arrow are not drawn yet (document 69).
 - **The compass's home position** (taken as the player's spawn) and its per-value palette (document 71).
 - **Enemy placeholder vehicles fire without limit** (`infinite_ammo`; document 72).
+- **The scattered mines' positions** use a seeded generator, not the original's (document 75); the MSV keeps a full 10 mines whenever the (two-player only) layer is on.
 - **Vehicle choice and loss** (`V` cycles types in stock, respawn takes stock, the lost banner, the stock text line) are placeholders; the MSV keeps a full 10 mines instead of drawing on the reserve (document 73).
 - **Port-only input keys** (Space / Z fire, X weapon switch, Q / E strafe, M mines, B swim, F flag, V and F1-F4 vehicle swap): the original reads input bits; the key layout is not its concern.
 - **The mine's drop offset** is reproduced as coded (only the y component), which looks odd; confirmed as the code, not as the intent (document 60).
