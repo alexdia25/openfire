@@ -304,6 +304,7 @@ for _n in range(12):
                    "code_verified" if _n == 0 else "visual"))
     AUDIT6.append((1791 + _n, f"projectile.jeep_missile.green.{_n + 1:02d}", "projectile",
                    "Jeep missile body, spin frame " + str(_n + 1) + " of 12, green (cel 1779 + 12 + frame; document 61)", "visual"))
+AUDIT6.append((2074, "vehicle.jeep.wheels_topdown", "vehicle", "the Jeep's four wheels seen from above: swim-mode part 11 (descriptor 0x43fcb8, cel 0x81a; document 62)", "code_verified"))
 for _cel, _id, _cat, _note, _conf in AUDIT6:
     put(_cel, _id, _cat, _note, _conf)
 

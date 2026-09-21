@@ -33,6 +33,13 @@ SHAPES = {
     2: {"z": [0.0, 12.0], "poly": [[-7.5, -12.0], [7.5, -12.0], [7.5, 11.25], [-7.5, 11.25]]},
     3: {"z": [0.0, 10.0], "poly": [[0.0, 30.6], [-10.2, 0.0], [-10.2, -13.6], [10.2, -13.6], [10.2, 0.0]]},
 }
+# The Jeep's swim-mode drawing (FUN_00402fc0, document 62): the table at 0x43fb78 (9 rows of 6 dwords, 16.16) is indexed by
+# whole(immersion * 8); a row is (a, _, c, d, _, f) and sets the wheel-strip corners: x = -a (top edge, height c) and
+# x = -d (bottom edge, height f) for the left strip, +a / +d for the right. Row 0 equals the static geometry
+# (4.5, 8, 4.5, 0). Above index 3 the descriptor switches to 0x43fcb8, which adds part 11 (cel 0x81a = 2074, the four
+# wheels seen from above) as a square of half-size 12 * max(immersion, 0.25) at height 0.
+SWIM_ROWS = [(4.5, 8.0, 4.5, 0.0), (3.75, 7.0, 6.0, 0.0), (3.0, 5.0, 7.5, 0.0), (3.0, 3.0, 8.25, 0.5), (2.25, 2.0, 8.25, 1.0),
+             (2.25, 1.0, 8.25, 1.0), (1.5, 1.0, 7.5, 1.0), (1.125, 1.0, 7.125, 1.0), (0.75, 1.0, 6.75, 1.0)]
 parts = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "vehicle_type_parts.json")))
 out = {}
 for t in range(4):
@@ -47,6 +54,7 @@ for t in range(4):
         "armor": field(t, 0x24) / 65536,
         "hit_points": field(t, 0x28) / 65536,
         "fuel": field(t, 0x210),  # a plain integer (the game shifts it into 16.16, FUN_0040b980)
+        **({"swim": {"rows": [list(r) for r in SWIM_ROWS], "ring_cel": 2074, "ring_half": 12.0}} if t == 1 else {}),
         "sink_depth": field(t, 0x158) / 65536,  # FUN_0040cf90: a vehicle in deep water is lost below this depth (document 62)
         "shape": {"layer": 2, "mask": 0x27, **SHAPES[t]},
         "parts": [{"cel": p["cel"], "flags": int(p["flags"], 16), "corner_idx": p["corner_idx"],

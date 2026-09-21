@@ -7231,10 +7231,10 @@
       "note": "grid of small red circles"
     },
     "2074": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.23",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.wheels_topdown",
+      "note": "the Jeep's four wheels seen from above: swim-mode part 11 (descriptor 0x43fcb8, cel 0x81a; document 62)"
     },
     "2075": {
       "category": "marker",

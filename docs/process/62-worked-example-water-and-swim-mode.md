@@ -81,6 +81,23 @@ matter: **when a turn key is held and neither throttle key is, it acts as if acc
 `+0x168..0x178`, the terrain scale, the 22-bit heading step) is the same. It also smooths a tilt value (`state+0xe8/0xec`), which
 is cosmetic and not modelled.
 
+## Step 5: how a swimming Jeep is drawn (`FUN_00402fc0`)
+
+The Jeep's draw callback (document 59) also reads the immersion. `index = min(whole(immersion * 8), 8)` picks a row of the table at
+`0x43fb78` (9 rows of 6 dwords, dumped with `DumpDwords.java 0x43fb78 60`). The stores that use it, read from the disassembly
+(`0x40301b-0x40305b`), write into the Jeep's corner array (corner base `0x43f6e8`, 12 bytes each): for example `[0x43f898] = -row[0]`
+is corner 36's x (`(0x43f898 - 0x43f6e8) / 12 = 36`). Working through the eight addresses gives: corners 36-37 (the left wheel strip's top
+edge) get x = -a and height c, corners 38-39 (its bottom edge) x = -d and height f, and the right strip (40-43) the mirror image, where
+`(a, c, d, f)` are the row's fields 0, 2, 3, 5. **Row 0 is `(4.5, 8, 4.5, 0)`, exactly the static geometry of parts 9 and 10** (document 39), which
+confirms the mapping. The later rows fold the strips inward at the top and out at the bottom (row 8: `(0.75, 1, 6.75, 1)`): the wheels splay
+like a hull.
+
+From index 4 (immersion 0.5) the callback also switches the descriptor to `0x43fcb8`, which has 48 corners instead of 44 and draw-order
+lists that start with part 11 (`0x43fb58`: cel `0x81a` = 2074, corners 44-47). Those four corners are a square of half-size 12 turned into
+`12 * max(immersion, 0.25)` by a diagonal matrix (`0x48a480`), at height 0, drawn first, so **under** the vehicle. Cel 2074 is the four wheels seen
+from above (the registry had it as `marker.cluster_dots_red.23`; now `vehicle.jeep.wheels_topdown`, hand-edited with the matching
+`classify_batch2.py` block).
+
 ## Applied in the port
 
 - `game/water.gd` (the chain of step 1); `Vehicle` recomputes `water_class` every frame, runs the sinking states of step 2
@@ -95,10 +112,12 @@ is cosmetic and not modelled.
   reaches 0.5 after 30 ticks and 1.0 after 60, the scale is 0.25 in water and 0.01 on land; the toggle is refused in deep water
   and works again on land; a mine is refused in deep water.
 
+- The Jeep's swim drawing of step 5 in `VehicleRender3D` (`tools/data/vehicle_types.json` carries the table). A screenshot with `RF_DEBUG_SWIM=0`,
+  `0.5` and `1` shows the wheel strips reshaping and the wheel square appearing and growing.
+
 ## Not done
 
-The Jeep's swim-mode drawing (the immersion row of the wheel table at `0x43fb78`, and the second descriptor `0x43fcb8` it
-switches to above 3/8 immersion: wheels and hull change), the wading and sinking descriptors (`record+0x14c`, `+0x154`; the port
+The wading and sinking descriptors (`record+0x14c`, `+0x154`; the port
 just lowers the vehicle), the wading splash, sounds, the ammo counts (16 missiles), the "last enemy object touched" target rule
 and the Heli (it is never in water: its height is above 1.0).
 

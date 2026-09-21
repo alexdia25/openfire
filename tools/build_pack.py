@@ -244,6 +244,8 @@ def main():
         with open(VEHICLE_TYPES_JSON) as f:
             vt = json.load(f)["types"]
         for t in vt.values():
+            if "swim" in t:
+                t["swim"]["ring_sprite"] = registry[str(t["swim"]["ring_cel"])]["id"]
             for part in t["parts"]:
                 n = 3 if part["flags"] & 8 else 1  # tan, green, and variant 2 = the hit flash (document 59)
                 part["sprite_ids"] = [registry[str(part["cel"] + v)]["id"] for v in range(n)]
