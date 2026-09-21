@@ -6348,10 +6348,10 @@
       "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 192"
     },
     "1940": {
-      "category": "vehicle",
+      "category": "ui",
       "confidence": "visual_group",
-      "id": "vehicle.weapon_rifle.01",
-      "note": "olive-green handheld weapon silhouette, top-down"
+      "id": "ui.hud.panel_blank",
+      "note": "blank panel frame (template slot 2, offset -3,-2; document 66)"
     },
     "1941": {
       "category": "effect",
@@ -6365,24 +6365,28 @@
       "id": "prop.ammo_crate_olive.01"
     },
     "1943": {
-      "category": "prop",
+      "category": "ui",
       "confidence": "visual_group",
-      "id": "prop.ammo_crate_olive.02"
+      "id": "ui.hud.panel.tank",
+      "note": "HUD panel base, Tank (kind-2 element cel 0x797 + vehicle number; documents 68, 70)"
     },
     "1944": {
-      "category": "prop",
+      "category": "ui",
       "confidence": "visual_group",
-      "id": "prop.ammo_crate_olive.03"
+      "id": "ui.hud.panel.jeep",
+      "note": "HUD panel base, Jeep (compass dial; documents 68, 70)"
     },
     "1945": {
-      "category": "prop",
+      "category": "ui",
       "confidence": "visual_group",
-      "id": "prop.ammo_crate_olive.04"
+      "id": "ui.hud.panel.msv",
+      "note": "HUD panel base, MSV (documents 68, 70)"
     },
     "1946": {
-      "category": "prop",
+      "category": "ui",
       "confidence": "visual_group",
-      "id": "prop.ammo_crate_olive.05"
+      "id": "ui.hud.panel.heli",
+      "note": "HUD panel base, Heli (documents 68, 70)"
     },
     "1947": {
       "category": "prop",

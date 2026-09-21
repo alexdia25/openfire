@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-69
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-70
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -159,6 +159,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **The ruin grabs the flag (2026-09-21):** contact with any post of the finished building (coastal 63) takes the flag for a Jeep, through the tile callback `FUN_00432d80`, which the port lacked (the Jeep looked stuck on it). Level 1 is also completed by an in-scene autoplay (`RF_DEBUG_AUTOPLAY=1`), and the interface's per-player panel is first-pass traced (frame, vehicle icon, weapon counts). See [document 66](66-worked-example-the-hud-panel.md) and [document 67](67-worked-example-autoplay-placeholder-hud-and-ruin-grab.md).
 - **HUD elements (2026-09-21):** each vehicle type adds elements to its player's panel through `FUN_00412cd0` (kinds 1-9 at `0x446930`); kind 5 is the fuel bar (40 x 4 at panel + (88, 12) for the Tank, tweened, colour by fill), kind 6 the radar (a 32 x 32 tile window of a 128 x 128 bitmap at panel + (19, 11), a grid cel, and probably the Jeep direction arrow). Open: kinds 2-4 and 7-9 (health?), the palette at `0x446760`, the radar painter `FUN_00412dc0` and blips `FUN_00413100`, the other types' blocks. See [document 68](68-worked-example-fuel-bar-and-radar-element.md).
 - **Radar bitmap and blips (2026-09-21):** one byte per tile (land `0x87`, water `0x91`, flagged tile `0xc9`, per-coastal-id colours for buildings/structures split by team), painted by `FUN_00412dc0`; blips are point lists (`FUN_00413100`): the flag is a 4-pixel pole with a 2 x 2 pennant (`0x45` tan, `0x67` green) that blinks every 15 ticks. The colours come from the shared palette (index - 10); the port now has a radar window (`game/radar_view.gd`). Open: the grid/bracket cels, the Jeep arrow, bit 31 of the tile word, the other element kinds (health), the announcer. See [document 69](69-worked-example-radar-bitmap-and-blips.md).
+- **The panel per vehicle (2026-09-21):** each of the four vehicles' panels is traced: base picture (cels 1943-1946), fuel bar, one or two ammo bars (Jeep: 16 pips), a radar (Jeep: a compass dial); **no health readout exists**. The port draws base, fuel bar and radar from the records (`game/hud_panel.gd`). Open: ammo bars (with ammo), the Jeep compass, bar colour format, kinds 3 and 9, the announcer. See [document 70](70-worked-example-hud-panel-per-vehicle.md).
 
 ## Level 1 (RFMAP001) end to end (2026-09-21)
 
@@ -174,7 +175,7 @@ Rule (user, 2026-09-21): never make our own choice silently; if one is unavoidab
 
 - **The ground flag's camera tilt** (`(cam+0x24 + 0xffe70000) >> 3`) is not reproduced (document 65).
 - **The placeholder panel** (`game/placeholder_hud.gd`: labels, the objective wording, the restart key Enter) and the debug autoplay are the port's own; the original's panel is frame cel 1940 + vehicle icon + weapon counts + radar (document 66), fuel/health displays and announcer still untraced.
-- **The radar's scale and position** (4 px per tile, bottom-left) and its black outside-the-map background are the port's; the original's frame, grid, bracket cursor and arrow are not drawn yet (document 69).
+- **The panel's scale and position** (3 px per original pixel, bottom-left), the radar's black outside-the-map background, and the **fuel bar colours read as 15-bit RGB** (unverified format, document 70) are the port's; the original's frame, grid, bracket cursor and arrow are not drawn yet (document 69).
 - **Port-only input keys** (Space / Z fire, X weapon switch, Q / E strafe, M mines, B swim, F flag, V and F1-F4 vehicle swap): the original reads input bits; the key layout is not its concern.
 - **The mine's drop offset** is reproduced as coded (only the y component), which looks odd; confirmed as the code, not as the intent (document 60).
 - **The Jeep missile quad** is drawn from the descriptor's half-width corners as read; the draw function `0x41b750` was not shown to mirror it (document 61).

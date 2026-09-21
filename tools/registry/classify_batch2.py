@@ -324,6 +324,19 @@ for _cel, _id, _cat, _note, _conf in AUDIT7:
     put(_cel, _id, _cat, _note, _conf)
 
 
+# the HUD panel bases (document 68 / 70): the kind-2 element draws cel 0x797 (1943) + a per-vehicle number, and the four cels are four panels
+# (by their pictures: Tank, Jeep with a compass dial, MSV, Heli; the order Tank, Jeep, MSV, Heli matches the vehicle records). 1940 is the blank frame.
+AUDIT8 = [
+    (1940, "ui.hud.panel_blank", "ui", "blank panel frame (template slot 2, offset -3,-2; document 66)", "visual_group"),
+    (1943, "ui.hud.panel.tank", "ui", "HUD panel base, Tank (kind-2 element cel 0x797 + vehicle number; documents 68, 70)", "visual_group"),
+    (1944, "ui.hud.panel.jeep", "ui", "HUD panel base, Jeep (compass dial; documents 68, 70)", "visual_group"),
+    (1945, "ui.hud.panel.msv", "ui", "HUD panel base, MSV (documents 68, 70)", "visual_group"),
+    (1946, "ui.hud.panel.heli", "ui", "HUD panel base, Heli (documents 68, 70)", "visual_group"),
+]
+for _cel, _id, _cat, _note, _conf in AUDIT8:
+    put(_cel, _id, _cat, _note, _conf)
+
+
 def main():
     with open(REGISTRY_JSON) as f:
         registry = json.load(f)

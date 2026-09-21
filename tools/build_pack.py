@@ -66,6 +66,7 @@ GATES_JSON = os.path.join(ROOT, "tools", "data", "gates.json")
 WATER_JSON = os.path.join(ROOT, "tools", "data", "water_tables.json")
 FLAG_JSON = os.path.join(ROOT, "tools", "data", "flag.json")
 RADAR_JSON = os.path.join(ROOT, "tools", "data", "radar.json")
+HUD_PANELS_JSON = os.path.join(ROOT, "tools", "data", "hud_panels.json")
 GAME_ART_CAR = os.path.join(os.environ.get("RF_GAME_DIR", "C:/Users/Alex/Documents/returnfire"), "ART", "ART.CAR")
 VEHICLE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "vehicle_types.json")
 PROJECTILE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "projectile_types.json")
@@ -296,6 +297,16 @@ def main():
         os.makedirs(os.path.join(args.out_dir, "hud"), exist_ok=True)
         with open(os.path.join(args.out_dir, "hud", "radar.json"), "w") as f:
             json.dump(rd, f)
+
+    # The HUD panels of the four vehicles (document 70): layouts plus the sprite id of each base cel
+    if os.path.exists(HUD_PANELS_JSON):
+        with open(HUD_PANELS_JSON) as f:
+            hp = json.load(f)
+        for pn in hp["panels"].values():
+            pn["sprite_id"] = registry[str(pn["base_cel"])]["id"]
+        os.makedirs(os.path.join(args.out_dir, "hud"), exist_ok=True)
+        with open(os.path.join(args.out_dir, "hud", "panels.json"), "w") as f:
+            json.dump(hp, f)
 
     # Water classification tables (document 62)
     if os.path.exists(WATER_JSON):
