@@ -65,6 +65,8 @@ for t in range(4):
         "turn_steps_per_tick": field(t, 0x178) / 65536,
         "armor": field(t, 0x24) / 65536,
         "hit_points": field(t, 0x28) / 65536,
+        "ammo": [field(t, 0x1A8), field(t, 0x1DC)],          # weapon slots 0 / 1 (+0x194 / +0x1c8 blocks, +0x14): the stock a slot starts with (document 72)
+        "weapon_cooldown_ticks": [field(t, 0x1A4), field(t, 0x1D8)],  # block +0x10
         "fuel": field(t, 0x210),  # a plain integer (the game shifts it into 16.16, FUN_0040b980)
         **({"rack": MSV_RACK} if t == 2 else {}),
         **({"swim": {"rows": [list(r) for r in SWIM_ROWS], "ring_cel": 2074, "ring_half": 12.0}} if t == 1 else {}),

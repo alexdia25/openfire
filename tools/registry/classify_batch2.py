@@ -337,6 +337,15 @@ for _cel, _id, _cat, _note, _conf in AUDIT8:
     put(_cel, _id, _cat, _note, _conf)
 
 
+# the Jeep panel's missile pips (document 72): kind 7 draws cel 0x20ac0 = 1968 per missile and paints 0x7af = 1967 over a spent one.
+AUDIT9 = [
+    (1968, "ui.hud.pip_missile", "ui", "the Jeep panel's missile pip (kind 7 element FUN_004127b0 draws celtable + 0x20ac0; document 72)", "visual_group"),
+    (1967, "ui.hud.pip_erase", "ui", "the patch kind 7 draws over a used pip (cel 0x7af, an 8 x 8 background swatch; document 72)", "visual_group"),
+]
+for _cel, _id, _cat, _note, _conf in AUDIT9:
+    put(_cel, _id, _cat, _note, _conf)
+
+
 def main():
     with open(REGISTRY_JSON) as f:
         registry = json.load(f)

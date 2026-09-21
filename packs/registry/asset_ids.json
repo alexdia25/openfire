@@ -6519,16 +6519,16 @@
       "id": "prop.panel_solid.olive.01"
     },
     "1967": {
-      "category": "decoration",
+      "category": "ui",
       "confidence": "visual_group",
-      "id": "decoration.camo_swatch.124",
-      "note": "mottled green/olive square, camo-netting-like"
+      "id": "ui.hud.pip_erase",
+      "note": "the patch kind 7 draws over a used pip (cel 0x7af, an 8 x 8 background swatch; document 72)"
     },
     "1968": {
-      "category": "decoration",
+      "category": "ui",
       "confidence": "visual_group",
-      "id": "decoration.camo_swatch.125",
-      "note": "mottled green/olive square, camo-netting-like"
+      "id": "ui.hud.pip_missile",
+      "note": "the Jeep panel's missile pip (kind 7 element FUN_004127b0 draws celtable + 0x20ac0; document 72)"
     },
     "1969": {
       "category": "ui",

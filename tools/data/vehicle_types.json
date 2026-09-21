@@ -10,6 +10,14 @@
    "turn_steps_per_tick": 0.25,
    "armor": 0.29998779296875,
    "hit_points": 22.0,
+   "ammo": [
+    150,
+    0
+   ],
+   "weapon_cooldown_ticks": [
+    20,
+    0
+   ],
    "fuel": 400,
    "sink_depth": 14.0,
    "shape": {
@@ -498,6 +506,14 @@
    "turn_steps_per_tick": 0.5,
    "armor": 0.0,
    "hit_points": 1.0,
+   "ammo": [
+    16,
+    0
+   ],
+   "weapon_cooldown_ticks": [
+    30,
+    0
+   ],
    "fuel": 500,
    "swim": {
     "rows": [
@@ -950,6 +966,14 @@
    "turn_steps_per_tick": 0.1999969482421875,
    "armor": 0.5,
    "hit_points": 26.0,
+   "ammo": [
+    100,
+    10
+   ],
+   "weapon_cooldown_ticks": [
+    30,
+    140
+   ],
    "fuel": 320,
    "rack": {
     "base": [
@@ -1504,6 +1528,14 @@
    "turn_steps_per_tick": 0.75,
    "armor": 0.1999969482421875,
    "hit_points": 15.0,
+   "ammo": [
+    100,
+    50
+   ],
+   "weapon_cooldown_ticks": [
+    15,
+    30
+   ],
    "fuel": 400,
    "sink_depth": 14.0,
    "shape": {

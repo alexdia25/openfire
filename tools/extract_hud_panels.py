@@ -13,12 +13,16 @@ import os
 # vehicle index -> values transcribed from the dump
 panels = {
     "0": {"name": "Tank", "base_cel": 1943, "fuel": {"max": 400, "rect": [88, 12, 127, 15]},
+          "weapons": [{"slot": 0, "kind": 4, "rect": [76, 31, 115, 34]}],
           "slot9": {"kind": 6, "pos": [19, 11], "size": [32, 32]}},
     "1": {"name": "Jeep", "base_cel": 1944, "fuel": {"max": 500, "rect": [15, 10, 50, 12]},
+          "weapons": [{"slot": 0, "kind": 7}],
           "slot9": {"kind": 8, "pos": [69, 6], "size": [16, 16]}},
     "2": {"name": "MSV", "base_cel": 1945, "fuel": {"max": 320, "rect": [19, 26, 63, 28]},
+          "weapons": [{"slot": 0, "kind": 4, "rect": [29, 11, 73, 13]}, {"slot": 1, "kind": 4, "rect": [29, 41, 73, 43]}],
           "slot9": {"kind": 6, "pos": [89, 9], "size": [39, 34]}},
     "3": {"name": "Heli", "base_cel": 1946, "fuel": {"max": 400, "rect": [9, 25, 33, 27]},
+          "weapons": [{"slot": 0, "kind": 4, "rect": [55, 45, 103, 47]}, {"slot": 1, "kind": 4, "rect": [110, 25, 135, 27]}],
           "slot9": {"kind": 6, "pos": [56, 5], "size": [32, 32]}},
 }
 out = {
@@ -26,6 +30,11 @@ out = {
     "panel_size": [144, 56],
     # fuel colour words at 0x446760 + colour * 2 (the second word of each pair), the empty part at 0x446758: UNVERIFIED format (document 70)
     "fuel_colour_words": {"6": 0x7F40, "4": 0x7E20, "2": 0x7D20, "0": 0x7C00, "8": 0x4000, "empty": 0x0884},
+    # ammunition bars: kind 4 (FUN_00411da0) reads the colour words at 0x446778 + colour * 2, the same way as the fuel bar's (UNVERIFIED format)
+    "ammo_colour_words": {"6": 0x41A0, "4": 0x4100, "2": 0x40A0, "0": 0x4000},
+    # kind 7 (FUN_004127b0), the Jeep's 16 missile pips: pip i (1..16) at x = PIP_X[i], y = PIP_Y[i] (tables 0x446798 / 0x4467e0), cel 0x20ac0 = 1968 lit
+    "pips": {"cel": 1968, "x": [62, 70, 78, 86, 94, 102, 110, 118, 62, 70, 78, 86, 94, 102, 110, 118],
+             "y": [21.5] * 8 + [38.5] * 8},
     "panels": panels,
     # kind 8 (FUN_00412960): cel celtable + 0x20b04 = 1969 for a flag target (negative value), + 0x20b8c = 1971 for home; document 71
     "compass": {"flag_cel": 1969, "home_cel": 1971},
