@@ -244,7 +244,7 @@ def main():
             vt = json.load(f)["types"]
         for t in vt.values():
             for part in t["parts"]:
-                n = 2 if part["flags"] & 8 else 1
+                n = 3 if part["flags"] & 8 else 1  # tan, green, and variant 2 = the hit flash (document 59)
                 part["sprite_ids"] = [registry[str(part["cel"] + v)]["id"] for v in range(n)]
         os.makedirs(os.path.join(args.out_dir, "vehicles"), exist_ok=True)
         with open(os.path.join(args.out_dir, "vehicles", "vehicle_types.json"), "w") as f:

@@ -98,7 +98,7 @@ references, a mechanical job done in documents 49-51.
 
 ## Not done
 
-Per-type stats for the Jeep, MSV and Heli (added later in document 57), the dying handler, water sinking, and
+Per-type stats for the Jeep, MSV and Heli (added later in document 57), the hit flash (added in document 59), the dying handler, water sinking, and
 explosion damage to vehicles.
 
 **Next:** back to [the next-steps doc](NEXT_STEPS.md).

@@ -119,11 +119,21 @@ The Heli's init (`0x4034c0`) does the same and also copies object `+0x70` and st
   show three canisters, fewer mid-salvo, the rack sliding on reload, and three again. The Jeep's strip is thin and
   its change is hard to see in stills; the rule is the traced one.
 
+## The hit flash, applied
+
+`Vehicle.take_damage()` starts a 10-tick (0.16 s) timer (`hit_flash_remaining`, `flashing()`); both renderers draw every
+flag-8 part with cel + 2 while it runs (`build_pack.py` now lists three sprite ids for such parts). The variant-2
+cels are **half-size images** of their tan/green siblings (32 x 32 for a 64 x 64 face); the original stretches each
+part to its four corners, so the mesh-based renderers need nothing extra, and the Tank's flat face sprites are drawn at
+`pixel_size` 2. Checked by screenshots with `RF_DEBUG_FLASH=1` (all of Tank, Jeep and MSV turn yellow with the same
+silhouette) and a scripted timing run (flashing right after a hit, off after 0.2 s, a hit below the armour does not
+start it). One oddity kept as is: the Jeep's part 417 has no variant-2 art (its cel + 2 is a blank one in the
+registry), so that part is not drawn while flashing.
+
 ## Not done, and why
 
 | Item | Reason |
 |---|---|
-| Hit flash (variant 2) | Traced here; needs a third sprite id per part and the hit time on `Vehicle` (next) |
 | Tank turret aim and barrel pitch | Independent aim was deferred by you |
 | Jeep water look (immersion table `0x43fb78`, descriptor `0x43fcb8`) | No water mode yet |
 | MSV rack elevation (corners 44-51 rotate by state `+0x50`) | Needs the raised-gun state |
