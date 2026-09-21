@@ -304,6 +304,8 @@ def main():
             hp = json.load(f)
         for pn in hp["panels"].values():
             pn["sprite_id"] = registry[str(pn["base_cel"])]["id"]
+        for k in ("flag_cel", "home_cel"):
+            hp["compass"][k.replace("_cel", "_sprite_id")] = registry[str(hp["compass"][k])]["id"]
         os.makedirs(os.path.join(args.out_dir, "hud"), exist_ok=True)
         with open(os.path.join(args.out_dir, "hud", "panels.json"), "w") as f:
             json.dump(hp, f)

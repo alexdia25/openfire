@@ -71,6 +71,8 @@ A contact sheet of these cels (rendered from the registry) shows what they look 
 missile, 2158 a round mine-like disc, 2159 a red-and-yellow rocket, 2160 a small bullet; 2161-2164 four small vehicle silhouettes (Jeep-like, Heli, Tank, MSV-like: consistent with the
 icon table indexed by vehicle type, whose order Tank, Jeep, MSV, Heli would want 2163, 2161, 2164, 2162, so the silhouettes' identities are still to be confirmed against the type index).
 
+**Correction (document 71):** `0x203d8` is cel 1942 (the panel interior); the offsets are `cel * 0x44` with no shift.
+
 ## What this tells the port
 
 - **There is no fuel or health gauge in this panel.** Fuel has a gauge at record `+0x22c` (document 54: "a gauge is redrawn from it"), so it is drawn by another object; the health display is

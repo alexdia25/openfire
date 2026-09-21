@@ -82,4 +82,6 @@ probably radar overlay pieces (by the code above), to be re-labelled once the ar
 The panel is assembled per vehicle type from element kinds, not fixed: the fuel bar and radar exist for the Tank; the other types have their own records (the Jeep's and MSV's element parameters are in their records
 at the same offsets, not yet read). A faithful port needs the element kinds 2-4 and 7-9 read, the palette colours at `0x446760`, and the radar painter.
 
+**Correction (document 71):** the 16 cels at `celtable + 0x2052c` are cels 1947-1962, growing rings (a radar ping for any vehicle, class 1), not the Jeep's arrow; the Jeep's direction indicator is the compass element of its own panel.
+
 **Next:** the radar painter `FUN_00412dc0` and the blip function `FUN_00413100`; the remaining kinds; the other types' panel blocks.

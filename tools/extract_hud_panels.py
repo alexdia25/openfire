@@ -27,6 +27,8 @@ out = {
     # fuel colour words at 0x446760 + colour * 2 (the second word of each pair), the empty part at 0x446758: UNVERIFIED format (document 70)
     "fuel_colour_words": {"6": 0x7F40, "4": 0x7E20, "2": 0x7D20, "0": 0x7C00, "8": 0x4000, "empty": 0x0884},
     "panels": panels,
+    # kind 8 (FUN_00412960): cel celtable + 0x20b04 = 1969 for a flag target (negative value), + 0x20b8c = 1971 for home; document 71
+    "compass": {"flag_cel": 1969, "home_cel": 1971},
 }
 path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "hud_panels.json")
 json.dump(out, open(path, "w"), indent=1)
