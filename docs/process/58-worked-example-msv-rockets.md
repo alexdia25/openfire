@@ -34,7 +34,7 @@ the back-blast appears at the rear, salvo spacing is 30 ticks (frames 0 and 63 a
 ## Not done
 
 The MSV's mine layer (slot 1: cooldown 140 ticks, ammo 10; needs the mine object and explosion damage volume);
-the elevated rocket (type 9, needs the gun-raise state); impact effects specific to rockets (they reuse the
+the elevated rocket (type 9; done in [document 64](64-worked-example-turret-and-raised-fire.md)); impact effects specific to rockets (they reuse the
 shell's); the MSV's own drive quirks. The Jeep's machine gun and homing missile and the Heli follow.
 
 **Next:** back to [the next-steps doc](NEXT_STEPS.md).

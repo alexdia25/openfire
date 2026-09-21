@@ -81,8 +81,8 @@ per-tick function `0x40d790`:
 
 So during the salvo `n` is 0, 1, 2 and the cel is 326, 325, 324 (the registry's canisters_3, _2, _1: the audit's
 "1/2/3 blue canisters"). After the third rocket `n` runs from -6.0 up to 0 in 40 ticks and two corners (`0x43ed64`
-and `0x43ed70`, the y of corners 48 and 49 of the rack) slide from y = 11.25 to 5.25. That is the base value -4.5
-replaced by `-6.0 - n`, plus the fixed offset 11.25; at rest y = 5.25, not the descriptor's static 6.75.
+and `0x43ed70`, the y of corners 48 and 49 of the rack) slide. **Corrected in [document 64](64-worked-example-turret-and-raised-fire.md):** the fixed offset added to the base is `(0, 6, 12)` (the triple at
+`0x43ed9c`), not 11.25, so the strip spans y 0 to 6 at rest and grows from y 6 toward 0 during the reload.
 
 ## Step 4: the Tank and the two init callbacks
 

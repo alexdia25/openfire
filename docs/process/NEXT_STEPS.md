@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-63
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-64
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -155,6 +155,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **The Jeep's weapon (2026-09-21):** the Jeep's "machine gun" and its "homing missile" turned out to be one lobbed missile that picks its target (an enemy within 61 units, else the last tile it bumped, else a random point ahead) and lands on it, doing 1.5 damage. The space bar fires it every 30 ticks; the missile's cels were mislabelled decorations. See [document 61](61-worked-example-jeep-missile.md).
 - **Water, sinking and the Jeep's swim mode (2026-09-21):** the rule everything called "in water" is traced (land / shallow / deep from the tile under a vehicle, with shore polygons). A vehicle in deep water now sinks and is lost after ~35 ticks unless it is a Jeep in swim mode (`B`; a one-second ramp during which it cannot move; 0.25 speed in water, 0.01 on land); water slows everything to 0.75; mines are refused and missiles splash. The Jeep also creeps forward when a turn key is held without the throttle, and its wheels reshape and a wheel square appears under it as it goes into swim mode. See [document 62](62-worked-example-water-and-swim-mode.md).
 - **The helicopter (2026-09-21):** it flies (turns with inertia, strafes with `Q`/`E`, banks, climbs to 50 and stays there, clear of every building), fires guns (`Space` down, `Z` level) and bombs (`X` switches), and draws a blurred spinning rotor, its tilt and a ground shadow. Start-up and landing at the base, ammo, sounds and being shot down (needs the MSV's raised rocket) are open. See [document 63](63-worked-example-helicopter.md).
+- **Turret aim and raised fire (2026-09-21):** the Tank's turret turns independently (`Q`/`E`, `R` recentres) and both the Tank and the MSV have a raised gun (`Z`: 25 degrees up, shots 40 degrees up that climb to 55, the Heli's altitude). The Heli can now be shot down. See [document 64](64-worked-example-turret-and-raised-fire.md), which also corrects the MSV rack corners of document 59.
 
 ## Untraced choices (revisit; a standing list, kept short on purpose)
 

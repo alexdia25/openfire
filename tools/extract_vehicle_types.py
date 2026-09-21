@@ -40,6 +40,18 @@ SHAPES = {
 # wheels seen from above) as a square of half-size 12 * max(immersion, 0.25) at height 0.
 SWIM_ROWS = [(4.5, 8.0, 4.5, 0.0), (3.75, 7.0, 6.0, 0.0), (3.0, 5.0, 7.5, 0.0), (3.0, 3.0, 8.25, 0.5), (2.25, 2.0, 8.25, 1.0),
              (2.25, 1.0, 8.25, 1.0), (1.5, 1.0, 7.5, 1.0), (1.125, 1.0, 7.125, 1.0), (0.75, 1.0, 6.75, 1.0)]
+# The MSV's rack (FUN_00402ec0, document 64): the 8 corners 44-51 of its descriptor are recomputed every frame as
+# R(elevation) * base + offset, base = the table at 0x43ed30 (corners 0-3 the top plate, 4-7 the canister strip; units,
+# y = minus forward), offset = (0, 6, 12) (the dword triple at 0x43ed9c). The callback also overwrites the y of base corners 4
+# and 5 with -6 - n, n being its weapon counter while it reloads (document 59). The salvo offsets at 0x43ed90 are
+# (-1.5, 6, 12), (0, 6, 12), (1.5, 6, 12); the rocket points are (0, -15, -1) and (0, 1.5, -1) (0x43edb8).
+MSV_RACK = {
+    "base": [[-3.75, -8.25, 0.0], [3.75, -8.25, 0.0], [3.75, 1.5, 0.0], [-3.75, 1.5, 0.0],
+             [-3.75, -4.5, -1.0], [3.75, -4.5, -1.0], [3.75, 0.0, -1.0], [-3.75, 0.0, -1.0]],
+    "offset": [0.0, 6.0, 12.0],
+    "salvo_x": [-1.5, 0.0, 1.5],
+    "rocket_points": [[0.0, -15.0, -1.0], [0.0, 1.5, -1.0]],
+}
 parts = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "vehicle_type_parts.json")))
 out = {}
 for t in range(4):
@@ -54,6 +66,7 @@ for t in range(4):
         "armor": field(t, 0x24) / 65536,
         "hit_points": field(t, 0x28) / 65536,
         "fuel": field(t, 0x210),  # a plain integer (the game shifts it into 16.16, FUN_0040b980)
+        **({"rack": MSV_RACK} if t == 2 else {}),
         **({"swim": {"rows": [list(r) for r in SWIM_ROWS], "ring_cel": 2074, "ring_half": 12.0}} if t == 1 else {}),
         "sink_depth": field(t, 0x158) / 65536,  # FUN_0040cf90: a vehicle in deep water is lost below this depth (document 62)
         "shape": {"layer": 2, "mask": 0x27, **SHAPES[t]},

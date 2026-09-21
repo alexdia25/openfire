@@ -128,6 +128,6 @@ Three things were first chosen "for realism" and were then traced (2026-09-21, a
   modes 0-2 and the folded mode 4 of the rotor), the landing at the base and leaving the vehicle (`0x40eb00`, `0x40eb40`: it turns to a
   fixed heading of 24 steps and glides onto the tile centre), the hover wobble, the dying handler (`0x40eae0`, record `+0x234`),
   auto-steer, ammo (100 / 50) and sounds. The Heli starts flying at once, and it can only be shot by weapons that reach z 50
-  (the MSV's raised rocket, document 58, is not modelled yet).
+  (the Tank's raised gun and the MSV's raised rocket, [document 64](64-worked-example-turret-and-raised-fire.md), reach it).
 
 **Next:** back to [the next-steps doc](NEXT_STEPS.md).
