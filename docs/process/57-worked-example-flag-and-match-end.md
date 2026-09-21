@@ -48,7 +48,7 @@ A vehicle can carry at most one flag (the callbacks refuse a vehicle that alread
   end-of-match handler (`0x4222a0`), starts a fade (`FUN_0042fdd0(0, 1000)`), records the **winner** in
   `DAT_00458d14` and sets the game-over flag. So a match is won by driving the enemy pool's flag home with a
   Jeep after destroying all of that pool's targets.
-- A Jeep that dies while carrying leaves the flag where it is. At the base, a Jeep carrying its *own* pool's flag
+- A Jeep that dies while carrying leaves the flag where it is (the port drops it at the moment of death: the player respawns at once, and the check that ran only every frame let the flag ride the respawned Jeep home and win the match; fixed 2026-09-21). At the base, a Jeep carrying its *own* pool's flag
   and leaving its vehicle (`record +0x258` = `FUN_0040e090`) calls `FUN_00432600`: the flag is removed and a
   target is re-activated if any candidate is still intact (else it moves to a random candidate tile). Not
   modelled.
