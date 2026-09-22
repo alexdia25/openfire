@@ -52,6 +52,42 @@ state.80 += state.84 * dt;                        // still turning
 state.80 = (state.80 + state.84 * dt) & 0x3fffff; // just keeps the rotor spinning; everything else is the drive handler
 ```
 
+Translated (stages 1 and 2 only — stage 3 is the pre-existing climb, stage 4 needs nothing beyond the ordinary per-tick rotor spin already in `_process_heli`), `game/vehicle.gd`:
+
+```gdscript
+const HELI_SPINUP_A_RATE := 1179.0 / 65536.0    ## state+0x58 a tick (stage 1, silent)
+const HELI_SPINUP_B_RATE := 1638.0 / 65536.0    ## state+0x84 a tick (stage 2, the rotor ramps up)
+var heli_spinup_stage := 0        ## 0 done/flying, 1 blade accel (silent), 2 rotor ramp-up
+var _heli_spinup_progress := 0.0  ## stage 1's accumulator (0..1)
+var rotor_speed_steps := 4.0      ## the renderer's rotor speed (document 63's constant 4.0), ramped by stage 2
+
+func _start_heli_spinup() -> void:
+	heli_spinup_stage = 1
+	_heli_spinup_progress = 0.0
+	rotor_speed_steps = 0.0
+
+# grounded and still, no weapons, no dock check -- the original's state handler alone runs, the drive handler isn't reached
+func _process_heli_spinup(delta: float) -> void:
+	var ticks := delta * TICK_HZ
+	if heli_spinup_stage == 1:
+		_heli_spinup_progress += HELI_SPINUP_A_RATE * ticks
+		if _heli_spinup_progress >= 1.0:
+			heli_spinup_stage = 2   # sound 0x44b550 here, once the sound pass exists
+	else:
+		rotor_speed_steps = minf(rotor_speed_steps + HELI_SPINUP_B_RATE * ticks, 4.0)
+		if rotor_speed_steps >= 4.0:
+			heli_spinup_stage = 0   # -> stage 3/4: _process_heli's own climb and steady rotor spin take over unchanged
+
+func _process_heli(delta: float) -> void:
+	if heli_spinup_stage != 0:
+		_process_heli_spinup(delta)
+		return
+	# ... the pre-existing drive handler (document 63), reached only once rotor_speed_steps == 4.0 ...
+```
+
+`_start_heli_spinup()` is called from `_apply_type()` (a fresh Heli, matching `+0x14` only running once at creation) and from `respawn()` (this port's stand-in for the original always creating a new object, document 76/77). The renderer's rotor draw now integrates
+`rotor_speed_steps` directly instead of assuming it is always 4.0.
+
 `0x8000/65536 = 0.5` a tick and the ceiling `0x320000/65536 = 50.0` are exactly document 63's already-known **climb rate and ceiling** (`HELI_CLIMB_PER_TICK`, `HELI_CEILING`), so **stage 3 is the climb the port already had** — it was simply never gated behind
 stages 1 and 2. Table `0x4454a0`/`0x4454d8` (bank/pitch offsets by rotor speed, a little bob while climbing) is **not modelled** (cosmetic, low priority). `0x4460b8` is a small per-team model-swap table (two entries, tan/green), the same trick document 78's dock
 object and document 63's dying Heli use to change which draw descriptor an object points at; here it is always the ordinary flying model (nothing suggests a distinct "folded rotor" cel set exists, contrary to document 63's guess).
