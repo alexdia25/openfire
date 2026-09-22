@@ -1,8 +1,10 @@
 # Architecture
 
-Two diagrams: the offline pipeline that turns the original game into a Godot pack, and the
-shape of the runtime code that pack loads into. For the detailed ground truth behind either
-one, see [`PORTING_PLAN.md`](PORTING_PLAN.md); for how each piece was found, see
+The offline pipeline that turns the original game into a Godot pack, and the shape of the
+runtime code that pack loads into — the latter as a few diagrams that go from a glance to the
+actual call sites, each one level deeper than the last, rather than one diagram trying to
+show everything at once. For the detailed ground truth behind either half, see
+[`PORTING_PLAN.md`](PORTING_PLAN.md); for how each piece was found, see
 [`docs/process/`](process/README.md).
 
 ## The pipeline
@@ -34,6 +36,26 @@ four stages, `docs/process/NN-*.md` pairs each decompiled/disassembled finding w
 code it became, and `PORTING_PLAN.md` is the standing summary of all of it.
 
 ## Runtime internals
+
+### At a glance
+
+`Vehicle` is the per-vehicle simulation; `MatchController` is the orchestrator (docking,
+mines, flags, the win condition); everything else only reads that state to show or play it:
+
+```mermaid
+flowchart LR
+    subgraph Runtime["Godot runtime (game/*.gd, all shipped GDScript)"]
+        V["Vehicle<br/>drive, fire, dock"]
+        M["MatchController<br/>docks, flags, win"]
+        P["Presentation<br/>view, HUD and audio"]
+        V --> M --> P
+    end
+```
+
+That's the shape worth keeping in your head day to day. The rest of this section is the same
+picture again, twice, each pass trading simplicity for one more layer of the actual code.
+
+### Composition: what creates what
 
 `game/terrain_view_3d.gd` (no `class_name`; it's the main scene's own script,
 `res://game/terrain_view_3d.tscn`) is the actual composition root — it builds `Pack` and
