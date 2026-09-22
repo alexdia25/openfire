@@ -38,6 +38,23 @@ void FUN_0040b400(int player) {
 "how do you know you're in position": **the pad's warning-stripe border visibly animates while you sit there, and stops the instant you drive off or the moment you dock.** Nothing else marks a stationary, correctly-placed vehicle; there is no separate HUD
 readout for it in anything traced so far.
 
+How that translated: the trigger (moving / wrong tile / out of tolerance / button-pressed) is exactly document 77's `can_dock`, already written, called here with no button check added — and the `accum[player] += dt * rate; while (accum > 1.0) { ...; accum -= 1.0 }`
+shape (an accumulator that can fire more than once a frame at low framerates) became `game/dock_ready_indicator_3d.gd`'s step loop, keeping the same "may advance several steps in one call" shape:
+
+```gdscript
+const STEP_TICKS := 65536.0 / 0x2666   ## ~6.83 ticks a step, from FUN_0040b400's accumulator rate
+
+func _process(delta: float) -> void:
+    var ready := mc.vehicle != null and mc.can_dock(mc.vehicle)   # the same trigger as FUN_0040b400's "else" branch, minus the button check
+    _ring.visible = ready
+    if not ready:
+        _acc = 0.0; _step = 0; return
+    _acc += delta * Vehicle.TICK_HZ
+    while _acc >= STEP_TICKS:          # FUN_0040b400's `while (accum[player] > 1.0)`
+        _acc -= STEP_TICKS
+        _step = (_step + 1) % COLOURS.size()   # FUN_0040b400's 7-word rotate, standing in as "advance one step"
+```
+
 ## Step 3: pinning down the exact bytes, and finding they aren't the hatch's own colours
 
 Cel 90/91 are ordinary (`PRE0 == 0`) cels, so `PLUTPtr` is a file offset into the **shared** palette (`0x282CC`, document 20), and the load-time fixup (`FUN_004248c0`, decompiled: `if (field != 0) field += buffer_base` for `NextPtr`/`SourcePtr`/`PLUTPtr`
@@ -47,8 +64,20 @@ alike, no reformatting) just adds the loaded-file's base address to it — so th
 +0x30..+0x3D:  92 bf 75 00 89 b5 71 00 83 ac 6c 00 7d a2
 ```
 
-Running the **exact** rotate the disassembly performs (save the word at `+0x3C`, shift the other six up by one slot, drop the saved word into `+0x30`) in Python for all 7 steps returns to the starting bytes exactly at step 7, confirming the period-7 read is
-right. Interpreting the RGBQUAD entries these bytes belong to (`tools/convert_car.py`'s own `read_palette`, entries 12-14) gives a real, reproducible 7-step sequence — entry 12 alone cycles `(117,146,191) -> (191,125,162) -> (162,0,108) -> (108,131,172) ->
+Running the **exact** rotate the disassembly performs (save the word at `+0x3C`, shift the other six up by one slot, drop the saved word into `+0x30`) in Python, translated instruction-by-instruction rather than summarised, and checked by running it 7 times
+and confirming it returns to the starting bytes exactly at step 7:
+
+```python
+# 0040b453  MOV BX, word[EAX+0x3c]         -> saved = buf[+0x3c:+0x3e]
+# 0040b45a..0040b485  six MOV/MOV pairs, each "word[+N] = word[+N-2]", highest N first  -> the for-loop below
+# 0040b489  MOV word[EAX], BX              -> buf[+0x30:+0x32] = saved
+saved = buf[base+0x3c:base+0x3e]
+for off in [0x3c, 0x3a, 0x38, 0x36, 0x34, 0x32]:
+    buf[base+off:base+off+2] = buf[base+off-2:base+off]
+buf[base+0x30:base+0x32] = saved
+```
+
+Interpreting the RGBQUAD entries these bytes belong to (`tools/convert_car.py`'s own `read_palette`, entries 12-14) gives a real, reproducible 7-step sequence — entry 12 alone cycles `(117,146,191) -> (191,125,162) -> (162,0,108) -> (108,131,172) ->
 (172,0,113) -> (113,137,181) -> (181,0,117) -> (117,146,191)`, a blue-grey/magenta flicker, not the yellow/black of a hazard stripe.
 
 **Then the check that mattered:** does cel 90's own 32 x 32 indexed bitmap use palette entries 12-15 (pixel byte values 22-25, after the documented "`shared_plut[byte-10]`" rule) *anywhere*? Extracting its raw indexed pixels (not the already-converted PNG) and
@@ -68,7 +97,27 @@ bays.
 That fix landed the pointer roughly in the right area, but still visibly low and a touch right of where it belonged. The hangar cel (2075) itself has the answer: its bottom rail is carved with **seven small square recesses**, 5 pixels apart (found by scanning
 the raw pixel row: three dark pixels, two lit ones, repeating). The pointer sprite (35 x 2, cels 2091-2093) has its two red ticks exactly 15 pixels apart — three of those 5-pixel recesses — so it's built to seat two of the seven slots at once, lit up. Both the
 pointer's `(0.4, 1.0)` nudge and the vehicle picture's `(2, 3)` nudge turned out to be **exactly that: invented nudges**, added without checking against the art, and both wrong. Compositing the real cels in Python at the *raw*, un-nudged table positions —
-no adjustment at all — dropped both ticks precisely into two of the seven recesses and sat every vehicle flush on its tray, confirmed against all four bays. Both nudges are now removed; the port draws these at the exact traced coordinates.
+no adjustment at all — dropped both ticks precisely into two of the seven recesses and sat every vehicle flush on its tray, confirmed against all four bays. Both nudges are now removed; the port draws these at the exact traced coordinates:
+
+```gdscript
+# game/selector_screen.gd, before (both nudges invented, neither traced):
+_blit(cel_pic, Vector2(hx, hy) + pic + moved + Vector2(2, 3), 0.5)
+var pp := Vector2(hx, hy) + Vector2(e["pointer"][0], e["pointer"][1]) + Vector2(0.4, 1.0)
+_blit(int(cels["pointer"]) + frame % 3, pp, 1.0, float(e["pointer"][0]) > 60.0)   # + the invented mirror
+
+# after (the raw table position, table 0x4491c0 via tools/extract_selector.py, no adjustment):
+_blit(cel_pic, Vector2(hx, hy) + pic + moved, 0.5)
+var pp := Vector2(hx, hy) + Vector2(e["pointer"][0], e["pointer"][1])
+_blit(int(cels["pointer"]) + frame % 3, pp)
+```
+
+The check that found this: compositing the real extracted cels in Python at candidate offsets and comparing pixel-for-pixel against the carved slots, rather than eyeballing an in-engine screenshot —
+
+```python
+img = hangar.copy()
+img.alpha_composite(pointer_sprite, (87, 73))   # raw e["pointer"] for Tank, no nudge
+# -> the two red ticks land exactly on two of the rail's seven recesses
+```
 
 ## Applied in the port
 

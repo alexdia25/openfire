@@ -85,3 +85,8 @@ Things that trip people up:
 In each numbered document, for every claim: *(a)* the address, *(b)* the quoted instruction or decompiled line,
 *(c)* the translation in plain words, *(d)* what confirms it. If any of these is missing, the claim is marked
 **untraced** or **guess**, in the document, in the code comment and in the registry.
+
+**Rule (user, 2026-09-22): show the port code too.** Whenever a document quotes decompiled C or disassembly and then applies the finding in `game/` or `tools/`, quote the resulting port
+code right after it — not just describe the translation in prose. The reader should be able to look at the original snippet and the port snippet side by side and see the mapping for themself (`state.58 += dt * X` next to
+`_heli_spinup_progress += RATE * ticks`; a struct offset next to the GDScript field it became), the same way "Applied in the port" sections already name the file — just with the actual lines included, not only the file name. This
+applies to every *new* document from here on; older documents are updated with this opportunistically (e.g. when revisited for a correction), not as a batch rewrite.
