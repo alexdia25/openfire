@@ -217,7 +217,7 @@ Rule (user, 2026-09-21): never make our own choice silently; if one is unavoidab
 
 ## Mechanics needed for the remaining sound cues (2026-09-22)
 
-Of the 42 traced sound cues, 31 are wired (`PreRaise` resolved 2026-09-22, see above); the other 11 each need either a real mechanic that
+Of the 42 traced sound cues, 32 are wired (`PreRaise` and `FuelWarn` resolved 2026-09-22, see above); the other 10 each need either a real mechanic that
 doesn't exist in the port yet, or more tracing of code nobody has read closely for this purpose.
 Grouped by what's actually missing, not by cue name:
 
@@ -235,13 +235,19 @@ Grouped by what's actually missing, not by cue name:
 - **The HUD panel's own slide-in animation is not implemented** (document 78's "Not done" list) —
   a plausible but *unconfirmed* home for **`PanelUp`**; worth checking this specific function
   before looking elsewhere, since the name and the gap line up.
+- **`FuelWarn` wired (2026-09-22).** Not the fuel bar's own draw function after all (`FUN_00411f80`
+  really does call no sound) -- the trigger lives in the generic per-tick panel function
+  (`FUN_0040b980`, the same one the Tank kind-3 investigation partially disassembled): `if
+  (fuel_max << 13 > fuel)`, gated by a 120-tick cooldown. `fuel_max << 13` is exactly `(fuel_max
+  << 16) / 8` -- confirmed by `fuel_max` itself living at record `+0x210`, the same field
+  `Vehicle.fuel_max` already reads (document 55) -- so this is a plain one-eighth-of-a-tank
+  threshold, not a per-type fraction. `game/vehicle.gd`'s new `_process_fuel_warn()` reproduces it
+  directly; verified by `tools/tests/fuel_warn_check.gd` (silent above 1/8 tank, three warnings in
+  260 ticks at 0/120/240 once below it). **32 of 42 traced cues are now wired.**
 - **Needs more tracing, no missing mechanic:**
   - **`Reload`** — resolves to the same file as `Servo` (`Sound/Servo.SDT`) but is a *separate*
     descriptor; its own trigger is independent of the Heli landing work above and has not been
     looked for at all.
-  - **`FuelWarn`** — the fuel bar's draw function (`FUN_00411f80`) was fully decompiled this
-    session and calls no sound; the real trigger is in some other, not-yet-read function (most
-    likely the vehicle's own per-tick fuel-drain code).
   - **`JeepStart`** — no candidate function identified yet; may be a Jeep-specific start-up
     parallel to the Heli's (document 79), never searched for.
   - **`Laugh`** — not one of the announcer's 18 voice lines (document 71); no other candidate

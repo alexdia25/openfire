@@ -33,7 +33,7 @@
     },
     "FuelWarn": {
       "addr": "0x44b688", "resource_addr": "0x44b3b0", "file": "Sound/FuelWarn.SDT", "wav": "FUELWARN.wav",
-      "applied": false, "trigger": "low fuel (document 55) -- not yet wired"
+      "applied": true, "trigger": "game/vehicle.gd Vehicle._process_fuel_warn(): fuel < fuel_max/8, on a 120-tick cooldown (FUN_0040b980, the panel tick: \"fuel_max << 13 > fuel\", which is fuel_max's 16.16 value / 8 -- confirmed by fuel_max itself living at the same record+0x210 field document 55 already traced)"
     },
     "PanelUp": {
       "addr": "0x44b6a0", "resource_addr": "0x44b340", "file": "Sound/Click.SDT", "wav": "CLICK.wav",
