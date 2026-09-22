@@ -211,6 +211,43 @@ Rule (user, 2026-09-21): never make our own choice silently; if one is unavoidab
 - **Respawn and enemy AI** are placeholders written before tracing (`MatchController._on_player_destroyed`, `enemy_vehicle.gd`).
 - **Water landing of shots** uses "any water" for shallow as well; the exact sampling of `FUN_0042f5b0` was read but its box argument is a compiler-garbled stack layout (document 61).
 
+## Mechanics needed for the remaining sound cues (2026-09-22)
+
+Of the 42 traced sound cues, 30 are wired; the other 12 each need either a real mechanic that
+doesn't exist in the port yet, or more tracing of code nobody has read closely for this purpose.
+Grouped by what's actually missing, not by cue name:
+
+- **The Heli's landing sequence is not modelled at all** (`0x40ecd0` rotor spin-down, the folded
+  rotor model, the gear stage `0x40ede0`) — this blocks **`Servo`** directly (its exact trigger,
+  "settles its angle, plays sound `0x44b808`", is a step of that sequence, document 77). Building
+  the landing sequence is the real prerequisite; the sound is a one-line addition once it exists.
+- **A vehicle's dying/wreck sequence is not modelled for any type** (the handler at record
+  `+0x234`, already on the open list below via document 47/48's wreck work) — the most likely
+  home for **`ExplDebris`** and **`ExplLow`**, since no explosion record in
+  `tools/data/explosion_records.json` plays either of them and nothing else obviously would.
+- **No on-foot infantry/crushable-person object exists** (already an open item below, found while
+  classifying the asset registry) — the only plausible owner of **`ManCrush`**; can't be traced
+  further until that object itself is found and read.
+- **The HUD panel's own slide-in animation is not implemented** (document 78's "Not done" list) —
+  a plausible but *unconfirmed* home for **`PanelUp`**; worth checking this specific function
+  before looking elsewhere, since the name and the gap line up.
+- **Needs more tracing, no missing mechanic:**
+  - **`PreRaise`** — the hangar confirm script (document 78) is fully implemented; only the exact
+    order of its multiple "sound" calls (which maps to table `0x449260`'s index 0 vs. `Raise`'s
+    index 1) was never pinned down.
+  - **`Reload`** — resolves to the same file as `Servo` (`Sound/Servo.SDT`) but is a *separate*
+    descriptor; its own trigger is independent of the Heli landing work above and has not been
+    looked for at all.
+  - **`FuelWarn`** — the fuel bar's draw function (`FUN_00411f80`) was fully decompiled this
+    session and calls no sound; the real trigger is in some other, not-yet-read function (most
+    likely the vehicle's own per-tick fuel-drain code).
+  - **`JeepStart`** — no candidate function identified yet; may be a Jeep-specific start-up
+    parallel to the Heli's (document 79), never searched for.
+  - **`Laugh`** — not one of the announcer's 18 voice lines (document 71); no other candidate
+    mechanic identified.
+- **Not worth pursuing:** **`TestSnd L/R`** are debug sound-test-menu-only (document 31); the
+  shipped game has no player-facing trigger for them at all.
+
 ## Still open
 
 See plan section 4 for the current, precise state of each — this list is just pointers:
