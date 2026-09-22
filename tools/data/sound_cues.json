@@ -11,11 +11,11 @@
     },
     "GateMove": {
       "addr": "0x44b610", "resource_addr": "0x44b1f0", "file": "Sound/GateMove.SDT", "wav": "GATEMOVE.wav",
-      "applied": false, "trigger": "team gate opening (FUN_004322f0, document 56) -- exact call site within the open/close sequence not traced yet"
+      "applied": true, "trigger": "game/gate.gd Gate.tick(): the tick the gate is fully open and decides to start closing again (FUN_004322f0, document 56/82) -- NOT the opening side, which this function never calls a sound for"
     },
     "GateClose": {
       "addr": "0x44b628", "resource_addr": "0x44b340", "file": "Sound/Click.SDT", "wav": "CLICK.wav",
-      "applied": false, "trigger": "team gate closing (FUN_004322f0, document 56) -- exact call site not traced yet"
+      "applied": true, "trigger": "game/gate.gd Gate.tick(): the first tick the gate finishes closing, open reaches 0 (FUN_004322f0, document 56/82)"
     },
     "GClick": {
       "addr": "0x44b640", "resource_addr": "0x44b340", "file": "Sound/Click.SDT", "wav": "CLICK.wav",
