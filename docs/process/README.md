@@ -9,6 +9,8 @@ every architectural decision — live in [`docs/PORTING_PLAN.md`](../PORTING_PLA
 document is optimized for an AI agent resuming work with no memory of this conversation:
 dense, exhaustive, organized by topic. These documents are optimized for a human reading
 them in order for the first time: narrative, worked examples, real commands you can re-run.
+For a diagram of how the pieces fit together (the offline pipeline, the runtime's modules),
+see [`docs/ARCHITECTURE.md`](../ARCHITECTURE.md).
 
 **Read them in this order:**
 
