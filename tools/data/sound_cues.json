@@ -19,7 +19,7 @@
     },
     "GClick": {
       "addr": "0x44b640", "resource_addr": "0x44b340", "file": "Sound/Click.SDT", "wav": "CLICK.wav",
-      "applied": false, "trigger": "vehicle-choice cursor move (document 76, FUN_0040b510 neighbour step) -- not yet wired"
+      "applied": true, "trigger": "game/match_controller.gd MatchController.select_move(): \"each change plays sound 0x44b640\" (document 76)"
     },
     "Reload": {
       "addr": "0x44b658", "resource_addr": "0x44b2d0", "file": "Sound/Servo.SDT", "wav": "SERVO.wav",
@@ -29,7 +29,7 @@
     },
     "Ding": {
       "addr": "0x44b670", "resource_addr": "0x44b2ec", "file": "Sound/Ding.SDT", "wav": "DING.wav",
-      "applied": false, "trigger": "documents 72 (rearm-zone looping sound) and 77 (Jeep's own-flag return) both cite this address; which one (or both) actually calls it is untraced"
+      "applied": true, "trigger": "game/vehicle.gd Vehicle.rearm(): every 40 ticks while in a rearm zone (document 72). The Jeep own-flag-return call site (document 77) is not applicable -- the port has no own-team flag."
     },
     "FuelWarn": {
       "addr": "0x44b688", "resource_addr": "0x44b3b0", "file": "Sound/FuelWarn.SDT", "wav": "FUELWARN.wav",
@@ -41,7 +41,7 @@
     },
     "BushCrush": {
       "addr": "0x44b6b8", "resource_addr": "0x44b298", "file": "Sound/BushCrus.SDT", "wav": "BUSHCRUS.wav",
-      "applied": false, "trigger": "vehicle crushing a bush tile (document 54) -- not yet wired"
+      "applied": true, "trigger": "game/match_controller.gd _tile_blocks_vehicle(): the bush-crush callback (0x436640, document 54)"
     },
     "ExplLarge": {
       "addr": "0x44b6d0", "resource_addr": "0x44b110", "file": "Sound/ExplLar.SDT", "wav": "EXPLLAR.wav",
@@ -89,7 +89,7 @@
     },
     "Raise": {
       "addr": "0x44b7d8", "resource_addr": "0x44b228", "file": "Sound/Raise.SDT", "wav": "RAISE.wav",
-      "applied": false, "trigger": "hangar lift rising / dock sink completing (documents 77-78, '0/1 entries of 0x449260') -- not yet wired"
+      "applied": true, "trigger": "game/match_controller.gd MatchController._do_dock(): the exact moment the dock object is created and starts sinking (documents 77/81, \"dock.handler = 0x42efc0 ... sound 0x44b7d8\")"
     },
     "PreRaise": {
       "addr": "0x44b7f0", "resource_addr": "0x44b244", "file": "Sound/PreRais.SDT", "wav": "PRERAIS.wav",
@@ -149,29 +149,30 @@
     },
     "DumbDirect": {
       "addr": "0x44b928", "resource_addr": "0x44b4c8", "file": "Sound/Beacon.SDT", "wav": "BEACON.wav",
-      "applied": false, "trigger": "Jeep compass reaching dead-on alignment (document 71, FUN_0040d990's 'play 0x44b928 the first time it becomes -16') -- not yet wired"
+      "applied": true, "trigger": "game/match_controller.gd MatchController._update_compass_chime(): \"state + 0x60 = (value == -16); play 0x44b928 the first time it becomes -16\" (document 71)"
     },
     "TireIn": {
       "addr": "0x44b940", "resource_addr": "0x44b394", "file": "Sound/Tirein.SDT", "wav": "TIREIN.wav",
-      "applied": false, "trigger": "Jeep/Tank wading into water (document 62) -- not yet wired"
+      "applied": true, "trigger": "PORT CHOICE, not traced: game/vehicle.gd Vehicle._update_water() on the land->water water_class transition (document 62). No code path calling this descriptor was actually read -- see NEXT_STEPS Untraced choices."
     },
     "TireOut": {
       "addr": "0x44b958", "resource_addr": "0x44b2b4", "file": "Sound/Tireout.SDT", "wav": "TIREOUT.wav",
-      "applied": false, "trigger": "wading out of water (document 62) -- not yet wired"
+      "applied": true, "trigger": "PORT CHOICE, not traced: game/vehicle.gd Vehicle._update_water() on the water->land water_class transition. No code path calling this descriptor was actually read -- see NEXT_STEPS Untraced choices."
     },
     "HeliClick": {
       "addr": "0x44b970", "resource_addr": "0x44b340", "file": "Sound/Click.SDT", "wav": "CLICK.wav",
-      "applied": false, "trigger": "Heli's third button bit-28 toggle (document 63) -- not yet wired"
+      "applied": true, "trigger": "game/vehicle.gd Vehicle.toggle_heli_slot(): \"FUN_0040e7a0 (third button) toggles bit 28 and plays a sound\" (document 63)"
     },
     "OutAmmo": {
       "addr": "0x44b988", "resource_addr": "0x44b4e4", "file": "Sound/OutAmmo.SDT", "wav": "OUTAMMO.wav",
       "applied": true, "trigger": "game/vehicle.gd Vehicle._spend_ammo(), alongside the empty_click signal (documents 61, 63, 72)"
     }
   },
-  "explosion_variant_pool_0x44b9a0": [
+  "indexed_pool_0x44b9a0": [
     "0x44b580", "0x44b598", "0x44b5b0", "0x44b5c8", "0x44b5e0", "0x44b5f8",
     "0x44b610", "0x44b628", "0x44b640", "0x44b658"
   ],
+  "_indexed_pool_0x44b9a0_note": "cited by document 50 as \"the table at 0x44b9a0\" for an explosion script's sound opcode (handler 3, sub-op 1: \"play sound n from the table\"), but its actual contents (Button, GateMove, GateClose, GClick, Reload, plus five unresolved ambience-block entries) are mechanical-click-ish, not explosion sounds -- likely a generic indexed-sound table the scripting engine reuses across different effect records (each effect record supplies its own table address as script data), not an \"explosion variant pool\" specifically. Renamed from that guess; not re-traced.",
   "untraced": {
     "note": "Descriptor rows below 0x44b550 (base ~0x44b500) are a separate sub-block whose entries have a non-null +0x14 completion callback (0x0040ee60 / 0x0040eeb0, not decompiled) -- read as looping/self-restarting ambience (engine drone, tread, jeep idle) rather than the one-shot rows above; Sound/Reload.SDT, Sound/Drone.SDT, Sound/JeepIdle.SDT, Sound/Tread.SDT, Sound/Missile.SDT and Sound/AR1/AR2/AR3.SDT (all present in build/sound/ or the filename table) have not been matched to a descriptor address yet. The announcer's 18 voice-line sounds (document 71, table at 0x4463b8) are a wholly separate mechanism and are not in this table at all -- no matching audio file has been found for them anywhere.",
     "addresses": ["0x44b520", "0x44b538", "0x44b568 (anomalous fields, not decoded)", "0x44b598", "0x44b5b0", "0x44b5c8", "0x44b5e0", "0x44b5f8"]

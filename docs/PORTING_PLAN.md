@@ -1118,9 +1118,13 @@ table (rows from `0x0044b550` on, base `~0x0044b500`), traced end to end:
   `tools/build_pack.py` from `tools/data/sound_cues.json`); `game/sound_manager.gd` is the presentation-layer
   listener (an `AudioStreamPlayer` pool, `AudioStreamWAV.load_from_file()` straight from the pack directory, never
   through `res://`'s import pipeline — same reasoning as `Pack.gd`'s raw `Image.load()` for sprites); `Vehicle`
-  gained one generic `sound_cue(id: String)` signal. Only two of the ~38 traced cues are wired to a real trigger so
-  far (the empty click, `OutAmmo`; the Heli spin-up chime, `heli`) — every cue plays flat/non-positional at fixed
-  volume, since `FUN_00408050` isn't traced (see the next-steps doc's "Untraced choices").
+  gained one generic `sound_cue(id: String)` signal. Ten of the ~38 traced cues are wired to a real trigger as of
+  2026-09-22 (the empty click `OutAmmo`, the Heli spin-up chime `heli`, the rearm loop `Ding`, the dock-sink start
+  `Raise`, the vehicle-select cursor `GClick`, bush-crushing `BushCrush`, the Heli's third-button `HeliClick`, the
+  compass alignment chime `DumbDirect`, and — a port CHOICE rather than a traced trigger — water-crossing
+  `TireIn`/`TireOut`, since no code path calling those two descriptors was actually found) — every cue plays
+  flat/non-positional at fixed volume, since `FUN_00408050` isn't traced (see the next-steps doc's "Untraced
+  choices").
 
 ## 2. Architecture decisions (decide once, up front)
 
