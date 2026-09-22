@@ -61,19 +61,20 @@
     },
     "Cannon": {
       "addr": "0x44b730", "resource_addr": "0x44b308", "file": "Sound/Cannon.SDT", "wav": "CANNON.wav",
-      "applied": false, "trigger": "Tank turret fire (documents 63-64) -- not yet wired"
+      "applied": true, "trigger": "game/vehicle.gd Vehicle._fire(), vehicle_type == 0 branch: the Tank's turret fire (documents 63-64)"
     },
     "ThrowGrenade1_a": {
       "addr": "0x44b748", "resource_addr": "0x44b420", "file": "Sound/Throw1.SDT", "wav": "THROW1.wav",
-      "label": "Throw Grenade1", "applied": false, "trigger": "MSV canister/mine throw variant 1 (documents 60-61) -- not yet wired"
+      "label": "Throw Grenade1", "applied": true,
+      "trigger": "game/match_controller.gd MatchController._on_mine_dropped(): the MSV's mine layer (documents 60-61); PORT CHOICE, not traced -- picked uniformly at random among the three Throw1/2/3 variants, see NEXT_STEPS"
     },
     "ThrowGrenade1_b": {
       "addr": "0x44b760", "resource_addr": "0x44b43c", "file": "Sound/Throw2.SDT", "wav": "THROW2.wav",
-      "label": "Throw Grenade1", "applied": false, "trigger": "MSV canister/mine throw variant 2 -- not yet wired"
+      "label": "Throw Grenade1", "applied": true, "trigger": "see ThrowGrenade1_a"
     },
     "ThrowGrenade1_c": {
       "addr": "0x44b778", "resource_addr": "0x44b490", "file": "Sound/Throw3.SDT", "wav": "THROW3.wav",
-      "label": "Throw Grenade1", "applied": false, "trigger": "MSV canister/mine throw variant 3 -- not yet wired"
+      "label": "Throw Grenade1", "applied": true, "trigger": "see ThrowGrenade1_a"
     },
     "Laugh": {
       "addr": "0x44b790", "resource_addr": "0x44b19c", "file": "Sound/Laugh.SDT", "wav": "LAUGH.wav",
@@ -101,47 +102,47 @@
     },
     "Splash": {
       "addr": "0x44b820", "resource_addr": "0x44b378", "file": "Sound/Splash.SDT", "wav": "SPLASH.wav",
-      "applied": false, "trigger": "entering/leaving water (document 62) -- not yet wired"
+      "applied": true, "trigger": "game/match_controller.gd: SOUND 28, record 0x4445e8 (a non-shell-like shot hitting water, document 50) via impact_effect_sound_map"
     },
     "SmSplash": {
       "addr": "0x44b838", "resource_addr": "0x44b378", "file": "Sound/Splash.SDT", "wav": "SPLASH.wav",
-      "applied": false, "trigger": "smaller splash variant (document 62) -- not yet wired"
+      "applied": true, "trigger": "game/match_controller.gd: SOUND 29, record 0x4445b8 (a shell-like shot hitting water) via impact_effect_sound_map"
     },
     "MetalHit1": {
       "addr": "0x44b850", "resource_addr": "0x44b3e8", "file": "Sound/MetalHi.SDT", "wav": "METALHI.wav",
-      "applied": false, "trigger": "projectile-vs-vehicle hit variant 1 (documents 45, 47) -- not yet wired"
+      "applied": true, "trigger": "game/match_controller.gd: SOUND 30-33 (REPEAT 4), record 0x444b68 (a shot hitting a vehicle, documents 45/47) -- the port picks one of the four uniformly at random rather than reproducing the original's multi-tick REPEAT sequence; see NEXT_STEPS"
     },
     "MetalHit2": {
       "addr": "0x44b868", "resource_addr": "0x44b4ac", "file": "Sound/MetalHi.SDT", "wav": "METALHI.wav",
-      "applied": false, "trigger": "hit variant 2 -- not yet wired"
+      "applied": true, "trigger": "see MetalHit1"
     },
     "MetalHit3": {
       "addr": "0x44b880", "resource_addr": "0x44b3e8", "file": "Sound/MetalHi.SDT", "wav": "METALHI.wav",
-      "applied": false, "trigger": "hit variant 3 -- not yet wired"
+      "applied": true, "trigger": "see MetalHit1"
     },
     "MetalHit4": {
       "addr": "0x44b898", "resource_addr": "0x44b4ac", "file": "Sound/MetalHi.SDT", "wav": "METALHI.wav",
-      "applied": false, "trigger": "hit variant 4 -- not yet wired; METALH0.wav (present in build/sound/) is not referenced anywhere in this block -- untraced"
+      "applied": true, "trigger": "see MetalHit1; METALH0.wav (present in build/sound/) is still not referenced anywhere in this block -- untraced"
     },
     "ConcreteHit": {
       "addr": "0x44b8b0", "resource_addr": "0x44b27c", "file": "Sound/MissileU.SDT", "wav": "MISSILEU.wav",
-      "label": "Concrete Hit", "applied": false,
+      "label": "Concrete Hit", "applied": true,
       "note": "the 'full-size' concrete hit shares its resource with 'Dirt Hit' below and resolves to Sound/MissileU.SDT, not Sound/Concrete.SDT -- only the 'Sm' (small) variant uses the concrete-specific sample. Re-verified, not a mix-up.",
-      "trigger": "projectile-vs-structure hit (document 45) -- not yet wired"
+      "trigger": "game/match_controller.gd: SOUND 34, record 0x444a30 (a non-shell-like shot hitting pavement, art id 0x48-0x54, document 45) via impact_effect_sound_map"
     },
     "SmConcreteHit": {
       "addr": "0x44b8c8", "resource_addr": "0x44b404", "file": "Sound/Concrete.SDT", "wav": "CONCRETE.wav",
-      "label": "SmConcrete Hit", "applied": false, "trigger": "smaller structure-hit variant -- not yet wired"
+      "label": "SmConcrete Hit", "applied": true, "trigger": "game/match_controller.gd: SOUND 35, record 0x444968 (a shell-like shot hitting pavement) via impact_effect_sound_map"
     },
     "DirtHit": {
       "addr": "0x44b8e0", "resource_addr": "0x44b27c", "file": "Sound/MissileU.SDT", "wav": "MISSILEU.wav",
-      "label": "Dirt Hit", "applied": false,
+      "label": "Dirt Hit", "applied": true,
       "note": "shares its resource with 'Concrete Hit' above (both the 'full-size' ground/structure hits use Sound/MissileU.SDT); only the 'Sm' variant uses Sound/DirtHit.SDT.",
-      "trigger": "projectile-vs-ground hit (document 45) -- not yet wired"
+      "trigger": "game/match_controller.gd: SOUND 36, record 0x444840 (a non-shell-like shot hitting plain ground, document 45) via impact_effect_sound_map"
     },
     "SmDirtHit": {
       "addr": "0x44b8f8", "resource_addr": "0x44b474", "file": "Sound/DirtHit.SDT", "wav": "DIRTHIT.wav",
-      "label": "SmDirt Hit", "applied": false, "trigger": "smaller ground-hit variant -- not yet wired"
+      "label": "SmDirt Hit", "applied": true, "trigger": "game/match_controller.gd: SOUND 37, record 0x444740 (a shell-like shot hitting plain ground) via impact_effect_sound_map"
     },
     "JeepStart": {
       "addr": "0x44b910", "resource_addr": "0x44b35c", "file": "Sound/JeepStar.SDT", "wav": "JEEPSTAR.wav",
@@ -166,15 +167,33 @@
     "OutAmmo": {
       "addr": "0x44b988", "resource_addr": "0x44b4e4", "file": "Sound/OutAmmo.SDT", "wav": "OUTAMMO.wav",
       "applied": true, "trigger": "game/vehicle.gd Vehicle._spend_ammo(), alongside the empty_click signal (documents 61, 63, 72)"
+    },
+    "SmallBoom": {
+      "addr": "0x44b5b0", "resource_addr": "0x44b180", "file": "Sound/Boom.SDT", "wav": "BOOM.wav",
+      "label": "SmallBoom", "applied": true,
+      "trigger": "game/match_controller.gd: SOUND opcode index 2, record 0x444ac8 (a shell hitting a gate bar or a terrain tile's collision shape, documents 44/50) -- resolved via the master sound-index table, see sound_index_table_0x44b9a0 below"
     }
   },
-  "indexed_pool_0x44b9a0": [
-    "0x44b580", "0x44b598", "0x44b5b0", "0x44b5c8", "0x44b5e0", "0x44b5f8",
-    "0x44b610", "0x44b628", "0x44b640", "0x44b658"
-  ],
-  "_indexed_pool_0x44b9a0_note": "cited by document 50 as \"the table at 0x44b9a0\" for an explosion script's sound opcode (handler 3, sub-op 1: \"play sound n from the table\"), but its actual contents (Button, GateMove, GateClose, GClick, Reload, plus five unresolved ambience-block entries) are mechanical-click-ish, not explosion sounds -- likely a generic indexed-sound table the scripting engine reuses across different effect records (each effect record supplies its own table address as script data), not an \"explosion variant pool\" specifically. Renamed from that guess; not re-traced.",
+  "sound_index_table_0x44b9a0": {
+    "_note": "NOT a small mislabeled pool (an earlier draft of this file called it that) -- this is the engine's canonical, contiguous sound-index array. Every explosion/impact record's script (tools/data/explosion_records.json) plays a sound by a small integer via opcode 3 (\"SOUND n\", document 50); `n` is a plain index into this array, which lists every descriptor above in the same order, starting at 'Button' (index 0). Confirmed by cross-referencing explosion_records.json's SOUND indices against this array: index 37 -> 0x44b8f8 (SmDirtHit) for record 0x444740 (\"a shell-like shot hits ground\"), 28/29 -> Splash/SmSplash for the water records, 34/35 -> ConcreteHit/SmConcreteHit for the pavement records, 30-33 (REPEAT 4) -> MetalHit1-4 for a vehicle hit (record 0x444b68), 2 -> SmallBoom for a tile/gate hit (record 0x444ac8) -- every one lines up exactly with what the label already implied. Confirmed by real Ghidra dumps, not inferred from the names alone.",
+    "0": "0x44b580", "1": "0x44b598", "2": "0x44b5b0", "3": "0x44b5c8", "4": "0x44b5e0", "5": "0x44b5f8",
+    "6": "0x44b610", "7": "0x44b628", "8": "0x44b640", "9": "0x44b658", "10": "0x44b670", "11": "0x44b688",
+    "12": "0x44b6a0", "13": "0x44b6b8", "14": "0x44b6d0", "15": "0x44b6e8", "16": "0x44b700", "17": "0x44b718",
+    "18": "0x44b730", "19": "0x44b748", "20": "0x44b760", "21": "0x44b778", "22": "0x44b790", "23": "0x44b7a8",
+    "24": "0x44b7c0", "25": "0x44b7d8", "26": "0x44b7f0", "27": "0x44b808", "28": "0x44b820", "29": "0x44b838",
+    "30": "0x44b850", "31": "0x44b868", "32": "0x44b880", "33": "0x44b898", "34": "0x44b8b0", "35": "0x44b8c8",
+    "36": "0x44b8e0", "37": "0x44b8f8", "38": "0x44b910", "39": "0x44b928"
+  },
+  "impact_effect_sound_map": {
+    "_note": "game/match_controller.gd's `impact_effect(record_addr, position)` signal, cross-referenced against tools/data/explosion_records.json's SOUND opcodes via the index table above -- the direct link from a hit surface to its real sound cue, no guessing involved.",
+    "0x444740": "SmDirtHit", "0x444840": "DirtHit",
+    "0x4445b8": "SmSplash", "0x4445e8": "Splash",
+    "0x444968": "SmConcreteHit", "0x444a30": "ConcreteHit",
+    "0x444ac8": "SmallBoom",
+    "0x444b68": ["MetalHit1", "MetalHit2", "MetalHit3", "MetalHit4"]
+  },
   "untraced": {
     "note": "Descriptor rows below 0x44b550 (base ~0x44b500) are a separate sub-block whose entries have a non-null +0x14 completion callback (0x0040ee60 / 0x0040eeb0, not decompiled) -- read as looping/self-restarting ambience (engine drone, tread, jeep idle) rather than the one-shot rows above; Sound/Reload.SDT, Sound/Drone.SDT, Sound/JeepIdle.SDT, Sound/Tread.SDT, Sound/Missile.SDT and Sound/AR1/AR2/AR3.SDT (all present in build/sound/ or the filename table) have not been matched to a descriptor address yet. The announcer's 18 voice-line sounds (document 71, table at 0x4463b8) are a wholly separate mechanism and are not in this table at all -- no matching audio file has been found for them anywhere.",
-    "addresses": ["0x44b520", "0x44b538", "0x44b568 (anomalous fields, not decoded)", "0x44b598", "0x44b5b0", "0x44b5c8", "0x44b5e0", "0x44b5f8"]
+    "addresses": ["0x44b520", "0x44b538", "0x44b568 (anomalous fields, not decoded)", "0x44b598 (index 1)", "0x44b5c8 (index 3)", "0x44b5e0 (index 4)", "0x44b5f8 (index 5)"]
   }
 }

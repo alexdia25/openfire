@@ -1119,15 +1119,25 @@ table (rows from `0x0044b550` on, base `~0x0044b500`), traced end to end:
   listener (an `AudioStreamPlayer` pool, `AudioStreamWAV.load_from_file()` straight from the pack directory, never
   through `res://`'s import pipeline — same reasoning as `Pack.gd`'s raw `Image.load()` for sprites); `Vehicle`
   gained one generic `sound_cue(id: String)` signal (`Gate` gained its own, relayed through the player vehicle).
-  Twelve of the ~38 traced cues are wired to a real trigger as of 2026-09-22 (the empty click `OutAmmo`, the Heli
-  spin-up chime `heli`, the rearm loop `Ding`, the dock-sink start `Raise`, the vehicle-select cursor `GClick`,
-  bush-crushing `BushCrush`, the Heli's third-button `HeliClick`, the compass alignment chime `DumbDirect`, both gate
-  sounds `GateMove`/`GateClose` (traced to the exact tick in `FUN_004322f0`: `GateMove` on the fully-open-to-closing
-  transition, `GateClose` the first tick it finishes closing — neither fires on the opening side, which this
-  function never calls a sound for), and — a port CHOICE rather than a traced trigger — water-crossing
-  `TireIn`/`TireOut`, since no code path calling those two descriptors was actually found) — every cue plays
-  flat/non-positional at fixed volume, since `FUN_00408050` isn't traced (see the next-steps doc's "Untraced
-  choices").
+
+  **The table at `0x44b9a0` (2026-09-22) turned out to be the engine's canonical sound-index array**, not a small
+  mislabeled pool as first thought: it lists every descriptor above in order (index 0 = `Button`, ... continuing well
+  past 39), and every explosion/impact record's script (`tools/data/explosion_records.json`, document 50's `SOUND n`
+  opcode) indexes straight into it. Cross-referencing the two files resolved every hit sound with zero guessing:
+  `MatchController.impact_effect`'s record address now maps directly to a real cue (`SmDirtHit`/`DirtHit` for ground,
+  `Splash`/`SmSplash` for water, `SmConcreteHit`/`ConcreteHit` for pavement, one of `MetalHit1`-`4` for a vehicle hit,
+  `SmallBoom` for a tile/gate hit) via `MatchController.IMPACT_SOUND_CUES`.
+
+  27 of the 41 traced cues are wired to a real trigger as of 2026-09-22: the ten from the first two passes (the empty
+  click `OutAmmo`, the Heli spin-up chime `heli`, the rearm loop `Ding`, the dock-sink start `Raise`, the
+  vehicle-select cursor `GClick`, bush-crushing `BushCrush`, the Heli's third-button `HeliClick`, the compass
+  alignment chime `DumbDirect`, both gate sounds `GateMove`/`GateClose` traced to the exact tick in `FUN_004322f0`),
+  the Tank's cannon fire, the MSV's mine-throw (`ThrowGrenade1_a/b/c`, one picked at random — a port choice, the
+  original's exact selection rule wasn't found), the eight hit-surface cues above, and — port CHOICES rather than
+  traced triggers — water-crossing `TireIn`/`TireOut` and one of `MetalHit1`-`4` picked at random per vehicle hit
+  (the original `REPEAT`s all four over an explosion object's multi-tick lifetime the port doesn't model as a
+  scripted timeline). Every cue plays flat/non-positional at fixed volume, since `FUN_00408050` isn't traced (see the
+  next-steps doc's "Untraced choices").
 
 ## 2. Architecture decisions (decide once, up front)
 
