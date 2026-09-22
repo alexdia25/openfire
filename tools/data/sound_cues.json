@@ -7,7 +7,7 @@
     },
     "Button": {
       "addr": "0x44b580", "resource_addr": "0x44b500", "file": "Sound/Button.SDT", "wav": "BUTTON.wav",
-      "applied": false, "trigger": "mine arm/blink box (FUN_00409cd0, documents 50-51) -- not yet wired"
+      "applied": true, "trigger": "game/mine.gd Mine.beep signal (FUN_00409cd0's fuse blink), connected to the player vehicle in MatchController._on_mine_dropped() (documents 50/60/82)"
     },
     "GateMove": {
       "addr": "0x44b610", "resource_addr": "0x44b1f0", "file": "Sound/GateMove.SDT", "wav": "GATEMOVE.wav",

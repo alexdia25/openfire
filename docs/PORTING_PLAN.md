@@ -1135,13 +1135,14 @@ table (rows from `0x0044b550` on, base `~0x0044b500`), traced end to end:
   record (`0x445058`) scripts `SOUND 14` (`ExplLarge`) then `SOUND 1` (`Boom`, not reproduced — the port plays one
   sound per event, not a scripted sequence).
 
-  29 of the 42 traced cues are wired to a real trigger as of 2026-09-22: the ten from the first two passes (the empty
+  30 of the 42 traced cues are wired to a real trigger as of 2026-09-22: the ten from the first two passes (the empty
   click `OutAmmo`, the Heli spin-up chime `heli`, the rearm loop `Ding`, the dock-sink start `Raise`, the
   vehicle-select cursor `GClick`, bush-crushing `BushCrush`, the Heli's third-button `HeliClick`, the compass
   alignment chime `DumbDirect`, both gate sounds `GateMove`/`GateClose` traced to the exact tick in `FUN_004322f0`),
   the Tank's cannon fire, the MSV's mine-throw (`ThrowGrenade1_a/b/c`, one picked at random — a port choice, the
   original's exact selection rule wasn't found), the eight hit-surface cues, `Boom`/`SmallBoom`/`ExplLarge` for
-  tile-destroy and the mine explosion, and — port CHOICES rather than traced triggers — water-crossing
+  tile-destroy and the mine explosion, the mine's own fuse-blink beep (`Button`, `Mine.beep` — already a real signal,
+  just not yet connected to a sound), and — port CHOICES rather than traced triggers — water-crossing
   `TireIn`/`TireOut` and one of `MetalHit1`-`4` picked at random per vehicle hit (the original `REPEAT`s all four
   over an explosion object's multi-tick lifetime the port doesn't model as a scripted timeline). Every cue plays
   flat/non-positional at fixed volume, since `FUN_00408050` isn't traced (see the next-steps doc's "Untraced
