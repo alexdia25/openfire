@@ -91,11 +91,11 @@
     },
     "Raise": {
       "addr": "0x44b7d8", "resource_addr": "0x44b228", "file": "Sound/Raise.SDT", "wav": "RAISE.wav",
-      "applied": true, "trigger": "game/match_controller.gd MatchController._do_dock(): the exact moment the dock object is created and starts sinking (documents 77/81, \"dock.handler = 0x42efc0 ... sound 0x44b7d8\")"
+      "applied": true, "trigger": "game/match_controller.gd MatchController._do_dock(): the exact moment the dock object is created and starts sinking (documents 77/81, \"dock.handler = 0x42efc0 ... sound 0x44b7d8\"). Also the hangar confirm script's own sound-step index 1 (game/selector_anim.gd, document 85 addendum) -- the original reuses this same lift/servo sound for the new vehicle's own rise, not just the old one's sink."
     },
     "PreRaise": {
       "addr": "0x44b7f0", "resource_addr": "0x44b244", "file": "Sound/PreRais.SDT", "wav": "PRERAIS.wav",
-      "applied": false, "trigger": "hangar lift starting to rise (documents 77-78) -- not yet wired"
+      "applied": true, "trigger": "game/selector_anim.gd SelectorAnim.step(), the confirm script's own \"sound\" step index 0 (tools/data/selector.json, document 78's 0x449260 entry 0) -- fires once for Jeep/MSV, twice for Tank/Heli (document 85 addendum)"
     },
     "Servo": {
       "addr": "0x44b808", "resource_addr": "0x44b2d0", "file": "Sound/Servo.SDT", "wav": "SERVO.wav",

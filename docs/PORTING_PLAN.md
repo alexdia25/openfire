@@ -1135,7 +1135,8 @@ table (rows from `0x0044b550` on, base `~0x0044b500`), traced end to end:
   record (`0x445058`) scripts `SOUND 14` (`ExplLarge`) then `SOUND 1` (`Boom`, not reproduced — the port plays one
   sound per event, not a scripted sequence).
 
-  30 of the 42 traced cues are wired to a real trigger as of 2026-09-22: the ten from the first two passes (the empty
+  31 of the 42 traced cues are wired to a real trigger as of 2026-09-22 (`PreRaise` added last, via the hangar confirm
+  script's own sound steps, `game/selector_anim.gd`): the ten from the first two passes (the empty
   click `OutAmmo`, the Heli spin-up chime `heli`, the rearm loop `Ding`, the dock-sink start `Raise`, the
   vehicle-select cursor `GClick`, bush-crushing `BushCrush`, the Heli's third-button `HeliClick`, the compass
   alignment chime `DumbDirect`, both gate sounds `GateMove`/`GateClose` traced to the exact tick in `FUN_004322f0`),
