@@ -327,6 +327,8 @@ def main():
         hp["pips"]["sprite_id"] = registry[str(hp["pips"]["cel"])]["id"]
         for k in ("flag_cel", "home_cel"):
             hp["compass"][k.replace("_cel", "_sprite_id")] = registry[str(hp["compass"][k])]["id"]
+        if "weapon_select" in hp:
+            hp["weapon_select"]["sprite_ids"] = {k: registry[str(c)]["id"] for k, c in hp["weapon_select"]["cels"].items()}
         os.makedirs(os.path.join(args.out_dir, "hud"), exist_ok=True)
         with open(os.path.join(args.out_dir, "hud", "panels.json"), "w") as f:
             json.dump(hp, f)

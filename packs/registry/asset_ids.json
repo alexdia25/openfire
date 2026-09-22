@@ -6585,20 +6585,20 @@
     "1977": {
       "category": "ui",
       "confidence": "visual_group",
-      "id": "ui.icon.exit_sign.01",
-      "note": "olive icon, white running-figure silhouette"
+      "id": "ui.hud.heli_weapon.bomb_lit",
+      "note": "bright rocket-silhouette icon (kind-9 element FUN_00412a00 for the Heli panel slot 8; lit/dim by obj+0xc bit 0x10000000, the same weapon-select flag FUN_0040e600/FUN_0040e7a0 read/toggle; document 83). Verified visually: 1977/1978 are the same rocket-like silhouette bright vs grey, 1979/1980 the same twin-bar silhouette bright vs grey."
     },
     "1978": {
       "category": "ui",
       "confidence": "visual_group",
-      "id": "ui.icon.boost.01",
-      "note": "olive icon, white up-arrow"
+      "id": "ui.hud.heli_weapon.bomb_dim",
+      "note": "dim/grey rocket-silhouette icon (kind-9 element FUN_00412a00 for the Heli panel slot 8; lit/dim by obj+0xc bit 0x10000000, the same weapon-select flag FUN_0040e600/FUN_0040e7a0 read/toggle; document 83). Verified visually: 1977/1978 are the same rocket-like silhouette bright vs grey, 1979/1980 the same twin-bar silhouette bright vs grey."
     },
     "1979": {
       "category": "ui",
       "confidence": "visual_group",
-      "id": "ui.icon.armor.01",
-      "note": "olive icon, white pillar/column shape"
+      "id": "ui.hud.heli_weapon.gun_lit",
+      "note": "bright twin-bar (twin gun) icon (kind-9 element FUN_00412a00 for the Heli panel slot 8; lit/dim by obj+0xc bit 0x10000000, the same weapon-select flag FUN_0040e600/FUN_0040e7a0 read/toggle; document 83). Verified visually: 1977/1978 are the same rocket-like silhouette bright vs grey, 1979/1980 the same twin-bar silhouette bright vs grey."
     },
     "198": {
       "category": "vehicle",
@@ -6609,8 +6609,8 @@
     "1980": {
       "category": "ui",
       "confidence": "visual_group",
-      "id": "ui.icon.pause.01",
-      "note": "olive icon, white double-bar"
+      "id": "ui.hud.heli_weapon.gun_dim",
+      "note": "dim/grey twin-bar (twin gun) icon (kind-9 element FUN_00412a00 for the Heli panel slot 8; lit/dim by obj+0xc bit 0x10000000, the same weapon-select flag FUN_0040e600/FUN_0040e7a0 read/toggle; document 83). Verified visually: 1977/1978 are the same rocket-like silhouette bright vs grey, 1979/1980 the same twin-bar silhouette bright vs grey."
     },
     "1981": {
       "category": "prop",

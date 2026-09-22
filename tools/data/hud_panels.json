@@ -217,6 +217,22 @@
    }
   }
  },
+ "weapon_select": {
+  "bomb_pos": [
+   91,
+   20
+  ],
+  "gun_pos": [
+   36,
+   36
+  ],
+  "cels": {
+   "bomb_lit": 1977,
+   "bomb_dim": 1978,
+   "gun_lit": 1979,
+   "gun_dim": 1980
+  }
+ },
  "select": {
   "icon_cels": [
    2163,

@@ -5,6 +5,12 @@ Transcribed from `DumpDwords.java 0x4456b8 2980` (rectangles are whole pixels re
   radar      = element kind 6 at record +0x270: position (+0x274/+0x278), size (+0x27c/+0x280) ... (Jeep: kind 8, its compass)
   base cel   = 1943 + vehicle index (kind 2's init adds 0x797)
 Ammunition bars (record +0x194 / +0x1c8 blocks) are left out: ammunition is not modelled yet.
+
+`weapon_select` (document 83): the Heli's panel slot 8, element kind 9 (`FUN_00412a00`, disassembled since Ghidra never
+marked it as code) -- Heli-only, per document 70's panel table. It draws two fixed icons, at panel-relative (91, 20) and
+(36, 36), picked from a single flag: `obj+0xc & 0x10000000` (the exact weapon-select bit `FUN_0040e600`/`FUN_0040e7a0`,
+document 63, already read/toggle). Bit set (bomb): (91,20)=bomb_lit, (36,36)=gun_dim. Bit clear (gun): (91,20)=bomb_dim,
+(36,36)=gun_lit. No live object: both dim.
 Usage: python extract_hud_panels.py
 """
 import json
@@ -36,6 +42,11 @@ out = {
     "pips": {"cel": 1968, "x": [62, 70, 78, 86, 94, 102, 110, 118, 62, 70, 78, 86, 94, 102, 110, 118],
              "y": [21.5] * 8 + [38.5] * 8},
     "panels": panels,
+    # kind 9 (FUN_00412a00), Heli only (document 83): two icon positions, each shows a lit/dim cel by the weapon-select bit
+    "weapon_select": {
+        "bomb_pos": [91, 20], "gun_pos": [36, 36],
+        "cels": {"bomb_lit": 1977, "bomb_dim": 1978, "gun_lit": 1979, "gun_dim": 1980},
+    },
     # kind 8 (FUN_00412960): cel celtable + 0x20b04 = 1969 for a flag target (negative value), + 0x20b8c = 1971 for home; document 71
     # the vehicle-choice screen (documents 66, 76): mini icons by type index (FUN_004116a0: cels 0x873, 0x871, 0x874, 0x872) and the red digit cels 0x862 + n
     "select": {"icon_cels": [2163, 2161, 2164, 2162], "digit_base_cel": 2146},

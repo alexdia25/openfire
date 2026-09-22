@@ -359,6 +359,24 @@ for _cel, _id, _cat, _note, _conf in AUDIT10:
     put(_cel, _id, _cat, _note, _conf)
 
 
+# CORRECTED 2026-09-22 (registry hand-edited, not re-generated; document 83): 1977-1980 were
+# classify_bulk.py guesses ("exit sign", "boost", "armor", "pause" icons) that turned out to be the
+# Heli HUD panel's weapon-select icons -- kind-9 element FUN_00412a00 (panel slot 8, Heli only,
+# document 70's "Not done" list) draws one of these four at two fixed panel positions depending on
+# a single bit, obj+0xc & 0x10000000 -- the exact same weapon-select flag FUN_0040e600 (fire) and
+# FUN_0040e7a0 (the third button, "toggle bit 28") already use (document 63). Verified against the
+# real art, not just the code: 1977/1978 are the same rocket-like silhouette bright vs grey (the
+# bomb), 1979/1980 the same twin-bar silhouette bright vs grey (the twin-mounted gun).
+put(1977, "ui.hud.heli_weapon.bomb_lit", "ui",
+    "bright rocket-silhouette icon; drawn when obj+0xc bit 0x10000000 is set (bomb selected)")
+put(1978, "ui.hud.heli_weapon.bomb_dim", "ui",
+    "dim/grey rocket-silhouette icon; drawn when the bomb is not selected (or no live object)")
+put(1979, "ui.hud.heli_weapon.gun_lit", "ui",
+    "bright twin-bar (twin gun) icon; drawn when obj+0xc bit 0x10000000 is clear (gun selected)")
+put(1980, "ui.hud.heli_weapon.gun_dim", "ui",
+    "dim/grey twin-bar (twin gun) icon; drawn when the gun is not selected")
+
+
 def main():
     with open(REGISTRY_JSON) as f:
         registry = json.load(f)
