@@ -20,11 +20,13 @@ func _init() -> void:
 	v.empty_click.connect(func(): clicks[0] += 1)
 	for t in 4:
 		v.set_vehicle_type(t)
-		v.position = Vector2(2160, 2160)
+		v.position = Vector2(2160, 2160 + 320)   # off the home pad (document 77): the pad centre itself would dock instead of fire
+		if t == 3:
+			v.heli_spinup_stage = 0   # skip the start-up (document 79) so this counts shots, not the spin-up wait
+			v.rotor_speed_steps = 4.0
+			v.z = 0.0
 		shots[0] = 0
 		clicks[0] = 0
-		if t == 3:
-			v.z = 0.0
 		Input.action_press("ui_accept")
 		for i in 6000:
 			mc._process(dt)

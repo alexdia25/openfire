@@ -144,4 +144,7 @@ ground vehicles. The port's Heli shadow was removed. (The rest of the dying sequ
   auto-steer, ammo (100 / 50) and sounds. The Heli starts flying at once, and it can only be shot by weapons that reach z 50
   (the Tank's raised gun and the MSV's raised rocket, [document 64](64-worked-example-turret-and-raised-fire.md), reach it).
 
+**Correction (document 79):** the start-up chain at `0x40e8c0`/`0x40e930`/`0x40e9c0` is now traced and applied — a silent blade-accel stage, then the rotor visibly ramping to full speed, then this document's own climb (unchanged); no "folded mode 4" or gear
+stage was found, only the two rotor stages. The landing at the base (`0x40eb00`/`0x40eb40`) is traced in document 77.
+
 **Next:** back to [the next-steps doc](NEXT_STEPS.md).

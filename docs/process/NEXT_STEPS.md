@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-78
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-79
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -167,6 +167,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Vehicle choice at the base (2026-09-21):** the original's choice is a 2 x 2 grid (Heli, MSV / Tank, Jeep) with the counts left, a neighbour table that skips empty types, and a confirm button; the port reproduces the cursor logic and draws it with the traced icons and digits (`V` on the home tile opens it). Open: the docking trigger, the fades and sounds, the lost sequence's end screen, the respawn choice. See [document 76](76-worked-example-vehicle-choice-at-the-base.md).
 - **Docking and undocking (2026-09-21):** to dock, stand still on your pad within a small distance of its centre and press any fire button (Tank / MSV at once; Jeep after returning its own flag; Heli lands itself first); the vehicle sinks 70 ticks, the view fades, the choice grid opens, and a confirm puts the new vehicle on the pad at once. The port does this (`V` stays as a port-only quick swap). Open: the sounds and fades, the pad art change / glow, the dock object's drawing, the Heli's rotor and gear stages, the flag delivery in the lift update, the view scripts. See [document 77](77-worked-example-docking-and-undocking.md).
 - **The hangar screen (2026-09-21):** the docked choice screen is traced and drawn as the original does: the deterministic sky / cloud / dirt backdrop (the C runtime's `rand`), the hangar with its four bays, the cursor's box, spotlight and pointer, the lift, the panel with the counts, the map window, the fades, and the per-vehicle confirm script (the picture slides onto the lift and rises: about 144 ticks). Document 76's neighbour order and grid are corrected there. Open: the sounds, the panel's slide-in. See [document 78](78-worked-example-the-hangar-screen.md).
+- **The Heli's start-up (2026-09-21):** record `+0x14` is a four-stage chain that runs once when a Heli is created (initial spawn, undocking): ~56 ticks silent, then ~160 ticks of the rotor visibly ramping to full speed (the same field that drives its ongoing spin), and only then does the already-modelled climb to 50 units run. Applied (`Vehicle.heli_spinup_stage`, the renderer's rotor now ramps); a pre-existing bug in `tools/tests/ammo_check.gd` (its test position was exactly the home pad centre, so docking silently ate every shot once document 77 landed) was fixed along the way. Open: the bank/pitch bob, the sounds. See [document 79](79-worked-example-the-helis-startup-sequence.md).
 
 ## Level 1 (RFMAP001) end to end (2026-09-21)
 
@@ -190,7 +191,7 @@ Rule (user, 2026-09-21): never make our own choice silently; if one is unavoidab
 - **Port-only input keys** (Space / Z fire, X weapon switch, Q / E strafe, M mines, B swim, F flag, V and F1-F4 vehicle swap): the original reads input bits; the key layout is not its concern.
 - **The mine's drop offset** is reproduced as coded (only the y component), which looks odd; confirmed as the code, not as the intent (document 60).
 - **The Jeep missile quad** is drawn from the descriptor's half-width corners as read; the draw function `0x41b750` was not shown to mirror it (document 61).
-- **The Heli's start-up and landing** (gear, rotor spin-up, the folded rotor of mode 4, the base glide) are not modelled: it flies at once (document 63). A live Heli casts no shadow (only its dying sequence does, traced 2026-09-21); the dying sequence itself (record `+0x234`, `0x40eae0`: a shadow, the falling body, the stopped rotor) is not modelled.
+- **The Heli's start-up is now traced and applied** (document 79: blade accel, rotor ramp, then the existing climb); its bank/pitch bob (tables `0x4454a0`/`0x4454d8`) is not. A live Heli casts no shadow (only its dying sequence does, traced 2026-09-21); the dying sequence itself (record `+0x234`, `0x40eae0`: a shadow, the falling body, the stopped rotor) is not modelled.
 - **Respawn and enemy AI** are placeholders written before tracing (`MatchController._on_player_destroyed`, `enemy_vehicle.gd`).
 - **Water landing of shots** uses "any water" for shallow as well; the exact sampling of `FUN_0042f5b0` was read but its box argument is a compiler-garbled stack layout (document 61).
 

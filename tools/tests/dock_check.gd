@@ -28,6 +28,8 @@ func _init() -> void:
 		v.docked = false
 		if t == 3:
 			v.z = 50.0
+			v.heli_spinup_stage = 0   # this Heli is meant to already be in flight (document 79's start-up is done, not in progress)
+			v.rotor_speed_steps = 4.0
 		Input.action_press("ui_accept")
 		var n := 0
 		while mc.dock_state == 0 and not mc.selecting and n < 5:
