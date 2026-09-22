@@ -1085,6 +1085,43 @@ The user supplied two disc images for reference, both outside the git repo
     "3DO extraction" as covering both discs once the second one arrives, not as two separate
     efforts.
 
+### 1.12 Sound engine: descriptor table and cue -> file mapping — MOSTLY SOLVED (2026-09-22)
+
+Every "sound `0xNNNNNN`" address documents 44-81 recorded is one row of a single fixed-size (0x18-byte) descriptor
+table (rows from `0x0044b550` on, base `~0x0044b500`), traced end to end:
+
+- **The call every doc already quotes** (`FUN_004232d0(type, descriptor_addr, source_obj, ...)`) is a *generic*
+  command-queue enqueue, not sound-specific — dispatched later by `FUN_004085a0` through a jump table
+  (`PTR_LAB_00442ed8`); type 1 (every "sound" call seen so far) reaches `FUN_00408600` -> `FUN_00408170`, the real
+  voice-start function.
+- **The descriptor struct**, read by `FUN_00408170`: `+0` a debug label string (a level-editor sound-test menu,
+  section 1.5's kind of debug-only artifact, per document 31), `+4` a pointer to the loaded sample resource
+  (`+8` sample count, `+0x10` base rate), `+8`/`+9`/`+0xa` fade-in/fade-out/fade-ticks bytes, `+0xb` flags (bit
+  `0x20` selects a looping stepper), `+0xc` pitch override, `+0x10` length/loop-count override, `+0x14` a nullable
+  completion callback.
+- **The resource's own `+0`** is a filename pointer straight into a table of `"Sound/<Name>.SDT"` strings — which
+  are exactly the 40 files section 1.4 already converted to `build/sound/*.wav`.
+- **All ~38 one-shot descriptor rows in the `0x44b550`-`0x44b988` block are resolved to a real file**; the full
+  table (address, resource address, file, a candidate trigger where known) is `tools/data/sound_cues.json`,
+  written up in [document 82](process/82-worked-example-the-sound-engine-and-cue-table.md). Two surprises worth
+  keeping in mind rather than "fixing" to match expectation: the row labelled `"Reload"` actually resolves to
+  `Sound/Servo.SDT`, not `Sound/Reload.SDT` (which isn't referenced by anything in this block); and the full-size
+  `"Concrete Hit"`/`"Dirt Hit"` rows both resolve to `Sound/MissileU.SDT`, with only their `"Sm"` variants using the
+  sample their label implies.
+- **Not traced:** `FUN_00408050` (presumably positional volume/pan from the source object, called by
+  `FUN_00408170` but never read), the fade envelope and looping stepper's actual behaviour, a separate sub-block of
+  descriptors below `0x44b550` with a non-null completion callback (read as self-restarting ambience — engine
+  drone, tread, jeep idle), and the announcer's 18 voice lines (section 1.5's kind of table, actually document 71's
+  `0x4463b8`) — a wholly separate mechanism with **no matching audio file found anywhere**, not covered by this
+  table at all.
+- **Applied in the port:** `game/pack.gd` loads a pack's `audio/audio.json` (section 2.4.2's schema, emitted by
+  `tools/build_pack.py` from `tools/data/sound_cues.json`); `game/sound_manager.gd` is the presentation-layer
+  listener (an `AudioStreamPlayer` pool, `AudioStreamWAV.load_from_file()` straight from the pack directory, never
+  through `res://`'s import pipeline — same reasoning as `Pack.gd`'s raw `Image.load()` for sprites); `Vehicle`
+  gained one generic `sound_cue(id: String)` signal. Only two of the ~38 traced cues are wired to a real trigger so
+  far (the empty click, `OutAmmo`; the Heli spin-up chime, `heli`) — every cue plays flat/non-positional at fixed
+  volume, since `FUN_00408050` isn't traced (see the next-steps doc's "Untraced choices").
+
 ## 2. Architecture decisions (decide once, up front)
 
 ### 2.1 The simulation must NOT live in Godot's engine types

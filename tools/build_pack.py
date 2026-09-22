@@ -56,6 +56,7 @@ import shutil
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_BUILD_CAR = os.path.join(ROOT, "build", "car")
 DEFAULT_BUILD_RFM = os.path.join(ROOT, "build", "rfm")
+DEFAULT_BUILD_SOUND = os.path.join(ROOT, "build", "sound")
 DEFAULT_OUT = os.path.join(ROOT, "packs", "original_pc")
 REGISTRY_JSON = os.path.join(ROOT, "packs", "registry", "asset_ids.json")
 COASTAL_DECORATIONS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decorations.json")
@@ -63,6 +64,7 @@ COASTAL_DAMAGE_JSON = os.path.join(ROOT, "tools", "data", "coastal_damage.json")
 EXPLOSION_RECORDS_JSON = os.path.join(ROOT, "tools", "data", "explosion_records.json")
 COASTAL_SHAPES_JSON = os.path.join(ROOT, "tools", "data", "coastal_shapes.json")
 GATES_JSON = os.path.join(ROOT, "tools", "data", "gates.json")
+SOUND_CUES_JSON = os.path.join(ROOT, "tools", "data", "sound_cues.json")
 WATER_JSON = os.path.join(ROOT, "tools", "data", "water_tables.json")
 FLAG_JSON = os.path.join(ROOT, "tools", "data", "flag.json")
 RADAR_JSON = os.path.join(ROOT, "tools", "data", "radar.json")
@@ -102,6 +104,8 @@ def main():
                      help="pack output dir (default: packs/original_pc)")
     ap.add_argument("--build-rfm-dir", default=DEFAULT_BUILD_RFM,
                      help="dir with convert_rfm.py output, *.json + *.art.bin (default: build/rfm)")
+    ap.add_argument("--build-sound-dir", default=DEFAULT_BUILD_SOUND,
+                     help="dir with convert_sdt.py output, *.wav (default: build/sound)")
     args = ap.parse_args()
 
     with open(os.path.join(args.build_car_dir, "art_atlas.json")) as f:
@@ -355,6 +359,32 @@ def main():
         with open(os.path.join(terrain_dir, "gates.json"), "w") as f:
             json.dump({"gates": gj}, f)
 
+    # Sound cues (document 82): copies the already-converted .wav files (tools/convert_sdt.py output) into
+    # the pack's own audio/ dir and writes audio.json (PORTING_PLAN.md section 2.4.2's id -> {file, ...}
+    # schema), sourced from tools/data/sound_cues.json's traced descriptor -> filename mapping. Only cues
+    # with a real .wav on disk are included; a cue whose file didn't convert is silently skipped here (the
+    # traced data stays in tools/data/sound_cues.json regardless).
+    n_audio = 0
+    if os.path.exists(SOUND_CUES_JSON) and os.path.isdir(args.build_sound_dir):
+        with open(SOUND_CUES_JSON) as f:
+            sound_cues = json.load(f)["cues"]
+        audio_dir = os.path.join(args.out_dir, "audio")
+        os.makedirs(audio_dir, exist_ok=True)
+        audio_json = {}
+        copied = set()
+        for cue_id, cue in sound_cues.items():
+            wav = cue["wav"]
+            src = os.path.join(args.build_sound_dir, wav)
+            if not os.path.exists(src):
+                continue
+            if wav not in copied:
+                shutil.copyfile(src, os.path.join(audio_dir, wav))
+                copied.add(wav)
+            audio_json[cue_id] = {"file": wav, "category": "sfx", "priority": 0}
+            n_audio += 1
+        with open(os.path.join(audio_dir, "audio.json"), "w") as f:
+            json.dump(audio_json, f)
+
     # Collision shapes of each coastal id's tile (document 53), consumed by game/pack.gd's get_coastal_shapes().
     if os.path.exists(COASTAL_SHAPES_JSON):
         with open(COASTAL_SHAPES_JSON) as f:
@@ -410,7 +440,8 @@ def main():
             n_levels += 1
 
     print(f"wrote pack {PACK_ID!r} to {args.out_dir}: {len(sprites)} sprites, "
-          f"{len(tileset)} terrain tiles, {n_decoration_ids} decoration types, {n_levels} levels")
+          f"{len(tileset)} terrain tiles, {n_decoration_ids} decoration types, {n_levels} levels, "
+          f"{n_audio} audio cues")
 
 
 if __name__ == "__main__":

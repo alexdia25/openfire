@@ -1,0 +1,179 @@
+{
+  "_comment": "Traced sound-cue descriptor table (docs/process/82). Each entry is one 0x18-byte descriptor row in RFIRE.BIN's sound table (rows from 0x0044b550 on; base of the whole table is 0x0044b500) -- fields {name_ptr, resource_ptr, packed volume/fade bytes, pitch, length, completion callback}, played through FUN_00408170. `addr` is the descriptor's address (what earlier docs 44-81 called 'sound 0xNNNNNN'); `resource_addr` is the loaded-sample struct its +4 field points at; `file`/`wav` are that resource's own filename string and its build/sound/*.wav equivalent (tools/convert_sdt.py output of the user's SOUND/*.SDT), both re-verified against a fresh Ghidra dump, not carried over from an earlier guess. `label` is the debug name string at the descriptor's +0 (from the level-editor sound-test menu, document 31) -- descriptive, sometimes misleading (see 'Reload' below), never authoritative on its own. Only the two rows with `applied: true` have an actual in-game trigger point wired (game/vehicle.gd) as of this document; the rest are traced but not yet hooked to a gameplay event.",
+  "cues": {
+    "Heli": {
+      "addr": "0x44b550", "resource_addr": "0x44b20c", "file": "Sound/Heli.SDT", "wav": "HELI.wav",
+      "label": "heli", "applied": true, "trigger": "game/vehicle.gd Vehicle._process_heli_spinup(), stage 1->2 (document 79's FUN_0040e8c0 -> FUN_0040e930)"
+    },
+    "Button": {
+      "addr": "0x44b580", "resource_addr": "0x44b500", "file": "Sound/Button.SDT", "wav": "BUTTON.wav",
+      "applied": false, "trigger": "mine arm/blink box (FUN_00409cd0, documents 50-51) -- not yet wired"
+    },
+    "GateMove": {
+      "addr": "0x44b610", "resource_addr": "0x44b1f0", "file": "Sound/GateMove.SDT", "wav": "GATEMOVE.wav",
+      "applied": false, "trigger": "team gate opening (FUN_004322f0, document 56) -- exact call site within the open/close sequence not traced yet"
+    },
+    "GateClose": {
+      "addr": "0x44b628", "resource_addr": "0x44b340", "file": "Sound/Click.SDT", "wav": "CLICK.wav",
+      "applied": false, "trigger": "team gate closing (FUN_004322f0, document 56) -- exact call site not traced yet"
+    },
+    "GClick": {
+      "addr": "0x44b640", "resource_addr": "0x44b340", "file": "Sound/Click.SDT", "wav": "CLICK.wav",
+      "applied": false, "trigger": "vehicle-choice cursor move (document 76, FUN_0040b510 neighbour step) -- not yet wired"
+    },
+    "Reload": {
+      "addr": "0x44b658", "resource_addr": "0x44b2d0", "file": "Sound/Servo.SDT", "wav": "SERVO.wav",
+      "applied": false,
+      "note": "label says 'Reload' but the resource pointer resolves to Sound/Servo.SDT, not Sound/Reload.SDT -- re-verified twice, not a transcription slip. The real Sound/Reload.SDT (RELOAD.wav) is not referenced by any descriptor in this 0x44b550-0x44b988 block; it must be used by a descriptor in the separate looping/ambience sub-block below 0x44b550 (untraced) or elsewhere.",
+      "trigger": "untraced call site -- candidate: the rearm zone's per-tick refill (document 72), but see note"
+    },
+    "Ding": {
+      "addr": "0x44b670", "resource_addr": "0x44b2ec", "file": "Sound/Ding.SDT", "wav": "DING.wav",
+      "applied": false, "trigger": "documents 72 (rearm-zone looping sound) and 77 (Jeep's own-flag return) both cite this address; which one (or both) actually calls it is untraced"
+    },
+    "FuelWarn": {
+      "addr": "0x44b688", "resource_addr": "0x44b3b0", "file": "Sound/FuelWarn.SDT", "wav": "FUELWARN.wav",
+      "applied": false, "trigger": "low fuel (document 55) -- not yet wired"
+    },
+    "PanelUp": {
+      "addr": "0x44b6a0", "resource_addr": "0x44b340", "file": "Sound/Click.SDT", "wav": "CLICK.wav",
+      "applied": false, "trigger": "untraced -- HUD panel raise/swap, never documented by address before"
+    },
+    "BushCrush": {
+      "addr": "0x44b6b8", "resource_addr": "0x44b298", "file": "Sound/BushCrus.SDT", "wav": "BUSHCRUS.wav",
+      "applied": false, "trigger": "vehicle crushing a bush tile (document 54) -- not yet wired"
+    },
+    "ExplLarge": {
+      "addr": "0x44b6d0", "resource_addr": "0x44b110", "file": "Sound/ExplLar.SDT", "wav": "EXPLLAR.wav",
+      "applied": false, "trigger": "large explosion variant (documents 50-51) -- not yet wired"
+    },
+    "ExplDebris": {
+      "addr": "0x44b6e8", "resource_addr": "0x44b12c", "file": "Sound/ExplDeb.SDT", "wav": "EXPLDEB.wav",
+      "applied": false, "trigger": "debris explosion variant (documents 50-51) -- not yet wired"
+    },
+    "ExplLow": {
+      "addr": "0x44b700", "resource_addr": "0x44b148", "file": "Sound/ExplLow.SDT", "wav": "EXPLLOW.wav",
+      "applied": false, "trigger": "low/muffled explosion variant (documents 44, 50-51) -- not yet wired"
+    },
+    "ManCrush": {
+      "addr": "0x44b718", "resource_addr": "0x44b3cc", "file": "Sound/ManCrush.SDT", "wav": "MANCRUSH.wav",
+      "applied": false, "trigger": "untraced (no crushable-infantry object modelled in the port yet)"
+    },
+    "Cannon": {
+      "addr": "0x44b730", "resource_addr": "0x44b308", "file": "Sound/Cannon.SDT", "wav": "CANNON.wav",
+      "applied": false, "trigger": "Tank turret fire (documents 63-64) -- not yet wired"
+    },
+    "ThrowGrenade1_a": {
+      "addr": "0x44b748", "resource_addr": "0x44b420", "file": "Sound/Throw1.SDT", "wav": "THROW1.wav",
+      "label": "Throw Grenade1", "applied": false, "trigger": "MSV canister/mine throw variant 1 (documents 60-61) -- not yet wired"
+    },
+    "ThrowGrenade1_b": {
+      "addr": "0x44b760", "resource_addr": "0x44b43c", "file": "Sound/Throw2.SDT", "wav": "THROW2.wav",
+      "label": "Throw Grenade1", "applied": false, "trigger": "MSV canister/mine throw variant 2 -- not yet wired"
+    },
+    "ThrowGrenade1_c": {
+      "addr": "0x44b778", "resource_addr": "0x44b490", "file": "Sound/Throw3.SDT", "wav": "THROW3.wav",
+      "label": "Throw Grenade1", "applied": false, "trigger": "MSV canister/mine throw variant 3 -- not yet wired"
+    },
+    "Laugh": {
+      "addr": "0x44b790", "resource_addr": "0x44b19c", "file": "Sound/Laugh.SDT", "wav": "LAUGH.wav",
+      "applied": false, "trigger": "untraced -- not one of the announcer's 18 lines (document 71); likely a kill/taunt sting"
+    },
+    "TestSndL": {
+      "addr": "0x44b7a8", "resource_addr": "0x44b340", "file": "Sound/Click.SDT", "wav": "CLICK.wav",
+      "label": "TestSnd L", "applied": false, "trigger": "debug sound-test menu only (document 31) -- no gameplay trigger, not worth wiring"
+    },
+    "TestSndR": {
+      "addr": "0x44b7c0", "resource_addr": "0x44b340", "file": "Sound/Click.SDT", "wav": "CLICK.wav",
+      "label": "TestSnd R", "applied": false, "trigger": "debug sound-test menu only (document 31) -- no gameplay trigger, not worth wiring"
+    },
+    "Raise": {
+      "addr": "0x44b7d8", "resource_addr": "0x44b228", "file": "Sound/Raise.SDT", "wav": "RAISE.wav",
+      "applied": false, "trigger": "hangar lift rising / dock sink completing (documents 77-78, '0/1 entries of 0x449260') -- not yet wired"
+    },
+    "PreRaise": {
+      "addr": "0x44b7f0", "resource_addr": "0x44b244", "file": "Sound/PreRais.SDT", "wav": "PRERAIS.wav",
+      "applied": false, "trigger": "hangar lift starting to rise (documents 77-78) -- not yet wired"
+    },
+    "Servo": {
+      "addr": "0x44b808", "resource_addr": "0x44b2d0", "file": "Sound/Servo.SDT", "wav": "SERVO.wav",
+      "applied": false, "trigger": "Heli rotor spin-down at landing (document 77, FUN_0040ecd0) -- not yet wired; shares its resource with 'Reload' above"
+    },
+    "Splash": {
+      "addr": "0x44b820", "resource_addr": "0x44b378", "file": "Sound/Splash.SDT", "wav": "SPLASH.wav",
+      "applied": false, "trigger": "entering/leaving water (document 62) -- not yet wired"
+    },
+    "SmSplash": {
+      "addr": "0x44b838", "resource_addr": "0x44b378", "file": "Sound/Splash.SDT", "wav": "SPLASH.wav",
+      "applied": false, "trigger": "smaller splash variant (document 62) -- not yet wired"
+    },
+    "MetalHit1": {
+      "addr": "0x44b850", "resource_addr": "0x44b3e8", "file": "Sound/MetalHi.SDT", "wav": "METALHI.wav",
+      "applied": false, "trigger": "projectile-vs-vehicle hit variant 1 (documents 45, 47) -- not yet wired"
+    },
+    "MetalHit2": {
+      "addr": "0x44b868", "resource_addr": "0x44b4ac", "file": "Sound/MetalHi.SDT", "wav": "METALHI.wav",
+      "applied": false, "trigger": "hit variant 2 -- not yet wired"
+    },
+    "MetalHit3": {
+      "addr": "0x44b880", "resource_addr": "0x44b3e8", "file": "Sound/MetalHi.SDT", "wav": "METALHI.wav",
+      "applied": false, "trigger": "hit variant 3 -- not yet wired"
+    },
+    "MetalHit4": {
+      "addr": "0x44b898", "resource_addr": "0x44b4ac", "file": "Sound/MetalHi.SDT", "wav": "METALHI.wav",
+      "applied": false, "trigger": "hit variant 4 -- not yet wired; METALH0.wav (present in build/sound/) is not referenced anywhere in this block -- untraced"
+    },
+    "ConcreteHit": {
+      "addr": "0x44b8b0", "resource_addr": "0x44b27c", "file": "Sound/MissileU.SDT", "wav": "MISSILEU.wav",
+      "label": "Concrete Hit", "applied": false,
+      "note": "the 'full-size' concrete hit shares its resource with 'Dirt Hit' below and resolves to Sound/MissileU.SDT, not Sound/Concrete.SDT -- only the 'Sm' (small) variant uses the concrete-specific sample. Re-verified, not a mix-up.",
+      "trigger": "projectile-vs-structure hit (document 45) -- not yet wired"
+    },
+    "SmConcreteHit": {
+      "addr": "0x44b8c8", "resource_addr": "0x44b404", "file": "Sound/Concrete.SDT", "wav": "CONCRETE.wav",
+      "label": "SmConcrete Hit", "applied": false, "trigger": "smaller structure-hit variant -- not yet wired"
+    },
+    "DirtHit": {
+      "addr": "0x44b8e0", "resource_addr": "0x44b27c", "file": "Sound/MissileU.SDT", "wav": "MISSILEU.wav",
+      "label": "Dirt Hit", "applied": false,
+      "note": "shares its resource with 'Concrete Hit' above (both the 'full-size' ground/structure hits use Sound/MissileU.SDT); only the 'Sm' variant uses Sound/DirtHit.SDT.",
+      "trigger": "projectile-vs-ground hit (document 45) -- not yet wired"
+    },
+    "SmDirtHit": {
+      "addr": "0x44b8f8", "resource_addr": "0x44b474", "file": "Sound/DirtHit.SDT", "wav": "DIRTHIT.wav",
+      "label": "SmDirt Hit", "applied": false, "trigger": "smaller ground-hit variant -- not yet wired"
+    },
+    "JeepStart": {
+      "addr": "0x44b910", "resource_addr": "0x44b35c", "file": "Sound/JeepStar.SDT", "wav": "JEEPSTAR.wav",
+      "applied": false, "trigger": "untraced -- likely the Jeep's own start-up (parallel to the Heli's, document 79), not yet looked for"
+    },
+    "DumbDirect": {
+      "addr": "0x44b928", "resource_addr": "0x44b4c8", "file": "Sound/Beacon.SDT", "wav": "BEACON.wav",
+      "applied": false, "trigger": "Jeep compass reaching dead-on alignment (document 71, FUN_0040d990's 'play 0x44b928 the first time it becomes -16') -- not yet wired"
+    },
+    "TireIn": {
+      "addr": "0x44b940", "resource_addr": "0x44b394", "file": "Sound/Tirein.SDT", "wav": "TIREIN.wav",
+      "applied": false, "trigger": "Jeep/Tank wading into water (document 62) -- not yet wired"
+    },
+    "TireOut": {
+      "addr": "0x44b958", "resource_addr": "0x44b2b4", "file": "Sound/Tireout.SDT", "wav": "TIREOUT.wav",
+      "applied": false, "trigger": "wading out of water (document 62) -- not yet wired"
+    },
+    "HeliClick": {
+      "addr": "0x44b970", "resource_addr": "0x44b340", "file": "Sound/Click.SDT", "wav": "CLICK.wav",
+      "applied": false, "trigger": "Heli's third button bit-28 toggle (document 63) -- not yet wired"
+    },
+    "OutAmmo": {
+      "addr": "0x44b988", "resource_addr": "0x44b4e4", "file": "Sound/OutAmmo.SDT", "wav": "OUTAMMO.wav",
+      "applied": true, "trigger": "game/vehicle.gd Vehicle._spend_ammo(), alongside the empty_click signal (documents 61, 63, 72)"
+    }
+  },
+  "explosion_variant_pool_0x44b9a0": [
+    "0x44b580", "0x44b598", "0x44b5b0", "0x44b5c8", "0x44b5e0", "0x44b5f8",
+    "0x44b610", "0x44b628", "0x44b640", "0x44b658"
+  ],
+  "untraced": {
+    "note": "Descriptor rows below 0x44b550 (base ~0x44b500) are a separate sub-block whose entries have a non-null +0x14 completion callback (0x0040ee60 / 0x0040eeb0, not decompiled) -- read as looping/self-restarting ambience (engine drone, tread, jeep idle) rather than the one-shot rows above; Sound/Reload.SDT, Sound/Drone.SDT, Sound/JeepIdle.SDT, Sound/Tread.SDT, Sound/Missile.SDT and Sound/AR1/AR2/AR3.SDT (all present in build/sound/ or the filename table) have not been matched to a descriptor address yet. The announcer's 18 voice-line sounds (document 71, table at 0x4463b8) are a wholly separate mechanism and are not in this table at all -- no matching audio file has been found for them anywhere.",
+    "addresses": ["0x44b520", "0x44b538", "0x44b568 (anomalous fields, not decoded)", "0x44b598", "0x44b5b0", "0x44b5c8", "0x44b5e0", "0x44b5f8"]
+  }
+}
