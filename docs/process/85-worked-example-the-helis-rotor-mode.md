@@ -74,9 +74,7 @@ func _heli_rotor_mode() -> int:
 `game/vehicle_render_3d.gd`'s `_build_heli_extras()`/`_animate_heli()` now rebuild the rotor's children
 only when the mode actually changes (cheap per-frame check, same pattern as the Jeep/MSV animated-part
 caching already in this file), picking real corners for all 4 non-folded widths (`ROTOR_HALF_WIDTHS :=
-[3.4, 3.4, 6.8, 13.6]`, halves of document 63's own numbers) or the single `vehicle.heli.rotor.c` quad at
-`ROTOR_FOLDED_CORNERS` for mode 4. Mode 4 does not spin (the original never advances the rotor angle
-during stage 1 either -- `rotor_speed_steps` stays 0.0 the whole time, document 79).
+[3.4, 3.4, 6.8, 13.6]`, halves of document 63's own numbers) for modes 0-3.
 
 `tools/tests/heli_rotor_mode_check.gd` drives a fresh Heli through 260 ticks and logs every mode change:
 
@@ -89,9 +87,55 @@ tick 216: stage 0 rotor_speed 4.0 -> mode 3
 ```
 
 -- the exact sequence and tick numbers document 63's formula and document 79's own ~56/~216-tick timings
-predict. Two screenshots (`RF_DEBUG_SWAP=0:3`, one 10 frames after spawn, one 280) confirm mode 4 renders
-a single real blade (not a missing-texture placeholder or a crash) and mode 3 still renders the same
-full-width blur this file always drew once flying.
+predict.
+
+## Correction (2026-09-22, same day): mode 4 is two blades scissoring apart, not one static blade
+
+The first pass took document 63's prose ("mode 4 draws a separate folded pair") too literally and
+rendered a single frozen `vehicle.heli.rotor.c` quad -- it looked like *a* different asset was showing,
+which is what the two screenshots at the time confirmed, but a user report that a spinning-speed state
+was still missing prompted re-disassembling the draw callback (`0x403420`) byte-for-byte instead of
+trusting the summary. It draws descriptor `0x4406c0` (cel 588) **twice**, at two different rotations:
+
+```
+00403471  MOV EDI,[ESI+0x2c]        ; EDI = the rotor's own parent-state pointer
+00403477  MOV [ESI+0xc],0x4406c0    ; descriptor = the folded blade
+0040347e  MOV EAX,[EDI+0x4c]        ; a fixed base angle
+00403483  MOV [ESI+0x1c],EAX
+00403486  CALL FUN_0041b430         ; draw #1, at the base angle
+0040348e  MOV ECX,[EDI+0x60]        ; ECX = the vehicle's own state
+00403491  MOV EAX,[ECX+0x58]        ; state+0x58 -- stage 1's own 0..0x10000 accumulator
+00403495  SHL EAX,0x5               ; x32
+00403499  ADD EAX,[EDI+0x4c]        ; + the same base angle
+0040349c  AND EAX,0x3fffff          ; masked to one full turn
+004034a1  MOV [ESI+0x1c],EAX
+004034a4  CALL FUN_0041b430         ; draw #2, at base + (state+0x58 << 5)
+```
+
+`0x3fffff` is a full turn in this engine's angle units, and `state+0x58` runs `0..0x10000` (`0..1.0`)
+over stage 1 -- so the second blade's offset from the first sweeps exactly **0 to 180 degrees**. Two
+blades start overlapped (looking like one) and scissor open into a straight line by the time stage 1
+ends, at which point mode 0 takes over with the real two-half-bar bar already at that same straight
+line. `Vehicle.heli_spinup_progress()` (a new public getter for the existing `_heli_spinup_progress`,
+state+0x58's own port field) drives it directly -- no new state needed, only a second pivot:
+
+```gdscript
+if mode == 4:
+	... # two child Node3D pivots, each holding one rotor.c quad at ROTOR_FOLDED_CORNERS
+	_folded_pivots[1].rotation_degrees.y = -vehicle.heli_spinup_progress() * 180.0
+```
+
+`heli_rotor_mode_check.gd` now also samples the second pivot's angle every 10 ticks during mode 4:
+
+```
+fold angle samples during mode 4: [-3.2, -35.6, -68.0, -100.4, -132.8, -165.1]
+```
+
+-- a steady sweep toward -180, matching the formula. Screenshots at ticks 3 and 13 after spawn
+(`RF_DEBUG_SWAP=0:3`) show two visibly separate blades, further apart in the second shot, not one
+frozen quad. (The two shots' starting angles are further along than 3-13 ticks alone would predict --
+the very first processed frame appears to cover more sim time than later ones, likely a one-time
+initial-load delta spike; the test's fixed-timestep numbers above are the trustworthy ones.)
 
 ## Still not modelled
 
