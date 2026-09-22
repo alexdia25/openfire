@@ -1,6 +1,6 @@
 # Next steps
 
-*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-79
+*Deliberately unnumbered, unlike everything else in this folder.* The numbered docs (01-80
 and counting) are a frozen chronological narrative — each one is a snapshot of how a specific
 question got answered, and it never changes after the fact. This document is the opposite: it
 gets edited in place every time the backlog changes, so giving it a fixed position in that
@@ -168,6 +168,7 @@ worked-example docs: what got resolved, in what order, and where to read the ful
 - **Docking and undocking (2026-09-21):** to dock, stand still on your pad within a small distance of its centre and press any fire button (Tank / MSV at once; Jeep after returning its own flag; Heli lands itself first); the vehicle sinks 70 ticks, the view fades, the choice grid opens, and a confirm puts the new vehicle on the pad at once. The port does this (`V` stays as a port-only quick swap). Open: the sounds and fades, the pad art change / glow, the dock object's drawing, the Heli's rotor and gear stages, the flag delivery in the lift update, the view scripts. See [document 77](77-worked-example-docking-and-undocking.md).
 - **The hangar screen (2026-09-21):** the docked choice screen is traced and drawn as the original does: the deterministic sky / cloud / dirt backdrop (the C runtime's `rand`), the hangar with its four bays, the cursor's box, spotlight and pointer, the lift, the panel with the counts, the map window, the fades, and the per-vehicle confirm script (the picture slides onto the lift and rises: about 144 ticks). Document 76's neighbour order and grid are corrected there. Open: the sounds, the panel's slide-in. See [document 78](78-worked-example-the-hangar-screen.md).
 - **The Heli's start-up (2026-09-21):** record `+0x14` is a four-stage chain that runs once when a Heli is created (initial spawn, undocking): ~56 ticks silent, then ~160 ticks of the rotor visibly ramping to full speed (the same field that drives its ongoing spin), and only then does the already-modelled climb to 50 units run. Applied (`Vehicle.heli_spinup_stage`, the renderer's rotor now ramps); a pre-existing bug in `tools/tests/ammo_check.gd` (its test position was exactly the home pad centre, so docking silently ate every shot once document 77 landed) was fixed along the way. Open: the bank/pitch bob, the sounds. See [document 79](79-worked-example-the-helis-startup-sequence.md).
+- **The hangar hatch and dock readiness (2026-09-21):** the home pad (cel 90/91) is a hazard-striped metal hatch, not a "bullseye" — the registry is corrected — and it had been hidden the whole time under an always-on debug spawn-marker circle, now off by default (`RF_DEBUG_MARKERS=1` to see it). The original's own "you're in position to dock" signal is `FUN_0040b400`: it animates the pad's border (a 7-colour rotate, ~9.1 steps a second) whenever a vehicle is parked in dock position and not pressing fire. The port shows an approximate coloured ring plus HUD text under the same condition (`MatchController.can_dock`). Open: the exact seven colours and the byte layout they live in. See [document 80](80-worked-example-the-hangar-hatch-and-dock-readiness.md).
 
 ## Level 1 (RFMAP001) end to end (2026-09-21)
 
@@ -181,6 +182,7 @@ bushes or pass rocks, so it must route around them; palms block the Tank too. **
 
 Rule (user, 2026-09-21): never make our own choice silently; if one is unavoidable, mark it in the code and list it here to trace later.
 
+- **The dock-ready ring's colours and shape** (`game/dock_ready_indicator_3d.gd`: yellow/orange/red/white/near-black) are the port's guess at the original's hazard-light border; only the trigger condition and the ~9.1 steps/second rate are traced (document 80).
 - **The ground flag's camera tilt** (`(cam+0x24 + 0xffe70000) >> 3`) is not reproduced (document 65).
 - **The placeholder panel** (`game/placeholder_hud.gd`: labels, the objective wording, the restart key Enter) and the debug autoplay are the port's own; the original's panel is frame cel 1940 + vehicle icon + weapon counts + radar (document 66), fuel/health displays and announcer still untraced.
 - **The panel's scale and position** (3 px per original pixel, bottom-left), the radar's black outside-the-map background, and the **fuel bar colours read as 15-bit RGB** (unverified format, document 70) are the port's; the original's frame, grid, bracket cursor and arrow are not drawn yet (document 69).

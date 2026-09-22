@@ -122,4 +122,7 @@ document 22 placeholder -- far too fast for a 24-unit tank).
 - Coastal id 76 has corner count 0 -- an empty descriptor used by no level -- so there is nothing to
   extract; closed.
 
+**Correction (document 80):** the home pad's "striped pad" art (cel 90, and 91 for the other team) is an animated hangar hatch — its border cycles colour while a vehicle waits to dock — not the "bullseye" the registry had named it; and `RF_DEBUG_NO_MARKERS=1`
+is now `RF_DEBUG_MARKERS=1` (the debug overlay defaults off, since it was hiding this real art).
+
 **Next:** back to [the next-steps doc](NEXT_STEPS.md).

@@ -12254,8 +12254,8 @@
     "90": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "marker.target.bullseye_green",
-      "note": "red-bordered square, green-and-red bullseye centre"
+      "id": "structure.hangar_hatch.tan",
+      "note": "the tan team's home pad: a bolted hatch, brown centre, yellow-and-black hazard-stripe border that animates while a vehicle waits to dock (FUN_0040b400, document 80); was mislabelled a bullseye"
     },
     "900": {
       "category": "effect",
@@ -12325,8 +12325,8 @@
     "91": {
       "category": "terrain",
       "confidence": "visual",
-      "id": "marker.target.bullseye_cyan",
-      "note": "red-bordered square, cyan-and-red bullseye centre"
+      "id": "structure.hangar_hatch.green",
+      "note": "the green team's home pad, the same hatch with a green centre (document 80); was mislabelled a bullseye"
     },
     "910": {
       "category": "marker",

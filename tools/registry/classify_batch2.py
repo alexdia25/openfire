@@ -346,6 +346,19 @@ for _cel, _id, _cat, _note, _conf in AUDIT9:
     put(_cel, _id, _cat, _note, _conf)
 
 
+# The home pad art (document 80): not a "bullseye" -- a bolted grey plate with a yellow-and-black hazard-striped border around a two-leaf hatch (a
+# brown centre panel for 90, green for 91: the team's colour). FUN_0040b400, called once a tick only while a vehicle sits still on its own pad
+# within docking tolerance and is NOT pressing a fire button, rotates 7 colour words of the cel's palette region at a fast, fixed rate (0x2666/65536
+# a tick, about 9.3 steps a second): an animated warning-light border telling the player they are in position to dock. The visual identity (hatch,
+# hazard stripes) is a look, so it stays "visual" confidence; the animation trigger and rate are code-verified.
+AUDIT10 = [
+    (90, "structure.hangar_hatch.tan", "terrain", "the tan team's home pad: a bolted hatch, brown centre, yellow-and-black hazard-stripe border that animates while a vehicle waits to dock (FUN_0040b400, document 80); was mislabelled a bullseye", "visual"),
+    (91, "structure.hangar_hatch.green", "terrain", "the green team's home pad, the same hatch with a green centre (document 80); was mislabelled a bullseye", "visual"),
+]
+for _cel, _id, _cat, _note, _conf in AUDIT10:
+    put(_cel, _id, _cat, _note, _conf)
+
+
 def main():
     with open(REGISTRY_JSON) as f:
         registry = json.load(f)
