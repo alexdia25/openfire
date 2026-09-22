@@ -99,7 +99,7 @@
     },
     "Servo": {
       "addr": "0x44b808", "resource_addr": "0x44b2d0", "file": "Sound/Servo.SDT", "wav": "SERVO.wav",
-      "applied": false, "trigger": "Heli rotor spin-down at landing (document 77, FUN_0040ecd0) -- not yet wired; shares its resource with 'Reload' above"
+      "applied": false, "trigger": "TWO real candidates, not yet reconciled: (1) Heli rotor spin-down at landing (document 77, FUN_0040ecd0). (2) NEW (2026-09-22): also the Heli's own record+0x240 \"created\" sound in FUN_0040b980's panel-activation block -- the exact mechanism just confirmed for 'JeepStart' (Jeep's own record+0x240 is 0x44b910). Not wired as a creation sound yet because the port already plays a different, separately-traced cue ('Heli', document 79's stage1->2 chime) at Heli creation/spin-up, and it's unconfirmed whether the original plays both or this finding means 'Heli' was mis-attributed -- needs the FUN_0040b980 activation gate traced precisely before wiring either way."
     },
     "Splash": {
       "addr": "0x44b820", "resource_addr": "0x44b378", "file": "Sound/Splash.SDT", "wav": "SPLASH.wav",
@@ -147,7 +147,7 @@
     },
     "JeepStart": {
       "addr": "0x44b910", "resource_addr": "0x44b35c", "file": "Sound/JeepStar.SDT", "wav": "JEEPSTAR.wav",
-      "applied": false, "trigger": "untraced -- likely the Jeep's own start-up (parallel to the Heli's, document 79), not yet looked for"
+      "applied": true, "trigger": "game/vehicle.gd Vehicle.set_vehicle_type(1): a real, traced one-shot -- FUN_0040b980's panel-activation block plays a per-type \"created\" sound straight from record+0x240 (Jeep 0x44b910, Tank/MSV share 0x44b520 (not one of our 42 -- not one-shot-relevant here), Heli 0x44b808 = 'Servo', see that entry's own note)"
     },
     "DumbDirect": {
       "addr": "0x44b928", "resource_addr": "0x44b4c8", "file": "Sound/Beacon.SDT", "wav": "BEACON.wav",
