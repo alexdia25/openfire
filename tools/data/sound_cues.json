@@ -45,7 +45,8 @@
     },
     "ExplLarge": {
       "addr": "0x44b6d0", "resource_addr": "0x44b110", "file": "Sound/ExplLar.SDT", "wav": "EXPLLAR.wav",
-      "applied": false, "trigger": "large explosion variant (documents 50-51) -- not yet wired"
+      "applied": true,
+      "trigger": "game/match_controller.gd MatchController._detonate_mine(): a mine's explosion record 0x445058 scripts SOUND 14 (this cue) then SOUND 1 (Boom, not reproduced); also coastal ids 39-42's tile-destroy effect via DESTROY_SOUND_CUES (documents 50/84)"
     },
     "ExplDebris": {
       "addr": "0x44b6e8", "resource_addr": "0x44b12c", "file": "Sound/ExplDeb.SDT", "wav": "EXPLDEB.wav",
@@ -168,6 +169,11 @@
       "addr": "0x44b988", "resource_addr": "0x44b4e4", "file": "Sound/OutAmmo.SDT", "wav": "OUTAMMO.wav",
       "applied": true, "trigger": "game/vehicle.gd Vehicle._spend_ammo(), alongside the empty_click signal (documents 61, 63, 72)"
     },
+    "Boom": {
+      "addr": "0x44b598", "resource_addr": "0x44b180", "file": "Sound/Boom.SDT", "wav": "BOOM.wav",
+      "label": "Boom", "applied": true,
+      "trigger": "game/match_controller.gd: SOUND opcode index 1, the default explosion sound for the large majority of coastal-destroy-effect records (documents 44/50) via impact_effect_sound_map / DESTROY_SOUND_CUES; shares its resource with 'SmallBoom' (same file, presumably a different pitch/volume per descriptor)"
+    },
     "SmallBoom": {
       "addr": "0x44b5b0", "resource_addr": "0x44b180", "file": "Sound/Boom.SDT", "wav": "BOOM.wav",
       "label": "SmallBoom", "applied": true,
@@ -183,6 +189,20 @@
     "24": "0x44b7c0", "25": "0x44b7d8", "26": "0x44b7f0", "27": "0x44b808", "28": "0x44b820", "29": "0x44b838",
     "30": "0x44b850", "31": "0x44b868", "32": "0x44b880", "33": "0x44b898", "34": "0x44b8b0", "35": "0x44b8c8",
     "36": "0x44b8e0", "37": "0x44b8f8", "38": "0x44b910", "39": "0x44b928"
+  },
+  "coastal_destroy_effect_sound_map": {
+    "_note": "coastal id -> sound cue, built directly from tools/data/explosion_records.json's per-record coastal_destroy_effect_ids and its already-traced SOUND opcodes (via sound_index_table_0x44b9a0) -- every id below is a real destroy-effect record's first SOUND opcode, not a guess. The overwhelming majority (record 0x443e10 and several siblings, all identical single 'SOUND 1' scripts) play 'Boom'; a handful of coastal ids get a different record: 1-6/11 get the quieter 'SmallBoom', 39-42 (record 0x443cc0, script SOUND 14 then SOUND 1) get 'ExplLarge' first, 47-48 get 'BushCrush', 64-67 get 'SmDirtHit'. Ids not listed here have no traced destroy-effect record at all in this data (document 44/50's coverage gaps), not silently assumed to be 'Boom'.",
+    "1": "SmallBoom", "2": "SmallBoom", "3": "SmallBoom", "4": "SmallBoom", "5": "SmallBoom", "6": "SmallBoom", "11": "SmallBoom",
+    "12": "Boom", "13": "Boom", "15": "Boom", "16": "Boom", "17": "Boom", "18": "Boom", "19": "Boom", "20": "Boom", "21": "Boom",
+    "22": "Boom", "23": "Boom", "24": "Boom", "25": "Boom", "26": "Boom", "27": "Boom", "28": "Boom", "29": "Boom", "30": "Boom",
+    "31": "Boom", "32": "Boom", "33": "Boom", "34": "Boom", "35": "Boom", "36": "Boom", "37": "Boom", "38": "Boom",
+    "39": "ExplLarge", "40": "ExplLarge", "41": "ExplLarge", "42": "ExplLarge",
+    "43": "Boom", "44": "Boom", "45": "Boom", "46": "Boom", "47": "BushCrush", "48": "BushCrush", "49": "Boom", "50": "Boom",
+    "54": "Boom", "55": "Boom", "56": "Boom", "57": "Boom", "58": "Boom", "59": "Boom", "60": "Boom", "62": "Boom", "63": "Boom",
+    "64": "SmDirtHit", "65": "SmDirtHit", "66": "SmDirtHit", "67": "SmDirtHit",
+    "68": "Boom", "69": "Boom", "70": "Boom", "71": "Boom", "72": "Boom",
+    "74": "Boom", "75": "Boom", "76": "Boom", "77": "Boom", "78": "Boom", "79": "Boom", "80": "Boom", "81": "Boom", "82": "Boom",
+    "83": "Boom", "84": "Boom", "85": "Boom", "86": "Boom", "87": "Boom", "88": "Boom", "89": "Boom", "90": "Boom"
   },
   "impact_effect_sound_map": {
     "_note": "game/match_controller.gd's `impact_effect(record_addr, position)` signal, cross-referenced against tools/data/explosion_records.json's SOUND opcodes via the index table above -- the direct link from a hit surface to its real sound cue, no guessing involved.",
