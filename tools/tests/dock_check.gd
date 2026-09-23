@@ -41,7 +41,7 @@ func _init() -> void:
 		if mc.dock_state == 0:
 			continue
 		var ticks := 0
-		while not mc.selecting and ticks < 400:
+		while not mc.selecting and ticks < 800:  # a Heli's real landing (rotor spin-down + gear, 2026-09-23) takes longer than the old instant dock
 			mc._process(dt)
 			v._process(dt)
 			ticks += 1
