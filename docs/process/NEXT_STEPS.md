@@ -217,7 +217,7 @@ Rule (user, 2026-09-21): never make our own choice silently; if one is unavoidab
 
 ## Mechanics needed for the remaining sound cues (2026-09-22)
 
-Of the 42 traced sound cues, 33 are wired (`PreRaise`, `FuelWarn` and `JeepStart` resolved 2026-09-22, see above); the other 9 each need either a real mechanic that
+Of the 42 traced sound cues, 34 are wired (`PreRaise`, `FuelWarn`, `JeepStart` and `Servo` resolved 2026-09-22, see above); the other 8 each need either a real mechanic that
 doesn't exist in the port yet, or more tracing of code nobody has read closely for this purpose.
 Grouped by what's actually missing, not by cue name:
 
@@ -244,14 +244,19 @@ Grouped by what's actually missing, not by cue name:
   threshold, not a per-type fraction. `game/vehicle.gd`'s new `_process_fuel_warn()` reproduces it
   directly; verified by `tools/tests/fuel_warn_check.gd` (silent above 1/8 tank, three warnings in
   260 ticks at 0/120/240 once below it). **32 of 42 traced cues are now wired.**
-- **`JeepStart` wired (2026-09-22).** Chasing it found a fourth vehicle-type record field
-  (`+0x240`, `FUN_0040b980`'s panel-activation block: `if (record+0x240 != 0) play it` once, the
-  same block that sets up the kind 5-9 panel elements) that holds a one-shot "this vehicle was
-  just created" sound per type: Jeep `0x44b910` (`JeepStart`), Heli `0x44b808` (**`Servo`** --
-  see that entry, not wired the same way yet, a real conflict with the already-applied `Heli`
-  cue), Tank/MSV both `0x44b520` (not one of the 42 traced cues, so not actionable here).
-  `Vehicle.set_vehicle_type(1)` now emits it directly; verified by `tools/tests/jeep_start_check.gd`
-  (fires only for the Jeep, every time it's created). **33 of 42 traced cues are now wired.**
+- **`JeepStart` and `Servo` both wired (2026-09-22).** Chasing `JeepStart`'s descriptor address
+  (no direct call site, only data references) found a fourth vehicle-type record field (`+0x240`,
+  `FUN_0040b980`'s panel-activation block: `if (record+0x240 != 0) play it` once, the same block
+  that sets up the kind 5-9 panel elements) that holds a one-shot "this vehicle was just created"
+  sound per type: Jeep `0x44b910` (`JeepStart`), Heli `0x44b808` (`Servo`), Tank/MSV both
+  `0x44b520` (not one of the 42 traced cues, not actionable here). The apparent conflict with the
+  already-wired `Heli` chime (document 79) wasn't one: that fires ~56 ticks later, at the stage
+  1->2 transition, not at creation -- the two are simply sequential sounds for the same new Heli,
+  not competing claims on one moment. `Vehicle.set_vehicle_type()` now emits both directly;
+  verified by `tools/tests/jeep_start_check.gd` (each fires only for its own type, every time).
+  Document 77's other `Servo` candidate ("rotor spin-down at landing", `FUN_0040ecd0`) is still
+  unconfirmed -- if the original also plays this file there, the port only reproduces the
+  creation instance so far. **34 of 42 traced cues are now wired.**
 - **Needs more tracing, no missing mechanic:**
   - **`Reload`** — resolves to the same file as `Servo` (`Sound/Servo.SDT`) but is a *separate*
     descriptor; its own trigger is independent of the Heli landing work above and has not been

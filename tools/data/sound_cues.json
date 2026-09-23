@@ -99,7 +99,7 @@
     },
     "Servo": {
       "addr": "0x44b808", "resource_addr": "0x44b2d0", "file": "Sound/Servo.SDT", "wav": "SERVO.wav",
-      "applied": false, "trigger": "TWO real candidates, not yet reconciled: (1) Heli rotor spin-down at landing (document 77, FUN_0040ecd0). (2) NEW (2026-09-22): also the Heli's own record+0x240 \"created\" sound in FUN_0040b980's panel-activation block -- the exact mechanism just confirmed for 'JeepStart' (Jeep's own record+0x240 is 0x44b910). Not wired as a creation sound yet because the port already plays a different, separately-traced cue ('Heli', document 79's stage1->2 chime) at Heli creation/spin-up, and it's unconfirmed whether the original plays both or this finding means 'Heli' was mis-attributed -- needs the FUN_0040b980 activation gate traced precisely before wiring either way."
+      "applied": true, "trigger": "game/vehicle.gd Vehicle.set_vehicle_type(3): the Heli's own record+0x240 \"created\" sound (FUN_0040b980's panel-activation block, the same mechanism confirmed for 'JeepStart'), fired once at creation -- distinct from and earlier than the separately-traced 'Heli' chime (document 79's stage1->2 transition, ~56 ticks later). Not a conflict: the two are simply sequential sounds for the same new Heli. Reconciled 2026-09-22; the still-unconfirmed candidate is document 77's 'rotor spin-down at landing' (FUN_0040ecd0) -- if the original also plays this file at landing, the port only reproduces the creation instance so far."
     },
     "Splash": {
       "addr": "0x44b820", "resource_addr": "0x44b378", "file": "Sound/Splash.SDT", "wav": "SPLASH.wav",

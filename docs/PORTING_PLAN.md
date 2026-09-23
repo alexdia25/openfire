@@ -1135,11 +1135,12 @@ table (rows from `0x0044b550` on, base `~0x0044b500`), traced end to end:
   record (`0x445058`) scripts `SOUND 14` (`ExplLarge`) then `SOUND 1` (`Boom`, not reproduced — the port plays one
   sound per event, not a scripted sequence).
 
-  33 of the 42 traced cues are wired to a real trigger as of 2026-09-22 (`JeepStart` added last, a real
-  per-type "just created" sound at each vehicle-type record's `+0x240`, the same field that plays `Servo`
-  for the Heli -- not yet reconciled with the already-wired `Heli` chime, see that cue's own note;
-  `FuelWarn` just before that, a plain one-eighth-of-a-tank threshold in `Vehicle._process_fuel_warn()`;
-  `PreRaise` before that via the hangar confirm script's own sound steps, `game/selector_anim.gd`): the
+  34 of the 42 traced cues are wired to a real trigger as of 2026-09-22 (`JeepStart` and `Servo` added
+  last, both a real per-type "just created" sound at each vehicle-type record's `+0x240` -- `Servo`'s
+  apparent conflict with the already-wired `Heli` chime wasn't one, since that fires ~56 ticks later at
+  a different transition, not at creation; `FuelWarn` just before that, a plain one-eighth-of-a-tank
+  threshold in `Vehicle._process_fuel_warn()`; `PreRaise` before that via the hangar confirm script's
+  own sound steps, `game/selector_anim.gd`): the
   ten from the first two passes (the empty
   click `OutAmmo`, the Heli spin-up chime `heli`, the rearm loop `Ding`, the dock-sink start `Raise`, the
   vehicle-select cursor `GClick`, bush-crushing `BushCrush`, the Heli's third-button `HeliClick`, the compass
