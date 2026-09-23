@@ -1154,6 +1154,21 @@ table (rows from `0x0044b550` on, base `~0x0044b500`), traced end to end:
   flat/non-positional at fixed volume, since `FUN_00408050` isn't traced (see the next-steps doc's "Untraced
   choices").
 
+  **A vehicle's death/wreck branch — traced 2026-09-23 (document 87), no new cue wired.** `FUN_0040c460`'s
+  death branch (hp <= 0) is identical for all four vehicle types: it always spawns a wreck object and
+  destroys the vehicle at once, and has **no sound call at all** — retracting an earlier guess here that
+  it was the likely home for `ExplDebris`/`ExplLow`; both remain unwired, no new candidate found. `record
+  +0x234` (a "dying handler" slot document 47 left open) reads 0 for every type, so there isn't a
+  per-type branch after all; document 63's claim that the Heli's own handler lived there was off by 4
+  bytes (the real Heli-only hook is `+0x230`, spawning a shadow object, not reproduced). `Vehicle._die()`
+  now emits a value-snapshot signal (`wrecked`) so the wreck's spawn position/height survive a same-frame
+  respawn of the same node, and `Wreck3D` falls the type's own flat decal from the death height (the
+  MSV's turned out to be numerically the same size as the Tank/Jeep's despite the "large" registry name;
+  the Heli's is a large, off-centre rectangle whose art is genuinely a scattered-debris field, not a
+  rendering bug) — the exact fall timing is a flagged guess, not a trace: the wreck class's own
+  move-function slot reads 0, which would imply the object destroys itself on its first tick, a
+  contradiction not resolved this pass.
+
 ## 2. Architecture decisions (decide once, up front)
 
 ### 2.1 The simulation must NOT live in Godot's engine types
