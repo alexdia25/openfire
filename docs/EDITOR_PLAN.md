@@ -47,6 +47,14 @@ folder. What exists:
   rebuilds on every edit, so a replaced frame or a new colour shows on the assembled vehicle at once. When vehicle
   definitions and channels exist (steps 3-5) the sliders become one per published channel and the stats come from the
   definition.
+  **Planned (user request 2026-09-24): edit a sprite straight from the preview.** Click a part of the assembled vehicle
+  (a ray pick against the renderer's part meshes, which already map one-to-one to the descriptor's parts) to highlight
+  it and show which sprite it is drawing right now -- the tan, green, flash or generated-colour member, or the current
+  frame of an animated part -- with the same actions as the Assets inspector in place: replace with PNG, open in image
+  editor (live reload lands on the assembled vehicle), set its team mask, or jump to it in the Assets tab. A parts list
+  beside the viewport gives the same for parts that are hard to click (the rotor, the canisters). This needs the
+  renderers to expose which part mesh draws which sprite; the Tank's box renderer folds into the general one in step 5,
+  so one mechanism covers every vehicle.
 - The original palette ships in the pack (`sprites/palette.json`) for the pixel tools later.
 - Checked by `tools/tests/mod_workspace_check.gd` (31 checks) and `tools/tests/mod_tool_ui_check.gd` (25, including
   every vehicle type assembled and the Tank's turret slider turning the renderer's turret).
