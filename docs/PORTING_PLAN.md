@@ -1409,7 +1409,8 @@ will be impossible later:
 2. **Declared pivots.** Every sprite needs an explicit origin/pivot in world units.
    Original cels are drawn against fixed-size cells whose implicit pivot must be recovered;
    replacement art has different bounds and must state its own.
-3. **Team colouring.** Return Fire has two teams. Determine how the original does it —
+3. **Team colouring.** *Answered 2026-09-24 (section 2.7.7): separate art per team, which the port now also
+   recolours to any colour from each tan/green pair.* Return Fire has two teams. Determine how the original does it —
    palette index ranges swapped at draw time, or separate cels per team. A replacement pack
    must declare its mechanism: either `team_palette_range: [lo, hi]` on an indexed sprite,
    or a separate team-mask texture (preferred for modern art). Support both.
@@ -1701,6 +1702,53 @@ the Jeep's wheel frames (`vehicle.jeep.p457.frame_%02d`), the MSV canisters (`ve
 the Heli rotor (`vehicle.heli.rotor.{a,b}.<team>`, `.c`), `vehicle_box_3d.gd`'s part table itself, the wreck
 `SETS`, the mine embers, the Jeep missile frames, the death skull frames, and `vehicle.gd`'s legacy 2D
 rotation-frame prefix. These move into the vehicle definition's render descriptor and channel bindings.
+
+#### 2.7.7 Team colours: any colour for every vehicle and team-owned object — DONE (2026-09-24)
+
+**User direction (2026-09-24):** extra colours for all vehicles and team-owned entities, visible and usable in the
+editor, and ready for a later mode with more than two players. **A port feature, not original behaviour:** the
+original has exactly two drawings of every team-coloured part.
+
+**What the art showed.** The original draws team colour as separate art, not a palette swap (this settles item
+2.4.3 #3's open question). Comparing the Tank's 19 tan/green cel pairs pixel by pixel: ~20% of visible pixels are
+identical (tracks, metal, outlines), ~80% are team paint in about 11 tan shades, and ~85% of those map
+consistently to one green shade each; the rest are the green artist's own touches (an extra olive highlight).
+
+**The rule.** A pixel is team paint when the tan and green art differ there. A new colour keeps each tan pixel's
+saturation and brightness relative to tan's mean and takes the colour's hue; shared pixels are never touched.
+Rebuilding green from tan this way lands within ~7 / 255 per channel of the real green art
+(`tools/tests/team_colour_check.gd`), which is the measure that the rule is sound. Tan and green themselves always
+use the original drawings.
+
+**Data.**
+- `sprites/team_sets.json` (from `build_pack.py`): `{tan id: green id}` for every pair the traced data implies
+  (flag-8 parts' cel + 1 in vehicles, decorations, gates and projectiles; the flag's +13 frames; the selector's
+  pictures; the home pad tiles 90 / 91; registry ids differing only by `tan`/`green`), each checked to really be a
+  recolour (same size and footprint, consistent mapping). 251 sets; the 11 rejected (mechanical cel + 1
+  neighbours that aren't pairs) are listed with reasons in the same file.
+- `teams/colours.json`: tan and green (`source: original`, their variant, their measured HSV means) plus port
+  presets (red, blue, yellow, grey, white, black). A mod can add colours or team sets per id like any table.
+- `tileset.json` marks team-owned tiles with `side` (the home pads).
+- `LevelData.side_colours` (default `["tan", "green"]`; a level may set it, and `RF_TEAM_COLOURS=red,blue` overrides
+  it for testing) is the colour of each **side**. Game logic keeps keying on the side (tile variant, player index,
+  `Vehicle.team`); `Vehicle.colour`, `Projectile.colour`, `Gate.colour` and `FlagMarker.colour` are art only.
+
+**Runtime.** `Pack.prepare_team_colours(colours)` generates every set in each non-original colour when the map
+loads (~15 ms per colour for all 251 sets) into the packer's open page; `Pack.team_variant(ids, colour)` is what
+every renderer now calls where it used to index `[tan, green]` by team (vehicle parts and the Heli rotor, the Tank
+box, decorations, gates, the flag, the hangar pit and pad tiles, wrecks, projectiles and the Jeep missile, the
+death skull, the selector pictures); the radar draws a generated colour's HSV mean since it has no palette entry.
+With the default colours every screenshot is pixel-identical to before.
+
+**Not yet:**
+- More than two sides. The pieces are side-indexed (`side_colours` is a list), but `Vehicle.team` is still the
+  strings `tan`/`green` and `player_index()` returns 0 / 1; the original map format has two spawn markers and
+  team variants 0 / 1 (bits 14-15 could hold 0-3, but 2 and 3 are used by non-team parts). A 3-4 player mode needs
+  the side made an integer everywhere and extended maps (EDITOR_PLAN.md 5.1 "free mode") to place more bases.
+- The legacy 2D view (`vehicle.gd`'s `_draw`) still picks rotation frames by team, not colour.
+- Choosing colours in a match-setup screen and in `level.override.json` (step 6); the editor's colour tools
+  (EDITOR_PLAN.md 3.2).
+- Mod art with a hand-made team mask instead of a tan/green pair (the rule needs both drawings today).
 
 #### 2.7.6 Order of work (every step keeps the regression tests and the RFMAP001 playthrough green)
 

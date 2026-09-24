@@ -104,6 +104,106 @@ def sprite_file(sprite_id):
     return "/".join(parts[:2]) + "/" + ".".join(parts[2:]) + ".png" if len(parts) > 2 else "/".join(parts) + ".png"
 
 
+# Team colour presets beyond the original two (PORTING_PLAN.md 2.7.7). PORT PRESETS, not from the original:
+# each is the HSV mean a recolour aims the team pixels at, like the measured means of tan and green.
+TEAM_COLOUR_PRESETS = {
+    "red": [0.0, 0.75, 0.55],
+    "blue": [0.61, 0.70, 0.55],
+    "yellow": [0.14, 0.80, 0.70],
+    "grey": [0.0, 0.03, 0.50],
+    "white": [0.0, 0.05, 0.85],
+    "black": [0.0, 0.10, 0.18],
+}
+TEAM_PAIR_MIN_CONSISTENCY = 0.6   # share of changed pixels that follow their tan colour's usual green colour
+
+
+def emit_team_colours(out_dir, sprites_dir, sprites, registry, cels, flag_pairs):
+    """PORTING_PLAN.md 2.7.7: every (tan, green) sprite pair the traced data implies -- flag-8 parts (the cel + 1
+    team variant, documents 44/57/59), the flag's +13 frames (document 65), and registry ids that differ only by a
+    `tan`/`green` segment -- is checked to really be a recolour (same size and footprint, changed pixels mapping
+    consistently tan -> green), then written to sprites/team_sets.json {tan id: green id}. teams/colours.json holds
+    the colours: tan and green are the original art (with their measured HSV means), the rest port presets that
+    Pack recolours tan art to at load. Returns the number of accepted pairs."""
+    import colorsys
+    import math
+    from collections import Counter, defaultdict
+    by_id = {registry[str(c)]["id"]: c for c in cels}
+    pairs = set()
+    named = set()   # pairs whose ids say tan / green: trusted with a looser footprint check (the Heli rotor's green
+                    # blades are drawn a few pixels differently, but they are the same part)
+    for a, b in flag_pairs:
+        if a in cels and b in cels:
+            pairs.add((registry[str(a)]["id"], registry[str(b)]["id"]))
+    for sid in by_id:
+        segs = sid.split(".")
+        if "tan" in segs:
+            other = ".".join("green" if x == "tan" else x for x in segs)
+            if other in by_id:
+                pairs.add((sid, other))
+                named.add(sid)
+
+    def load(sid):
+        return Image.open(os.path.join(sprites_dir, sprites[sid]["file"])).convert("RGBA")
+
+    accepted, rejected = {}, {}
+    hsv_acc = {"tan": [0.0, 0.0, 0.0, 0.0, 0], "green": [0.0, 0.0, 0.0, 0.0, 0]}
+    for tan_id, green_id in sorted(pairs):
+        if tan_id == green_id or tan_id in accepted:
+            continue
+        a, b = load(tan_id), load(green_id)
+        if a.size != b.size:
+            rejected[tan_id] = f"{green_id}: size {a.size} vs {b.size}"
+            continue
+        mapping = defaultdict(Counter)
+        footprint_diff = changed = 0
+        for pa, pb in zip(a.getdata(), b.getdata()):
+            if (pa[3] == 0) != (pb[3] == 0):
+                footprint_diff += 1
+            elif pa[3] and pa != pb:
+                changed += 1
+                mapping[pa[:3]][pb[:3]] += 1
+        opaque = sum(1 for px in a.getdata() if px[3])
+        if opaque == 0 or footprint_diff > (0.3 if tan_id in named else 0.05) * opaque:
+            rejected[tan_id] = f"{green_id}: footprints differ ({footprint_diff} of {opaque} px)"
+            continue
+        if changed == 0:
+            rejected[tan_id] = f"{green_id}: identical, nothing team-coloured"
+            continue
+        consistency = sum(c.most_common(1)[0][1] for c in mapping.values()) / changed
+        if consistency < TEAM_PAIR_MIN_CONSISTENCY:
+            rejected[tan_id] = f"{green_id}: not a recolour (consistency {consistency:.2f})"
+            continue
+        accepted[tan_id] = green_id
+        for pa, pb in zip(a.getdata(), b.getdata()):
+            if pa[3] and pb[3] and pa != pb:
+                for key, px in (("tan", pa), ("green", pb)):
+                    h, s_, v = colorsys.rgb_to_hsv(px[0] / 255, px[1] / 255, px[2] / 255)
+                    acc = hsv_acc[key]
+                    acc[0] += math.cos(h * 2 * math.pi)
+                    acc[1] += math.sin(h * 2 * math.pi)
+                    acc[2] += s_
+                    acc[3] += v
+                    acc[4] += 1
+
+    def mean(key):
+        acc = hsv_acc[key]
+        n = max(acc[4], 1)
+        return [round((math.atan2(acc[1], acc[0]) / (2 * math.pi)) % 1.0, 4), round(acc[2] / n, 4), round(acc[3] / n, 4)]
+
+    with open(os.path.join(sprites_dir, "team_sets.json"), "w") as f:
+        json.dump({"pairs": accepted, "rejected": rejected}, f, indent=1, sort_keys=True)
+        f.write("\n")
+    colours = {"tan": {"source": "original", "variant": 0, "hsv": mean("tan")},
+               "green": {"source": "original", "variant": 1, "hsv": mean("green")}}
+    for name, hsv in TEAM_COLOUR_PRESETS.items():
+        colours[name] = {"source": "port_preset", "hsv": hsv}
+    os.makedirs(os.path.join(out_dir, "teams"), exist_ok=True)
+    with open(os.path.join(out_dir, "teams", "colours.json"), "w") as f:
+        json.dump({"reference": "tan", "colours": colours}, f, indent=1, sort_keys=True)
+        f.write("\n")
+    return len(accepted)
+
+
 def terrain_class_for(registry_id):
     for prefix, cls in TERRAIN_CLASS_PREFIXES:
         if registry_id.startswith(prefix):
@@ -129,6 +229,7 @@ def main():
         registry = json.load(f)["cels"]
 
     cels = {c["index"]: c for c in atlas["cels"]}
+    all_cels = cels   # `cels` is reused for the selector's own cel table further down
     missing = [idx for idx in cels if str(idx) not in registry]
     if missing:
         raise SystemExit(f"{len(missing)} cels have no registry entry (run tools/registry/validate_registry.py); "
@@ -172,6 +273,9 @@ def main():
         "atlas_pages": [],
         "sprites": sprites,
     }
+    # Team pairs (tan cel, green cel) found while resolving flag-8 parts below; checked and written by
+    # emit_team_colours() at the end (PORTING_PLAN.md 2.7.7).
+    team_pairs = set()
     with open(os.path.join(sprites_dir, "sprites.json"), "w") as f:
         json.dump(sprites_json, f, indent=2, sort_keys=True)
         f.write("\n")
@@ -187,6 +291,12 @@ def main():
             "sprite_id": reg_id,
             "terrain_class": terrain_class_for(reg_id),
         }
+    # The home pads are team-owned tiles: art HOME_ART_BASE + player index, 90 tan / 91 green (documents 77, 80).
+    # `side` lets the tile renderer draw them in that side's colour (PORTING_PLAN.md 2.7.7).
+    for side, art_id in enumerate((90, 91)):
+        if str(art_id) in tileset:
+            tileset[str(art_id)]["side"] = side
+            team_pairs.add((90, 91))
     with open(os.path.join(terrain_dir, "tileset.json"), "w") as f:
         json.dump({"tile_size_px": 32, "tiles": tileset}, f, indent=2, sort_keys=True)
         f.write("\n")
@@ -231,6 +341,7 @@ def main():
                         entry["variant_sprite_ids"] = [
                             registry[str(part["cel"] + v)]["id"] if (part["cel"] + v) in cels else None
                             for v in range(4)]
+                        team_pairs.add((part["cel"], part["cel"] + 1))
                     resolved_parts.append(entry)
             else:
                 for part in parts:
@@ -283,6 +394,8 @@ def main():
             for part in t["parts"]:
                 n = 3 if part["flags"] & 8 else 1  # tan, green, and variant 2 = the hit flash (document 59)
                 part["sprite_ids"] = [registry[str(part["cel"] + v)]["id"] for v in range(n)]
+                if part["flags"] & 8:
+                    team_pairs.add((part["cel"], part["cel"] + 1))
         os.makedirs(os.path.join(args.out_dir, "vehicles"), exist_ok=True)
         with open(os.path.join(args.out_dir, "vehicles", "vehicle_types.json"), "w") as f:
             json.dump({"types": vt}, f)
@@ -295,6 +408,8 @@ def main():
             for part in parts:
                 n = 2 if part["flags"] & 8 else 1
                 part["sprite_ids"] = [registry[str(part["cel"] + v)]["id"] for v in range(n)]
+                if part["flags"] & 8:
+                    team_pairs.add((part["cel"], part["cel"] + 1))
         os.makedirs(os.path.join(args.out_dir, "vehicles"), exist_ok=True)
         with open(os.path.join(args.out_dir, "vehicles", "projectile_types.json"), "w") as f:
             json.dump({"types": pj["types"], "descriptors": pj["descriptors"]}, f)
@@ -307,6 +422,8 @@ def main():
             for part in fl[group].values():
                 n = 1 if part["cel"] == 1881 else 26
                 part["sprite_ids"] = [registry[str(part["cel"] + i)]["id"] for i in range(n)]
+                if n == 26:
+                    team_pairs.update((part["cel"] + i, part["cel"] + 13 + i) for i in range(13))
         os.makedirs(os.path.join(args.out_dir, "markers"), exist_ok=True)
         with open(os.path.join(args.out_dir, "markers", "flag.json"), "w") as f:
             json.dump(fl, f)
@@ -367,6 +484,7 @@ def main():
         # runtime (and a replacement pack) never computes an id from a number (PORTING_PLAN.md 2.7.5).
         cels = sel["cels"]
         rid = lambda c: registry[str(c)]["id"] if c else ""
+        team_pairs.update((cels["picture_base"] + t * 2, cels["picture_base"] + t * 2 + 1) for t in range(4))   # traced pairs
         sel["sprites"] = {
             **{k: rid(cels[k]) for k in ("box", "highlight", "platform_cap", "platform_body", "strip_centre",
                                           "map_frame", "radar", "panel_frame", "panel_interior")},
@@ -398,6 +516,8 @@ def main():
                 for part in d["parts"]:
                     n = 2 if part["flags"] & 8 else 1
                     part["sprite_ids"] = [registry[str(part["cel"] + v)]["id"] for v in range(n)]
+                    if part["flags"] & 8:
+                        team_pairs.add((part["cel"], part["cel"] + 1))
                 d["sprite_open"] = registry[str(d["cel_open"])]["id"]
                 d["sprite_closed"] = registry[str(d["cel_closed"])]["id"]
         with open(os.path.join(terrain_dir, "gates.json"), "w") as f:
@@ -483,7 +603,9 @@ def main():
             shutil.copyfile(art_bin, os.path.join(out_level_dir, "art.bin"))
             n_levels += 1
 
-    print(f"wrote pack {PACK_ID!r} to {args.out_dir}: {len(sprites)} sprites, "
+    n_team = emit_team_colours(args.out_dir, sprites_dir, sprites, registry, all_cels, team_pairs)
+
+    print(f"wrote pack {PACK_ID!r} to {args.out_dir}: {len(sprites)} sprites ({n_team} team-recolourable), "
           f"{len(tileset)} terrain tiles, {n_decoration_ids} decoration types, {n_levels} levels, "
           f"{n_audio} audio cues")
 

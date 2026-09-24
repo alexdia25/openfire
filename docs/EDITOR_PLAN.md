@@ -123,6 +123,27 @@ Not built now, but the first version is designed so a pixel editor is an added t
   one", "make the flash variant") is a tool on the canvas that writes those sprites, labelled as a port
   convenience, never automatic.
 
+### 3.2 Team colours in the editor (user direction, 2026-09-24: vital to modding, and to a later 3-4 player mode)
+
+The runtime part exists (PORTING_PLAN.md 2.7.7): team sets, colours, per-side colours, generation at load.
+The editor makes all of it visible and usable:
+
+- **Colour library** (Assets tab): every colour in the stack with its source (original / port preset / mod),
+  a picker (hue, saturation, brightness, or pick from an image) that writes a new colour into the mod, and a live
+  preview strip of a few representative team sets (Tank hull, a building wall, the flag) in that colour.
+- **Team set browser:** each tan/green pair side by side with its generated colours and the *team paint mask*
+  overlaid (the pixels that change), plus the pairs the build rejected and why. For a mod's own art, "add team
+  set" pairs a tan and a green sprite, or (later) a sprite plus a hand-painted mask (needs the runtime to accept a
+  mask as the source, 2.7.7 "not yet").
+- **Colour toggles everywhere art is shown:** the vehicle viewport's team toggle (4.1) lists every colour, not just
+  tan and green; the map editor's 3D preview and the asset browser have a "show sides as" control.
+- **Per-map side colours** (map editor rules panel, 5.4): the colour of each side, saved in the map's override
+  file (step 6), with the original pair as default.
+- **Sides, not two teams:** anything the editor shows per team is a list of sides, so a 3-4 player map (spawns,
+  pads, flags and team-owned buildings per side) needs no editor redesign — only the runtime work listed in 2.7.7.
+- **Accuracy readout:** the check that rebuilds green from tan (~7 / 255 today) is shown for each set, so a modder
+  can see when a recolour of their art will look off.
+
 ## 4. Vehicle editor
 
 ### 4.1 Layout
@@ -315,7 +336,7 @@ new map is playable immediately and play test works from the first minute.
 
 Each phase ends with something usable, and later phases only add to it.
 
-- **E0. Foundation** (can start now): workspace, `pack_writer.gd`, undo/redo (with binary payloads),
+- **E0. Foundation** (can start now), including the colour library and team set browser (3.2): workspace, `pack_writer.gd`, undo/redo (with binary payloads),
   asset browser with the canvas detail view, sprite import, "open in image editor" with hot reload
   (`Pack.replace_frame`), the palette in the pack, validation panel. *Result:* re-skin any sprite in a mod
   without touching JSON by hand.
