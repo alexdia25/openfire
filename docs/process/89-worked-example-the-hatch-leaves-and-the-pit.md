@@ -123,7 +123,7 @@ Measured: the leaves appear at tick 10 at offset 23 and reach 5 at tick 70 while
 
 ## Not done / untraced
 
-- **The camera swoop-in** of Step 2 (the rig's parameters `0xa0000`, `0x180000`, `0x400000`, `0xfa0000`, the `0x4452c0` table, and the zoom curve seen in the footage) is not implemented.
+- **The camera swoop-in** of Step 2 is now traced and built: [document 90](90-worked-example-the-camera-swoop-in.md).
 - **Port choices, untraced:** the pit's object space is taken as the world's axes (the undock object turns 180 degrees; the walls are fixed at the ground rather than moving with the object's height); a 2-unit ring between the walls and the tile edge shows the background; the leaf shift is in world x.
 - **The dock direction** (leaves closing over the sinking vehicle) is read from code and reproduced, but there is no docking in the reference footage to compare against.
 - What `[0x458e38]` (set when the pad is cleared of class-10 objects) changes; the other `FUN_004161e0` callers; the unknown fields of the chain descriptors and the table at `0x44da70`.
