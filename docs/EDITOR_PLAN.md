@@ -107,10 +107,14 @@ Not built now, but the first version is designed so a pixel editor is an added t
   editor then updates the viewports as you draw.
 - **Undo is not text-only.** Commands can carry binary payloads, so a pixel command can store the changed
   rectangle's before and after pixels without a special-case undo system.
-- **The pack keeps the original palette.** The original art is 8-bit indexed (`tools/convert_car.py`
-  already decodes the PLUT palettes, with the slot-10 offset of document 20). `build_pack.py` should emit
-  it (`sprites/palette.json`) so a pixel editor can offer the original colours and warn about new ones.
-  Small, and worth doing in E0.
+- **The pack keeps the original palette, as an aid, not a limit.** The original art is 8-bit indexed
+  (`tools/convert_car.py` already decodes the PLUT palettes, with the slot-10 offset of document 20), but
+  the port draws full-colour RGBA frames and nothing in it depends on palette indices: team colours and
+  the hit flash are separate sprites, and the effects that were palette tricks in the original (the
+  darkening masks of document 9, the radar colours, palette rotation) are reproduced by port code. New art
+  can use any colours and full alpha. `build_pack.py` should still emit the palette
+  (`sprites/palette.json`) so a pixel editor can offer it as a swatch set, with an opt-in "original
+  palette only" mode for modders who want the 1996 look. Small, and worth doing in E0.
 - **Sprite entries can record where a frame came from** (`"source": "original" | "imported" | "edited"`),
   so provenance (principle 4) extends to art.
 - **Effect masks are not ordinary pictures.** `kind: "effect"` frames are darkening masks (document 9);
