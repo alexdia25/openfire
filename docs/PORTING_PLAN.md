@@ -1561,6 +1561,128 @@ deprioritizes until the core PC-port game runs. Phase 4 step 9 can still build t
 (layout, flow, state) against placeholder/PC-port styling now without waiting on this; treat
 the final visual skin as a separate, later pass once 3DO assets are in hand.
 
+### 2.7 Moddability: one vehicle framework, map rosters, layered packs, atomic art — DESIGN (2026-09-24)
+
+**User direction (2026-09-24), not an RE finding:** an end state of this project is a game that is
+*extremely* moddable. Any vehicle's behaviour must be editable and new vehicle types creatable
+through one framework, and a future editor must be able to change graphics, behaviour, the
+secondary action, fire directions, and the animated parts (the Heli's strafe/bank, the Tank's turret
+turn). Each map uses the four default vehicles unless it overrides them. The code base has to be
+shaped for this *before* the editor exists. Two design choices (the recommended options, taken when the user
+said to continue): **behaviour is a fixed library of engine-side modules that data configures (no
+pack-supplied scripts, which keeps it safe for the web build and deterministic for netplay, sections 2.5 and 2.4.3
+item 8), and definitions are JSON in the pack (not `.tres`: packs never go through `res://` import,
+and the Python converters have to write them).** Either can be revisited; neither is hard to change
+before step 3 below.
+
+#### 2.7.1 The model already exists in the original: the vehicle-type record
+
+The original is data-driven in exactly this way. Each type is a `0x2e8`-byte record at
+`0x4456b8 + type*0x2e8` (cheat sheet section 2) that holds numbers *and function pointers*. Already
+traced across documents 45-87:
+
+| Record field | Holds | Becomes in the framework |
+|---|---|---|
+| `+0x24`, `+0x28`, `+0x210`, `+0x158` | armour, hit points, fuel, sink depth | `stats` |
+| `+0x148` | draw descriptor | `render` |
+| `+0x14c` / `+0x154` | water / sinking handlers (Heli: none) | `water.model` |
+| `+0x168..+0x178` | drive constants | `drive` parameters |
+| `+0x17c..+0x190` | which input bit fires which weapon slot | `inputs` |
+| `+0x194 + n*0x34` | weapon slots, each with its own handler: `FUN_0040d240` Tank gun, `0040d520` MSV rockets, `0040df00` Jeep missile, `0040e600` Heli guns, `0040d820` MSV mine layer | `weapons[n].handler` + parameters |
+| `+0x234` | dying handler (0 for all four types) | — (no use traced) |
+| `+0x240` | "created" sound | `events.on_create` |
+| `+0x254` | dock tolerance | `stats.dock_tolerance` |
+| `+0x258` | special handler (Jeep `0x40e090` flag pick-up, Heli `0x40eb00`) | `special` |
+| `+0x260` | death wait ticks | `stats.death_wait_ticks` |
+
+So the framework is **that record written as JSON, with each function pointer replaced by the name of
+an engine-side behaviour module plus its parameters.** Every module is a port of one traced handler;
+the four original vehicles are four data files using them, and a new vehicle is a new data file that
+combines existing modules with its own numbers. Fields and handlers not yet traced stay marked
+untraced in the definition (an `"_untraced"` note), per the standing instructions.
+
+#### 2.7.2 The vehicle definition and its runtime
+
+`vehicles/<id>/vehicle.json` in a pack (the id is namespaced, e.g. `rf.tank`):
+
+```jsonc
+{ "id": "rf.tank", "name": "Tank", "original_index": 0,
+  "stats":   { "hp": 22, "armor": 0.3, "fuel": 400, "sink_depth": 14, "dock_tolerance": 4, "death_wait_ticks": 120 },
+  "shape":   { "layer": 2, "mask": 39, "z": [0, 10], "poly": [[-7.5, -11.25], ...] },
+  "drive":   { "model": "ground", "max_forward": 1.05, "max_reverse": 0.4, "accel": 0.05, "friction": 0.025, "turn_steps": 0.25 },
+  "aim":     { "model": "turret", "turn_steps": 0.3, "elevations_deg": [0, 25], "raised_pitch_deg": 40 },
+  "inputs":  { "primary": "weapon0", "secondary": "weapon0.raised", "special": "weapon1" },
+  "weapons": [ { "handler": "cannon", "projectile": 0, "cooldown_ticks": 20, "ammo": 150, "muzzle": {...}, "flash": "0x445138" } ],
+  "water":   { "model": "sink" },
+  "events":  { "on_create": [ { "sound": "..." } ] },
+  "render":  "render.json", "hud_panel": "...", "wreck": { ... }, "selector": { ... } }
+```
+
+- The Heli's strafe and bank are parameters of a `rotor` drive model; its start-up and landing
+  (documents 79, 86) are *sequences* attached to events. The Tank's turret is a `turret` aim model.
+  The Jeep's swim toggle is a secondary-action module. Fire directions and mounts are weapon
+  parameters.
+- `Vehicle` becomes a thin host (position, heading, z, hp, fuel, ammo, signals) that builds its
+  components from the definition: drive model, aim model, weapon handlers, water model, special
+  action, sequences. The integer `vehicle_type` becomes a definition id; `original_index` stays only
+  for lookups into original tables until those tables move into the definition too.
+- Components **publish named channels** (`aim.yaw`, `aim.pitch`, `rotor.speed`, `weapon0.salvo_index`,
+  `distance`, `swim`). Render descriptors bind parts to channels (rotate by, cycle cels by, pick frame
+  by), so the Tank's turret, the Jeep's wheel strip, the MSV's canisters and the Heli's rotor are all
+  editor-editable data, and the Tank's separate box renderer (`vehicle_box_3d.gd`) folds into the
+  general descriptor renderer.
+- Starting point (2026-09-24), which also defines "done": 20 `vehicle_type ==/!=` branches in
+  `vehicle.gd`, ~50 more across `match_controller`, the renderers, HUD, wreck and autoplay, plus
+  hard-coded per-type tables (`DOCK_TOLERANCE`, `DEATH_WAIT_TICKS`, `SELECT_NEIGHBOURS`, the wreck
+  `SETS`). Done = no type branches outside the behaviour modules themselves.
+
+#### 2.7.3 Maps: faithful data plus a separate override layer
+
+- `convert_rfm.py` keeps emitting the faithful `level.json` (including the `vehicle_params` stock
+  counts T/J/A/H, document 73). It is generated output and is never hand-edited.
+- The pack declares a **default roster** (`vehicles/roster.json`: `rf.tank`, `rf.jeep`, `rf.msv`,
+  `rf.heli`, each with its stock key into `vehicle_params`).
+- A map may carry an optional authored `level.override.json` next to it (replace / add / remove roster
+  entries, per-entry stock; later also terrain, entity and rule edits). The loader layers it over the
+  generated file, so re-running the converter never loses an edit. An editor writes only override
+  files.
+
+#### 2.7.4 Layered packs (implements section 2.4.3 item 6) — DONE (2026-09-24)
+
+`Pack` loads a stack: base pack(s) first, then each mod on top. `pack.json`'s `base_pack` names a pack
+id, looked up next to the pack and under `res://packs` (`Pack.load_stack([...])` takes an explicit list
+instead). Id-keyed tables (sprites, tileset, decorations, coastal shapes/damage, vehicle types,
+projectile descriptors, gates, audio cues, explosion records) override **per id**; a `null` value
+removes that id. Whole-document tables (HUD panels, radar, selector, flag, water tables) override per
+top-level key; `projectile_types` (a list) is replaced whole. Atlas pages from every layer are kept,
+with each layer's sprite page numbers offset to match. Sound files and levels resolve to the topmost
+layer that provides them (`Pack.get_sound_path()`, `Pack.level_dir()`). Checked by
+`tools/tests/pack_layering_check.gd`.
+
+#### 2.7.5 Atomic art
+
+The art store is two large atlas pages (`art_atlas.png`, `art_effects.png`) holding 2165 regions. The
+real blocker to splitting it is not the PNG layout but the **cel-number arithmetic still in code and
+data**: `"cel": 167` in the parts data, hard-coded cels in `vehicle_box_3d.gd` and the selector, "+1 for
+the team variant", "cel 326 minus rockets fired". Order: (1) every reference becomes a sprite id or a
+list of ids (team variants and animation frames as explicit lists), then (2) `build_pack.py` writes one
+PNG per sprite grouped by object (`sprites/vehicle/tank/hull.07.png`) and `Pack` packs atlases at load.
+That also serves section 2.4.3 item 9 (lazy loading per level / screen for the web build).
+
+#### 2.7.6 Order of work (every step keeps the regression tests and the RFMAP001 playthrough green)
+
+1. Layered packs (2.7.4). — **DONE 2026-09-24.**
+2. Sprite ids instead of cel arithmetic, then split the atlas (2.7.5).
+3. Vehicle definitions load; the per-type tables move into them (2.7.2).
+4. Behaviour moves into modules one area at a time (drive, aim, weapons, water, sequences) until no
+   type branches remain.
+5. Render parts bind to published channels.
+6. Map rosters and override files (2.7.3).
+7. The editor, on top.
+
+This is refactoring that keeps behaviour the same: no new tracing is needed and nothing traced
+changes. Anything a module needs that has not been traced stays marked as such.
+
 ---
 
 ## 3. Execution phases
