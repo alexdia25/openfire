@@ -70,7 +70,8 @@ folder. What exists:
 
 Not yet in E0: "where is this sprite used" in the inspector (needs vehicle definitions to be complete, step 3); making
 a mask by picking a colour range; the art-only / gameplay-changing indicator (principle 6);
-the rest of E1 (the map viewer; the vehicle preview's muzzle and mount markers, which need them in data first). Debug
+the rest of E1 (the vehicle preview's muzzle and mount markers, which need them in data first; a 3D map preview,
+for which "Play this map" stands in today). Debug
 switches for screenshots (`RF_EDITOR_VEHICLE=<type>` picks the previewed vehicle): `RF_EDITOR_MOD`, `RF_EDITOR_TAB`,
 `RF_EDITOR_SELECT`, `RF_EDITOR_COLOUR`, `RF_EDITOR_SCREENSHOT` (see `editor/editor_main.gd`).
 
