@@ -35,6 +35,11 @@ edit time) and contains no decompiled code or original assets, just GDScript. Un
 four stages, `docs/process/NN-*.md` pairs each decompiled/disassembled finding with the port
 code it became, and `PORTING_PLAN.md` is the standing summary of all of it.
 
+A pack need not stand alone: `Pack` loads a **stack** of them (`PORTING_PLAN.md` section 2.7.4) — a
+mod's `pack.json` names its `base_pack`, which loads underneath it, and the mod overrides the base per
+id (one sprite, one vehicle type, one sound cue, one level) rather than replacing it wholesale. The
+`Pack` node in the diagrams below stands for that whole resolved stack.
+
 ## Runtime internals
 
 ### At a glance
