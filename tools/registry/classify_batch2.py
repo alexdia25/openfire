@@ -358,6 +358,22 @@ AUDIT10 = [
 for _cel, _id, _cat, _note, _conf in AUDIT10:
     put(_cel, _id, _cat, _note, _conf)
 
+AUDIT11 = [
+    (822, 'structure.hangar_leaf.left.tan', "structure", "left half of the home pad's two-leaf hatch lid, tan team (16x32, brown floor and an interlocking clasp); FUN_0042ea10 slides it sideways 0.3 units a tick (document 89); was mislabelled rescue_cross", "code_verified"),
+    (823, 'structure.hangar_leaf.left.green', "structure", 'the same left leaf, green team (part flag 8 adds +1 for team 1; document 89)', "code_verified"),
+    (824, 'structure.hangar_leaf.right.tan', "structure", 'right half of the hatch lid, tan team (mirror clasp); slides the other way (document 89)', "code_verified"),
+    (825, 'structure.hangar_leaf.right.green', "structure", 'the same right leaf, green team (document 89)', "code_verified"),
+    (826, 'structure.hangar_pit_wall.01', "structure", "a wall of the pad's pit model (28x28 shaft, 31 deep, the lift object's descriptor 0x44dab0); shading darkens with depth (document 89); was mislabelled cage_bars", "code_verified"),
+    (827, 'structure.hangar_pit_wall.02', "structure", 'pit wall, mid shade (document 89); was mislabelled cage_bars', "code_verified"),
+    (828, 'structure.hangar_pit_wall.03', "structure", 'pit wall, darkest shade (document 89); was mislabelled panel_frame_green', "code_verified"),
+    (829, 'structure.hangar_lift_plate.tan', "structure", "the pad's 32x30 plate with the central seam and clasp, tan team (descriptor 0x44d8f8 part, flag 8 = team variant; document 89); was mislabelled panel_frame_green", "code_verified"),
+    (830, 'structure.hangar_lift_plate.green', "structure", 'the same plate, green team (document 89)', "code_verified"),
+    (831, 'structure.hangar_hazard_strip.01', "structure", "the 32x4 yellow-and-black hazard strip along the pad's front edge (part 0x33f, document 89); was mislabelled chain_red", "code_verified"),
+]
+for _cel, _id, _cat, _note, _conf in AUDIT11:
+    put(_cel, _id, _cat, _note, _conf)
+
+
 
 # CORRECTED 2026-09-22 (registry hand-edited, not re-generated; document 83): 1977-1980 were
 # classify_bulk.py guesses ("exit sign", "boost", "armor", "pause" icons) that turned out to be the
