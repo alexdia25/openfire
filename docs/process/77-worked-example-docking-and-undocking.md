@@ -110,7 +110,7 @@ func _do_dock() -> void:
 
 A confirm in the grid (document 76) runs `FUN_0040b510(player, type)`: it creates an object of class `0x44db40` (the same class 5) at the pad centre carrying the chosen model, heading `0x200000` (**180 degrees**; the Heli `0x180000`, 135), height -32. Its update
 `FUN_0042ec50` has no per-frame handler (`+0x18 == 0`), so at once it restores the pad art (`0x5b - (team == 0)`, 90 / 91), creates the real vehicle with `FUN_0040b1c0(player, position, heading, type)` (class `0x445438`) and removes itself: **the new vehicle
-appears on the pad in one step**; the view runs the chosen entry's short script (`0x418040`: a list of steps, table `0x4491c0` `+0x20`), then fades in (`0x4183e0`). The creation function `FUN_0040b700` (document 76) spends the stock and gives the vehicle its full state: hit points, fuel, ammunition (document 72).
+appears on the pad in one step** (**correction, document 89:** not quite: the lift object first rises from z = -32 to 0 at 0.3 units a tick, about 107 ticks, out of a transparent pad tile, and only then is the real vehicle created and the pad art restored); the view runs the chosen entry's short script (`0x418040`: a list of steps, table `0x4491c0` `+0x20`), then fades in (`0x4183e0`). The creation function `FUN_0040b700` (document 76) spends the stock and gives the vehicle its full state: hit points, fuel, ammunition (document 72).
 The same update also handles objects lying near the pad: class 10 objects within 20 units (`400` squared) are destroyed, a class 12 object (**a flag**) touching it is delivered (`FUN_00432600` for the pad's own team, `FUN_0040b370` = the capture of document 57 otherwise), and class 0x11 objects within range are removed with an effect.
 
 ```gdscript
