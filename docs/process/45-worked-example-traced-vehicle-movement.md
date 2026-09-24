@@ -59,7 +59,7 @@ Reading it gives the labels (`param_3[0x5a]` is dword 0x5a of the record, i.e. r
 | bit 1 | speed goes up by `accel * dt`, up to `max_forward * scale` | `[0x5c]` accel, `[0x5a]` max forward |
 | bit 2 | speed goes down by the same amount, down to `max_reverse * scale` | `[0x5c]` brake, `[0x5b]` max reverse |
 | bits 3 / 4 | heading turns one way / the other by `turn * dt` | `[0x5e]` |
-| bits 3 and 4 together | `FUN_004319e0` steers toward a target heading at `state+0xb0` (auto-steer, not modelled) | |
+| bits 3 and 4 together | `FUN_004319e0` steers toward a target heading at `state+0xb0`: the enemy AI's steering channel, not a player action (document 94) | |
 | bit 0 | friction pulls speed toward 0 by `friction * dt` | `[0x5d]` |
 
 The last lines look the heading up in a 64-entry table of unit vectors (built by `FUN_0041ae50`, entries `0x40000`
