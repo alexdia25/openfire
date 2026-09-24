@@ -153,4 +153,4 @@ triggers the pool replacement.
 - Jeep, MSV and Heli behaviour and weapon slots (later documents).
 - Vehicle-vs-vehicle damage: solved in [document 47](47-worked-example-vehicle-damage.md) (hit points are record
   `+0x28`, not `+0xe8`).
-- The 62 -> 63 stage of a building.
+- ~~The 62 -> 63 stage of a building.~~ Done (document 44, checked again in [document 93](93-worked-example-the-buildings-stages-checked-against-the-code.md)).
