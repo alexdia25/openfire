@@ -40,6 +40,10 @@ mod's `pack.json` names its `base_pack`, which loads underneath it, and the mod 
 id (one sprite, one vehicle type, one sound cue, one level) rather than replacing it wholesale. The
 `Pack` node in the diagrams below stands for that whole resolved stack.
 
+The mod tool (`editor/`, run `godot --path . res://editor/editor_main.tscn`; [`EDITOR_PLAN.md`](EDITOR_PLAN.md)) is
+a second, separate scene over the same `Pack`: it opens one mod layer as a `ModWorkspace`, edits it live and writes
+only that layer back. It shares no state with the game scene below.
+
 ## Runtime internals
 
 ### At a glance

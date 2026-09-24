@@ -429,6 +429,16 @@ def main():
         with open(os.path.join(args.out_dir, "markers", "flag.json"), "w") as f:
             json.dump(fl, f)
 
+    # The game's runtime palette (document 20: runtime[10 + i] = shared_plut[i], slots 0-9 black), for the mod tool's
+    # "original palette" swatches (EDITOR_PLAN.md 3.1). An aid, not a restriction: the port draws full-colour RGBA.
+    if os.path.exists(GAME_ART_CAR):
+        car = open(GAME_ART_CAR, "rb").read()
+        palette = [[0, 0, 0] if k < 10 else [car[0x282CC + (k - 10) * 4 + 2], car[0x282CC + (k - 10) * 4 + 1],
+                                            car[0x282CC + (k - 10) * 4]] for k in range(256)]
+        with open(os.path.join(sprites_dir, "palette.json"), "w") as f:
+            json.dump({"_source": "ART.CAR shared PLUT at 0x282CC, offset to slot 10 (document 20)", "rgb": palette}, f)
+            f.write("\n")
+
     # The radar's colours (document 69): the palette indices of tools/data/radar.json as RGB. The runtime palette is
     # runtime[10 + i] = shared_plut[i] (convert_car.py), the shared PLUT being at 0x282CC of ART.CAR.
     if os.path.exists(RADAR_JSON) and os.path.exists(GAME_ART_CAR):

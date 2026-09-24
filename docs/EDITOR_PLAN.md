@@ -14,6 +14,38 @@ tools; the editor imports PNGs, assigns them to sprite ids and sets pivots. **Bu
 pixel editor later** (user direction, 2026-09-24): section 3.1 lists what the first version must get
 right so one can be added without reworking anything.
 
+## 0. Status and how to run it
+
+**E0 (foundation) is built (2026-09-24).** Run the tool with
+
+```
+godot --path . res://editor/editor_main.tscn
+```
+
+It opens the last mod (first run: creates `user://mods/my_mod` over `original_pc`); New mod / Open mod pick another
+folder. What exists:
+
+- **Workspace, saving, undo** (`editor/workspace.gd`, `editor/pack_writer.gd`): every edit is one undoable action
+  that updates the mod's own tables and the live pack; Save writes only the mod layer (sorted JSON, loose-frame PNGs);
+  Revert shows the original again. A pivot-only change is written as a metadata-only entry, no copy of the pixels.
+- **Assets tab** (`editor/assets_panel.gd`, `editor/sprite_canvas.gd`): the 2165 sprites grouped by object, search,
+  "in this mod" and "team art" filters; the canvas (nearest-filtered zoom, pixel grid, pivot crosshair, "set pivot"
+  tool, team paint highlighted for both pairs and masks); the inspector (origin, size, pivot, the registry's
+  confidence and note, Replace with PNG, New sprite from PNG, Open in image editor with live reload, Revert, the
+  team-art section with mask assignment or mask import and `drawn_as`, and a strip of the sprite in every colour).
+- **Team colours tab** (`editor/colours_panel.gd`): the colour library (original / port preset / this mod), an HSV
+  picker that saves a colour to the mod, and a preview of sample team art in it.
+- **Validate tab** (`editor/validator.gd`): manifest fields, missing frames, masks and pairs that don't exist or
+  don't match in size, bad colours, new ids outside the mod's namespace, unsaved changes. Double-click jumps to the
+  sprite.
+- The original palette ships in the pack (`sprites/palette.json`) for the pixel tools later.
+- Checked by `tools/tests/mod_workspace_check.gd` (31 checks) and `tools/tests/mod_tool_ui_check.gd` (13).
+
+Not yet in E0: "where is this sprite used" in the inspector (needs vehicle definitions to be complete, step 3); making
+a mask by picking a colour range; the art-only / gameplay-changing indicator (principle 6); play test from the tool;
+the vehicle and map viewers (E1). Debug switches for screenshots: `RF_EDITOR_MOD`, `RF_EDITOR_TAB`,
+`RF_EDITOR_SELECT`, `RF_EDITOR_COLOUR`, `RF_EDITOR_SCREENSHOT` (see `editor/editor_main.gd`).
+
 ## 1. Principles
 
 1. **The editor edits pack data, never code.** Everything it can change is something `Pack` and
