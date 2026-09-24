@@ -376,6 +376,17 @@ put(1979, "ui.hud.heli_weapon.gun_lit", "ui",
 put(1980, "ui.hud.heli_weapon.gun_dim", "ui",
     "dim/grey twin-bar (twin gun) icon; drawn when the gun is not selected")
 
+# CORRECTED 2026-09-24 (registry hand-edited, not re-generated; document 88): cels 2126-2139 were
+# "character.trooper_portrait.NN" (helmeted face); they are the laughing skull of the death screen
+# (FUN_00418510: cel 2125 + table[timer] (+7 for player 0)). 2126-2132 tan helmet, 2133-2139 green.
+for f in range(1, 8):
+    put(2125 + f, f"ui.death_skull.tan.f{f}", "ui",
+        f"laughing helmeted skull, mouth-open frame f{f} (document 88)", confidence="code_verified")
+    put(2132 + f, f"ui.death_skull.green.f{f}", "ui",
+        f"laughing helmeted skull, mouth-open frame f{f} (document 88)", confidence="code_verified")
+put(2125, "ui.icon.lost_vehicle_cross", "ui",
+    "7x7 red cross over the remaining-vehicle icons on the death screen (document 88)", confidence="code_verified")
+
 
 def main():
     with open(REGISTRY_JSON) as f:

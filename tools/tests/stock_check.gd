@@ -18,6 +18,10 @@ func _init() -> void:
 	var n := 0
 	while not lost[0] and n < 40:
 		mc.vehicle.destroyed.emit(mc.vehicle)
+		var g := 0
+		while mc.death_phase != 0 and g < 2000:  # the loss sequence (document 88) runs before the replacement / the loss
+			mc._process(1.0 / Vehicle.TICK_HZ)
+			g += 1
 		n += 1
 		print("destroyed ", n, " -> stock ", mc.vehicle_stock, " now type ", mc.vehicle.vehicle_type, " lost ", lost[0])
 	quit()

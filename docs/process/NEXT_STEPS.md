@@ -183,6 +183,18 @@ worked-example docs: what got resolved, in what order, and where to read the ful
   during the fall (both traced, neither reproduced -- a deliberate scope cut given the fall's own
   correctness is already in doubt). Verified by `tools/tests/wreck_fall_check.gd` and screenshots.
   See [document 87](87-worked-example-the-vehicle-dying-wreck-sequence.md).
+  **Update (2026-09-24, document 88) -- the screen after a death: the laughing skull.** User-reported ("a death
+  screen with a laughing skull ... after losing any vehicle"). The wreck's init schedules, after the type's delay
+  (record `+0x260`: 120 ticks, the Heli 200 -- which also confirms the wreck really lies there that long), the
+  player's *loss sequence*: a skull spins in over the live view (30 ticks), the view fades to black (50), the skull
+  laughs -- **`Laugh` plays here, the cue's only site** -- through a 201-tick mouth animation, then fades out (~15) and the
+  vehicle choice opens (the match is lost instead if no vehicle is left). The skull is cels 2126-2139, which the registry
+  had guessed to be "trooper portraits" (corrected: `ui.death_skull.{tan,green}.f1-f7`); a player sees the *other*
+  team's helmet. Now in the port (`MatchController._death_tick`, `game/death_skull_view.gd`, verified by
+  `tools/tests/death_sequence_check.gd` and screenshots), replacing the instant respawn. Open: the skull's screen position,
+  spin direction, the two-player phases and remaining-vehicle icons, the `b5c0` stock gating, and opening the real
+  choice grid afterwards instead of the placeholder respawn. See
+  [document 88](88-worked-example-the-loss-sequence-and-the-laughing-skull.md).
 - **Turret aim and raised fire (2026-09-21):** the Tank's turret turns independently (`Q`/`E`, `R` recentres) and both the Tank and the MSV have a raised gun (`Z`: 25 degrees up, shots 40 degrees up that climb to 55, the Heli's altitude). The Heli can now be shot down. See [document 64](64-worked-example-turret-and-raised-fire.md), which also corrects the MSV rack corners of document 59.
 - **The flag object (2026-09-21):** the original's flag drawing (base plate, waving cloth with 13 frames per team, the carried two-quad version), its wave counter, heading easing, attachment offset and water drift are traced and applied; the registry's mislabelled flag cels are fixed; the flag's "flutter child" turned out to be a radar blip. See [document 65](65-worked-example-the-flag-object.md).
 - **The ruin grabs the flag (2026-09-21):** contact with any post of the finished building (coastal 63) takes the flag for a Jeep, through the tile callback `FUN_00432d80`, which the port lacked (the Jeep looked stuck on it). Level 1 is also completed by an in-scene autoplay (`RF_DEBUG_AUTOPLAY=1`), and the interface's per-player panel is first-pass traced (frame, vehicle icon, weapon counts). See [document 66](66-worked-example-the-hud-panel.md) and [document 67](67-worked-example-autoplay-placeholder-hud-and-ruin-grab.md).
@@ -245,7 +257,7 @@ Rule (user, 2026-09-21): never make our own choice silently; if one is unavoidab
 
 ## Mechanics needed for the remaining sound cues (2026-09-22)
 
-Of the 42 traced sound cues, 34 are wired (`PreRaise`, `FuelWarn`, `JeepStart` and `Servo` resolved 2026-09-22, see above); the other 8 each need either a real mechanic that
+Of the 42 traced sound cues, 35 are wired (`PreRaise`, `FuelWarn`, `JeepStart` and `Servo` resolved 2026-09-22, `Laugh` 2026-09-24, see above); the other 7 each need either a real mechanic that
 doesn't exist in the port yet, or more tracing of code nobody has read closely for this purpose.
 Grouped by what's actually missing, not by cue name:
 
@@ -285,8 +297,8 @@ Grouped by what's actually missing, not by cue name:
   - **`Reload`** — resolves to the same file as `Servo` (`Sound/Servo.SDT`) but is a *separate*
     descriptor; its own trigger is independent of the Heli landing work above and has not been
     looked for at all.
-  - **`Laugh`** — not one of the announcer's 18 voice lines (document 71); no other candidate
-    mechanic identified.
+  - ~~**`Laugh`**~~ **Resolved (2026-09-24, document 88):** played by the loss sequence's darkening
+    phase (`FUN_00418830`) ~200 ticks after any player vehicle dies; wired.
 - **Not worth pursuing:** **`TestSnd L/R`** are debug sound-test-menu-only (document 31); the
   shipped game has no player-facing trigger for them at all.
 

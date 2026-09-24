@@ -79,7 +79,7 @@
     },
     "Laugh": {
       "addr": "0x44b790", "resource_addr": "0x44b19c", "file": "Sound/Laugh.SDT", "wav": "LAUGH.wav",
-      "applied": false, "trigger": "untraced -- not one of the announcer's 18 lines (document 71); likely a kill/taunt sting"
+      "applied": true, "trigger": "the loss sequence (document 88): FUN_00418830 plays it (PUSH 0x44b790) the moment the view has faded to black, ~202 ticks after the player's vehicle dies (game/match_controller.gd _death_tick)"
     },
     "TestSndL": {
       "addr": "0x44b7a8", "resource_addr": "0x44b340", "file": "Sound/Click.SDT", "wav": "CLICK.wav",

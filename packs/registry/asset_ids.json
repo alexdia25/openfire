@@ -7558,32 +7558,33 @@
     },
     "2125": {
       "category": "ui",
-      "confidence": "visual_group",
-      "id": "ui.icon.checker_yellow.01"
+      "confidence": "code_verified",
+      "id": "ui.icon.lost_vehicle_cross",
+      "note": "7x7 red cross drawn over the remaining-vehicle icons on the death screen (FUN_00418510, record 0x23474); also frame 0 of player 1's skull table, never reached (document 88)"
     },
     "2126": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_portrait.01",
-      "note": "helmeted face portrait, repeated with minor variation"
+      "category": "ui",
+      "confidence": "code_verified",
+      "id": "ui.death_skull.tan.f1",
+      "note": "laughing helmeted skull, mouth-open frame f1 (document 88): the death screen's skull (FUN_00418510, cel 2125+f, +7 for player 0). Frame f=1 is closed, 7 widest. Tan helmet = seen by player 1"
     },
     "2127": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_portrait.02",
-      "note": "helmeted face portrait, repeated with minor variation"
+      "category": "ui",
+      "confidence": "code_verified",
+      "id": "ui.death_skull.tan.f2",
+      "note": "laughing helmeted skull, mouth-open frame f2 (document 88): the death screen's skull (FUN_00418510, cel 2125+f, +7 for player 0). Frame f=1 is closed, 7 widest. Tan helmet = seen by player 1"
     },
     "2128": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_portrait.03",
-      "note": "helmeted face portrait, repeated with minor variation"
+      "category": "ui",
+      "confidence": "code_verified",
+      "id": "ui.death_skull.tan.f3",
+      "note": "laughing helmeted skull, mouth-open frame f3 (document 88): the death screen's skull (FUN_00418510, cel 2125+f, +7 for player 0). Frame f=1 is closed, 7 widest. Tan helmet = seen by player 1"
     },
     "2129": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_portrait.04",
-      "note": "helmeted face portrait, repeated with minor variation"
+      "category": "ui",
+      "confidence": "code_verified",
+      "id": "ui.death_skull.tan.f4",
+      "note": "laughing helmeted skull, mouth-open frame f4 (document 88): the death screen's skull (FUN_00418510, cel 2125+f, +7 for player 0). Frame f=1 is closed, 7 widest. Tan helmet = seen by player 1"
     },
     "213": {
       "category": "vehicle",
@@ -7592,64 +7593,64 @@
       "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all."
     },
     "2130": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_portrait.05",
-      "note": "helmeted face portrait, repeated with minor variation"
+      "category": "ui",
+      "confidence": "code_verified",
+      "id": "ui.death_skull.tan.f5",
+      "note": "laughing helmeted skull, mouth-open frame f5 (document 88): the death screen's skull (FUN_00418510, cel 2125+f, +7 for player 0). Frame f=1 is closed, 7 widest. Tan helmet = seen by player 1"
     },
     "2131": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_portrait.06",
-      "note": "helmeted face portrait, repeated with minor variation"
+      "category": "ui",
+      "confidence": "code_verified",
+      "id": "ui.death_skull.tan.f6",
+      "note": "laughing helmeted skull, mouth-open frame f6 (document 88): the death screen's skull (FUN_00418510, cel 2125+f, +7 for player 0). Frame f=1 is closed, 7 widest. Tan helmet = seen by player 1"
     },
     "2132": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_portrait.07",
-      "note": "helmeted face portrait, repeated with minor variation"
+      "category": "ui",
+      "confidence": "code_verified",
+      "id": "ui.death_skull.tan.f7",
+      "note": "laughing helmeted skull, mouth-open frame f7 (document 88): the death screen's skull (FUN_00418510, cel 2125+f, +7 for player 0). Frame f=1 is closed, 7 widest. Tan helmet = seen by player 1"
     },
     "2133": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_portrait.08",
-      "note": "helmeted face portrait, repeated with minor variation"
+      "category": "ui",
+      "confidence": "code_verified",
+      "id": "ui.death_skull.green.f1",
+      "note": "laughing helmeted skull, mouth-open frame f1 (document 88): the death screen's skull (FUN_00418510, cel 2125+f, +7 for player 0). Frame f=1 is closed, 7 widest. Green helmet = seen by player 0"
     },
     "2134": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_portrait.09",
-      "note": "helmeted face portrait, repeated with minor variation"
+      "category": "ui",
+      "confidence": "code_verified",
+      "id": "ui.death_skull.green.f2",
+      "note": "laughing helmeted skull, mouth-open frame f2 (document 88): the death screen's skull (FUN_00418510, cel 2125+f, +7 for player 0). Frame f=1 is closed, 7 widest. Green helmet = seen by player 0"
     },
     "2135": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_portrait.10",
-      "note": "helmeted face portrait, repeated with minor variation"
+      "category": "ui",
+      "confidence": "code_verified",
+      "id": "ui.death_skull.green.f3",
+      "note": "laughing helmeted skull, mouth-open frame f3 (document 88): the death screen's skull (FUN_00418510, cel 2125+f, +7 for player 0). Frame f=1 is closed, 7 widest. Green helmet = seen by player 0"
     },
     "2136": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_portrait.11",
-      "note": "helmeted face portrait, repeated with minor variation"
+      "category": "ui",
+      "confidence": "code_verified",
+      "id": "ui.death_skull.green.f4",
+      "note": "laughing helmeted skull, mouth-open frame f4 (document 88): the death screen's skull (FUN_00418510, cel 2125+f, +7 for player 0). Frame f=1 is closed, 7 widest. Green helmet = seen by player 0"
     },
     "2137": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_portrait.12",
-      "note": "helmeted face portrait, repeated with minor variation"
+      "category": "ui",
+      "confidence": "code_verified",
+      "id": "ui.death_skull.green.f5",
+      "note": "laughing helmeted skull, mouth-open frame f5 (document 88): the death screen's skull (FUN_00418510, cel 2125+f, +7 for player 0). Frame f=1 is closed, 7 widest. Green helmet = seen by player 0"
     },
     "2138": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_portrait.13",
-      "note": "helmeted face portrait, repeated with minor variation"
+      "category": "ui",
+      "confidence": "code_verified",
+      "id": "ui.death_skull.green.f6",
+      "note": "laughing helmeted skull, mouth-open frame f6 (document 88): the death screen's skull (FUN_00418510, cel 2125+f, +7 for player 0). Frame f=1 is closed, 7 widest. Green helmet = seen by player 0"
     },
     "2139": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_portrait.14",
-      "note": "helmeted face portrait, repeated with minor variation"
+      "category": "ui",
+      "confidence": "code_verified",
+      "id": "ui.death_skull.green.f7",
+      "note": "laughing helmeted skull, mouth-open frame f7 (document 88): the death screen's skull (FUN_00418510, cel 2125+f, +7 for player 0). Frame f=1 is closed, 7 widest. Green helmet = seen by player 0"
     },
     "214": {
       "category": "vehicle",
