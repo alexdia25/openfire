@@ -359,6 +359,7 @@ for _cel, _id, _cat, _note, _conf in AUDIT10:
     put(_cel, _id, _cat, _note, _conf)
 
 AUDIT11 = [
+    (92, "structure.hangar_pit_surround", "terrain", "the pad's open state (document 89): a hazard-stripe border on the left, right and bottom edges with a transparent centre, swapped in by the dock and undock while the lift object draws the pit; was mislabelled a fully transparent blank", "code_verified"),
     (822, 'structure.hangar_leaf.left.tan', "structure", "left half of the home pad's two-leaf hatch lid, tan team (16x32, brown floor and an interlocking clasp); FUN_0042ea10 slides it sideways 0.3 units a tick (document 89); was mislabelled rescue_cross", "code_verified"),
     (823, 'structure.hangar_leaf.left.green', "structure", 'the same left leaf, green team (part flag 8 adds +1 for team 1; document 89)', "code_verified"),
     (824, 'structure.hangar_leaf.right.tan', "structure", 'right half of the hatch lid, tan team (mirror clasp); slides the other way (document 89)', "code_verified"),

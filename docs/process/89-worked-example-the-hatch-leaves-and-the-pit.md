@@ -37,7 +37,7 @@ undock object's second handler (`DisasmForce.java 0x42eea0 0x42efc0`):
 0042eefb  JZ  go                    ;   still held: return 0 and wait
 0042ef01  MOV ECX,[EAX+0x1c]        ; the pad tile
 0042ef07  AND EDX,0xffffffdc        ; clear bits 0-1 and 5
-0042ef0a  OR  EDX,0x5c              ; art = 92 (fully transparent)
+0042ef0a  OR  EDX,0x5c              ; art = 92 (the pit's surround)
 0042ef0f  MOV [EAX+0x48],0xffe00000 ; z = -32
 0042ef16  MOV [EAX+0x18],0x42ef20
 
@@ -47,7 +47,7 @@ undock object's second handler (`DisasmForce.java 0x42eea0 0x42efc0`):
 ```
 
 `FUN_0042ec50` (decompiled), the update both lift classes share, calls the handler; a handler answer of **1 adds `dt` to `+0x68`** (the object's age); when the handler is 0 it clears class-10 objects within 20 units, delivers a class-12 flag touching the pad, removes class-0x11
-objects in range, then restores the tile (`(0x5b - (team == 0))`, art 90 / 91), creates the real vehicle (`FUN_0040b1c0`) and removes itself. So on **undock**: hold, release, the object rises from -32 to 0 at 0.3 a tick (about **107 ticks**), the tile is transparent throughout, then
+objects in range, then restores the tile (`(0x5b - (team == 0))`, art 90 / 91), creates the real vehicle (`FUN_0040b1c0`) and removes itself. So on **undock**: hold, release, the object rises from -32 to 0 at 0.3 a tick (about **107 ticks**), the tile is art 92 throughout, then
 the pad art returns. (Document 77 said the vehicle "appears in one step"; it does not.) On **dock** (`FUN_0042f110`) the tile goes to art 92 at once and the dock object sinks.
 
 ## Step 4: what the object draws, and the leaves (the part the first version missed)
@@ -78,16 +78,55 @@ What `age` (`+0x68`) is differs by class, and that is what decides the direction
 
 ## Applied in the port
 
-Registry only, this session: cels 822-831 renamed by hand in `packs/registry/asset_ids.json` with a matching `AUDIT11` block in `tools/registry/classify_batch2.py` (822-825 `structure.hangar_leaf.{left,right}.{tan,green}`, 826-828 `structure.hangar_pit_wall.01-03`, 829/830 `structure.hangar_lift_plate.{tan,green}`, 831
-`structure.hangar_hazard_strip.01`). The packs need a rebuild (`tools/build_pack.py`) for the sprite files to be renamed; nothing in `game/` refers to these ids yet. **The gameplay is not built.** Today the port has no tile swap, no pit, no leaves, no camera swoop, no 107-tick rise on undock, and the
-docking vehicle sinks through an intact opaque hatch.
+**Tile 92 is not blank (a correction found while building this).** The registry called it `terrain.ground.blank.b`, "fully transparent"; extracting its pixels shows **168 opaque pixels: a yellow-and-black hazard border down the left and right edges and along the bottom, with a transparent centre** (the top edge is the lift object's own strip, cel 831). That is the pit's surround, and it is why the footage shows a hazard border around the open pit. Renamed `structure.hangar_pit_surround` (registry and `AUDIT11`).
+Cels 822-831 were renamed too (Step 4). The pack was rebuilt with `tools/build_pack.py`.
+
+The port now does the pit, the lid and the rise (checked by `tools/tests/pad_hatch_check.gd` and screenshots of the real scene against the footage); every number is the traced one:
+
+```gdscript
+# game/match_controller.gd -- the pad tile and the lift object's age (FUN_0042f110 0x42f225, 0x42ef0a, FUN_0042ec50)
+const PAD_HOLE_ART := 0x5c
+func _set_pad_open(open: bool) -> void:
+	pad_open = open
+	var t := _tile_of(_pad_centre)
+	level.set_art_id(t.x, t.y, PAD_HOLE_ART if open else HOME_ART_BASE + vehicle.player_index())   # 0x5c / 0x5b - (team == 0)
+	pad_art_changed.emit(t)
+
+# dock: _do_dock() sets pad_age = 70 and opens the pad; the sink branch of _update_dock() mirrors the counted-down timer
+pad_age = _dock_timer
+
+# undock: when the confirm script ends, the hold is released (0x42eef0) and the object rises (0x42ef20)
+func _begin_pad_rise() -> void:
+	_set_pad_open(true)
+	pad_age = 0.0
+	pad_rising = true
+	vehicle.z = PAD_RISE_START                                    # 0xffe00000 = -32
+# in _update_dock():
+if pad_rising:
+	vehicle.z = minf(vehicle.z + DOCK_SINK_RATE * ticks, 0.0)      # z += 19660 * dt
+	pad_age += ticks                                              # FUN_0042ec50: +0x68 += dt when the handler answers 1
+	if vehicle.z >= 0.0:
+		pad_rising = false
+		vehicle.frozen = false
+		_set_pad_open(false)                                      # the destructor path restores art 90 / 91
+
+# FUN_0042ea10's leaf offset: EBX = 19660 * age; skip when EBX >= 0x120000; leaves at EDI -/+ (EBX + 0x50000)
+func pad_leaf_offset() -> float:
+	if not pad_open:
+		return -1.0
+	var off := DOCK_SINK_RATE * pad_age
+	return -1.0 if off >= PAD_LEAF_HIDE else off + PAD_LEAF_START
+```
+
+`game/hangar_pit_3d.gd` draws the pit (the four walls, the strip, the plate at the object's height, the two leaves at `+-pad_leaf_offset()`) from sprite ids; `TerrainTileRenderer` gives every tile except the pit surround an opaque underlay so the ground texture, now baked on a transparent viewport with an alpha-scissor material, has a real hole only there (`HOLE_SPRITE_ID`); `terrain_view_3d.gd` redraws the ground on `pad_art_changed`.
+Measured: the leaves appear at tick 10 at offset 23 and reach 5 at tick 70 while docking; on undock they start at 5, are hidden from tick 60, and the rise takes 106 ticks.
 
 ## Not done / untraced
 
-- **The port work**: a pit model and leaves per the numbers above (leaf offset `0.3 * age + 5`, hidden at age 60; undock counts up, dock counts the 70-tick timer down), the transparent pad tile during dock/undock, the 107-tick rise, and the camera swoop. Needs a per-tile art override in the terrain renderer and touches `match_controller.gd` (being refactored by the vehicle-framework session).
-- The **camera rig's parameters** (`0xa0000`, `0x180000`, `0x400000`, `0xfa0000`, the `0x4452c0` table) and the exact zoom curve of the swoop-in seen in the footage; the unknown `0x44d8f8`/`0x44dab0` `+8..` fields and the shadow-like table at `0x44da70`.
-- **The dock direction** (leaves closing over the sinking vehicle) is read from code only; a docking in a real recording, or a scripted run, would confirm it.
-- Whether the leaf's x shift is in the object's local frame (the undock heading is 180 degrees) or the world frame: the footage suggests screen left/right.
-- What the transparent tile 92 itself shows in the original beside the pit (the footage shows the hazard border and rim still present around the open pit, so they come from somewhere other than tile 92: not identified).
+- **The camera swoop-in** of Step 2 (the rig's parameters `0xa0000`, `0x180000`, `0x400000`, `0xfa0000`, the `0x4452c0` table, and the zoom curve seen in the footage) is not implemented.
+- **Port choices, untraced:** the pit's object space is taken as the world's axes (the undock object turns 180 degrees; the walls are fixed at the ground rather than moving with the object's height); a 2-unit ring between the walls and the tile edge shows the background; the leaf shift is in world x.
+- **The dock direction** (leaves closing over the sinking vehicle) is read from code and reproduced, but there is no docking in the reference footage to compare against.
+- What `[0x458e38]` (set when the pad is cleared of class-10 objects) changes; the other `FUN_004161e0` callers; the unknown fields of the chain descriptors and the table at `0x44da70`.
+- Pre-existing, not from this work: the confirm script logs `Condition "p_position > length"` once (a sound-side error, present before these changes).
 
 **Next:** [the next-steps doc](NEXT_STEPS.md).

@@ -12429,9 +12429,9 @@
     },
     "92": {
       "category": "terrain",
-      "confidence": "visual",
-      "id": "terrain.ground.blank.b",
-      "note": "fully transparent tile (index-0 pixels only)",
+      "confidence": "code_verified",
+      "id": "structure.hangar_pit_surround",
+      "note": "the pad's open state (document 89): a hazard-stripe border on the left, right and bottom edges with a transparent centre; FUN_0042f110 / 0x42ef0a swap the pad tile to art 0x5c = this while the lift object draws the pit; the top edge is the object's own strip (cel 831). Was mislabelled a fully transparent blank.",
       "seen_in_retail_levels": false
     },
     "920": {
