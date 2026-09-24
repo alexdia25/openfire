@@ -76,6 +76,53 @@ What `age` (`+0x68`) is differs by class, and that is what decides the direction
 - **Undock** (`0x44db40`): `+0x68` starts at 0 (`0x42ebf0`, the create routine, stores 0) and counts **up** by `dt` whenever a handler answers 1: the rising handler `0x42ef20` does. So the leaves start **closed** (offset 5), **slide apart** for 60 ticks, then vanish (fully retracted) while the vehicle keeps rising for another ~47 ticks. This matches the footage.
 - **Dock** (`0x44db90`): `FUN_0042f110` sets `+0x68 = 0x46 = 70`, the sink handlers (`0x42efc0`, `0x42f0a0`, all answer 0, so the update never adds to it) **count it down** to 0. So the leaves are **not drawn for the first 10 ticks** (`0.3 * age >= 18`: retracted, the pit is open), then **slide together** from 23 to 5 units over the last 60 ticks of the 70, and stay closed over the vehicle while it finishes sinking. This is **read from the code, not seen in the footage** (there is no docking in it).
 
+## Step 5: the tile's border is drawn again over the whole mechanism (found after the user said the leaves must be covered by the border)
+
+The port first drew the leaves above the ground, so the leaves overlapped the hazard border of tile 92. The original does the opposite, and the code says how. The drawing routines do not paint anything: `FUN_0041b250` -> `FUN_0041b2b0` -> `FUN_00436fb0` -> `FUN_00419820` copy a 0x44-byte cel record into a draw list (`FUN_00413c90`, the list is `DAT_0048c318`) in the order they are called, and the list is flushed to the renderer in that order (`FUN_0041d510`; a painter's order; the projection `FUN_00413d00` only maps corners). So order of calls is order of paint. Two callbacks of the chain use that.
+
+The pit's callback `0x42ebb0` (the first of the chain) **saves a copy of the last record queued** (`DAT_0048c314`; that it is the pad tile is inferred, not read: the lift object is queued straight after its own tile, and the re-queue is what puts the border on top in the screenshots) before it draws the walls:
+
+```
+0042ebb0  CMP dword ptr [0x0048c314],0x0     ; is there a last-queued record?
+0042ebbc  JZ  0x0042ebd0
+0042ebbe  MOV EDI,0x458e40                   ; copy 0x11 dwords of it ...
+0042ebc3  MOV ESI,dword ptr [0x0048c314]     ; ... to the buffer at 0x458e40
+0042ebc9  MOV ECX,0x11
+0042ebce  MOVSD.REP ES:EDI,ESI
+0042ebd8  CALL 0x0041b250                    ; then draw the pit (walls, strip)
+```
+
+and the leaf callback `0x42ea10` (the last of the chain) **queues that copy again after everything else**, whether or not the leaves were drawn (the `JGE` for "leaves hidden" jumps to it):
+
+```
+0042ea35  CMP EBX,0x120000 ; JGE 0x0042eab3     ; leaves hidden -> skip to the re-queue
+  ...        the two leaves, each with FUN_0041b250 (descriptors 0x44d830 cel 0x336, 0x44d850 cel 0x338)
+0042ea8c  MOV [0x0044d8c8],0x44d870              ; then a THIRD draw at the centre: cel 0x33f (the hazard strip)
+0042ea96  MOV [0x0044d8c0],0x44d800              ;   with its own corner table 0x44d800 = (-16,-15) (16,-15) (16,-12) (-16,-12)
+0042eaa1  CALL 0x0041b250
+0042eab3  CMP dword ptr [0x00458e48],0x0         ; a saved record?
+0042eabc  PUSH 0x458e40 ; CALL 0x00413c90        ; queue the saved tile again -- over the walls, plate, leaves and strip
+0042eac6  MOV dword ptr [0x00458e48],0x0
+```
+
+So the paint order is: pad tile (art 92) -> pit walls and the pit's own strip -> the plate under the vehicle -> the leaves -> a second strip over the leaves -> **the pad tile again**. The tile's art is opaque only in its border (`structure.hangar_pit_surround`, an alpha dump: 2 pixels on the west, east and south, open on the north, transparent centre), so the border covers everything that reaches it and the centre shows the mechanism. That is exactly "the leaves are covered by the yellow and black border", and it also explains why nothing shows outside the tile from the leaves' edge: a leaf that slides towards x = +-16 disappears under the border.
+
+In the port the painter's order becomes depth layers just under the ground plane (`game/hangar_pit_3d.gd`; the ground plane's hole is the transparent centre of art 92, the border is opaque ground):
+
+```gdscript
+const STRIP_OVER_Y := -0.1     ## the second strip, over the leaves
+const LEAF_Y := -0.2
+const PLATE_MAX_Y := -0.3      ## the plate, never higher than this (it is at the object's height, which reaches 0)
+const STRIP_Y := -0.4          ## the pit's own strip (part 4 of 0x44dab0's parts), under the plate
+...
+_strip_over = _quad("structure.hangar_hazard_strip.01", _rect(-16, -15, 16, -12, STRIP_OVER_Y))   # 0x42ea10's third draw
+...
+_strip_over.visible = off >= 0.0                    # drawn only while the leaves are
+_plate.position.y = minf(mc.vehicle.z + 0.05, PLATE_MAX_Y)
+```
+
+The order is the original's; the 0.1 spacing is the port's. Checked with screenshots of the real scene at four moments of the undock (the pit before the leaves part, the leaves half open, the leaves gone, the vehicle on the plate): the border is complete all round and nothing overlaps it. **Not traced:** the neighbouring tiles. A leaf reaching x = 31 would, in the original, be queued before the tile's east neighbour if the tile loop goes row by row; whether the neighbour then covers it or the leaf shows on the west neighbour is not read, and the port hides it under the ground on both sides (the user's direction).
+
 ## Applied in the port
 
 **Tile 92 is not blank (a correction found while building this).** The registry called it `terrain.ground.blank.b`, "fully transparent"; extracting its pixels shows **168 opaque pixels: a yellow-and-black hazard border down the left and right edges and along the bottom, with a transparent centre** (the top edge is the lift object's own strip, cel 831). That is the pit's surround, and it is why the footage shows a hazard border around the open pit. Renamed `structure.hangar_pit_surround` (registry and `AUDIT11`).
@@ -118,13 +165,13 @@ func pad_leaf_offset() -> float:
 	return -1.0 if off >= PAD_LEAF_HIDE else off + PAD_LEAF_START
 ```
 
-`game/hangar_pit_3d.gd` draws the pit (the four walls, the strip, the plate at the object's height, the two leaves at `+-pad_leaf_offset()`) from sprite ids; `TerrainTileRenderer` gives every tile except the pit surround an opaque underlay so the ground texture, now baked on a transparent viewport with an alpha-scissor material, has a real hole only there (`HOLE_SPRITE_ID`); `terrain_view_3d.gd` redraws the ground on `pad_art_changed`.
+`game/hangar_pit_3d.gd` draws the pit (the four walls, the strip, the plate at the object's height, the two leaves at `+-pad_leaf_offset()`, the second strip; in the painter's order of Step 5, under the ground plane) from sprite ids; `TerrainTileRenderer` gives every tile except the pit surround an opaque underlay so the ground texture, now baked on a transparent viewport with an alpha-scissor material, has a real hole only there (`HOLE_SPRITE_ID`); `terrain_view_3d.gd` redraws the ground on `pad_art_changed`.
 Measured: the leaves appear at tick 10 at offset 23 and reach 5 at tick 70 while docking; on undock they start at 5, are hidden from tick 60, and the rise takes 106 ticks.
 
 ## Not done / untraced
 
 - **The camera swoop-in** of Step 2 is now traced and built: [document 90](90-worked-example-the-camera-swoop-in.md).
-- **Port choices, untraced:** the pit's object space is taken as the world's axes (the undock object turns 180 degrees; the walls are fixed at the ground rather than moving with the object's height); a 2-unit ring between the walls and the tile edge shows the background; the leaf shift is in world x.
+- **Port choices, untraced:** the pit's object space is taken as the world's axes (the undock object turns 180 degrees; the walls are fixed at the ground rather than moving with the object's height); the leaf shift is in world x.
 - **The dock direction** (leaves closing over the sinking vehicle) is read from code and reproduced, but there is no docking in the reference footage to compare against.
 - What `[0x458e38]` (set when the pad is cleared of class-10 objects) changes; the other `FUN_004161e0` callers; the unknown fields of the chain descriptors and the table at `0x44da70`.
 - Pre-existing, not from this work: the confirm script logs `Condition "p_position > length"` once (a sound-side error, present before these changes).
