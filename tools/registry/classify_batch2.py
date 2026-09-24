@@ -577,6 +577,15 @@ put(653, 'vehicle.submarine.24', 'vehicle',
 put(654, 'vehicle.submarine.25', 'vehicle',
     'submarine surfacing/diving sequence, frame 25 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from vehicle.jetski.15, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a "Sub" cue (document 31).]', confidence='visual')
 
+AUDIT12 = [
+    (178, 'vehicle.tank.turret.top.02', "vehicle", 'the GREEN team\'s turret top (cel 177 + 1): every part of the Tank turret descriptor 0x43e9b8 carries flag 8 = "add the team variant" (part table 0x43e7c0, document 91), and this cel is the green turret top; was mislabelled vehicle.tank.hull.08', "code_verified"),
+    (193, 'vehicle.tank.turret.side.02', "vehicle", 'the green turret side panel (cel 192 + 1, part flag 8); was mislabelled vehicle.tank.hull.13', "code_verified"),
+    (198, 'vehicle.tank.turret.back.02', "vehicle", 'the green turret back panel (cel 197 + 1, part flag 8); was mislabelled vehicle.tank.hull.15', "code_verified"),
+    (208, 'vehicle.tank.turret.front.02', "vehicle", 'the green turret front panel (cel 207 + 1, part flag 8); was mislabelled vehicle.tank.hull.19', "code_verified"),
+]
+for _cel, _id, _cat, _note, _conf in AUDIT12:
+    put(_cel, _id, _cat, _note, _conf)
+
 
 def main():
     with open(REGISTRY_JSON) as f:

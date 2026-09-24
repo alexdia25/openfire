@@ -5284,9 +5284,9 @@
     },
     "178": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.hull.08",
-      "note": "blue-dominant hull/cab icon (checked: b > g), NOT part of the confirmed tan/green team-colour pair (section 4 item 5, 2026-09-06) -- an earlier note here called this a team-colour lead; that's now walked back since it doesn't match the confirmed pair. Real duplicate-coloured art, purpose unconfirmed. [RENAMED 2026-09-24 from vehicle.hovercraft.hull.08: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.turret.top.02",
+      "note": "the GREEN team's turret top (cel 177 + 1): every part of the Tank turret descriptor 0x43e9b8 carries flag 8 = \"add the team variant\" (part table 0x43e7c0, document 91), and this cel is the green turret top; was mislabelled vehicle.tank.hull.08"
     },
     "1780": {
       "category": "projectile",
@@ -6284,9 +6284,9 @@
     },
     "193": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.hull.13",
-      "note": "blue-dominant hull/cab icon (checked: b > g), NOT part of the confirmed tan/green team-colour pair (section 4 item 5, 2026-09-06) -- an earlier note here called this a team-colour lead; that's now walked back since it doesn't match the confirmed pair. Real duplicate-coloured art, purpose unconfirmed. [RENAMED 2026-09-24 from vehicle.hovercraft.hull.13: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.turret.side.02",
+      "note": "the green turret side panel (cel 192 + 1, part flag 8); was mislabelled vehicle.tank.hull.13"
     },
     "1930": {
       "category": "structure",
@@ -6602,9 +6602,9 @@
     },
     "198": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.hull.15",
-      "note": "blue-dominant hull/cab icon (checked: b > g), NOT part of the confirmed tan/green team-colour pair (section 4 item 5, 2026-09-06) -- an earlier note here called this a team-colour lead; that's now walked back since it doesn't match the confirmed pair. Real duplicate-coloured art, purpose unconfirmed. [RENAMED 2026-09-24 from vehicle.hovercraft.hull.15: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.turret.back.02",
+      "note": "the green turret back panel (cel 197 + 1, part flag 8); was mislabelled vehicle.tank.hull.15"
     },
     "1980": {
       "category": "ui",
@@ -7270,9 +7270,9 @@
     },
     "208": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.hull.19",
-      "note": "green/teal camo cab variant [RENAMED 2026-09-24 from vehicle.hovercraft.hull.19: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.turret.front.02",
+      "note": "the green turret front panel (cel 207 + 1, part flag 8); was mislabelled vehicle.tank.hull.19"
     },
     "2080": {
       "category": "decoration",
