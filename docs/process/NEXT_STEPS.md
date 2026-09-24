@@ -319,7 +319,7 @@ Neither finding should be built on without tracing the selecting code first — 
 
 See plan section 4 for the current, precise state of each — this list is just pointers:
 
-- **Moddability framework (user direction, 2026-09-24)** — one data-driven vehicle framework, per-map vehicle rosters with override files, split-up art; step 1 (layered packs) done, steps 2-7 open — plan section 2.7.
+- **Moddability framework (user direction, 2026-09-24)** — one data-driven vehicle framework, per-map vehicle rosters with override files, split-up art; steps 1-2 (layered packs; sprite ids and loose-frame art) done, steps 3-7 open — plan section 2.7.
 - **What ends a match — the flag-spawn trigger is now precisely known (2026-09-06); the rest
   is still not.** The exact condition that spawns the flag object is solved and implemented
   (see above, document 26) — but where the flag gets picked up/carried/returned and where a

@@ -1,6 +1,6 @@
 # Headless check for layered packs (PORTING_PLAN.md section 2.7.4): writes a small mod pack to user://, whose pack.json
 # names original_pc as its base_pack, and confirms the per-id override rules -- replace, add, null-remove, atlas page
-# offsets, sound files and levels resolving to the layer that supplied them. Run:
+# offsets, loose frames packed at load time (2.7.5), sound files and levels resolving to the layer that supplied them. Run:
 #   godot --headless --path . --script tools/tests/pack_layering_check.gd
 extends SceneTree
 
@@ -19,6 +19,13 @@ func _write_json(path: String, data: Variant) -> void:
 	f.store_string(JSON.stringify(data))
 
 
+## The top-left pixel of a sprite, read back from the page it was packed or placed on.
+func _pixel(pk: Pack, id: String) -> Color:
+	var s := pk.get_sprite(id)
+	var img := pk.get_texture(int(s["page"])).get_image()
+	return img.get_pixel(int(s["x"]), int(s["y"]))
+
+
 func _init() -> void:
 	# The base pack alone must load exactly as before.
 	var base := Pack.new()
@@ -29,6 +36,7 @@ func _init() -> void:
 	var some_ids: Array = base.sprites.keys()
 	var replaced_id: String = some_ids[0]
 	var removed_id: String = some_ids[1]
+	var frame_id: String = some_ids[2]   # replaced by a loose frame of a different size
 
 	var mod := ProjectSettings.globalize_path("user://pack_layering_check/test_mod")
 	DirAccess.make_dir_recursive_absolute(mod.path_join("sprites"))
@@ -36,10 +44,15 @@ func _init() -> void:
 	var img := Image.create(4, 4, false, Image.FORMAT_RGBA8)
 	img.fill(Color.MAGENTA)
 	img.save_png(mod.path_join("sprites/mod_page.png"))
+	var frame := Image.create(3, 5, false, Image.FORMAT_RGBA8)
+	frame.fill(Color.CYAN)
+	DirAccess.make_dir_recursive_absolute(mod.path_join("sprites/mod"))
+	frame.save_png(mod.path_join("sprites/mod/frame.png"))
 	_write_json(mod.path_join("sprites/sprites.json"), {"atlas_pages": ["mod_page.png"], "sprites": {
 		replaced_id: {"page": 0, "x": 0, "y": 0, "w": 4, "h": 4, "pivot_x": 2, "pivot_y": 2},
 		"mod.new_sprite": {"page": 0, "x": 0, "y": 0, "w": 2, "h": 2, "pivot_x": 1, "pivot_y": 1},
-		removed_id: null}})
+		removed_id: null,
+		frame_id: {"file": "mod/frame.png", "pivot_x": 1, "pivot_y": 2}}})
 	var tank: Dictionary = base.vehicle_types["0"].duplicate(true)
 	tank["hit_points"] = 99.0
 	_write_json(mod.path_join("vehicles/vehicle_types.json"), {"types": {"0": tank, "4": {"name": "Hovertank"}}})
@@ -54,7 +67,10 @@ func _init() -> void:
 	_check(p.layers.size() == 2 and p.layers[1] == mod, "two layers, mod on top")
 	_check(p.manifest.get("id") == "test_mod", "manifest is the top layer's")
 	_check(p.atlas_textures.size() == base_pages + 1, "mod atlas page appended")
-	_check(int(p.get_sprite(replaced_id)["page"]) == base_pages, "replaced sprite points at the mod's page (offset applied)")
+	_check(_pixel(p, replaced_id) == Color.MAGENTA, "replaced sprite reads the mod's own atlas page")
+	_check(_pixel(p, frame_id) == Color.CYAN and int(p.get_sprite(frame_id)["w"]) == 3 and int(p.get_sprite(frame_id)["h"]) == 5,
+			"loose-frame override packed at its own size")
+	_check(_pixel(base, frame_id) != Color.CYAN, "base pack's frame untouched")
 	_check(p.get_sprite("mod.new_sprite").get("w") == 2, "new sprite added")
 	_check(p.get_sprite(removed_id).is_empty(), "null entry removes a sprite")
 	_check(p.sprites.size() == base_sprites, "sprite count: +1 added, -1 removed")

@@ -9,11 +9,17 @@ extracted-asset output section 0 says must never be committed.
 
 What this emits, and what it doesn't yet:
   - pack.json               manifest (section 2.4.2)
-  - sprites/sprites.json    every cel -> {page, x, y, w, h, pivot_x, pivot_y}, keyed
-                            by its registry ID. Sprite pages are the SAME atlas PNGs
-                            convert_car.py already produces (section 2.4.2 explicitly
-                            allows "atlas pages, or loose frames" -- no need to
-                            re-slice into 2165 individual files).
+  - sprites/<group>/<name>.png + sprites/sprites.json
+                            every cel as its own PNG ("loose frames", section 2.4.2),
+                            cut out of convert_car.py's atlas and filed by its registry
+                            ID (vehicle.hovercraft.hull.01 ->
+                            sprites/vehicle/hovercraft/hull.01.png); sprites.json maps
+                            each id -> {file, w, h, pivot_x, pivot_y, kind}. Pack.gd
+                            packs the frames into atlas pages at load time, so a
+                            replacement pack can swap single frames (PORTING_PLAN.md
+                            2.7.5; this replaced two shipped atlas pages, 2026-09-24).
+                            `kind` is "effect" for the effect-mask cels (document 9),
+                            which used to be told apart only by living on page 1.
   - terrain/tileset.json    raw art id (0-127) -> sprite id + a coarse terrain_class
                             guess, for the 0-111 terrain block (section 1.7: art id
                             IS the cel index, no separate mapping table needed).
@@ -53,6 +59,8 @@ import json
 import os
 import shutil
 
+from PIL import Image
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_BUILD_CAR = os.path.join(ROOT, "build", "car")
 DEFAULT_BUILD_RFM = os.path.join(ROOT, "build", "rfm")
@@ -87,6 +95,13 @@ TERRAIN_CLASS_PREFIXES = [
     ("marker.", "marker"),
     ("decoration.", "decoration"),
 ]
+
+
+def sprite_file(sprite_id):
+    """A sprite id's loose-frame path under sprites/: the first two id segments are folders (the object), the rest the
+    file name -- vehicle.hovercraft.hull.01 -> vehicle/hovercraft/hull.01.png."""
+    parts = sprite_id.split(".")
+    return "/".join(parts[:2]) + "/" + ".".join(parts[2:]) + ".png" if len(parts) > 2 else "/".join(parts) + ".png"
 
 
 def terrain_class_for(registry_id):
@@ -124,10 +139,15 @@ def main():
     os.makedirs(sprites_dir, exist_ok=True)
     os.makedirs(terrain_dir, exist_ok=True)
 
-    shutil.copyfile(os.path.join(args.build_car_dir, "art_atlas.png"),
-                     os.path.join(sprites_dir, "art_atlas.png"))
-    shutil.copyfile(os.path.join(args.build_car_dir, "art_effects.png"),
-                     os.path.join(sprites_dir, "art_effects.png"))
+    # Loose frames replace the shipped atlas pages: clear the old layout first so a stale page can't linger.
+    for old in os.listdir(sprites_dir):
+        path = os.path.join(sprites_dir, old)
+        if os.path.isdir(path):
+            shutil.rmtree(path)
+        elif old.endswith(".png"):
+            os.remove(path)
+    atlas_images = [Image.open(os.path.join(args.build_car_dir, name)).convert("RGBA")
+                    for name in ("art_atlas.png", "art_effects.png")]
 
     sprites = {}
     for idx, c in cels.items():
@@ -136,15 +156,20 @@ def main():
             raise SystemExit(f"duplicate registry id {reg_id!r} (cel {idx} and an earlier one) -- "
                               f"registry should be unique, this is a bug upstream, not here")
         page = 0 if c["kind"] == "sprite" else 1
+        rel = sprite_file(reg_id)
+        frame = atlas_images[page].crop((c["x"], c["y"], c["x"] + c["w"], c["y"] + c["h"]))
+        os.makedirs(os.path.join(sprites_dir, os.path.dirname(rel)), exist_ok=True)
+        frame.save(os.path.join(sprites_dir, rel))
         sprites[reg_id] = {
-            "page": page,
-            "x": c["x"], "y": c["y"], "w": c["w"], "h": c["h"],
+            "file": rel,
+            "w": c["w"], "h": c["h"],
             "pivot_x": round(c["w"] / 2, 1), "pivot_y": round(c["h"] / 2, 1),
             "pivot_source": "default_center",
+            "kind": "sprite" if page == 0 else "effect",
         }
 
     sprites_json = {
-        "atlas_pages": ["art_atlas.png", "art_effects.png"],
+        "atlas_pages": [],
         "sprites": sprites,
     }
     with open(os.path.join(sprites_dir, "sprites.json"), "w") as f:
@@ -337,8 +362,25 @@ def main():
     if os.path.exists(SELECTOR_JSON):
         with open(SELECTOR_JSON) as f:
             sel = json.load(f)
-        wanted = set(range(2074, 2112)) | set(range(2146, 2165)) | {1940, 1942, 1981, 1982}
-        sel["sprite_ids"] = {str(c): registry[str(c)]["id"] for c in sorted(wanted) if str(c) in registry}
+        # Every cel the screen draws, as sprite ids -- the original's cel arithmetic (picture_base + type * 2 + team,
+        # pointer + frame, strip / cloud / dirt + rand, digit_base + digit) expanded into explicit lists here, so the
+        # runtime (and a replacement pack) never computes an id from a number (PORTING_PLAN.md 2.7.5).
+        cels = sel["cels"]
+        rid = lambda c: registry[str(c)]["id"] if c else ""
+        sel["sprites"] = {
+            **{k: rid(cels[k]) for k in ("box", "highlight", "platform_cap", "platform_body", "strip_centre",
+                                          "map_frame", "radar", "panel_frame", "panel_interior")},
+            "hangar": rid(sel["hangar"]["cel"]),
+            "pictures": [[rid(cels["picture_base"] + t * 2 + team) for team in (0, 1)] for t in range(4)],
+            "pointer": [rid(cels["pointer"] + i) for i in range(3)],
+            "strip": [rid(cels["strip"][0] + i) for i in range(2)],
+            "cloud": [rid(cels["cloud"] + i) for i in range(3)],
+            "dirt": [rid(cels["dirt"] + i) for i in range(4)],
+            "digits": [rid(cels["digit_base"] + i) for i in range(10)],
+            "icon": [rid(c) for c in cels["icon"]],
+            "weapon_icon": [rid(c) for c in cels["weapon_icon"]],
+            "second_icon": [rid(c) for c in cels["second_icon"]],
+        }
         os.makedirs(os.path.join(args.out_dir, "hud"), exist_ok=True)
         with open(os.path.join(args.out_dir, "hud", "selector.json"), "w") as f:
             json.dump(sel, f)

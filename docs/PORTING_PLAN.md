@@ -1375,8 +1375,8 @@ mypack/
   pack.json            manifest: id, name, version, engine_api_version, author,
                        license, base_pack (or null), overrides []
   sprites/
-    *.png              atlas pages, or loose frames
-    sprites.json       id -> { page, x, y, w, h, pivot_x, pivot_y }
+    *.png              atlas pages, or loose frames (<group>/<name>.png; original_pc uses these, 2.7.5)
+    sprites.json       id -> { page, x, y, w, h, pivot_x, pivot_y, kind } or { file, pivot_x, pivot_y, kind }
   animations.json      id -> { frames [], durations [], loop, facings }
   terrain/
     tileset.png
@@ -1659,7 +1659,7 @@ with each layer's sprite page numbers offset to match. Sound files and levels re
 layer that provides them (`Pack.get_sound_path()`, `Pack.level_dir()`). Checked by
 `tools/tests/pack_layering_check.gd`.
 
-#### 2.7.5 Atomic art
+#### 2.7.5 Atomic art — DONE (2026-09-24), except the ids still spelled out in code (below)
 
 The art store is two large atlas pages (`art_atlas.png`, `art_effects.png`) holding 2165 regions. The
 real blocker to splitting it is not the PNG layout but the **cel-number arithmetic still in code and
@@ -1669,10 +1669,36 @@ list of ids (team variants and animation frames as explicit lists), then (2) `bu
 PNG per sprite grouped by object (`sprites/vehicle/tank/hull.07.png`) and `Pack` packs atlases at load.
 That also serves section 2.4.3 item 9 (lazy loading per level / screen for the web build).
 
+**Done (2026-09-24):**
+- *No cel arithmetic left at runtime.* `vehicle_box_3d.gd`'s parts each name `[tan, green, flash]` sprite ids
+  (in the original: cel, cel + 1, cel + 2; the barrel's green is its traced team pair 203). `selector.json`
+  gains a `sprites` block that `build_pack.py` expands from the traced cels: pictures per type and team,
+  pointer frames, the backdrop's strip / cloud / dirt choices (the traced `rand` still picks the index), digits
+  and icons. The traced cel numbers stay in `tools/data/` and in `_cel` fields as provenance, not for lookup.
+- *Loose frames.* `build_pack.py` cuts each cel into `sprites/<group>/<name>.png` (2165 files, 805 KB; the two
+  pages were ~320 KB) and `sprites.json` entries become `{file, w, h, pivot_x, pivot_y, kind}`. `Pack` loads
+  the frames that survive layering (an overridden frame is never read) and shelf-packs them, tallest first
+  with 1 px of padding, into 2048² pages after any pages a layer ships itself; the whole original set fits
+  one page and the pack loads in ~0.8 s. A layer may still ship atlas pages (`page`/`x`/`y` entries), and
+  both kinds mix freely.
+- *`kind` replaces a page-number convention.* The effect-mask cels (document 9) were recognised by living on
+  page 1; they now say `"kind": "effect"`, which `decoration_field_3d.gd` batches on.
+- Checked: screenshots of the Tank, the Tank's hit flash and the vehicle-select screen are pixel-identical
+  before and after, apart from one pixel of the flash where a nearest-sampling tie on a texel boundary *inside
+  the same sprite* now rounds the other way (the frame's UVs moved on the page). `validate_pack.py` accepts
+  both entry kinds; `pack_layering_check.gd` covers a mod replacing one frame at a different size.
+
+**Still open, deliberately left for steps 3-5:** sprite ids still *spelled* in code (no arithmetic on numbers,
+but string-built or constant names), which a pack can re-skin per id but a new vehicle type cannot re-point:
+the Jeep's wheel frames (`vehicle.jeep.p457.frame_%02d`), the MSV canisters (`vehicle.msv.p324.canisters_%d`),
+the Heli rotor (`vehicle.heli.rotor.{a,b}.<team>`, `.c`), `vehicle_box_3d.gd`'s part table itself, the wreck
+`SETS`, the mine embers, the Jeep missile frames, the death skull frames, and `vehicle.gd`'s legacy 2D
+rotation-frame prefix. These move into the vehicle definition's render descriptor and channel bindings.
+
 #### 2.7.6 Order of work (every step keeps the regression tests and the RFMAP001 playthrough green)
 
 1. Layered packs (2.7.4). — **DONE 2026-09-24.**
-2. Sprite ids instead of cel arithmetic, then split the atlas (2.7.5).
+2. Sprite ids instead of cel arithmetic, then split the atlas (2.7.5). — **DONE 2026-09-24.**
 3. Vehicle definitions load; the per-type tables move into them (2.7.2).
 4. Behaviour moves into modules one area at a time (drive, aim, weapons, water, sequences) until no
    type branches remain.

@@ -5,7 +5,8 @@ artist needs this to work without reading engine source).
 
 Checks:
   - pack.json has every required manifest field
-  - every sprites.json region fits inside its declared atlas page's real pixel dimensions
+  - every sprite is either a loose frame ("file", PORTING_PLAN.md 2.7.5) that exists, or an atlas region
+    that fits inside its declared atlas page's real pixel dimensions; a null entry (a mod removing an id) is allowed
   - every sprite has a pivot (even a default one -- absent, not just wrong, is an error)
   - terrain/tileset.json's sprite_id references all resolve to a real sprite
   - every registry ID this pack claims to cover is actually present (missing IDs);
@@ -27,7 +28,8 @@ REGISTRY_JSON = os.path.join(ROOT, "packs", "registry", "asset_ids.json")
 
 REQUIRED_PACK_FIELDS = ["id", "name", "version", "engine_api_version", "author", "license",
                          "base_pack", "overrides", "pixels_per_world_unit"]
-REQUIRED_SPRITE_FIELDS = ["page", "x", "y", "w", "h", "pivot_x", "pivot_y"]
+REQUIRED_SPRITE_FIELDS = ["page", "x", "y", "w", "h", "pivot_x", "pivot_y"]   # an atlas region
+REQUIRED_FRAME_FIELDS = ["file", "pivot_x", "pivot_y"]                          # a loose frame
 
 
 def main():
@@ -50,7 +52,7 @@ def main():
     sprites_json_path = os.path.join(args.pack_dir, "sprites", "sprites.json")
     with open(sprites_json_path) as f:
         sprites_doc = json.load(f)
-    pages = sprites_doc["atlas_pages"]
+    pages = sprites_doc.get("atlas_pages", [])
     sprites = sprites_doc["sprites"]
 
     page_sizes = []
@@ -63,6 +65,19 @@ def main():
         page_sizes.append(Image.open(page_path).size)
 
     for sprite_id, entry in sprites.items():
+        if entry is None:
+            continue
+        if "file" in entry:
+            for field in REQUIRED_FRAME_FIELDS:
+                if field not in entry:
+                    errors.append(f"sprite {sprite_id!r} missing required field {field!r}")
+            frame_path = os.path.join(args.pack_dir, "sprites", entry["file"])
+            if not os.path.exists(frame_path):
+                errors.append(f"sprite {sprite_id!r} frame {entry['file']!r} missing")
+            elif "w" in entry and Image.open(frame_path).size != (entry["w"], entry["h"]):
+                warnings.append(f"sprite {sprite_id!r} declares {entry['w']}x{entry['h']}, frame is "
+                                f"{Image.open(frame_path).size} (the frame's own size is what loads)")
+            continue
         for field in REQUIRED_SPRITE_FIELDS:
             if field not in entry:
                 errors.append(f"sprite {sprite_id!r} missing required field {field!r}")
