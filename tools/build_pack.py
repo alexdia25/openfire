@@ -12,8 +12,8 @@ What this emits, and what it doesn't yet:
   - sprites/<group>/<name>.png + sprites/sprites.json
                             every cel as its own PNG ("loose frames", section 2.4.2),
                             cut out of convert_car.py's atlas and filed by its registry
-                            ID (vehicle.hovercraft.hull.01 ->
-                            sprites/vehicle/hovercraft/hull.01.png); sprites.json maps
+                            ID (vehicle.tank.hull.01 ->
+                            sprites/vehicle/tank/hull.01.png); sprites.json maps
                             each id -> {file, w, h, pivot_x, pivot_y, kind}. Pack.gd
                             packs the frames into atlas pages at load time, so a
                             replacement pack can swap single frames (PORTING_PLAN.md
@@ -99,7 +99,7 @@ TERRAIN_CLASS_PREFIXES = [
 
 def sprite_file(sprite_id):
     """A sprite id's loose-frame path under sprites/: the first two id segments are folders (the object), the rest the
-    file name -- vehicle.hovercraft.hull.01 -> vehicle/hovercraft/hull.01.png."""
+    file name -- vehicle.tank.hull.01 -> vehicle/tank/hull.01.png."""
     parts = sprite_id.split(".")
     return "/".join(parts[:2]) + "/" + ".".join(parts[2:]) + ".png" if len(parts) > 2 else "/".join(parts) + ".png"
 

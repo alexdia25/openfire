@@ -4554,8 +4554,8 @@
     "167": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.hovercraft.hull.01",
-      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 38) since this cel is now proven, not guessed, to be a real Tank part."
+      "id": "vehicle.tank.hull.01",
+      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 38) since this cel is now proven, not guessed, to be a real Tank part. [RENAMED 2026-09-24 from vehicle.hovercraft.hull.01: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1670": {
       "category": "effect",
@@ -4620,8 +4620,8 @@
     "168": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.hull.02",
-      "note": "dark green pillar (re-checked after the section 1.6 palette fix -- was misread as 'dark-red' then 'dark blue-grey' under the wrong palette)"
+      "id": "vehicle.tank.hull.02",
+      "note": "dark green pillar (re-checked after the section 1.6 palette fix -- was misread as 'dark-red' then 'dark blue-grey' under the wrong palette) [RENAMED 2026-09-24 from vehicle.hovercraft.hull.02: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1680": {
       "category": "effect",
@@ -4686,8 +4686,8 @@
     "169": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p167.yellow",
-      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 167"
+      "id": "vehicle.tank.p167.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 167 [RENAMED 2026-09-24 from vehicle.hovercraft.p167.yellow: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1690": {
       "category": "effect",
@@ -4757,8 +4757,8 @@
     "170": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p167.alt3",
-      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 167"
+      "id": "vehicle.tank.p167.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 167 [RENAMED 2026-09-24 from vehicle.hovercraft.p167.alt3: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1700": {
       "category": "effect",
@@ -4823,8 +4823,8 @@
     "171": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p167.alt4",
-      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 167"
+      "id": "vehicle.tank.p167.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 167 [RENAMED 2026-09-24 from vehicle.hovercraft.p167.alt4: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1710": {
       "category": "effect",
@@ -4889,8 +4889,8 @@
     "172": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.hovercraft.hull.04",
-      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 38) since this cel is now proven, not guessed, to be a real Tank part."
+      "id": "vehicle.tank.hull.04",
+      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 38) since this cel is now proven, not guessed, to be a real Tank part. [RENAMED 2026-09-24 from vehicle.hovercraft.hull.04: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1720": {
       "category": "effect",
@@ -4955,8 +4955,8 @@
     "173": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.hull.05",
-      "note": "blue-dominant hull/cab icon (checked: b > g), NOT part of the confirmed tan/green team-colour pair (section 4 item 5, 2026-09-06) -- an earlier note here called this a team-colour lead; that's now walked back since it doesn't match the confirmed pair. Real duplicate-coloured art, purpose unconfirmed."
+      "id": "vehicle.tank.hull.05",
+      "note": "blue-dominant hull/cab icon (checked: b > g), NOT part of the confirmed tan/green team-colour pair (section 4 item 5, 2026-09-06) -- an earlier note here called this a team-colour lead; that's now walked back since it doesn't match the confirmed pair. Real duplicate-coloured art, purpose unconfirmed. [RENAMED 2026-09-24 from vehicle.hovercraft.hull.05: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1730": {
       "category": "effect",
@@ -5021,8 +5021,8 @@
     "174": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p172.yellow",
-      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 172"
+      "id": "vehicle.tank.p172.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 172 [RENAMED 2026-09-24 from vehicle.hovercraft.p172.yellow: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1740": {
       "category": "reserved",
@@ -5087,8 +5087,8 @@
     "175": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p172.alt3",
-      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 172"
+      "id": "vehicle.tank.p172.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 172 [RENAMED 2026-09-24 from vehicle.hovercraft.p172.alt3: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1750": {
       "category": "effect",
@@ -5153,8 +5153,8 @@
     "176": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p172.alt4",
-      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 172"
+      "id": "vehicle.tank.p172.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 172 [RENAMED 2026-09-24 from vehicle.hovercraft.p172.alt4: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1760": {
       "category": "effect",
@@ -5219,8 +5219,8 @@
     "177": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.hovercraft.turret.top.01",
-      "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all."
+      "id": "vehicle.tank.turret.top.01",
+      "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all. [RENAMED 2026-09-24 from vehicle.hovercraft.turret.top.01: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1770": {
       "category": "prop",
@@ -5285,8 +5285,8 @@
     "178": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.hull.08",
-      "note": "blue-dominant hull/cab icon (checked: b > g), NOT part of the confirmed tan/green team-colour pair (section 4 item 5, 2026-09-06) -- an earlier note here called this a team-colour lead; that's now walked back since it doesn't match the confirmed pair. Real duplicate-coloured art, purpose unconfirmed."
+      "id": "vehicle.tank.hull.08",
+      "note": "blue-dominant hull/cab icon (checked: b > g), NOT part of the confirmed tan/green team-colour pair (section 4 item 5, 2026-09-06) -- an earlier note here called this a team-colour lead; that's now walked back since it doesn't match the confirmed pair. Real duplicate-coloured art, purpose unconfirmed. [RENAMED 2026-09-24 from vehicle.hovercraft.hull.08: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1780": {
       "category": "projectile",
@@ -5351,8 +5351,8 @@
     "179": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p177.yellow",
-      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 177"
+      "id": "vehicle.tank.p177.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 177 [RENAMED 2026-09-24 from vehicle.hovercraft.p177.yellow: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1790": {
       "category": "projectile",
@@ -5554,8 +5554,8 @@
     "182": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.hovercraft.track.01",
-      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 38) since this cel is now proven, not guessed, to be a real Tank part."
+      "id": "vehicle.tank.track.01",
+      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 38) since this cel is now proven, not guessed, to be a real Tank part. [RENAMED 2026-09-24 from vehicle.hovercraft.track.01: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1820": {
       "category": "marker",
@@ -5620,8 +5620,8 @@
     "183": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.track.02",
-      "note": "tank-tread segment"
+      "id": "vehicle.tank.track.02",
+      "note": "tank-tread segment [RENAMED 2026-09-24 from vehicle.hovercraft.track.02: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1830": {
       "category": "marker",
@@ -5686,8 +5686,8 @@
     "184": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p182.yellow",
-      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 182"
+      "id": "vehicle.tank.p182.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 182 [RENAMED 2026-09-24 from vehicle.hovercraft.p182.yellow: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1840": {
       "category": "marker",
@@ -5884,8 +5884,8 @@
     "187": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.hovercraft.hull.10",
-      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 38) since this cel is now proven, not guessed, to be a real Tank part."
+      "id": "vehicle.tank.hull.10",
+      "note": "category/id were already correct -- upgraded from visual_group to code_verified 2026-09-08 (document 38) since this cel is now proven, not guessed, to be a real Tank part. [RENAMED 2026-09-24 from vehicle.hovercraft.hull.10: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1870": {
       "category": "marker",
@@ -5950,8 +5950,8 @@
     "188": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.hull.21",
-      "note": "corrected 2026-09-08 (was misclassified as decoration.stripe_band.01) -- confirmed by direct RE trace (document 37) as the green-team counterpart of cel 187 (vehicle.hovercraft.hull.10), one of the Tank real 3D box model's six real faces; same rivet-detail shape, green instead of brown"
+      "id": "vehicle.tank.hull.21",
+      "note": "corrected 2026-09-08 (was misclassified as decoration.stripe_band.01) -- confirmed by direct RE trace (document 37) as the green-team counterpart of cel 187 (vehicle.hovercraft.hull.10), one of the Tank real 3D box model's six real faces; same rivet-detail shape, green instead of brown [RENAMED 2026-09-24 from vehicle.hovercraft.hull.21: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1880": {
       "category": "marker",
@@ -6028,8 +6028,8 @@
     "189": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p187.yellow",
-      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 187"
+      "id": "vehicle.tank.p187.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 187 [RENAMED 2026-09-24 from vehicle.hovercraft.p187.yellow: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1890": {
       "category": "decoration",
@@ -6227,8 +6227,8 @@
     "192": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.hovercraft.turret.side.01",
-      "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all."
+      "id": "vehicle.tank.turret.side.01",
+      "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all. [RENAMED 2026-09-24 from vehicle.hovercraft.turret.side.01: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1920": {
       "category": "pickup",
@@ -6285,8 +6285,8 @@
     "193": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.hull.13",
-      "note": "blue-dominant hull/cab icon (checked: b > g), NOT part of the confirmed tan/green team-colour pair (section 4 item 5, 2026-09-06) -- an earlier note here called this a team-colour lead; that's now walked back since it doesn't match the confirmed pair. Real duplicate-coloured art, purpose unconfirmed."
+      "id": "vehicle.tank.hull.13",
+      "note": "blue-dominant hull/cab icon (checked: b > g), NOT part of the confirmed tan/green team-colour pair (section 4 item 5, 2026-09-06) -- an earlier note here called this a team-colour lead; that's now walked back since it doesn't match the confirmed pair. Real duplicate-coloured art, purpose unconfirmed. [RENAMED 2026-09-24 from vehicle.hovercraft.hull.13: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1930": {
       "category": "structure",
@@ -6344,8 +6344,8 @@
     "194": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p192.yellow",
-      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 192"
+      "id": "vehicle.tank.p192.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 192 [RENAMED 2026-09-24 from vehicle.hovercraft.p192.yellow: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1940": {
       "category": "ui",
@@ -6539,8 +6539,8 @@
     "197": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.hovercraft.turret.back.01",
-      "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all."
+      "id": "vehicle.tank.turret.back.01",
+      "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all. [RENAMED 2026-09-24 from vehicle.hovercraft.turret.back.01: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1970": {
       "category": "ui",
@@ -6603,8 +6603,8 @@
     "198": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.hull.15",
-      "note": "blue-dominant hull/cab icon (checked: b > g), NOT part of the confirmed tan/green team-colour pair (section 4 item 5, 2026-09-06) -- an earlier note here called this a team-colour lead; that's now walked back since it doesn't match the confirmed pair. Real duplicate-coloured art, purpose unconfirmed."
+      "id": "vehicle.tank.hull.15",
+      "note": "blue-dominant hull/cab icon (checked: b > g), NOT part of the confirmed tan/green team-colour pair (section 4 item 5, 2026-09-06) -- an earlier note here called this a team-colour lead; that's now walked back since it doesn't match the confirmed pair. Real duplicate-coloured art, purpose unconfirmed. [RENAMED 2026-09-24 from vehicle.hovercraft.hull.15: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1980": {
       "category": "ui",
@@ -6669,8 +6669,8 @@
     "199": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p197.yellow",
-      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 197"
+      "id": "vehicle.tank.p197.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 197 [RENAMED 2026-09-24 from vehicle.hovercraft.p197.yellow: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "1990": {
       "category": "effect",
@@ -6878,8 +6878,8 @@
     "202": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.hovercraft.turret.barrel.01",
-      "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all."
+      "id": "vehicle.tank.turret.barrel.01",
+      "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all. [RENAMED 2026-09-24 from vehicle.hovercraft.turret.barrel.01: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2020": {
       "category": "effect",
@@ -6944,8 +6944,8 @@
     "203": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.hovercraft.turret.barrel.02",
-      "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all."
+      "id": "vehicle.tank.turret.barrel.02",
+      "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all. [RENAMED 2026-09-24 from vehicle.hovercraft.turret.barrel.02: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2030": {
       "category": "effect",
@@ -7010,8 +7010,8 @@
     "204": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p202.yellow",
-      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 202"
+      "id": "vehicle.tank.p202.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 202 [RENAMED 2026-09-24 from vehicle.hovercraft.p202.yellow: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2040": {
       "category": "marker",
@@ -7076,8 +7076,8 @@
     "205": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p202.alt3",
-      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 202"
+      "id": "vehicle.tank.p202.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 202 [RENAMED 2026-09-24 from vehicle.hovercraft.p202.alt3: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2050": {
       "category": "marker",
@@ -7142,8 +7142,8 @@
     "206": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p202.alt4",
-      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 202"
+      "id": "vehicle.tank.p202.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 202 [RENAMED 2026-09-24 from vehicle.hovercraft.p202.alt4: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2060": {
       "category": "effect",
@@ -7208,8 +7208,8 @@
     "207": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.hovercraft.turret.front.01",
-      "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all."
+      "id": "vehicle.tank.turret.front.01",
+      "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all. [RENAMED 2026-09-24 from vehicle.hovercraft.turret.front.01: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2070": {
       "category": "effect",
@@ -7271,8 +7271,8 @@
     "208": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.hull.19",
-      "note": "green/teal camo cab variant"
+      "id": "vehicle.tank.hull.19",
+      "note": "green/teal camo cab variant [RENAMED 2026-09-24 from vehicle.hovercraft.hull.19: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2080": {
       "category": "decoration",
@@ -7334,8 +7334,8 @@
     "209": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p207.yellow",
-      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 207"
+      "id": "vehicle.tank.p207.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 207 [RENAMED 2026-09-24 from vehicle.hovercraft.p207.yellow: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2090": {
       "category": "marker",
@@ -7527,8 +7527,8 @@
     "212": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.hovercraft.turret.muzzle_ring.01",
-      "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all."
+      "id": "vehicle.tank.turret.muzzle_ring.01",
+      "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all. [RENAMED 2026-09-24 from vehicle.hovercraft.turret.muzzle_ring.01: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2120": {
       "category": "decoration",
@@ -7589,8 +7589,8 @@
     "213": {
       "category": "vehicle",
       "confidence": "code_verified",
-      "id": "vehicle.hovercraft.turret.muzzle_ring.02",
-      "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all."
+      "id": "vehicle.tank.turret.muzzle_ring.02",
+      "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all. [RENAMED 2026-09-24 from vehicle.hovercraft.turret.muzzle_ring.02: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2130": {
       "category": "ui",
@@ -7655,8 +7655,8 @@
     "214": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p212.yellow",
-      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 212"
+      "id": "vehicle.tank.p212.yellow",
+      "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 212 [RENAMED 2026-09-24 from vehicle.hovercraft.p212.yellow: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2140": {
       "category": "effect",
@@ -7716,8 +7716,8 @@
     "215": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p212.alt3",
-      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 212"
+      "id": "vehicle.tank.p212.alt3",
+      "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 212 [RENAMED 2026-09-24 from vehicle.hovercraft.p212.alt3: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2150": {
       "category": "font",
@@ -7778,8 +7778,8 @@
     "216": {
       "category": "vehicle",
       "confidence": "visual",
-      "id": "vehicle.hovercraft.p212.alt4",
-      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 212"
+      "id": "vehicle.tank.p212.alt4",
+      "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 212 [RENAMED 2026-09-24 from vehicle.hovercraft.p212.alt4: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2160": {
       "category": "prop",
@@ -7819,12 +7819,14 @@
     "218": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.01"
+      "id": "vehicle.tank.rotation.tan.01",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.01: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "219": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.02"
+      "id": "vehicle.tank.rotation.tan.02",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.02: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "22": {
       "category": "terrain",
@@ -7834,38 +7836,44 @@
     "220": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.03"
+      "id": "vehicle.tank.rotation.tan.03",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.03: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "221": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.04"
+      "id": "vehicle.tank.rotation.tan.04",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.04: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "222": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.05"
+      "id": "vehicle.tank.rotation.tan.05",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.05: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "223": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.06"
+      "id": "vehicle.tank.rotation.tan.06",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.06: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "224": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.07"
+      "id": "vehicle.tank.rotation.tan.07",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.07: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "225": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.08"
+      "id": "vehicle.tank.rotation.tan.08",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.08: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "226": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.tan.09",
-      "note": "continues the vehicle.hovercraft.rotation.tan sequence (cels 218-225) one frame further -- an 11-pixel, near-edge-on sliver. Originally misclassified as prop.debris_faint by the original bulk pass; corrected 2026-09-06 after comparing pixel counts against its neighbours (220, 166, 69, 34, 11 non-transparent pixels, monotonically thinning) while diagnosing a user-reported turning-sprite bug (PORTING_PLAN.md section 4 item 10). Cels 227-231 were checked the same way and are genuinely blank padding, not further real frames."
+      "id": "vehicle.tank.rotation.tan.09",
+      "note": "continues the vehicle.hovercraft.rotation.tan sequence (cels 218-225) one frame further -- an 11-pixel, near-edge-on sliver. Originally misclassified as prop.debris_faint by the original bulk pass; corrected 2026-09-06 after comparing pixel counts against its neighbours (220, 166, 69, 34, 11 non-transparent pixels, monotonically thinning) while diagnosing a user-reported turning-sprite bug (PORTING_PLAN.md section 4 item 10). Cels 227-231 were checked the same way and are genuinely blank padding, not further real frames. [RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.09: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "227": {
       "category": "reserved",
@@ -7905,42 +7913,50 @@
     "232": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.green.01"
+      "id": "vehicle.tank.rotation.green.01",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.01: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "233": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.green.02"
+      "id": "vehicle.tank.rotation.green.02",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.02: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "234": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.green.03"
+      "id": "vehicle.tank.rotation.green.03",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.03: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "235": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.green.04"
+      "id": "vehicle.tank.rotation.green.04",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.04: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "236": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.green.05"
+      "id": "vehicle.tank.rotation.green.05",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.05: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "237": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.green.06"
+      "id": "vehicle.tank.rotation.green.06",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.06: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "238": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.green.07"
+      "id": "vehicle.tank.rotation.green.07",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.07: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "239": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.green.08"
+      "id": "vehicle.tank.rotation.green.08",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.08: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "24": {
       "category": "terrain",
@@ -7951,7 +7967,8 @@
     "240": {
       "category": "vehicle",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.rotation.green.09"
+      "id": "vehicle.tank.rotation.green.09",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.09: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
     },
     "241": {
       "category": "reserved",
@@ -10394,9 +10411,10 @@
       "id": "prop.hook_claw.cyan.01"
     },
     "614": {
-      "category": "vehicle",
+      "category": "prop",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.wheel_hub.04"
+      "id": "prop.fragment_grey.01",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.wheel_hub.04: no hovercraft vehicle exists (document 31) and nothing links this cel to the Tank; name is a visual placeholder, owner untraced.]"
     },
     "615": {
       "category": "prop",
@@ -10447,14 +10465,16 @@
       "note": "yellow lightning-bolt/zigzag shape"
     },
     "622": {
-      "category": "vehicle",
+      "category": "prop",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.wheel_hub.05"
+      "id": "prop.ring_yellow.01",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.wheel_hub.05: no hovercraft vehicle exists (document 31) and nothing links this cel to the Tank; name is a visual placeholder, owner untraced.]"
     },
     "623": {
-      "category": "vehicle",
+      "category": "prop",
       "confidence": "visual_group",
-      "id": "vehicle.hovercraft.wheel_hub.06"
+      "id": "prop.ring_yellow.02",
+      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.wheel_hub.06: no hovercraft vehicle exists (document 31) and nothing links this cel to the Tank; name is a visual placeholder, owner untraced.]"
     },
     "624": {
       "category": "prop",
@@ -10498,64 +10518,64 @@
       "note": "grass meeting sand (edge/corner blend)"
     },
     "630": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.watercraft_distant.01",
-      "note": "small pale boat silhouette, likely distant-LOD"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.submarine.01",
+      "note": "submarine surfacing/diving sequence, frame 1 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from prop.watercraft_distant.01, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "631": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.watercraft_distant.02",
-      "note": "small pale boat silhouette, likely distant-LOD"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.submarine.02",
+      "note": "submarine surfacing/diving sequence, frame 2 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from prop.watercraft_distant.02, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "632": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.watercraft_distant.03",
-      "note": "small pale boat silhouette, likely distant-LOD"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.submarine.03",
+      "note": "submarine surfacing/diving sequence, frame 3 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from prop.watercraft_distant.03, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "633": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.watercraft_distant.04",
-      "note": "small pale boat silhouette, likely distant-LOD"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.submarine.04",
+      "note": "submarine surfacing/diving sequence, frame 4 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from prop.watercraft_distant.04, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "634": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.watercraft_distant.05",
-      "note": "small pale boat silhouette, likely distant-LOD"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.submarine.05",
+      "note": "submarine surfacing/diving sequence, frame 5 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from prop.watercraft_distant.05, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "635": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.watercraft_distant.06",
-      "note": "small pale boat silhouette, likely distant-LOD"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.submarine.06",
+      "note": "submarine surfacing/diving sequence, frame 6 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from prop.watercraft_distant.06, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "636": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.watercraft_distant.07",
-      "note": "small pale boat silhouette, likely distant-LOD"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.submarine.07",
+      "note": "submarine surfacing/diving sequence, frame 7 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from prop.watercraft_distant.07, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "637": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.watercraft_distant.08",
-      "note": "small pale boat silhouette, likely distant-LOD"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.submarine.08",
+      "note": "submarine surfacing/diving sequence, frame 8 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from prop.watercraft_distant.08, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "638": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.watercraft_distant.09",
-      "note": "small pale boat silhouette, likely distant-LOD"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.submarine.09",
+      "note": "submarine surfacing/diving sequence, frame 9 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from prop.watercraft_distant.09, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "639": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.watercraft_distant.10",
-      "note": "small pale boat silhouette, likely distant-LOD"
+      "category": "vehicle",
+      "confidence": "visual",
+      "id": "vehicle.submarine.10",
+      "note": "submarine surfacing/diving sequence, frame 10 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from prop.watercraft_distant.10, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "64": {
       "category": "terrain",
@@ -10565,63 +10585,63 @@
     },
     "640": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.jetski.01",
-      "note": "small watercraft with a red-clothed rider, rotation set"
+      "confidence": "visual",
+      "id": "vehicle.submarine.11",
+      "note": "submarine surfacing/diving sequence, frame 11 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from vehicle.jetski.01, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "641": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.jetski.02",
-      "note": "small watercraft with a red-clothed rider, rotation set"
+      "confidence": "visual",
+      "id": "vehicle.submarine.12",
+      "note": "submarine surfacing/diving sequence, frame 12 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from vehicle.jetski.02, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "642": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.jetski.03",
-      "note": "small watercraft with a red-clothed rider, rotation set"
+      "confidence": "visual",
+      "id": "vehicle.submarine.13",
+      "note": "submarine surfacing/diving sequence, frame 13 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from vehicle.jetski.03, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "643": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.jetski.04",
-      "note": "small watercraft with a red-clothed rider, rotation set"
+      "confidence": "visual",
+      "id": "vehicle.submarine.14",
+      "note": "submarine surfacing/diving sequence, frame 14 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from vehicle.jetski.04, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "644": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.jetski.05",
-      "note": "small watercraft with a red-clothed rider, rotation set"
+      "confidence": "visual",
+      "id": "vehicle.submarine.15",
+      "note": "submarine surfacing/diving sequence, frame 15 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from vehicle.jetski.05, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "645": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.jetski.06",
-      "note": "small watercraft with a red-clothed rider, rotation set"
+      "confidence": "visual",
+      "id": "vehicle.submarine.16",
+      "note": "submarine surfacing/diving sequence, frame 16 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from vehicle.jetski.06, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "646": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.jetski.07",
-      "note": "small watercraft with a red-clothed rider, rotation set"
+      "confidence": "visual",
+      "id": "vehicle.submarine.17",
+      "note": "submarine surfacing/diving sequence, frame 17 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from vehicle.jetski.07, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "647": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.jetski.08",
-      "note": "small watercraft with a red-clothed rider, rotation set"
+      "confidence": "visual",
+      "id": "vehicle.submarine.18",
+      "note": "submarine surfacing/diving sequence, frame 18 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from vehicle.jetski.08, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "648": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.jetski.09",
-      "note": "small watercraft with a red-clothed rider, rotation set"
+      "confidence": "visual",
+      "id": "vehicle.submarine.19",
+      "note": "submarine surfacing/diving sequence, frame 19 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from vehicle.jetski.09, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "649": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.jetski.10",
-      "note": "small watercraft with a red-clothed rider, rotation set"
+      "confidence": "visual",
+      "id": "vehicle.submarine.20",
+      "note": "submarine surfacing/diving sequence, frame 20 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from vehicle.jetski.10, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "65": {
       "category": "terrain",
@@ -10631,33 +10651,33 @@
     },
     "650": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.jetski.11",
-      "note": "small watercraft with a red-clothed rider, rotation set"
+      "confidence": "visual",
+      "id": "vehicle.submarine.21",
+      "note": "submarine surfacing/diving sequence, frame 21 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from vehicle.jetski.11, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "651": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.jetski.12",
-      "note": "small watercraft with a red-clothed rider, rotation set"
+      "confidence": "visual",
+      "id": "vehicle.submarine.22",
+      "note": "submarine surfacing/diving sequence, frame 22 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from vehicle.jetski.12, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "652": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.jetski.13",
-      "note": "small watercraft with a red-clothed rider, rotation set"
+      "confidence": "visual",
+      "id": "vehicle.submarine.23",
+      "note": "submarine surfacing/diving sequence, frame 23 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from vehicle.jetski.13, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "653": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.jetski.14",
-      "note": "small watercraft with a red-clothed rider, rotation set"
+      "confidence": "visual",
+      "id": "vehicle.submarine.24",
+      "note": "submarine surfacing/diving sequence, frame 24 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from vehicle.jetski.14, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "654": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.jetski.15",
-      "note": "small watercraft with a red-clothed rider, rotation set"
+      "confidence": "visual",
+      "id": "vehicle.submarine.25",
+      "note": "submarine surfacing/diving sequence, frame 25 of 25 (cels 630-654): a wake that grows into a dark hull with a conning tower. [RENAMED 2026-09-24 from vehicle.jetski.15, user-identified and visually confirmed; NOT traced -- no code or table reference to cels 630-654 found yet; the sound-test list has a \"Sub\" cue (document 31).]"
     },
     "655": {
       "category": "character",

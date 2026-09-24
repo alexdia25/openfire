@@ -1346,6 +1346,13 @@ animation's tan/blue split, ~180 near-identical VFX burst frames), classificatio
 **programmatically from mean pixel colour** rather than transcribed by hand — see
 `dominant_team_colour()` and `_colour_bucket()` in `tools/registry/classify_bulk.py`.
 
+**Corrected 2026-09-24 (user report):** the "hovercraft" ids were the Tank all along (document 31 had already found
+the roster is Tank, Jeep, MSV and Heli, but never renamed them): `vehicle.hovercraft.*` (cels 167-240) is now
+`vehicle.tank.*`, and three strays outside that block got neutral visual names. "Jetski" (640-654) and
+"watercraft_distant" (630-639) are one 25-frame submarine sequence, now `vehicle.submarine.01-25` (visual,
+untraced). Mentions of "hovercraft" below and in the numbered documents are historical. See the next-steps doc's
+untraced list.
+
 **New findings surfaced during classification, not yet confirmed against code:**
 - **Possible team-colour lead** (open question, item 3 below): the hovercraft's hull/cab
   pieces (cels 167-209) recur in matching tan and cyan pairs. Consistent with per-team
