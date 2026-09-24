@@ -133,8 +133,11 @@ The editor makes all of it visible and usable:
   preview strip of a few representative team sets (Tank hull, a building wall, the flag) in that colour.
 - **Team set browser:** each tan/green pair side by side with its generated colours and the *team paint mask*
   overlaid (the pixels that change), plus the pairs the build rejected and why. For a mod's own art, "add team
-  set" pairs a tan and a green sprite, or (later) a sprite plus a hand-painted mask (needs the runtime to accept a
-  mask as the source, 2.7.7 "not yet").
+  set" either pairs a tan and a green sprite, or gives one drawing a **team-paint mask** (the runtime supports
+  this, PORTING_PLAN.md 2.7.7): import the mask as a PNG, or make it from the drawing with a colour-range pick
+  ("everything this shade of grey"), preview it over the drawing, and set `drawn_as` if the drawing is already in
+  one of the colours. This is the expected path for new vehicles. Painting the mask by hand arrives with the
+  pixel tools (E6); the mask is an ordinary sprite, so nothing else changes then.
 - **Colour toggles everywhere art is shown:** the vehicle viewport's team toggle (4.1) lists every colour, not just
   tan and green; the map editor's 3D preview and the asset browser have a "show sides as" control.
 - **Per-map side colours** (map editor rules panel, 5.4): the colour of each side, saved in the map's override

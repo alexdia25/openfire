@@ -191,7 +191,8 @@ def emit_team_colours(out_dir, sprites_dir, sprites, registry, cels, flag_pairs)
         return [round((math.atan2(acc[1], acc[0]) / (2 * math.pi)) % 1.0, 4), round(acc[2] / n, 4), round(acc[3] / n, 4)]
 
     with open(os.path.join(sprites_dir, "team_sets.json"), "w") as f:
-        json.dump({"pairs": accepted, "rejected": rejected}, f, indent=1, sort_keys=True)
+        # "masks" is for art with one drawing plus a team-paint mask (a mod's new vehicle; Pack.team_masks): none here.
+        json.dump({"pairs": accepted, "rejected": rejected, "masks": {}}, f, indent=1, sort_keys=True)
         f.write("\n")
     colours = {"tan": {"source": "original", "variant": 0, "hsv": mean("tan")},
                "green": {"source": "original", "variant": 1, "hsv": mean("green")}}

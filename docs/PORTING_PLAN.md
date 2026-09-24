@@ -1703,13 +1703,20 @@ the Heli rotor (`vehicle.heli.rotor.{a,b}.<team>`, `.c`), `vehicle_box_3d.gd`'s 
 `SETS`, the mine embers, the Jeep missile frames, the death skull frames, and `vehicle.gd`'s legacy 2D
 rotation-frame prefix. These move into the vehicle definition's render descriptor and channel bindings.
 
-#### 2.7.8 The flat 2D view is removed (2026-09-24)
+#### 2.7.6 Order of work (every step keeps the regression tests and the RFMAP001 playthrough green)
 
-`game/terrain_view.gd`/`.tscn` (the Phase 1-3 flat scene, unused since the 3D scene became the main scene),
-`Vehicle`'s own sprite drawing (`_draw`, `_frame_for_heading`, `_frames`) and `Projectile`'s 2D circle are gone:
-`Vehicle` and `Projectile` are simulation only. `TerrainTileRenderer` and `DebugMarkerRenderer2D` stay (the 3D scene
-bakes them into textures). The `RF_DEBUG_VEHICLE_RENDER=billboard` fallback keeps working with its own copy of the
-frame picking. Mentions of `terrain_view.gd` in older sections and numbered documents are historical.
+1. Layered packs (2.7.4). — **DONE 2026-09-24.**
+2. Sprite ids instead of cel arithmetic, then split the atlas (2.7.5). — **DONE 2026-09-24.**
+3. Vehicle definitions load; the per-type tables move into them (2.7.2).
+4. Behaviour moves into modules one area at a time (drive, aim, weapons, water, sequences) until no
+   type branches remain.
+5. Render parts bind to published channels.
+6. Map rosters and override files (2.7.3).
+7. The editor, on top: planned in [`EDITOR_PLAN.md`](EDITOR_PLAN.md) (vehicle and map editors, build order E0-E5).
+   It adds one requirement to step 4: every behaviour module publishes a parameter schema and its channels.
+
+This is refactoring that keeps behaviour the same: no new tracing is needed and nothing traced
+changes. Anything a module needs that has not been traced stays marked as such.
 
 #### 2.7.7 Team colours: any colour for every vehicle and team-owned object — DONE (2026-09-24)
 
@@ -1741,6 +1748,14 @@ use the original drawings.
   it for testing) is the colour of each **side**. Game logic keeps keying on the side (tile variant, player index,
   `Vehicle.team`); `Vehicle.colour`, `Projectile.colour`, `Gate.colour` and `FlagMarker.colour` are art only.
 
+**Masked art (for new vehicles and any mod art with one drawing).** `team_sets.json` also takes `masks`:
+`{sprite id: mask sprite id}` or `{sprite id: {mask, drawn_as}}`. The mask is an ordinary sprite (a loose-frame PNG,
+same size as the drawing); wherever it is opaque the drawing is team paint. Every colour is generated from the
+drawing, tan and green included, except `drawn_as`, which returns the drawing itself. The rule's reference mean is
+taken from the drawing's own paint pixels, and a (nearly) grey drawing gets the target's saturation outright, so
+team paint can be drawn in grey or in any colour. `Pack.team_variant()` takes a single-id list, so a new vehicle's
+parts need nothing else. Checked by the second half of `team_colour_check.gd` (a mod written to `user://`).
+
 **Runtime.** `Pack.prepare_team_colours(colours)` generates every set in each non-original colour when the map
 loads (~15 ms per colour for all 251 sets) into the packer's open page; `Pack.team_variant(ids, colour)` is what
 every renderer now calls where it used to index `[tan, green]` by team (vehicle parts and the Heli rotor, the Tank
@@ -1755,22 +1770,14 @@ With the default colours every screenshot is pixel-identical to before.
   the side made an integer everywhere and extended maps (EDITOR_PLAN.md 5.1 "free mode") to place more bases.
 - Choosing colours in a match-setup screen and in `level.override.json` (step 6); the editor's colour tools
   (EDITOR_PLAN.md 3.2).
-- Mod art with a hand-made team mask instead of a tan/green pair (the rule needs both drawings today).
 
-#### 2.7.6 Order of work (every step keeps the regression tests and the RFMAP001 playthrough green)
+#### 2.7.8 The flat 2D view is removed (2026-09-24)
 
-1. Layered packs (2.7.4). — **DONE 2026-09-24.**
-2. Sprite ids instead of cel arithmetic, then split the atlas (2.7.5). — **DONE 2026-09-24.**
-3. Vehicle definitions load; the per-type tables move into them (2.7.2).
-4. Behaviour moves into modules one area at a time (drive, aim, weapons, water, sequences) until no
-   type branches remain.
-5. Render parts bind to published channels.
-6. Map rosters and override files (2.7.3).
-7. The editor, on top: planned in [`EDITOR_PLAN.md`](EDITOR_PLAN.md) (vehicle and map editors, build order E0-E5).
-   It adds one requirement to step 4: every behaviour module publishes a parameter schema and its channels.
-
-This is refactoring that keeps behaviour the same: no new tracing is needed and nothing traced
-changes. Anything a module needs that has not been traced stays marked as such.
+`game/terrain_view.gd`/`.tscn` (the Phase 1-3 flat scene, unused since the 3D scene became the main scene),
+`Vehicle`'s own sprite drawing (`_draw`, `_frame_for_heading`, `_frames`) and `Projectile`'s 2D circle are gone:
+`Vehicle` and `Projectile` are simulation only. `TerrainTileRenderer` and `DebugMarkerRenderer2D` stay (the 3D scene
+bakes them into textures). The `RF_DEBUG_VEHICLE_RENDER=billboard` fallback keeps working with its own copy of the
+frame picking. Mentions of `terrain_view.gd` in older sections and numbered documents are historical.
 
 ---
 
