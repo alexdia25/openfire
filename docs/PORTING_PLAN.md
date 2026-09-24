@@ -1780,6 +1780,31 @@ With the default colours every screenshot is pixel-identical to before.
 bakes them into textures). The `RF_DEBUG_VEHICLE_RENDER=billboard` fallback keeps working with its own copy of the
 frame picking. Mentions of `terrain_view.gd` in older sections and numbered documents are historical.
 
+#### 2.7.9 Mods load on top of the original, never replace it; no mods = the original game (2026-09-24)
+
+**User direction (2026-09-24):** edits to original content must never replace the original files; they load *on top*
+of them, and with mods disabled the game must always run the original content. A mod may also bring content of its
+own: custom maps, new vehicles, and more later.
+
+- **The original pack is never written.** A mod is its own folder whose `pack.json` names its `base_pack`; everything
+  in it overrides the original per id (2.7.4), and anything it doesn't mention is the original. A replaced sprite is a
+  new file inside the mod. The mod tool refuses to open a base pack (one with no `base_pack`, like `original_pc`) as a
+  mod (`ModLoader.mod_problem()`), so it cannot write there.
+- **What the game runs** is built in one place, `game/mod_loader.gd` (`ModLoader.load_game_pack()`): the original
+  pack, plus the mods in `GameSettings.enabled_mods` (`user://settings.cfg`, `[mods] enabled`, a list of folders in
+  load order, later wins). An empty list runs the original content exactly. A missing or broken mod, or a base pack
+  listed as a mod, is skipped with a warning; if the stack still won't load, the original alone is used. `RF_PACK`
+  overrides it for one run (tests, and the mod tool's "Play this map"). The mod tool's "Enabled in game" box edits
+  the list; a mods menu in the game (section 2.6) will too.
+- **A mod's own content** -- a new map (`levels/<new id>/`), a new vehicle, new sprites -- is added beside the
+  originals and exists only while the mod is enabled.
+- **Changing an original map** is done by the override file of 2.7.3 (`level.override.json`, a patch on top of the
+  original level), never by shipping a changed copy under the original id; the mod tool's map editor (E2) writes only
+  that. (The layering would let a copy shadow the original; the tool will not produce one.)
+- Checked by `tools/tests/mod_loading_check.gd`: no mods = original; a mod on top; its custom map and vehicle only while
+  enabled; load order; bad mods skipped; disabling gives the original back; the original file's hash unchanged; the
+  tool refusing original content.
+
 ---
 
 ## 3. Execution phases

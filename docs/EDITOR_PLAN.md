@@ -64,6 +64,8 @@ folder. What exists:
   file, step 6); and **Play this map**, which saves and then runs the real game on that level with the mod layered
   over the original (`RF_PACK` + `RF_DEBUG_LEVEL`) -- the first form of play testing (checked: a frame replaced in the
   tool shows on the Tank in the game).
+- **Enabled in game** (top bar): puts the open mod in the game's enabled-mods list (`game/mod_loader.gd`); the tool
+  refuses to open original content as a mod.
 - The original palette ships in the pack (`sprites/palette.json`) for the pixel tools later.
 - Checked by `tools/tests/mod_workspace_check.gd` (31 checks) and `tools/tests/mod_tool_ui_check.gd` (31, including
   every vehicle type assembled, the Tank's turret slider turning the renderer's turret, and the map viewer).
@@ -80,10 +82,12 @@ switches for screenshots (`RF_EDITOR_VEHICLE=<type>` picks the previewed vehicle
 1. **The editor edits pack data, never code.** Everything it can change is something `Pack` and
    `LevelData` already load. If a feature needs a code change to be editable, that change belongs in the
    runtime (as data plus a module), not in the editor.
-2. **The workspace is a mod pack.** Opening the editor means opening (or creating) a pack directory
+2. **The workspace is a mod pack, on top of the original, never in place of it** (user direction,
+   2026-09-24; PORTING_PLAN.md 2.7.9). Opening the editor means opening (or creating) a pack directory
    whose `pack.json` names `original_pc` as its `base_pack`. Every edit is written into that mod layer
-   only, per id (2.7.4). `packs/original_pc` is generated output and is never written to. Un-editing
-   something removes its override and the base value shows through again.
+   only, per id (2.7.4). `packs/original_pc` is never written to, and the tool refuses to open it (or any
+   base pack) as a mod. Un-editing something removes its override and the original shows through again.
+   With the mod disabled in the game ("Enabled in game" in the top bar), the game runs the original.
 3. **Preview with the real game code.** Viewports draw with the runtime's own renderers
    (`VehicleRender3D`, `TerrainTileRenderer`, `DecorationField3D`, ...), and "play test" runs the real
    `MatchController` on the edited stack. The editor contains no second copy of any game logic.
@@ -359,7 +363,8 @@ layout made data-driven as well. That is flagged as a dependency, not something 
 
 ### 5.6 Saving: patches for original maps, full files for new maps
 
-- **Editing an original map** writes `levels/<ID>/level.override.json` in the mod: the roster override,
+- **Editing an original map** (never a changed copy under the original id, PORTING_PLAN.md 2.7.9) writes
+  `levels/<ID>/level.override.json` in the mod: the roster override,
   rule changes, and a **cell patch list** (`[{x, y, art, coastal, variant}]`, plus marker additions and
   removals). This is small, easy to review, and survives re-running the converter. When a patch gets
   large, the editor offers "fork as a new map" instead.
