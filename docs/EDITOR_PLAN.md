@@ -9,8 +9,10 @@ order to build it.
 **Scope.** View, visually edit, and create from scratch: **vehicles** (numbers, behaviour modules and
 their parameters, parts and geometry, animated parts, weapons and fire directions, collision shape, HUD
 and selector entries) and **maps** (terrain, decorations and buildings, spawn points, target pools,
-rules, vehicle roster). **Out of scope:** drawing or editing pixels. Sprites are made in other tools; the
-editor imports PNGs, assigns them to sprite ids and sets pivots (user direction, 2026-09-24).
+rules, vehicle roster). **Not in the first version:** drawing or editing pixels. Sprites are made in other
+tools; the editor imports PNGs, assigns them to sprite ids and sets pivots. **But leave room for an in-app
+pixel editor later** (user direction, 2026-09-24): section 3.1 lists what the first version must get
+right so one can be added without reworking anything.
 
 ## 1. Principles
 
@@ -75,6 +77,9 @@ editor/
   the mod, 2.7.5) or "new sprite" (you name the id). Set the pivot by clicking on the image. Team variants
   and the hit-flash variant are separate sprites that you assign; nothing is auto-generated. (A "tint a
   flash variant" helper could come later, but it would be a port convenience and labelled as one.)
+- **Edit in external editor.** Each sprite has an "open in image editor" action: it writes the frame into
+  the mod (if it isn't already there), opens it in the system's default image editor, and watches the file
+  so saving there hot-reloads it here. This is the same slot an in-app pixel editor fills later (3.1).
 - **Validation panel.** Live `validate_pack` checks (the Python validator's rules ported to GDScript or
   shared as data), plus the map and vehicle rules in sections 4.6 and 5.6. Clicking an error jumps to the
   thing that caused it.
@@ -82,6 +87,37 @@ editor/
   16.16 fixed point shown as a decimal, per-tick values shown with per-second equivalents (the tick is
   16 ms), headings in 5.625-degree steps *and* degrees, sizes in world units (a tile is 32). The file
   always stores the definition's own unit; the widget only converts for display.
+
+### 3.1 Room for in-app pixel editing later
+
+Not built now, but the first version is designed so a pixel editor is an added tool, not a rework:
+
+- **One sprite is one loose-frame PNG** (already true since 2.7.5). A pixel edit is therefore just "write
+  a new frame for this id into the mod layer", the same path as import. Nothing else in the pack or the
+  game changes.
+- **The sprite detail view is a canvas from day one.** The asset browser's detail pane shows the frame
+  zoomable with a pixel grid, the pivot marker and team/flash variants side by side. It is built as a
+  canvas with pluggable *tools* (the first ones are just "set pivot" and "pan/zoom"); pencil, fill,
+  select and so on become more tools on the same canvas.
+- **"Edit" is one action with swappable back-ends.** In the first version it opens the external editor
+  (above); later it can open the in-app canvas instead. Both end with the same "frame changed" event.
+- **The runtime can swap one frame live.** `Pack` gets `replace_frame(id, image)`: it writes into the
+  frame's existing page region if the new frame still fits there, or repacks otherwise, and emits a
+  `sprite_changed(id)` signal the renderers listen to. Import and hot reload need this anyway; a pixel
+  editor then updates the viewports as you draw.
+- **Undo is not text-only.** Commands can carry binary payloads, so a pixel command can store the changed
+  rectangle's before and after pixels without a special-case undo system.
+- **The pack keeps the original palette.** The original art is 8-bit indexed (`tools/convert_car.py`
+  already decodes the PLUT palettes, with the slot-10 offset of document 20). `build_pack.py` should emit
+  it (`sprites/palette.json`) so a pixel editor can offer the original colours and warn about new ones.
+  Small, and worth doing in E0.
+- **Sprite entries can record where a frame came from** (`"source": "original" | "imported" | "edited"`),
+  so provenance (principle 4) extends to art.
+- **Effect masks are not ordinary pictures.** `kind: "effect"` frames are darkening masks (document 9);
+  a pixel editor must treat them as a mask, so the `kind` field is already the switch it needs.
+- **Team and flash variants stay separate sprites.** A later helper ("make the green variant from the tan
+  one", "make the flash variant") is a tool on the canvas that writes those sprites, labelled as a port
+  convenience, never automatic.
 
 ## 4. Vehicle editor
 
@@ -266,7 +302,8 @@ new map is playable immediately and play test works from the first minute.
 | Rosters, `level.override.json` | 2.7 step 6 | roster panel, map saving |
 | `pack_writer.gd` (inverse of `Pack`'s loader) | new | saving |
 | `LevelData` save and patch apply | new | map saving |
-| Hot reload of the pack stack | new (2.4.4) | viewports, play test |
+| Hot reload of the pack stack; `Pack.replace_frame()` and `sprite_changed` | new (2.4.4) | viewports, play test, external and (later) in-app pixel editing |
+| The original palette in the pack (`sprites/palette.json`) | new, from `convert_car.py` | later pixel editing |
 | Data-driven selector layout (more or fewer than four bays) | new, found by this plan | rosters of other sizes |
 | A raw-tile-table export of `PRIMARY_TABLE` into the pack | new | original-compatible palette |
 
@@ -274,8 +311,10 @@ new map is playable immediately and play test works from the first minute.
 
 Each phase ends with something usable, and later phases only add to it.
 
-- **E0. Foundation** (can start now): workspace, `pack_writer.gd`, undo/redo, asset browser, sprite
-  import, validation panel. *Result:* re-skin any sprite in a mod without touching JSON by hand.
+- **E0. Foundation** (can start now): workspace, `pack_writer.gd`, undo/redo (with binary payloads),
+  asset browser with the canvas detail view, sprite import, "open in image editor" with hot reload
+  (`Pack.replace_frame`), the palette in the pack, validation panel. *Result:* re-skin any sprite in a mod
+  without touching JSON by hand.
 - **E1. Read-only viewers** (can start now): the map viewer (2D and 3D, layers, overlays, radar) and the
   vehicle viewer (turntable, overlays, today's `vehicle_types.json` numbers shown read-only). *Result:*
   inspect any original map or vehicle, with provenance.
@@ -289,6 +328,8 @@ Each phase ends with something usable, and later phases only add to it.
 - **E5. Polish**: stamps library, roster sizes other than four (after the selector is data-driven),
   mod export (mod layer only, never original assets), a netplay "gameplay-changing" indicator, and
   docs for modders.
+- **E6. In-app pixel editing** (optional, later): drawing tools on the E0 canvas, palette-aware, with
+  the variant helpers. Needs nothing new from the runtime beyond what E0 already added (3.1).
 
 E0 and E1 don't depend on anything unfinished, and E1 is a useful check on steps 3-6: if a field
 can't be shown clearly read-only, it will be harder still to edit.
