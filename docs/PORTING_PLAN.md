@@ -1642,7 +1642,7 @@ untraced in the definition (an `"_untraced"` note), per the standing instruction
 - Starting point (2026-09-24), which also defines "done": 20 `vehicle_type ==/!=` branches in
   `vehicle.gd`, ~50 more across `match_controller`, the renderers, HUD, wreck and autoplay, plus
   hard-coded per-type tables (`DOCK_TOLERANCE`, `DEATH_WAIT_TICKS`, `SELECT_NEIGHBOURS`, the wreck
-  `SETS`). Done = no type branches outside the behaviour modules themselves.
+  `SETS`, and since 2026-09-24 `camera_swoop.gd`'s `HEIGHT_BY_TYPE`). Done = no type branches outside the behaviour modules themselves.
 
 #### 2.7.3 Maps: faithful data plus a separate override layer
 
