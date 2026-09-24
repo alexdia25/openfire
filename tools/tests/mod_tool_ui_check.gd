@@ -74,6 +74,27 @@ func _init() -> void:
 	await process_frame
 	_check(main._save_btn.disabled, "save disables save")
 
+	# the vehicle preview assembles every vehicle type with the game's renderer, in any colour
+	var vp: VehiclePreviewPanel = main._vehicles
+	for t in 4:
+		vp.select_type(t)
+		await process_frame
+		var expected := "VehicleBoxRender3D" if t == 0 else "VehicleRender3D"
+		_check(vp.vehicle != null and vp.vehicle.vehicle_type == t and vp._render != null and vp._render.get_script().get_global_name() == expected,
+				"preview builds type %d with %s" % [t, expected])
+		_check(vp._sliders_box.get_child_count() >= 4, "type %d has pose sliders" % t)
+	vp.select_type(0)
+	await process_frame
+	(vp._sliders_box.get_child(3) as HSlider).value = 90.0   # [heading label, slider, turret label, turret slider, ...]
+	await process_frame
+	_check(is_equal_approx(vp._render._turret_pivot.rotation_degrees.y, -90.0), "the turret slider turns the game renderer's turret")
+	vp.select_colour("red")
+	await process_frame
+	_check(vp.vehicle.art_colour() == "red", "preview colour is applied to the vehicle")
+	vp._flash.button_pressed = true
+	await process_frame
+	_check(vp.vehicle.flashing(), "hit flash toggle")
+
 	main.queue_free()
 	await process_frame
 	print("mod_tool_ui_check: %s" % ("PASS" if _failures == 0 else "%d FAILED" % _failures))

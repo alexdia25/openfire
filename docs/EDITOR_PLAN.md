@@ -38,12 +38,23 @@ folder. What exists:
 - **Validate tab** (`editor/validator.gd`): manifest fields, missing frames, masks and pairs that don't exist or
   don't match in size, bad colours, new ids outside the mod's namespace, unsaved changes. Double-click jumps to the
   sprite.
+- **Vehicles tab: the assembled-vehicle preview** (`editor/vehicle_preview.gd`, the first piece of E1; user request
+  2026-09-24): a real `Vehicle` built from the pack's vehicle table and drawn by the game's own renderer (the choice of
+  renderer is shared with the game through `VehicleRender3D.create_for`), on a ground grid with an orbit camera, in any
+  team colour, with hit flash, turntable and the traced collision shape. Sliders pose the moving parts by setting the
+  fields the simulation would: heading; the Tank's turret and gun; the MSV's launcher, rockets fired and reload; the
+  Jeep's wheel frame and swim mode; the Heli's rotor speed, start-up blade unfold, height, nose pitch and bank. It
+  rebuilds on every edit, so a replaced frame or a new colour shows on the assembled vehicle at once. When vehicle
+  definitions and channels exist (steps 3-5) the sliders become one per published channel and the stats come from the
+  definition.
 - The original palette ships in the pack (`sprites/palette.json`) for the pixel tools later.
-- Checked by `tools/tests/mod_workspace_check.gd` (31 checks) and `tools/tests/mod_tool_ui_check.gd` (13).
+- Checked by `tools/tests/mod_workspace_check.gd` (31 checks) and `tools/tests/mod_tool_ui_check.gd` (25, including
+  every vehicle type assembled and the Tank's turret slider turning the renderer's turret).
 
 Not yet in E0: "where is this sprite used" in the inspector (needs vehicle definitions to be complete, step 3); making
 a mask by picking a colour range; the art-only / gameplay-changing indicator (principle 6); play test from the tool;
-the vehicle and map viewers (E1). Debug switches for screenshots: `RF_EDITOR_MOD`, `RF_EDITOR_TAB`,
+the rest of E1 (the map viewer; the vehicle preview's muzzle and mount markers, which need them in data first). Debug
+switches for screenshots (`RF_EDITOR_VEHICLE=<type>` picks the previewed vehicle): `RF_EDITOR_MOD`, `RF_EDITOR_TAB`,
 `RF_EDITOR_SELECT`, `RF_EDITOR_COLOUR`, `RF_EDITOR_SCREENSHOT` (see `editor/editor_main.gd`).
 
 ## 1. Principles
