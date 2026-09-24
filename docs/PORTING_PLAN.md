@@ -1711,7 +1711,8 @@ rotation-frame prefix. These move into the vehicle definition's render descripto
    type branches remain.
 5. Render parts bind to published channels.
 6. Map rosters and override files (2.7.3).
-7. The editor, on top.
+7. The editor, on top: planned in [`EDITOR_PLAN.md`](EDITOR_PLAN.md) (vehicle and map editors, build order E0-E5).
+   It adds one requirement to step 4: every behaviour module publishes a parameter schema and its channels.
 
 This is refactoring that keeps behaviour the same: no new tracing is needed and nothing traced
 changes. Anything a module needs that has not been traced stays marked as such.
