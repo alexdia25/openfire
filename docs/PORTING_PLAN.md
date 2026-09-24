@@ -1703,6 +1703,14 @@ the Heli rotor (`vehicle.heli.rotor.{a,b}.<team>`, `.c`), `vehicle_box_3d.gd`'s 
 `SETS`, the mine embers, the Jeep missile frames, the death skull frames, and `vehicle.gd`'s legacy 2D
 rotation-frame prefix. These move into the vehicle definition's render descriptor and channel bindings.
 
+#### 2.7.8 The flat 2D view is removed (2026-09-24)
+
+`game/terrain_view.gd`/`.tscn` (the Phase 1-3 flat scene, unused since the 3D scene became the main scene),
+`Vehicle`'s own sprite drawing (`_draw`, `_frame_for_heading`, `_frames`) and `Projectile`'s 2D circle are gone:
+`Vehicle` and `Projectile` are simulation only. `TerrainTileRenderer` and `DebugMarkerRenderer2D` stay (the 3D scene
+bakes them into textures). The `RF_DEBUG_VEHICLE_RENDER=billboard` fallback keeps working with its own copy of the
+frame picking. Mentions of `terrain_view.gd` in older sections and numbered documents are historical.
+
 #### 2.7.7 Team colours: any colour for every vehicle and team-owned object — DONE (2026-09-24)
 
 **User direction (2026-09-24):** extra colours for all vehicles and team-owned entities, visible and usable in the
@@ -1745,7 +1753,6 @@ With the default colours every screenshot is pixel-identical to before.
   strings `tan`/`green` and `player_index()` returns 0 / 1; the original map format has two spawn markers and
   team variants 0 / 1 (bits 14-15 could hold 0-3, but 2 and 3 are used by non-team parts). A 3-4 player mode needs
   the side made an integer everywhere and extended maps (EDITOR_PLAN.md 5.1 "free mode") to place more bases.
-- The legacy 2D view (`vehicle.gd`'s `_draw`) still picks rotation frames by team, not colour.
 - Choosing colours in a match-setup screen and in `level.override.json` (step 6); the editor's colour tools
   (EDITOR_PLAN.md 3.2).
 - Mod art with a hand-made team mask instead of a tan/green pair (the rule needs both drawings today).
