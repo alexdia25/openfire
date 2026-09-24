@@ -45,4 +45,6 @@ takes the next type in stock, a destroyed player vehicle is replaced from stock 
 `tools/tests/stock_check.gd`: with 2, 8, 3, 3 after the first Tank, 17 losses run through Tank, Jeep, MSV and Heli stock in turn and then end the match. **All of the choice logic above is untraced**; only the numbers, the spend/return rule
 and the lost condition are from the code.
 
+**Correction (document 95):** the loss test the loss sequence actually runs (`FUN_0040b260`) looks at the Jeep stock byte and a live Jeep only, not all four bytes; see [document 95](95-worked-example-after-the-skull-the-choice-and-the-loss.md).
+
 **Next:** sounds.

@@ -106,7 +106,7 @@ laughing 202-403, respawn at 418; Heli: +80), the single `Laugh`, and the uprigh
   (taken as ticks).
 - The two-player phases and the remaining-vehicle icon rows (`FUN_00418b50`, table `0x449308`); the `b5c0` gating
   (`state+0x3a`, the flag at wreck `+0xf`); the drowning path is routed through the same sequence without checking.
-- After the skull the original opens the vehicle *choice* (`FUN_00417ad0`); the port still respawns by placeholder.
+- ~~After the skull the original opens the vehicle *choice*; the port still respawns by placeholder.~~ Done, and the loss test found to be Jeep-only: [document 95](95-worked-example-after-the-skull-the-choice-and-the-loss.md).
 - The registry's other "trooper portrait"-style visual-group guesses deserve the same suspicion.
 
 **Next:** back to [the next-steps doc](NEXT_STEPS.md).

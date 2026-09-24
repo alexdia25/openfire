@@ -40,6 +40,6 @@ func _init() -> void:
 		print(["Tank", "Jeep", "MSV", "Heli"][type], ": phases ", seen, " starting at ticks ", at, " (expect 1, 2 after ", [120, 120, 120, 200][type], ", 3 after +31, 4 after +50, then 5, done)")
 		print("  total ticks ", t, " skull scale ", snappedf(mc.skull_scale(), 0.001), " (expect 1.2) angle ", mc.skull_angle_deg(), " (expect 0: upright) cues ", cues, " (expect [Laugh])")
 		print("  mouth frames seen while laughing: ", frames.slice(0, 12), " ... (", frames.size(), " changes; table starts 1,2,3,4,5,6,5,6,...)")
-		print("  alive again ", v.alive, " view_fade ", snappedf(mc.view_fade, 0.01), " (expect true, ~0.07 -- the fade back in has begun)")
+		print("  alive again ", v.alive, " selecting ", mc.selecting, " view_fade ", snappedf(mc.view_fade, 0.01), " (expect true, true, 0: the vehicle choice is open on the black screen, document 95)")
 	print("done")
 	quit()
