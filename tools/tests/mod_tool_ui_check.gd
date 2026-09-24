@@ -95,6 +95,22 @@ func _init() -> void:
 	await process_frame
 	_check(vp.vehicle.flashing(), "hit flash toggle")
 
+	# the map viewer lists every level, draws one, recolours its sides and describes a tile
+	var mp: MapViewPanel = main._maps
+	_check(mp._names.size() >= 204 and mp._names.get("RFMAP001", "") == "The Cakewalk", "map viewer lists the levels with their names")
+	mp.select_level("RFMAP117")
+	await process_frame
+	_check(mp.level != null and mp.level_id == "RFMAP117" and mp._tiles != null and mp._tiles.level == mp.level, "a level is drawn by the game's tile renderer")
+	mp.show_sides_as(["red", "blue"])
+	await process_frame
+	_check(mp.level.side_colours == ["red", "blue"], "show sides as recolours the preview")
+	var sp: Dictionary = mp.level.spawn_points[0]
+	mp._describe((Vector2(float(sp["x"]), float(sp["y"])) + Vector2(0.5, 0.5)) * 32.0)
+	_check(mp._hover.text.contains("spawn point") and mp._hover.text.contains("art "), "hover describes the tile under the cursor")
+	mp.show_layers(["Water"])
+	await process_frame
+	_check(mp._overlay.show_water and not mp._overlay.show_roads, "overlay layers toggle")
+
 	main.queue_free()
 	await process_frame
 	print("mod_tool_ui_check: %s" % ("PASS" if _failures == 0 else "%d FAILED" % _failures))

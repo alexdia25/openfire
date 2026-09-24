@@ -55,12 +55,21 @@ folder. What exists:
   beside the viewport gives the same for parts that are hard to click (the rotor, the canisters). This needs the
   renderers to expose which part mesh draws which sprite; the Tank's box renderer folds into the general one in step 5,
   so one mechanism covers every vehicle.
+- **Maps tab: the map viewer** (`editor/map_view_panel.gd`, E1, read-only): every level in the stack by id and name,
+  searchable; the map drawn by the game's own `TerrainTileRenderer` with the decorations and buildings over it seen
+  from above (the same part data, offsets, jitter and team colours as `DecorationField3D`, projected flat), the spawn
+  points and target pools, and overlays for water class (`Water.class_at`), road tiles, destructible tiles and a grid;
+  pan and zoom; a hover inspector (art id and sprite, coastal id and side, decoration, hit points, water class, road,
+  spawn or pool); the level's rules and metadata; "show sides as" colour pickers (preview only until the map override
+  file, step 6); and **Play this map**, which saves and then runs the real game on that level with the mod layered
+  over the original (`RF_PACK` + `RF_DEBUG_LEVEL`) -- the first form of play testing (checked: a frame replaced in the
+  tool shows on the Tank in the game).
 - The original palette ships in the pack (`sprites/palette.json`) for the pixel tools later.
-- Checked by `tools/tests/mod_workspace_check.gd` (31 checks) and `tools/tests/mod_tool_ui_check.gd` (25, including
-  every vehicle type assembled and the Tank's turret slider turning the renderer's turret).
+- Checked by `tools/tests/mod_workspace_check.gd` (31 checks) and `tools/tests/mod_tool_ui_check.gd` (31, including
+  every vehicle type assembled, the Tank's turret slider turning the renderer's turret, and the map viewer).
 
 Not yet in E0: "where is this sprite used" in the inspector (needs vehicle definitions to be complete, step 3); making
-a mask by picking a colour range; the art-only / gameplay-changing indicator (principle 6); play test from the tool;
+a mask by picking a colour range; the art-only / gameplay-changing indicator (principle 6);
 the rest of E1 (the map viewer; the vehicle preview's muzzle and mount markers, which need them in data first). Debug
 switches for screenshots (`RF_EDITOR_VEHICLE=<type>` picks the previewed vehicle): `RF_EDITOR_MOD`, `RF_EDITOR_TAB`,
 `RF_EDITOR_SELECT`, `RF_EDITOR_COLOUR`, `RF_EDITOR_SCREENSHOT` (see `editor/editor_main.gd`).
