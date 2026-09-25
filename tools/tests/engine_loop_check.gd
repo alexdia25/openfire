@@ -36,7 +36,7 @@ func _init() -> void:
 	check("tread in reverse mirrors forward", is_equal_approx(EngineLoop.pitch_hz(tread, -0.4, 0.0), EngineLoop.pitch_hz(tread, 0.4, 0.0)))
 	check("jeep idle: 7058 Hz at rest, 14860 at 1.0", is_equal_approx(EngineLoop.pitch_hz(jeep, 0.0, 0.0), 7058.0) and is_equal_approx(EngineLoop.pitch_hz(jeep, 1.0, 0.0), 14860.0))
 	check("heli rotor: 0xa3d = 2621 Hz stopped, 5 x that at rotor speed 4.0", is_equal_approx(EngineLoop.pitch_hz(heli, 0.0, 0.0), 2621.0) and is_equal_approx(EngineLoop.pitch_hz(heli, 0.0, 4.0), 2621.0 * 5.0))
-	check("volume: 210/255 for 10 ticks, then 100/255", is_equal_approx(EngineLoop.volume(tread, 9.0), 210.0 / 255.0) and is_equal_approx(EngineLoop.volume(tread, 10.0), 100.0 / 255.0))
+	check("volume: the descriptor's level 0xd55 is -10.6 dB, the Heli's 0x10a3 -7.8 dB", is_equal_approx(EngineLoop.volume_db(tread), (0xd55 / 3.0 - 2200.0) / 100.0) and absf(EngineLoop.volume_db(heli) + 7.8) < 0.05, "%f" % EngineLoop.volume_db(tread))
 	var dt := 1.0 / Vehicle.TICK_HZ
 	var v := mc.vehicle
 	v.set_vehicle_type(0)

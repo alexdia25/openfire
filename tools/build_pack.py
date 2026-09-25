@@ -679,7 +679,10 @@ def main():
             if wav not in copied:
                 shutil.copyfile(src, os.path.join(audio_dir, wav))
                 copied.add(wav)
-            audio_json[cue_id] = {"file": wav, "category": "sfx", "priority": 0}
+            # level (16.16) and pitch (Hz if > 0, else minus a 16.16 fraction of the sample's rate, 0 = as recorded) are the descriptor's own (document 100);
+            # priority is the voice priority it starts at (the original gives the 20 highest a mixer channel)
+            audio_json[cue_id] = {"file": wav, "category": "sfx", "priority": cue.get("priority", {}).get("start", 0),
+                                  "level": cue.get("level", 0x10000), "pitch": cue.get("pitch", 0)}
             n_audio += 1
         with open(os.path.join(audio_dir, "audio.json"), "w") as f:
             json.dump(audio_json, f)

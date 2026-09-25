@@ -7,9 +7,10 @@
    "kind": "speed",
    "pitch_min": 1263,
    "pitch_max": 4458,
-   "volume_attack": 210,
-   "volume_sustain": 100,
-   "attack_ticks": 10,
+   "priority_start": 210,
+   "priority_later": 100,
+   "priority_ticks": 10,
+   "level": 3413,
    "base_rate": 11025
   },
   "jeep_idle": {
@@ -18,9 +19,10 @@
    "kind": "speed",
    "pitch_min": 7058,
    "pitch_max": 14860,
-   "volume_attack": 210,
-   "volume_sustain": 100,
-   "attack_ticks": 10,
+   "priority_start": 210,
+   "priority_later": 100,
+   "priority_ticks": 10,
+   "level": 3276,
    "base_rate": 11025
   },
   "heli": {
@@ -30,9 +32,10 @@
    "kind": "rotor",
    "pitch_base": 2621,
    "resource_rate": 0,
-   "volume_attack": 210,
-   "volume_sustain": 100,
-   "attack_ticks": 10,
+   "priority_start": 210,
+   "priority_later": 100,
+   "priority_ticks": 10,
+   "level": 4259,
    "base_rate": 11025
   }
  },
