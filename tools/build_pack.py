@@ -80,6 +80,7 @@ HUD_PANELS_JSON = os.path.join(ROOT, "tools", "data", "hud_panels.json")
 SELECTOR_JSON = os.path.join(ROOT, "tools", "data", "selector.json")
 GAME_ART_CAR = os.path.join(os.environ.get("RF_GAME_DIR", "C:/Users/Alex/Documents/returnfire"), "ART", "ART.CAR")
 VEHICLE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "vehicle_types.json")
+ENGINE_LOOPS_JSON = os.path.join(ROOT, "tools", "data", "engine_loops.json")
 PROJECTILE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "projectile_types.json")
 COASTAL_DECORATION_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
 
@@ -244,7 +245,7 @@ BEHAVIOUR = {
 }
 
 
-def emit_vehicle_definitions(out_dir, vt):
+def emit_vehicle_definitions(out_dir, vt, sound_dir):
     """PORTING_PLAN.md 2.7.2, step 3: one definition per vehicle, vehicles/<id>/vehicle.json, grouped the way the original's
     vehicle-type record is (stats, drive, weapons, shape, events, camera, render, wreck), plus vehicles/roster.json (the
     four in bay order, with their stock). Every number is the traced record's (tools/data/vehicle_types.json, from
@@ -258,13 +259,30 @@ def emit_vehicle_definitions(out_dir, vt):
             shutil.rmtree(path)
         elif old in ("vehicle_types.json", "roster.json"):
             os.remove(path)
+    # the engine loops (document 97): each vehicle's continuous sound, folded in as sounds.engine_loop; the samples join the pack
+    loops_doc = json.load(open(ENGINE_LOOPS_JSON)) if os.path.exists(ENGINE_LOOPS_JSON) else {"loops": {}, "by_vehicle_type": []}
+    audio_dir = os.path.join(out_dir, "audio")
+    os.makedirs(audio_dir, exist_ok=True)
+    if os.path.exists(os.path.join(audio_dir, "loops.json")):
+        os.remove(os.path.join(audio_dir, "loops.json"))   # the pre-definition table; the definitions carry it now
+    loop_by_descriptor = {l["descriptor"]: k for k, l in loops_doc["loops"].items()}
+    for l in loops_doc["loops"].values():
+        src = os.path.join(sound_dir, l["wav"])
+        if os.path.exists(src):
+            shutil.copyfile(src, os.path.join(audio_dir, l["wav"]))
     roster = []
     for vid, index, stock_key, default_stock, script in ORIGINAL_ROSTER:
         t = vt[str(index)]
         created = t.get("created_sound")
         on_create = {"sound": created["cue"], "descriptor": created["descriptor"]} if created else {"sound": None}
         if created and created["cue"] is None:
-            on_create["_untraced"] = "descriptor %s is not one of the traced sound cues (NEXT_STEPS)" % created["descriptor"]
+            if created["descriptor"] in loop_by_descriptor:
+                # document 97: the Tank's and MSV's +0x240 descriptor is Tread.SDT, their engine loop -- started as sounds.engine_loop
+                on_create["loop"] = loop_by_descriptor[created["descriptor"]]
+            else:
+                on_create["_untraced"] = "descriptor %s is not one of the traced sound cues (NEXT_STEPS)" % created["descriptor"]
+        loop_key = loops_doc["by_vehicle_type"][index] if index < len(loops_doc["by_vehicle_type"]) else None
+        sounds = {"engine_loop": {"id": loop_key, **loops_doc["loops"][loop_key]}} if loop_key else {}
         render = {"parts": t["parts"]}
         for extra in ("swim", "rack"):
             if extra in t:
@@ -283,6 +301,7 @@ def emit_vehicle_definitions(out_dir, vt):
             "flags": BEHAVIOUR[index].get("flags", {"carries_flag": False}),
             "shape": t["shape"],
             "events": {"on_create": on_create},
+            "sounds": sounds,
             "camera": {"swoop_height": t.get("camera_swoop_height")},
             "selector": {"script": script},
             "render": render,
@@ -494,7 +513,7 @@ def main():
                 part["sprite_ids"] = [registry[str(part["cel"] + v)]["id"] for v in range(n)]
                 if part["flags"] & 8:
                     team_pairs.add((part["cel"], part["cel"] + 1))
-        emit_vehicle_definitions(args.out_dir, vt)
+        emit_vehicle_definitions(args.out_dir, vt, args.build_sound_dir)
 
     # Projectile types and their draw descriptors (documents 46, 58); parts carry sprite ids (flag 8: + team).
     if os.path.exists(PROJECTILE_TYPES_JSON):

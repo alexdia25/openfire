@@ -287,7 +287,8 @@ Grouped by what's actually missing, not by cue name:
   `FUN_0040b980`'s panel-activation block: `if (record+0x240 != 0) play it` once, the same block
   that sets up the kind 5-9 panel elements) that holds a one-shot "this vehicle was just created"
   sound per type: Jeep `0x44b910` (`JeepStart`), Heli `0x44b808` (`Servo`), Tank/MSV both
-  `0x44b520` (not one of the 42 traced cues, not actionable here). The apparent conflict with the
+  `0x44b520` (not one of the 42 traced cues at the time; document 97 later found it is `Tread.SDT`, the engine loop, now each
+  vehicle definition's `sounds.engine_loop`). The apparent conflict with the
   already-wired `Heli` chime (document 79) wasn't one: that fires ~56 ticks later, at the stage
   1->2 transition, not at creation -- the two are simply sequential sounds for the same new Heli,
   not competing claims on one moment. `Vehicle.set_vehicle_type()` now emits both directly;

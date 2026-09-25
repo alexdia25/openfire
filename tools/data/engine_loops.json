@@ -1,0 +1,45 @@
+{
+ "_source": "RFIRE.BIN descriptors 0x44b520 / 0x44b538 / 0x44b550, callbacks 0x40ee60 / 0x40eeb0; document 97",
+ "loops": {
+  "tread": {
+   "wav": "TREAD.wav",
+   "descriptor": "0x44b520",
+   "kind": "speed",
+   "pitch_min": 1263,
+   "pitch_max": 4458,
+   "volume_attack": 210,
+   "volume_sustain": 100,
+   "attack_ticks": 10,
+   "base_rate": 11025
+  },
+  "jeep_idle": {
+   "wav": "JEEPIDLE.wav",
+   "descriptor": "0x44b538",
+   "kind": "speed",
+   "pitch_min": 7058,
+   "pitch_max": 14860,
+   "volume_attack": 210,
+   "volume_sustain": 100,
+   "attack_ticks": 10,
+   "base_rate": 11025
+  },
+  "heli": {
+   "wav": "HELI.wav",
+   "descriptor": "0x44b550",
+   "cue": "Heli",
+   "kind": "rotor",
+   "pitch_base": 2621,
+   "resource_rate": 0,
+   "volume_attack": 210,
+   "volume_sustain": 100,
+   "attack_ticks": 10,
+   "base_rate": 11025
+  }
+ },
+ "by_vehicle_type": [
+  "tread",
+  "jeep_idle",
+  "tread",
+  "heli"
+ ]
+}

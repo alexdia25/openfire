@@ -25,10 +25,12 @@ func _init() -> void:
 	get_root().add_child(snd)
 	snd.setup(pack)
 	snd.connect_vehicle(mc.vehicle)
-	check("loops.json loaded: tread, jeep_idle, heli", snd._loops.has("tread") and snd._loops.has("jeep_idle") and snd._loops.has("heli"))
-	var tread: Dictionary = snd._loops["tread"]
-	var jeep: Dictionary = snd._loops["jeep_idle"]
-	var heli: Dictionary = snd._loops["heli"]
+	# the loops now live in the vehicle definitions (sounds.engine_loop, PORTING_PLAN.md 2.7.2)
+	var tread: Dictionary = pack.vehicle_value(0, "sounds.engine_loop", {})
+	var jeep: Dictionary = pack.vehicle_value(1, "sounds.engine_loop", {})
+	var heli: Dictionary = pack.vehicle_value(3, "sounds.engine_loop", {})
+	check("definitions carry the loops: tread, jeep_idle, tread, heli", tread.get("id") == "tread" and jeep.get("id") == "jeep_idle"
+			and pack.vehicle_value(2, "sounds.engine_loop.id") == "tread" and heli.get("id") == "heli")
 	check("tread at rest: 0x4ef = 1263 Hz", is_equal_approx(EngineLoop.pitch_hz(tread, 0.0, 0.0), 1263.0))
 	check("tread at 1.0 unit a tick: 0x116a = 4458 Hz", is_equal_approx(EngineLoop.pitch_hz(tread, 1.0, 0.0), 4458.0))
 	check("tread in reverse mirrors forward", is_equal_approx(EngineLoop.pitch_hz(tread, -0.4, 0.0), EngineLoop.pitch_hz(tread, 0.4, 0.0)))

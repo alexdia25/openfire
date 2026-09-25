@@ -32,8 +32,9 @@ func _init() -> void:
 	_check(col.call("stats.death_wait_ticks") == [120.0, 120.0, 120.0, 200.0], "death wait, record +0x260")   # JSON numbers load as floats
 	_check(col.call("camera.swoop_height") == [-170.0, -170.0, -170.0, -100.0], "camera swoop height, table 0x4452c0")
 	_check(col.call("events.on_create.sound") == [null, "JeepStart", null, "Servo"], "created sound, record +0x240")
-	_check(p.vehicle_value(0, "events.on_create.descriptor") == "0x44b520" and p.vehicle_value(0, "events.on_create._untraced", "") != "",
-			"the Tank's untraced created-sound descriptor is recorded, marked untraced")
+	_check(p.vehicle_value(0, "events.on_create.descriptor") == "0x44b520" and p.vehicle_value(0, "events.on_create.loop") == "tread"
+			and p.vehicle_value(0, "sounds.engine_loop.descriptor") == "0x44b520",
+			"the Tank's created-sound descriptor 0x44b520 is its Tread engine loop (document 97)")
 	_check(col.call("selector.script") == ["Tank", "Jeep", "MSV", "Heli"], "selector script names")
 	_check(p.vehicle_value(3, "wreck.quads", []).size() == 1 and p.vehicle_value(0, "wreck.quads", []).size() == 3, "wreck quads per vehicle")
 
