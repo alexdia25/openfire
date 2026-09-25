@@ -1653,7 +1653,11 @@ dock tolerance (`+0x254`), the death wait (`+0x260`), the created-sound descript
 had hard-coded, so behaviour is unchanged. `0x44b520`, the Tank's and MSV's created sound, turned out (document 97)
 to be `Tread.SDT`, their engine loop: the definitions record it as `events.on_create.loop = "tread"`, and each
 vehicle's engine loop is its definition's `sounds.engine_loop` (from `tools/data/engine_loops.json`, written by
-`tools/extract_engine_loops.py`; the pack's old `audio/loops.json` is gone, 2026-09-25). `Pack` loads definitions per id across layers,
+`tools/extract_engine_loops.py`; the pack's old `audio/loops.json` is gone, 2026-09-25). The music director's per-type tables (document 98)
+followed: each definition's `music` group has the theme line and priority a new vehicle asks for (record bytes
+`+0x2bc` / `+0x2bd`), its death line (the byte table at `0x4466e4`), both read from the binary, and `theme_rule`, which
+of `FUN_0040f2f0`'s three branches picks its theme (`flag_threat` for the Tank, `stock_or_roll` for the Heli,
+`record_line` otherwise). `Pack` loads definitions per id across layers,
 gives each a runtime index (the roster first, so Tank = 0 ... Heli = 3, then any other definition), and offers
 `vehicle_def(i)`, `vehicle_index(id)`, `vehicle_value(i, "stats.dock_tolerance")`; the old flat `vehicle_types` view is
 built from the definitions (a layer's old-style `vehicles/vehicle_types.json` still applies on top). Moved out of code:

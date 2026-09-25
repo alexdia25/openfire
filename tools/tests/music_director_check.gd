@@ -26,12 +26,12 @@ func _director() -> MusicDirector:
 
 func _init() -> void:
 	# FUN_0040f2f0
-	check("Tank: its own flag carried -> theme 2", MusicDirector.vehicle_line(0, true, false, 5, -1, 7) == 2)
-	check("Tank: the other flag within 128 units -> theme 2", MusicDirector.vehicle_line(0, false, true, 5, -1, 7) == 2)
-	check("Tank: stock 2 -> theme 0", MusicDirector.vehicle_line(0, false, false, 2, -1, 7) == 0)
-	check("Tank: random above 3 -> theme 1, else 0", MusicDirector.vehicle_line(0, false, false, 5, -1, 4) == 1 and MusicDirector.vehicle_line(0, false, false, 5, -1, 3) == 0)
-	check("Jeep and MSV: the record's line", MusicDirector.vehicle_line(1, false, false, 8, 4, 0) == 4 and MusicDirector.vehicle_line(2, false, false, 3, 6, 0) == 6)
-	check("Heli: stock 2 -> 8; else 8 when the roll is below 4, else 9", MusicDirector.vehicle_line(3, false, false, 2, 8, 7) == 8 and MusicDirector.vehicle_line(3, false, false, 3, 8, 3) == 8 and MusicDirector.vehicle_line(3, false, false, 3, 8, 4) == 9)
+	check("Tank: its own flag carried -> theme 2", MusicDirector.vehicle_line("flag_threat", true, false, 5, -1, 7) == 2)
+	check("Tank: the other flag within 128 units -> theme 2", MusicDirector.vehicle_line("flag_threat", false, true, 5, -1, 7) == 2)
+	check("Tank: stock 2 -> theme 0", MusicDirector.vehicle_line("flag_threat", false, false, 2, -1, 7) == 0)
+	check("Tank: random above 3 -> theme 1, else 0", MusicDirector.vehicle_line("flag_threat", false, false, 5, -1, 4) == 1 and MusicDirector.vehicle_line("flag_threat", false, false, 5, -1, 3) == 0)
+	check("Jeep and MSV: the record's line", MusicDirector.vehicle_line("record_line", false, false, 8, 4, 0) == 4 and MusicDirector.vehicle_line("record_line", false, false, 3, 6, 0) == 6)
+	check("Heli: stock 2 -> 8; else 8 when the roll is below 4, else 9", MusicDirector.vehicle_line("stock_or_roll", false, false, 2, 8, 7) == 8 and MusicDirector.vehicle_line("stock_or_roll", false, false, 3, 8, 3) == 8 and MusicDirector.vehicle_line("stock_or_roll", false, false, 3, 8, 4) == 9)
 
 	# a Tank is created: line 0 at 0x80, then the state machine's own choice
 	var d := _director()

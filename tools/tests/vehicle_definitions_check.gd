@@ -36,6 +36,10 @@ func _init() -> void:
 			and p.vehicle_value(0, "sounds.engine_loop.descriptor") == "0x44b520",
 			"the Tank's created-sound descriptor 0x44b520 is its Tread engine loop (document 97)")
 	_check(col.call("selector.script") == ["Tank", "Jeep", "MSV", "Heli"], "selector script names")
+	_check(col.call("music.theme_line") == [0.0, 4.0, 6.0, 8.0] and col.call("music.priority") == [128.0, 128.0, 128.0, 128.0],
+			"music theme line and priority, record +0x2bc / +0x2bd")
+	_check(col.call("music.death_line") == [3.0, 5.0, 7.0, 10.0], "music death line, table 0x4466e4")
+	_check(col.call("music.theme_rule") == ["flag_threat", "record_line", "record_line", "stock_or_roll"], "FUN_0040f2f0's theme rule per vehicle")
 	_check(p.vehicle_value(3, "wreck.quads", []).size() == 1 and p.vehicle_value(0, "wreck.quads", []).size() == 3, "wreck quads per vehicle")
 
 	# behaviour modules (step 4): every one a definition names exists, and every channel a module declares is a Vehicle field

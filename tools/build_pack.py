@@ -245,6 +245,12 @@ BEHAVIOUR = {
 }
 
 
+# FUN_0040f2f0 (document 98) picks a new vehicle's theme by its type: the Tank's depends on the flags (own flag carried or
+# the other within 128 units: 2; stock 2: 0; else 0 / 1 by a random roll), the Heli's on its stock and a roll (8 / 9), every
+# other type's is the record's own line. The definitions name the rule; game/music_director.gd implements the three.
+MUSIC_THEME_RULE = {0: "flag_threat", 3: "stock_or_roll"}
+
+
 def emit_vehicle_definitions(out_dir, vt, sound_dir):
     """PORTING_PLAN.md 2.7.2, step 3: one definition per vehicle, vehicles/<id>/vehicle.json, grouped the way the original's
     vehicle-type record is (stats, drive, weapons, shape, events, camera, render, wreck), plus vehicles/roster.json (the
@@ -303,6 +309,10 @@ def emit_vehicle_definitions(out_dir, vt, sound_dir):
             "events": {"on_create": on_create},
             "sounds": sounds,
             "camera": {"swoop_height": t.get("camera_swoop_height")},
+            # the music director (document 98): the theme a new vehicle asks for (record +0x2bc, priority +0x2bd), the line its
+            # death plays (table 0x4466e4), and which of FUN_0040f2f0's three rules picks its theme when it is (re)created
+            "music": {"theme_line": t.get("music_theme_line"), "priority": t.get("music_priority"),
+                      "death_line": t.get("music_death_line"), "theme_rule": MUSIC_THEME_RULE.get(index, "record_line")},
             "selector": {"script": script},
             "render": render,
             "wreck": WRECKS[index],

@@ -8,8 +8,10 @@ apart) and, for the collision shapes, the output of DumpShapes.java for each typ
 Also, for the vehicle definitions (PORTING_PLAN.md 2.7.2, step 3): the dock tolerance (+0x254, document 77), the death
 wait (+0x260, document 87), the "created" sound descriptor (+0x240, document 82; resolved to a cue id through
 tools/data/sound_cues.json where the descriptor is one of the traced cues) and, from a second optional dump, the camera
-swoop's start height by type (the table at 0x4452c0, DumpDwords.java 0x4452c0 4; document 90).
-Usage: python extract_vehicle_types.py <records_dump.txt> [camera_table_dump.txt]
+swoop's start height by type (the table at 0x4452c0, DumpDwords.java 0x4452c0 4; document 90); and for the music director
+(document 98) the record's theme line and priority (bytes +0x2bc / +0x2bd) and, from a third optional dump, the death
+line by type (the byte table at 0x4466e4, DumpDwords.java 0x4466e4 1).
+Usage: python extract_vehicle_types.py <records_dump.txt> [camera_table_dump.txt] [death_line_dump.txt]
 Dumps are "address value" lines (hex); DumpDwords.java's own log lines are accepted too.
 """
 import json, os, struct, sys
@@ -26,6 +28,12 @@ for path in sys.argv[1:]:
             except ValueError:
                 pass
 CAMERA_TABLE = 0x4452C0
+DEATH_LINE_TABLE = 0x4466E4
+
+
+def byte_at(addr):
+    word = mem.get(addr & ~3)
+    return None if word is None else (word >> (8 * (addr & 3))) & 0xFF
 
 
 def field(t, off):
@@ -96,6 +104,9 @@ for t in range(4):
         "death_wait_ticks": field(t, 0x260),       # ticks from death to the next vehicle / the loss sequence (document 87)
         "created_sound": created_sound(t),         # played when the vehicle object is created (document 82)
         **({"camera_swoop_height": camera_height(t)} if camera_height(t) is not None else {}),   # document 90
+        "music_theme_line": byte_at(BASE + t * STRIDE + 0x2BC),   # FUN_0040b980's music request for a new vehicle (document 98)
+        "music_priority": byte_at(BASE + t * STRIDE + 0x2BD),
+        **({"music_death_line": byte_at(DEATH_LINE_TABLE + t)} if byte_at(DEATH_LINE_TABLE + t) is not None else {}),
         "shape": {"layer": 2, "mask": 0x27, **SHAPES[t]},
         "parts": [{"cel": p["cel"], "flags": int(p["flags"], 16), "corner_idx": p["corner_idx"],
                    "corners": [[c / 65536 for c in corner] for corner in p["corners_fixed16_16"]]}
