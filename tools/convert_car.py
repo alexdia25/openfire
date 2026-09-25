@@ -38,8 +38,8 @@ entries starting at *slot 10*: `runtime_palette[10 + i] = shared_plut[i]`. Slots
 black/reserved (standard Win95 static system-palette convention). So the colour actually
 shown for raw pixel byte `k` is `shared_plut[k - 10]` (black if `k < 10`), not `shared_plut[k]`
 as an earlier version of this converter assumed -- confirmed by rendering real terrain cels
-both ways and comparing against real screenshots (docs/process/20-worked-example-palette-
-offset.md): the un-shifted decode was a plausible-looking but washed-out/wrong-hued palette
+both ways and comparing against real screenshots (the project wiki's
+document 20): the un-shifted decode was a plausible-looking but washed-out/wrong-hued palette
 that happened to still produce a valid image (nothing crashed or looked like noise, which is
 exactly why this went unnoticed through the whole asset-registry classification pass).
 This offset is specific to the *shared* PLUT (0x282CC, used by 2161 of 2165 cels) -- the 4

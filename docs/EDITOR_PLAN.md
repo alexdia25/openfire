@@ -95,7 +95,7 @@ switches for screenshots (`RF_EDITOR_VEHICLE=<type>` picks the previewed vehicle
    `MatchController` on the edited stack. The editor contains no second copy of any game logic.
 4. **Show provenance.** Every value is traced (with its document number), a port choice, visual only, or
    user-authored. The editor shows that badge next to the value and never presents a guess as traced
-   (standing rule, see `docs/process/NEXT_STEPS.md`). The sources: registry `confidence`, `_untraced`
+   (standing rule, see the GitHub issues (https://github.com/alexdia25/openfire/issues)). The sources: registry `confidence`, `_untraced`
    notes in definitions, and a per-field `provenance` in module schemas (section 4.2).
 5. **Mods must not redistribute original assets.** Exporting a mod writes only the mod layer: new or
    replaced sprites the user imported, plus data. Original art is referenced by sprite id through
@@ -434,7 +434,7 @@ can't be shown clearly read-only, it will be harder still to edit.
 
 - **Untraced map mechanics** limit what the editor can promise: coast-to-water rules (auto-coast),
   what `mode_byte` does beyond the player count, and the submarine's object class (cels 630-654;
-  see `docs/process/NEXT_STEPS.md`), which may turn out to be a placeable map object.
+  see the GitHub issues (https://github.com/alexdia25/openfire/issues)), which may turn out to be a placeable map object.
 - **Module granularity.** If step 4 ends up with coarse modules (one per original vehicle), the editor
   can only swap whole vehicles' behaviour. The schemas should aim for the slot granularity of the
   original record (drive, aim, each weapon slot, water, special) so mixing works.

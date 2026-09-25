@@ -2,7 +2,7 @@
 // tools/rf_tile_art.py / tools/data/tile_lookup_tables.json, section 1.5) and, for every
 // entry whose "valid" field (offset +0x00) is a nonzero pointer, follows it to the real
 // decoration-object descriptor and dumps every part's ART.CAR cel index -- the mechanism
-// document 35 (docs/process/) traced by hand for coastal id 1 alone. Confirmed chain, all
+// document 35 (on the project wiki) traced by hand for coastal id 1 alone. Confirmed chain, all
 // offsets relative to the descriptor pointer ("valid"):
 //   +0x34  int    part count
 //   +0x38  int*   pointer to a part-count * 8-int array; each part is

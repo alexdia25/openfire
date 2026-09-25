@@ -5,7 +5,7 @@ runtime code that pack loads into — the latter as a few diagrams that go from 
 actual call sites, each one level deeper than the last, rather than one diagram trying to
 show everything at once. For the detailed ground truth behind either half, see
 [`PORTING_PLAN.md`](PORTING_PLAN.md); for how each piece was found, see
-[`docs/process/`](process/README.md).
+[the wiki](https://github.com/alexdia25/openfire/wiki/) (the worked examples) and [the issues](https://github.com/alexdia25/openfire/issues) (open work).
 
 ## The pipeline
 
@@ -32,7 +32,7 @@ extracted pixel and audio data, so — like the Ghidra project and every raw `.R
 `packs/registry/` is tracked. The Godot runtime (`game/*.gd`) is the only stage that ships:
 it loads a pack at runtime (never through `res://` import, since the pack doesn't exist at
 edit time) and contains no decompiled code or original assets, just GDScript. Underneath all
-four stages, `docs/process/NN-*.md` pairs each decompiled/disassembled finding with the port
+four stages, the [wiki's worked examples](https://github.com/alexdia25/openfire/wiki/) pair each decompiled/disassembled finding with the port
 code it became, and `PORTING_PLAN.md` is the standing summary of all of it.
 
 A pack need not stand alone: `Pack` loads a **stack** of them (`PORTING_PLAN.md` section 2.7.4) — a

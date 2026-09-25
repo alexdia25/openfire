@@ -79,7 +79,7 @@ def raw_tile_to_coastal_id(raw_byte):
     """Return the coastal-blend id (int, 0 if none) for a raw on-disk tile byte.
 
     Section 1.5/1.7 already used this id to resolve a tile's *ground* art id
-    (raw_tile_to_art_id, above). Document 35 (docs/process/) found it does a second job:
+    (raw_tile_to_art_id, above). Document 35 (on the project wiki) found it does a second job:
     the coastal table entry's own "valid" pointer, when nonzero, is also a real decoration
     object -- see tools/data/coastal_decorations.json (coastal id -> ART.CAR cel indices,
     extracted directly from RFIRE.BIN) for which ids actually carry one. This function

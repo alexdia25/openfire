@@ -52,7 +52,7 @@ def dominant_team_colour(idx, atlas_cels, atlas_img):
     CORRECTED (2026-09-06): originally compared only b vs r and returned "blue" -- a
     real bug in its own right (this project's two team colours are tan and green, never
     blue, confirmed independently in PORTING_PLAN.md section 4 item 5), compounded by
-    convert_car.py's palette-offset bug (docs/process/20) changing every cel's actual
+    convert_car.py's palette-offset bug (the wiki's document 20) changing every cel's actual
     colours out from under this heuristic. Re-checked against the regenerated (correct)
     atlas: green is unambiguously the highest channel for the second team, not merely
     higher than blue."""
@@ -551,7 +551,7 @@ put(585, "prop.pipe_grey.02", "prop", "thin grey hook/pipe shape with small red 
 
 # ---- correction: palette-bug relabeling (2026-09-06) ---------------------------
 # convert_car.py had a real colour bug (see its module docstring and
-# docs/process/20-worked-example-palette-offset.md): raw pixel byte k decoded as
+# https://github.com/alexdia25/openfire/wiki/20-worked-example-palette-offset): raw pixel byte k decoded as
 # shared_plut[k] instead of shared_plut[k-10], producing plausible-looking but
 # wrong-hued output. Nothing crashed and nothing looked like noise, so the whole
 # terrain classification pass (batch 1) named a few cels by their WRONG colour.
@@ -666,7 +666,7 @@ _VEHICLE_ICON_NOTE = ("mini-map/radar icon, identified 2026-09-06 by matching it
                       "table (\"MSV\"/\"JEEP\"/\"Tank\"/\"HELI\", offset ~0x00445280 and "
                       "~0x004462c0) -- not the vehicle's actual in-game rotation art, which "
                       "renders at a different scale and has not been located for anything but "
-                      "the tank. See docs/process/31-worked-example-vehicle-roster.md.")
+                      "the tank. See https://github.com/alexdia25/openfire/wiki/31-worked-example-vehicle-roster.")
 put(2094, "ui.icon.tank_mini.tan", "vehicle", _VEHICLE_ICON_NOTE, confidence="visual")
 put(2095, "ui.icon.tank_mini.green", "vehicle", _VEHICLE_ICON_NOTE, confidence="visual")
 put(2096, "ui.icon.jeep_mini.tan", "vehicle", _VEHICLE_ICON_NOTE, confidence="visual")
@@ -685,7 +685,7 @@ put(2112, "ui.icon.tank_mini_alt2.tan", "vehicle", _VEHICLE_ICON_NOTE)
 put(2113, "ui.icon.tank_mini_alt2.green", "vehicle", _VEHICLE_ICON_NOTE)
 
 # Confirmed wrong 2026-09-07, chasing a user-reported "trees don't look real" observation
-# (docs/process/34, once written): cel 101 was classified as "decoration.tree" ("dark green
+# (the wiki's document 34, once written): cel 101 was classified as "decoration.tree" ("dark green
 # canopy on a post/trunk") but a direct atlas crop shows no canopy/foliage at all -- a small
 # gray structure with two flanking wall segments and a yellow/black hazard-striped base on a
 # sand clearing. Renamed to something descriptive rather than guessing its gameplay role.

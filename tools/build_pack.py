@@ -28,7 +28,7 @@ What this emits, and what it doesn't yet:
 
 NOT yet emitted (left for later, not a blocker for Phase 4 step 1 "render terrain +
 static objects"): animations.json (grouping registry IDs into real frame sequences
-needs the coarse-pass IDs refined first -- see docs/process/19), audio/, fonts/,
+needs the coarse-pass IDs refined first -- see the wiki's document 19), audio/, fonts/,
 ui/. Pivots are a flat centre-of-cel default (w/2, h/2) since real pivot recovery
 (section 2.4.3 item 2) hasn't happened -- every sprite entry says so via
 "pivot_source": "default_center" rather than silently implying it was recovered.
@@ -42,7 +42,7 @@ same gitignored pack, not the repo -- same reasoning as the sprite pixel data ab
 
 Also emits terrain/decorations.json -- coastal-blend id (every level.json's own
 "decorations" list is keyed by this, per tile) -> the real ART.CAR parts that id spawns
-(document 35, docs/process/): resolves tools/data/coastal_decorations.json's cel indices
+(document 35, on the project wiki): resolves tools/data/coastal_decorations.json's cel indices
 through the same registry the sprite atlas already uses, so the engine only ever sees
 sprite ids, never raw cel numbers, exactly like terrain/tileset.json already does for
 plain ground tiles. Ids tools/data/coastal_decorations.json doesn't (yet) resolve are
@@ -428,7 +428,7 @@ def main():
         json.dump({"tile_size_px": 32, "tiles": tileset}, f, indent=2, sort_keys=True)
         f.write("\n")
 
-    # Coastal decorations (document 35, docs/process/): resolve each known coastal id's real
+    # Coastal decorations (document 35, on the project wiki): resolve each known coastal id's real
     # ART.CAR cel indices into sprite ids, same lookup terrain/tileset.json already does above.
     # tools/data/coastal_decorations.json is itself incomplete (3 of 91 ids unresolved, see its
     # own "_missing" field) -- an id missing here just means no decoration for that id yet, not

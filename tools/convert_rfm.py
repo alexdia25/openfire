@@ -283,7 +283,7 @@ def parse_rfm(path, filename):
     # entity-tile zeroing below.
     tile_seed = sum(grid) & 0xFFFFFFFF
 
-    # Document 35 (docs/process/): a tile's coastal-blend id doubles as a decoration-spawn
+    # Document 35 (on the project wiki): a tile's coastal-blend id doubles as a decoration-spawn
     # id -- resolving one was always understood to pick a blended ground texture; the same
     # id, via a separate lookup this converter doesn't do (tools/data/coastal_decorations.json,
     # Ghidra-extracted, consumed by tools/build_pack.py), can also place a real object.

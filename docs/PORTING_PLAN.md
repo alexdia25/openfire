@@ -84,12 +84,12 @@ confirmed completely unused until traced. Built from real local 3D corner coordi
 directly out of RFIRE.BIN's own per-vehicle-type data. This retroactively explains the
 session's very first observation (visible tread varying with camera position) — a real box
 under a tilted camera naturally does that; a flat card never could. See
-[document 37](process/37-worked-example-real-tank-geometry.md) for the hull,
-[document 38](process/38-worked-example-classification-audit.md) for a general classification
+[document 37](https://github.com/alexdia25/openfire/wiki/37-worked-example-real-tank-geometry) for the hull,
+[document 38](https://github.com/alexdia25/openfire/wiki/38-worked-example-classification-audit) for a general classification
 audit that also fixed 33 wrong registry entries for Jeep/MSV/Heli (its own "14 real hull
 parts" finding was itself superseded by document 39 -- the other 8 were the turret's data,
 misread against the hull's own corner array), and
-[document 39](process/39-worked-example-real-turret-and-barrel.md) for the turret/barrel
+[document 39](https://github.com/alexdia25/openfire/wiki/39-worked-example-real-turret-and-barrel) for the turret/barrel
 itself, now found, extracted, and rendered — one part (the muzzle ring) still renders at the
 wrong size, confirmed genuinely unresolved rather than guessed at further.
 **Audience:** an AI coding agent executing after context compaction. Everything needed is
@@ -539,7 +539,7 @@ offset ...        cel pixel data, addressed by each CCB's SourcePtr
   `shared_plut[k - 10]`** (black if `k < 10`), not `shared_plut[k]`. Confirmed decisively by
   re-rendering the whole terrain block both ways and comparing against real screenshots
   ([myabandonware.com](https://www.myabandonware.com/game/return-fire-bau), flagged by the
-  user) — full trace in `docs/process/20-worked-example-palette-offset.md`. Applies only to
+  user) — full trace in https://github.com/alexdia25/openfire/wiki/20-worked-example-palette-offset. Applies only to
   the shared PLUT (2161 of 2165 cels); the 4 `PRE0==17` own-PLUT cels use a different code
   path (`FUN_00419ea0`, direct fetch) with no evidence of the same shift, decoded unshifted.
   `tools/convert_car.py` fixed; `build/car/art_atlas.png`/`art_effects.png` and
@@ -682,7 +682,7 @@ every level tile a resolved 0-127 "art id"; section 1.6 fully classifies `ART.CA
 cels. Neither told you which cel is art id 42. **Answer: art id *is* the cel index.**
 `ART.CAR`'s CCB array is loaded into memory unmodified at startup and indexed directly by
 the tile's art id, times `sizeof(CCB)` — no separate lookup table, no indirection, nothing
-built at load time. This was approach 2 from `docs/process/NEXT_STEPS.md` (trace the
+built at load time. This was approach 2 from the GitHub issues (https://github.com/alexdia25/openfire/issues) (trace the
 runtime tile buffer forward through rendering), not approach 1 (empirical guessing) — it
 turned out to be findable and exact, so the empirical fallback was never needed.
 
@@ -816,7 +816,7 @@ physics hasn't been identified yet, so this isn't confirmed either way. **Next h
 check whether *it* internally quantizes `elapsed_time_ms` into a fixed step.
 
 **Update (2026-09-06): that next hop is done, and it's a dead end for a different reason than
-[document 10](../process/10-worked-example-target-respawn.md)'s — not a wrong function, but
+[document 10](https://github.com/alexdia25/openfire/wiki/10-worked-example-target-respawn)'s — not a wrong function, but
 the wrong *system entirely*.** All three known writers of `PTR_PTR_0044e27c`
 (`FUN_00431320`, `FUN_00431340`, `FUN_00431370`) were traced to their literal table
 addresses (`0044e178`, `0044e218`, `0044e240`), and `DumpFunctionTable.java` dumped their raw
@@ -1103,7 +1103,7 @@ table (rows from `0x0044b550` on, base `~0x0044b500`), traced end to end:
   are exactly the 40 files section 1.4 already converted to `build/sound/*.wav`.
 - **All ~38 one-shot descriptor rows in the `0x44b550`-`0x44b988` block are resolved to a real file**; the full
   table (address, resource address, file, a candidate trigger where known) is `tools/data/sound_cues.json`,
-  written up in [document 82](process/82-worked-example-the-sound-engine-and-cue-table.md). Two surprises worth
+  written up in [document 82](https://github.com/alexdia25/openfire/wiki/82-worked-example-the-sound-engine-and-cue-table). Two surprises worth
   keeping in mind rather than "fixing" to match expectation: the row labelled `"Reload"` actually resolves to
   `Sound/Servo.SDT`, not `Sound/Reload.SDT` (which isn't referenced by anything in this block); and the full-size
   `"Concrete Hit"`/`"Dirt Hit"` rows both resolve to `Sound/MissileU.SDT`, with only their `"Sm"` variants using the
@@ -1151,8 +1151,8 @@ table (rows from `0x0044b550` on, base `~0x0044b500`), traced end to end:
   just not yet connected to a sound), and — port CHOICES rather than traced triggers — water-crossing
   `TireIn`/`TireOut` and one of `MetalHit1`-`4` picked at random per vehicle hit (the original `REPEAT`s all four
   over an explosion object's multi-tick lifetime the port doesn't model as a scripted timeline). Every cue plays
-  flat/non-positional at fixed volume, since `FUN_00408050` isn't traced (see the next-steps doc's "Untraced
-  choices").
+  flat/non-positional at fixed volume, since `FUN_00408050` isn't traced (see the [issues](https://github.com/alexdia25/openfire/issues) labelled `port-choice` / `needs-trace` (formerly the next-steps doc's "Untraced
+  choices")).
 
   **A vehicle's death/wreck branch — traced 2026-09-23 (document 87), no new cue wired.** `FUN_0040c460`'s
   death branch (hp <= 0) is identical for all four vehicle types: it always spawns a wreck object and
@@ -1350,8 +1350,8 @@ animation's tan/blue split, ~180 near-identical VFX burst frames), classificatio
 the roster is Tank, Jeep, MSV and Heli, but never renamed them): `vehicle.hovercraft.*` (cels 167-240) is now
 `vehicle.tank.*`, and three strays outside that block got neutral visual names. "Jetski" (640-654) and
 "watercraft_distant" (630-639) are one 25-frame submarine sequence, now `vehicle.submarine.01-25` (visual,
-untraced). Mentions of "hovercraft" below and in the numbered documents are historical. See the next-steps doc's
-untraced list.
+untraced). Mentions of "hovercraft" below and in the numbered documents are historical. See the [issues](https://github.com/alexdia25/openfire/issues) (formerly the next-steps doc's
+untraced list).
 
 **New findings surfaced during classification, not yet confirmed against code:**
 - **Possible team-colour lead** (open question, item 3 below): the hovercraft's hull/cab
@@ -2569,7 +2569,7 @@ Web checklist:
     `_frame_for_heading()`'s heading-to-frame mapping directly: frame `.08` (the "hook") now
     covers only heading `[74,85)` instead of running to the exact 90-degree seam, and the new
     `.09` (an 11-pixel sliver) is confined to `[85,90]` — a measured, not just eyeballed,
-    improvement. Full writeup: [document 25](process/25-worked-example-turning-sprite-video.md).
+    improvement. Full writeup: [document 25](https://github.com/alexdia25/openfire/wiki/25-worked-example-turning-sprite-video).
 
     **What this does and doesn't fix.** This closes one real, confirmed asymmetry bug, but
     the deeper question is unchanged: this whole approach is a flat-sprite-mirror
@@ -2615,7 +2615,7 @@ Web checklist:
     eyeballing thousands of sprites. **What's still unlocated:** real in-game
     rotation art (the 32x32-scale cels `vehicle.gd` actually renders) for Jeep/MSV/Heli — the
     mini-icons are small map markers, not gameplay sprites. Full writeup:
-    [document 31](process/31-worked-example-vehicle-roster.md).
+    [document 31](https://github.com/alexdia25/openfire/wiki/31-worked-example-vehicle-roster).
 
     **Prototyped, then adopted as the new default (2026-09-06): the "little triangles"
     complaint was a rendering-technique gap, not missing art.** Following up on the user's
@@ -2648,7 +2648,7 @@ Web checklist:
     cycling only the non-degenerate frames (`.01`-`.06`) alongside rotation, which might
     capture some real shading detail without the compounding-thinning failure — a real
     follow-up, not a blocker. Full writeup:
-    [document 32](process/32-worked-example-ground-decal-prototype.md).
+    [document 32](https://github.com/alexdia25/openfire/wiki/32-worked-example-ground-decal-prototype).
 
     **SUPERSEDED (2026-09-08): the deeper architecture question is now fully resolved, and the
     answer is bigger than a rendering technique.** Chasing a user-reported "no visible tank
@@ -2674,7 +2674,7 @@ Web checklist:
     regression), corrected with an empirically-matched `+90` degree offset in
     `VehicleBillboard3D` -- the same correction the new box's own facing needed, for the same
     underlying reason. See
-    [document 37](process/37-worked-example-real-tank-geometry.md) for the full trace.
+    [document 37](https://github.com/alexdia25/openfire/wiki/37-worked-example-real-tank-geometry) for the full trace.
     **Follow-up (2026-09-08, document 37 addendum): 8 parts, not 6 -- still an undercount.**
     Rechecking the angle-bucket draw-order data for a stray high value found two more real
     parts (cels 202, 212) this document's first pass missed -- but unlike the other six, their
@@ -2709,7 +2709,7 @@ Web checklist:
     (`tools/registry/audit_code_referenced_cels.py`), extracted Jeep/MSV/Heli's real geometry
     for the first time (`tools/data/vehicle_type_parts.json` -- none rendered in 3D yet), and
     fixed 33 registry cels that were flatly misclassified against what real code proves them
-    to be. See [document 38](process/38-worked-example-classification-audit.md).
+    to be. See [document 38](https://github.com/alexdia25/openfire/wiki/38-worked-example-classification-audit).
     **Third follow-up (2026-09-08, document 39): the "14 real hull parts" finding above was
     itself wrong -- the hull really only has document 37's original 6.** The user's direction
     to "understand the original code" pointed at the actual vehicle draw *dispatcher*
@@ -2733,7 +2733,7 @@ Web checklist:
     aspect ratio, and was reverted rather than shipped as a second guess. Independent turret
     aim also isn't modelled (no aim-angle state exists in this project yet) -- the turret
     renders at the hull's own heading, a documented simplification. See
-    [document 39](process/39-worked-example-real-turret-and-barrel.md).
+    [document 39](https://github.com/alexdia25/openfire/wiki/39-worked-example-real-turret-and-barrel).
     **Fourth follow-up (2026-09-09, document 40): FIXED -- the muzzle ring's corners were never
     static to begin with.** The "unrelated small 7-corner linkage computation" document 39
     skipped over is real: `FUN_00402dc0` unconditionally overwrites, every frame, exactly the
@@ -2752,7 +2752,7 @@ Web checklist:
     texture swap -- the ring is always visible whenever the turret is, as it should be. Still a
     documented simplification, not a bug: independent gun elevation isn't modelled (no aim-angle
     state exists in this project), so the identity/level-gun case is what's rendered
-    unconditionally. See [document 40](process/40-worked-example-turret-tip-linkage.md).
+    unconditionally. See [document 40](https://github.com/alexdia25/openfire/wiki/40-worked-example-turret-tip-linkage).
     **Fifth follow-up (2026-09-09, document 42): FIXED -- a real 180-degree facing bug,
     unrelated to the turret's own geometry.** User-reported: "the turret and barrel is facing
     backwards." `vehicle_box_3d.gd`'s `FACING_OFFSET_DEG` (the yaw correction aligning the
@@ -2766,7 +2766,7 @@ Web checklist:
     RFIRE.BIN (document 39's own `FUN_00402dc0` composes hull heading plus a separate aim
     angle) -- still not modelled in this project (no aim-angle state exists), an unchanged,
     documented simplification, not touched by this fix. See
-    [document 42](process/42-worked-example-turret-facing-backwards.md).
+    [document 42](https://github.com/alexdia25/openfire/wiki/42-worked-example-turret-facing-backwards).
 11. **Terrain-based vehicle passability — NOT STARTED, new backlog item (2026-09-06,
     user-flagged as needed for parity).** Different vehicle types (helicopter, tank,
     support/jeep, armoured car — section 3 Phase 3's own list) should be restricted or slowed
@@ -2827,7 +2827,7 @@ Web checklist:
     Phase 2 to pin by screenshot-matching rather than algebra: the exact effective FOV/eye
     height (see section 1.10 point 6 for why that's a deliberate scoping call, not a gap).
 
-    **Phase 1 DONE (2026-09-06) — see [document 28](process/28-worked-example-3d-camera-scaffold.md).**
+    **Phase 1 DONE (2026-09-06) — see [document 28](https://github.com/alexdia25/openfire/wiki/28-worked-example-3d-camera-scaffold).**
     `game/terrain_view_3d.gd`/`.tscn` (new, alongside the still-fully-working flat
     `game/terrain_view.gd`) is a real 3D scene: a `Camera3D` at the confirmed 45° tilt,
     translating in X/Z to follow a placeholder tracked object, smoothed and edge-clamped the
@@ -2852,7 +2852,7 @@ Web checklist:
     does not change anywhere in this phase — this remains scoped as a rendering-layer
     migration only.
 
-    **Phase 2 DONE (2026-09-06) — see [document 29](process/29-worked-example-baked-terrain-3d.md).**
+    **Phase 2 DONE (2026-09-06) — see [document 29](https://github.com/alexdia25/openfire/wiki/29-worked-example-baked-terrain-3d).**
     `terrain_view.gd`'s tile-drawing loop (art id -> sprite id -> atlas region -> blit) is
     extracted, byte-for-byte unchanged, into its own reusable node
     (`game/terrain_tile_renderer.gd`) instead of duplicated — the flat 2D scene uses it as a
@@ -2869,7 +2869,7 @@ Web checklist:
     before reaching the true horizon in one corner of frame — there's no real terrain art
     beyond a level's actual bounds to extend the mesh with, so this is left for a later
     skybox/fallback-backdrop pass rather than papered over now.
-    **Phase 3 DONE (2026-09-06) — see [document 30](process/30-worked-example-billboard-vehicle-3d.md).**
+    **Phase 3 DONE (2026-09-06) — see [document 30](https://github.com/alexdia25/openfire/wiki/30-worked-example-billboard-vehicle-3d).**
     `game/vehicle_billboard_3d.gd`: a real, completely unmodified `Vehicle` (still running its
     own movement integration, input, and firing exactly as in the flat 2D scene) paired with a
     billboard `Sprite3D` that calls `Vehicle._frame_for_heading()` directly every frame and
@@ -2946,7 +2946,7 @@ Web checklist:
     structurally incapable of ever addressing them, in the original binary, not just this port.
     This is the same underlying fact behind the vehicle's own per-object 3D corner projection
     (section 1.10): anything above the 128-cel terrain ceiling has to go through that separate
-    per-object path instead. See [document 34](process/34-worked-example-decoration-not-tile-art.md).
+    per-object path instead. See [document 34](https://github.com/alexdia25/openfire/wiki/34-worked-example-decoration-not-tile-art).
     **Continuing the same thread found the actual mechanism (2026-09-07):** decompiling the
     level loader's coastal-blend helper (`FUN_0042e4f0`) in full for the first time showed it
     writes the coastal id into a second, previously-undecoded 7-bit field of the tile's runtime
@@ -2987,7 +2987,7 @@ Web checklist:
     three-part scattered bush cluster (`decoration.foliage.bush_white.01`/`bush_green.01`/
     `.02`) -- every recovered id resolves to something semantically coherent (foliage, saplings,
     flowers, coral, dock frame-posts, rubble, debris), never a misfire. See
-    [document 35](process/35-worked-example-coastal-decoration-mechanism.md).
+    [document 35](https://github.com/alexdia25/openfire/wiki/35-worked-example-coastal-decoration-mechanism).
     **DONE (2026-09-07, same session): wired into both rendering scenes.**
     `tools/convert_rfm.py` now records every tile's coastal id as a `decorations` entry in the
     level JSON (`tools/rf_tile_art.py` gained `raw_tile_to_coastal_id()` to expose it);
@@ -3013,7 +3013,7 @@ Web checklist:
     understood but not yet wired into the extraction script); multi-part decorations use a
     placeholder ring-scatter layout instead of the real (undecoded) per-part corner offsets;
     the team-colour-offset flag bit is not applied. See
-    [document 36](process/36-worked-example-decorations-in-3d.md).
+    [document 36](https://github.com/alexdia25/openfire/wiki/36-worked-example-decorations-in-3d).
     **Follow-up (2026-09-09, document 41): decorations are real Node3D entities now, not baked
     into the ground texture.** User-flagged: document 36's "baking it alongside the terrain
     gives the same real perspective projection a live Node3D would" reasoning was wrong for
@@ -3030,7 +3030,7 @@ Web checklist:
     becomes a real ground-level Node3D quad instead of baked texture, with no invented height.
     `game/terrain_tile_renderer.gd` is tile-grid-only again. Confirmed by screenshot: trees now
     show real standing trunks and layered canopies with visible depth between rows, not flat
-    green marks on the sand. See [document 41](process/41-worked-example-decorations-as-3d-entities.md).
+    green marks on the sand. See [document 41](https://github.com/alexdia25/openfire/wiki/41-worked-example-decorations-as-3d-entities).
 
 **RESOLVED:**
 - **The fixed sim tick rate** — **section 1.9** (2026-09-05). There isn't one, and there was
@@ -3150,6 +3150,13 @@ Web checklist:
   remains open (question 2 above).
 
 ---
+
+**Where things live (2026-09-25, user direction):** the worked-example series, the tracing cheat sheet and the archived
+next-steps history are on the [project wiki](https://github.com/alexdia25/openfire/wiki) (a separate git repo,
+`openfire.wiki.git`; new documents go there, with the same rules: quote the original code, translate it, show the port
+code). Open work is tracked as [GitHub issues](https://github.com/alexdia25/openfire/issues), labelled `mod-editor`,
+`vertical-slice` or `future`, plus `needs-trace` (tracing needed first) and `port-choice` (a port guess to revisit);
+the next-steps doc is no longer a source. This plan stays in the repo as the dense technical reference.
 
 ## 5. Standing instructions for the executing agent
 
