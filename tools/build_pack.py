@@ -205,6 +205,82 @@ def emit_team_colours(out_dir, sprites_dir, sprites, registry, cels, flag_pairs)
     return len(accepted)
 
 
+# The original four, in selector-bay order (runtime index = the original type number): id, the level's VHCL stock letter
+# and the stock a level without one gets (document 73; A is the MSV), and the selector script name (document 78).
+ORIGINAL_ROSTER = [("rf.tank", 0, "T", 3, "Tank"), ("rf.jeep", 1, "J", 8, "Jeep"), ("rf.msv", 2, "A", 3, "MSV"),
+                   ("rf.heli", 3, "H", 3, "Heli")]
+# The wreck drawn when a vehicle dies (document 87): Tank and Jeep share descriptor 0x43ece8 / 0x440218, the MSV's
+# (0x43f628) has the same corner sizes and its own cels; the Heli's single part (0x440fa0) is off-centre. Each quad:
+# sprites [tan, green] (or one), height above ground, half-size and centre in world units, and whether it is a shadow.
+_SMALL = [{"sprites": ["effect.shadow.hard.wreck_small"], "height": 0.4, "half": [13.5, 13.5], "center": [0, 0], "shadow": True},
+          {"sprites": ["vehicle.wreck.small.a.tan", "vehicle.wreck.small.a.green"], "height": 0.6, "half": [12, 12], "center": [0, 0]},
+          {"sprites": ["vehicle.wreck.small.b.tan", "vehicle.wreck.small.b.green"], "height": 2.6, "half": [12, 12], "center": [0, 0]}]
+WRECKS = {
+    0: {"descriptor": "0x43ece8", "quads": _SMALL},
+    1: {"descriptor": "0x440218", "quads": _SMALL},
+    2: {"descriptor": "0x43f628", "quads": [
+        {"sprites": ["effect.shadow.hard.wreck_large"], "height": 0.4, "half": [13.5, 13.5], "center": [0, 0], "shadow": True},
+        {"sprites": ["vehicle.wreck.large.a.tan", "vehicle.wreck.large.a.green"], "height": 0.6, "half": [12, 12], "center": [0, 0]},
+        {"sprites": ["vehicle.wreck.large.b.tan", "vehicle.wreck.large.b.green"], "height": 2.6, "half": [12, 12], "center": [0, 0]}]},
+    3: {"descriptor": "0x440fa0", "quads": [
+        {"sprites": ["vehicle.wreck.heli.tan", "vehicle.wreck.heli.green"], "height": 0.4, "half": [13.6, 27.2], "center": [0, 13.6]}]},
+}
+
+
+def emit_vehicle_definitions(out_dir, vt):
+    """PORTING_PLAN.md 2.7.2, step 3: one definition per vehicle, vehicles/<id>/vehicle.json, grouped the way the original's
+    vehicle-type record is (stats, drive, weapons, shape, events, camera, render, wreck), plus vehicles/roster.json (the
+    four in bay order, with their stock). Every number is the traced record's (tools/data/vehicle_types.json, from
+    RFIRE.BIN via extract_vehicle_types.py); the record offset each came from is kept in "_record". A mod adds a vehicle by
+    adding a definition, or changes one by giving the same id (Pack layers them per id)."""
+    vdir = os.path.join(out_dir, "vehicles")
+    os.makedirs(vdir, exist_ok=True)
+    for old in os.listdir(vdir):   # stale definitions and the pre-definition table; projectile_types.json stays
+        path = os.path.join(vdir, old)
+        if os.path.isdir(path):
+            shutil.rmtree(path)
+        elif old in ("vehicle_types.json", "roster.json"):
+            os.remove(path)
+    roster = []
+    for vid, index, stock_key, default_stock, script in ORIGINAL_ROSTER:
+        t = vt[str(index)]
+        created = t.get("created_sound")
+        on_create = {"sound": created["cue"], "descriptor": created["descriptor"]} if created else {"sound": None}
+        if created and created["cue"] is None:
+            on_create["_untraced"] = "descriptor %s is not one of the traced sound cues (NEXT_STEPS)" % created["descriptor"]
+        render = {"parts": t["parts"]}
+        for extra in ("swim", "rack"):
+            if extra in t:
+                render[extra] = t[extra]
+        d = {
+            "id": vid, "name": t["name"], "original_index": index,
+            "_source": "RFIRE.BIN vehicle-type record 0x%x (0x4456b8 + %d * 0x2e8), document 57 and on" % (0x4456B8 + index * 0x2E8, index),
+            "stats": {"hit_points": t["hit_points"], "armor": t["armor"], "fuel": t["fuel"], "sink_depth": t["sink_depth"],
+                      "dock_tolerance": t["dock_tolerance"], "death_wait_ticks": t["death_wait_ticks"]},
+            "drive": {k: t[k] for k in ("max_forward_per_tick", "max_reverse_per_tick", "accel_per_tick2",
+                                        "friction_per_tick2", "turn_steps_per_tick")},
+            "weapons": {"ammo": t["ammo"], "cooldown_ticks": t["weapon_cooldown_ticks"]},
+            "shape": t["shape"],
+            "events": {"on_create": on_create},
+            "camera": {"swoop_height": t.get("camera_swoop_height")},
+            "selector": {"script": script},
+            "render": render,
+            "wreck": WRECKS[index],
+            "_record": {"stats.hit_points": "+0x28", "stats.armor": "+0x24", "stats.fuel": "+0x210",
+                        "stats.sink_depth": "+0x158", "stats.dock_tolerance": "+0x254", "stats.death_wait_ticks": "+0x260",
+                        "drive": "+0x168..+0x178", "weapons.ammo": "+0x1a8 / +0x1dc", "weapons.cooldown_ticks": "+0x1a4 / +0x1d8",
+                        "events.on_create": "+0x240", "camera.swoop_height": "table 0x4452c0", "render": "+0x148 (draw descriptor)"},
+        }
+        os.makedirs(os.path.join(vdir, vid))
+        with open(os.path.join(vdir, vid, "vehicle.json"), "w") as f:
+            json.dump(d, f, indent=1, sort_keys=True)
+            f.write("\n")
+        roster.append({"id": vid, "stock_key": stock_key, "default_stock": default_stock})
+    with open(os.path.join(vdir, "roster.json"), "w") as f:
+        json.dump({"vehicles": roster}, f, indent=1)
+        f.write("\n")
+
+
 def terrain_class_for(registry_id):
     for prefix, cls in TERRAIN_CLASS_PREFIXES:
         if registry_id.startswith(prefix):
@@ -397,9 +473,7 @@ def main():
                 part["sprite_ids"] = [registry[str(part["cel"] + v)]["id"] for v in range(n)]
                 if part["flags"] & 8:
                     team_pairs.add((part["cel"], part["cel"] + 1))
-        os.makedirs(os.path.join(args.out_dir, "vehicles"), exist_ok=True)
-        with open(os.path.join(args.out_dir, "vehicles", "vehicle_types.json"), "w") as f:
-            json.dump({"types": vt}, f)
+        emit_vehicle_definitions(args.out_dir, vt)
 
     # Projectile types and their draw descriptors (documents 46, 58); parts carry sprite ids (flag 8: + team).
     if os.path.exists(PROJECTILE_TYPES_JSON):

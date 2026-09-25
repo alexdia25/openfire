@@ -5,20 +5,27 @@ tools/data/vehicle_type_parts.json with their corners in world units.
 Inputs: a Ghidra dump of the four vehicle-type records (DumpDwords.java 0x4456b8 744; records are 0x2e8 bytes
 apart) and, for the collision shapes, the output of DumpShapes.java for each type's draw descriptor
 (0x43ea18, 0x43fd78, 0x43f358, 0x440b70), pasted below (see document 53 for the shape layout).
-Usage: python extract_vehicle_types.py <records_dump.txt>
+Also, for the vehicle definitions (PORTING_PLAN.md 2.7.2, step 3): the dock tolerance (+0x254, document 77), the death
+wait (+0x260, document 87), the "created" sound descriptor (+0x240, document 82; resolved to a cue id through
+tools/data/sound_cues.json where the descriptor is one of the traced cues) and, from a second optional dump, the camera
+swoop's start height by type (the table at 0x4452c0, DumpDwords.java 0x4452c0 4; document 90).
+Usage: python extract_vehicle_types.py <records_dump.txt> [camera_table_dump.txt]
+Dumps are "address value" lines (hex); DumpDwords.java's own log lines are accepted too.
 """
 import json, os, struct, sys
 
 BASE = 0x4456B8
 STRIDE = 0x2E8
 mem = {}
-for line in open(sys.argv[1]):
-    p = line.split()
-    if len(p) >= 2 and len(p[0]) == 8:
-        try:
-            mem[int(p[0], 16)] = int(p[1], 16)
-        except ValueError:
-            pass
+for path in sys.argv[1:]:
+    for line in open(path):
+        p = line.split("DumpDwords.java>")[-1].split()
+        if len(p) >= 2 and len(p[0]) == 8:
+            try:
+                mem[int(p[0], 16)] = int(p[1], 16)
+            except ValueError:
+                pass
+CAMERA_TABLE = 0x4452C0
 
 
 def field(t, off):
@@ -53,6 +60,20 @@ MSV_RACK = {
     "rocket_points": [[0.0, -15.0, -1.0], [0.0, 1.5, -1.0]],
 }
 parts = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "vehicle_type_parts.json")))
+cues = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "sound_cues.json")))["cues"]
+cue_by_addr = {c["addr"].lower(): k for k, c in cues.items() if "addr" in c}
+
+
+def created_sound(t):
+    addr = mem[BASE + t * STRIDE + 0x240]
+    if addr == 0:
+        return None
+    return {"descriptor": hex(addr), "cue": cue_by_addr.get(hex(addr))}
+
+
+def camera_height(t):
+    v = mem.get(CAMERA_TABLE + min(t, 3) * 4)
+    return None if v is None else (v - 2 ** 32 if v >= 2 ** 31 else v) / 65536
 out = {}
 for t in range(4):
     vt = parts["vehicle_types"][str(t)]
@@ -71,6 +92,10 @@ for t in range(4):
         **({"rack": MSV_RACK} if t == 2 else {}),
         **({"swim": {"rows": [list(r) for r in SWIM_ROWS], "ring_cel": 2074, "ring_half": 12.0}} if t == 1 else {}),
         "sink_depth": field(t, 0x158) / 65536,  # FUN_0040cf90: a vehicle in deep water is lost below this depth (document 62)
+        "dock_tolerance": field(t, 0x254) / 65536,  # FUN_0040b980 / can_dock: how far from the pad centre it may stand to dock (document 77)
+        "death_wait_ticks": field(t, 0x260),       # ticks from death to the next vehicle / the loss sequence (document 87)
+        "created_sound": created_sound(t),         # played when the vehicle object is created (document 82)
+        **({"camera_swoop_height": camera_height(t)} if camera_height(t) is not None else {}),   # document 90
         "shape": {"layer": 2, "mask": 0x27, **SHAPES[t]},
         "parts": [{"cel": p["cel"], "flags": int(p["flags"], 16), "corner_idx": p["corner_idx"],
                    "corners": [[c / 65536 for c in corner] for corner in p["corners_fixed16_16"]]}

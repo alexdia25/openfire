@@ -20,6 +20,13 @@
    ],
    "fuel": 400,
    "sink_depth": 14.0,
+   "dock_tolerance": 4.0,
+   "death_wait_ticks": 120,
+   "created_sound": {
+    "descriptor": "0x44b520",
+    "cue": null
+   },
+   "camera_swoop_height": -170.0,
    "shape": {
     "layer": 2,
     "mask": 39,
@@ -576,6 +583,13 @@
     "ring_half": 12.0
    },
    "sink_depth": 13.0,
+   "dock_tolerance": 9.0,
+   "death_wait_ticks": 120,
+   "created_sound": {
+    "descriptor": "0x44b910",
+    "cue": "JeepStart"
+   },
+   "camera_swoop_height": -170.0,
    "shape": {
     "layer": 2,
     "mask": 39,
@@ -1042,6 +1056,13 @@
     ]
    },
    "sink_depth": 14.0,
+   "dock_tolerance": 4.0,
+   "death_wait_ticks": 120,
+   "created_sound": {
+    "descriptor": "0x44b520",
+    "cue": null
+   },
+   "camera_swoop_height": -170.0,
    "shape": {
     "layer": 2,
     "mask": 39,
@@ -1538,6 +1559,13 @@
    ],
    "fuel": 400,
    "sink_depth": 14.0,
+   "dock_tolerance": 32.0,
+   "death_wait_ticks": 200,
+   "created_sound": {
+    "descriptor": "0x44b808",
+    "cue": "Servo"
+   },
+   "camera_swoop_height": -100.0,
    "shape": {
     "layer": 2,
     "mask": 39,

@@ -1644,6 +1644,24 @@ untraced in the definition (an `"_untraced"` note), per the standing instruction
   hard-coded per-type tables (`DOCK_TOLERANCE`, `DEATH_WAIT_TICKS`, `SELECT_NEIGHBOURS`, the wreck
   `SETS`, and since 2026-09-24 `camera_swoop.gd`'s `HEIGHT_BY_TYPE`). Done = no type branches outside the behaviour modules themselves.
 
+**Step 3, done (2026-09-25).** `tools/build_pack.py` writes `vehicles/<id>/vehicle.json` for `rf.tank`, `rf.jeep`,
+`rf.msv`, `rf.heli` (groups `stats`, `drive`, `weapons`, `shape`, `events`, `camera`, `selector`, `render`, `wreck`, with
+the record offset of each group in `_record`) and `vehicles/roster.json` (the four in bay order, each with its VHCL
+stock letter and default stock). The numbers come from RFIRE.BIN: `tools/extract_vehicle_types.py` now also reads the
+dock tolerance (`+0x254`), the death wait (`+0x260`), the created-sound descriptor (`+0x240`, resolved through
+`sound_cues.json`) and the camera swoop table (`0x4452c0`) from DumpDwords dumps -- every value equals what the code
+had hard-coded, so behaviour is unchanged. `0x44b520`, the Tank's and MSV's created sound, is recorded but marked
+untraced (not one of the traced cues; they stay silent, as before). `Pack` loads definitions per id across layers,
+gives each a runtime index (the roster first, so Tank = 0 ... Heli = 3, then any other definition), and offers
+`vehicle_def(i)`, `vehicle_index(id)`, `vehicle_value(i, "stats.dock_tolerance")`; the old flat `vehicle_types` view is
+built from the definitions (a layer's old-style `vehicles/vehicle_types.json` still applies on top). Moved out of code:
+`DOCK_TOLERANCE`, `DEATH_WAIT_TICKS`, `SCRIPT_NAMES` and the T/J/A/H stock line (`match_controller.gd`),
+`HEIGHT_BY_TYPE` (`camera_swoop.gd`, which now takes a height), the wreck `SETS` (`wreck_3d.gd`, now a list of quads)
+and the per-type "created" sounds (`vehicle.gd`). Still left for step 4: the behaviour branches
+(`vehicle_type == N` in `vehicle.gd` and elsewhere), `SELECT_NEIGHBOURS` (the four-bay selector layout, which only
+generalises with a data-driven selector), and the HUD's own name list. Checked by
+`tools/tests/vehicle_definitions_check.gd` (16 checks, including a mod that changes one vehicle and adds another).
+
 #### 2.7.3 Maps: faithful data plus a separate override layer
 
 - `convert_rfm.py` keeps emitting the faithful `level.json` (including the `vehicle_params` stock
@@ -1707,7 +1725,7 @@ rotation-frame prefix. These move into the vehicle definition's render descripto
 
 1. Layered packs (2.7.4). — **DONE 2026-09-24.**
 2. Sprite ids instead of cel arithmetic, then split the atlas (2.7.5). — **DONE 2026-09-24.**
-3. Vehicle definitions load; the per-type tables move into them (2.7.2).
+3. Vehicle definitions load; the per-type tables move into them (2.7.2). — **DONE 2026-09-25** (see 2.7.2, "Step 3").
 4. Behaviour moves into modules one area at a time (drive, aim, weapons, water, sequences) until no
    type branches remain.
 5. Render parts bind to published channels.

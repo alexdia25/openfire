@@ -3,8 +3,10 @@
 extends SceneTree
 
 func _init() -> void:
+	var pack := Pack.new()
+	pack.load_from("res://packs/original_pc")
 	for type in [0, 3]:
-		var sw := CameraSwoop.new(type)
+		var sw := CameraSwoop.new(float(pack.vehicle_value(type, "camera.swoop_height")))   # the definitions' table 0x4452c0 values
 		var half := -1
 		var arrived := -1
 		var pitch_arrived := -1
@@ -22,7 +24,7 @@ func _init() -> void:
 		if type == 0:
 			assert(arrived > 195 and arrived < 215)
 		assert(sw.height_fraction() == 0.0 or sw.height_fraction() < 0.01)
-	var fast := CameraSwoop.new(0)
+	var fast := CameraSwoop.new(float(pack.vehicle_value(0, "camera.swoop_height")))
 	fast.advance(0.4)
 	fast.advance(0.4)
 	print("0.8 ticks accumulated: fraction ", fast.height_fraction(), " (expect 1.0: no whole tick yet)")
