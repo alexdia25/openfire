@@ -90,6 +90,6 @@ targets reaching the number of players) and of bits `0x400` / `0x1000` is **not 
 
 ### Not applied
 
-The port has no voice lines (no audio yet) and does not invent captions for them. The table and triggers are recorded here for the audio pass.
+**Correction (document 98):** this table is not an announcer. Its 18 entries are the game's *music lines* (a vehicle's theme, its death sting, the flag stings, the hangar theme "Bunker"), each a range of tracks of `SCORE.WAV` on the CD image; `FUN_0040f3c0` is the music director, `DAT_0048c734` counts the players on the vehicle-choice screen, and the "Win" line is not queued by any traced caller. The director and the music are built: [document 98](98-worked-example-the-music.md). The port still has no captions or voice lines because there are none.
 
 **Next:** back to [the next-steps doc](NEXT_STEPS.md).

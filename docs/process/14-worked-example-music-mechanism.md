@@ -89,5 +89,7 @@ same function. Second, a large, suggestively-named file sitting in the right fol
 hypothesis, not a finding — `FindBytes.java`'s zero-hit result on `DRUM` is what turned "the
 game probably uses DRUMS.WAV" from a reasonable guess into a settled no.
 
+**Correction (document 98):** the real `SOUND\Score.WAV` (222 MB, the game's whole soundtrack cut into 24 tracks by the offset table at `0x449470`) is on the CD image; the game folder's 20-byte copy is only a stub. The music, its 18 lines and the director that picks them are traced and built in [document 98](98-worked-example-the-music.md).
+
 **Next:** [Worked example: the native resolution, and a tick rate that resists being found](15-worked-example-resolution-and-tick-rate.md) —
 one clean win and one honestly-unfinished trace, in the same investigation.
