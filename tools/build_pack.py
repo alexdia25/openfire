@@ -227,6 +227,23 @@ WRECKS = {
 }
 
 
+# The behaviour modules each original vehicle's record handlers became (game/vehicle_modules/, PORTING_PLAN.md 2.7.2 step
+# 4). Only switches that differ from a module's traced defaults are listed; the modules hold the traced numbers.
+BEHAVIOUR = {
+    0: {"drive": {"model": "ground"}, "aim": {"model": "gun_mount", "params": {"turret": True}},
+        "slots": [{"handler": "cannon"}], "water": {"model": "hull_water"}},
+    1: {"drive": {"model": "ground", "params": {"turn_accelerates": True, "road_follow": True}}, "aim": {"model": "none"},
+        "slots": [{"handler": "lobbed_missile"}], "water": {"model": "hull_water", "params": {"can_swim": True}},
+        # FUN_00436640 / FUN_00436610 (document 54) test the vehicle type == 1 itself: bushes and rocks block the Jeep
+        "terrain": {"blocked_by_bushes": True, "blocked_by_rocks": True},
+        # only the Jeep picks up, carries and captures the flag (FUN_00432e40 / FUN_00432d80 / the flag update; documents 65, 54)
+        "flags": {"carries_flag": True}},
+    2: {"drive": {"model": "ground"}, "aim": {"model": "gun_mount", "params": {"turret": False}},
+        "slots": [{"handler": "rocket_salvo"}, {"handler": "mine_layer"}], "water": {"model": "hull_water"}},
+    3: {"drive": {"model": "rotor"}, "aim": {"model": "none"}, "slots": [{"handler": "heli_guns"}], "water": {"model": "none"}},
+}
+
+
 def emit_vehicle_definitions(out_dir, vt):
     """PORTING_PLAN.md 2.7.2, step 3: one definition per vehicle, vehicles/<id>/vehicle.json, grouped the way the original's
     vehicle-type record is (stats, drive, weapons, shape, events, camera, render, wreck), plus vehicles/roster.json (the
@@ -257,9 +274,13 @@ def emit_vehicle_definitions(out_dir, vt):
             "_source": "RFIRE.BIN vehicle-type record 0x%x (0x4456b8 + %d * 0x2e8), document 57 and on" % (0x4456B8 + index * 0x2E8, index),
             "stats": {"hit_points": t["hit_points"], "armor": t["armor"], "fuel": t["fuel"], "sink_depth": t["sink_depth"],
                       "dock_tolerance": t["dock_tolerance"], "death_wait_ticks": t["death_wait_ticks"]},
-            "drive": {k: t[k] for k in ("max_forward_per_tick", "max_reverse_per_tick", "accel_per_tick2",
-                                        "friction_per_tick2", "turn_steps_per_tick")},
-            "weapons": {"ammo": t["ammo"], "cooldown_ticks": t["weapon_cooldown_ticks"]},
+            "drive": {**{k: t[k] for k in ("max_forward_per_tick", "max_reverse_per_tick", "accel_per_tick2",
+                                           "friction_per_tick2", "turn_steps_per_tick")}, **BEHAVIOUR[index]["drive"]},
+            "aim": BEHAVIOUR[index]["aim"],
+            "weapons": {"ammo": t["ammo"], "cooldown_ticks": t["weapon_cooldown_ticks"], "slots": BEHAVIOUR[index]["slots"]},
+            "water": BEHAVIOUR[index]["water"],
+            "terrain": BEHAVIOUR[index].get("terrain", {"blocked_by_bushes": False, "blocked_by_rocks": False}),
+            "flags": BEHAVIOUR[index].get("flags", {"carries_flag": False}),
             "shape": t["shape"],
             "events": {"on_create": on_create},
             "camera": {"swoop_height": t.get("camera_swoop_height")},

@@ -15,6 +15,13 @@ func _check(ok: bool, what: String) -> void:
 		_failures += 1
 
 
+class FiringVehicle extends Vehicle:
+	func _wants_to_fire() -> bool:
+		return true
+	func _get_controls() -> Vector2:
+		return Vector2(0.0, 1.0)
+
+
 func _init() -> void:
 	var p := Pack.new()
 	_check(p.load_from("res://packs/original_pc"), "pack loads")
@@ -29,6 +36,34 @@ func _init() -> void:
 			"the Tank's untraced created-sound descriptor is recorded, marked untraced")
 	_check(col.call("selector.script") == ["Tank", "Jeep", "MSV", "Heli"], "selector script names")
 	_check(p.vehicle_value(3, "wreck.quads", []).size() == 1 and p.vehicle_value(0, "wreck.quads", []).size() == 3, "wreck quads per vehicle")
+
+	# behaviour modules (step 4): every one a definition names exists, and every channel a module declares is a Vehicle field
+	var probe := Vehicle.new()
+	var modules_ok := true
+	for i in 4:
+		var d := p.vehicle_def(i)
+		var names := [String(d["drive"].get("model", "ground")), String(d["aim"].get("model", "none")), String(d["water"].get("model", "hull_water"))]
+		for w in d["weapons"].get("slots", []):
+			names.append(String(w["handler"]))
+		for n in names:
+			if n == "none":
+				continue
+			var sc := VehicleModules.schema(n)
+			if sc.is_empty():
+				modules_ok = false
+				print("   %s names unknown module %s" % [d["id"], n])
+				continue
+			for ch in sc.get("channels", []):
+				if probe.get(String(ch)) == null and not String(ch) in ["position"]:
+					modules_ok = false
+					print("   module %s declares channel %s, not a Vehicle field" % [n, ch])
+			for k in sc.get("params", {}):
+				if not sc["params"][k].has("provenance"):
+					modules_ok = false
+					print("   module %s parameter %s has no provenance" % [n, k])
+	probe.free()
+	_check(modules_ok, "every named module exists; its channels are Vehicle fields; every parameter has a provenance")
+	_check(VehicleModules.names_for_slot("weapon").size() == 5 and VehicleModules.names_for_slot("drive") == ["ground", "rotor"], "the module library by slot")
 
 	# the flat view equals the traced table, field for field
 	var traced: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://tools/data/vehicle_types.json"))["types"]
@@ -58,6 +93,7 @@ func _init() -> void:
 	hover["id"] = "defmod.hovertank"
 	hover["name"] = "Hovertank"
 	hover["stats"]["hit_points"] = 30.0
+	hover["drive"]["model"] = "rotor"   # recombined: the Tank's gun mount and cannon on the Heli's rotor drive
 	PackWriter.write_json(mod.path_join("vehicles/defmod.hovertank/vehicle.json"), hover)
 	var m := Pack.new()
 	_check(m.load_from(mod), "mod loads")
@@ -65,6 +101,18 @@ func _init() -> void:
 	_check(m.vehicle_index("defmod.hovertank") == 4 and m.vehicle_types["4"]["hit_points"] == 30.0, "a new vehicle gets the next index, after the roster")
 	_check(m.vehicle_roster.size() == 4, "a new vehicle is not in the roster unless the mod puts it there")
 	_check(p.vehicle_value(1, "stats.dock_tolerance") == 9.0, "the original pack is unaffected")
+
+	# the recombined vehicle runs: the rotor start-up, then it climbs and fires its cannon
+	var fly := FiringVehicle.new()
+	fly.setup(m)
+	fly.set_vehicle_type(m.vehicle_index("defmod.hovertank"))
+	var shots := [0]
+	fly.shot.connect(func(_s): shots[0] += 1)
+	for t in 400:
+		fly._process(1.0 / 62.5)
+	_check(fly.drive.has_method("tick_startup") and fly.aim != null and fly.z > 10.0 and shots[0] > 0,
+			"a flying tank (rotor drive + gun mount + cannon) climbs to %.1f and fires %d shots" % [fly.z, shots[0]])
+	fly.free()
 
 	print("vehicle_definitions_check: %s" % ("PASS" if _failures == 0 else "%d FAILED" % _failures))
 	quit(0 if _failures == 0 else 1)

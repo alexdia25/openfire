@@ -1662,6 +1662,26 @@ and the per-type "created" sounds (`vehicle.gd`). Still left for step 4: the beh
 generalises with a data-driven selector), and the HUD's own name list. Checked by
 `tools/tests/vehicle_definitions_check.gd` (16 checks, including a mod that changes one vehicle and adds another).
 
+**Step 4, done (2026-09-25).** `game/vehicle_modules/` holds one module per traced handler, built from the definition
+by `VehicleModules.create()`: drive `ground` (FUN_0040c190; the Jeep's FUN_0040db80 extras `turn_accelerates` and
+`road_follow`) and `rotor` (FUN_0040e0e0 with the start-up FUN_0040e8c0/0040e930 and the landing FUN_0040ecd0/0040ede0);
+aim `gun_mount` (FUN_0040d460/0040d240; `turret` on for the Tank, off for the MSV); weapons `cannon` (FUN_0040d240),
+`rocket_salvo` (FUN_0040d520), `lobbed_missile` (FUN_0040df00), `heli_guns` (FUN_0040e600/0040e7a0) and `mine_layer`
+(FUN_0040d820); water `hull_water` (FUN_0042f280/0040cf90, `can_swim` for the Jeep's FUN_0040dfe0). Each has a
+`SCHEMA` (parameters with type, unit, traced default and provenance; the Vehicle fields it drives as channels); the code
+was moved from `vehicle.gd` unchanged. `Vehicle` keeps the state (the original's state block) and the shared parts, and
+has no `vehicle_type` branch left (1029 -> ~690 lines); the definitions name their modules (`drive.model`,
+`aim.model`, `weapons.slots[n].handler`, `water.model`, with only non-default switches listed). `match_controller.gd`'s
+branches became questions to the vehicle: `rule("terrain.blocked_by_bushes")` / `"terrain.blocked_by_rocks"` (the tile
+callbacks FUN_00436640 / FUN_00436610 test the Jeep's type; the definition names what that means), `carries_flags()`,
+`lands_before_docking()` (the rotor drive), `has_module("mine_layer")` (unused mines to the reserve). One port addition
+for recombination: the rotor path also counts down the shared fire cooldown and salvo reload, which the original Heli
+never reads, so a ground weapon on a rotor vehicle works. Checked by `tools/tests/vehicle_behaviour_trace_check.gd`:
+all four vehicles driven through the same scripted inputs for 600 ticks produce exactly the recording made from the code
+before the modules (`tools/tests/data/vehicle_traces.json`), and `vehicle_definitions_check.gd` builds a flying tank
+from a mod (rotor drive + gun mount + cannon). Left for step 5: the renderers' own per-type code
+(`vehicle_render_3d.gd`, the Tank's box renderer, the wreck's Heli case is already data) and the debug autoplay's.
+
 #### 2.7.3 Maps: faithful data plus a separate override layer
 
 - `convert_rfm.py` keeps emitting the faithful `level.json` (including the `vehicle_params` stock
@@ -1727,7 +1747,7 @@ rotation-frame prefix. These move into the vehicle definition's render descripto
 2. Sprite ids instead of cel arithmetic, then split the atlas (2.7.5). — **DONE 2026-09-24.**
 3. Vehicle definitions load; the per-type tables move into them (2.7.2). — **DONE 2026-09-25** (see 2.7.2, "Step 3").
 4. Behaviour moves into modules one area at a time (drive, aim, weapons, water, sequences) until no
-   type branches remain.
+   type branches remain. — **DONE 2026-09-25** (see 2.7.2, "Step 4").
 5. Render parts bind to published channels.
 6. Map rosters and override files (2.7.3).
 7. The editor, on top: planned in [`EDITOR_PLAN.md`](EDITOR_PLAN.md) (vehicle and map editors, build order E0-E6);

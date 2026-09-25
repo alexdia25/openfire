@@ -66,6 +66,8 @@ folder. What exists:
   tool shows on the Tank in the game).
 - **Enabled in game** (top bar): puts the open mod in the game's enabled-mods list (`game/mod_loader.gd`); the tool
   refuses to open original content as a mod.
+- The Vehicles tab also lists each vehicle's **behaviour modules** (step 4): per slot the module, what it is a port of,
+  and every parameter with its value, traced default and provenance, overrides highlighted (read-only until E3).
 - The original palette ships in the pack (`sprites/palette.json`) for the pixel tools later.
 - Checked by `tools/tests/mod_workspace_check.gd` (31 checks) and `tools/tests/mod_tool_ui_check.gd` (31, including
   every vehicle type assembled, the Tank's turret slider turning the renderer's turret, and the map viewer).
