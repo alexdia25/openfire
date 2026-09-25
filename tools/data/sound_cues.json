@@ -3,7 +3,7 @@
   "cues": {
     "Heli": {
       "addr": "0x44b550", "resource_addr": "0x44b20c", "file": "Sound/Heli.SDT", "wav": "HELI.wav",
-      "label": "heli", "applied": true, "trigger": "game/vehicle.gd Vehicle._process_heli_spinup(), stage 1->2 (document 79's FUN_0040e8c0 -> FUN_0040e930)"
+      "label": "heli", "applied": true, "trigger": "game/vehicle.gd Vehicle._process_heli_spinup(), stage 1->2 (document 79's FUN_0040e8c0 -> FUN_0040e930)", "note": "CORRECTION (document 97): this descriptor has a completion callback (0x40eeb0) that sets the pitch from the rotor speed each tick: it is the rotor's continuous LOOP, not a one-shot chime; SoundManager now plays it as a loop (game/engine_loop.gd) and ignores this cue"
     },
     "Button": {
       "addr": "0x44b580", "resource_addr": "0x44b500", "file": "Sound/Button.SDT", "wav": "BUTTON.wav",

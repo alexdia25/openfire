@@ -282,6 +282,8 @@ anything, mirroring how document 71 left the announcer's table "recorded... for 
 half-wired. The announcer's voice lines themselves remain entirely unresolved -- no matching audio file has been
 found for any of the 18 lines.
 
+**Correction (document 97):** the descriptor table starts at `0x44b520`, and the three rows below `0x44b550` (`Tread`, `JeepIdle`, and `Heli` itself, whose completion callbacks set the pitch from the vehicle's speed or rotor) are the vehicles' continuous engine loops, now built; the `Heli` "chime" was the rotor loop.
+
 **Next:** wire up more of the traced-but-not-applied rows (`tools/data/sound_cues.json`'s `applied: false` entries
 each note a candidate trigger point) once their exact call site is traced, the same way `heli`/`OutAmmo` already
 had a marked hook waiting. Back to [the next-steps doc](NEXT_STEPS.md).
