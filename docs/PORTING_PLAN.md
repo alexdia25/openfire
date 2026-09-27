@@ -147,6 +147,14 @@ OpenRCT2 / OpenTTD pattern. Note that a *complete* replacement asset pack (secti
 would let the engine ship standalone, the way FreeDoom and OpenRA do — that is a real
 strategic payoff, not just a nicety.
 
+**End goal, sharpened (2026-09-27, user direction):** not just standalone-capable, but the editor should be able to
+*develop* original content -- a wholly new game on this framework, not only a mod of Return Fire. Concretely this
+means a pack with `base_pack: null` must be a normal, editable project in the tool (vehicles, maps, terrain art,
+rules authored from nothing), which is not yet true: `ModLoader.mod_problem()` currently refuses any pack with no
+base_pack ("it is a base pack, not a mod"), and `ModWorkspace.create()` always defaults to `base_pack: "original_pc"`.
+The distinct rule that must stay -- the editor never opens `original_pc` itself for editing -- does not require
+rejecting *every* no-base pack, only that one. Scheduled after step 6 (map rosters), not before.
+
 ---
 
 ## 1. Ground truth — measured facts
