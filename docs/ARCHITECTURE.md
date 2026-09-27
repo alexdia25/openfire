@@ -113,7 +113,7 @@ flowchart TB
     GateObj --> Collision
 
     subgraph Render3D["3D renderers (Node3D, spawned on MatchController/Vehicle signals)"]
-        VehicleRender["VehicleRender3D /<br/>VehicleBoxRender3D / Wreck3D"]
+        VehicleRender["VehicleRender3D /<br/>Wreck3D"]
         ProjRender["ProjectileBillboard3D"]
         GateRender["GateView3D"]
         MineRender["MineView3D"]

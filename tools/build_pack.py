@@ -80,6 +80,9 @@ HUD_PANELS_JSON = os.path.join(ROOT, "tools", "data", "hud_panels.json")
 SELECTOR_JSON = os.path.join(ROOT, "tools", "data", "selector.json")
 GAME_ART_CAR = os.path.join(os.environ.get("RF_GAME_DIR", "C:/Users/Alex/Documents/returnfire"), "ART", "ART.CAR")
 VEHICLE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "vehicle_types.json")
+TANK_TURRET_JSON = os.path.join(ROOT, "tools", "data", "tank_turret_parts.json")
+TANK_TIP_JSON = os.path.join(ROOT, "tools", "data", "tank_turret_tip_linkage.json")
+HELI_ROTOR_JSON = os.path.join(ROOT, "tools", "data", "heli_rotor.json")
 ENGINE_LOOPS_JSON = os.path.join(ROOT, "tools", "data", "engine_loops.json")
 PROJECTILE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "projectile_types.json")
 COASTAL_DECORATION_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
@@ -251,7 +254,115 @@ BEHAVIOUR = {
 MUSIC_THEME_RULE = {0: "flag_threat", 3: "stock_or_roll"}
 
 
-def emit_vehicle_definitions(out_dir, vt, sound_dir):
+def build_render(index, t, registry, team_pairs):
+    """PORTING_PLAN.md 2.7.2 / 2.7.6 step 5: a vehicle's render descriptor -- its parts (sprite ids, four corners in world units:
+    x lateral, y = minus forward, z up) and how the moving ones bind to the channels the behaviour modules publish (Vehicle
+    fields and the few derived ones in Vehicle.channel()). The binding vocabulary is documented in game/vehicle_render_3d.gd.
+    Static geometry is the traced descriptor's (tools/data/vehicle_types.json). What the original's draw callbacks do to it each
+    frame -- recompute corners (the Tank's barrel tip, the MSV's rack, the Jeep's wheel strips), step a cel, turn a whole object
+    (the Tank's turret, the Heli's rotor) -- becomes `rigs`, `corners_by`, `sprites_by`, `groups` and `body` below."""
+    def sid(cel, n):
+        return [registry[str(cel + v)]["id"] for v in range(n)]
+
+    def pair(cel, flags):
+        if flags & 8:
+            team_pairs.add((cel, cel + 1))
+
+    parts = []
+    for rec in t["parts"]:
+        # tan, green, and variant 2 = the hit flash (document 59) for a team-coloured part
+        parts.append({"cel": rec["cel"], "flags": rec["flags"], "corner_idx": rec["corner_idx"], "corners": rec["corners"],
+                      "sprite_ids": sid(rec["cel"], 3 if rec["flags"] & 8 else 1)})
+        pair(rec["cel"], rec["flags"])
+    render = {"parts": parts}
+    if index == 0:
+        # the Tank's hull is the descriptor's first six parts; vehicle_types.json's other eight were read against the hull's own
+        # corner array by mistake (document 39). The turret and barrel are the SEPARATE descriptor 0x43e9b8 with its own corners,
+        # drawn a second time turned by the turret angle (FUN_00402dc0, documents 39, 40, 64).
+        assert [p["cel"] for p in parts[:6]] == [167, 172, 182, 182, 187, 187], "unexpected Tank hull"
+        turret = json.load(open(TANK_TURRET_JSON))
+        tip = json.load(open(TANK_TIP_JSON))["raw_fixed16_16"]
+
+        def f(v):
+            return [c / 65536 for c in v]
+        del parts[6:]
+        for rec in turret["parts"]:
+            flags = int(rec["flags"], 16)
+            p = {"cel": rec["cel"], "flags": flags, "corner_idx": rec["corner_idx"], "group": "turret",
+                 "sprite_ids": sid(rec["cel"], 3), "corners": [f(c) for c in rec["corners_fixed16_16"]]}
+            pair(rec["cel"], flags)
+            # corners 15-21 of the turret's corner array are overwritten every frame (the barrel's far tip and the muzzle ring):
+            # rig "tip" = R(elevation) * base + offset
+            for k, idx in enumerate(p["corner_idx"]):
+                if 15 <= idx <= 21:
+                    p["corners"][k] = {"rig": "tip", "point": idx - 15}
+            parts.append(p)
+        render["rigs"] = {"tip": {"channel": "gun_elev_deg", "rotate": {"axis": "x", "scale": -1.0},
+                                   "base": [f(c) for c in tip["base"]], "offset": f(tip["offset"][0]),
+                                   "_source": "FUN_00402dc0: FUN_00409b10 / FUN_00410c60 over the tables 0x43e640 (base) and 0x43e40c (offset), documents 40, 64"}}
+        render["groups"] = {"turret": {"rotate": [{"axis": "y", "channel": "turret_deg", "scale": -1.0}]}}
+        render["muzzle_flash"] = True   # port choice: the game presents the Tank's cannon flash (document 52); see terrain_view_3d._spawn_vehicle_render
+    elif index == 1:
+        # FUN_00402fc0: the wheel strips (parts 9, 10: cel 457 + the integer x position mod 4) and, in swim mode, the table row
+        # picked by whole(swim * 8) reshaping them, from row 4 on the four wheels seen from above (document 62). A row is
+        # (a, _, c, d, _, f): the left strip's top edge is x = -a at height c, its bottom edge x = -d at height f (mirrored on the right).
+        rows = t["swim"]["rows"]
+        frames = [registry[str(457 + i)]["id"] for i in range(4)]
+        for k, sign in ((9, -1.0), (10, 1.0)):
+            assert parts[k]["cel"] == 457
+            parts[k]["sprites_by"] = {"channel": "position_x", "wrap": 4, "sprites": frames}
+            if sign < 0:
+                sets = [[[-a, -12.0, c], [-a, 12.0, c], [-d, 12.0, fz], [-d, -12.0, fz]] for a, c, d, fz in rows]
+            else:
+                sets = [[[a, 12.0, c], [a, -12.0, c], [d, -12.0, fz], [d, 12.0, fz]] for a, c, d, fz in rows]
+            parts[k]["corners_by"] = {"channel": "swim_amount", "scale": 8.0, "eps": 0.0001, "max": len(rows) - 1, "sets": sets}
+        h = t["swim"]["ring_half"]
+        parts.append({"cel": t["swim"]["ring_cel"], "flags": 0, "sprite_ids": [registry[str(t["swim"]["ring_cel"])]["id"]],
+                      "corners": [[h, -h, 0.0], [h, h, 0.0], [-h, h, 0.0], [-h, -h, 0.0]],
+                      "visible": {"channel": "swim_amount", "scale": 8.0, "eps": 0.0001, "min": 4},
+                      "scale_by": {"channel": "swim_amount", "min": 0.25}})
+    elif index == 2:
+        # FUN_00402ec0 (document 64): the rack's corners 44-51 are recomputed every frame as R(elevation) * base + offset, the two
+        # front canister corners sliding while the launcher reloads; the canister strip's cel drops one per rocket fired
+        rack = t["rack"]
+        render["rigs"] = {"rack": {"channel": "gun_elev_deg", "rotate": {"axis": "x", "scale": -1.0}, "base": rack["base"],
+                                   "offset": rack["offset"],
+                                   "adjust": [{"points": [4, 5], "axis": 1, "set": -6.0, "add_channel": "salvo_reload_remaining", "add_scale": 0.15}],
+                                   "_source": "FUN_00402ec0, tables 0x43ed30 / 0x43ed9c, documents 59, 64"}}
+        for p in parts:
+            if p["corner_idx"][0] >= 44:
+                p["corners"] = [{"rig": "rack", "point": i - 44} for i in p["corner_idx"]]
+        assert parts[13]["cel"] == 324 and parts[2]["corner_idx"] == [44, 45, 46, 47]
+        parts[13]["sprites_by"] = {"channel": "salvo_index", "sprites": [registry[str(326 - i)]["id"] for i in range(3)]}
+    elif index == 3:
+        rot = json.load(open(HELI_ROTOR_JSON))
+        n = rot["bar_length"]
+        y = rot["height"]
+
+        def bar_b(w):
+            return [[w, 0.0, y], [w, -n, y], [-w, -n, y], [-w, 0.0, y]]
+
+        def bar_a(w):
+            return [[w, n, y], [w, 0.0, y], [-w, 0.0, y], [-w, n, y]]
+        for cel, bar in ((rot["blade_b_cel"], bar_b), (rot["blade_a_cel"], bar_a)):
+            pair(cel, 8)
+            parts.append({"cel": cel, "flags": 8, "sprite_ids": sid(cel, 2), "group": "rotor", "corners": bar(rot["half_widths"][3]),
+                          "corners_by": {"channel": "rotor_mode", "max": 3, "sets": [bar(w) for w in rot["half_widths"]]},
+                          "visible": {"channel": "rotor_mode", "max": 3}})
+        for grp in ("rotor", "rotor_fold"):
+            parts.append({"cel": rot["folded_cel"], "flags": 0, "sprite_ids": sid(rot["folded_cel"], 1), "group": grp,
+                          "corners": rot["folded_corners"], "visible": {"channel": "rotor_mode", "min": 4}})
+        render["groups"] = {
+            "rotor": {"rotate": [{"axis": "y", "channel": "rotor_speed_steps", "rate": rot["steps_deg"], "scale": -1.0}]},
+            "rotor_fold": {"parent": "rotor", "rotate": [{"axis": "y", "channel": "heli_spinup_progress", "scale": -rot["unfold_degrees"]}]}}
+        # the whole Heli tilts with its pitch and bank (FUN_0041b590; document 63)
+        render["body"] = {"rotate": [{"axis": "x", "channel": "pitch_deg", "scale": -1.0}, {"axis": "z", "channel": "bank_deg", "scale": 1.0}]}
+    for p in parts:
+        p.pop("corner_idx", None)
+    return render
+
+
+def emit_vehicle_definitions(out_dir, vt, sound_dir, registry, team_pairs):
     """PORTING_PLAN.md 2.7.2, step 3: one definition per vehicle, vehicles/<id>/vehicle.json, grouped the way the original's
     vehicle-type record is (stats, drive, weapons, shape, events, camera, render, wreck), plus vehicles/roster.json (the
     four in bay order, with their stock). Every number is the traced record's (tools/data/vehicle_types.json, from
@@ -289,10 +400,7 @@ def emit_vehicle_definitions(out_dir, vt, sound_dir):
                 on_create["_untraced"] = "descriptor %s is not one of the traced sound cues (NEXT_STEPS)" % created["descriptor"]
         loop_key = loops_doc["by_vehicle_type"][index] if index < len(loops_doc["by_vehicle_type"]) else None
         sounds = {"engine_loop": {"id": loop_key, **loops_doc["loops"][loop_key]}} if loop_key else {}
-        render = {"parts": t["parts"]}
-        for extra in ("swim", "rack"):
-            if extra in t:
-                render[extra] = t[extra]
+        render = build_render(index, t, registry, team_pairs)
         d = {
             "id": vid, "name": t["name"], "original_index": index,
             "_source": "RFIRE.BIN vehicle-type record 0x%x (0x4456b8 + %d * 0x2e8), document 57 and on" % (0x4456B8 + index * 0x2E8, index),
@@ -523,7 +631,7 @@ def main():
                 part["sprite_ids"] = [registry[str(part["cel"] + v)]["id"] for v in range(n)]
                 if part["flags"] & 8:
                     team_pairs.add((part["cel"], part["cel"] + 1))
-        emit_vehicle_definitions(args.out_dir, vt, args.build_sound_dir)
+        emit_vehicle_definitions(args.out_dir, vt, args.build_sound_dir, registry, team_pairs)
 
     # Projectile types and their draw descriptors (documents 46, 58); parts carry sprite ids (flag 8: + team).
     if os.path.exists(PROJECTILE_TYPES_JSON):

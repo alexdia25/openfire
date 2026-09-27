@@ -1637,8 +1637,8 @@ untraced in the definition (an `"_untraced"` note), per the standing instruction
 - Components **publish named channels** (`aim.yaw`, `aim.pitch`, `rotor.speed`, `weapon0.salvo_index`,
   `distance`, `swim`). Render descriptors bind parts to channels (rotate by, cycle cels by, pick frame
   by), so the Tank's turret, the Jeep's wheel strip, the MSV's canisters and the Heli's rotor are all
-  editor-editable data, and the Tank's separate box renderer (`vehicle_box_3d.gd`) folds into the
-  general descriptor renderer.
+  editor-editable data, and the Tank's separate box renderer folded into the general descriptor renderer
+  (**done, step 5, below**).
 - Starting point (2026-09-24), which also defines "done": 20 `vehicle_type ==/!=` branches in
   `vehicle.gd`, ~50 more across `match_controller`, the renderers, HUD, wreck and autoplay, plus
   hard-coded per-type tables (`DOCK_TOLERANCE`, `DEATH_WAIT_TICKS`, `SELECT_NEIGHBOURS`, the wreck
@@ -1685,8 +1685,27 @@ for recombination: the rotor path also counts down the shared fire cooldown and 
 never reads, so a ground weapon on a rotor vehicle works. Checked by `tools/tests/vehicle_behaviour_trace_check.gd`:
 all four vehicles driven through the same scripted inputs for 600 ticks produce exactly the recording made from the code
 before the modules (`tools/tests/data/vehicle_traces.json`), and `vehicle_definitions_check.gd` builds a flying tank
-from a mod (rotor drive + gun mount + cannon). Left for step 5: the renderers' own per-type code
+from a mod (rotor drive + gun mount + cannon). Left for step 5 (done, below): the renderers' own per-type code
 (`vehicle_render_3d.gd`, the Tank's box renderer, the wreck's Heli case is already data) and the debug autoplay's.
+
+**Step 5, done (2026-09-27; the worked example is https://github.com/alexdia25/openfire/wiki/104-worked-example-the-render-descriptor-and-the-tank-that-became-data).** Every vehicle draws through one renderer,
+`game/vehicle_render_3d.gd`, from the `render` block of its definition; `vehicle_box_3d.gd` (the Tank's) and the
+debug-only `vehicle_billboard_3d.gd` are gone and the renderer has no `vehicle_type`. `tools/build_pack.py`
+(`build_render`) writes the descriptor: `parts` (sprite ids [tan, green, hit flash], four corners in world units, flags),
+and the bindings the original's draw callbacks perform, in one vocabulary (documented at the top of the renderer):
+`group` + `groups.<name>.rotate` (the Tank's turret, the Heli's rotor and its unfolding), `body.rotate` (the Heli's pitch
+and bank), `rigs` + `{rig, point}` corners (the Tank's barrel tip and muzzle ring, the MSV's rack: R(elevation) * base +
+offset), `sprites_by` (the Jeep's wheel frames, the MSV's canisters), `corners_by` (the Jeep's swim rows, the rotor's blade
+widths), `scale_by` and `visible` (the swim ring, the rotor's blade bar against the folded pair). Bindings read
+`Vehicle.channel(name)`: the fields the modules drive plus a few derived ones (`position_x`, `salvo_index`,
+`salvo_reload_remaining`, `pitch_deg`, `bank_deg`, `heli_spinup_progress`, `rotor_mode`); `Vehicle.set_channel` poses one.
+The Tank's hull is now the record's own descriptor (its six parts) and its turret the separate descriptor 0x43e9b8, as the
+original draws them, instead of hand-written faces: pixel-identical for the Jeep, MSV and Heli, and for the Tank apart from
+one tread's mirroring, its sloped rear detail face and the barrel tip at level elevation (the original always computes the
+tip). `render.muzzle_flash` is a port choice: only the Tank's cannon flash is presented (the MSV's and Heli's are traced
+records nothing draws yet). The mod tool's vehicle preview makes one slider per bound channel
+(`VehicleRender3D.channels_used`). Checked by `tools/tests/render_descriptor_check.gd` (each binding, and a mod vehicle with
+its own descriptor), `render_gallery.gd` (a dev tool: 35 poses, old against new), and the existing suite.
 
 #### 2.7.3 Maps: faithful data plus a separate override layer
 
@@ -1746,6 +1765,9 @@ the Jeep's wheel frames (`vehicle.jeep.p457.frame_%02d`), the MSV canisters (`ve
 the Heli rotor (`vehicle.heli.rotor.{a,b}.<team>`, `.c`), `vehicle_box_3d.gd`'s part table itself, the wreck
 `SETS`, the mine embers, the Jeep missile frames, the death skull frames, and `vehicle.gd`'s legacy 2D
 rotation-frame prefix. These move into the vehicle definition's render descriptor and channel bindings.
+**Update (2026-09-27, step 5):** the wheel frames, the canisters, the rotor, the Tank's part table and the wreck
+quads are now data (the render descriptor / `wreck.quads`); the legacy prefix went with `vehicle_billboard_3d.gd`.
+Still spelled in code, none of them a vehicle part: the mine embers, the Jeep's missile frames, the death skull frames.
 
 #### 2.7.6 Order of work (every step keeps the regression tests and the RFMAP001 playthrough green)
 
@@ -1754,7 +1776,7 @@ rotation-frame prefix. These move into the vehicle definition's render descripto
 3. Vehicle definitions load; the per-type tables move into them (2.7.2). — **DONE 2026-09-25** (see 2.7.2, "Step 3").
 4. Behaviour moves into modules one area at a time (drive, aim, weapons, water, sequences) until no
    type branches remain. — **DONE 2026-09-25** (see 2.7.2, "Step 4").
-5. Render parts bind to published channels.
+5. Render parts bind to published channels. — **DONE 2026-09-27** (see 2.7.2, "Step 5").
 6. Map rosters and override files (2.7.3).
 7. The editor, on top: planned in [`EDITOR_PLAN.md`](EDITOR_PLAN.md) (vehicle and map editors, build order E0-E6);
    **E0 (workspace, assets, team colours, validation) built 2026-09-24**, `editor/`.

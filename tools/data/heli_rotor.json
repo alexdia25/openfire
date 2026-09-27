@@ -1,0 +1,38 @@
+{
+ "_source": "The Heli's rotor (documents 63, 79, 85): the object the Heli descriptor's next-link points at (0x440708). Transcribed from the port's former hard-coded constants (game/vehicle_render_3d.gd), which were traced from FUN_00403350 / 0x403420 and the corner sets at 0x4405a0 and 0x4406c0; not re-read from the binary when it moved into the definition (step 5).",
+ "blade_b_cel": 584,
+ "blade_a_cel": 580,
+ "folded_cel": 588,
+ "half_widths": [
+  3.4,
+  3.4,
+  6.8,
+  13.6
+ ],
+ "bar_length": 27.2,
+ "height": 10.0,
+ "folded_corners": [
+  [
+   3.4,
+   1.7,
+   10.0
+  ],
+  [
+   3.4,
+   -25.5,
+   10.0
+  ],
+  [
+   -3.4,
+   -25.5,
+   10.0
+  ],
+  [
+   -3.4,
+   1.7,
+   10.0
+  ]
+ ],
+ "steps_deg": 5.625,
+ "unfold_degrees": 180.0
+}
