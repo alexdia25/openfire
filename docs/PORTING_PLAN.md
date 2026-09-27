@@ -1726,6 +1726,23 @@ its own descriptor), `render_gallery.gd` (a dev tool: 35 poses, old against new)
   generated file, so re-running the converter never loses an edit. An editor writes only override
   files.
 
+**Step 6, done (2026-09-27; issue #2).** `Pack.level_override_paths(id)` finds every layer's
+`levels/<id>/level.override.json`, base to top; a mod's own `levels/<id>/` folder may hold *only* this
+file (`Pack.level_dir()` now requires an actual `level.json` to count a layer as providing the level, so
+an override-only folder is never mistaken for a full replacement). `LevelData.load_from()` applies each
+override in order: `side_colours` (replaces the level's own) and `roster` (per id: `null` removes it from
+the map's roster, an object adds a new entry or merges fields into an existing one -- kept raw as
+`roster_override`, resolved against a pack by `Pack.roster_for(level)`). Removing an id from a map's
+roster never removes or renumbers its `vehicle_type` index (`vehicle_index()` is pack-wide, fixed at
+`Pack.load_from` time); it only keeps that index's stock at 0 for this match, the same "none left" state
+`_take_stock`/`select_move` already handle everywhere. `MatchController` now sizes `vehicle_stock` to
+`pack.vehicle_order.size()` (not the roster's length) and fills it from `pack.roster_for(level)`, indexed
+by each entry's own `vehicle_index()` rather than its position in the list -- correct however the roster
+is reordered, shrunk or grown. Checked by `tools/tests/level_override_check.gd`: a mod's override removes
+the Heli, adds a new definition, and recolours the sides for one map only, with the original pack and a
+second, unrelated level in the same mod both unaffected. **Not yet built:** the editor UI to author an
+override file (`EDITOR_PLAN.md` section 5) and terrain/entity/rule edits beyond the roster and colours.
+
 #### 2.7.4 Layered packs (implements section 2.4.3 item 6) — DONE (2026-09-24)
 
 `Pack` loads a stack: base pack(s) first, then each mod on top. `pack.json`'s `base_pack` names a pack
@@ -1785,7 +1802,7 @@ Still spelled in code, none of them a vehicle part: the mine embers, the Jeep's 
 4. Behaviour moves into modules one area at a time (drive, aim, weapons, water, sequences) until no
    type branches remain. — **DONE 2026-09-25** (see 2.7.2, "Step 4").
 5. Render parts bind to published channels. — **DONE 2026-09-27** (see 2.7.2, "Step 5").
-6. Map rosters and override files (2.7.3).
+6. Map rosters and override files (2.7.3). — **DONE 2026-09-27.**
 7. The editor, on top: planned in [`EDITOR_PLAN.md`](EDITOR_PLAN.md) (vehicle and map editors, build order E0-E6);
    **E0 (workspace, assets, team colours, validation) built 2026-09-24**, `editor/`.
    It adds one requirement to step 4: every behaviour module publishes a parameter schema and its channels.

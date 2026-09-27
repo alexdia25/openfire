@@ -59,7 +59,7 @@ func _init() -> void:
 	_write_json(mod.path_join("audio/audio.json"), {"Ding": {"file": "MODDING.wav", "category": "sfx", "priority": 0}})
 	var rec_id: String = base.explosions.get("records", {}).keys()[0]
 	_write_json(mod.path_join("effects/explosions.json"), {"records": {rec_id: {"modded": true}}})
-	DirAccess.make_dir_recursive_absolute(mod.path_join("levels/MODMAP01"))
+	_write_json(mod.path_join("levels/MODMAP01/level.json"), {"name": "MODMAP01", "width": 1, "height": 1})
 
 	# `mod` lives under user://, so its base_pack resolves through the res://packs fallback.
 	var p := Pack.new()

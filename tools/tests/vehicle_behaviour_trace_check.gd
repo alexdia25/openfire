@@ -68,7 +68,7 @@ func _init() -> void:
 	var pack := Pack.new()
 	pack.load_from("res://packs/original_pc")
 	var level := LevelData.new()
-	level.load_from(pack.level_dir("RFMAP001"))
+	level.load_from(pack.level_dir("RFMAP001"), pack.level_override_paths("RFMAP001"))
 	var record := "--record" in OS.get_cmdline_user_args()
 	var golden: Dictionary = {}
 	if FileAccess.file_exists(GOLDEN):
