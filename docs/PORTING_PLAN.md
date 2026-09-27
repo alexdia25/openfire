@@ -148,12 +148,19 @@ would let the engine ship standalone, the way FreeDoom and OpenRA do — that is
 strategic payoff, not just a nicety.
 
 **End goal, sharpened (2026-09-27, user direction):** not just standalone-capable, but the editor should be able to
-*develop* original content -- a wholly new game on this framework, not only a mod of Return Fire. Concretely this
-means a pack with `base_pack: null` must be a normal, editable project in the tool (vehicles, maps, terrain art,
-rules authored from nothing), which is not yet true: `ModLoader.mod_problem()` currently refuses any pack with no
-base_pack ("it is a base pack, not a mod"), and `ModWorkspace.create()` always defaults to `base_pack: "original_pc"`.
-The distinct rule that must stay -- the editor never opens `original_pc` itself for editing -- does not require
-rejecting *every* no-base pack, only that one. Scheduled after step 6 (map rosters), not before.
+*develop* original content -- a wholly new game on this framework, not only a mod of Return Fire.
+
+**Standalone projects: done (2026-09-27).** `ModLoader.editor_open_problem(dir)` is a new, separate gate from
+`mod_problem()`: it refuses only `protected_base_dirs()` (the bundled `original_pc`, by directory, not by whether
+`base_pack` is set), so a pack with no `base_pack` at all opens in the editor like any other project.
+`mod_problem()` itself is unchanged (it still requires a `base_pack`, since it answers a different question -- can
+this directory sit in `GameSettings.enabled_mods`, layered over the running game's base -- not "can the editor open
+it"). "New game..." (`editor/editor_main.gd`) creates one with `ModWorkspace.create(dir, name, "")`. A brand-new
+project has no sprites at all until art is imported, which used to be a hard load failure (`Pack.load_stack`
+required at least one sprite); that check is now a warning, since an empty pack is a legitimate starting state, not
+a bug. Checked by `tools/tests/standalone_project_check.gd`: create, open, every editor panel stays usable with
+nothing in it, add the project's own first vehicle, and `original_pc` itself still refuses. Worked example: wiki doc
+106.
 
 ---
 
