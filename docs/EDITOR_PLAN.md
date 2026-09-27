@@ -286,12 +286,31 @@ the real `Vehicle` and `MatchController` on the edited definition, with overlays
 cap, turn rate, fuel burn, ammo, cooldowns and collision contacts, and a key display of the three buttons.
 "Drive on map ..." starts the same thing on any real level instead.
 
-### 4.5 Creating a vehicle from scratch
+### 4.5 Creating a vehicle from scratch, with a model assembler
 
-- **New from template:** copy one of the four originals under a new id (`mymod.hovertank`). This is the
-  expected path, because it starts from a working, traced set of modules and numbers.
-- **New blank:** pick a module for each slot from its defaults, choose sprites for a minimal part set
-  (the editor offers a one-quad top part and a box of six quads as starting geometry), then set stats.
+**Not just editing an existing descriptor's parts (4.3) — building a whole new body out of primitives**
+(user direction, 2026-09-27: "entirely new vehicles, with a model assembler in the editing tool"). A part
+in the render descriptor is nothing but a sprite over four corners (`vehicle_render_3d.gd`'s vocabulary,
+PORTING_PLAN.md 2.7.2 step 5), so assembling a body is placing and shaping quads in 3D, then texturing
+and binding them — no engine change needed, this is entirely an editor feature on top of what step 5 built:
+
+- **Add a primitive** (a flat panel, a box = 6 quads, a wedge), placed at the 3D cursor / last selection,
+  then reshaped with the same corner gizmo as 4.3 (drag a corner, an edge to keep it a rectangle, or the
+  whole primitive to move/scale/rotate it as one). Primitives are a convenience for *starting* a shape —
+  once placed, every quad is an ordinary part, editable and deletable like any other.
+- **Texture each part** from the asset browser (existing sprites) or by importing a new PNG on the spot
+  (4.3's sprite picker); a part with no sprite yet shows a placeholder checker so the shape stays visible.
+- **Group and bind** new parts the same way 4.3's binding editor does for existing ones: put a set of
+  parts in a `group` that rotates by a channel (a new vehicle's own turret or rotor), or bind one part's
+  sprite/corners to a channel (a new wheel strip, a new weapon rack) — the vehicle's modules (4.2) publish
+  whatever channels the new parts need to move.
+- **Mirror and array tools:** mirror a part or group across the vehicle's centreline (most vehicles are
+  left-right symmetric — the Tank's two treads, the Jeep's two side panels), and repeat a part along an
+  axis at a spacing (wheels, ribs).
+- **New from template:** copy one of the four originals under a new id (`mymod.hovertank`) and reshape
+  from there. Still the fastest path for a vehicle close to an existing one.
+- **New blank:** pick a module for each slot from its defaults, start the body with one primitive (a
+  single box, so the shape is never empty), then set stats.
 - The new vehicle appears in the roster editor (5.5), with an optional HUD panel layout (copied from a
   template) and a selector picture and icon.
 
