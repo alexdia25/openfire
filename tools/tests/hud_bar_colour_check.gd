@@ -21,13 +21,24 @@ func _bar_colours(panel: HudPanel) -> Array:
 
 
 func _init() -> void:
-	check("the Tank's weapon bar is amber", not HudPanel.uses_ammo_colours(0, 0, 0))
-	check("the MSV's two bars are both amber", not HudPanel.uses_ammo_colours(2, 0, 0) and not HudPanel.uses_ammo_colours(2, 1, 0))
-	check("the Heli's selected bar is amber, the other olive", not HudPanel.uses_ammo_colours(3, 0, 0) and HudPanel.uses_ammo_colours(3, 1, 0))
-	check("switching the Heli's weapon swaps them", HudPanel.uses_ammo_colours(3, 0, 1) and not HudPanel.uses_ammo_colours(3, 1, 1))
-
 	var pack := Pack.new()
 	assert(pack.load_from("res://packs/original_pc"))
+	var probe_tank := Vehicle.new()
+	probe_tank.setup(pack)
+	probe_tank.set_vehicle_type(0)
+	var probe_msv := Vehicle.new()
+	probe_msv.setup(pack)
+	probe_msv.set_vehicle_type(2)
+	var probe_heli := Vehicle.new()
+	probe_heli.setup(pack)
+	probe_heli.set_vehicle_type(3)
+	check("the Tank's weapon bar is amber", not HudPanel.uses_ammo_colours(probe_tank, 0, 0))
+	check("the MSV's two bars are both amber", not HudPanel.uses_ammo_colours(probe_msv, 0, 0) and not HudPanel.uses_ammo_colours(probe_msv, 1, 0))
+	check("the Heli's selected bar is amber, the other olive", not HudPanel.uses_ammo_colours(probe_heli, 0, 0) and HudPanel.uses_ammo_colours(probe_heli, 1, 0))
+	check("switching the Heli's weapon swaps them", HudPanel.uses_ammo_colours(probe_heli, 0, 1) and not HudPanel.uses_ammo_colours(probe_heli, 1, 1))
+	probe_tank.free()
+	probe_msv.free()
+	probe_heli.free()
 	var level := LevelData.new()
 	assert(level.load_from("res://packs/original_pc/levels/RFMAP001"))
 	var root := Node2D.new()
@@ -52,10 +63,19 @@ func _init() -> void:
 	panel._process(0.1)
 	heli = _bar_colours(panel)
 	check("Heli after the switch: bottom olive, right amber", heli.size() == 2 and _near(heli[0], olive) and _near(heli[1], amber), str(heli))
+	var critical := Color8(237, 0, 0)   # fuel_rgb["0"], the amber TABLE's own lowest tier -- still amber, just empty
 	mc.vehicle.set_vehicle_type(2)
 	panel._process(0.1)
 	var msv := _bar_colours(panel)
-	check("MSV: both bars amber", msv.size() == 2 and _near(msv[0], amber) and _near(msv[1], amber), str(msv))
+	# document 75: with the mine layer off (single player, the default -- issue #31) the MSV's own mine bar (slot 1)
+	# reads empty, not full -- still the amber TABLE (uses_ammo_colours is false either way), just its lowest tier,
+	# not olive. Confirms the fix didn't accidentally switch colour tables, only the fill fraction.
+	check("MSV, mine layer off: weapon bar full amber, mine bar empty (still amber's own critical tier, not olive)",
+		msv.size() == 2 and _near(msv[0], amber) and _near(msv[1], critical), str(msv))
+	mc.vehicle.mine_layer_enabled = true
+	panel._process(100.0)   # let the bar's own eased fill (move_toward, FUN_0042cdd0) catch up to the new target
+	msv = _bar_colours(panel)
+	check("MSV, mine layer on (two players / RF_DEBUG_MINES): both bars read full amber", msv.size() == 2 and _near(msv[0], amber) and _near(msv[1], amber), str(msv))
 	print("failures: ", fails)
 	quit(1 if fails > 0 else 0)
 
