@@ -695,8 +695,6 @@ def main():
         rd["rgb"] = {str(k): rgb(k) for k in used}
         if "ping" in rd:   # the radar's growing-ring animation (documents 68, 71, 103)
             rd["ping"]["sprite_ids"] = [registry[str(c)]["id"] for c in rd["ping"]["cels"]]
-        if "grid" in rd:   # the radar's grid overlay (document 107)
-            rd["grid"]["sprite_id"] = registry[str(rd["grid"]["cel"])]["id"]
         os.makedirs(os.path.join(args.out_dir, "hud"), exist_ok=True)
         with open(os.path.join(args.out_dir, "hud", "radar.json"), "w") as f:
             json.dump(rd, f)
@@ -707,6 +705,10 @@ def main():
             hp = json.load(f)
         for pn in hp["panels"].values():
             pn["sprite_id"] = registry[str(pn["base_cel"])]["id"]
+            s9 = pn.get("slot9", {})
+            if "grid_cel" in s9:   # document 108's addendum: one grid cel per vehicle type, not a single shared one
+                s9["grid_sprite_id"] = registry[str(abs(s9["grid_cel"]))]["id"]
+                s9["grid_is_negative"] = s9["grid_cel"] < 0   # FUN_004122d0's other branch (a plain sprite here, cel 1975, not a tint mask)
         # The bars are drawn in mode 10 (FUN_00418ef0 case 10): the word at PLUTPtr + 2 is 15-bit RGB, turned into the NEAREST entry of the
         # game's palette by GetNearestPaletteIndex (document 74). The runtime palette is slots 0-9 black, then the shared PLUT (0x282CC).
         if os.path.exists(GAME_ART_CAR):

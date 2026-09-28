@@ -6,15 +6,9 @@ Transcribed from the decompiled painter FUN_00412dc0 and DumpDwords.java dumps:
   of the tile word is not read yet). A coastal id's entry dword at 0x447064 + id * 0x38: 0 = land colour; otherwise the low
   byte for a tile with no pool bits (0xc000) and the high half for one with them.
   The flag blip: descriptor 0x4404b0 = 8 points {dx, dy, colour_team_0, colour_team_1} at 0x440490; 0x4404c0 = none.
-  The grid (documents 68, 107): FUN_004122d0 draws cel 1963 (record + 0x270's own "+0x18" field, a stored cel number, not a
-  parameter) unconditionally, over everything else including the ping, whenever it is nonzero -- always, for an ordinary
-  vehicle. Cel 1963 (`effect.tint.colour.006`, document 9's PRE0=3 family: the mask's own byte value selects which row
-  of the shared 256x256 tint table to blend the background toward) is a real per-pixel background-recolour blend this
-  pack cannot reproduce yet, same limitation as the hangar spotlight (document 103): approximated here as an additive
-  white overlay, at the mask's own alpha (already a reasonably bold 192/255 on most of the grid, unlike the spotlight's
-  near-invisible 24/255 -- no rescale needed). The corner-bracket cursor, cel 1964 (`+0x18` + 1, `+0x24`'s own counter),
-  animates through an 8-rectangle table keyed by a "child" object's own state (object+0x5c, a field this pass never
-  traced) and is NOT built here -- it needs its own pass to find what creates that child and sets its state.
+  The grid overlay is per vehicle type, not one shared cel -- see tools/extract_hud_panels.py's own docstring (document
+  108's addendum) for that trace; only the ping stays here, since it is genuinely shared (any vehicle type pings the
+  same way).
   The ping (documents 68, 71, 103): FUN_004122d0's kind-6 radar callback draws one of cels 1947-1962 (celtable + 0x2052c),
   a 16-frame growing-ring animation, over the panel's own tracked vehicle whenever `DAT_00480d38 (now) - state+0x4c` is in
   (-10, 64) -- state+0x4c is the same "hit until" deadline document 47/59 already traced (set to now + 10 on a successful
@@ -55,7 +49,6 @@ out = {
         "cels": list(range(1947, 1963)),        # the 16 growing-ring frames, in order (FUN_004122d0: celtable + 0x2052c)
         "window_ticks": 74,                       # (-10, 64) around now - state+0x4c: the full span from the hit to the end of the check
     },
-    "grid": {"cel": 1963},   # document 107: drawn unconditionally, over everything else, an approximated tint-blend (see the module docstring)
 }
 path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "radar.json")
 json.dump(out, open(path, "w"), indent=1)

@@ -11,10 +11,32 @@ marked it as code) -- Heli-only, per document 70's panel table. It draws two fix
 (36, 36), picked from a single flag: `obj+0xc & 0x10000000` (the exact weapon-select bit `FUN_0040e600`/`FUN_0040e7a0`,
 document 63, already read/toggle). Bit set (bomb): (91,20)=bomb_lit, (36,36)=gun_dim. Bit clear (gun): (91,20)=bomb_dim,
 (36,36)=gun_lit. No live object: both dim.
+
+`slot9.grid_cel` (document 108's addendum, read live via rfexe -- everything else here stays hand-transcribed): the radar's
+grid overlay is NOT one shared cel. Each kind-6 record's own `+0x270 + 0x18` names its own grid cel, sized to that type's
+own radar window: Tank 1963 (32x32, matching its 32x32 window), MSV 1973 (39x34, matching ITS window exactly), Heli -1975
+(negative -- `FUN_004122d0` takes a different branch for a negative value, drawing `celtable[-cel]` with a toggling tint
+instead of the positive branch's plain draw; cel 1975 is also a PRE0=0 plain sprite, not a document-9 tint mask like the
+other two, so it needs no additive-blend approximation at all, just an ordinary draw). The port's first attempt at this
+(document 108) used the Tank's cel (1963) for every type, which is the wrong size for the MSV's radar; fixed here.
+
+Left for later, not built (document 108's cursor investigation): `+0x270 + 0x24` derives the cursor's own cel as
+`abs(grid_cel) + 1` (1964 Tank, 1974 MSV, 1976 Heli, all confirmed against the real cel dimensions) and FUN_004122d0's
+tail turned out to compute an 8-way compass bearing from the player's own base (object+0x5c, a pointer set at vehicle
+creation, NOT document 68's guessed "child") toward the enemy's live vehicle, gated by a per-type record flag and a
+rectangle test this pass did not finish reading -- real progress, but not confirmed enough across all four vehicle
+types (the Jeep's own `+0x270` data does not describe a kind-6 struct at all, since it uses kind 8 there instead, and
+reading it as one gives nonsense) to build without risking another wrong-direction fix like document 44's shadow one.
 Usage: python extract_hud_panels.py
 """
 import json
 import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import rfexe
+
+RECORD = {"0": 0x4456B8, "2": 0x445C88, "3": 0x445F70}   # Tank, MSV, Heli (the Jeep has no kind-6 radar, see the docstring)
 
 # vehicle index -> values transcribed from the dump
 panels = {
@@ -31,6 +53,8 @@ panels = {
           "weapons": [{"slot": 0, "kind": 4, "rect": [55, 45, 103, 47]}, {"slot": 1, "kind": 4, "rect": [110, 25, 135, 27]}],
           "slot9": {"kind": 6, "pos": [56, 5], "size": [32, 32]}},
 }
+for _id, _rec in RECORD.items():
+    panels[_id]["slot9"]["grid_cel"] = rfexe.dword(_rec + 0x270 + 0x18, signed=True)
 out = {
     "_source": "RFIRE.BIN vehicle records 0x4456b8 (+0x1fc, +0x210..+0x228, +0x270), FUN_00411b70/00411f80/004122d0; documents 68, 70",
     "panel_size": [144, 56],
