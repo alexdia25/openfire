@@ -6500,13 +6500,13 @@
       "category": "effect",
       "confidence": "confirmed",
       "id": "effect.tint.colour.006",
-      "note": "PRE0=3: per-pixel tint-target index into the 256x256 aa0c table"
+      "note": "the radar grid overlay (document 107): PRE0=3, drawn unconditionally over everything else"
     },
     "1964": {
       "category": "effect",
       "confidence": "confirmed",
       "id": "effect.tint.colour.007",
-      "note": "PRE0=3: per-pixel tint-target index into the 256x256 aa0c table"
+      "note": "the radar cursor / corner brackets (document 107): PRE0=3, animates via an 8-rect table keyed by an untraced child-object state; not yet built"
     },
     "1965": {
       "category": "prop",
