@@ -301,7 +301,6 @@ def build_render(index, t, registry, team_pairs):
                                    "base": [f(c) for c in tip["base"]], "offset": f(tip["offset"][0]),
                                    "_source": "FUN_00402dc0: FUN_00409b10 / FUN_00410c60 over the tables 0x43e640 (base) and 0x43e40c (offset), documents 40, 64"}}
         render["groups"] = {"turret": {"rotate": [{"axis": "y", "channel": "turret_deg", "scale": -1.0}]}}
-        render["muzzle_flash"] = True   # port choice: the game presents the Tank's cannon flash (document 52); see terrain_view_3d._spawn_vehicle_render
     elif index == 1:
         # FUN_00402fc0: the wheel strips (parts 9, 10: cel 457 + the integer x position mod 4) and, in swim mode, the table row
         # picked by whole(swim * 8) reshaping them, from row 4 on the four wheels seen from above (document 62). A row is
