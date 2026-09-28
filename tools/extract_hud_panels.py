@@ -20,13 +20,25 @@ instead of the positive branch's plain draw; cel 1975 is also a PRE0=0 plain spr
 other two, so it needs no additive-blend approximation at all, just an ordinary draw). The port's first attempt at this
 (document 108) used the Tank's cel (1963) for every type, which is the wrong size for the MSV's radar; fixed here.
 
-Left for later, not built (document 108's cursor investigation): `+0x270 + 0x24` derives the cursor's own cel as
-`abs(grid_cel) + 1` (1964 Tank, 1974 MSV, 1976 Heli, all confirmed against the real cel dimensions) and FUN_004122d0's
-tail turned out to compute an 8-way compass bearing from the player's own base (object+0x5c, a pointer set at vehicle
-creation, NOT document 68's guessed "child") toward the enemy's live vehicle, gated by a per-type record flag and a
-rectangle test this pass did not finish reading -- real progress, but not confirmed enough across all four vehicle
-types (the Jeep's own `+0x270` data does not describe a kind-6 struct at all, since it uses kind 8 there instead, and
-reading it as one gives nonsense) to build without risking another wrong-direction fix like document 44's shadow one.
+`slot9.cursor` (document 108's third addendum, corrected -- the earlier "record+0x270 is reused for kind 9 elsewhere"
+note was a misread of a DIFFERENT creation-time call and is wrong; the config struct's own fields past `+0x18` are
+exactly where document 70 already said they were): `+0x270 + 0x24` derives the cursor's own cel as `abs(grid_cel) + 1`
+(1964 Tank, 1974 MSV, 1976 Heli); `+0x270 + 0x1c/+0x20` is its screen position (equal to the window's own position for
+Tank/MSV, offset (-3, -2) from it for the Heli); `+0x270 + 0x28` is a POINTER (not the table itself) to a real, live,
+8-entry `{x0, y0, x1, y1}` byte-rectangle table -- eight small crops arranged clockwise around cel 1964's edge (top,
+top-right, right, ... top-left), a baked-in compass rose the cel itself holds all eight directions of. `record + 0x298`
+is a SEPARATE field (that same table's own pointer, read directly off the full record rather than through the config
+struct -- confirmed nonzero for Tank/MSV/Heli, zero for the Jeep, which is how the feature naturally disables itself
+for the one type with no radar) and `record + 0x2ac` (four direct dwords, 16.16, NOT a pointer) is a small dead-zone
+rectangle: `FUN_0041d5b0` compares the enemy's position minus the player's own base position against it, and shows no
+direction (cursor state 8) while the enemy sits inside it, rather than an unstable bearing at very close range.
+
+`FUN_004122d0`'s tail computes this bearing (documents 71's own `FUN_00422e70`, the Jeep's compass function, reused
+here) from the player's own base object (`vehicle + 0x5c`, a pointer document 68 guessed was a "child" -- it's the
+per-player base/stock record at `&DAT_0048c880 + player * 0xd0`, set at vehicle creation, document 108's second
+addendum) toward the other team's current vehicle, recomputed roughly every 60 ticks, quantized to 8 sectors the same
+way the compass quantizes to 16. The Jeep never reaches any of this: its own `+0x270` holds kind 8 (the compass), not
+6, so it has no radar to draw a cursor on in the first place.
 Usage: python extract_hud_panels.py
 """
 import json
@@ -54,7 +66,20 @@ panels = {
           "slot9": {"kind": 6, "pos": [56, 5], "size": [32, 32]}},
 }
 for _id, _rec in RECORD.items():
-    panels[_id]["slot9"]["grid_cel"] = rfexe.dword(_rec + 0x270 + 0x18, signed=True)
+    _base = _rec + 0x270
+    _grid_cel = rfexe.dword(_base + 0x18, signed=True)
+    panels[_id]["slot9"]["grid_cel"] = _grid_cel
+    _rect_ptr = rfexe.dword(_rec + 0x298)
+    panels[_id]["slot9"]["cursor"] = {
+        "cel": abs(_grid_cel) + 1,
+        "pos": [rfexe.dword(_base + 0x1c) / 65536.0, rfexe.dword(_base + 0x20) / 65536.0],
+        # the 8 crops, clockwise from the top, each {x, y, w, h} (the table itself stores {x0, y0, x1, y1}, +1 for width/height per FUN_004122d0)
+        "rects": [[rfexe.byte(_rect_ptr + i * 4), rfexe.byte(_rect_ptr + i * 4 + 1),
+                   rfexe.byte(_rect_ptr + i * 4 + 2) - rfexe.byte(_rect_ptr + i * 4) + 1,
+                   rfexe.byte(_rect_ptr + i * 4 + 3) - rfexe.byte(_rect_ptr + i * 4 + 1) + 1] for i in range(8)],
+        # FUN_0041d5b0's dead zone: |enemy_pos - my_base_pos| inside this (world units) -> no clear direction (state 8, not drawn)
+        "dead_zone": [rfexe.dword(_rec + 0x2ac + i * 4, signed=True) / 65536.0 for i in range(4)],
+    }
 out = {
     "_source": "RFIRE.BIN vehicle records 0x4456b8 (+0x1fc, +0x210..+0x228, +0x270), FUN_00411b70/00411f80/004122d0; documents 68, 70",
     "panel_size": [144, 56],

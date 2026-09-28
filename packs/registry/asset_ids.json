@@ -6506,7 +6506,7 @@
       "category": "effect",
       "confidence": "confirmed",
       "id": "effect.tint.colour.007",
-      "note": "the radar cursor / corner brackets (document 107): PRE0=3, animates via an 8-rect table keyed by an untraced child-object state; not yet built"
+      "note": "the radar cursor / corner brackets (document 108): PRE0=3, 8 crops arranged clockwise around the edge, an enemy-direction indicator from the player base"
     },
     "1965": {
       "category": "prop",
@@ -6571,7 +6571,7 @@
       "category": "effect",
       "confidence": "confirmed",
       "id": "effect.tint.colour.009",
-      "note": "PRE0=3: per-pixel tint-target index into the 256x256 aa0c table"
+      "note": "the MSV radar cursor, the same role as 1964 (document 108)"
     },
     "1975": {
       "category": "marker",
@@ -6579,9 +6579,10 @@
       "id": "marker.hollow_square.33"
     },
     "1976": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.453"
+      "category": "marker",
+      "confidence": "confirmed",
+      "id": "marker.hollow_square.35",
+      "note": "the Heli radar cursor (document 108): PRE0=0, a plain sprite like its own grid cel 1975, not a tint mask"
     },
     "1977": {
       "category": "ui",
