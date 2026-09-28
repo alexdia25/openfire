@@ -3260,7 +3260,7 @@ over both (level switching is level select's job once a real front end exists to
 Checked by `tools/tests/game_flow_check.gd` (21 checks: every state transition, the win/loss screen surviving until
 `continue_pressed`, the mid-level overlay returning to the same level, the dev keys disabled under `managed_by_flow`)
 and a dev screenshot tool, `tools/tests/game_flow_gallery.gd` (needs a real window, excluded from the automated
-suite). Worked example: wiki doc 107.
+suite). Worked example: wiki doc 109.
 
 ---
 
