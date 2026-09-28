@@ -29,7 +29,8 @@ func _init() -> void:
 	# the override itself: no level.json/art.bin here at all -- just the patch
 	PackWriter.write_json(mod.path_join("levels/RFMAP001/level.override.json"), {
 		"side_colours": ["red", "blue"],
-		"roster": {"rf.heli": null, "rf.tank": {"stock_key": "", "default_stock": 9}, "overridemod.scout": {"default_stock": 2}}})
+		"roster": {"rf.heli": null, "rf.tank": {"stock_key": "", "default_stock": 9}, "overridemod.scout": {"default_stock": 2}},
+		"flow": {"intro": "briefing"}})
 
 	var m := Pack.new()
 	_check(m.load_from(mod), "the mod loads")
@@ -42,6 +43,7 @@ func _init() -> void:
 	_check(level.side_colours == ["red", "blue"], "side_colours came from the override")
 	_check(level.roster_override.get("rf.heli", "missing") == null and level.roster_override["rf.tank"]["default_stock"] == 9.0,
 			"roster_override carries the raw per-id entries")
+	_check(level.flow.get("intro", "") == "briefing", "flow (PORTING_PLAN.md 2.8) is carried the same way (an intro scene id, here)")
 
 	var roster := m.roster_for(level)
 	var ids: Array = roster.map(func(e): return e["id"])

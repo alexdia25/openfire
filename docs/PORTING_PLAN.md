@@ -3203,6 +3203,65 @@ Web checklist:
   rings, explosion starbursts, targeting wedges), not noise. The exact runtime tint colour
   remains open (question 2 above).
 
+#### 2.8 The front end and game flow — DONE (2026-09-28)
+
+The user gave a diagram (2026-09-28) of the game as a whole, start to finish: title screen -> main menu -> settings /
+multiplayer / campaign -> level select -> (an intro scene if the level has one) -> level -> quit back to level
+select, or objectives completed -> outro scene -> level select, or out of vehicles -> mission failed -> level select;
+a death (vehicle destroyed) loops back into level directly; a mid-level scene (some in-level trigger) plays over the
+level and returns to it when finished. Not every state exists in Return Fire (an intro scene, say) -- those are
+skipped entirely for a level that doesn't define one, not shown empty. **Two things the user confirmed explicitly**
+once this was built: Return Fire's own win state IS the outro-scene path (there is no separate "victory screen"
+concept, the outro *is* the victory screen), and a mid-level scene returns to the SAME running level, not to level
+select.
+
+`game/game_flow.gd` (`GameFlow`, now the project's `run/main_scene`, replacing "boot straight into a level") is the
+state machine. Every state in the diagram is a real, reachable node:
+
+- **Title / main menu / settings / multiplayer / mission failed** are `PlaceholderScreen` (a title, a message, a
+  column of buttons) -- explicitly marked placeholders, the same idiom as `PlaceholderHud`, so a real screen can
+  replace one without the flow itself changing shape.
+- **Level select** (`LevelSelectScreen`) lists `Pack.list_levels()`; picking one calls `GameFlow.start_level(id)`.
+- **Level** instantiates `terrain_view_3d.tscn` with `managed_by_flow = true` (see below) and connects to its
+  `MatchController`'s existing `match_over` / `out_of_vehicles` signals.
+- **Intro / outro / mid-level scenes** are `StoryScene`, a placeholder for the eventual visual-novel presentation
+  (user direction, 2026-09-27): a title and a sequence of lines, one per key/click, from a pack's
+  `scenes/<id>.json`. A level's `LevelData.flow` (`{"intro": "<id>", "outro": "<id>", "mid_level": [{"trigger": "...",
+  "scene": "<id>"}]}`, loaded from `level.json` and mergeable from `level.override.json` the same way as the roster
+  and side-colour overrides, 2.7.3 step 6) names which scene, if any, to play; `GameFlow._play_story()` calls straight
+  through to the next state when a level names none, or names one that doesn't resolve to a file.
+- **"Death Screen" is not a separate node.** It already lives entirely inside the Level state (`MatchController`'s
+  death sequence -- the skull, `game/death_skull_view.gd`, then the vehicle-choice hangar reopening); it never leaves
+  "Level" in the user's own diagram either.
+- **Mid-level scene** (`GameFlow.trigger_mid_level(scene_id)`) plays a `StoryScene` over the running level and pauses
+  the tree (`get_tree().paused = true`, the scene's own `process_mode = PROCESS_MODE_ALWAYS` so it keeps running)
+  rather than tearing the level down -- the one transition that returns to the SAME `_level_view`, per the user's
+  confirmation. Nothing calls it yet: no level, original or otherwise, defines a `mid_level` trigger, so there is
+  nothing to wire it to until one does.
+
+**The win/loss screen is the outro lead-in, not something GameFlow can skip past.** `MatchController.match_over` /
+`out_of_vehicles` firing only records the outcome; the level itself is not torn down then, because its own
+`PlaceholderHud.show_win()`/`show_lost()` (the ribbon, the victory jingle, the "press Enter to play again" banner) is
+what the user actually sees, and (as originally built, before this) `GameFlow` was tearing the level down inside the
+same signal-emit call the instant the outcome fired, before that screen could render even one frame -- the win screen
+simply never appeared. The real end of the Level state is the player's Enter press on that screen:
+`PlaceholderHud.continue_pressed` (re-emitted as `TerrainView3D.continue_pressed` when `managed_by_flow` is true, in
+place of the old `Engine.time_scale = 1.0; get_tree().reload_current_scene()`, which reloaded the wrong node once
+`TerrainView3D` stopped being the whole scene tree) is what `GameFlow` actually waits for before clearing the level
+and acting on the outcome it recorded.
+
+**`managed_by_flow` (`TerrainView3D`, default false)** is what lets the same scene serve two callers: a standalone
+run (a headless test, the editor's "Play this map" via `OS.create_process`, a debug screenshot -- none of which go
+through `GameFlow` at all, confirmed by grep before this was built) keeps the old behaviour (`continue_pressed`
+reloads the scene itself; the dev level-switch keys `[`/`]`/PageUp/PageDown work); `GameFlow` sets it true and takes
+over both (level switching is level select's job once a real front end exists to switch through, per the user,
+2026-09-28).
+
+Checked by `tools/tests/game_flow_check.gd` (21 checks: every state transition, the win/loss screen surviving until
+`continue_pressed`, the mid-level overlay returning to the same level, the dev keys disabled under `managed_by_flow`)
+and a dev screenshot tool, `tools/tests/game_flow_gallery.gd` (needs a real window, excluded from the automated
+suite). Worked example: wiki doc 107.
+
 ---
 
 **Where things live (2026-09-25, user direction):** the worked-example series, the tracing cheat sheet and the archived

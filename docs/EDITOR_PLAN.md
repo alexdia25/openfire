@@ -366,7 +366,7 @@ Tools: paint, rectangle, flood fill, line, eyedropper, select / move / copy / pa
 the tileset (grouped by `terrain_class`: ground, coast, ...) and the decoration types (grouped by what
 they spawn: building, tree, gate, pad, flag), each with a preview picture. For team-owned objects there
 is a variant toggle (tan or green). Coasts are painted by hand from the coast tiles to begin with; an
-auto-coast brush needs the coast-to-water rules traced first (see 5.7).
+auto-coast brush needs the coast-to-water rules traced first (see 5.8).
 
 ### 5.4 Rules and metadata panel
 
@@ -398,7 +398,24 @@ layout made data-driven as well. That is flagged as a dependency, not something 
   their document (e.g. the flag-spawn condition, document 26); rules the editor made up are labelled as
   editor checks.
 
-### 5.7 Creating a map from scratch
+### 5.7 Level flow: intro, outro and mid-level scenes
+
+PORTING_PLAN.md 2.8's front end (`GameFlow`) reads a level's `flow` block: an intro scene before the level starts, an
+outro after a win, and mid-level scenes a trigger can play over the running level. All three are optional and
+skipped entirely when unset -- none of Return Fire's own levels define any of them.
+
+- **Three pickers** (intro / outro / one row per `mid_level` entry, "+ add trigger"), each: none, or a scene from the
+  pack's `scenes/*.json` (`StoryScene`'s placeholder format today: a title and a sequence of lines). A mid-level row
+  also names the trigger (a fixed list of the kinds `MatchController` can actually fire, growing as real ones get
+  wired -- see PORTING_PLAN.md 2.8's note that nothing calls `trigger_mid_level()` yet).
+- **A scene editor**, opened from any of the three pickers or its own list: today just the title and lines
+  `StoryScene` plays, previewed live in the same placeholder presentation the game uses (`GameFlow._play_story()`,
+  shared code, not a mock-up). This is the seed of the eventual visual-novel editor (user direction, 2026-09-27) --
+  portraits, backgrounds, branching -- built out later without changing where a level's scene ids point.
+- Writes the same way as the vehicle roster (5.5): `flow` in the map's `level.override.json` for an original map, or
+  directly in `level.json` for a new one (5.8 below).
+
+### 5.8 Creating a map from scratch
 
 New map: choose a size (128 x 128 by default; other sizes allowed but marked "extended" until the port
 confirms nothing assumes 128), a base tile to fill with, and one or two players. The editor places
