@@ -1,5 +1,8 @@
-# Confirms the gate's traced sound cues (FUN_004322f0, document 82): GateMove fires when a fully
-# open gate decides to close again, GateClose fires the tick it finishes closing. Run:
+# Confirms the gate's traced sound cues: GateMove (document 82, FUN_00432270) fires once at creation --
+# right when a gate wakes -- and again (FUN_004322f0) when a fully open gate decides to close; GateClose
+# fires the tick it finishes closing. Per-tick, GateMove is still untraced on the opening side itself (no
+# repeat sound while the bars are actually sliding apart) -- only the one-shot creation call was missing.
+# Run:
 #   godot --headless --path . --script tools/tests/gate_sound_check.gd
 extends SceneTree
 
@@ -31,7 +34,7 @@ func _init() -> void:
 
 	while g.open < Gate.OPEN_MAX:   # drive it fully open, carrier still in the region
 		g.tick(dt, no_block)
-	print("cues while opening (carrier still present): ", cues, " (expect none -- GateMove is untraced on the opening side)")
+	print("cues from ticking while opening (carrier still present): ", cues, " (expect none -- GateMove is untraced on the opening TICKS themselves)")
 
 	mc.vehicle.position = g.centre + Vector2(10000.0, 0.0)   # carrier leaves -> tick() sets target = 0.0
 	g.tick(dt, no_block)
@@ -41,5 +44,11 @@ func _init() -> void:
 	while g.open > 0.0:
 		g.tick(dt, no_block)
 	print("GateClose fired on first closed tick: ", cues, " (expect exactly [\"GateClose\"])")
+
+	# The one-shot creation cue (FUN_00432270), via the real match-controller path this time, not a synthetic Gate:
+	cues.clear()
+	level.decorations.append({"x": 6, "y": 6, "coastal_id": int(gate_id), "variant": 0})   # a fresh tile, not one LevelData already indexed
+	mc.debug_open_gate(Vector2i(6, 6))
+	print("GateMove fires once, right when the gate is created: ", cues, " (expect exactly [\"GateMove\"])")
 	print("done")
 	quit()
