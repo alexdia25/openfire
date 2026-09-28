@@ -17,7 +17,8 @@ func check(name: String, ok: bool, detail: String = "") -> void:
 
 func _init() -> void:
 	check("the shadow's ground bias is strictly above the ordinary one", DecorationField3D.SHADOW_Z_BIAS > 0.5)
-	check("...by exactly one coplanar step", is_equal_approx(DecorationField3D.SHADOW_Z_BIAS - 0.5, CoplanarParts.COPLANAR_STEP))
+	check("...by half a coplanar step (not a whole one -- a whole step would land exactly on a chunk-wide CoplanarParts shift, a new accidental tie)",
+		is_equal_approx(DecorationField3D.SHADOW_Z_BIAS - 0.5, CoplanarParts.COPLANAR_STEP * 0.5))
 
 	var pack := Pack.new()
 	assert(pack.load_from("res://packs/original_pc"))

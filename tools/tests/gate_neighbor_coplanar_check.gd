@@ -73,7 +73,7 @@ func _init() -> void:
 				var sid: String = part.get("sprite_id", "")
 				var s := pack.get_sprite(sid)
 				var kind := String(s.get("kind", "sprite"))
-				var ground_y: float = (0.5 + CoplanarParts.COPLANAR_STEP) if kind == "effect" else 0.5
+				var ground_y: float = DecorationField3D.SHADOW_Z_BIAS if kind == "effect" else 0.5
 				var quad: Array[Vector3] = []
 				for c in part["corners"]:
 					quad.append(Vector3(cx + j.x + off[0] + c[0], c[2] + zoff + ground_y, cz + j.y + off[1] + c[1]))
