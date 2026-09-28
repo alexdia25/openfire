@@ -684,6 +684,8 @@ def main():
         used = {rd["land"], rd["water"], rd["flagged_tile"], *rd["flag_blip"]["colours"],
                 *[c for v in rd["coastal_colours"].values() for c in v]}
         rd["rgb"] = {str(k): rgb(k) for k in used}
+        if "ping" in rd:   # the radar's growing-ring animation (documents 68, 71, 103)
+            rd["ping"]["sprite_ids"] = [registry[str(c)]["id"] for c in rd["ping"]["cels"]]
         os.makedirs(os.path.join(args.out_dir, "hud"), exist_ok=True)
         with open(os.path.join(args.out_dir, "hud", "radar.json"), "w") as f:
             json.dump(rd, f)

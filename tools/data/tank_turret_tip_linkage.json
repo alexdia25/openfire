@@ -44,7 +44,7 @@
     "key_correction": "FUN_00409b10's third argument pointer (offset) is never advanced inside the loop -- it's dst[i] = base[i] + offset (one constant vec3), not three 7-entry arrays summed index-for-index. Getting this right (not the naive per-index read) is what makes the formula produce a plausible shape.",
     "offset_value_fixed16_16": [0, -344064, 458752],
     "offset_value_float": [0.0, -5.25, 7.0],
-    "applied_in": "the Tank definition's render descriptor (tools/build_pack.py build_render: rig "tip", parts 5/6 barrel far corners and 7 muzzle ring); formerly game/vehicle_box_3d.gd TURRET_PARTS",
+    "applied_in": "the Tank definition's render descriptor (tools/build_pack.py build_render: rig \"tip\", parts 5/6 barrel far corners and 7 muzzle ring); formerly game/vehicle_box_3d.gd TURRET_PARTS",
     "hull_corner_overlap_resolved": "A coincidence of static layout, not a real correspondence -- since offset is never advanced, only the one vec3 at DAT_0043e40c is ever read; the hull-corner bytes immediately after it are never touched by this code.",
     "still_open": "iVar1's real value during actual gameplay (gun elevation, if any) is unrecoverable from static analysis; this project renders the identity/no-rotation case unconditionally, confirmed correct for a level gun but not modelling elevation itself (no aim-angle state exists yet, same documented simplification as document 39)."
   }

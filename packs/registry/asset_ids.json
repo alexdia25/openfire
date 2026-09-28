@@ -6389,21 +6389,22 @@
       "note": "HUD panel base, Heli (documents 68, 70)"
     },
     "1947": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.ammo_crate_olive.06"
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shockwave_ring_tan.00a",
+      "note": "the radar ping animation opening frame (a single lit pixel), document 68/71/103: FUN_004122d0, cels 1947-1962"
     },
     "1948": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.camo_swatch.123",
-      "note": "mottled green/olive square, camo-netting-like"
+      "category": "effect",
+      "confidence": "confirmed",
+      "id": "effect.shockwave_ring_tan.00b",
+      "note": "the radar ping animation, second frame (document 68/71/103)"
     },
     "1949": {
       "category": "effect",
-      "confidence": "visual_group",
+      "confidence": "confirmed",
       "id": "effect.shockwave_ring_tan.01",
-      "note": "expanding tan/brown concentric ring"
+      "note": "the radar ping animation (document 68/71/103): FUN_004122d0 picks one of cels 1947-1962 by how long ago the tracked vehicle was hit"
     },
     "195": {
       "category": "reserved",
@@ -6413,61 +6414,61 @@
     },
     "1950": {
       "category": "effect",
-      "confidence": "visual_group",
+      "confidence": "confirmed",
       "id": "effect.shockwave_ring_tan.02",
       "note": "expanding tan/brown concentric ring"
     },
     "1951": {
       "category": "effect",
-      "confidence": "visual_group",
+      "confidence": "confirmed",
       "id": "effect.shockwave_ring_tan.03",
       "note": "expanding tan/brown concentric ring"
     },
     "1952": {
       "category": "effect",
-      "confidence": "visual_group",
+      "confidence": "confirmed",
       "id": "effect.shockwave_ring_tan.04",
       "note": "expanding tan/brown concentric ring"
     },
     "1953": {
       "category": "effect",
-      "confidence": "visual_group",
+      "confidence": "confirmed",
       "id": "effect.shockwave_ring_tan.05",
       "note": "expanding tan/brown concentric ring"
     },
     "1954": {
       "category": "effect",
-      "confidence": "visual_group",
+      "confidence": "confirmed",
       "id": "effect.shockwave_ring_tan.06",
       "note": "expanding tan/brown concentric ring"
     },
     "1955": {
       "category": "effect",
-      "confidence": "visual_group",
+      "confidence": "confirmed",
       "id": "effect.shockwave_ring_tan.07",
       "note": "expanding tan/brown concentric ring"
     },
     "1956": {
       "category": "effect",
-      "confidence": "visual_group",
+      "confidence": "confirmed",
       "id": "effect.shockwave_ring_tan.08",
       "note": "expanding tan/brown concentric ring"
     },
     "1957": {
       "category": "effect",
-      "confidence": "visual_group",
+      "confidence": "confirmed",
       "id": "effect.shockwave_ring_tan.09",
       "note": "expanding tan/brown concentric ring"
     },
     "1958": {
       "category": "effect",
-      "confidence": "visual_group",
+      "confidence": "confirmed",
       "id": "effect.shockwave_ring_tan.10",
       "note": "expanding tan/brown concentric ring"
     },
     "1959": {
       "category": "effect",
-      "confidence": "visual_group",
+      "confidence": "confirmed",
       "id": "effect.shockwave_ring_orange.01",
       "note": "expanding orange concentric ring"
     },
@@ -6479,19 +6480,19 @@
     },
     "1960": {
       "category": "effect",
-      "confidence": "visual_group",
+      "confidence": "confirmed",
       "id": "effect.shockwave_ring_orange.02",
       "note": "expanding orange concentric ring"
     },
     "1961": {
       "category": "effect",
-      "confidence": "visual_group",
+      "confidence": "confirmed",
       "id": "effect.shockwave_ring_orange.03",
       "note": "expanding orange concentric ring"
     },
     "1962": {
       "category": "effect",
-      "confidence": "visual_group",
+      "confidence": "confirmed",
       "id": "effect.shockwave_ring_orange.04",
       "note": "expanding orange concentric ring"
     },
