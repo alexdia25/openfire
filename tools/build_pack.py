@@ -369,24 +369,14 @@ def emit_vehicle_definitions(out_dir, vt, sound_dir, registry, team_pairs):
     RFIRE.BIN via extract_vehicle_types.py); the record offset each came from is kept in "_record". A mod adds a vehicle by
     adding a definition, or changes one by giving the same id (Pack layers them per id)."""
     vdir = os.path.join(out_dir, "vehicles")
-    os.makedirs(vdir, exist_ok=True)
-    for old in os.listdir(vdir):   # stale definitions and the pre-definition table; projectile_types.json stays
-        path = os.path.join(vdir, old)
-        if os.path.isdir(path):
-            shutil.rmtree(path)
-        elif old in ("vehicle_types.json", "roster.json"):
-            os.remove(path)
-    # the engine loops (document 97): each vehicle's continuous sound, folded in as sounds.engine_loop; the samples join the pack
+    # Compute every vehicle's definition (and the roster) fully in memory FIRST, before touching disk at all: a broken
+    # source file (tools/data/*.json) throwing partway through build_render() must not leave fewer vehicles than the
+    # pack already had -- see the regression this guards against, git history "Fix invalid JSON in
+    # tank_turret_tip_linkage.json": the old code cleared vdir up front, so a crash on the very first roster entry left
+    # packs/original_pc/vehicles/ completely empty, silently (packs/ is gitignored), until something else noticed.
     loops_doc = json.load(open(ENGINE_LOOPS_JSON)) if os.path.exists(ENGINE_LOOPS_JSON) else {"loops": {}, "by_vehicle_type": []}
-    audio_dir = os.path.join(out_dir, "audio")
-    os.makedirs(audio_dir, exist_ok=True)
-    if os.path.exists(os.path.join(audio_dir, "loops.json")):
-        os.remove(os.path.join(audio_dir, "loops.json"))   # the pre-definition table; the definitions carry it now
     loop_by_descriptor = {l["descriptor"]: k for k, l in loops_doc["loops"].items()}
-    for l in loops_doc["loops"].values():
-        src = os.path.join(sound_dir, l["wav"])
-        if os.path.exists(src):
-            shutil.copyfile(src, os.path.join(audio_dir, l["wav"]))
+    definitions = []
     roster = []
     for vid, index, stock_key, default_stock, script in ORIGINAL_ROSTER:
         t = vt[str(index)]
@@ -429,11 +419,30 @@ def emit_vehicle_definitions(out_dir, vt, sound_dir, registry, team_pairs):
                         "drive": "+0x168..+0x178", "weapons.ammo": "+0x1a8 / +0x1dc", "weapons.cooldown_ticks": "+0x1a4 / +0x1d8",
                         "events.on_create": "+0x240", "camera.swoop_height": "table 0x4452c0", "render": "+0x148 (draw descriptor)"},
         }
+        definitions.append((vid, d))
+        roster.append({"id": vid, "stock_key": stock_key, "default_stock": default_stock})
+
+    # Every definition computed without error: only now is it safe to clear the old ones and write the new.
+    os.makedirs(vdir, exist_ok=True)
+    for old in os.listdir(vdir):   # stale definitions and the pre-definition table; projectile_types.json stays
+        path = os.path.join(vdir, old)
+        if os.path.isdir(path):
+            shutil.rmtree(path)
+        elif old in ("vehicle_types.json", "roster.json"):
+            os.remove(path)
+    audio_dir = os.path.join(out_dir, "audio")
+    os.makedirs(audio_dir, exist_ok=True)
+    if os.path.exists(os.path.join(audio_dir, "loops.json")):
+        os.remove(os.path.join(audio_dir, "loops.json"))   # the pre-definition table; the definitions carry it now
+    for l in loops_doc["loops"].values():
+        src = os.path.join(sound_dir, l["wav"])
+        if os.path.exists(src):
+            shutil.copyfile(src, os.path.join(audio_dir, l["wav"]))
+    for vid, d in definitions:
         os.makedirs(os.path.join(vdir, vid))
         with open(os.path.join(vdir, vid, "vehicle.json"), "w") as f:
             json.dump(d, f, indent=1, sort_keys=True)
             f.write("\n")
-        roster.append({"id": vid, "stock_key": stock_key, "default_stock": default_stock})
     with open(os.path.join(vdir, "roster.json"), "w") as f:
         json.dump({"vehicles": roster}, f, indent=1)
         f.write("\n")
