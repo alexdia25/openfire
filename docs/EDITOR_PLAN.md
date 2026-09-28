@@ -379,8 +379,11 @@ when unset, document 75), one or two players (whether a team-1 spawn exists), an
 This is the per-map override from 2.7.3. By default the list shows the pack's roster (`rf.tank`,
 `rf.jeep`, `rf.msv`, `rf.heli`) with stock from the map's `vehicle_params`. The editor can change the
 stock, remove a vehicle, or add one of the mod's vehicles with its own stock, and has "reset to default".
-The selector screen has four bays today, so a roster of more (or fewer) than four needs the selector
-layout made data-driven as well. That is flagged as a dependency, not something to solve in the editor.
+**Done (2026-09-28, issue #15):** the selector screen's bay/roster mapping is data-driven (PORTING_PLAN.md 2.7.3),
+so a roster of more or fewer than four now works at runtime -- the hangar still always shows exactly 4 bays
+visually (the traced art), paging through a larger roster with `Tab`. Still the editor's own job, not yet built:
+letting a mod's added vehicle supply its own hangar picture (`vehicle.json`'s `selector.picture`) -- without one it
+shows no picture in its bay, just the selection box and pointer.
 
 ### 5.6 Saving: patches for original maps, full files for new maps
 

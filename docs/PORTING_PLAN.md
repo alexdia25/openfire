@@ -1805,8 +1805,28 @@ tables (`ui/death_skull.json`, `effects/mine.json`, `projectiles/jeep_missile.js
 from the registry the same way the flag and vehicle parts already are. `game/hud_panel.gd`'s `uses_ammo_colours()`
 had the same kind of leftover, a bare `vehicle_type == 3` instead of a capability query (issue #58): fixed to
 `has_module("heli_guns")`, so a mod's own two-weapon-select vehicle gets the same panel rule with no code change.
-Checked by `tools/tests/leftover_sprite_tables_check.gd`. Still open: the vehicle-select hangar's fixed four-bay
-layout (issue #15) and the window/tool titles saying "Return Fire" literally (issue #59, cosmetic only).
+Checked by `tools/tests/leftover_sprite_tables_check.gd`. The window/tool titles saying "Return Fire" literally
+(issue #59, cosmetic only) were fixed the same day.
+
+**Update (2026-09-28, issue #15):** the vehicle-select hangar's four-bay layout is data-driven now, closing this
+list out. **The hangar always shows exactly 4 bays, visually** (user direction, 2026-09-28) -- that stays the traced
+art (cel 2075) unconditionally. What changed is what a bay MEANS: `MatchController.selection` is now a bay index
+(0-3), and `selector_roster` (built each time the choice opens, from `Pack.roster_for(level)`, the same effective
+roster 2.7.3 step 6 already computes) maps roster position -> `vehicle_type`; `_bay_type(bay)` resolves a bay to the
+vehicle_type showing there on the current `selector_page` (or -1, an empty bay -- exactly like zero stock already
+was). For the unmodified original roster this map is `[0, 1, 2, 3]`, so bay == vehicle_type == before: the original
+game's own behaviour is bit-for-bit unchanged (confirmed by screenshot: the hangar draws pixel-identical to before
+for the default roster). The neighbour table itself (`SELECT_NEIGHBOURS`) is gone -- it was a hardcoded duplicate of
+data `selector.json` already carries (`entries.<bay>.up/down/left/right`), now read directly (`_bay_neighbour()`),
+since the 4 bays' physical adjacency is fixed layout that was never going to change with the roster anyway. A
+roster of more than 4 pages through groups of 4 with `select_next_page()` (**PORT-ONLY**, `Tab` -- the original
+never had a 5th vehicle to choose from, so there is no traced equivalent). Vehicle definitions gained a
+`selector.picture` field (`[tan_id, green_id]`, built for the original 4 the same way `selector.json`'s own shared
+picture table already was) so a mod's own vehicle can eventually supply its own hangar picture; without one, that
+bay still shows its box and pointer when selected, just no picture -- a real, marked gap (there is no traced art for
+a vehicle the original never had), not a crash. Checked by `tools/tests/selector_roster_check.gd`: a 5-vehicle
+roster pages correctly and confirming the 5th vehicle actually creates it, and a 3-vehicle roster (one of the
+original 4 removed) leaves its own bay empty with everything else unchanged. Worked example: wiki doc 111.
 
 #### 2.7.6 Order of work (every step keeps the regression tests and the RFMAP001 playthrough green)
 

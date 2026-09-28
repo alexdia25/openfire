@@ -390,6 +390,13 @@ def emit_vehicle_definitions(out_dir, vt, sound_dir, registry, team_pairs):
         loop_key = loops_doc["by_vehicle_type"][index] if index < len(loops_doc["by_vehicle_type"]) else None
         sounds = {"engine_loop": {"id": loop_key, **loops_doc["loops"][loop_key]}} if loop_key else {}
         render = build_render(index, t, registry, team_pairs)
+        # The selector's own mini picture (document 78): cel 2094 + type * 2 + team -- the same table selector.json's
+        # own "pictures" list is built from (tools/extract_selector.py). Carried on the definition too (issue #15),
+        # so a mod's own vehicle can supply "selector.picture": [tan_id, green_id] the same way; game/selector_screen.gd
+        # reads this first and only falls back to the shared 4-entry table for a definition that doesn't set it.
+        picture_cel = 2094 + index * 2
+        picture = [registry[str(picture_cel)]["id"], registry[str(picture_cel + 1)]["id"]]
+        team_pairs.add((picture_cel, picture_cel + 1))
         d = {
             "id": vid, "name": t["name"], "original_index": index,
             "_source": "RFIRE.BIN vehicle-type record 0x%x (0x4456b8 + %d * 0x2e8), document 57 and on" % (0x4456B8 + index * 0x2E8, index),
@@ -410,7 +417,7 @@ def emit_vehicle_definitions(out_dir, vt, sound_dir, registry, team_pairs):
             # death plays (table 0x4466e4), and which of FUN_0040f2f0's three rules picks its theme when it is (re)created
             "music": {"theme_line": t.get("music_theme_line"), "priority": t.get("music_priority"),
                       "death_line": t.get("music_death_line"), "theme_rule": MUSIC_THEME_RULE.get(index, "record_line")},
-            "selector": {"script": script},
+            "selector": {"script": script, "picture": picture},
             "render": render,
             "wreck": WRECKS[index],
             "_record": {"stats.hit_points": "+0x28", "stats.armor": "+0x24", "stats.fuel": "+0x210",
