@@ -670,6 +670,37 @@ def main():
         with open(os.path.join(args.out_dir, "markers", "flag.json"), "w") as f:
             json.dump(fl, f)
 
+    # The death sequence's laughing skull (document 88): FUN_00418510's mouth table picks one of 7 shapes, drawn as
+    # cel 2125 + frame, tan; +7 more for green (game/death_skull_view.gd, PORTING_PLAN.md 2.7.5's leftover list).
+    DEATH_SKULL_BASE = 2125
+    skull_frames = []
+    for f in range(1, 8):
+        tan_cel, green_cel = DEATH_SKULL_BASE + f, DEATH_SKULL_BASE + f + 7
+        skull_frames.append([registry[str(tan_cel)]["id"], registry[str(green_cel)]["id"]])
+        team_pairs.add((tan_cel, green_cel))
+    os.makedirs(os.path.join(args.out_dir, "ui"), exist_ok=True)
+    with open(os.path.join(args.out_dir, "ui", "death_skull.json"), "w") as f:
+        json.dump({"frames": skull_frames}, f)
+
+    # The MSV's mine (document 60): cel 1081 + draw variant (0 unlit-blink, 1 armed, 2 blink-on); not team-coloured
+    # (game/mine_view_3d.gd).
+    MINE_EMBER_BASE = 1081
+    os.makedirs(os.path.join(args.out_dir, "effects"), exist_ok=True)
+    with open(os.path.join(args.out_dir, "effects", "mine.json"), "w") as f:
+        json.dump({"sprites": [registry[str(MINE_EMBER_BASE + v)]["id"] for v in range(3)]}, f)
+
+    # The Jeep's lobbed missile (document 61): cel 1779 + spin frame (0-11), tan; +12 more for green
+    # (game/projectile_billboard_3d.gd).
+    JEEP_MISSILE_BASE = 1779
+    missile_frames = []
+    for f in range(12):
+        tan_cel, green_cel = JEEP_MISSILE_BASE + f, JEEP_MISSILE_BASE + f + 12
+        missile_frames.append([registry[str(tan_cel)]["id"], registry[str(green_cel)]["id"]])
+        team_pairs.add((tan_cel, green_cel))
+    os.makedirs(os.path.join(args.out_dir, "projectiles"), exist_ok=True)
+    with open(os.path.join(args.out_dir, "projectiles", "jeep_missile.json"), "w") as f:
+        json.dump({"frames": missile_frames}, f)
+
     # The game's runtime palette (document 20: runtime[10 + i] = shared_plut[i], slots 0-9 black), for the mod tool's
     # "original palette" swatches (EDITOR_PLAN.md 3.1). An aid, not a restriction: the port draws full-colour RGBA.
     if os.path.exists(GAME_ART_CAR):
