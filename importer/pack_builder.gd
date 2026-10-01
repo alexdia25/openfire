@@ -579,6 +579,15 @@ func _infantry_table(inf: Dictionary) -> Dictionary:
 			dirs.append(_sids(int(inf["cel_first"]) + d * int(inf["dir_stride"]) + shift, int(inf["frame_count"])))
 		sets[team_name] = dirs
 	t["sprites"] = sets
+	var w: Dictionary = inf["wade"]
+	t["wade"] = {"frame_first": w["frame_first"], "quad": w["quad"]}
+	t["corpse"] = {"lifetime": inf["corpse"]["lifetime"], "quad": inf["corpse"]["quad"]}
+	var wade_sprites := {}
+	for team_name in ["tan", "green"]:
+		var wshift := 0 if team_name == "tan" else int(w["team_offset"])
+		wade_sprites[team_name] = _sids(int(w["cel_first"]) + wshift + int(w["frame_first"]), int(w["frame_count"]))
+	t["wade_sprites"] = wade_sprites
+	t["corpse_sprites"] = _sids(int(inf["corpse"]["cel_first"]), int(inf["corpse"]["variants"]))
 	t["shadow_sprite"] = rid(int(inf["shadow_cel"]))
 	var buildings := {}
 	var damage: Variant = data("coastal_damage.json")

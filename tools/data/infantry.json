@@ -1,5 +1,5 @@
 {
- "_source": "RFIRE.BIN: the MAN object descriptor 0x44eb38 and its behaviours 0x434460 / 0x434350 / 0x433d40 / 0x433d80 / 0x434220 / 0x434320 / 0x4345d0, the tick 0x433ab0, the init 0x433a50, the constants at 0x44ea90 (speed 0x44ea9c, idle distance 0x1000000, throw window 0x400000..0x600000), the grenade-count table 0x44eab0, the separation offsets 0x44ead8, the draw descriptor 0x44e928 (callback 0x433950, corners 0x44e448, part blocks 0x44e4a8 / 0x44e6a8) and its shape 0x44e8e8; issue #74, wiki documents 113 and 116. Angles: 0x400000 = 360 degrees; 16.16 values divided by 65536. The building table (`buildings`) is derived by the importers from the coastal table's field [3] (`flags` in coastal_damage.json): bits 16-19 min, 20-23 max, 0x8000 flips the team, and only entries with at least 2 hit points qualify (a hit must leave exactly 1).",
+ "_source": "RFIRE.BIN: the MAN object descriptor 0x44eb38 and its behaviours 0x434460 / 0x434350 / 0x433d40 / 0x433d80 / 0x434220 / 0x434320 / 0x4345d0, the tick 0x433ab0, the init 0x433a50, the constants at 0x44ea90 (speed 0x44ea9c, idle distance 0x1000000, throw window 0x400000..0x600000), the grenade-count table 0x44eab0, the separation offsets 0x44ead8, the draw descriptor 0x44e928 (callback 0x433950, corners 0x44e448, part blocks 0x44e4a8 / 0x44e6a8) and its shape 0x44e8e8; issue #74, wiki documents 113 and 116. Angles: 0x400000 = 360 degrees; 16.16 values divided by 65536. The building table (`buildings`) is derived by the importers from the coastal table's field [3] (`flags` in coastal_damage.json): bits 16-19 min, 20-23 max, 0x8000 flips the team, and only entries with at least 2 hit points qualify (a hit must leave exactly 1). The wading ripple (descriptor 0x44e9c0, callback 0x433a10, part 0x44e9a0: cel 756 + 25 * team + frame, frames 10-19, ground quad corners 0x44e970) and the body mark (descriptor 0x44ea58, part 0x44ea38: cel 806 + variant, ground quad 0x44ea08; FUN_0040ad10: 120 ticks; FUN_00433ce0 picks the variant 2 * rand(3) + team) were added for issue #74's leftovers. `undrawn_ticks` is FUN_00433ab0's 0x78; `active_half_extent` is a PORT CHOICE standing in for 'drawn'.",
  "speed": 0.1999969482421875,
  "frame_rate": 0.1999969482421875,
  "start_frame": 6.0,
@@ -145,5 +145,62 @@
   true,
   true,
   true
- ]
+ ],
+ "wade": {
+  "cel_first": 756,
+  "team_offset": 25,
+  "frame_first": 10,
+  "frame_count": 10,
+  "quad": [
+   [
+    -4.0,
+    -4.0,
+    0.5
+   ],
+   [
+    4.0,
+    -4.0,
+    0.5
+   ],
+   [
+    4.0,
+    12.0,
+    0.5
+   ],
+   [
+    -4.0,
+    12.0,
+    0.5
+   ]
+  ]
+ },
+ "corpse": {
+  "cel_first": 806,
+  "variants": 6,
+  "lifetime": 120,
+  "quad": [
+   [
+    -4.0,
+    -4.0,
+    0.0
+   ],
+   [
+    4.0,
+    -4.0,
+    0.0
+   ],
+   [
+    4.0,
+    4.0,
+    0.0
+   ],
+   [
+    -4.0,
+    4.0,
+    0.0
+   ]
+  ]
+ },
+ "undrawn_ticks": 120,
+ "active_half_extent": 512.0
 }

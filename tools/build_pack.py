@@ -707,6 +707,12 @@ def main():
         with open(INFANTRY_JSON) as f:
             inf = json.load(f)
         table = {k: v for k, v in inf.items() if k not in ("_source", "cel_first", "dir_stride", "frame_count", "team_offset", "shadow_cel")}
+        table["wade"] = {k: v for k, v in inf["wade"].items() if k in ("frame_first", "quad")}
+        table["corpse"] = {k: v for k, v in inf["corpse"].items() if k in ("lifetime", "quad")}
+        w = inf["wade"]
+        table["wade_sprites"] = {name: [registry[str(w["cel_first"] + shift + fr)]["id"] for fr in range(w["frame_first"], w["frame_first"] + w["frame_count"])]
+                                 for name, shift in (("tan", 0), ("green", w["team_offset"]))}
+        table["corpse_sprites"] = [registry[str(inf["corpse"]["cel_first"] + v)]["id"] for v in range(inf["corpse"]["variants"])]
         sets = {}
         for team_name, team_shift in (("tan", 0), ("green", inf["team_offset"])):
             sets[team_name] = [[registry[str(inf["cel_first"] + d * inf["dir_stride"] + team_shift + fr)]["id"]
