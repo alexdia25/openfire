@@ -16,6 +16,7 @@ const LAMP_CELS := [[1969, 1970], [1971, 1972]]   ## (the lamp, the cel whose PL
 const LAMP_STEPS := 16
 const LAMP_SIZE := 16
 const MUSIC_TRACKS := 24
+const DRUMS_TRACKS := [28, 29]   ## cut from SOUND/Drums.WAV (the table restarts at 0 there): the title screen's Drums line
 const AUDIO_EXT := "res"
 
 
@@ -125,11 +126,11 @@ static func _write_audio(pcm: PackedByteArray, rate: int, path: String) -> Strin
 	return ""
 
 
-## extract_music.py: SOUND/Score.WAV on the CD, cut into 24 tracks by RFIRE.BIN's offset table 0x449470, and the 18
-## music lines of 0x4463b8.
+## extract_music.py: SOUND/Score.WAV on the CD, cut into tracks 1..24 by RFIRE.BIN's offset table 0x449470, SOUND/Drums.WAV into tracks 28 and 29,
+## and the 18 music lines of 0x4463b8.
 static func music(exe: RFExe, iso: RFIso9660, pack_dir: String) -> String:
 	var table := []
-	for i in 30:
+	for i in 32:
 		table.append(exe.dword(0x449470 + 4 * i))
 	var lines := []
 	for i in 18:
@@ -149,19 +150,25 @@ static func music(exe: RFExe, iso: RFIso9660, pack_dir: String) -> String:
 	var wav := iso.read_file("SCORE.WAV")
 	if wav.size() < 44 or wav.slice(0, 4).get_string_from_ascii() != "RIFF" or wav.slice(8, 16).get_string_from_ascii() != "WAVEfmt ":
 		return "the CD image has no music file (SOUND/SCORE.WAV)"
+	var drums := iso.read_file("DRUMS.WAV")
+	if drums.size() < 44 or drums.slice(0, 4).get_string_from_ascii() != "RIFF" or drums.slice(8, 16).get_string_from_ascii() != "WAVEfmt ":
+		return "the CD image has no title music file (SOUND/DRUMS.WAV)"
 	var out_dir := pack_dir.path_join("music")
 	DirAccess.make_dir_recursive_absolute(out_dir)
 	var tracks := []
-	for n in range(1, MUSIC_TRACKS + 1):
+	var numbers := range(1, MUSIC_TRACKS + 1)
+	numbers.append_array(DRUMS_TRACKS)
+	for n in numbers:
 		var a: int = table[n]
 		var z: int = table[n + 1]
+		var src := wav if n <= MUSIC_TRACKS else drums
 		var file := "track_%02d.%s" % [n, AUDIO_EXT]
-		var why := _write_audio(wav.slice(44 + a, 44 + z), 44100, out_dir.path_join(file))
+		var why := _write_audio(src.slice(44 + a, 44 + z), 44100, out_dir.path_join(file))
 		if why != "":
 			return why
 		tracks.append({"n": n, "file": file, "start_byte": a, "end_byte": z, "seconds": RFPyCompat.round_digits((z - a) / 176400.0, 2)})
 	PackWriter.write_json(out_dir.path_join("music.json"), {
-		"_source": "RFIRE.BIN offset table 0x449470 and music line table 0x4463b8; SOUND/Score.WAV on the CD image; document 98",
+		"_source": "RFIRE.BIN offset table 0x449470 and music line table 0x4463b8; SOUND/Score.WAV and SOUND/Drums.WAV on the CD image; document 98",
 		"tracks": tracks, "lines": lines})
 	return ""
 

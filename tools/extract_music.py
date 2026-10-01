@@ -1,10 +1,11 @@
 """Extracts the game's music (document 98) from the CD image into the pack: music/track_NN.ogg and music/music.json.
 
 The game's music is one long 44.1 kHz stereo WAV, `SOUND/Score.WAV` (a copy of the CD's audio tracks; the install's copy is a 20-byte stub, the real one is on the CD image),
-cut into 24 tracks by the offset table at 0x449470 of RFIRE.BIN (file offsets into the sample data). The "music lines" (document 71 read them as announcer voice lines) are the
+cut into tracks 1..24 by the offset table at 0x449470 of RFIRE.BIN (file offsets into the sample data). The "music lines" (document 71 read them as announcer voice lines) are the
 18 entries of 0x2c bytes at 0x4463b8: {id, lowest, highest, enabled, name ptr, transition byte, transition-list ptr, flags, start / alternate-start / end track, ...}.
 A line plays the tracks from `start` up to (not including) `end`; a looping line then restarts at `alt`; a sting (flags bit 1) plays once.
-Reads RFIRE.BIN and the ISO from RF_GAME_DIR (default C:/Users/Alex/Documents/returnfire): "RFIRE.BIN" and "RFIRE US.iso" (override the image with RF_ISO). Needs ffmpeg with libvorbis.
+Reads RFIRE.BIN and the ISO from RF_GAME_DIR (default C:/Users/Alex/Documents/returnfire): "RFIRE.BIN" and "RFIRE US.iso" (override the image with RF_ISO). `SOUND/Drums.WAV` (16 s) holds tracks 28 and 29 (the table restarts at 0 there), the title screen's "Drums" line.
+Needs ffmpeg with libvorbis.
 Usage: python extract_music.py [pack_dir]
 """
 import json
@@ -40,7 +41,7 @@ def cstr(va):
     return exe[o:exe.index(b"\0", o)].decode("latin-1")
 
 
-table = list(struct.unpack_from("<30I", exe, off(0x449470)))   # track n starts at table[n]; the sample data is 44 bytes into the file
+table = list(struct.unpack_from("<32I", exe, off(0x449470)))   # track n starts at table[n]; the sample data is 44 bytes into the file
 lines = []
 for i in range(18):
     b = off(0x4463b8 + i * 0x2c)
@@ -55,28 +56,35 @@ for i in range(18):
     lines.append({"id": line_id, "name": cstr(name_ptr), "lowest": lo, "highest": hi, "enabled_bit0": enabled & 1, "default_transition": trans_byte, "transitions": trans,
                   "sting": bool(flags & 2), "flags": flags, "start_track": -start, "alt_track": -alt, "end_track": -end})
 
-# the ISO9660 record of SCORE.WAV
+# the ISO9660 records of the two WAVs: SCORE.WAV (tracks 1..24) and DRUMS.WAV (tracks 28 and 29, the title screen's Drums line; RFIRE.BIN names both at 0x441468..0x442568)
 iso = open(ISO, "rb")
 blob = iso.read()
-i = blob.find(b"SCORE.WAV;1")
-rec = i - 33
-lba = struct.unpack_from("<I", blob, rec + 2)[0]
-size = struct.unpack_from("<I", blob, rec + 10)[0]
-wav = blob[lba * 2048: lba * 2048 + size]
+
+
+def cd_wav(name):
+    i = blob.find(name + b";1")
+    rec = i - 33
+    lba = struct.unpack_from("<I", blob, rec + 2)[0]
+    size = struct.unpack_from("<I", blob, rec + 10)[0]
+    wav = blob[lba * 2048: lba * 2048 + size]
+    assert wav[:4] == b"RIFF" and wav[8:16] == b"WAVEfmt ", "not a WAV: %r" % name
+    return wav[44:]
+
+
+pcm = cd_wav(b"SCORE.WAV")
+drums = cd_wav(b"DRUMS.WAV")
 del blob
-assert wav[:4] == b"RIFF" and wav[8:16] == b"WAVEfmt ", "not the music WAV"
-pcm = wav[44:]
 
 out_dir = os.path.join(PACK_DIR, "music")
 os.makedirs(out_dir, exist_ok=True)
 tracks = []
-for n in range(1, 25):
+for n in list(range(1, 25)) + [28, 29]:   # tracks 25..27 are not used by any line; the table's entries there are not offsets
     a, z = table[n], table[n + 1]
-    seg = pcm[a:z]
+    seg = (pcm if n <= 24 else drums)[a:z]
     path = os.path.join(out_dir, "track_%02d.ogg" % n)
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "s16le", "-ar", "44100", "-ac", "2", "-i", "-", "-c:a", "libvorbis", "-q:a", "4", path], input=seg, check=True)
     tracks.append({"n": n, "file": "track_%02d.ogg" % n, "start_byte": a, "end_byte": z, "seconds": round((z - a) / 176400.0, 2)})
     print("track", n, tracks[-1]["seconds"], "s")
 with open(os.path.join(out_dir, "music.json"), "w") as f:
-    json.dump({"_source": "RFIRE.BIN offset table 0x449470 and music line table 0x4463b8; SOUND/Score.WAV on the CD image; document 98", "tracks": tracks, "lines": lines}, f, indent=1)
+    json.dump({"_source": "RFIRE.BIN offset table 0x449470 and music line table 0x4463b8; SOUND/Score.WAV and SOUND/Drums.WAV on the CD image; document 98", "tracks": tracks, "lines": lines}, f, indent=1)
 print("wrote", len(tracks), "tracks and", len(lines), "lines to", out_dir)
