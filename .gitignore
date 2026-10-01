@@ -25,12 +25,14 @@
 *.gpr
 *.rep/
 
-# Godot
+# Godot. export_presets.cfg IS tracked: the "Open Fire" presets define the release (issue #61 stage 5) -- which
+# files ship, and the openfire_import feature that points the game at the pack imported on the player's machine.
+# Never put credentials in it (code signing passwords and the like go in the untracked .godot/export_credentials.cfg).
 .godot/
 .import/
 export.cfg
-export_presets.cfg
 *.translation
+/export/
 
 # Python
 __pycache__/

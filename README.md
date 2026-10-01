@@ -39,20 +39,45 @@ keep going. Open work is tracked as [GitHub issues](https://github.com/alexdia25
 
 ## Two ways this engine ships
 
+```mermaid
+flowchart LR
+    ENG["openfire-engine<br/>(one engine)"]
+    subgraph fresh["A fresh, original game (its own private repo)"]
+        FP["its pack, bundled at<br/>res://packs/its_id"]
+        FX["export: pack inside,<br/>no import step,<br/>no Return Fire code at all"]
+    end
+    subgraph of["Open Fire (this repo)"]
+        OB["export: engine + importer/,<br/>no Return Fire content"]
+        OI["first run: the player picks<br/>their own Return Fire install"]
+        OP["user://packs/original_pc<br/>built on their machine"]
+        OB --> OI --> OP
+    end
+    ENG --> FX
+    FP --> FX
+    ENG --> OB
+```
+
 - **A fresh, original game.** Its own content pack ships pre-bundled inside the compiled
   release (`res://packs/<id>`), built once at release time. No Return Fire files involved
-  anywhere, no import step — this build has to just always work.
-- **"Open Fire" mode.** The same engine, shipped without any Return Fire content. On first
-  launch it asks for the location of the player's own legally-obtained copy of the
-  original game, converts it locally into a pack, and becomes a full authentic port from
-  then on. This is the model used by devilutionX, OpenRCT2, and OpenTTD — see the Legal
-  section below. Planned in [issue #61](https://github.com/alexdia25/openfire/issues/61);
-  not built yet.
+  anywhere, no import step, so this build has to just always work. It lives in its own
+  repo, which consumes the engine as a submodule and never contains Return Fire's importer
+  or converters. Its zero coupling to the importer is structural, not an export filter
+  ([issue #62](https://github.com/alexdia25/openfire/issues/62)).
+- **"Open Fire" mode** (this repo, [issue #61](https://github.com/alexdia25/openfire/issues/61)).
+  The same engine, shipped without any Return Fire content. On first launch, before the
+  title screen, it asks for the folder of the player's own legally-obtained copy of the
+  original game (the PC release; the CD image adds the music). It converts that locally,
+  inside the game, into `user://packs/original_pc`, and is a full authentic port from then
+  on. Nothing else needs installing: the importer (`importer/`) is GDScript in the same
+  binary. This is the model used by devilutionX, OpenRCT2, and OpenTTD; see the Legal
+  section below.
 
-Both are the same codebase and the same `Pack`-shaped content format — mods layer on top
+Both are the same engine and the same `Pack`-shaped content format. Mods layer on top
 identically in either one (the engine's `ModLoader`), loaded from anywhere on the player's
 drive. What differs is only how the base pack gets there: baked in at build time, or
-generated locally on first run.
+generated locally on first run. The engine just reads `openfire/packs/base_pack` from
+`project.godot`; the "Open Fire" export presets add the `openfire_import` feature, which
+points that setting at `user://packs/original_pc`.
 
 ## Why Godot
 
@@ -85,7 +110,7 @@ available against it.
 
 This repository contains **no game assets and no decompiled game code**. It ships
 converters and engine code only. To build or run anything asset-dependent, point the
-dev pipeline (or, once built, "Open Fire" mode's first-run setup) at your own
+dev pipeline, or "Open Fire" mode's first-run setup, at your own
 legally-obtained copy of *Return Fire*. This is the same model used by devilutionX,
 OpenRCT2, and OpenTTD.
 
@@ -93,6 +118,8 @@ OpenRCT2, and OpenTTD.
 
 ```
 /addons/openfire_engine/  the engine (git submodule: runtime game/, mod tool editor/, its own tests/)
+/addons/open_fire_export/ editor-only export hook: puts the asset registry into "Open Fire" builds
+/importer/                "Open Fire" mode: the in-game importer (GDScript) and the boot/first-run screens
 /tools/                   Python asset converters + pack validator (the dev pipeline)
 /tools/tests/             headless checks against the real traced pack
 /packs/                   content packs + the asset ID registry (generated, mostly gitignored)
@@ -105,13 +132,18 @@ engine code; see the engine's README for every setting a game can make.
 
 ## Running it
 
-- **Build the pack** from your own install, in one step:
-  `python tools/import_original.py <your Return Fire folder> packs/original_pc`
-  (needs Python 3 + Pillow; ffmpeg and the CD image `RFIRE US.iso` for the music, which is
-  skipped with a warning without them).
 - **The game:** open this project in the Godot 4 editor and run it, or
   `godot --path . --audio-driver Dummy` (mute audio driver recommended on this project's
-  dev machine) from the command line.
+  dev machine) from the command line. With no pack at `packs/original_pc` yet, the
+  first-run screen comes up and imports your install into it, the same as a released
+  "Open Fire" build does into `user://`.
+- **Or build the pack with the Python pipeline** (the fast iteration path for RE work):
+  `python tools/import_original.py <your Return Fire folder> packs/original_pc`
+  (needs Python 3 + Pillow; ffmpeg and the CD image `RFIRE US.iso` for the music, which is
+  skipped with a warning without them). The in-game importer and this one produce the same
+  pack, which `tools/tests/importer_parity_check.gd` checks (`RF_GAME_DIR=<install>`).
+- **Release builds:** the "Open Fire (Windows/Linux)" presets in `export_presets.cfg`
+  (Project > Export, or `godot --headless --export-release "Open Fire (Windows)"`).
 - **The mod tool:** `godot --path . res://addons/openfire_engine/editor/editor_main.tscn`.
 - **Tests:** each check under `tools/tests/` is its own headless run, e.g.
   `godot --headless --audio-driver Dummy --path . --script tools/tests/<name>.gd`.

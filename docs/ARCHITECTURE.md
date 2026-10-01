@@ -92,3 +92,98 @@ A change the engine needs is a normal PR to openfire-engine, then a submodule bu
 part of an openfire change. The engine's own docs cover its internals: the runtime's composition, signal
 flow and how packs/mods resolve are in
 [openfire-engine's ARCHITECTURE.md](https://github.com/alexdia25/openfire-engine/blob/main/docs/ARCHITECTURE.md).
+
+## "Open Fire" mode: importing on the player's machine
+
+A released "Open Fire" build contains the engine and this repo's `importer/`, and no Return Fire content
+at all. The game's base pack is built on the player's machine, from their own install, the first time it
+runs (issue #61).
+
+```mermaid
+flowchart TD
+    START(["launch"]) --> BOOT["OpenFireBoot<br/>importer/boot.tscn, the main scene"]
+    BOOT --> HAS{"base pack there?<br/>ModLoader.has_pack()"}
+    HAS -- yes --> FLOW["GameFlow<br/>title, menu, levels"]
+    HAS -- no --> SCREEN["FirstRunScreen<br/>choose the install folder<br/>(and the CD image, for music)"]
+    SCREEN --> VAL{"RFImporter.validate_install()"}
+    VAL -- "wrong folder, 3DO disc,<br/>missing or tiny files" --> SCREEN
+    VAL -- ok --> RUN["RFImporter.run()<br/>background thread, progress bar"]
+    RUN --> PARTIAL["builds original_pc.partial"]
+    PARTIAL -- "every step succeeded" --> SWAP["swapped into place<br/>(an old pack is set aside first)"]
+    PARTIAL -- "any failure" --> CLEAN["the partial is deleted,<br/>an existing pack untouched"]
+    CLEAN --> SCREEN
+    SWAP --> FLOW
+    FLOW -- "Settings, Game files..." --> SCREEN
+```
+
+Where the pack goes is not decided in the importer. It imports into whatever the project names as its base
+pack, `openfire/packs/base_pack`. That setting is `res://packs/original_pc` in a dev checkout, so running the
+project with no pack yet imports straight into the repo's gitignored `packs/`. The "Open Fire" export presets
+(`export_presets.cfg`) add the `openfire_import` feature, and `project.godot` overrides the setting for that
+feature to `user://packs/original_pc`, the one place an exported game can write. The same presets also pick
+which files ship:
+
+| In the "Open Fire" build | Left out |
+|---|---|
+| the engine (`addons/openfire_engine/game`, `editor`) | the engine's own `tests/` and `tools/` |
+| `importer/` (boot scene, first-run screen, the importer) | `tools/tests/`, every `.py` file |
+| `tools/data/*.json`, `packs/registry/asset_ids.json`: the traced tables the importer applies | any local `packs/original_pc`, `build/` |
+
+`tools/data/` reaches the build through the presets' include filter. The registry needs
+`addons/open_fire_export/`, a small export plugin: `packs/` has a `.gdignore` so the editor never imports a pack's
+PNGs, and export filters never look inside an ignored folder. The plugin adds the registry to any build with the
+`openfire_import` feature. The engine reads its settings with `get_setting_with_override()`, so the feature's
+`packs/base_pack.openfire_import` override takes effect in the exported game.
+
+### Two pipelines, one pack
+
+```mermaid
+flowchart LR
+    subgraph install["the player's install (never in the repo or a build)"]
+        direction TB
+        CAR["ART/ART.CAR"]
+        RFM["WORLDS/**/*.RFM"]
+        SDT["SOUND/*.SDT"]
+        BIN["RFIRE.BIN, TITLE/, ART/*.RFA"]
+        ISO["the CD image<br/>(music, victory jingles)"]
+    end
+    subgraph traced["traced once, in the repo and the build"]
+        direction TB
+        DATA["tools/data/*.json"]
+        REG["packs/registry/asset_ids.json"]
+    end
+    PY["tools/import_original.py<br/>Python: dev, RE iteration"]
+    GD["importer/ RFImporter<br/>GDScript: inside the game"]
+    install --> PY
+    install --> GD
+    traced --> PY
+    traced --> GD
+    PY --> P1[("pack")]
+    GD --> P2[("pack")]
+    P1 <-. "importer_parity_check:<br/>every file compared" .-> P2
+```
+
+`importer/` is a GDScript port of the subset of `tools/` that a player's import needs. Nothing about the
+original game is re-traced at import time: the tables the RE work produced (`tools/data`, the registry) ship
+with the build, and the importer applies them to the player's files.
+
+| Python (`tools/`) | GDScript (`importer/`) |
+|---|---|
+| `import_original.py` (orchestration, `validate_install`) | `rf_importer.gd` (`RFImporter`) |
+| `convert_car.py`, `rf_effect_cel.py` | `car_decoder.gd` |
+| `convert_rfm.py`, `rf_tile_art.py` | `rfm_decoder.gd` |
+| `convert_sdt.py` | `RFImporter.sdt_problem()` (the files are copied as they are) |
+| `build_pack.py` | `pack_builder.gd`, writing through the engine's `PackWriter` |
+| `extract_hud_strip.py`, `extract_win_banners.py`, `extract_compass_lamps.py`, `extract_music.py`, `extract_win_jingles.py`, `rfexe.py` | `extras.gd`, `rf_exe.gd`, `iso9660.gd` |
+| `validate_pack.py` | `RFImporter.validate_pack()` |
+
+`tools/tests/importer_parity_check.gd` runs both pipelines on the same install
+(`RF_GAME_DIR=<install>`, `RF_PARITY_REFERENCE=<Python-built pack>`) and compares every file the Python pack
+has: JSON by value, images by pixel, everything else byte for byte. It first passed on 2026-10-01 (2,672
+files, no differences). Under issue #61's decision 3 as corrected, **the GDScript importer is canonical from
+then on**: if the two ever disagree, Python is what gets fixed, and a new traced mechanic or asset type lands
+in `importer/` first. Python stays the fast tool for cracking a new format without a Godot round-trip.
+
+One recorded difference, a port choice: Godot has no Ogg Vorbis encoder, so the importer stores the music
+and the victory jingles' audio as QOA-compressed `AudioStreamWAV` resources (`.res`). The engine's
+`AudioFiles` loads either format, and the parity check compares those files by duration.
