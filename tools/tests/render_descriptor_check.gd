@@ -1,7 +1,8 @@
 # Headless check for the render descriptors (PORTING_PLAN.md 2.7.2, step 5): every moving part of the four vehicles -- the Tank's
 # turret and barrel cluster, the Jeep's wheel strips and swim ring, the MSV's rack and canisters, the Heli's rotor and tilt -- is
-# a binding in the vehicle definition's `render` block that game/vehicle_render_3d.gd evaluates against `Vehicle.channel()`;
-# and a mod's vehicle with its own descriptor moves the same way, with no vehicle type anywhere in the renderer. Run:
+# a binding in the vehicle definition's `render` block that game/vehicle_render_3d.gd evaluates against `Vehicle.channel()`.
+# This is Return Fire's own data checked; the descriptor vocabulary itself, on a synthetic vehicle with no vehicle type
+# anywhere, is openfire-engine's tests/render_descriptor_check.gd (issue #65). Run:
 #   godot --headless --path . --script tools/tests/render_descriptor_check.gd
 extends SceneTree
 
@@ -130,34 +131,6 @@ func _init() -> void:
 	v.bank_steps = 2.0
 	r._process(0.0)
 	_check(is_equal_approx(r.rotation_degrees.z, 11.25), "the body banks with bank_steps")
-	r.free()
-	v.free()
-
-	# a mod's vehicle with its own descriptor: a hull, and a gunner that turns with turret_deg and picks its sprite by the salvo
-	var mod := ProjectSettings.globalize_path("user://render_descriptor_check/mod")
-	if DirAccess.dir_exists_absolute(mod):
-		OS.move_to_trash(mod)
-	PackWriter.write_json(mod.path_join("pack.json"), {"id": "rendmod", "name": "render descriptor test", "base_pack": "original_pc"})
-	var spinner: Dictionary = pack.vehicle_def(1).duplicate(true)
-	spinner["id"] = "rendmod.spinner"
-	spinner["name"] = "Spinner"
-	var hull: Dictionary = spinner["render"]["parts"][0].duplicate(true)
-	var gunner: Dictionary = hull.duplicate(true)
-	gunner["group"] = "gun"
-	gunner["corners"] = [[-3.0, -3.0, 6.0], [3.0, -3.0, 6.0], [3.0, 3.0, 6.0], [-3.0, 3.0, 6.0]]
-	gunner["sprites_by"] = {"channel": "salvo_index", "sprites": ["vehicle.msv.p324.canisters_3", "vehicle.msv.p324.canisters_2"]}
-	spinner["render"] = {"parts": [hull, gunner], "groups": {"gun": {"rotate": [{"axis": "y", "channel": "turret_deg", "scale": -2.0}]}}}
-	PackWriter.write_json(mod.path_join("vehicles/rendmod.spinner/vehicle.json"), spinner)
-	var mp := Pack.new()
-	_check(mp.load_from(mod), "the mod loads")
-	m = _made(mp, mp.vehicle_index("rendmod.spinner"))
-	v = m[0]
-	r = m[1]
-	v.turret_deg = 30.0
-	v._salvo_index = 1
-	r._process(0.0)
-	_check(r._parts.size() == 2 and is_equal_approx(r._groups["gun"]["node"].rotation_degrees.y, -60.0), "the mod's group turns by its own scale")
-	_check(r._sprite_id(r._parts[1]["data"]) == "vehicle.msv.p324.canisters_2", "and its part picks the sprite by the channel")
 	r.free()
 	v.free()
 

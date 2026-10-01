@@ -1,6 +1,7 @@
 # The Tank's drawn geometry (its definition's render descriptor: the six hull faces and the eight turret parts, the barrel cluster at several gun elevations) has no part lying in
 # the plane of an earlier overlapping one, so nothing there can z-fight the way the Jeep's wheel strips did (document 102). Run:
 #   godot --headless --path . --script tools/tests/tank_coplanar_check.gd
+# (Return Fire's own descriptors checked; the shift mechanism itself is openfire-engine's tests/coplanar_parts_check.gd, issue #65.)
 extends SceneTree
 
 var fails := 0

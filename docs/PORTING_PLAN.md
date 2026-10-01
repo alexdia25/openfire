@@ -1830,7 +1830,7 @@ never had a 5th vehicle to choose from, so there is no traced equivalent). Vehic
 `selector.picture` field (`[tan_id, green_id]`, built for the original 4 the same way `selector.json`'s own shared
 picture table already was) so a mod's own vehicle can eventually supply its own hangar picture; without one, that
 bay still shows its box and pointer when selected, just no picture -- a real, marked gap (there is no traced art for
-a vehicle the original never had), not a crash. Checked by `tools/tests/selector_roster_check.gd`: a 5-vehicle
+a vehicle the original never had), not a crash. Checked by `selector_roster_check.gd` (openfire-engine `tests/`, issue #65): a 5-vehicle
 roster pages correctly and confirming the 5th vehicle actually creates it, and a 3-vehicle roster (one of the
 original 4 removed) leaves its own bay empty with everything else unchanged. Worked example: wiki doc 111.
 
@@ -3290,7 +3290,7 @@ reloads the scene itself; the dev level-switch keys `[`/`]`/PageUp/PageDown work
 over both (level switching is level select's job once a real front end exists to switch through, per the user,
 2026-09-28).
 
-Checked by `tools/tests/game_flow_check.gd` (21 checks: every state transition, the win/loss screen surviving until
+Checked by `game_flow_check.gd` (openfire-engine `tests/`, issue #65) (21 checks: every state transition, the win/loss screen surviving until
 `continue_pressed`, the mid-level overlay returning to the same level, the dev keys disabled under `managed_by_flow`)
 and a dev screenshot tool, `tools/tests/game_flow_gallery.gd` (needs a real window, excluded from the automated
 suite). Worked example: wiki doc 109.

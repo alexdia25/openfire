@@ -1,5 +1,6 @@
 # Parts of a vehicle descriptor that lie in the same plane as an earlier overlapping part are drawn over it by a small outward shift instead of a depth tie (the Jeep's wheel strips
 # against its side panels z-fought). Run:  godot --headless --path . --script tools/tests/vehicle_coplanar_check.gd
+# (Return Fire's own descriptors checked; the shift mechanism itself is openfire-engine's tests/coplanar_parts_check.gd, issue #65.)
 extends SceneTree
 
 var fails := 0

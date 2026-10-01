@@ -69,7 +69,7 @@ folder. What exists:
 - The Vehicles tab also lists each vehicle's **behaviour modules** (step 4): per slot the module, what it is a port of,
   and every parameter with its value, traced default and provenance, overrides highlighted (read-only until E3).
 - The original palette ships in the pack (`sprites/palette.json`) for the pixel tools later.
-- Checked by `tools/tests/mod_workspace_check.gd` (31 checks) and `tools/tests/mod_tool_ui_check.gd` (31, including
+- Checked by `mod_workspace_check.gd` (openfire-engine `tests/`, issue #65) (31 checks) and `mod_tool_ui_check.gd` (openfire-engine `tests/`, issue #65) (31, including
   every vehicle type assembled, the Tank's turret slider turning the renderer's turret, and the map viewer).
 
 Not yet in E0: "where is this sprite used" in the inspector (needs vehicle definitions to be complete, step 3); making
