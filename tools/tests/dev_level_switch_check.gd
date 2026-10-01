@@ -3,7 +3,7 @@
 extends SceneTree
 
 func _init() -> void:
-	var scene: PackedScene = load("res://game/terrain_view_3d.tscn")
+	var scene: PackedScene = load("res://addons/openfire_engine/game/terrain_view_3d.tscn")
 	var view := scene.instantiate()
 	get_root().add_child(view)
 	current_scene = view

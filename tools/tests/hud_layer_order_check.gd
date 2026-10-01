@@ -4,7 +4,7 @@
 extends SceneTree
 
 func _init() -> void:
-	var view: Node = load("res://game/terrain_view_3d.tscn").instantiate()
+	var view: Node = load("res://addons/openfire_engine/game/terrain_view_3d.tscn").instantiate()
 	get_root().add_child(view)
 	current_scene = view
 	for i in 3:

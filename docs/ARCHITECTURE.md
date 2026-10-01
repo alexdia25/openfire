@@ -29,7 +29,7 @@ never touched by the shipped code — Ghidra and a set of Python extractors
 (`packs/original_pc/`: sprites, terrain, levels, vehicles, HUD, audio). Packs embed real
 extracted pixel and audio data, so — like the Ghidra project and every raw `.RFA`/`.RFM`/
 `.SDT`/`.CAR`/`.BIN` file — they're gitignored; only the hand-authored ID registry under
-`packs/registry/` is tracked. The Godot runtime (`game/*.gd`) is the only stage that ships:
+`packs/registry/` is tracked. The Godot runtime (the engine, `addons/openfire_engine/`) is the only stage that ships:
 it loads a pack at runtime (never through `res://` import, since the pack doesn't exist at
 edit time) and contains no decompiled code or original assets, just GDScript. Underneath all
 four stages, the [wiki's worked examples](https://github.com/alexdia25/openfire/wiki/) pair each decompiled/disassembled finding with the port
@@ -40,134 +40,55 @@ mod's `pack.json` names its `base_pack`, which loads underneath it, and the mod 
 id (one sprite, one vehicle type, one sound cue, one level) rather than replacing it wholesale. The
 `Pack` node in the diagrams below stands for that whole resolved stack.
 
-The mod tool (`editor/`, run `godot --path . res://editor/editor_main.tscn`; [`EDITOR_PLAN.md`](EDITOR_PLAN.md)) is
-a second, separate scene over the same `Pack`: it opens one mod layer as a `ModWorkspace`, edits it live and writes
-only that layer back. It shares no state with the game scene below.
+The mod tool (the engine's `editor/`, run `godot --path . res://addons/openfire_engine/editor/editor_main.tscn`;
+[`EDITOR_PLAN.md`](EDITOR_PLAN.md)) is a second, separate scene over the same `Pack`: it opens one mod layer as a
+`ModWorkspace`, edits it live and writes only that layer back.
 
-## Runtime internals
+## Two repositories
 
-### At a glance
-
-`Vehicle` is the per-vehicle simulation; `MatchController` is the orchestrator (docking,
-mines, flags, the win condition); everything else only reads that state to show or play it:
-
-```mermaid
-flowchart LR
-    subgraph Runtime["Godot runtime (game/*.gd, all shipped GDScript)"]
-        V["Vehicle<br/>drive, fire, dock"]
-        M["MatchController<br/>docks, flags, win"]
-        P["Presentation<br/>view, HUD and audio"]
-        V --> M --> P
-    end
-```
-
-That's the shape worth keeping in your head day to day. The rest of this section is the same
-picture again, twice, each pass trading simplicity for one more layer of the actual code.
-
-### Composition: what creates what
-
-`game/terrain_view_3d.gd` (no `class_name`; it's the main scene's own script,
-`res://game/terrain_view_3d.tscn`) is the actual composition root — it builds `Pack` and
-`LevelData`, then creates `MatchController` and `SoundManager` as children, and reactively
-adds a 3D renderer node any time `MatchController`/`Vehicle` announces something new (a
-vehicle, a shot, a gate). Everything below is real `.new()`/`add_child()` calls in that file
-and in `MatchController`, not a simplification:
+Since issue #62 the runtime lives in its own repository,
+[openfire-engine](https://github.com/alexdia25/openfire-engine), and this repo consumes it as a git
+submodule at `addons/openfire_engine/`, exactly as any other game built on it does. The split follows one
+rule: **the engine names no game.** Anything that only makes sense for Return Fire stays here.
 
 ```mermaid
 flowchart TB
-    Pack["Pack<br/>pack.gd"] --> Root
-    LevelData["LevelData<br/>level_data.gd"] --> Root
-    Root(["TerrainView3D<br/>main scene, composition root"])
-
-    Root --> MC["MatchController"]
-    Root --> Sound["SoundManager"]
-    Root --> Hud["PlaceholderHud"]
-    Root --> Terrain3D["TerrainTileRenderer +<br/>DecorationField3D"]
-    Root --> DockRing["DockReadyIndicator3D"]
-    Root --> Render3D
-
-    subgraph SimObjects["Simulation objects (Node2D, a logical 2D space)"]
-        Vehicle["Vehicle / EnemyVehicle"]
-        MineObj["Mine"]
-        ProjObj["Projectile"]
-        FlagObj["FlagMarker"]
+    subgraph engine["openfire-engine (public)"]
+        direction LR
+        EG["game/<br/>Pack, ModLoader, GameFlow,<br/>Vehicle, MatchController, renderers"]
+        EE["editor/<br/>mod tool, PackWriter"]
+        ET["tests/<br/>synthetic-pack checks"]
     end
-    MC --> Vehicle
-    MC --> MineObj
-    MC --> ProjObj
-    MC --> FlagObj
-
-    subgraph SimLogic["Simulation logic (RefCounted, no scene presence)"]
-        GateObj["Gate"]
-        Pool["TargetPool"]
-        Anim["SelectorAnim"]
-        Water["Water"]
-        Collision["Collision"]
-        CrtRand["CrtRand"]
+    subgraph openfire["openfire (public, this repo)"]
+        direction LR
+        SUB["addons/openfire_engine/<br/>(submodule, pinned commit)"]
+        TOOLS["tools/<br/>Python RE converters,<br/>import_original.py"]
+        REG["packs/registry/<br/>tools/data/*.json<br/>(traced tables)"]
+        DOCS["docs/ + wiki<br/>the RE narrative"]
+        TESTS["tools/tests/<br/>checks on the real pack"]
+        CFG["project.godot<br/>[openfire] packs/base_pack"]
     end
-    MC --> GateObj
-    MC --> Pool
-    MC --> Anim
-    MC --> Collision
-    Vehicle --> Water
-    GateObj --> Collision
-
-    subgraph Render3D["3D renderers (Node3D, spawned on MatchController/Vehicle signals)"]
-        VehicleRender["VehicleRender3D /<br/>Wreck3D"]
-        ProjRender["ProjectileBillboard3D"]
-        GateRender["GateView3D"]
-        MineRender["MineView3D"]
-        FlagRender["FlagMarker3D"]
-        Explosion["ExplosionEffect3D"]
+    subgraph newgame["the new game (private)"]
+        direction LR
+        NSUB["addons/openfire_engine/<br/>(submodule)"]
+        NP["packs/its_id/<br/>its own content"]
     end
-
-    Hud --> Panel["HudPanel"]
-    Panel --> Radar["RadarView"]
-    Hud --> Selector["SelectorScreen"]
-    Selector --> CrtRand
+    engine == "git submodule" ==> SUB
+    engine == "git submodule" ==> NSUB
+    CFG -. "tells the engine<br/>which pack to run" .-> SUB
+    TOOLS -- "writes" --> PACK[("packs/original_pc<br/>gitignored, built from<br/>your own install")]
+    PACK -. "loaded at runtime" .-> SUB
 ```
 
-The split down the middle is real, not incidental: `Vehicle`, `Mine`, `Projectile` and
-`FlagMarker` all `extend Node2D` — the simulation runs entirely in a logical 2D space (the
-same coordinate system the original game's fixed-point code used), with no 3D representation
-of its own. Every `*_3d.gd` node under **3D renderers** only *reads* one of those Node2D
-objects each frame and draws it in the actual 3D scene — it owns no gameplay state. `Gate`,
-`TargetPool`, `SelectorAnim`, `Water`, `Collision` and `CrtRand` are plainer still: they
-`extend RefCounted`, so they never enter the scene tree at all, just plain data/logic objects
-`MatchController` (or another RefCounted object) holds a reference to.
+| Lives in | What | Why there |
+|---|---|---|
+| openfire-engine | `game/` (runtime), `editor/` (mod tool), engine tests | reusable by any game; never names one |
+| openfire | `tools/` (converters, `import_original.py`), `tools/data/`, `packs/registry/` | Return Fire's file formats and traced tables |
+| openfire | `tools/tests/` | checks that need the real traced pack: authenticity (movement, sounds, the level 1 playthrough) and engine behaviour exercised on real content |
+| openfire | `docs/`, the wiki | the reverse-engineering record |
 
-### Signal flow
-
-`MatchController` and `Vehicle` never reach into a renderer directly; they emit signals and
-`terrain_view_3d.gd` (or `SoundManager`, or the HUD) is what's listening:
-
-```mermaid
-flowchart LR
-    Vehicle -- "shot" --> MC["MatchController"]
-    Vehicle -- "mine_dropped" --> MC
-    Vehicle -- "dock_requested" --> MC
-    MC -- "projectile_spawned" --> ProjRender["ProjectileBillboard3D"]
-    MC -- "gate_created / gate_removed" --> GateRender["GateView3D"]
-    MC -- "mine_added / mine_exploded" --> MineRender["MineView3D"]
-    MC -- "flag_spawned" --> FlagRender["FlagMarker3D"]
-    MC -- "target_hit / tile_destroyed / tile_crushed" --> Terrain["TerrainTileRenderer"]
-    MC -- "impact_effect" --> Explosion["ExplosionEffect3D"]
-    Vehicle -- "type_changed / destroyed" --> VehicleRender["VehicleRender3D family"]
-    Vehicle -- "sound_cue" --> Sound["SoundManager"]
-    MC -- "selection_changed" --> Selector["SelectorScreen"]
-    MC -- "match_over / out_of_vehicles" --> Hud["PlaceholderHud"]
-```
-
-One exception: `DockReadyIndicator3D` polls `MatchController.can_dock(vehicle)` every frame
-(document 80) rather than waiting on a signal, since "am I currently eligible to dock" is a
-continuous condition, not a discrete event.
-
-`tools/tests/*.gd` are headless Godot scripts that exercise `MatchController`/`Vehicle`
-directly (no scene, no renderer) to check traced numbers — tick counts, damage, stock — against
-the disassembly.
-
----
-*Diagrams are hand-authored, not from the original game, and reflect the state as of document
-84 (2026-09-22) — cross-checked against real `class_name`/`extends` declarations and
-`.new()`/`add_child()` call sites in `game/`, not just prose. Regenerate them (ask an agent to
-update this file) if the module boundaries above drift.*
+A change the engine needs is a normal PR to openfire-engine, then a submodule bump here (`git submodule update
+--remote addons/openfire_engine`, then commit the new pointer). Never edit files inside the submodule checkout as
+part of an openfire change. The engine's own docs cover its internals: the runtime's composition, signal
+flow and how packs/mods resolve are in
+[openfire-engine's ARCHITECTURE.md](https://github.com/alexdia25/openfire-engine/blob/main/docs/ARCHITECTURE.md).

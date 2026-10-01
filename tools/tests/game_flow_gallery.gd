@@ -12,7 +12,7 @@ func _run() -> void:
 	var args := OS.get_cmdline_user_args()
 	var out_dir: String = args[0] if args.size() > 0 else "user://gallery"
 	DirAccess.make_dir_recursive_absolute(out_dir)
-	var flow: GameFlow = load("res://game/game_flow.tscn").instantiate()
+	var flow: GameFlow = load("res://addons/openfire_engine/game/game_flow.tscn").instantiate()
 	get_root().add_child(flow)
 	await process_frame
 	await process_frame

@@ -20,7 +20,7 @@ func _init() -> void:
 		OS.move_to_trash(dir)
 	ModWorkspace.create(dir, "UI test").close()
 	OS.set_environment("RF_EDITOR_MOD", dir)
-	var main: Control = load("res://editor/editor_main.tscn").instantiate()
+	var main: Control = load("res://addons/openfire_engine/editor/editor_main.tscn").instantiate()
 	root.add_child(main)
 	await process_frame
 	await process_frame

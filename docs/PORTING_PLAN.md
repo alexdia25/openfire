@@ -1,5 +1,11 @@
 # Return Fire (1996, Silent Software) — Godot Port Plan
 
+> **Repository layout changed 2026-10-01 (issue #62):** the runtime (`game/`) and the mod tool
+> (`editor/`) moved to their own repo, [openfire-engine](https://github.com/alexdia25/openfire-engine),
+> mounted here as a submodule at `addons/openfire_engine/`. Paths below such as `game/pack.gd` are
+> unchanged *inside* that submodule (`addons/openfire_engine/game/pack.gd`); a scene path
+> `res://game/...` is now `res://addons/openfire_engine/game/...`. See `docs/ARCHITECTURE.md`.
+
 **Status:** planning complete. Phase 1 converters (1a/1b/1c/1d) written and verified. Phase 0
 (Godot project scaffold) done, 2026-09-05. Phase 4 step 1e (asset registry + pack emitter,
 section 2.4) and Phase 4 step 1 itself (a Godot scene renders a real level's terrain through
