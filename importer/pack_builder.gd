@@ -29,6 +29,7 @@ const MUSIC_THEME_RULE := {0: "flag_threat", 3: "stock_or_roll"}
 const HOME_PAD := {"pit_walls": {"north": 827, "west": 828, "east": 826, "south": 826}, "hazard_strip": 831,
 	"lift_plate": 829, "leaves": {"left": 822, "right": 824}, "dock_ready_glow": 1778}
 const HOME_PAD_HOLE_ART := 92
+const OFF_MAP := {"art": 2, "margin_tiles": 12}   ## the tile every cell past the map edge shows (document 112 / issue #69); how many tiles of it the port bakes
 const HUD_PANEL_FRAME_CEL := 1940     ## the classic layout's frame around a panel (template slot 2, document 96)
 const PROJECTILE_ART := {"shell": 1075, "shadow": 1076}   ## projectile type 0's quad and the ground shadow (documents 46, 48)
 
@@ -134,7 +135,8 @@ func sprites_and_tiles(progress: Callable) -> String:
 			_pair(90, 91)
 	if tileset.has(str(HOME_PAD_HOLE_ART)):
 		tileset[str(HOME_PAD_HOLE_ART)]["hole"] = true
-	_write("terrain/tileset.json", {"tile_size_px": 32, "tiles": tileset})
+	# FUN_00408d60 draws every cell outside the map with tile record 2 (DAT_0044964c + 0x88, water_open.02); the margin is a port choice
+	_write("terrain/tileset.json", {"tile_size_px": 32, "tiles": tileset, "off_map": OFF_MAP})
 	counts["sprites"] = sprites.size()
 	counts["tiles"] = tileset.size()
 	return ""

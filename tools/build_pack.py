@@ -261,6 +261,7 @@ MUSIC_THEME_RULE = {0: "flag_threat", 3: "stock_or_roll"}
 HOME_PAD = {"pit_walls": {"north": 827, "west": 828, "east": 826, "south": 826}, "hazard_strip": 831,
             "lift_plate": 829, "leaves": {"left": 822, "right": 824}, "dock_ready_glow": 1778}
 HOME_PAD_HOLE_ART = 92
+OFF_MAP = {"art": 2, "margin_tiles": 12}   # the tile every cell past the map edge shows (document 112 / issue #69); how many tiles of it the port bakes
 HUD_PANEL_FRAME_CEL = 1940            # the classic layout's frame around a panel (document 96)
 PROJECTILE_ART = {"shell": 1075, "shadow": 1076}   # projectile type 0's quad and the ground shadow (documents 46, 48)
 
@@ -566,7 +567,8 @@ def main():
     if str(HOME_PAD_HOLE_ART) in tileset:
         tileset[str(HOME_PAD_HOLE_ART)]["hole"] = True
     with open(os.path.join(terrain_dir, "tileset.json"), "w") as f:
-        json.dump({"tile_size_px": 32, "tiles": tileset}, f, indent=2, sort_keys=True)
+        # FUN_00408d60 draws every cell outside the map with tile record 2 (DAT_0044964c + 0x88, water_open.02); the margin is a port choice
+        json.dump({"tile_size_px": 32, "tiles": tileset, "off_map": OFF_MAP}, f, indent=2, sort_keys=True)
         f.write("\n")
 
     # Coastal decorations (document 35, on the project wiki): resolve each known coastal id's real

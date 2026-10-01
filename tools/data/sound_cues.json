@@ -688,6 +688,24 @@
     "ticks": 10
    },
    "flags": 0
+  },
+  "LargeMissle": {
+   "addr": "0x44b5f8",
+   "resource_addr": "0x44b324",
+   "file": "Sound/Missile.SDT",
+   "wav": "MISSILE.wav",
+   "label": "LargeMissle",
+   "applied": true,
+   "trigger": "game/match_controller.gd _launch_guard_rocket(): FUN_004148f0 enqueues the rocket's record +0x18 (= this descriptor, index 5) when the rocket is created, so it plays when the map-edge guard fires (issue #69, document 112). Other types' +0x18 were not read.",
+   "note": "a one-shot (no completion callback); the label's spelling is the original's",
+   "level": 5461,
+   "pitch": -31942,
+   "priority": {
+    "start": 180,
+    "later": 140,
+    "ticks": 20
+   },
+   "flags": 0
   }
  },
  "sound_index_table_0x44b9a0": {
@@ -840,8 +858,7 @@
    "0x44b568 (anomalous fields, not decoded)",
    "0x44b598 (index 1)",
    "0x44b5c8 (index 3)",
-   "0x44b5e0 (index 4)",
-   "0x44b5f8 (index 5)"
+   "0x44b5e0 (index 4)"
   ]
  },
  "_levels": "level / pitch / priority / flags per descriptor from RFIRE.BIN by tools/extract_sound_levels.py (document 100)"

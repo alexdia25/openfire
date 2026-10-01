@@ -46,6 +46,8 @@
   "pitch_rate_deg": 1.1249828338623047,
   "accel_xy": 0.029998779296875,
   "accel_z": 0.0999908447265625,
-  "max_down_deg": 59.999942779541016
- }
+  "max_down_deg": 59.999942779541016,
+  "smoke_record": "0x445238"
+ },
+ "launch_sound": "LargeMissle"
 }

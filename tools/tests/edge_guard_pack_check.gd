@@ -22,6 +22,10 @@ func _init() -> void:
 	check("traced timings: 240 hunt ticks, 180 aim ticks, rocket type 10", int(eg["hunt_ticks"]) == 240 and int(eg["aim_ticks"]) == 180 and int(eg["projectile"]) == 10)
 	var t10: Dictionary = pack.projectile_types[10]
 	check("projectile type 10 is the 400-damage homing rocket", float(t10["damage"]) == 400.0 and t10.has("homing") and not pack.projectile_types[9].has("homing"))
+	check("the rocket's launch sound and smoke are real pack entries", eg.get("launch_sound", "") == "LargeMissle" and pack.audio.has("LargeMissle")
+			and not pack.get_explosion(String(t10["homing"].get("smoke_record", ""))).is_empty())
+	check("the off-map tile is tile 2, water_open.02, 12 tiles deep", int(pack.off_map.get("art", -1)) == 2 and int(pack.off_map.get("margin_tiles", 0)) == 12
+			and pack.get_tile_sprite_id(2) == "terrain.ground.water_open.02")
 	var flagged := []
 	for i in pack.vehicle_order.size():
 		var v := Vehicle.new()
