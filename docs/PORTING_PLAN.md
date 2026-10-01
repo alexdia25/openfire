@@ -24,7 +24,8 @@ not yet authentic, same honesty flag as step 2's movement — see below. Phase 4
 already-traced candidate-pool mechanism is now real, running gameplay logic, verified by
 a 2000-trial unit test plus a full-integration test against a real level. Phase 4 step 6
 (enemy AI) also has a first pass done the same day: a from-scratch seek-and-shoot
-placeholder (no RE finding to reimplement here — Phase 3's AI backlog item is untouched),
+placeholder (no RE finding to reimplement here — Phase 3's AI backlog item was untouched at the
+time; **since traced, see section 1.13: the original has no computer-driven vehicle**),
 spawned from real per-level spawn data, verified by a deterministic fixed-timestep test.
 **Priority as of 2026-09-05: get the core PC-port game actually running before returning to
 3DO support (section 4 item 6) or new-goal work beyond what's needed to run it** — the user
@@ -1190,6 +1191,23 @@ table (rows from `0x0044b550` on, base `~0x0044b500`), traced end to end:
   move-function slot reads 0, which would imply the object destroys itself on its first tick, a
   contradiction not resolved this pass.
 
+### 1.13 The original's computer opponents — TRACED (2026-10-01; wiki documents 113-116, issue #33)
+
+**There is no computer-driven vehicle in the original.** A vehicle's orders come from one of two decoders of the same input-device word: `FUN_0042ce40` (digital, the keyboard path) and `FUN_0042cf30` (a stick / D-pad decoder that writes an absolute heading to `state+0xb0` and presses both turn bits — the "auto-steer" branch that documents 45 and 94 mistook for an AI), chosen per player by `FUN_0042d1a0` from the table at `0x44baa8`. Nothing else is ever installed as a vehicle's controller. The earlier "enemy AI controller at `0x42d0a0`" lead was the joystick decoder.
+
+The original's opponents are objects, found by listing every class table (`python tools/scan_class_tables.py`; a class table's slot 1 is its **name**, so they read as `Vehicle`, `Turret Gun`, `Drone`, `MAN`, `SUB`, ...):
+
+| Class | Name | Behaviour | Created when | Wiki |
+|---|---|---|---|---|
+| 2 | `Turret Gun` | tile ids 49/50 (hp 5); tracks the viewing enemy vehicle at 70 deg/s, +-33.75 deg elevation, fires a tracer (1.0) and a missile (1.5) every 60 ticks inside 192 units | the tile is drawn in the view of an other-team vehicle (the draw descriptor's init callback `0x42e180`); removed 301 ticks after it was last drawn | 114 |
+| 9 | `Drone` | aircraft, 1.5 units/tick at 50 units altitude, flies at its target, strafes within 5 degrees / 32-80 units, dies to any hit of 1.0 or more | a vehicle stays in one tile for 360 ticks and fewer than 3 hostile turrets are in its view; per-team budget `min(unk4, 5)`, default by LEVL `[0,0,0,1,1,2,2,3,3]` | 115 |
+| 14, 18 | `MAN`, `Grenade` | foot soldier (0-4 grenades) that keeps away from the nearest vehicle at 0.2 units/tick and throws from 64-96 units, scatter distance/4; crushed by a vehicle, killed by any shot | a building tile left with exactly 1 hit point (coastal ids 15-17 and 23-38, 2-9 soldiers); a destroyed vehicle (one crewman) | 116 |
+| 15, 16 | `SUB`, `Death Missle` | the map-edge guard against the Heli | the Heli is a tile past the map edge | 112 |
+
+**Level data:** the Drone budget (`unk4`, 157 of 204 levels have Drones), the turret tiles (200 of 204 levels, median 158 in a one-player level) and the soldier buildings (189 of 204) all come from data the converter already reads. **RFMAP001 has no turrets and no Drones but five soldier buildings** (ids 24 x2, 34 x2, 35: 15-25 enemy soldiers); RFMAP002 has 60 turret tiles.
+
+**In the port:** only the submarine exists (`game/edge_guard.gd`). Respawn and the loss sequence are traced and built (documents 73, 87, 88, 95). `game/enemy_vehicle.gd` imitates nothing in the original; it is a stand-in for the second player of the two-player levels. Open: turrets, Drones, infantry (the first is a vertical-slice item because of level 1's five soldier buildings), the sprites of all three, `DAT_0048c310` (read, never written), the turret's initial facing (a 4-byte per-tile block at `0x45aa20`), the crewman's trigger, a grenade's damage — see the issues linked from #33.
+
 ## 2. Architecture decisions (decide once, up front)
 
 ### 2.1 The simulation must NOT live in Godot's engine types
@@ -2157,7 +2175,7 @@ Extract only what cannot be guessed or tuned by feel:
 - Weapon damage, rate of fire, ammo capacity, projectile speed.
 - Building and target hitpoints, destruction rules.
 - Scoring and mission completion conditions.
-- AI state machines and target selection.
+- AI state machines and target selection. **(Traced 2026-10-01: section 1.13. There is no vehicle AI; the opponents are the Turret Gun, Drone, MAN and SUB objects.)**
 - The fixed simulation tick rate.
 
 Record each in `/docs/constants.md` with the address it came from. These become **gameplay
@@ -2331,7 +2349,7 @@ Keep each step playable, and load everything through the pack layer from step 1:
    - **No win/lose condition.** Section 4 item 1 is still open — nothing declares a
      match-won/lost state when a pool's budget is fully spent. This step only makes the
      pools themselves behave correctly, not what (if anything) happens when both go silent.
-6. **Enemy AI — first pass DONE (playable, not yet authentic; 2026-09-06).** Unlike step 5,
+6. **Enemy AI — first pass DONE (playable, not yet authentic; 2026-09-06). Superseded by section 1.13: the original has no computer-driven vehicle, so `EnemyVehicle` is a port-only stand-in for a second human player.** Unlike step 5,
    this is a from-scratch placeholder, not a reimplementation of anything found in
    `RFIRE.BIN` — Phase 3's "AI state machines and target selection" backlog item is still
    completely untouched, no anchor has even been picked yet. `game/vehicle.gd`'s movement/
