@@ -24,7 +24,7 @@ func _init() -> void:
 	var m := MusicManager.new()
 	get_root().add_child(m)
 	check("the manager sets up from the pack's music.json", m.setup(pack, mc))
-	check("18 lines and 24 tracks", m.director.lines.size() == 18 and m._tracks.size() == 24)
+	check("18 lines and 26 tracks (1..24 from Score.WAV, 28 and 29 from Drums.WAV)", m.director.lines.size() == 18 and m._tracks.size() == 26)
 	m.director.request(0, 0x80)
 	m.director.tick()
 	var pl = m._player.stream
@@ -49,5 +49,15 @@ func _init() -> void:
 	m._start_pending()
 	pl = m._player.stream
 	check("a loop restart of Tank 2 starts at its alternate track 8 (tracks 8-11)", pl.stream_count == 4 and absf(pl.get_list_stream(0).get_length() - 35.7) < 0.5)
+	# the match is won: the Win line (13) starts at once (FUN_004056a0), a sting of track 18
+	var m2 := MusicManager.new()
+	get_root().add_child(m2)
+	m2.setup(pack, mc)
+	m2._process(0.0)
+	mc._declare_win(0)
+	m2._process(0.0)
+	check("a won match plays the Win line (13)", m2.director.playing == 13)
+	var wl = m2._player.stream
+	check("... as the single track 18 (8.1 s)", wl is AudioStreamPlaylist and wl.stream_count == 1 and absf(wl.get_list_stream(0).get_length() - 8.14) < 0.3)
 	print("failures: ", fails)
 	quit(1 if fails > 0 else 0)

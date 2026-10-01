@@ -118,5 +118,56 @@ func _init() -> void:
 	d8.state = MusicDirector.STATE_THEME
 	d8.tick()
 	check("nothing playing while the state is above 1: back to idle, requesting silence", d8.requested == -1 and d8.state == MusicDirector.STATE_IDLE)
+	# the Win line: reset the priority, request 13 at 0xff and start it at once; when it ends nothing follows (FUN_004056a0, FUN_0040f600)
+	var d9 := _director()
+	d9.vehicle_created(4, 0x80)
+	_tick_alive(d9, func(): return 4)
+	changes.clear()
+	d9.line_changed.connect(func(a, b, t): changes.append([a, b, t]))
+	d9.win()
+	check("the match is won: Win (13) starts at once, cut (type 2), without a further tick", d9.playing == 13 and d9.requested == 13 and changes.size() == 1 and changes[0][2] == 2, str(changes))
+	d9.in_game_view = true
+	check("... and when the sting is over nothing follows it", d9.segment_ended() == "ended" and d9.requested == 13)
+	# a request tied to the vehicle's object: forgetting it (the object was destroyed) cuts the music at once, whatever the priority (FUN_0040efe0 / FUN_0040f2a0)
+	var d10 := _director()
+	var src := MusicDirector.Source.new()
+	d10.vehicle_created(4, 0x80, src)
+	d10.tick()
+	check("a vehicle theme tied to its object plays", d10.playing == 4 and d10.bound_source == src)
+	d10.forget(src)
+	d10.tick()
+	check("the object is destroyed: silence at once (priority reset)", d10.requested == -1 and d10.playing == -1 and d10.priority == 0, "%d %d %d" % [d10.requested, d10.playing, d10.priority])
+	# ... but the state machine's own theme request names no source, which releases the object (so a new theme is not cut with it)
+	var d11 := _director()
+	var src2 := MusicDirector.Source.new()
+	d11.vehicle_created(0, 0x80, src2)
+	_tick_alive(d11, func(): return 1)
+	d11.forget(src2)
+	d11.tick()
+	check("a theme requested by the state machine is not cut with the object", d11.playing == 1 and d11.bound_source == null)
+	# two players: the sting returns the theme if EITHER player's mode is the game view (FUN_0040f600 checks DAT_0048b580, then DAT_0048b7cc)
+	var d12 := _director()
+	d12.players = 2
+	d12.request(4, 0x80)
+	d12.tick()
+	d12.bit_flag_appeared = true
+	d12.tick()
+	d12.in_game_view = false
+	d12.in_game_view_p2 = true
+	d12.segment_ended()
+	d12.tick()
+	check("two players: a sting ending while player 2 is in the game view brings the previous line back, not Bunker", d12.requested != 14)
+	var d13 := _director()
+	d13.request(4, 0x80)
+	d13.tick()
+	d13.bit_flag_appeared = true
+	d13.tick()
+	d13.in_game_view = false
+	d13.in_game_view_p2 = true
+	d13.segment_ended()
+	d13.tick()
+	check("one player: player 2's view does not count", d13.requested == 14, str(d13.requested))
+	# the fade length (document 98): 0x7fff / 0x444 timer units of 16 ms
+	check("a type-0 fade lasts 0.48 s", is_equal_approx(MusicManager.FADE_OUT_S, 30 * 0.016))
 	print("failures: ", fails)
 	quit(1 if fails > 0 else 0)
