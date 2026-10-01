@@ -202,6 +202,7 @@ func _build(install: String, out: String, cd: String) -> String:
 	if why != "":
 		return why
 	builder.small_tables()
+	builder.home_pad()
 	builder.hud()
 	builder.world_tables(sound)
 	builder.levels(decoded)

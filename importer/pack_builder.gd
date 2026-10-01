@@ -22,6 +22,15 @@ const TEAM_PAIR_MIN_CONSISTENCY := 0.6
 const ORIGINAL_ROSTER := [["rf.tank", 0, "T", 3, "Tank"], ["rf.jeep", 1, "J", 8, "Jeep"], ["rf.msv", 2, "A", 3, "MSV"],
 	["rf.heli", 3, "H", 3, "Heli"]]
 const MUSIC_THEME_RULE := {0: "flag_threat", 3: "stock_or_roll"}
+## The home pad's mechanism (document 89, the lift object's descriptors 0x44dab0 / 0x44d8f8 / 0x44d890): the pit walls
+## (parts 0x44d9d0: north cel 0x33b, west 0x33c, east and south 0x33a), the hazard strip (0x33f), the lift plate
+## (0x33d, flag 8: + side) and the two leaves (0x336 / 0x338, flag 8); the open pad's tile art 92 is a hole; the
+## dock-ready glow is cel 1778 (documents 80, 103; issue #37).
+const HOME_PAD := {"pit_walls": {"north": 827, "west": 828, "east": 826, "south": 826}, "hazard_strip": 831,
+	"lift_plate": 829, "leaves": {"left": 822, "right": 824}, "dock_ready_glow": 1778}
+const HOME_PAD_HOLE_ART := 92
+const HUD_PANEL_FRAME_CEL := 1940     ## the classic layout's frame around a panel (template slot 2, document 96)
+const PROJECTILE_ART := {"shell": 1075, "shadow": 1076}   ## projectile type 0's quad and the ground shadow (documents 46, 48)
 
 var out_dir := ""
 var registry: Dictionary = {}     ## str(cel) -> {id, ...}
@@ -123,6 +132,8 @@ func sprites_and_tiles(progress: Callable) -> String:
 		if tileset.has(str(art_id)):
 			tileset[str(art_id)]["side"] = side
 			_pair(90, 91)
+	if tileset.has(str(HOME_PAD_HOLE_ART)):
+		tileset[str(HOME_PAD_HOLE_ART)]["hole"] = true
 	_write("terrain/tileset.json", {"tile_size_px": 32, "tiles": tileset})
 	counts["sprites"] = sprites.size()
 	counts["tiles"] = tileset.size()
@@ -426,7 +437,8 @@ func small_tables() -> void:
 				part["sprite_ids"] = _sids(int(part["cel"]), 2 if flags & 8 else 1)
 				if flags & 8:
 					_pair(int(part["cel"]), int(part["cel"]) + 1)
-		_write("vehicles/projectile_types.json", {"types": pj["types"], "descriptors": pj["descriptors"]})
+		_write("vehicles/projectile_types.json", {"types": pj["types"], "descriptors": pj["descriptors"],
+				"art": {"shell": rid(PROJECTILE_ART["shell"]), "shadow": rid(PROJECTILE_ART["shadow"])}})
 	var fl: Variant = data("flag.json")
 	if fl is Dictionary:
 		for group in ["ground", "carried"]:
@@ -510,6 +522,7 @@ func hud() -> void:
 			for k in hp["weapon_select"]["cels"]:
 				ids[k] = rid(int(hp["weapon_select"]["cels"][k]))
 			hp["weapon_select"]["sprite_ids"] = ids
+		hp["frame_sprite_id"] = rid(HUD_PANEL_FRAME_CEL)
 		_write("hud/panels.json", hp)
 	var sel: Variant = data("selector.json")
 	if sel is Dictionary:
@@ -533,6 +546,16 @@ func hud() -> void:
 		s["second_icon"] = (cels["second_icon"] as Array).map(func(c): return r.call(c))
 		sel["sprites"] = s
 		_write("hud/selector.json", sel)
+
+
+## The home pad's mechanism art (document 89) as sprite ids: terrain/home_pad.json.
+func home_pad() -> void:
+	var w: Dictionary = HOME_PAD["pit_walls"]
+	_write("terrain/home_pad.json", {
+		"pit_walls": {"north": rid(w["north"]), "west": rid(w["west"]), "east": rid(w["east"]), "south": rid(w["south"])},
+		"hazard_strip": rid(HOME_PAD["hazard_strip"]), "lift_plate": _sids(HOME_PAD["lift_plate"], 2),
+		"leaves": {"left": _sids(HOME_PAD["leaves"]["left"], 2), "right": _sids(HOME_PAD["leaves"]["right"], 2)},
+		"dock_ready_glow": rid(HOME_PAD["dock_ready_glow"])})
 
 
 ## Water (62), gates (56), sound cues (82, 100), collision shapes (53), explosions (50, 51).

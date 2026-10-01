@@ -253,6 +253,14 @@ BEHAVIOUR = {
 # other type's is the record's own line. The definitions name the rule; game/music_director.gd implements the three.
 MUSIC_THEME_RULE = {0: "flag_threat", 3: "stock_or_roll"}
 
+# The home pad's mechanism (document 89; see importer/pack_builder.gd's HOME_PAD, the canonical copy): pit walls, hazard
+# strip, lift plate (+ side), leaves (+ side), the dock-ready glow; art 92 is the open pad's hole tile.
+HOME_PAD = {"pit_walls": {"north": 827, "west": 828, "east": 826, "south": 826}, "hazard_strip": 831,
+            "lift_plate": 829, "leaves": {"left": 822, "right": 824}, "dock_ready_glow": 1778}
+HOME_PAD_HOLE_ART = 92
+HUD_PANEL_FRAME_CEL = 1940            # the classic layout's frame around a panel (document 96)
+PROJECTILE_ART = {"shell": 1075, "shadow": 1076}   # projectile type 0's quad and the ground shadow (documents 46, 48)
+
 
 def build_render(index, t, registry, team_pairs):
     """PORTING_PLAN.md 2.7.2 / 2.7.6 step 5: a vehicle's render descriptor -- its parts (sprite ids, four corners in world units:
@@ -552,6 +560,8 @@ def main():
         if str(art_id) in tileset:
             tileset[str(art_id)]["side"] = side
             team_pairs.add((90, 91))
+    if str(HOME_PAD_HOLE_ART) in tileset:
+        tileset[str(HOME_PAD_HOLE_ART)]["hole"] = True
     with open(os.path.join(terrain_dir, "tileset.json"), "w") as f:
         json.dump({"tile_size_px": 32, "tiles": tileset}, f, indent=2, sort_keys=True)
         f.write("\n")
@@ -666,7 +676,8 @@ def main():
                     team_pairs.add((part["cel"], part["cel"] + 1))
         os.makedirs(os.path.join(args.out_dir, "vehicles"), exist_ok=True)
         with open(os.path.join(args.out_dir, "vehicles", "projectile_types.json"), "w") as f:
-            json.dump({"types": pj["types"], "descriptors": pj["descriptors"]}, f)
+            json.dump({"types": pj["types"], "descriptors": pj["descriptors"],
+                       "art": {k: registry[str(c)]["id"] for k, c in PROJECTILE_ART.items()}}, f)
 
     # The capture flag (document 65): sprite ids per wave frame (13 tan, then 13 green)
     if os.path.exists(FLAG_JSON):
@@ -775,6 +786,7 @@ def main():
         if "weapon_select" in hp:
             hp["weapon_select"]["sprite_ids"] = {k: registry[str(c)]["id"] for k, c in hp["weapon_select"]["cels"].items()}
         os.makedirs(os.path.join(args.out_dir, "hud"), exist_ok=True)
+        hp["frame_sprite_id"] = registry[str(HUD_PANEL_FRAME_CEL)]["id"]
         with open(os.path.join(args.out_dir, "hud", "panels.json"), "w") as f:
             json.dump(hp, f)
 
@@ -805,6 +817,17 @@ def main():
         os.makedirs(os.path.join(args.out_dir, "hud"), exist_ok=True)
         with open(os.path.join(args.out_dir, "hud", "selector.json"), "w") as f:
             json.dump(sel, f)
+
+    # The home pad's mechanism art (document 89) as sprite ids
+    def rid(c):
+        return registry[str(c)]["id"]
+    with open(os.path.join(terrain_dir, "home_pad.json"), "w") as f:
+        json.dump({"pit_walls": {k: rid(c) for k, c in HOME_PAD["pit_walls"].items()},
+                   "hazard_strip": rid(HOME_PAD["hazard_strip"]),
+                   "lift_plate": [rid(HOME_PAD["lift_plate"] + v) for v in range(2)],
+                   "leaves": {k: [rid(c + v) for v in range(2)] for k, c in HOME_PAD["leaves"].items()},
+                   "dock_ready_glow": rid(HOME_PAD["dock_ready_glow"])}, f, indent=1, sort_keys=True)
+        f.write("\n")
 
     # Water classification tables (document 62)
     if os.path.exists(WATER_JSON):
