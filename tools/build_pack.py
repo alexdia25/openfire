@@ -85,6 +85,7 @@ TANK_TIP_JSON = os.path.join(ROOT, "tools", "data", "tank_turret_tip_linkage.jso
 HELI_ROTOR_JSON = os.path.join(ROOT, "tools", "data", "heli_rotor.json")
 ENGINE_LOOPS_JSON = os.path.join(ROOT, "tools", "data", "engine_loops.json")
 PROJECTILE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "projectile_types.json")
+EDGE_GUARD_JSON = os.path.join(ROOT, "tools", "data", "edge_guard.json")
 COASTAL_DECORATION_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
 
 PACK_ID = "original_pc"
@@ -244,7 +245,9 @@ BEHAVIOUR = {
         "flags": {"carries_flag": True}},
     2: {"drive": {"model": "ground"}, "aim": {"model": "gun_mount", "params": {"turret": False}},
         "slots": [{"handler": "rocket_salvo"}, {"handler": "mine_layer"}], "water": {"model": "hull_water"}},
-    3: {"drive": {"model": "rotor"}, "aim": {"model": "none"}, "slots": [{"handler": "heli_guns"}], "water": {"model": "none"}},
+    # only the Heli's drive function (FUN_0040e0e0) calls the creator of the map-edge guard (FUN_00434e80; document 112)
+    3: {"drive": {"model": "rotor"}, "aim": {"model": "none"}, "slots": [{"handler": "heli_guns"}], "water": {"model": "none"},
+        "flags": {"carries_flag": False, "triggers_edge_guard": True}},
 }
 
 
@@ -674,10 +677,25 @@ def main():
                 part["sprite_ids"] = [registry[str(part["cel"] + v)]["id"] for v in range(n)]
                 if part["flags"] & 8:
                     team_pairs.add((part["cel"], part["cel"] + 1))
+        guard = None
+        if os.path.exists(EDGE_GUARD_JSON):
+            with open(EDGE_GUARD_JSON) as f:
+                guard = json.load(f)
+            # the guard's rocket is the one homing type (FUN_00415100): its numbers ride on that projectile type's row
+            hom = dict(guard["homing"])
+            pj["types"][hom.pop("projectile")]["homing"] = hom
         os.makedirs(os.path.join(args.out_dir, "vehicles"), exist_ok=True)
         with open(os.path.join(args.out_dir, "vehicles", "projectile_types.json"), "w") as f:
             json.dump({"types": pj["types"], "descriptors": pj["descriptors"],
                        "art": {k: registry[str(c)]["id"] for k, c in PROJECTILE_ART.items()}}, f)
+        if guard is not None:
+            # The map-edge guard, the submarine (document 112): its animation frames as sprite ids.
+            table = {k: v for k, v in guard.items() if k not in ("homing", "_source", "cel_first", "cel_count")}
+            table["frames"] = [registry[str(guard["cel_first"] + i)]["id"] for i in range(guard["cel_count"])]
+            os.makedirs(os.path.join(args.out_dir, "world"), exist_ok=True)
+            with open(os.path.join(args.out_dir, "world", "edge_guard.json"), "w") as f:
+                json.dump(table, f, indent=1, sort_keys=True)
+                f.write("\n")
 
     # The capture flag (document 65): sprite ids per wave frame (13 tan, then 13 green)
     if os.path.exists(FLAG_JSON):

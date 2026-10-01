@@ -332,7 +332,9 @@ static func _behaviour() -> Dictionary:
 			"terrain": {"blocked_by_bushes": true, "blocked_by_rocks": true}, "flags": {"carries_flag": true}},
 		2: {"drive": {"model": "ground"}, "aim": {"model": "gun_mount", "params": {"turret": false}},
 			"slots": [{"handler": "rocket_salvo"}, {"handler": "mine_layer"}], "water": {"model": "hull_water"}},
-		3: {"drive": {"model": "rotor"}, "aim": {"model": "none"}, "slots": [{"handler": "heli_guns"}], "water": {"model": "none"}}}
+		# only the Heli's drive function (FUN_0040e0e0) calls the creator of the map-edge guard (FUN_00434e80; document 112)
+		3: {"drive": {"model": "rotor"}, "aim": {"model": "none"}, "slots": [{"handler": "heli_guns"}], "water": {"model": "none"},
+			"flags": {"carries_flag": false, "triggers_edge_guard": true}}}
 
 
 ## Vehicle types (document 57) -> one definition per vehicle (build_pack.emit_vehicle_definitions) + roster.json.
@@ -437,8 +439,17 @@ func small_tables() -> void:
 				part["sprite_ids"] = _sids(int(part["cel"]), 2 if flags & 8 else 1)
 				if flags & 8:
 					_pair(int(part["cel"]), int(part["cel"]) + 1)
+		var guard: Variant = data("edge_guard.json")
+		if guard is Dictionary:
+			# the guard's rocket is the one homing type (FUN_00415100): its numbers ride on that projectile type's row
+			var hom: Dictionary = (guard["homing"] as Dictionary).duplicate()
+			var htype := int(hom["projectile"])
+			hom.erase("projectile")
+			pj["types"][htype]["homing"] = hom
 		_write("vehicles/projectile_types.json", {"types": pj["types"], "descriptors": pj["descriptors"],
 				"art": {"shell": rid(PROJECTILE_ART["shell"]), "shadow": rid(PROJECTILE_ART["shadow"])}})
+		if guard is Dictionary:
+			_write("world/edge_guard.json", _edge_guard_table(guard))
 	var fl: Variant = data("flag.json")
 	if fl is Dictionary:
 		for group in ["ground", "carried"]:
@@ -546,6 +557,17 @@ func hud() -> void:
 		s["second_icon"] = (cels["second_icon"] as Array).map(func(c): return r.call(c))
 		sel["sprites"] = s
 		_write("hud/selector.json", sel)
+
+
+## The map-edge guard (the submarine; document 112) with its frames as sprite ids: world/edge_guard.json.
+func _edge_guard_table(guard: Dictionary) -> Dictionary:
+	var t := guard.duplicate(true)
+	t.erase("homing")
+	t.erase("_source")
+	t["frames"] = _sids(int(t["cel_first"]), int(t["cel_count"]))
+	t.erase("cel_first")
+	t.erase("cel_count")
+	return t
 
 
 ## The home pad's mechanism art (document 89) as sprite ids: terrain/home_pad.json.

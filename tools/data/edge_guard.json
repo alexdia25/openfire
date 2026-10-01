@@ -1,0 +1,51 @@
+{
+ "_source": "RFIRE.BIN: the SUB object descriptor 0x44ec38, its behaviours 0x434c00/0x434d10/0x434db0/0x434e40/0x434d80, the tick 0x434b30, the draw descriptor 0x44ebd8 (corners 0x44eb88, part 0x44ebb8) and the Death Missle object 0x448920 with its tick FUN_00415100; issue #68, wiki document 112. Angles: 0x400000 = 360 degrees; 16.16 values divided by 65536.",
+ "cel_first": 630,
+ "cel_count": 25,
+ "quad": [
+  [
+   -64.0,
+   -32.0,
+   16.0
+  ],
+  [
+   64.0,
+   -32.0,
+   16.0
+  ],
+  [
+   64.0,
+   32.0,
+   -16.0
+  ],
+  [
+   -64.0,
+   32.0,
+   -16.0
+  ]
+ ],
+ "spawn_margin": 32.0,
+ "hunt_ticks": 240,
+ "aim_ticks": 180,
+ "frame_rate": 0.1999969482421875,
+ "surfaced_frame": 20.0,
+ "loop_end_frame": 25.0,
+ "loop_period": 5.0000152587890625,
+ "dive_wrap_base": 14.999984741210938,
+ "projectile": 10,
+ "muzzle": [
+  -32.0,
+  0.0,
+  0.0
+ ],
+ "launch_heading_deg": 0.0,
+ "launch_pitch_deg": 299.9999713897705,
+ "homing": {
+  "projectile": 10,
+  "heading_rate_deg": 2.2499656677246094,
+  "pitch_rate_deg": 1.1249828338623047,
+  "accel_xy": 0.029998779296875,
+  "accel_z": 0.0999908447265625,
+  "max_down_deg": 59.999942779541016
+ }
+}
