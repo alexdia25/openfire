@@ -13,6 +13,7 @@ func _init() -> void:
 	var mc := MatchController.new()
 	root.add_child(mc)
 	mc.setup(pack, level, "res://packs/original_pc", root)
+	mc.skip_start_hangar()   # this test exercises docking, not the start-of-match hangar (issue #63)
 	var v := mc.vehicle
 	var dt := 1.0 / Vehicle.TICK_HZ
 	var pad := (Vector2(67, 67) + Vector2(0.5, 0.5)) * float(pack.tile_size_px)

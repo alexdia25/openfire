@@ -12,6 +12,7 @@ func _init() -> void:
 	var mc := MatchController.new()
 	root.add_child(mc)
 	mc.setup(pack, level, "res://packs/original_pc", root)
+	mc.skip_start_hangar()   # this test exercises the Heli's spin-up directly, not the start-of-match hangar (issue #63)
 	var v := mc.vehicle
 	v.position = Vector2(2160, 2160 + 320)
 	v.set_vehicle_type(3)

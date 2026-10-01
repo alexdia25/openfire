@@ -58,6 +58,7 @@ func _init() -> void:
 	var mc := MatchController.new()
 	world.add_child(mc)
 	mc.setup(m, level, mod, world)
+	mc.skip_start_hangar()   # this test checks post-spawn stock, not the start-of-match hangar itself (issue #63)
 	var heli_t := m.vehicle_index("rf.heli")
 	var tank_t := m.vehicle_index("rf.tank")
 	var scout_t := m.vehicle_index("overridemod.scout")

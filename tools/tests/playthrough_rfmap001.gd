@@ -24,6 +24,7 @@ func _init() -> void:
 	mc = MatchController.new()
 	root.add_child(mc)
 	mc.setup(pack, level, "res://packs/original_pc", root)
+	mc.skip_start_hangar()   # this is a driving playthrough, not a test of the start-of-match hangar (issue #63)
 	v = mc.vehicle
 	mc.target_hit.connect(func(_id, t): _apply(t))
 	mc.tile_destroyed.connect(func(t): _apply(t))

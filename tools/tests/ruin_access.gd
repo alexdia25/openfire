@@ -12,6 +12,7 @@ func _init() -> void:
 	var mc := MatchController.new()
 	root.add_child(mc)
 	mc.setup(pack, level, "res://packs/original_pc", root)
+	mc.skip_start_hangar()   # this test drives the Jeep, not the start-of-match hangar (issue #63)
 	level.set_coastal_id(75, 56, 63)
 	level.set_art_id(75, 56, 111)
 	mc.tile_state_applied(Vector2i(75, 56))

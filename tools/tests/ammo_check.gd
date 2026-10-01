@@ -12,6 +12,7 @@ func _init() -> void:
 	var mc := MatchController.new()
 	root.add_child(mc)
 	mc.setup(pack, level, "res://packs/original_pc", root)
+	mc.skip_start_hangar()   # this test holds the fire button, not the start-of-match hangar (issue #63)
 	var v := mc.vehicle
 	var dt := 1.0 / Vehicle.TICK_HZ
 	var shots := [0]

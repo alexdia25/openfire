@@ -40,6 +40,7 @@ func _init() -> void:
 	var mc := MatchController.new()
 	root.add_child(mc)
 	mc.setup(pack, level, "res://packs/original_pc", root)
+	mc.skip_start_hangar()   # this test exercises road-assist driving, not the start-of-match hangar (issue #63)
 	var v := mc.vehicle
 	v.set_vehicle_type(1)
 	var ns := Vector2i(-1, -1)
