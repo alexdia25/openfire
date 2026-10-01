@@ -680,6 +680,12 @@ def main():
                 part["sprite_ids"] = [registry[str(part["cel"] + v)]["id"] for v in range(n)]
                 if part["flags"] & 8:
                     team_pairs.add((part["cel"], part["cel"] + 1))
+        # each type's launch sound (FUN_004148f0 plays record +0x18 on the new projectile; document 117) as a cue id
+        with open(os.path.join(ROOT, "tools", "data", "sound_cues.json")) as f:
+            by_addr = {c["addr"]: cid for cid, c in json.load(f)["cues"].items()}
+        for t in pj["types"]:
+            if t.get("sound_descriptor") in by_addr:
+                t["sound"] = by_addr[t["sound_descriptor"]]
         guard = None
         if os.path.exists(EDGE_GUARD_JSON):
             with open(EDGE_GUARD_JSON) as f:
@@ -927,7 +933,8 @@ def main():
             # level (16.16) and pitch (Hz if > 0, else minus a 16.16 fraction of the sample's rate, 0 = as recorded) are the descriptor's own (document 100);
             # priority is the voice priority it starts at (the original gives the 20 highest a mixer channel)
             audio_json[cue_id] = {"file": wav, "category": "sfx", "priority": cue.get("priority", {}).get("start", 0),
-                                  "level": cue.get("level", 0x10000), "pitch": cue.get("pitch", 0)}
+                                  "priority_later": cue.get("priority", {}).get("later", 0), "priority_ticks": cue.get("priority", {}).get("ticks", 0),
+                                  "flags": cue.get("flags", 0), "level": cue.get("level", 0x10000), "pitch": cue.get("pitch", 0)}
             n_audio += 1
         with open(os.path.join(audio_dir, "audio.json"), "w") as f:
             json.dump(audio_json, f)

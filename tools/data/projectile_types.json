@@ -10,7 +10,8 @@
    "lifetime_ticks": 80,
    "body_descriptor": "0x4547f0",
    "shadow_descriptor": "0x454858",
-   "impact_table": "0x448970"
+   "impact_table": "0x448970",
+   "sound_descriptor": "0x44b730"
   },
   {
    "type": 1,
@@ -21,7 +22,8 @@
    "lifetime_ticks": 100,
    "body_descriptor": "0x454410",
    "shadow_descriptor": "0x454478",
-   "impact_table": "0x448988"
+   "impact_table": "0x448988",
+   "sound_descriptor": "0x44b5e0"
   },
   {
    "type": 2,
@@ -32,7 +34,8 @@
    "lifetime_ticks": 90,
    "body_descriptor": "0x454580",
    "shadow_descriptor": "0x4545e8",
-   "impact_table": "0x448988"
+   "impact_table": "0x448988",
+   "sound_descriptor": "0x44b5f8"
   },
   {
    "type": 3,
@@ -43,7 +46,8 @@
    "lifetime_ticks": 90,
    "body_descriptor": "0x454410",
    "shadow_descriptor": "0x454478",
-   "impact_table": "0x448970"
+   "impact_table": "0x448970",
+   "sound_descriptor": "0x0"
   },
   {
    "type": 4,
@@ -54,7 +58,8 @@
    "lifetime_ticks": 150,
    "body_descriptor": "0x454410",
    "shadow_descriptor": "0x454478",
-   "impact_table": "0x448988"
+   "impact_table": "0x448988",
+   "sound_descriptor": "0x44b5e0"
   },
   {
    "type": 5,
@@ -65,7 +70,8 @@
    "lifetime_ticks": 90,
    "body_descriptor": "0x454410",
    "shadow_descriptor": "0x454478",
-   "impact_table": "0x448970"
+   "impact_table": "0x448970",
+   "sound_descriptor": "0x44b730"
   },
   {
    "type": 6,
@@ -76,7 +82,8 @@
    "lifetime_ticks": 100,
    "body_descriptor": "0x454410",
    "shadow_descriptor": "0x454478",
-   "impact_table": "0x448988"
+   "impact_table": "0x448988",
+   "sound_descriptor": "0x44b5e0"
   },
   {
    "type": 7,
@@ -87,7 +94,8 @@
    "lifetime_ticks": 80,
    "body_descriptor": "0x4547f0",
    "shadow_descriptor": "0x454858",
-   "impact_table": "0x448970"
+   "impact_table": "0x448970",
+   "sound_descriptor": "0x44b730"
   },
   {
    "type": 8,
@@ -98,7 +106,8 @@
    "lifetime_ticks": 90,
    "body_descriptor": "0x454580",
    "shadow_descriptor": "0x4545e8",
-   "impact_table": "0x448988"
+   "impact_table": "0x448988",
+   "sound_descriptor": "0x44b5f8"
   },
   {
    "type": 9,
@@ -109,7 +118,8 @@
    "lifetime_ticks": 90,
    "body_descriptor": "0x454580",
    "shadow_descriptor": "0x4545e8",
-   "impact_table": "0x448988"
+   "impact_table": "0x448988",
+   "sound_descriptor": "0x44b5f8"
   },
   {
    "type": 10,
@@ -120,7 +130,8 @@
    "lifetime_ticks": 90,
    "body_descriptor": "0x4546f0",
    "shadow_descriptor": "0x454758",
-   "impact_table": "0x448988"
+   "impact_table": "0x448988",
+   "sound_descriptor": "0x44b5f8"
   },
   {
    "type": 11,
@@ -131,7 +142,8 @@
    "lifetime_ticks": 90,
    "body_descriptor": "0x4547f0",
    "shadow_descriptor": "0x454858",
-   "impact_table": "0x448970"
+   "impact_table": "0x448970",
+   "sound_descriptor": "0x44b730"
   }
  ],
  "descriptors": {

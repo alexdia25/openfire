@@ -18,19 +18,20 @@ func _init() -> void:
 	var all_ok := true
 	for cid in expect:
 		var got: Array[String] = []
-		var conn := func(id): got.append(id)
-		mc.vehicle.sound_cue.connect(conn)
+		var conn := func(id, _at = null, _z = null): got.append(id)
+		mc.sound_at.connect(conn)   # a destroyed tile's sound comes from the tile (issue #22)
 		var t := Vector2i(200 + cid, 200)
 		mc._tile_hp[t] = 10   # bypass needing a real coastal shape at this synthetic tile
 		mc._damage_tile_amount(t, cid, 9999.0)
-		mc.vehicle.sound_cue.disconnect(conn)
+		mc.sound_at.disconnect(conn)
 		var ok: bool = got.size() >= 1 and got[0] == expect[cid]
 		all_ok = all_ok and ok
 		print("coastal ", cid, " -> ", got, " (expect ", expect[cid], "): ", "OK" if ok else "MISMATCH")
 
 	var got_mine: Array[String] = []
-	var conn2 := func(id): got_mine.append(id)
+	var conn2 := func(id, _at = null, _z = null): got_mine.append(id)
 	mc.vehicle.sound_cue.connect(conn2)
+	mc.sound_at.connect(conn2)
 	mc._on_mine_dropped(Vector2(500, 500), mc.vehicle)
 	var m: Mine = mc.mines[0]
 	mc._detonate_mine(m)

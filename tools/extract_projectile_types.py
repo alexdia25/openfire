@@ -7,7 +7,7 @@ Inputs:
                  (0x4547f0 0x454410 0x454580 0x4546f0 0x454858 0x454478 0x4545e8 0x454758)
 Entry fields (dwords): [2] flags (bit 0: spawned through the pitch matrix; bit 1: ballistic, its pitch grows by
 [10] per tick instead of shrinking to 0), [3] speed, [9] damage, [10] pitch rate, [11] body descriptor,
-[12] shadow descriptor, [13] impact table, [14] low byte = lifetime in ticks (document 45).
+[12] shadow descriptor, [13] impact table, [14] low byte = lifetime in ticks (document 45), [6] launch sound descriptor (0 = none).
 Usage: python extract_projectile_types.py <dump.txt> <descriptors.txt>
 """
 import json, os, re, sys
@@ -33,6 +33,7 @@ for t in range(12):
         "type": t, "flags": r[2], "speed_units_per_tick": r[3] / 65536, "damage": r[9] / 65536,
         "pitch_rate_raw": r[10], "lifetime_ticks": r[14] & 0xFF,
         "body_descriptor": hex(r[11]), "shadow_descriptor": hex(r[12]), "impact_table": hex(r[13]),
+        "sound_descriptor": hex(r[6]),   # [6] = +0x18: the sound FUN_004148f0 plays on the new projectile (document 117)
     })
 path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "projectile_types.json")
 json.dump({"_source": "RFIRE.BIN projectile type table 0x4489a0 and its draw descriptors, documents 46 and 58; see "

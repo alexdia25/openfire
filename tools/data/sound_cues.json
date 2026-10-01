@@ -88,9 +88,9 @@
    "resource_addr": "0x44b2d0",
    "file": "Sound/Servo.SDT",
    "wav": "SERVO.wav",
-   "applied": false,
+   "applied": true,
    "note": "label says 'Reload' but the resource pointer resolves to Sound/Servo.SDT, not Sound/Reload.SDT -- re-verified twice, not a transcription slip. The real Sound/Reload.SDT (RELOAD.wav) is not referenced by any descriptor in this 0x44b550-0x44b988 block; it must be used by a descriptor in the separate looping/ambience sub-block below 0x44b550 (untraced) or elsewhere.",
-   "trigger": "untraced call site -- candidate: the rearm zone's per-tick refill (document 72), but see note",
+   "trigger": "game/vehicle_modules/rocket_salvo.gd: FUN_0040d520 plays it (FUN_004232d0(1, 0x44b658, vehicle, 1)) when the third rocket of the MSV's salvo has gone and ammunition is left (issue #22, document 117). The label is 'Reload' but the sample is Servo.SDT.",
    "level": 4369,
    "pitch": -39334,
    "priority": {
@@ -138,7 +138,7 @@
    "file": "Sound/Click.SDT",
    "wav": "CLICK.wav",
    "applied": false,
-   "trigger": "untraced -- HUD panel raise/swap, never documented by address before",
+   "trigger": "index 12: the same, the sound-test menu only; no code outside the table and the menu reads it, so the HUD panel does not play it (issue #22, document 117).",
    "level": 5,
    "pitch": -16384,
    "priority": {
@@ -186,7 +186,7 @@
    "file": "Sound/ExplDeb.SDT",
    "wav": "EXPLDEB.wav",
    "applied": false,
-   "trigger": "debris explosion variant (documents 50-51) -- not yet wired",
+   "trigger": "index 15 of the sound table: referenced only by the debug sound-test menu (FUN_00405720 plays table[selected]); no explosion record's SOUND op uses 15, so it is never played in gameplay (issue #22, document 117).",
    "level": 4369,
    "pitch": 0,
    "priority": {
@@ -202,7 +202,7 @@
    "file": "Sound/ExplLow.SDT",
    "wav": "EXPLLOW.wav",
    "applied": false,
-   "trigger": "low/muffled explosion variant (documents 44, 50-51) -- not yet wired",
+   "trigger": "index 16: the same, the sound-test menu only; no record uses SOUND 16.",
    "level": 4369,
    "pitch": 0,
    "priority": {
@@ -218,7 +218,7 @@
    "file": "Sound/ManCrush.SDT",
    "wav": "MANCRUSH.wav",
    "applied": false,
-   "trigger": "untraced (no crushable-infantry object modelled in the port yet)",
+   "trigger": "the collision callbacks FUN_00433c60 / FUN_00433ce0 of an on-foot 'man' object play it (FUN_004232d0(1, 0x44b718, man, 0)) when a vehicle (class 1) runs into it, then spawn a splat and remove the man; the port has no infantry (issue #46), so it waits for them.",
    "level": 4369,
    "pitch": 0,
    "priority": {
@@ -597,7 +597,7 @@
    "file": "Sound/Tirein.SDT",
    "wav": "TIREIN.wav",
    "applied": true,
-   "trigger": "PORT CHOICE, not traced: game/vehicle.gd Vehicle._update_water() on the land->water water_class transition (document 62). No code path calling this descriptor was actually read -- see NEXT_STEPS Untraced choices.",
+   "trigger": "game/vehicle_modules/hull_water.gd toggle_swim(): FUN_0040dfe0 (the Jeep's swim button, input bit 0x20) plays it with the vehicle as source as it switches swim mode OFF (when not in deep water). TRACED (issue #22, document 117); the earlier land->water trigger was a port choice.",
    "level": 5461,
    "pitch": -65536,
    "priority": {
@@ -613,7 +613,7 @@
    "file": "Sound/Tireout.SDT",
    "wav": "TIREOUT.wav",
    "applied": true,
-   "trigger": "PORT CHOICE, not traced: game/vehicle.gd Vehicle._update_water() on the water->land water_class transition. No code path calling this descriptor was actually read -- see NEXT_STEPS Untraced choices.",
+   "trigger": "game/vehicle_modules/hull_water.gd toggle_swim(): FUN_0040dfe0 plays it as it switches swim mode ON (in water, not yet swimming). TRACED (issue #22, document 117).",
    "level": 5461,
    "pitch": -65536,
    "priority": {
@@ -703,6 +703,59 @@
    "priority": {
     "start": 180,
     "later": 140,
+    "ticks": 20
+   },
+   "flags": 0
+  },
+  "Missle": {
+   "addr": "0x44b5e0",
+   "resource_addr": "0x44b324",
+   "file": "Sound/MISSILE.SDT",
+   "wav": "MISSILE.wav",
+   "label": "Missle",
+   "applied": true,
+   "trigger": "game/match_controller.gd _on_vehicle_shot(): the projectile type rows 1, 4 and 6 name this descriptor at +0x18 and FUN_004148f0 plays it on the new projectile (issue #22, document 117). The Heli's bomb is type 6.",
+   "note": "the same Missile.SDT as LargeMissle at another pitch and level; the label's spelling is the original's",
+   "level": 4369,
+   "pitch": -34091,
+   "priority": {
+    "start": 180,
+    "later": 140,
+    "ticks": 20
+   },
+   "flags": 0
+  },
+  "Drone": {
+   "addr": "0x44b568",
+   "resource_addr": "0x44b458",
+   "file": "Sound/DRONE.SDT",
+   "wav": "DRONE.wav",
+   "label": "Drone",
+   "applied": false,
+   "trigger": "FUN_0040a7b0 (the Drone object's spawner) starts it as a LOOP (flags 0x21, the looping stepper FUN_00408450) with no source object of its own: the voice's two ear positions (+0x4c / +0x50) point at the Drone's own position words, so it is heard from where the Drone is; stopped (command 9) when the last Drone is gone. Waits for the Drones (issue #76).",
+   "note": "a loop owned by the Drone object, not a one-shot",
+   "level": 4369,
+   "pitch": -65536,
+   "priority": {
+    "start": 210,
+    "later": 150,
+    "ticks": 20
+   },
+   "flags": 33
+  },
+  "Bubbles": {
+   "addr": "0x44b5c8",
+   "resource_addr": "0x44b1b8",
+   "file": "Sound/BUBBLES.SDT",
+   "wav": "BUBBLES.wav",
+   "label": "Bubbles",
+   "applied": false,
+   "trigger": "index 3 of the sound table: referenced only by the debug sound-test menu; no explosion record's SOUND op uses 3 and no code plays it, so it is never heard in gameplay (issue #22, document 117).",
+   "level": 5461,
+   "pitch": 0,
+   "priority": {
+    "start": 200,
+    "later": 100,
     "ticks": 20
    },
    "flags": 0
@@ -855,10 +908,7 @@
   "addresses": [
    "0x44b520",
    "0x44b538",
-   "0x44b568 (anomalous fields, not decoded)",
-   "0x44b598 (index 1)",
-   "0x44b5c8 (index 3)",
-   "0x44b5e0 (index 4)"
+   "0x44b598 (index 1)"
   ]
  },
  "_levels": "level / pitch / priority / flags per descriptor from RFIRE.BIN by tools/extract_sound_levels.py (document 100)"

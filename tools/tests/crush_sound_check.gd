@@ -36,7 +36,7 @@ func _init() -> void:
 			break
 	check("found a bush tile", found.x >= 0, str(found))
 	var cues: Array = []
-	v.sound_cue.connect(func(c): cues.append(c))
+	mc.sound_at.connect(func(c, _at, _z): cues.append(c))   # the crush record's sound comes from the tile (issue #22)
 	var at := (Vector2(found) + Vector2(0.5, 0.5)) * tsz
 	v.position = at
 	v.speed = 1.0 * Vehicle.TICK_HZ   # faster than the crush speed (0.5 units a tick)

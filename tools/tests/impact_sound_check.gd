@@ -25,10 +25,10 @@ func _init() -> void:
 	var all_ok := true
 	for record in expect:
 		var got: Array[String] = []
-		var conn := func(id): got.append(id)
-		mc.vehicle.sound_cue.connect(conn)
+		var conn := func(id, _at = null, _z = null): got.append(id)
+		mc.sound_at.connect(conn)   # an impact's sound comes from where it lands (issue #22)
 		mc.impact_effect.emit(record, Vector2.ZERO)
-		mc.vehicle.sound_cue.disconnect(conn)
+		mc.sound_at.disconnect(conn)
 		var ok: bool = got.size() == 1 and expect[record].has(got[0])
 		all_ok = all_ok and ok
 		print(record, " -> ", got, " (expect one of ", expect[record], "): ", "OK" if ok else "MISMATCH")

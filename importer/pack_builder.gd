@@ -441,6 +441,15 @@ func small_tables() -> void:
 				part["sprite_ids"] = _sids(int(part["cel"]), 2 if flags & 8 else 1)
 				if flags & 8:
 					_pair(int(part["cel"]), int(part["cel"]) + 1)
+		# each type's launch sound (FUN_004148f0 plays record +0x18 on the new projectile; document 117) as a cue id
+		var by_addr := {}
+		var cue_doc: Variant = data("sound_cues.json")
+		if cue_doc is Dictionary:
+			for cid in cue_doc["cues"]:
+				by_addr[String(cue_doc["cues"][cid]["addr"])] = cid
+		for t in pj["types"]:
+			if by_addr.has(String(t.get("sound_descriptor", ""))):
+				t["sound"] = by_addr[String(t["sound_descriptor"])]
 		var guard: Variant = data("edge_guard.json")
 		if guard is Dictionary:
 			# the guard's rocket is the one homing type (FUN_00415100): its numbers ride on that projectile type's row
@@ -655,7 +664,8 @@ func world_tables(sound: Dictionary) -> void:
 				_store(out_dir.path_join("audio").path_join(wav), sound[wav.to_upper()])
 				copied[wav] = true
 			audio[cue_id] = {"file": wav, "category": "sfx", "priority": cue.get("priority", {}).get("start", 0),
-					"level": cue.get("level", 0x10000), "pitch": cue.get("pitch", 0)}
+					"priority_later": cue.get("priority", {}).get("later", 0), "priority_ticks": cue.get("priority", {}).get("ticks", 0),
+					"flags": cue.get("flags", 0), "level": cue.get("level", 0x10000), "pitch": cue.get("pitch", 0)}
 		_write("audio/audio.json", audio)
 		counts["audio"] = audio.size()
 	var cs: Variant = data("coastal_shapes.json")

@@ -15,7 +15,7 @@ func _init() -> void:
 	mc.setup(pack, level, "res://packs/original_pc", root)
 
 	var cues: Array[String] = []
-	mc.vehicle.sound_cue.connect(func(id): cues.append(id))
+	mc.sound_at.connect(func(id, _at, _z): cues.append(id))   # the beep comes from the mine (issue #22)
 	mc._on_mine_dropped(mc.vehicle.position + Vector2(40.0, 0.0), mc.vehicle)
 	var m: Mine = mc.mines[-1]
 	var dt := 1.0 / Mine.TICK_HZ

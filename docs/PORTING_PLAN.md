@@ -1109,6 +1109,17 @@ The user supplied two disc images for reference, both outside the git repo
 
 ### 1.12 Sound engine: descriptor table and cue -> file mapping — MOSTLY SOLVED (2026-09-22)
 
+**Update 2026-10-02 (issue #22, [document 117](https://github.com/alexdia25/openfire/wiki/117-worked-example-the-sound-mixer-and-where-every-sound-comes-from)):
+the mixer is traced and built.** `FUN_00408050` only links a voice to its source object (document 100); the positional model is
+`FUN_004082b0` (a linear falloff, full within 40 units and silent at 424, for each of two ears 10 units either side of the
+listener; a flat voice has both gains 1.0), the budget is `FUN_00407ec0` (0x7fff a side, dealt out in priority order), the buffer
+volume is `min(level / 3 - 2200, 0)` hundredths of a dB with a pan that lowers the opposite ear, and there are **15 voices** (a 16th
+request is dropped; the 20-channel cut never bites). The looping stepper `FUN_00408450` follows one position per ear (the Drone's
+hum); the descriptor has no loop window. Port: `game/sound_mixer.gd`, `game/sound_manager.gd` (15 voices, a panner bus each),
+`MatchController.sound_at` for sounds from a place. Traced call sites: `Reload` (the MSV's salvo, after the third rocket), `TireIn` /
+`TireOut` (the Jeep's swim button), each projectile type's launch sound (`+0x18` of its row: Cannon, Missle, LargeMissle);
+`ExplDebris`, `ExplLow`, `PanelUp`, `Bubbles` are only in the debug sound-test menu and `AR1`-`AR3`, `METALH0` are never loaded.
+
 Every "sound `0xNNNNNN`" address documents 44-81 recorded is one row of a single fixed-size (0x18-byte) descriptor
 table (rows from `0x0044b550` on, base `~0x0044b500`), traced end to end:
 

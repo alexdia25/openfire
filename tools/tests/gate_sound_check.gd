@@ -19,7 +19,7 @@ func _init() -> void:
 	var mc := MatchController.new()
 	root.add_child(mc)
 	mc.setup(pack, level, "res://packs/original_pc", root)
-	mc.vehicle.sound_cue.connect(func(id): cues.append(id))
+	mc.sound_at.connect(func(id, _at, _z): cues.append(id))   # a gate's sounds come from the gate (issue #22)
 
 	# A synthetic gate, independent of whether this level happens to place one (RFMAP001 does not):
 	# real gate data (Pack.gates), an arbitrary tile.
@@ -27,7 +27,7 @@ func _init() -> void:
 	var t := Vector2i(5, 5)
 	var g := Gate.new()
 	g.setup(t, int(gate_id), pack.gates[gate_id], 0, float(pack.tile_size_px), mc.vehicle)
-	g.sound_cue.connect(mc.vehicle.sound_cue.emit)
+	g.sound_cue.connect(func(c): mc._sound_at(c, g.centre))
 	mc.vehicle.position = g.centre   # keep the carrier inside the watch region while it opens
 	var dt := 1.0 / Gate.TICK_HZ
 	var no_block := func(_bars): return false

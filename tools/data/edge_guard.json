@@ -48,6 +48,5 @@
   "accel_z": 0.0999908447265625,
   "max_down_deg": 59.999942779541016,
   "smoke_record": "0x445238"
- },
- "launch_sound": "LargeMissle"
+ }
 }
