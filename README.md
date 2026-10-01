@@ -26,7 +26,13 @@ Clone with the engine included:
 git clone --recurse-submodules https://github.com/alexdia25/openfire.git
 ```
 
-(or, in an existing clone, `git submodule update --init`).
+(or, in an existing clone, `git submodule update --init`). Then run this once in the clone:
+
+```bash
+git config push.recurseSubmodules check
+```
+
+With it set, git refuses to push an openfire commit that points at an engine commit not yet on GitHub.
 
 Full plan, ground-truth format notes, architecture decisions and phase-by-phase
 execution steps: [docs/PORTING_PLAN.md](docs/PORTING_PLAN.md). Read that file before
@@ -149,3 +155,19 @@ engine code; see the engine's README for every setting a game can make.
   `godot --headless --audio-driver Dummy --path . --script tools/tests/<name>.gd`.
   The engine's own checks (no Return Fire content needed) run from its checkout:
   `addons/openfire_engine/tools/run_tests.sh`.
+
+## Changing the engine from here
+
+Most gameplay changes touch the engine, and you can develop them right here with nothing committed until
+they work. `addons/openfire_engine/` is a full clone of openfire-engine, and Godot runs what's on disk:
+
+1. `git -C addons/openfire_engine switch main`. The submodule starts as a detached HEAD.
+2. Edit engine files under `addons/openfire_engine/` and openfire files side by side. Run the game,
+   `tools/tests/`, and `addons/openfire_engine/tools/run_tests.sh` against the uncommitted engine.
+3. When it's ready, commit and push from inside `addons/openfire_engine/` first. Then commit the openfire
+   side together with the new submodule pointer, and push.
+
+If the change alters the pack format, change `importer/` (canonical) and `tools/build_pack.py` together.
+Run `tools/tests/importer_parity_check.gd`, and re-import any existing pack. Do unfinished engine work in
+a `git worktree` (`git submodule update --init` inside it), so the shared checkout others run from isn't
+affected. The engine's README covers the full rules, including what must never go in the engine.
