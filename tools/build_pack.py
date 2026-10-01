@@ -518,6 +518,11 @@ def main():
             "pivot_source": "default_center",
             "kind": "sprite" if page == 0 else "effect",
         }
+        if c["pre0"] == 5:
+            # document 9 / FUN_00424420's "brighten" table: 32 levels, +3 per level, clamped at 255 (see the
+            # GDScript importer's own copy of this comment, importer/pack_builder.gd -- the two must match).
+            sprites[reg_id]["recolour_mode"] = "brighten_add"
+            sprites[reg_id]["recolour_step"] = 3.0 / 255.0
 
     sprites_json = {
         "atlas_pages": [],

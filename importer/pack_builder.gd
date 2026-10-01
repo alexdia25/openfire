@@ -101,6 +101,13 @@ func sprites_and_tiles(progress: Callable) -> String:
 		sprites[id] = {"file": rel, "w": w, "h": h, "pivot_x": RFPyCompat.round_digits(w / 2.0, 1),
 				"pivot_y": RFPyCompat.round_digits(h / 2.0, 1), "pivot_source": "default_center",
 				"kind": "sprite" if k == "sprite" else "effect"}
+		if int(car.cels[n]["pre0"]) == 5:
+			# document 9 / FUN_00424420's "brighten" translation table: 32 levels, +3 per level on every RGB
+			# channel, clamped at 255 (tools/rf_effect_cel.py's own docstring already has the exact formula).
+			# A generic engine blend (issue #64) reads this off the sprite, not a hardcoded engine constant,
+			# so a different pack's own masks can use a different step or none at all.
+			sprites[id]["recolour_mode"] = "brighten_add"
+			sprites[id]["recolour_step"] = 3.0 / 255.0
 		if n % 100 == 0 and progress.is_valid():
 			progress.call(float(n) / car.count, "sprites: %d of %d" % [n, car.count])
 	_write("sprites/sprites.json", {"atlas_pages": [], "sprites": sprites})
