@@ -452,6 +452,9 @@ func small_tables() -> void:
 				"art": {"shell": rid(PROJECTILE_ART["shell"]), "shadow": rid(PROJECTILE_ART["shadow"])}})
 		if guard is Dictionary:
 			_write("world/edge_guard.json", _edge_guard_table(guard))
+	var inf: Variant = data("infantry.json")
+	if inf is Dictionary:
+		_write("world/infantry.json", _infantry_table(inf))
 	var fl: Variant = data("flag.json")
 	if fl is Dictionary:
 		for group in ["ground", "carried"]:
@@ -559,6 +562,36 @@ func hud() -> void:
 		s["second_icon"] = (cels["second_icon"] as Array).map(func(c): return r.call(c))
 		sel["sprites"] = s
 		_write("hud/selector.json", sel)
+
+
+## The foot soldiers (documents 113 and 116, issue #74): world/infantry.json, with the sprite ids per team / facing / frame and the
+## buildings that release soldiers, read from the coastal table's field [3] (`flags`): bits 16-19 min, 20-23 max, 0x8000 flips the team;
+## only entries with at least 2 hit points qualify (the release is a hit that leaves exactly 1).
+func _infantry_table(inf: Dictionary) -> Dictionary:
+	var t := inf.duplicate(true)
+	for k in ["_source", "cel_first", "dir_stride", "frame_count", "team_offset", "shadow_cel"]:
+		t.erase(k)
+	var sets := {}
+	for team_name in ["tan", "green"]:
+		var shift := 0 if team_name == "tan" else int(inf["team_offset"])
+		var dirs := []
+		for d in 5:
+			dirs.append(_sids(int(inf["cel_first"]) + d * int(inf["dir_stride"]) + shift, int(inf["frame_count"])))
+		sets[team_name] = dirs
+	t["sprites"] = sets
+	t["shadow_sprite"] = rid(int(inf["shadow_cel"]))
+	var buildings := {}
+	var damage: Variant = data("coastal_damage.json")
+	if damage is Dictionary:
+		for cid in damage["coastal"]:
+			var entry: Dictionary = damage["coastal"][cid]
+			var flags := int(entry["flags"])
+			var lo := (flags >> 16) & 0xF
+			var hi := (flags >> 20) & 0xF
+			if int(entry["hp"]) >= 2 and (flags & 0xFF8000) != 0 and hi - lo >= 1:
+				buildings[cid] = {"min": lo, "max": hi, "flip_team": (flags & 0x8000) != 0}
+	t["buildings"] = buildings
+	return t
 
 
 ## The map-edge guard (the submarine; document 112) with its frames as sprite ids: world/edge_guard.json.

@@ -1,0 +1,149 @@
+{
+ "_source": "RFIRE.BIN: the MAN object descriptor 0x44eb38 and its behaviours 0x434460 / 0x434350 / 0x433d40 / 0x433d80 / 0x434220 / 0x434320 / 0x4345d0, the tick 0x433ab0, the init 0x433a50, the constants at 0x44ea90 (speed 0x44ea9c, idle distance 0x1000000, throw window 0x400000..0x600000), the grenade-count table 0x44eab0, the separation offsets 0x44ead8, the draw descriptor 0x44e928 (callback 0x433950, corners 0x44e448, part blocks 0x44e4a8 / 0x44e6a8) and its shape 0x44e8e8; issue #74, wiki documents 113 and 116. Angles: 0x400000 = 360 degrees; 16.16 values divided by 65536. The building table (`buildings`) is derived by the importers from the coastal table's field [3] (`flags` in coastal_damage.json): bits 16-19 min, 20-23 max, 0x8000 flips the team, and only entries with at least 2 hit points qualify (a hit must leave exactly 1).",
+ "speed": 0.1999969482421875,
+ "frame_rate": 0.1999969482421875,
+ "start_frame": 6.0,
+ "idle_distance": 256.0,
+ "throw_min": 64.0,
+ "throw_max": 96.0,
+ "decide_ticks": 30,
+ "decide_random": 90,
+ "pause_ticks": 120,
+ "pause_random": 60,
+ "home_ticks": 120,
+ "grenades": [
+  0,
+  0,
+  0,
+  1,
+  1,
+  1,
+  1,
+  1,
+  2,
+  2,
+  2,
+  2,
+  3,
+  3,
+  3,
+  4
+ ],
+ "separation_offsets": [
+  [
+   -4.0,
+   0.0
+  ],
+  [
+   4.0,
+   0.0
+  ],
+  [
+   -4.0,
+   -3.0
+  ],
+  [
+   4.0,
+   -3.0
+  ],
+  [
+   0.0,
+   -3.0
+  ],
+  [
+   -4.0,
+   1.0
+  ],
+  [
+   4.0,
+   1.0
+  ],
+  [
+   0.0,
+   1.0
+  ]
+ ],
+ "footprint": {
+  "box": [
+   -2.0,
+   -1.5,
+   2.0,
+   0.04998779296875
+  ],
+  "z": [
+   0.0,
+   2.0
+  ],
+  "layer": 1,
+  "mask": 255
+ },
+ "quad": [
+  [
+   -4.0,
+   -1.5,
+   4.5
+  ],
+  [
+   4.0,
+   -1.5,
+   4.5
+  ],
+  [
+   4.0,
+   1.5,
+   0.0
+  ],
+  [
+   -4.0,
+   1.5,
+   0.0
+  ]
+ ],
+ "shadow_quad": [
+  [
+   0.0,
+   -2.5,
+   0.0
+  ],
+  [
+   8.0,
+   -2.5,
+   0.0
+  ],
+  [
+   4.0,
+   1.5,
+   0.0
+  ],
+  [
+   -4.0,
+   1.5,
+   0.0
+  ]
+ ],
+ "shadow_cel": 755,
+ "cel_first": 655,
+ "dir_stride": 20,
+ "frame_count": 10,
+ "team_offset": 10,
+ "dir_source": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  3,
+  2,
+  1
+ ],
+ "mirror": [
+  false,
+  false,
+  false,
+  false,
+  false,
+  true,
+  true,
+  true
+ ]
+}

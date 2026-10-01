@@ -86,6 +86,7 @@ HELI_ROTOR_JSON = os.path.join(ROOT, "tools", "data", "heli_rotor.json")
 ENGINE_LOOPS_JSON = os.path.join(ROOT, "tools", "data", "engine_loops.json")
 PROJECTILE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "projectile_types.json")
 EDGE_GUARD_JSON = os.path.join(ROOT, "tools", "data", "edge_guard.json")
+INFANTRY_JSON = os.path.join(ROOT, "tools", "data", "infantry.json")
 COASTAL_DECORATION_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
 
 PACK_ID = "original_pc"
@@ -698,6 +699,33 @@ def main():
             with open(os.path.join(args.out_dir, "world", "edge_guard.json"), "w") as f:
                 json.dump(table, f, indent=1, sort_keys=True)
                 f.write("\n")
+
+    # The foot soldiers (documents 113 and 116, issue #74): the behaviour numbers, the sprite ids per team / facing / frame, and the
+    # buildings that release soldiers, read from the coastal table's field [3] (`flags`): bits 16-19 min, 20-23 max, 0x8000 flips the
+    # team; only entries with at least 2 hit points qualify (the release is a hit that leaves exactly 1).
+    if os.path.exists(INFANTRY_JSON):
+        with open(INFANTRY_JSON) as f:
+            inf = json.load(f)
+        table = {k: v for k, v in inf.items() if k not in ("_source", "cel_first", "dir_stride", "frame_count", "team_offset", "shadow_cel")}
+        sets = {}
+        for team_name, team_shift in (("tan", 0), ("green", inf["team_offset"])):
+            sets[team_name] = [[registry[str(inf["cel_first"] + d * inf["dir_stride"] + team_shift + fr)]["id"]
+                                for fr in range(inf["frame_count"])] for d in range(5)]
+        table["sprites"] = sets
+        table["shadow_sprite"] = registry[str(inf["shadow_cel"])]["id"]
+        buildings = {}
+        if os.path.exists(COASTAL_DAMAGE_JSON):
+            with open(COASTAL_DAMAGE_JSON) as f:
+                for cid, entry in json.load(f)["coastal"].items():
+                    flags = int(entry["flags"])
+                    lo, hi = (flags >> 16) & 0xF, (flags >> 20) & 0xF
+                    if int(entry["hp"]) >= 2 and flags & 0xFF8000 and hi - lo >= 1:
+                        buildings[cid] = {"min": lo, "max": hi, "flip_team": bool(flags & 0x8000)}
+        table["buildings"] = buildings
+        os.makedirs(os.path.join(args.out_dir, "world"), exist_ok=True)
+        with open(os.path.join(args.out_dir, "world", "infantry.json"), "w") as f:
+            json.dump(table, f, indent=1, sort_keys=True)
+            f.write("\n")
 
     # The capture flag (document 65): sprite ids per wave frame (13 tan, then 13 green)
     if os.path.exists(FLAG_JSON):
