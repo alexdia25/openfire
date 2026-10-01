@@ -1371,7 +1371,7 @@ animation's tan/blue split, ~180 near-identical VFX burst frames), classificatio
 the roster is Tank, Jeep, MSV and Heli, but never renamed them): `vehicle.hovercraft.*` (cels 167-240) is now
 `vehicle.tank.*`, and three strays outside that block got neutral visual names. "Jetski" (640-654) and
 "watercraft_distant" (630-639) are one 25-frame submarine sequence, now `vehicle.submarine.01-25` (visual,
-untraced). Mentions of "hovercraft" below and in the numbered documents are historical. See the [issues](https://github.com/alexdia25/openfire/issues) (formerly the next-steps doc's
+untraced; **traced 2026-10-01 in [document 112](https://github.com/alexdia25/openfire/wiki/112-worked-example-the-submarine): it is the `SUB` object's one sprite, the map-edge guard that fires a 400-damage homing rocket at a Heli that stays off the map**). Mentions of "hovercraft" below and in the numbered documents are historical. See the [issues](https://github.com/alexdia25/openfire/issues) (formerly the next-steps doc's
 untraced list).
 
 **New findings surfaced during classification, not yet confirmed against code:**
