@@ -48,34 +48,34 @@ func _init() -> void:
 	DirAccess.make_dir_recursive_absolute(broken)
 	FileAccess.open(broken.path_join("pack.json"), FileAccess.WRITE).store_string("{ not json")
 
-	var base := ModLoader.load_game_pack(ModLoader.BASE_PACK, [])
+	var base := ModLoader.load_game_pack(ModLoader.base_pack_dir(), [])
 	var base_hull := _hull(base)
 	_check(base.layers.size() == 1, "no mods enabled: the original content alone")
 	_check(not "MODMAP01" in base.list_levels() and not base.vehicle_types.has("hovertank"), "no mod content without the mod")
 
-	var with_a := ModLoader.load_game_pack(ModLoader.BASE_PACK, [a])
+	var with_a := ModLoader.load_game_pack(ModLoader.base_pack_dir(), [a])
 	_check(with_a.layers.size() == 2 and _hull(with_a) == Color.CYAN, "an enabled mod loads on top")
 	_check("MODMAP01" in with_a.list_levels() and "RFMAP001" in with_a.list_levels(), "a mod's custom map is added beside the originals")
 	_check(with_a.vehicle_types.has("hovertank") and with_a.vehicle_types.has("0"), "a mod's new vehicle is added beside the originals")
 	_check(with_a.level_dir("RFMAP001") == "res://packs/original_pc/levels/RFMAP001", "untouched maps still come from the original")
 
-	var ab := ModLoader.load_game_pack(ModLoader.BASE_PACK, [a, b])
+	var ab := ModLoader.load_game_pack(ModLoader.base_pack_dir(), [a, b])
 	_check(ab.layers.size() == 3 and _hull(ab) == Color.ORANGE and "MODMAP01" in ab.list_levels(), "two mods: the later one wins where both change something")
-	var ba := ModLoader.load_game_pack(ModLoader.BASE_PACK, [b, a])
+	var ba := ModLoader.load_game_pack(ModLoader.base_pack_dir(), [b, a])
 	_check(_hull(ba) == Color.CYAN, "load order decides")
 
-	var skipped := ModLoader.load_game_pack(ModLoader.BASE_PACK, [root.path_join("missing"), broken, ModLoader.BASE_PACK, a])
+	var skipped := ModLoader.load_game_pack(ModLoader.base_pack_dir(), [root.path_join("missing"), broken, ModLoader.base_pack_dir(), a])
 	_check(skipped.layers.size() == 2 and _hull(skipped) == Color.CYAN, "missing, broken and base-pack entries are skipped, good mods still load")
-	var only_bad := ModLoader.load_game_pack(ModLoader.BASE_PACK, [broken])
+	var only_bad := ModLoader.load_game_pack(ModLoader.base_pack_dir(), [broken])
 	_check(only_bad.layers.size() == 1 and _hull(only_bad) == base_hull, "only bad mods: the original content")
 
-	var off := ModLoader.load_game_pack(ModLoader.BASE_PACK, [])
+	var off := ModLoader.load_game_pack(ModLoader.base_pack_dir(), [])
 	_check(_hull(off) == base_hull and not "MODMAP01" in off.list_levels(), "disabling the mods gives the original content back")
 	_check(FileAccess.get_md5(original_file) == original_md5, "the original files were never changed")
 
-	_check(ModLoader.mod_problem(ModLoader.BASE_PACK) != "", "the original pack is not a mod")
+	_check(ModLoader.mod_problem(ModLoader.base_pack_dir()) != "", "the original pack is not a mod")
 	var ws := ModWorkspace.new()
-	_check(not ws.open(ModLoader.BASE_PACK), "the mod tool refuses to open original content as a mod")
+	_check(not ws.open(ModLoader.base_pack_dir()), "the mod tool refuses to open original content as a mod")
 	ws.close()
 
 	print("mod_loading_check: %s" % ("PASS" if _failures == 0 else "%d FAILED" % _failures))

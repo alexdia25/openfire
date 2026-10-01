@@ -63,9 +63,9 @@ func _init() -> void:
 	ws.close()
 
 	# original content itself is still refused, exactly as before
-	_check(ModLoader.editor_open_problem(ModLoader.BASE_PACK) != "", "the bundled original content still refuses to open")
+	_check(ModLoader.editor_open_problem(ModLoader.base_pack_dir()) != "", "the bundled original content still refuses to open")
 	var refused := ModWorkspace.new()
-	_check(not refused.open(ModLoader.BASE_PACK), "and ModWorkspace agrees")
+	_check(not refused.open(ModLoader.base_pack_dir()), "and ModWorkspace agrees")
 
 	print("standalone_project_check: %s" % ("PASS" if _failures == 0 else "%d FAILED" % _failures))
 	quit(0 if _failures == 0 else 1)
