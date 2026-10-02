@@ -251,7 +251,7 @@
    "wav": "THROW1.wav",
    "label": "Throw Grenade1",
    "applied": true,
-   "trigger": "game/match_controller.gd MatchController._on_mine_dropped(): the MSV's mine layer (documents 60-61); PORT CHOICE, not traced -- picked uniformly at random among the three Throw1/2/3 variants, see NEXT_STEPS",
+   "trigger": "game/match_controller.gd: FUN_004159a0 (the launch of a lobbed missile or grenade: the Jeep's missile, a soldier's grenade) plays one of the three descriptors at 0x44b9ec, uniformly at random, with the new object as the source (issue #80, document 118). The MSV's mine drop makes no sound (FUN_00409e30 plays none): the earlier port choice (#36) is gone.",
    "level": 5461,
    "pitch": -65536,
    "priority": {

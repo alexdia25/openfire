@@ -35,7 +35,7 @@ func _init() -> void:
 	mc._on_mine_dropped(Vector2(500, 500), mc.vehicle)
 	var m: Mine = mc.mines[0]
 	mc._detonate_mine(m)
-	print("mine explosion -> ", got_mine, " (expect to include ExplLarge and a ThrowGrenade1 variant)")
+	print("mine explosion -> ", got_mine, " (expect ExplLarge only: the mine drop itself is silent)")
 	print("all correct: ", all_ok)
 	print("done")
 	quit()

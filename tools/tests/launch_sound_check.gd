@@ -1,6 +1,6 @@
 # Issue #22 / wiki document 117: FUN_004148f0 plays the sound named by the projectile type's record (+0x18) on every new projectile, with the
 # projectile as its source: the Tank's shell (type 0) and the Heli's gun (type 7) play Cannon, the Heli's bomb (type 6) Missle, the MSV's
-# rockets (type 8) LargeMissle. The weapon handlers play nothing of their own. Run:
+# rockets (type 8) LargeMissle; the Jeep's lobbed missile plays one of three throw sounds (FUN_004159a0). The weapon handlers play nothing of their own. Run:
 #   godot --headless --audio-driver Dummy --path . --script tools/tests/launch_sound_check.gd
 extends SceneTree
 
@@ -59,5 +59,11 @@ func _init() -> void:
 	check("Heli gun (type 7): Cannon", types.size() > 0 and types[0] == 7 and cues.size() > 0 and cues[0] == "Cannon", "%s %s" % [types.slice(0, 2), cues.slice(0, 2)])
 	run.call(3, true)
 	check("Heli bomb (type 6): Missle", types.size() > 0 and types[0] == 6 and cues.size() > 0 and cues[0] == "Missle", "%s %s" % [types.slice(0, 2), cues.slice(0, 2)])
+	run.call(1, false)
+	check("Jeep lobbed missile: one of the three throw sounds (FUN_004159a0)", cues.size() > 0 and ["ThrowGrenade1_a", "ThrowGrenade1_b", "ThrowGrenade1_c"].has(cues[0]), str(cues.slice(0, 2)))
+	cues.clear()
+	own.clear()
+	mc._on_mine_dropped(v.position + Vector2(60.0, 0.0), v)
+	check("a mine drop makes no throw sound of its own (FUN_00409e30 plays none)", not cues.any(func(c): return String(c).begins_with("Throw")) and not own.any(func(c): return String(c).begins_with("Throw")), "%s %s" % [cues, own])
 	check("the three cues are real pack entries", pack.audio.has("Cannon") and pack.audio.has("Missle") and pack.audio.has("LargeMissle"))
 	quit(fails)
