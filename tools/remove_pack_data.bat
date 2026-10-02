@@ -1,6 +1,6 @@
 @echo off
 rem Deletes the game data Open Fire converted from your Return Fire install. Settings are kept.
-set "DIR=%APPDATA%\Godot\app_userdata\Return Fire\packs\original_pc"
+set "DIR=%APPDATA%\OpenFire\packs\original_pc"
 if not exist "%DIR%" (
   echo Nothing to remove: "%DIR%" does not exist.
   pause
