@@ -150,6 +150,11 @@ engine code; see the engine's README for every setting a game can make.
   pack, which `tools/tests/importer_parity_check.gd` checks (`RF_GAME_DIR=<install>`).
 - **Release builds:** the "Open Fire (Windows/Linux)" presets in `export_presets.cfg`
   (Project > Export, or `godot --headless --export-release "Open Fire (Windows)"`).
+  To publish one: push a `v*` tag (`git tag v0.1.0 && git push origin v0.1.0`). The Release workflow
+  (`.github/workflows/release.yml`) exports both presets via `tools/package_release.sh` and creates a
+  **draft** GitHub release with the Windows zip and Linux tar.gz; review it, then publish. The same
+  script runs locally (`GODOT=<godot 4.7 exe> tools/package_release.sh v0.1.0`, needs the export
+  templates installed) and writes `dist/`. Push the engine before the tag, so the submodule pointer is fetchable.
 - **The mod tool:** `godot --path . res://addons/openfire_engine/editor/editor_main.tscn`.
 - **Tests:** each check under `tools/tests/` is its own headless run, e.g.
   `godot --headless --audio-driver Dummy --path . --script tools/tests/<name>.gd`.
