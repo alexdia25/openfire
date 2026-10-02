@@ -38,7 +38,7 @@ jobs:
           echo "GODOT=$PWD/Godot_v${GODOT_VERSION}_linux.x86_64" >> "$GITHUB_ENV"
 
       - name: Export and package
-        run: tools/package_release.sh "${GITHUB_REF_NAME}"
+        run: bash tools/package_release.sh "${GITHUB_REF_NAME}"
 
       - uses: actions/upload-artifact@v4
         with:
