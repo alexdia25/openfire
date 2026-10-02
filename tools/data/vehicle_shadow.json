@@ -1,0 +1,93 @@
+{
+ "_source": "RFIRE.BIN: the Heli record's hook at +0x230 (FUN_0040eae0 -> FUN_00409c50, called for every vehicle at creation by FUN_0040b700: `if (record[0x8c]) record[0x8c](obj, record)`) makes a Shadow object (class 4, table 0x443078, init 0x409b50, tick 0x409bd0) from the descriptor 0x440ed8 (two identical parts, cel 579, flags 0x10 = translucent ground shadow; draw callback 0x403760, which swaps to 0x440e90, one part, once the rotor's whole speed is 4 or more, and shifts the two tail corners (0x440e0c, 0x440e18) by 18 x (1 - state+0x58) while the start-up / landing value is below 1) chained to the rotor shadow 0x440da8 (cels 589 and 605, init 0x403610, draw 0x4036d0: corner sets 0x440c30 for rotor modes 0-1, 0x440c90 for 2-3, a folded pair 0x440d60 in start-up). The Shadow's tick places it at the owner's x + 0.332 * z and y - 0.5 * z (z >> 8 * 0x55; z / 2), turned to the owner's heading, on the ground. Issue #26, wiki document 120 (corrects document 63). 16.16 values divided by 65536. The rotor shadow's start-up fold (mode 4) is not built.",
+ "types": {
+  "3": {
+   "offset_per_height": [
+    0.33203125,
+    -0.5
+   ],
+   "alpha": 0.15625,
+   "startup_shear": 18.0,
+   "tail_points": [
+    0,
+    3
+   ],
+   "single_layer_from_rotor_mode": 3,
+   "body": {
+    "cel": 579,
+    "corners": [
+     [
+      -12.75,
+      34.0,
+      0.0
+     ],
+     [
+      -12.75,
+      -19.54998779296875,
+      0.0
+     ],
+     [
+      13.599990844726562,
+      -19.54998779296875,
+      0.0
+     ],
+     [
+      13.599990844726562,
+      34.0,
+      0.0
+     ]
+    ]
+   },
+   "rotor": {
+    "cels": [
+     589,
+     605
+    ],
+    "narrow": [
+     [
+      3.399993896484375,
+      27.199996948242188,
+      0.0
+     ],
+     [
+      3.399993896484375,
+      -27.199996948242188,
+      0.0
+     ],
+     [
+      -3.399993896484375,
+      -27.199996948242188,
+      0.0
+     ],
+     [
+      -3.399993896484375,
+      27.199996948242188,
+      0.0
+     ]
+    ],
+    "wide": [
+     [
+      6.79998779296875,
+      27.199996948242188,
+      0.0
+     ],
+     [
+      6.79998779296875,
+      -27.199996948242188,
+      0.0
+     ],
+     [
+      -6.79998779296875,
+      -27.199996948242188,
+      0.0
+     ],
+     [
+      -6.79998779296875,
+      27.199996948242188,
+      0.0
+     ]
+    ]
+   }
+  }
+ }
+}

@@ -308,6 +308,21 @@ func _build_render(index: int, t: Dictionary) -> Variant:
 	return render
 
 
+## A vehicle type's ground shadow (the Heli's; tools/data/vehicle_shadow.json, issue #26), or {} for a type without one.
+func _shadow_entry(d: Dictionary, index: int) -> Dictionary:
+	if not d["types"].has(str(index)):
+		return {}
+	var out: Dictionary = (d["types"][str(index)] as Dictionary).duplicate(true)
+	out["body"]["sprite"] = rid(int(out["body"]["cel"]))
+	out["body"].erase("cel")
+	var ids := []
+	for c in out["rotor"]["cels"]:
+		ids.append(rid(int(c)))
+	out["rotor"]["sprites"] = ids
+	out["rotor"].erase("cels")
+	return {"shadow": out}
+
+
 ## A vehicle type's `wreck` table: the decal quads below plus the Destroyed Vehicle object's numbers (tools/data/wreck.json; issue #29).
 static func _wreck_table(quads: Dictionary, d: Dictionary, index: int) -> Dictionary:
 	var t := quads.duplicate()
@@ -372,6 +387,7 @@ func vehicles(sound: Dictionary) -> String:
 	var behaviour := _behaviour()
 	var wrecks := _wrecks()
 	var wreck_data: Dictionary = data("wreck.json")
+	var shadow_data: Dictionary = data("vehicle_shadow.json")
 	var definitions := []
 	var roster := []
 	for entry in ORIGINAL_ROSTER:
@@ -422,6 +438,7 @@ func vehicles(sound: Dictionary) -> String:
 				"stats.sink_depth": "+0x158", "stats.dock_tolerance": "+0x254", "stats.death_wait_ticks": "+0x260",
 				"drive": "+0x168..+0x178", "weapons.ammo": "+0x1a8 / +0x1dc", "weapons.cooldown_ticks": "+0x1a4 / +0x1d8",
 				"events.on_create": "+0x240", "camera.swoop_height": "table 0x4452c0", "render": "+0x148 (draw descriptor)"}}])
+		definitions.back()[1].merge(_shadow_entry(shadow_data, index))
 		roster.append({"id": vid, "stock_key": entry[2], "default_stock": entry[3]})
 	DirAccess.make_dir_recursive_absolute(out_dir.path_join("audio"))
 	for l in loops_doc["loops"].values():

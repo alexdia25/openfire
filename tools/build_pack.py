@@ -88,6 +88,7 @@ PROJECTILE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "projectile_types.js
 EDGE_GUARD_JSON = os.path.join(ROOT, "tools", "data", "edge_guard.json")
 INFANTRY_JSON = os.path.join(ROOT, "tools", "data", "infantry.json")
 WRECK_JSON = os.path.join(ROOT, "tools", "data", "wreck.json")
+SHADOW_JSON = os.path.join(ROOT, "tools", "data", "vehicle_shadow.json")
 DEBRIS_JSON = os.path.join(ROOT, "tools", "data", "debris.json")
 COASTAL_DECORATION_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
 
@@ -386,6 +387,18 @@ def wreck_table(index):
     return t
 
 
+def shadow_entry(index, registry):
+    """{"shadow": ...} for a vehicle type that casts a ground shadow (the Heli's; tools/data/vehicle_shadow.json, issue #26), else {}."""
+    with open(SHADOW_JSON) as f:
+        d = json.load(f)["types"].get(str(index))
+    if d is None:
+        return {}
+    out = json.loads(json.dumps(d))
+    out["body"]["sprite"] = registry[str(out["body"].pop("cel"))]["id"]
+    out["rotor"]["sprites"] = [registry[str(c)]["id"] for c in out["rotor"].pop("cels")]
+    return {"shadow": out}
+
+
 def emit_vehicle_definitions(out_dir, vt, sound_dir, registry, team_pairs):
     """PORTING_PLAN.md 2.7.2, step 3: one definition per vehicle, vehicles/<id>/vehicle.json, grouped the way the original's
     vehicle-type record is (stats, drive, weapons, shape, events, camera, render, wreck), plus vehicles/roster.json (the
@@ -445,6 +458,7 @@ def emit_vehicle_definitions(out_dir, vt, sound_dir, registry, team_pairs):
             "selector": {"script": script, "picture": picture},
             "render": render,
             "wreck": wreck_table(index),
+            **shadow_entry(index, registry),
             "_record": {"stats.hit_points": "+0x28", "stats.armor": "+0x24", "stats.fuel": "+0x210",
                         "stats.sink_depth": "+0x158", "stats.dock_tolerance": "+0x254", "stats.death_wait_ticks": "+0x260",
                         "drive": "+0x168..+0x178", "weapons.ammo": "+0x1a8 / +0x1dc", "weapons.cooldown_ticks": "+0x1a4 / +0x1d8",
