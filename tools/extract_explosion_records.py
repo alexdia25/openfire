@@ -37,7 +37,7 @@ def s8(a): v = mem[a - B]; return v - 256 if v > 127 else v
 
 NAMES = {0: "END", 1: "STOP", 2: "WAIT", 3: "SOUND", 4: "TILE_STATE", 5: "TILE_SET", 6: "DESC_TBL", 7: "DESC_DEFAULT",
          8: "SET_PROGRESS", 9: "IF", 10: "JUMP", 11: "KILL", 12: "DESC_REC", 13: "DAMAGE_BOX", 14: "BOX_EXTENT",
-         15: "NOP2", 16: "DETACH", 17: "DRAW_LIST", 18: "TILE_DMG_A", 19: "TILE_DMG_B", 20: "REPEAT", 21: "OP21",
+         15: "NOP2", 16: "DETACH", 17: "SHATTER", 18: "TILE_DMG_A", 19: "TILE_DMG_B", 20: "REPEAT", 21: "OP21",
          22: "TILE_TEAM"}
 ARGS = {1: 0, 2: 1, 3: 1, 4: 0, 5: 4, 6: 1, 7: 0, 8: 1, 9: 3, 10: 1, 11: 0, 12: 1, 13: 6, 14: 1, 15: 2, 16: 0, 17: 1,
         18: 3, 19: 3, 21: 1, 22: 2}

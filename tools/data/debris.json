@@ -1,5 +1,5 @@
 {
- "_source": "RFIRE.BIN: the FWall class 0x44abb0 (class 3; init FUN_0042b1f0, tick FUN_0042b290, draw FUN_0042a7b0), the op functions at 0x44ab50 (0x42a920 end, 0x42a950 tint, 0x42aad0 speed, 0x42abc0 yaw spin, 0x42aca0 roll spin, 0x42ad80 frame swap, 0x42aeb0 gravity, 0x42af60 sink, 0x42afa0 drag, 0x42b030 bounce, 0x42b0e0 land), the piece records 0x44a850 / 0x44a864 (above 10 units) and 0x44a890 / 0x44a8a4 (below) with the op lists 0x44a530 and 0x44a650, the piece table rows 0x44aa90 (above 10 units) and 0x44aad0 (below), and the maker FUN_0042b4e0 / FUN_0042a610. Issue #81, wiki document 119. 16.16 values divided by 65536, angles 0x400000 = 360 degrees. A part makes a piece when its flags & 0x300 is 1 or 2 (record A or B); only the Heli's body has such parts. Each op runs while start <= floor(progress) <= end; progress rises by `rate` a tick and the piece ends at `duration`; from `fade_start` it fades. `tint` shades the piece toward palette entry `colour_index` of cel `colour_cel` (the port darkens it: PORT CHOICE, the palette is not read). `drag` slows drift words that nothing ever sets (a no-op in the original). Landing effect: `surface` below.",
+ "_source": "RFIRE.BIN: the FWall class 0x44abb0 (class 3; init FUN_0042b1f0, tick FUN_0042b290, draw FUN_0042a7b0), the op functions at 0x44ab50 (0x42a920 end, 0x42a950 tint, 0x42aad0 speed, 0x42abc0 yaw spin, 0x42aca0 roll spin, 0x42ad80 frame swap, 0x42aeb0 gravity, 0x42af60 sink, 0x42afa0 drag, 0x42b030 bounce, 0x42b0e0 land), the piece records 0x44a850 / 0x44a864 (above 10 units) and 0x44a890 / 0x44a8a4 (below) with the op lists 0x44a530 and 0x44a650, the piece table rows 0x44aa90 (above 10 units) and 0x44aad0 (below), and the maker FUN_0042b4e0 / FUN_0042a610. Issue #81, wiki documents 119 (the Heli) and 121 (tiles, turrets, Drones). `tile_rows`: the rows 0x44aac0 (4), 0x44aae0 (6) and 0x44aaf0 (7) that op 17 (SHATTER n) of a tile's collapse script uses (n = the row index of the table at 0x44aa80, 0x10 bytes a row), records 0x44a998 / 0x44aa30 / 0x44aa44 / 0x44aa58 / 0x44aa6c: op `bounce` (FUN_0042b030: gravity, then the corners are kept above the ground; `settle_end` = op word [4] bit 1: end once all four lie on it). `turret_row`: the row 0x44a398 FUN_00431aee passes for a destroyed Turret Gun (record 0x44a380); the Drone's end handler FUN_0040a010 uses row 0x44aa90 (`rows.high`). Neither is built (issues #75, #76). 16.16 values divided by 65536, angles 0x400000 = 360 degrees. A part makes a piece when its flags & 0x300 is 1 or 2 (record A or B); only the Heli's body has such parts. Each op runs while start <= floor(progress) <= end; progress rises by `rate` a tick and the piece ends at `duration`; from `fade_start` it fades. `tint` shades the piece toward palette entry `colour_index` of cel `colour_cel` (the port darkens it: PORT CHOICE, the palette is not read). `drag` slows drift words that nothing ever sets (a no-op in the original). Landing effect: `surface` below.",
  "rows": {
   "high": {
    "1": "0x44a850",
@@ -300,6 +300,126 @@
      "z": 0.0
     }
    ]
+  },
+  "0x44a998": {
+   "rate": 1.0,
+   "duration": 90,
+   "fade_start": 40,
+   "ops": [
+    {
+     "op": "bounce",
+     "start": 5,
+     "end": 100,
+     "launch": true,
+     "settle_end": true
+    },
+    {
+     "op": "tint",
+     "start": 40,
+     "end": 80,
+     "colour_cel": 1917,
+     "colour_index": 2
+    }
+   ]
+  },
+  "0x44aa30": {
+   "rate": 1.0,
+   "duration": 80,
+   "fade_start": 30,
+   "ops": [
+    {
+     "op": "bounce",
+     "start": 1,
+     "end": 100,
+     "launch": true,
+     "settle_end": true
+    },
+    {
+     "op": "tint",
+     "start": 30,
+     "end": 80,
+     "colour_cel": 1917,
+     "colour_index": 2
+    }
+   ]
+  },
+  "0x44aa44": {
+   "rate": 1.0,
+   "duration": 80,
+   "fade_start": 30,
+   "ops": [
+    {
+     "op": "bounce",
+     "start": 1,
+     "end": 100,
+     "launch": true,
+     "settle_end": false
+    },
+    {
+     "op": "tint",
+     "start": 30,
+     "end": 80,
+     "colour_cel": 1917,
+     "colour_index": 2
+    }
+   ]
+  },
+  "0x44aa58": {
+   "rate": 1.0,
+   "duration": 40,
+   "fade_start": 10,
+   "ops": [
+    {
+     "op": "bounce",
+     "start": 1,
+     "end": 100,
+     "launch": true,
+     "settle_end": true
+    }
+   ]
+  },
+  "0x44aa6c": {
+   "rate": 1.0,
+   "duration": 40,
+   "fade_start": 10,
+   "ops": [
+    {
+     "op": "bounce",
+     "start": 1,
+     "end": 100,
+     "launch": true,
+     "settle_end": false
+    }
+   ]
+  },
+  "0x44a380": {
+   "rate": 1.0,
+   "duration": 60,
+   "fade_start": 10,
+   "ops": [
+    {
+     "op": "tint",
+     "start": 3,
+     "end": 30,
+     "colour_cel": 1917,
+     "colour_index": 2
+    },
+    {
+     "op": "speed",
+     "start": 30,
+     "end": 100,
+     "initial": 0.0,
+     "target": 0.0999908447265625,
+     "rate": 1.0,
+     "low": 0.0
+    },
+    {
+     "op": "gravity",
+     "start": 31,
+     "end": 100,
+     "launch": true
+    }
+   ]
   }
  },
  "landing": {
@@ -308,5 +428,22 @@
   "water": "0x4445b8",
   "pavement_first_art": 73,
   "pavement_last_art": 83
+ },
+ "tile_rows": {
+  "4": {
+   "1": "0x44a998",
+   "2": "0x44a998"
+  },
+  "6": {
+   "1": "0x44aa30",
+   "2": "0x44aa44"
+  },
+  "7": {
+   "1": "0x44aa58",
+   "2": "0x44aa6c"
+  }
+ },
+ "turret_row": {
+  "1": "0x44a380"
  }
 }
