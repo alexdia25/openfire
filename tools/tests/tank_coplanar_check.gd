@@ -27,6 +27,8 @@ func _init() -> void:
 		var quads: Array = []
 		var rigs := {}
 		for part in render._render["parts"]:
+			if part.has("modes"):   # the wading / sinking pictures are drawn in their own view (issue #25), not with the hull
+				continue
 			var q: Array[Vector3] = []
 			for c in render._corners(part, rigs):
 				q.append(Vector3(c.x, c.z, c.y))

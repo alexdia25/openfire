@@ -6998,16 +6998,16 @@
       "note": "blue splotchy spray/cloud pattern"
     },
     "2038": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.01",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.01",
+      "note": "the swimming Jeep's wading spray, quad a, frame 0 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2039": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.02",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.02",
+      "note": "the swimming Jeep's wading spray, quad a, frame 1 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "204": {
       "category": "vehicle",
@@ -7016,64 +7016,64 @@
       "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 202 [RENAMED 2026-09-24 from vehicle.hovercraft.p202.yellow: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2040": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.03",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.03",
+      "note": "the swimming Jeep's wading spray, quad a, frame 2 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2041": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.04",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.04",
+      "note": "the swimming Jeep's wading spray, quad a, frame 3 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2042": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.05",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.05",
+      "note": "the swimming Jeep's wading spray, quad a, frame 4 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2043": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.06",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.06",
+      "note": "the swimming Jeep's wading spray, quad a, frame 5 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2044": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.07",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.07",
+      "note": "the swimming Jeep's wading spray, quad a, frame 6 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2045": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.08",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.08",
+      "note": "the swimming Jeep's wading spray, quad a, frame 7 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2046": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.09",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.09",
+      "note": "the swimming Jeep's wading spray, quad a, frame 8 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2047": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.10",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.10",
+      "note": "the swimming Jeep's wading spray, quad a, frame 9 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2048": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.11",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.11",
+      "note": "the swimming Jeep's wading spray, quad a, frame 10 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2049": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.12",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.12",
+      "note": "the swimming Jeep's wading spray, quad a, frame 11 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "205": {
       "category": "vehicle",
@@ -7082,64 +7082,64 @@
       "note": "vehicle part variant group (document 46): slot 3 of the group starting at cel 202 [RENAMED 2026-09-24 from vehicle.hovercraft.p202.alt3: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2050": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.13",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.13",
+      "note": "the swimming Jeep's wading spray, quad a, frame 12 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2051": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.14",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.14",
+      "note": "the swimming Jeep's wading spray, quad a, frame 13 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2052": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.15",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.15",
+      "note": "the swimming Jeep's wading spray, quad a, frame 14 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2053": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.16",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.16",
+      "note": "the swimming Jeep's wading spray, quad a, frame 15 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2054": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.17",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.17",
+      "note": "the swimming Jeep's wading spray, quad a, frame 16 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2055": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.18",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_a.18",
+      "note": "the swimming Jeep's wading spray, quad a, frame 17 of 18 (descriptor 0x43fe18, cel 2038 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2056": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.19",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.01",
+      "note": "the swimming Jeep's wading spray, quad b, frame 0 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2057": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.20",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.02",
+      "note": "the swimming Jeep's wading spray, quad b, frame 1 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2058": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.21",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.03",
+      "note": "the swimming Jeep's wading spray, quad b, frame 2 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2059": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.water_spray.44",
-      "note": "blue splotchy spray/cloud pattern"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.04",
+      "note": "the swimming Jeep's wading spray, quad b, frame 3 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "206": {
       "category": "vehicle",
@@ -7148,64 +7148,64 @@
       "note": "vehicle part variant group (document 46): slot 4 of the group starting at cel 202 [RENAMED 2026-09-24 from vehicle.hovercraft.p202.alt4: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2060": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.water_spray.45",
-      "note": "blue splotchy spray/cloud pattern"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.05",
+      "note": "the swimming Jeep's wading spray, quad b, frame 4 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2061": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.water_spray.46",
-      "note": "blue splotchy spray/cloud pattern"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.06",
+      "note": "the swimming Jeep's wading spray, quad b, frame 5 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2062": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.water_spray.47",
-      "note": "blue splotchy spray/cloud pattern"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.07",
+      "note": "the swimming Jeep's wading spray, quad b, frame 6 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2063": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.water_spray.48",
-      "note": "blue splotchy spray/cloud pattern"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.08",
+      "note": "the swimming Jeep's wading spray, quad b, frame 7 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2064": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.water_spray.49",
-      "note": "blue splotchy spray/cloud pattern"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.09",
+      "note": "the swimming Jeep's wading spray, quad b, frame 8 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2065": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.water_spray.50",
-      "note": "blue splotchy spray/cloud pattern"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.10",
+      "note": "the swimming Jeep's wading spray, quad b, frame 9 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2066": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.water_spray.51",
-      "note": "blue splotchy spray/cloud pattern"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.11",
+      "note": "the swimming Jeep's wading spray, quad b, frame 10 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2067": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.water_spray.52",
-      "note": "blue splotchy spray/cloud pattern"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.12",
+      "note": "the swimming Jeep's wading spray, quad b, frame 11 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2068": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.water_spray.53",
-      "note": "blue splotchy spray/cloud pattern"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.13",
+      "note": "the swimming Jeep's wading spray, quad b, frame 12 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2069": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.water_spray.54",
-      "note": "blue splotchy spray/cloud pattern"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.14",
+      "note": "the swimming Jeep's wading spray, quad b, frame 13 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "207": {
       "category": "vehicle",
@@ -7214,28 +7214,28 @@
       "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all. [RENAMED 2026-09-24 from vehicle.hovercraft.turret.front.01: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2070": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.water_spray.55",
-      "note": "blue splotchy spray/cloud pattern"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.15",
+      "note": "the swimming Jeep's wading spray, quad b, frame 14 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2071": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.water_spray.56",
-      "note": "blue splotchy spray/cloud pattern"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.16",
+      "note": "the swimming Jeep's wading spray, quad b, frame 15 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2072": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.water_spray.57",
-      "note": "blue splotchy spray/cloud pattern"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.17",
+      "note": "the swimming Jeep's wading spray, quad b, frame 16 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2073": {
-      "category": "marker",
-      "confidence": "visual_group",
-      "id": "marker.cluster_dots_red.22",
-      "note": "grid of small red circles"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.swim_spray_b.18",
+      "note": "the swimming Jeep's wading spray, quad b, frame 17 of 18 (descriptor 0x43fe18, cel 2056 + the frame from the splash counter; FUN_00403180, document 121)"
     },
     "2074": {
       "category": "vehicle",
@@ -7820,15 +7820,15 @@
     },
     "218": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.tan.01",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.01: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.tan.01",
+      "note": "the tank sinking picture (top view), tan player, depth 0: cel 218 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "219": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.tan.02",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.02: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.tan.02",
+      "note": "the tank sinking picture (top view), tan player, depth 1: cel 218 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "22": {
       "category": "terrain",
@@ -7837,45 +7837,45 @@
     },
     "220": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.tan.03",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.03: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.tan.03",
+      "note": "the tank sinking picture (top view), tan player, depth 2: cel 218 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "221": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.tan.04",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.04: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.tan.04",
+      "note": "the tank sinking picture (top view), tan player, depth 3: cel 218 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "222": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.tan.05",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.05: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.tan.05",
+      "note": "the tank sinking picture (top view), tan player, depth 4: cel 218 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "223": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.tan.06",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.06: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.tan.06",
+      "note": "the tank sinking picture (top view), tan player, depth 5: cel 218 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "224": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.tan.07",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.07: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.tan.07",
+      "note": "the tank sinking picture (top view), tan player, depth 6: cel 218 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "225": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.tan.08",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.08: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.tan.08",
+      "note": "the tank sinking picture (top view), tan player, depth 7: cel 218 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "226": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.tan.09",
-      "note": "continues the vehicle.hovercraft.rotation.tan sequence (cels 218-225) one frame further -- an 11-pixel, near-edge-on sliver. Originally misclassified as prop.debris_faint by the original bulk pass; corrected 2026-09-06 after comparing pixel counts against its neighbours (220, 166, 69, 34, 11 non-transparent pixels, monotonically thinning) while diagnosing a user-reported turning-sprite bug (PORTING_PLAN.md section 4 item 10). Cels 227-231 were checked the same way and are genuinely blank padding, not further real frames. [RENAMED 2026-09-24 from vehicle.hovercraft.rotation.tan.09: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.tan.09",
+      "note": "the tank sinking picture (top view), tan player, depth 8: cel 218 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "227": {
       "category": "reserved",
@@ -7914,51 +7914,51 @@
     },
     "232": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.green.01",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.01: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.green.01",
+      "note": "the tank sinking picture (top view), green player, depth 0: cel 218 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "233": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.green.02",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.02: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.green.02",
+      "note": "the tank sinking picture (top view), green player, depth 1: cel 218 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "234": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.green.03",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.03: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.green.03",
+      "note": "the tank sinking picture (top view), green player, depth 2: cel 218 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "235": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.green.04",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.04: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.green.04",
+      "note": "the tank sinking picture (top view), green player, depth 3: cel 218 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "236": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.green.05",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.05: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.green.05",
+      "note": "the tank sinking picture (top view), green player, depth 4: cel 218 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "237": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.green.06",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.06: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.green.06",
+      "note": "the tank sinking picture (top view), green player, depth 5: cel 218 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "238": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.green.07",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.07: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.green.07",
+      "note": "the tank sinking picture (top view), green player, depth 6: cel 218 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "239": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.green.08",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.08: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.green.08",
+      "note": "the tank sinking picture (top view), green player, depth 7: cel 218 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "24": {
       "category": "terrain",
@@ -7968,9 +7968,9 @@
     },
     "240": {
       "category": "vehicle",
-      "confidence": "visual_group",
-      "id": "vehicle.tank.rotation.green.09",
-      "note": "[RENAMED 2026-09-24 from vehicle.hovercraft.rotation.green.09: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank (same hull art as 172/173); these frames are NOT referenced by the Tank descriptor (document 37), so 'rotation' is itself an unverified label.]"
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_top.green.09",
+      "note": "the tank sinking picture (top view), green player, depth 8: cel 218 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "241": {
       "category": "reserved",
@@ -8003,28 +8003,28 @@
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "246": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.01",
-      "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.tan.01",
+      "note": "the tank sinking picture (side view), tan player, depth 0: cel 246 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "247": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.02",
-      "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.tan.02",
+      "note": "the tank sinking picture (side view), tan player, depth 1: cel 246 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "248": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.03",
-      "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.tan.03",
+      "note": "the tank sinking picture (side view), tan player, depth 2: cel 246 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "249": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.04",
-      "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.tan.04",
+      "note": "the tank sinking picture (side view), tan player, depth 3: cel 246 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "25": {
       "category": "terrain",
@@ -8033,64 +8033,64 @@
       "note": "plain open water, no coastline"
     },
     "250": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.05",
-      "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.tan.05",
+      "note": "the tank sinking picture (side view), tan player, depth 4: cel 246 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "251": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.06",
-      "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.tan.06",
+      "note": "the tank sinking picture (side view), tan player, depth 5: cel 246 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "252": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.07",
-      "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.tan.07",
+      "note": "the tank sinking picture (side view), tan player, depth 6: cel 246 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "253": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.08",
-      "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.tan.08",
+      "note": "the tank sinking picture (side view), tan player, depth 7: cel 246 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "254": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.09",
-      "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.tan.09",
+      "note": "the tank sinking picture (side view), tan player, depth 8: cel 246 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "255": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.10",
-      "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.tan.10",
+      "note": "the tank sinking picture (side view), tan player, depth 9: cel 246 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "256": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.11",
-      "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.tan.11",
+      "note": "the tank sinking picture (side view), tan player, depth 10: cel 246 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "257": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.tan.12",
-      "note": "rotating ball-on-a-stalk shape, identity unconfirmed (antenna/buoy/sensor)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.tan.12",
+      "note": "the tank sinking picture (side view), tan player, depth 11: cel 246 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "258": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.16",
-      "note": "same prop, green-tinted variant"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.tan.13",
+      "note": "the tank sinking picture (side view), tan player, depth 12: cel 246 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "259": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.17",
-      "note": "same prop, green-tinted variant"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.tan.14",
+      "note": "the tank sinking picture (side view), tan player, depth 13: cel 246 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "26": {
       "category": "terrain",
@@ -8099,64 +8099,64 @@
       "note": "plain open water, no coastline"
     },
     "260": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.18",
-      "note": "same prop, green-tinted variant"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.green.01",
+      "note": "the tank sinking picture (side view), green player, depth 0: cel 246 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "261": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.19",
-      "note": "same prop, green-tinted variant"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.green.02",
+      "note": "the tank sinking picture (side view), green player, depth 1: cel 246 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "262": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.20",
-      "note": "same prop, green-tinted variant"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.green.03",
+      "note": "the tank sinking picture (side view), green player, depth 2: cel 246 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "263": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.21",
-      "note": "same prop, green-tinted variant"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.green.04",
+      "note": "the tank sinking picture (side view), green player, depth 3: cel 246 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "264": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.22",
-      "note": "same prop, green-tinted variant"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.green.05",
+      "note": "the tank sinking picture (side view), green player, depth 4: cel 246 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "265": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.23",
-      "note": "same prop, green-tinted variant"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.green.06",
+      "note": "the tank sinking picture (side view), green player, depth 5: cel 246 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "266": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.24",
-      "note": "same prop, green-tinted variant"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.green.07",
+      "note": "the tank sinking picture (side view), green player, depth 6: cel 246 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "267": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.25",
-      "note": "same prop, green-tinted variant"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.green.08",
+      "note": "the tank sinking picture (side view), green player, depth 7: cel 246 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "268": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.26",
-      "note": "same prop, green-tinted variant"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.green.09",
+      "note": "the tank sinking picture (side view), green player, depth 8: cel 246 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "269": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.27",
-      "note": "same prop, thin/distant frames"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.green.10",
+      "note": "the tank sinking picture (side view), green player, depth 9: cel 246 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "27": {
       "category": "terrain",
@@ -8165,22 +8165,22 @@
       "note": "plain open water, no coastline"
     },
     "270": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.28",
-      "note": "same prop, thin/distant frames"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.green.11",
+      "note": "the tank sinking picture (side view), green player, depth 10: cel 246 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "271": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.29",
-      "note": "same prop, thin/distant frames"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.green.12",
+      "note": "the tank sinking picture (side view), green player, depth 11: cel 246 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "272": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.stalk_orb.rotation.green.30",
-      "note": "same prop, thin/distant frames"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.tank.sinking_side.green.13",
+      "note": "the tank sinking picture (side view), green player, depth 12: cel 246 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "273": {
       "category": "reserved",
@@ -8549,16 +8549,16 @@
       "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
     },
     "328": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.sack.tan.01",
-      "note": "cargo sack, slight rotation"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_top.tan.01",
+      "note": "the msv sinking picture (top view), tan player, depth 0: cel 328 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "329": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.sack.tan.02",
-      "note": "cargo sack, slight rotation"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_top.tan.02",
+      "note": "the msv sinking picture (top view), tan player, depth 1: cel 328 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "33": {
       "category": "terrain",
@@ -8567,34 +8567,34 @@
       "note": "plain open water, no coastline"
     },
     "330": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.sack.tan.03",
-      "note": "cargo sack, slight rotation"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_top.tan.03",
+      "note": "the msv sinking picture (top view), tan player, depth 2: cel 328 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "331": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.sack.tan.04",
-      "note": "cargo sack, slight rotation"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_top.tan.04",
+      "note": "the msv sinking picture (top view), tan player, depth 3: cel 328 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "332": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.sack.tan.05",
-      "note": "cargo sack, slight rotation"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_top.tan.05",
+      "note": "the msv sinking picture (top view), tan player, depth 4: cel 328 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "333": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.sack.tan.06",
-      "note": "cargo sack, slight rotation"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_top.tan.06",
+      "note": "the msv sinking picture (top view), tan player, depth 5: cel 328 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "334": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.sack.tan.07",
-      "note": "cargo sack, slight rotation"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_top.tan.07",
+      "note": "the msv sinking picture (top view), tan player, depth 6: cel 328 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "335": {
       "category": "reserved",
@@ -8645,45 +8645,46 @@
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "342": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.sentry_turret.green.01",
-      "note": "boxy body with two square window/eye shapes, likely a small automated turret or robot"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_top.green.01",
+      "note": "the msv sinking picture (top view), green player, depth 0: cel 328 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "343": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.sentry_turret.green.02",
-      "note": "boxy body with two square window/eye shapes, likely a small automated turret or robot"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_top.green.02",
+      "note": "the msv sinking picture (top view), green player, depth 1: cel 328 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "344": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.sentry_turret.green.03",
-      "note": "boxy body with two square window/eye shapes, likely a small automated turret or robot"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_top.green.03",
+      "note": "the msv sinking picture (top view), green player, depth 2: cel 328 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "345": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.sentry_turret.green.04",
-      "note": "boxy body with two square window/eye shapes, likely a small automated turret or robot"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_top.green.04",
+      "note": "the msv sinking picture (top view), green player, depth 3: cel 328 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "346": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.sentry_turret.green.05",
-      "note": "boxy body with two square window/eye shapes, likely a small automated turret or robot"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_top.green.05",
+      "note": "the msv sinking picture (top view), green player, depth 4: cel 328 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "347": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.sentry_turret.green.06",
-      "note": "boxy body with two square window/eye shapes, likely a small automated turret or robot"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_top.green.06",
+      "note": "the msv sinking picture (top view), green player, depth 5: cel 328 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "348": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.421"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_top.green.07",
+      "note": "the msv sinking picture (top view), green player, depth 6: cel 328 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "349": {
       "category": "reserved",
@@ -8734,28 +8735,28 @@
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "356": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.01",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.tan.01",
+      "note": "the msv sinking picture (side view), tan player, depth 0: cel 356 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "357": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.02",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.tan.02",
+      "note": "the msv sinking picture (side view), tan player, depth 1: cel 356 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "358": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.03",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.tan.03",
+      "note": "the msv sinking picture (side view), tan player, depth 2: cel 356 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "359": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.04",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.tan.04",
+      "note": "the msv sinking picture (side view), tan player, depth 3: cel 356 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "36": {
       "category": "terrain",
@@ -8764,64 +8765,64 @@
       "note": "plain open water, no coastline"
     },
     "360": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.05",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.tan.05",
+      "note": "the msv sinking picture (side view), tan player, depth 4: cel 356 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "361": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.06",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.tan.06",
+      "note": "the msv sinking picture (side view), tan player, depth 5: cel 356 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "362": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.07",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.tan.07",
+      "note": "the msv sinking picture (side view), tan player, depth 6: cel 356 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "363": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.08",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.tan.08",
+      "note": "the msv sinking picture (side view), tan player, depth 7: cel 356 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "364": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.09",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.tan.09",
+      "note": "the msv sinking picture (side view), tan player, depth 8: cel 356 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "365": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.10",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.tan.10",
+      "note": "the msv sinking picture (side view), tan player, depth 9: cel 356 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "366": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.11",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.tan.11",
+      "note": "the msv sinking picture (side view), tan player, depth 10: cel 356 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "367": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.12",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.tan.12",
+      "note": "the msv sinking picture (side view), tan player, depth 11: cel 356 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "368": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.13",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.tan.13",
+      "note": "the msv sinking picture (side view), tan player, depth 12: cel 356 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "369": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.14",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.tan.14",
+      "note": "the msv sinking picture (side view), tan player, depth 13: cel 356 + depth + 0 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "37": {
       "category": "terrain",
@@ -8830,63 +8831,64 @@
       "note": "plain open water, no coastline"
     },
     "370": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.15",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.green.01",
+      "note": "the msv sinking picture (side view), green player, depth 0: cel 356 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "371": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.16",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.green.02",
+      "note": "the msv sinking picture (side view), green player, depth 1: cel 356 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "372": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.canister_rack.17",
-      "note": "row of red/blue vertical canisters on a base; base colour varies (plain/green/teal)"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.green.03",
+      "note": "the msv sinking picture (side view), green player, depth 2: cel 356 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "373": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.422"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.green.04",
+      "note": "the msv sinking picture (side view), green player, depth 3: cel 356 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "374": {
-      "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.bunker.tan.50",
-      "note": "crenellated-top bunker/pillbox block"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.green.05",
+      "note": "the msv sinking picture (side view), green player, depth 4: cel 356 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "375": {
-      "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.bunker.tan.51",
-      "note": "crenellated-top bunker/pillbox block"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.green.06",
+      "note": "the msv sinking picture (side view), green player, depth 5: cel 356 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "376": {
-      "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.bunker.tan.52",
-      "note": "crenellated-top bunker/pillbox block"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.green.07",
+      "note": "the msv sinking picture (side view), green player, depth 6: cel 356 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "377": {
-      "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.bunker.tan.53",
-      "note": "crenellated-top bunker/pillbox block"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.green.08",
+      "note": "the msv sinking picture (side view), green player, depth 7: cel 356 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "378": {
-      "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.bunker.tan.54",
-      "note": "crenellated-top bunker/pillbox block"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.green.09",
+      "note": "the msv sinking picture (side view), green player, depth 8: cel 356 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "379": {
-      "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.bunker.tan.55",
-      "note": "crenellated-top bunker/pillbox block"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.green.10",
+      "note": "the msv sinking picture (side view), green player, depth 9: cel 356 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "38": {
       "category": "terrain",
@@ -8895,26 +8897,28 @@
       "note": "plain open water, no coastline"
     },
     "380": {
-      "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.bunker.tan.56",
-      "note": "crenellated-top bunker/pillbox block"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.green.11",
+      "note": "the msv sinking picture (side view), green player, depth 10: cel 356 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "381": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.423"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.green.12",
+      "note": "the msv sinking picture (side view), green player, depth 11: cel 356 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "382": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.424"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.green.13",
+      "note": "the msv sinking picture (side view), green player, depth 12: cel 356 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "383": {
-      "category": "structure",
-      "confidence": "visual_group",
-      "id": "structure.bunker.teal.01",
-      "note": "same bunker shape, teal team variant"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.msv.sinking_side.green.14",
+      "note": "the msv sinking picture (side view), green player, depth 13: cel 356 + depth + 1 x the depth limit 14 (FUN_00402b80; document 121)"
     },
     "384": {
       "category": "structure",
@@ -9431,39 +9435,46 @@
       "note": "PRE0=1: flat darken_row4 (~84%) shadow, linear mask, real bytes {0,11}"
     },
     "463": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.tan.01"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_top.tan.01",
+      "note": "the jeep sinking picture (top view), tan player, depth 0: cel 463 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "464": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.tan.02"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_top.tan.02",
+      "note": "the jeep sinking picture (top view), tan player, depth 1: cel 463 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "465": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.tan.03"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_top.tan.03",
+      "note": "the jeep sinking picture (top view), tan player, depth 2: cel 463 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "466": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.tan.04"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_top.tan.04",
+      "note": "the jeep sinking picture (top view), tan player, depth 3: cel 463 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "467": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.tan.05"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_top.tan.05",
+      "note": "the jeep sinking picture (top view), tan player, depth 4: cel 463 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "468": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.tan.06"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_top.tan.06",
+      "note": "the jeep sinking picture (top view), tan player, depth 5: cel 463 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "469": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.tan.07"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_top.tan.07",
+      "note": "the jeep sinking picture (top view), tan player, depth 6: cel 463 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "47": {
       "category": "terrain",
@@ -9472,9 +9483,10 @@
       "note": "plain open water, no coastline"
     },
     "470": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.437"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_top.tan.08",
+      "note": "the jeep sinking picture (top view), tan player, depth 7: cel 463 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "471": {
       "category": "reserved",
@@ -9513,19 +9525,22 @@
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "477": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green.01"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_top.green.02",
+      "note": "the jeep sinking picture (top view), green player, depth 1: cel 463 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "478": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green.02"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_top.green.03",
+      "note": "the jeep sinking picture (top view), green player, depth 2: cel 463 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "479": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green.03"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_top.green.04",
+      "note": "the jeep sinking picture (top view), green player, depth 3: cel 463 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "48": {
       "category": "terrain",
@@ -9534,29 +9549,34 @@
       "note": "plain open water, no coastline"
     },
     "480": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green.04"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_top.green.05",
+      "note": "the jeep sinking picture (top view), green player, depth 4: cel 463 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "481": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green.05"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_top.green.06",
+      "note": "the jeep sinking picture (top view), green player, depth 5: cel 463 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "482": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green.06"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_top.green.07",
+      "note": "the jeep sinking picture (top view), green player, depth 6: cel 463 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "483": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green.07"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_top.green.08",
+      "note": "the jeep sinking picture (top view), green player, depth 7: cel 463 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "484": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green.08"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_top.green.09",
+      "note": "the jeep sinking picture (top view), green player, depth 8: cel 463 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "485": {
       "category": "reserved",
@@ -9601,58 +9621,58 @@
       "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
     },
     "491": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green_alt.01",
-      "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.tan.01",
+      "note": "the jeep sinking picture (side view), tan player, depth 0: cel 491 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "492": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green_alt.02",
-      "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.tan.02",
+      "note": "the jeep sinking picture (side view), tan player, depth 1: cel 491 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "493": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green_alt.03",
-      "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.tan.03",
+      "note": "the jeep sinking picture (side view), tan player, depth 2: cel 491 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "494": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green_alt.04",
-      "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.tan.04",
+      "note": "the jeep sinking picture (side view), tan player, depth 3: cel 491 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "495": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green_alt.05",
-      "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.tan.05",
+      "note": "the jeep sinking picture (side view), tan player, depth 4: cel 491 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "496": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green_alt.06",
-      "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.tan.06",
+      "note": "the jeep sinking picture (side view), tan player, depth 5: cel 491 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "497": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green_alt.07",
-      "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.tan.07",
+      "note": "the jeep sinking picture (side view), tan player, depth 6: cel 491 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "498": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green_alt.08",
-      "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.tan.08",
+      "note": "the jeep sinking picture (side view), tan player, depth 7: cel 491 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "499": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green_alt.09",
-      "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.tan.09",
+      "note": "the jeep sinking picture (side view), tan player, depth 8: cel 491 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "5": {
       "category": "terrain",
@@ -9666,60 +9686,64 @@
       "note": "plain open water, no coastline"
     },
     "500": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green_alt.10",
-      "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.tan.10",
+      "note": "the jeep sinking picture (side view), tan player, depth 9: cel 491 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "501": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green_alt.11",
-      "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.tan.11",
+      "note": "the jeep sinking picture (side view), tan player, depth 10: cel 491 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "502": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green_alt.12",
-      "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.tan.12",
+      "note": "the jeep sinking picture (side view), tan player, depth 11: cel 491 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "503": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green_alt.13",
-      "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.tan.13",
+      "note": "the jeep sinking picture (side view), tan player, depth 12: cel 491 + depth + 0 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "504": {
-      "category": "character",
-      "confidence": "visual_group",
-      "id": "character.trooper_head.rotation.green_alt.14",
-      "note": "second teal rotation/pose set, separated from the first by a gap in cel indices"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.green.01",
+      "note": "the jeep sinking picture (side view), green player, depth 0: cel 491 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "505": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.438"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.green.02",
+      "note": "the jeep sinking picture (side view), green player, depth 1: cel 491 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "506": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.439"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.green.03",
+      "note": "the jeep sinking picture (side view), green player, depth 2: cel 491 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "507": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.440"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.green.04",
+      "note": "the jeep sinking picture (side view), green player, depth 3: cel 491 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "508": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.441"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.green.05",
+      "note": "the jeep sinking picture (side view), green player, depth 4: cel 491 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "509": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.explosion_large.233",
-      "note": "510 appears to show a trooper figure mid-burst -- possibly a death/hit animation"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.green.06",
+      "note": "the jeep sinking picture (side view), green player, depth 5: cel 491 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "51": {
       "category": "terrain",
@@ -9728,45 +9752,46 @@
       "note": "plain open water, no coastline"
     },
     "510": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.explosion_large.234",
-      "note": "510 appears to show a trooper figure mid-burst -- possibly a death/hit animation"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.green.07",
+      "note": "the jeep sinking picture (side view), green player, depth 6: cel 491 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "511": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.explosion_large.235",
-      "note": "510 appears to show a trooper figure mid-burst -- possibly a death/hit animation"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.green.08",
+      "note": "the jeep sinking picture (side view), green player, depth 7: cel 491 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "512": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.crate_dark.01",
-      "note": "dark green/red long bar, ammo crate?"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.green.09",
+      "note": "the jeep sinking picture (side view), green player, depth 8: cel 491 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "513": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.crate_dark.02",
-      "note": "dark green/red long bar, ammo crate?"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.green.10",
+      "note": "the jeep sinking picture (side view), green player, depth 9: cel 491 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "514": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.crate_dark.03",
-      "note": "dark green/red long bar, ammo crate?"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.green.11",
+      "note": "the jeep sinking picture (side view), green player, depth 10: cel 491 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "515": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.debris_faint.442"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.green.12",
+      "note": "the jeep sinking picture (side view), green player, depth 11: cel 491 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "516": {
-      "category": "prop",
-      "confidence": "visual_group",
-      "id": "prop.pickup_orb.tan.01",
-      "note": "small round glowing blob, possible pickup"
+      "category": "vehicle",
+      "confidence": "code_verified",
+      "id": "vehicle.jeep.sinking_side.green.13",
+      "note": "the jeep sinking picture (side view), green player, depth 12: cel 491 + depth + 1 x the depth limit 13 (FUN_00402b80; document 121)"
     },
     "517": {
       "category": "prop",

@@ -1,0 +1,359 @@
+{
+ "_source": "RFIRE.BIN: vehicle records 0x4456b8 + type * 0x2e8 (+0x14c, +0x154, +0x158), descriptors 0x43eac8 / 0x43eb50 (Tank), 0x43feb0 / 0x43fe18 / 0x440030 (Jeep), 0x43f408 / 0x43f490 (MSV), 0x43e370 (the ripple); handlers FUN_0040cef0 / 0040d150 / 0040cf90; document 122",
+ "ripple": {
+  "cel": 1987,
+  "corners": [
+   [
+    -16,
+    -16,
+    0.0
+   ],
+   [
+    16,
+    -16,
+    0.0
+   ],
+   [
+    16,
+    16,
+    0.0
+   ],
+   [
+    -16,
+    16,
+    0.0
+   ]
+  ],
+  "frames": [
+   0,
+   0,
+   0,
+   1,
+   1,
+   2,
+   2,
+   2
+  ],
+  "clock_mask": 30,
+  "_source": "descriptor 0x43e370 (flag 0x10: the object's height is ignored), FUN_00402ca0, bytes at 0x43e2f0"
+ },
+ "wading_counter": {
+  "start": 4.0,
+  "per_tick": 0.2,
+  "wrap_at": 13.0,
+  "wrap_moving": 5.0,
+  "wrap_stopped": 13.0,
+  "dry_after": 3.0,
+  "_source": "FUN_0040cef0 enters wading at counter 4.0 (0x40000); FUN_0040d150 adds 0x3333 (0.2) a tick; at 13.0 it subtracts 5.0 while the vehicle keeps wading (shallow water, moved, speed above 0) and 13.0 otherwise; below 13.0 it returns to the dry handler when the vehicle is not wading and the counter's integer part goes from 3 to 4"
+ },
+ "types": {
+  "0": {
+   "name": "Tank",
+   "sink_depth": 14,
+   "wading": {
+    "cel": 2012,
+    "frames": 13,
+    "corners": [
+     [
+      -7.5,
+      11.25,
+      0.0
+     ],
+     [
+      7.5,
+      11.25,
+      0.0
+     ],
+     [
+      7.5,
+      26.25,
+      0.0
+     ],
+     [
+      -7.5,
+      26.25,
+      0.0
+     ]
+    ]
+   },
+   "sinking": [
+    {
+     "cel": 218,
+     "corners": [
+      [
+       -12,
+       -12,
+       5.0
+      ],
+      [
+       12,
+       -12,
+       5.0
+      ],
+      [
+       12,
+       12,
+       5.0
+      ],
+      [
+       -12,
+       12,
+       5.0
+      ]
+     ]
+    },
+    {
+     "cel": 246,
+     "corners": [
+      [
+       -6.75,
+       12.0,
+       5.0
+      ],
+      [
+       -6.75,
+       -12.0,
+       5.0
+      ],
+      [
+       -6.75,
+       -12.0,
+       0.0
+      ],
+      [
+       -6.75,
+       12.0,
+       0.0
+      ]
+     ]
+    }
+   ]
+  },
+  "1": {
+   "name": "Jeep",
+   "sink_depth": 13,
+   "wading": {
+    "cel": 1999,
+    "frames": 13,
+    "corners": [
+     [
+      -7.5,
+      8.25,
+      0.0
+     ],
+     [
+      7.5,
+      8.25,
+      0.0
+     ],
+     [
+      7.5,
+      23.25,
+      0.0
+     ],
+     [
+      -7.5,
+      23.25,
+      0.0
+     ]
+    ]
+   },
+   "swim_wading": [
+    {
+     "cel": 2038,
+     "frames": 18,
+     "corners": [
+      [
+       12,
+       -12,
+       0.0
+      ],
+      [
+       12,
+       12,
+       0.0
+      ],
+      [
+       -12,
+       12,
+       0.0
+      ],
+      [
+       -12,
+       -12,
+       0.0
+      ]
+     ]
+    },
+    {
+     "cel": 2056,
+     "frames": 18,
+     "corners": [
+      [
+       12,
+       12,
+       0.0
+      ],
+      [
+       12,
+       36,
+       0.0
+      ],
+      [
+       -12,
+       36,
+       0.0
+      ],
+      [
+       -12,
+       12,
+       0.0
+      ]
+     ]
+    }
+   ],
+   "swim_frame": {
+    "low": 4.0,
+    "mid": 8.0,
+    "mid_gain": 1.5,
+    "high_base": 10.0,
+    "high_gain": 1.6,
+    "cap": 17
+   },
+   "sinking": [
+    {
+     "cel": 463,
+     "corners": [
+      [
+       -6,
+       -12,
+       2.0
+      ],
+      [
+       6,
+       -12,
+       2.0
+      ],
+      [
+       6,
+       12,
+       2.0
+      ],
+      [
+       -6,
+       12,
+       2.0
+      ]
+     ]
+    },
+    {
+     "cel": 491,
+     "corners": [
+      [
+       -6,
+       -0.75,
+       4.5
+      ],
+      [
+       6,
+       -0.75,
+       4.5
+      ],
+      [
+       6,
+       12,
+       4.5
+      ],
+      [
+       -6,
+       12,
+       4.5
+      ]
+     ]
+    }
+   ]
+  },
+  "2": {
+   "name": "MSV",
+   "sink_depth": 14,
+   "wading": {
+    "cel": 2025,
+    "frames": 13,
+    "corners": [
+     [
+      -7.5,
+      11.25,
+      0.0
+     ],
+     [
+      7.5,
+      11.25,
+      0.0
+     ],
+     [
+      7.5,
+      26.25,
+      0.0
+     ],
+     [
+      -7.5,
+      26.25,
+      0.0
+     ]
+    ]
+   },
+   "sinking": [
+    {
+     "cel": 328,
+     "corners": [
+      [
+       -12,
+       -12,
+       10.0
+      ],
+      [
+       12,
+       -12,
+       10.0
+      ],
+      [
+       12,
+       12,
+       10.0
+      ],
+      [
+       -12,
+       12,
+       10.0
+      ]
+     ]
+    },
+    {
+     "cel": 356,
+     "corners": [
+      [
+       -8.25,
+       -12,
+       5.0
+      ],
+      [
+       -4.5,
+       -12,
+       5.0
+      ],
+      [
+       -4.5,
+       12,
+       5.0
+      ],
+      [
+       -8.25,
+       12,
+       5.0
+      ]
+     ]
+    }
+   ]
+  }
+ }
+}

@@ -78,6 +78,7 @@ FLAG_JSON = os.path.join(ROOT, "tools", "data", "flag.json")
 RADAR_JSON = os.path.join(ROOT, "tools", "data", "radar.json")
 HUD_PANELS_JSON = os.path.join(ROOT, "tools", "data", "hud_panels.json")
 SELECTOR_JSON = os.path.join(ROOT, "tools", "data", "selector.json")
+WATER_OVERLAYS_JSON = os.path.join(ROOT, "tools", "data", "water_overlays.json")
 GAME_ART_CAR = os.path.join(os.environ.get("RF_GAME_DIR", "C:/Users/Alex/Documents/returnfire"), "ART", "ART.CAR")
 VEHICLE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "vehicle_types.json")
 TANK_TURRET_JSON = os.path.join(ROOT, "tools", "data", "tank_turret_parts.json")
@@ -372,9 +373,46 @@ def build_render(index, t, registry, team_pairs):
             "rotor_fold": {"parent": "rotor", "rotate": [{"axis": "y", "channel": "heli_spinup_progress", "scale": -rot["unfold_degrees"]}]}}
         # the whole Heli tilts with its pitch and bank (FUN_0041b590; document 63)
         render["body"] = {"rotate": [{"axis": "x", "channel": "pitch_deg", "scale": -1.0}, {"axis": "z", "channel": "bank_deg", "scale": 1.0}]}
+    water_overlay_parts(index, render, parts, registry)
     for p in parts:
         p.pop("corner_idx", None)
     return render
+
+
+def water_overlay_parts(index, render, parts, registry):
+    """What the original draws while a vehicle wades or sinks (document 122, issue #25; tools/data/water_overlays.json).
+    The wading descriptor (record +0x14c) adds a spray quad behind the vehicle, the sinking one (+0x154) REPLACES the vehicle with a
+    top and a side picture picked by the depth, over a ripple quad. In the render block they are parts with `modes` (drawn only
+    while the `mode_channel` ("water_view": 0 dry, 1 wading, 2 sinking, 3 the Jeep's swimming spray) is one of them); the
+    parts without `modes` are not drawn while the channel is in `replaced_in`."""
+    with open(WATER_OVERLAYS_JSON) as f:
+        d = json.load(f)
+    t = d["types"].get(str(index))
+    if t is None:
+        return
+
+    def ids(cel, n):
+        return [registry[str(cel + i)]["id"] for i in range(n)]
+    w = t["wading"]
+    parts.append({"cel": w["cel"], "flags": 0, "corners": w["corners"], "modes": [1],
+                  "sprite_ids": [registry[str(w["cel"])]["id"]],
+                  "sprites_by": {"channel": "wade_frame", "max": w["frames"] - 1, "sprites": ids(w["cel"], w["frames"])}})
+    for sw, ch in zip(t.get("swim_wading", []), ("wade_swim_frame", "wade_swim_frame")):
+        parts.append({"cel": sw["cel"], "flags": 0, "corners": sw["corners"], "modes": [3],
+                      "sprite_ids": [registry[str(sw["cel"])]["id"]],
+                      "sprites_by": {"channel": ch, "max": sw["frames"] - 1, "sprites": ids(sw["cel"], sw["frames"])}})
+    depth = t["sink_depth"]
+    for sk in t["sinking"]:
+        parts.append({"cel": sk["cel"], "flags": 0, "corners": sk["corners"], "modes": [2],
+                      "sprite_ids": [registry[str(sk["cel"])]["id"]],
+                      "sprites_by": {"channel": "sink_frame", "sprites": ids(sk["cel"], 2 * depth), "team_stride": depth, "hide_outside": depth}})
+    r = d["ripple"]
+    parts.append({"cel": r["cel"], "flags": 0, "corners": r["corners"], "modes": [2],
+                  "sprite_ids": [registry[str(r["cel"])]["id"]],
+                  "sprites_by": {"channel": "ripple_frame", "max": max(r["frames"]), "sprites": ids(r["cel"], max(r["frames"]) + 1)}})
+    render["mode_channel"] = "water_view"
+    render["replaced_in"] = [2]
+    render["ripple"] = {"frames": r["frames"], "clock_mask": r["clock_mask"]}
 
 
 def wreck_table(index):

@@ -29,7 +29,7 @@
    "scale": 1.0,
    "script": [
     [
-     "SHATTER",
+     "DRAW_LIST",
      6
     ],
     [
@@ -564,7 +564,7 @@
      4
     ],
     [
-     "SHATTER",
+     "DRAW_LIST",
      4
     ],
     [
@@ -682,7 +682,7 @@
      4
     ],
     [
-     "SHATTER",
+     "DRAW_LIST",
      4
     ],
     [
@@ -2186,7 +2186,7 @@
    "scale": 1.0,
    "script": [
     [
-     "SHATTER",
+     "DRAW_LIST",
      4
     ],
     [
@@ -3871,7 +3871,7 @@
      1
     ],
     [
-     "SHATTER",
+     "DRAW_LIST",
      7
     ],
     [

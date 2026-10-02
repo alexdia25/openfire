@@ -303,9 +303,37 @@ func _build_render(index: int, t: Dictionary) -> Variant:
 			"rotor": {"rotate": [{"axis": "y", "channel": "rotor_speed_steps", "rate": rot["steps_deg"], "scale": -1.0}]},
 			"rotor_fold": {"parent": "rotor", "rotate": [{"axis": "y", "channel": "heli_spinup_progress", "scale": -float(rot["unfold_degrees"])}]}}
 		render["body"] = {"rotate": [{"axis": "x", "channel": "pitch_deg", "scale": -1.0}, {"axis": "z", "channel": "bank_deg", "scale": 1.0}]}
+	_water_overlay_parts(index, render, parts)
 	for p in parts:
 		p.erase("corner_idx")
 	return render
+
+
+## build_pack.water_overlay_parts(): what the original draws while a vehicle wades or sinks (document 122, issue #25; tools/data/water_overlays.json).
+func _water_overlay_parts(index: int, render: Dictionary, parts: Array) -> void:
+	var d: Dictionary = data("water_overlays.json")
+	if not (d["types"] as Dictionary).has(str(index)):
+		return
+	var t: Dictionary = d["types"][str(index)]
+	var w: Dictionary = t["wading"]
+	parts.append({"cel": w["cel"], "flags": 0, "corners": w["corners"], "modes": [1], "sprite_ids": [rid(int(w["cel"]))],
+			"sprites_by": {"channel": "wade_frame", "max": int(w["frames"]) - 1, "sprites": _sids(int(w["cel"]), int(w["frames"]))}})
+	for sw in t.get("swim_wading", []):
+		parts.append({"cel": sw["cel"], "flags": 0, "corners": sw["corners"], "modes": [3], "sprite_ids": [rid(int(sw["cel"]))],
+				"sprites_by": {"channel": "wade_swim_frame", "max": int(sw["frames"]) - 1, "sprites": _sids(int(sw["cel"]), int(sw["frames"]))}})
+	var depth := int(t["sink_depth"])
+	for sk in t["sinking"]:
+		parts.append({"cel": sk["cel"], "flags": 0, "corners": sk["corners"], "modes": [2], "sprite_ids": [rid(int(sk["cel"]))],
+				"sprites_by": {"channel": "sink_frame", "sprites": _sids(int(sk["cel"]), 2 * depth), "team_stride": depth, "hide_outside": depth}})
+	var r: Dictionary = d["ripple"]
+	var top := 0
+	for fr in r["frames"]:
+		top = maxi(top, int(fr))
+	parts.append({"cel": r["cel"], "flags": 0, "corners": r["corners"], "modes": [2], "sprite_ids": [rid(int(r["cel"]))],
+			"sprites_by": {"channel": "ripple_frame", "max": top, "sprites": _sids(int(r["cel"]), top + 1)}})
+	render["mode_channel"] = "water_view"
+	render["replaced_in"] = [2]
+	render["ripple"] = {"frames": r["frames"], "clock_mask": r["clock_mask"]}
 
 
 ## A vehicle type's ground shadow (the Heli's; tools/data/vehicle_shadow.json, issue #26), or {} for a type without one.

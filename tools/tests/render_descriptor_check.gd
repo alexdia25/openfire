@@ -44,7 +44,9 @@ func _init() -> void:
 	var pack := ModLoader.load_game_pack()
 
 	# the channels each original vehicle's parts bind to, in the order the preview lists them
-	var expected := [["turret_deg", "gun_elev_deg"], ["position_x", "swim_amount"], ["gun_elev_deg", "salvo_reload_remaining", "salvo_index"],
+	# (the water parts of issue #25 add the splash counter, the height and the water pose for the first three)
+	var expected := [["turret_deg", "gun_elev_deg", "wade_counter", "z", "water_pose"], ["position_x", "swim_amount", "wade_counter", "z", "water_pose"],
+			["gun_elev_deg", "salvo_reload_remaining", "salvo_index", "wade_counter", "z", "water_pose"],
 			["pitch_deg", "bank_deg", "rotor_speed_steps", "heli_spinup_progress"]]
 	for t in 4:
 		var used := VehicleRender3D.channels_used(pack.vehicle_def(t)["render"])
@@ -72,7 +74,11 @@ func _init() -> void:
 	var raised: Vector3 = r._corners(barrel["data"], {})[2]
 	_check(raised.z > 9.0 + 2.0 and raised.y > -12.0 and is_equal_approx(raised.x, 0.0), "raising the gun lifts the tip (%s) and pulls it back" % raised)
 	r._process(0.0)
-	_check(r._parts[0]["key"] != null and r._groups.size() == 1 and r._parts.size() == 14, "six hull faces and eight turret parts, one group")
+	var drawn_parts := 0
+	for part in r._parts:
+		if not part["data"].has("modes"):   # the wading / sinking pictures (issue #25) are the water parts, 4 more
+			drawn_parts += 1
+	_check(r._parts[0]["key"] != null and r._groups.size() == 1 and drawn_parts == 14 and r._parts.size() == 18, "six hull faces and eight turret parts, one group, plus the four water parts")
 	r.free()
 	v.free()
 

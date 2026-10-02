@@ -50,7 +50,11 @@ func _init() -> void:
 	var tank_view := Wreck3D.new()
 	root.add_child(tank_view)
 	tank_view.setup(pack, tank)
-	_check(tank_view._body != null and tank_view._body._parts.size() == 14, "the dying tank is drawn as its 14-part body")
+	var tank_hull := 0
+	for part in tank_view._body._parts:
+		if not part["data"].has("modes"):   # the water pictures (issue #25) are drawn in their own views only
+			tank_hull += 1
+	_check(tank_view._body != null and tank_hull == 14, "the dying tank is drawn as its 14-part body")
 	for i in 20:
 		tank.tick(1.0)
 	tank_view._process(0.016)
