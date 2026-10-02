@@ -15,12 +15,17 @@ from PIL import Image
 GAME_DIR = os.environ.get("RF_GAME_DIR", "C:/Users/Alex/Documents/returnfire")
 PACK_DIR = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "packs", "original_pc")
 
-FILES = {"1PBSCRL.RFA": "strip_1p_low", "1PBSCRH.RFA": "strip_1p_high"}
+# NEWREQLG.RFA (640 x 480) / NEWREQSM.RFA (320 x 240) are the front end's picture (document 122, issue #51): "PRESS 'F2' TO BEGIN".
+FILES = {"1PBSCRL.RFA": "strip_1p_low", "1PBSCRH.RFA": "strip_1p_high", "NEWREQLG.RFA": "title_large", "NEWREQSM.RFA": "title_small"}
+
+TITLE_BAR_ROW = {"title_large": 453, "title_small": 227}   # the bottom bar ("PRESS 'F2' TO BEGIN") starts here: cut off, the port writes its own prompt
 
 out_dir = os.path.join(PACK_DIR, "hud")
 os.makedirs(out_dir, exist_ok=True)
 for src, name in FILES.items():
     with open(os.path.join(GAME_DIR, "ART", src), "rb") as f:
         im = Image.open(io.BytesIO(f.read())).convert("RGB")
+    if name in TITLE_BAR_ROW:
+        im = im.crop((0, 0, im.width, TITLE_BAR_ROW[name]))
     im.save(os.path.join(out_dir, name + ".png"))
     print(name, im.size)
