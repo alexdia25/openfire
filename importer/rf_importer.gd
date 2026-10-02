@@ -212,7 +212,7 @@ func _build(install: String, out: String, cd: String) -> String:
 
 	_step(0.64, 0.02, "Extracting the HUD and victory art")
 	for result in [RFExtras.hud_strips(find_ci(install, "ART"), out), RFExtras.win_banners(find_ci(install, "TITLE"), out),
-			RFExtras.compass_lamps(car, out)]:
+			RFExtras.compass_lamps(car, out), RFExtras.level_previews(find_ci(install, "ART"), files, out)]:
 		if result != "":
 			return result
 

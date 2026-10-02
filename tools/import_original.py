@@ -110,6 +110,7 @@ def import_original(game_dir, out_dir, work_dir=None, keep_work=False, music=Tru
         ("extract the HUD backdrop strip", ["extract_hud_strip.py", partial]),
         ("extract the compass lamps", ["extract_compass_lamps.py", partial]),
         ("extract the victory banners", ["extract_win_banners.py", partial]),
+        ("draw the level previews", ["extract_level_previews.py", partial]),
     ]
     if iso:
         steps += [

@@ -46,6 +46,37 @@ static func hud_strips(art_dir: String, pack_dir: String) -> String:
 	return ""
 
 
+## extract_level_previews.py: each level's 256 x 256 preview, drawn as the original's Level Selector does (document 125): the .RFM's 128 x 128 tile bytes, each the 2 x 2 pixel
+## pattern ART/2X2.RFA holds for that byte (20 x 12 patterns, its own palette). `rfm_files`: every .RFM of WORLDS; written to levels/<NAME>/preview.png when that level exists.
+static func level_previews(art_dir: String, rfm_files: Array[String], pack_dir: String) -> String:
+	var pat := _bmp(art_dir.path_join("2X2.RFA"))
+	if pat == null:
+		return "could not read ART/2X2.RFA"
+	pat.convert(Image.FORMAT_RGB8)
+	for f in rfm_files:
+		var data := FileAccess.get_file_as_bytes(f)
+		if data.size() < 0x4C:
+			continue
+		var off := data.decode_u32(0x48)
+		if off + 128 * 128 > data.size():
+			continue
+		var stem := f.get_file().get_basename()
+		var out_dir := pack_dir.path_join("levels").path_join(stem)
+		if not DirAccess.dir_exists_absolute(out_dir):
+			continue
+		var img := Image.create(256, 256, false, Image.FORMAT_RGB8)
+		for y in 128:
+			for x in 128:
+				var b := data[off + y * 128 + x]
+				var bx := (b % 20) * 2
+				var by := (b / 20) * 2
+				for dy in 2:
+					for dx in 2:
+						img.set_pixel(x * 2 + dx, y * 2 + dy, pat.get_pixel(bx + dx, by + dy))
+		img.save_png(out_dir.path_join("preview.png"))
+	return ""
+
+
 ## extract_win_banners.py: the four victory ribbons, pure black made transparent (a recorded PORT CHOICE there).
 static func win_banners(title_dir: String, pack_dir: String) -> String:
 	DirAccess.make_dir_recursive_absolute(pack_dir.path_join("hud"))
