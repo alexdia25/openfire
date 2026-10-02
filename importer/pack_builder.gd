@@ -308,6 +308,14 @@ func _build_render(index: int, t: Dictionary) -> Variant:
 	return render
 
 
+## A vehicle type's `wreck` table: the decal quads below plus the Destroyed Vehicle object's numbers (tools/data/wreck.json; issue #29).
+static func _wreck_table(quads: Dictionary, d: Dictionary, index: int) -> Dictionary:
+	var t := quads.duplicate()
+	t.merge(d["shared"], true)
+	t.merge(d["types"][str(index)], true)
+	return t
+
+
 ## The wreck drawn when a vehicle dies (document 87).
 static func _wrecks() -> Dictionary:
 	var small := [{"sprites": ["effect.shadow.hard.wreck_small"], "height": 0.4, "half": [13.5, 13.5], "center": [0, 0], "shadow": true},
@@ -363,6 +371,7 @@ func vehicles(sound: Dictionary) -> String:
 		loop_by_descriptor[loops_doc["loops"][k]["descriptor"]] = k
 	var behaviour := _behaviour()
 	var wrecks := _wrecks()
+	var wreck_data: Dictionary = data("wreck.json")
 	var definitions := []
 	var roster := []
 	for entry in ORIGINAL_ROSTER:
@@ -408,7 +417,7 @@ func vehicles(sound: Dictionary) -> String:
 			"music": {"theme_line": t.get("music_theme_line"), "priority": t.get("music_priority"),
 				"death_line": t.get("music_death_line"), "theme_rule": MUSIC_THEME_RULE.get(index, "record_line")},
 			"selector": {"script": entry[4], "picture": [rid(picture_cel), rid(picture_cel + 1)]},
-			"render": render, "wreck": wrecks[index],
+			"render": render, "wreck": _wreck_table(wrecks[index], wreck_data, index),
 			"_record": {"stats.hit_points": "+0x28", "stats.armor": "+0x24", "stats.fuel": "+0x210",
 				"stats.sink_depth": "+0x158", "stats.dock_tolerance": "+0x254", "stats.death_wait_ticks": "+0x260",
 				"drive": "+0x168..+0x178", "weapons.ammo": "+0x1a8 / +0x1dc", "weapons.cooldown_ticks": "+0x1a4 / +0x1d8",

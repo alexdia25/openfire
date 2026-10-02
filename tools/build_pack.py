@@ -87,6 +87,7 @@ ENGINE_LOOPS_JSON = os.path.join(ROOT, "tools", "data", "engine_loops.json")
 PROJECTILE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "projectile_types.json")
 EDGE_GUARD_JSON = os.path.join(ROOT, "tools", "data", "edge_guard.json")
 INFANTRY_JSON = os.path.join(ROOT, "tools", "data", "infantry.json")
+WRECK_JSON = os.path.join(ROOT, "tools", "data", "wreck.json")
 COASTAL_DECORATION_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
 
 PACK_ID = "original_pc"
@@ -374,6 +375,16 @@ def build_render(index, t, registry, team_pairs):
     return render
 
 
+def wreck_table(index):
+    """A vehicle type's `wreck` table: the decal quads above plus the Destroyed Vehicle object's numbers (tools/data/wreck.json; issue #29)."""
+    with open(WRECK_JSON) as f:
+        d = json.load(f)
+    t = dict(WRECKS[index])
+    t.update(d["shared"])
+    t.update(d["types"][str(index)])
+    return t
+
+
 def emit_vehicle_definitions(out_dir, vt, sound_dir, registry, team_pairs):
     """PORTING_PLAN.md 2.7.2, step 3: one definition per vehicle, vehicles/<id>/vehicle.json, grouped the way the original's
     vehicle-type record is (stats, drive, weapons, shape, events, camera, render, wreck), plus vehicles/roster.json (the
@@ -432,7 +443,7 @@ def emit_vehicle_definitions(out_dir, vt, sound_dir, registry, team_pairs):
                       "death_line": t.get("music_death_line"), "theme_rule": MUSIC_THEME_RULE.get(index, "record_line")},
             "selector": {"script": script, "picture": picture},
             "render": render,
-            "wreck": WRECKS[index],
+            "wreck": wreck_table(index),
             "_record": {"stats.hit_points": "+0x28", "stats.armor": "+0x24", "stats.fuel": "+0x210",
                         "stats.sink_depth": "+0x158", "stats.dock_tolerance": "+0x254", "stats.death_wait_ticks": "+0x260",
                         "drive": "+0x168..+0x178", "weapons.ammo": "+0x1a8 / +0x1dc", "weapons.cooldown_ticks": "+0x1a4 / +0x1d8",

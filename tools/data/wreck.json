@@ -1,0 +1,18 @@
+{
+ "_source": "RFIRE.BIN: the Destroyed Vehicle class 0x4453e8 (class 6; init FUN_0040c7e0, behaviours FUN_0040cc50 / 0040cca0 / 0040cd00, update FUN_0040c8f0), the gravity DAT_0044a318 = 0x51e and the fall limit DAT_0044a31c = -1.0 (16.16, per tick), the 8-tick wait in FUN_0040cca0, the 0x2d0 = 720-tick life in FUN_0040cd00, the overkill test `hit points < -0x280000` in FUN_0040c460, the type records' friction at +0x25c (0x1999 for the Tank, Jeep and MSV, 0x7ae for the Heli), the death explosion table 0x4453d8 indexed by type (0x444c80, 0x444d90, 0x444ea0, 0x444c80), the water-landing splash 0x444618 and the sinking splash 0x444ee8 used by FUN_0040c8f0. Issue #29, wiki document 118. 16.16 values divided by 65536. `mid_descriptor_is_decal` is false for the Heli: its +0x160 is 0x440bd0, not the decal (+0x164), and what that descriptor draws is not decoded. `body_hidden_groups`: the wreck object draws the descriptor +0x148 (the Heli's 12 body parts, cels 524-574), which has no rotor.",
+ "shared": {
+  "gravity": 0.019989013671875,
+  "terminal_velocity": 1.0,
+  "settle_ticks": 8,
+  "lifetime_ticks": 720,
+  "overkill_hp": -40.0,
+  "landing_splash": "0x444618",
+  "sink_splash": "0x444ee8"
+ },
+ "types": {
+  "0": {"friction": 0.0999908447265625, "explosion": "0x444c80"},
+  "1": {"friction": 0.0999908447265625, "explosion": "0x444d90"},
+  "2": {"friction": 0.0999908447265625, "explosion": "0x444ea0"},
+  "3": {"friction": 0.029998779296875, "explosion": "0x444c80", "mid_descriptor_is_decal": false, "body_hidden_groups": ["rotor", "rotor_fold"]}
+ }
+}
