@@ -15,7 +15,6 @@
  "entries": {
   "0": {
    "name": "Tank",
-   "pointer_mirror": true,
    "picture": [
     85,
     54
@@ -40,7 +39,6 @@
   },
   "1": {
    "name": "Jeep",
-   "pointer_mirror": true,
    "picture": [
     85,
     92
@@ -65,7 +63,6 @@
   },
   "2": {
    "name": "MSV",
-   "pointer_mirror": false,
    "picture": [
     13,
     92
@@ -90,7 +87,6 @@
   },
   "3": {
    "name": "Heli",
-   "pointer_mirror": false,
    "picture": [
     13,
     54
@@ -113,15 +109,6 @@
    "left": 3,
    "right": 0
   }
- },
- "pointer_draw": {
-  "offset": [
-   0.4,
-   1.0
-  ],
-  "scale_x": 0.984375,
-  "mirror_scale_x": 0.953125,
-  "mirror_shift": 1.0
  },
  "scripts": {
   "Tank": [
