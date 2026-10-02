@@ -18,10 +18,10 @@ import os
 
 # per type index (Tank, Jeep, MSV, Heli): positions in whole pixels, relative to the hangar cel
 entries = {
-    0: {"name": "Tank", "picture": [85, 54], "pointer": [87, 73], "highlight": [85, 52], "box": [87, 45], "script": "0x449108", "up": 0, "down": 1, "left": 3, "right": 0},
-    1: {"name": "Jeep", "picture": [85, 92], "pointer": [87, 112], "highlight": [85, 90], "box": [87, 83], "script": "0x448fc0", "up": 0, "down": 1, "left": 2, "right": 1},
-    2: {"name": "MSV", "picture": [13, 92], "pointer": [12, 112], "highlight": [13, 90], "box": [15, 83], "script": "0x448f30", "up": 3, "down": 2, "left": 2, "right": 1},
-    3: {"name": "Heli", "picture": [13, 54], "pointer": [12, 73], "highlight": [13, 52], "box": [15, 45], "script": "0x449050", "up": 3, "down": 2, "left": 3, "right": 0},
+    0: {"name": "Tank", "pointer_mirror": True, "picture": [85, 54], "pointer": [87, 73], "highlight": [85, 52], "box": [87, 45], "script": "0x449108", "up": 0, "down": 1, "left": 3, "right": 0},
+    1: {"name": "Jeep", "pointer_mirror": True, "picture": [85, 92], "pointer": [87, 112], "highlight": [85, 90], "box": [87, 83], "script": "0x448fc0", "up": 0, "down": 1, "left": 2, "right": 1},
+    2: {"name": "MSV", "pointer_mirror": False, "picture": [13, 92], "pointer": [12, 112], "highlight": [13, 90], "box": [15, 83], "script": "0x448f30", "up": 3, "down": 2, "left": 2, "right": 1},
+    3: {"name": "Heli", "pointer_mirror": False, "picture": [13, 54], "pointer": [12, 73], "highlight": [13, 52], "box": [15, 45], "script": "0x449050", "up": 3, "down": 2, "left": 3, "right": 0},
 }
 
 # the four scripts, decoded step by step from the dumps (fixed point 16.16 shown as floats)
@@ -39,6 +39,9 @@ out = {
     "screen": [320, 240],
     "hangar": {"cel": 2075, "size": [132, 123], "y": 22},
     "entries": {str(k): v for k, v in entries.items()},
+    # How FUN_00417d60 places the pointer (issue #38): it draws the pointer cel at its table position + (0x6666, 0x10000) = (0.4, 1.0) px with the cel's HDX (12.20, 1.0 = 0x100000) lowered
+    # by 0x4000 (x0.984375); a pointer whose table x is past 0x3c0000 (60 px: the right-hand bays) is mirrored: HDX = 0x8000 - that = -0xF4000 (x -0.953125) and x += width + 1.
+    "pointer_draw": {"offset": [0.4, 1.0], "scale_x": 0.984375, "mirror_scale_x": 0.953125, "mirror_shift": 1.0},
     "scripts": scripts,
     "cels": {"box": 2078, "highlight": 2077, "pointer": 2091, "picture_base": 2094, "platform_cap": 2076, "platform_body": 2079,
              "strip_centre": 2084, "strip": [2085, 2086], "cloud": 2087, "dirt": 2080, "map_frame": 2090, "radar": 1981, "panel_frame": 1940, "panel_interior": 1942,
