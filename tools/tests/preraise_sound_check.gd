@@ -26,12 +26,14 @@ func _init() -> void:
 		var cues: Array[String] = []
 		var listener := func(id): cues.append(id)
 		v.sound_cue.connect(listener)
+		mc.sound_flat.connect(listener)   # flat sounds come on their own signal (issue #80)
 		mc.confirm_selection()
 		var g := 0
 		while mc.undocking and g < 400:
 			mc._process(dt)
 			g += 1
 		v.sound_cue.disconnect(listener)
+		mc.sound_flat.disconnect(listener)
 		print(type_and_name[1], ": cues heard ", cues, " (expect PreRaise", " x2, Raise x1" if t == 0 else " x1, Raise x1", ")")
 	print("done")
 	quit()

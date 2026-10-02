@@ -22,6 +22,7 @@ func _init() -> void:
 		var cues: Array[String] = []
 		var listener := func(id): cues.append(id)
 		v.sound_cue.connect(listener)
+		mc.sound_flat.connect(listener)   # flat sounds come on their own signal (issue #80)
 		v.hp = 1.0
 		v.take_damage(100.0)
 		var seen: Array[int] = []
@@ -37,6 +38,7 @@ func _init() -> void:
 			if mc.death_phase == 4 and (frames.is_empty() or frames[-1] != mc.skull_frame()):
 				frames.append(mc.skull_frame())
 		v.sound_cue.disconnect(listener)
+		mc.sound_flat.disconnect(listener)
 		print(["Tank", "Jeep", "MSV", "Heli"][type], ": phases ", seen, " starting at ticks ", at, " (expect 1, 2 after ", [120, 120, 120, 200][type], ", 3 after +31, 4 after +50, then 5, done)")
 		print("  total ticks ", t, " skull scale ", snappedf(mc.skull_scale(), 0.001), " (expect 1.2) angle ", mc.skull_angle_deg(), " (expect 0: upright) cues ", cues, " (expect [Laugh])")
 		print("  mouth frames seen while laughing: ", frames.slice(0, 12), " ... (", frames.size(), " changes; table starts 1,2,3,4,5,6,5,6,...)")

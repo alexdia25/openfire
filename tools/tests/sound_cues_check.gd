@@ -22,6 +22,7 @@ func _init() -> void:
 	root.add_child(mc)
 	mc.setup(pack, level, "res://packs/original_pc", root)
 	mc.vehicle.sound_cue.connect(_on_cue)
+	mc.sound_flat.connect(_on_cue)
 	var dt := 1.0 / Vehicle.TICK_HZ
 
 	# Ding: rearm() emits every 40 ticks while called.
