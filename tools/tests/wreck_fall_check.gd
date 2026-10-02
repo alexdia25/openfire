@@ -78,6 +78,21 @@ func _init() -> void:
 	heli_view._process(0.016)
 	_check(heli_view._decal.visible and not heli_view._ghost.alive, "which Wreck3D shows")
 
+	# the flying wreckage (issue #81): the pack's piece records, and the Heli's seven pieces
+	_check(pack.debris["rows"]["high"] == {"1": "0x44a850", "2": "0x44a864"} and pack.debris["rows"]["low"] == {"1": "0x44a890", "2": "0x44a8a4"}, "the pack has the piece table rows")
+	var rec: Dictionary = pack.debris["records"]["0x44a850"]
+	_check(is_equal_approx(float(rec["rate"]), 0x2888 / 65536.0) and rec["duration"] == 19 and rec["ops"].size() == 8 and rec["frames"]["sprites"].size() == 8, "and record 0x44a850: rate 0x2888, 19 units, 8 ops, 8 burn-out frames")
+	_check(not pack.debris["records"]["0x44a864"].has("frames") and is_equal_approx(float(pack.debris["records"]["0x44a890"]["rate"]), 0x5111 / 65536.0), "0x44a864 has no frames; the low row is faster")
+	var made := 0
+	for part in pack.vehicle_def(3)["render"]["parts"]:
+		if ((int(part["flags"]) >> 8) & 3) in [1, 2]:
+			made += 1
+	_check(made == 7, "seven of the Heli's twelve body parts make a piece (flags 0x108 and 0x208); the tank, jeep and msv make none")
+	for t in 3:
+		for part in pack.vehicle_def(t)["render"]["parts"]:
+			made += 1 if ((int(part["flags"]) >> 8) & 3) != 0 else 0
+	_check(made == 7, "no ground vehicle part is marked")
+
 	# the Heli's hit reaction on the real vehicle definition
 	v.alive = true
 	v.hp = 100.0

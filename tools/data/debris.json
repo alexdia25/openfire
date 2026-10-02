@@ -1,0 +1,312 @@
+{
+ "_source": "RFIRE.BIN: the FWall class 0x44abb0 (class 3; init FUN_0042b1f0, tick FUN_0042b290, draw FUN_0042a7b0), the op functions at 0x44ab50 (0x42a920 end, 0x42a950 tint, 0x42aad0 speed, 0x42abc0 yaw spin, 0x42aca0 roll spin, 0x42ad80 frame swap, 0x42aeb0 gravity, 0x42af60 sink, 0x42afa0 drag, 0x42b030 bounce, 0x42b0e0 land), the piece records 0x44a850 / 0x44a864 (above 10 units) and 0x44a890 / 0x44a8a4 (below) with the op lists 0x44a530 and 0x44a650, the piece table rows 0x44aa90 (above 10 units) and 0x44aad0 (below), and the maker FUN_0042b4e0 / FUN_0042a610. Issue #81, wiki document 119. 16.16 values divided by 65536, angles 0x400000 = 360 degrees. A part makes a piece when its flags & 0x300 is 1 or 2 (record A or B); only the Heli's body has such parts. Each op runs while start <= floor(progress) <= end; progress rises by `rate` a tick and the piece ends at `duration`; from `fade_start` it fades. `tint` shades the piece toward palette entry `colour_index` of cel `colour_cel` (the port darkens it: PORT CHOICE, the palette is not read). `drag` slows drift words that nothing ever sets (a no-op in the original). Landing effect: `surface` below.",
+ "rows": {
+  "high": {
+   "1": "0x44a850",
+   "2": "0x44a864"
+  },
+  "low": {
+   "1": "0x44a890",
+   "2": "0x44a8a4"
+  }
+ },
+ "records": {
+  "0x44a850": {
+   "rate": 0.1583251953125,
+   "duration": 19,
+   "fade_start": 14,
+   "ops": [
+    {
+     "op": "land",
+     "start": 1,
+     "end": 100,
+     "always": true
+    },
+    {
+     "op": "speed",
+     "start": 1,
+     "end": 3,
+     "initial": 0.0,
+     "target": 0.1999969482421875,
+     "rate": 1.0,
+     "low": 0.0
+    },
+    {
+     "op": "speed",
+     "start": 4,
+     "end": 100,
+     "initial": 0.0,
+     "target": 0.1999969482421875,
+     "rate": 1.0,
+     "low": 0.0
+    },
+    {
+     "op": "gravity",
+     "start": 2,
+     "end": 100,
+     "launch": true
+    },
+    {
+     "op": "yaw_spin",
+     "start": 3,
+     "end": 100,
+     "initial": 0.0,
+     "rate": 5.625,
+     "low": 0.28118133544921875,
+     "high": 2.8125
+    },
+    {
+     "op": "roll_spin",
+     "start": 3,
+     "end": 100,
+     "initial": 0.0,
+     "rate": 5.625,
+     "low": 0.28118133544921875,
+     "high": 2.8125
+    },
+    {
+     "op": "tint",
+     "start": 3,
+     "end": 10,
+     "colour_cel": 1917,
+     "colour_index": 2
+    },
+    {
+     "op": "drag",
+     "start": 1,
+     "end": 100,
+     "x": 0.0149993896484375,
+     "y": 0.0149993896484375,
+     "z": 0.0
+    }
+   ],
+   "frames": {
+    "start": 11,
+    "count": 8,
+    "cel_first": 1917
+   }
+  },
+  "0x44a864": {
+   "rate": 0.1583251953125,
+   "duration": 19,
+   "fade_start": 14,
+   "ops": [
+    {
+     "op": "land",
+     "start": 1,
+     "end": 100,
+     "always": true
+    },
+    {
+     "op": "speed",
+     "start": 1,
+     "end": 3,
+     "initial": 0.0,
+     "target": 0.1999969482421875,
+     "rate": 1.0,
+     "low": 0.0
+    },
+    {
+     "op": "speed",
+     "start": 4,
+     "end": 100,
+     "initial": 0.0,
+     "target": 0.1999969482421875,
+     "rate": 1.0,
+     "low": 0.0
+    },
+    {
+     "op": "gravity",
+     "start": 2,
+     "end": 100,
+     "launch": true
+    },
+    {
+     "op": "yaw_spin",
+     "start": 3,
+     "end": 100,
+     "initial": 0.0,
+     "rate": 5.625,
+     "low": 0.28118133544921875,
+     "high": 2.8125
+    },
+    {
+     "op": "roll_spin",
+     "start": 3,
+     "end": 100,
+     "initial": 0.0,
+     "rate": 5.625,
+     "low": 0.28118133544921875,
+     "high": 2.8125
+    },
+    {
+     "op": "tint",
+     "start": 3,
+     "end": 10,
+     "colour_cel": 1917,
+     "colour_index": 2
+    },
+    {
+     "op": "drag",
+     "start": 1,
+     "end": 100,
+     "x": 0.0149993896484375,
+     "y": 0.0149993896484375,
+     "z": 0.0
+    }
+   ]
+  },
+  "0x44a890": {
+   "rate": 0.3166656494140625,
+   "duration": 19,
+   "fade_start": 14,
+   "ops": [
+    {
+     "op": "land",
+     "start": 1,
+     "end": 100,
+     "always": true
+    },
+    {
+     "op": "speed",
+     "start": 1,
+     "end": 3,
+     "initial": 0.0,
+     "target": 0.1999969482421875,
+     "rate": 1.0,
+     "low": 0.0
+    },
+    {
+     "op": "speed",
+     "start": 4,
+     "end": 100,
+     "initial": 0.0,
+     "target": 0.1999969482421875,
+     "rate": 1.0,
+     "low": 0.0
+    },
+    {
+     "op": "gravity",
+     "start": 2,
+     "end": 100,
+     "launch": true
+    },
+    {
+     "op": "yaw_spin",
+     "start": 3,
+     "end": 100,
+     "initial": 0.0,
+     "rate": 5.625,
+     "low": 0.28118133544921875,
+     "high": 2.8125
+    },
+    {
+     "op": "roll_spin",
+     "start": 3,
+     "end": 100,
+     "initial": 0.0,
+     "rate": 5.625,
+     "low": 0.28118133544921875,
+     "high": 2.8125
+    },
+    {
+     "op": "tint",
+     "start": 3,
+     "end": 10,
+     "colour_cel": 1917,
+     "colour_index": 2
+    },
+    {
+     "op": "drag",
+     "start": 1,
+     "end": 100,
+     "x": 0.0149993896484375,
+     "y": 0.0149993896484375,
+     "z": 0.0
+    }
+   ],
+   "frames": {
+    "start": 11,
+    "count": 8,
+    "cel_first": 1917
+   }
+  },
+  "0x44a8a4": {
+   "rate": 0.3166656494140625,
+   "duration": 19,
+   "fade_start": 14,
+   "ops": [
+    {
+     "op": "land",
+     "start": 1,
+     "end": 100,
+     "always": true
+    },
+    {
+     "op": "speed",
+     "start": 1,
+     "end": 3,
+     "initial": 0.0,
+     "target": 0.1999969482421875,
+     "rate": 1.0,
+     "low": 0.0
+    },
+    {
+     "op": "speed",
+     "start": 4,
+     "end": 100,
+     "initial": 0.0,
+     "target": 0.1999969482421875,
+     "rate": 1.0,
+     "low": 0.0
+    },
+    {
+     "op": "gravity",
+     "start": 2,
+     "end": 100,
+     "launch": true
+    },
+    {
+     "op": "yaw_spin",
+     "start": 3,
+     "end": 100,
+     "initial": 0.0,
+     "rate": 5.625,
+     "low": 0.28118133544921875,
+     "high": 2.8125
+    },
+    {
+     "op": "roll_spin",
+     "start": 3,
+     "end": 100,
+     "initial": 0.0,
+     "rate": 5.625,
+     "low": 0.28118133544921875,
+     "high": 2.8125
+    },
+    {
+     "op": "tint",
+     "start": 3,
+     "end": 10,
+     "colour_cel": 1917,
+     "colour_index": 2
+    },
+    {
+     "op": "drag",
+     "start": 1,
+     "end": 100,
+     "x": 0.0149993896484375,
+     "y": 0.0149993896484375,
+     "z": 0.0
+    }
+   ]
+  }
+ },
+ "landing": {
+  "land": "0x444740",
+  "pavement": "0x444968",
+  "water": "0x4445b8",
+  "pavement_first_art": 73,
+  "pavement_last_art": 83
+ }
+}

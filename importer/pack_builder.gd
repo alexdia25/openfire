@@ -473,6 +473,16 @@ func small_tables() -> void:
 	var inf: Variant = data("infantry.json")
 	if inf is Dictionary:
 		_write("world/infantry.json", _infantry_table(inf))
+	var deb: Variant = data("debris.json")
+	if deb is Dictionary:
+		# The flying wreckage (FWall pieces; document 119, issue #81): records, op lists, table rows, and the burn-out frames' sprite ids.
+		var dt: Dictionary = deb.duplicate(true)
+		dt.erase("_source")
+		for k in dt["records"]:
+			var fr: Variant = dt["records"][k].get("frames")
+			if fr is Dictionary:
+				fr["sprites"] = _sids(int(fr["cel_first"]), int(fr["count"]))
+		_write("world/debris.json", dt)
 	var fl: Variant = data("flag.json")
 	if fl is Dictionary:
 		for group in ["ground", "carried"]:

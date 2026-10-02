@@ -88,6 +88,7 @@ PROJECTILE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "projectile_types.js
 EDGE_GUARD_JSON = os.path.join(ROOT, "tools", "data", "edge_guard.json")
 INFANTRY_JSON = os.path.join(ROOT, "tools", "data", "infantry.json")
 WRECK_JSON = os.path.join(ROOT, "tools", "data", "wreck.json")
+DEBRIS_JSON = os.path.join(ROOT, "tools", "data", "debris.json")
 COASTAL_DECORATION_CORNERS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decoration_corners.json")
 
 PACK_ID = "original_pc"
@@ -748,6 +749,21 @@ def main():
         os.makedirs(os.path.join(args.out_dir, "world"), exist_ok=True)
         with open(os.path.join(args.out_dir, "world", "infantry.json"), "w") as f:
             json.dump(table, f, indent=1, sort_keys=True)
+            f.write("\n")
+
+    # The flying wreckage (FWall pieces; document 119, issue #81): the piece records, their op lists, the table rows, and the sprite ids of the
+    # burn-out frames a piece ends as.
+    if os.path.exists(DEBRIS_JSON):
+        with open(DEBRIS_JSON) as f:
+            deb = json.load(f)
+        deb.pop("_source", None)
+        for rec in deb["records"].values():
+            fr = rec.get("frames")
+            if fr:
+                fr["sprites"] = [registry[str(fr["cel_first"] + i)]["id"] for i in range(fr["count"])]
+        os.makedirs(os.path.join(args.out_dir, "world"), exist_ok=True)
+        with open(os.path.join(args.out_dir, "world", "debris.json"), "w") as f:
+            json.dump(deb, f, indent=1, sort_keys=True)
             f.write("\n")
 
     # The capture flag (document 65): sprite ids per wave frame (13 tan, then 13 green)
