@@ -1,4 +1,4 @@
-"""Builds tools/data/water_overlays.json (document 122, issue #25): what the original draws while a vehicle wades or sinks.
+"""Builds tools/data/water_overlays.json (document 123, issue #25): what the original draws while a vehicle wades or sinks.
 
 Transcribed from DumpDwords.java dumps of the vehicle records (stride 0x2e8 from 0x4456b8) and the decompiled water handlers
 FUN_0040cef0 (dry), FUN_0040d150 (wading), FUN_0040cf90 (sinking) and the draw-object init callbacks FUN_00402b40, FUN_00402b80,
@@ -31,7 +31,7 @@ def q(x0, y0, x1, y1, z=0.0):
 out = {
     "_source": "RFIRE.BIN: vehicle records 0x4456b8 + type * 0x2e8 (+0x14c, +0x154, +0x158), descriptors 0x43eac8 / 0x43eb50 (Tank), "
                "0x43feb0 / 0x43fe18 / 0x440030 (Jeep), 0x43f408 / 0x43f490 (MSV), 0x43e370 (the ripple); handlers FUN_0040cef0 / 0040d150 / 0040cf90; "
-               "document 122",
+               "document 123",
     "ripple": {"cel": 1987, "corners": q(-16, -16, 16, 16), "frames": [0, 0, 0, 1, 1, 2, 2, 2], "clock_mask": 0x1E,
                "_source": "descriptor 0x43e370 (flag 0x10: the object's height is ignored), FUN_00402ca0, bytes at 0x43e2f0"},
     "wading_counter": {"start": 4.0, "per_tick": 0.2, "wrap_at": 13.0, "wrap_moving": 5.0, "wrap_stopped": 13.0, "dry_after": 3.0,

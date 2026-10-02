@@ -1,4 +1,4 @@
-# What the original draws while a vehicle wades or sinks (issue #25, document 122): the water handlers' state machine and the descriptor the render
+# What the original draws while a vehicle wades or sinks (issue #25, document 123): the water handlers' state machine and the descriptor the render
 # block shows for it. Run:
 #   godot --headless --path . --script tools/tests/water_view_check.gd
 extends SceneTree

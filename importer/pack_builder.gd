@@ -309,7 +309,7 @@ func _build_render(index: int, t: Dictionary) -> Variant:
 	return render
 
 
-## build_pack.water_overlay_parts(): what the original draws while a vehicle wades or sinks (document 122, issue #25; tools/data/water_overlays.json).
+## build_pack.water_overlay_parts(): what the original draws while a vehicle wades or sinks (document 123, issue #25; tools/data/water_overlays.json).
 func _water_overlay_parts(index: int, render: Dictionary, parts: Array) -> void:
 	var d: Dictionary = data("water_overlays.json")
 	if not (d["types"] as Dictionary).has(str(index)):

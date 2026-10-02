@@ -587,7 +587,7 @@ for _cel, _id, _cat, _note, _conf in AUDIT12:
     put(_cel, _id, _cat, _note, _conf)
 
 
-# AUDIT 2026-10-02, part 13 (registry hand-edited, not re-generated; document 122, issue #25): the pictures of a vehicle sinking and the Jeep's swimming
+# AUDIT 2026-10-02, part 13 (registry hand-edited, not re-generated; document 123, issue #25): the pictures of a vehicle sinking and the Jeep's swimming
 # spray. The sinking descriptors (record +0x154: 0x43eb50 Tank, 0x440030 Jeep, 0x43f490 MSV) draw a top and a side picture whose cel is the base plus the depth
 # (-(z >> 16)) plus the depth limit (record +0x158: 14, 13, 14) for the second player; the Jeep's swim-mode wading descriptor 0x43fe18 draws two
 # quads of cels 2038 / 2056 + a frame from the splash counter. Cels already registered as blank are left alone.
@@ -599,11 +599,11 @@ for _vehicle, _top, _side, _depth in (("tank", 218, 246, 14), ("jeep", 463, 491,
                 _cel = _base + _team_i * _depth + _f
                 AUDIT13.append((_cel, f"vehicle.{_vehicle}.{_part}.{_team}.{_f + 1:02d}", "vehicle",
                                 f"the {_vehicle} sinking picture ({'top' if _part == 'sinking_top' else 'side'} view), {_team} player, depth {_f}: cel {_base} + depth + {_team_i} x the depth limit {_depth} "
-                                "(FUN_00402b80; document 122)", "code_verified"))
+                                "(FUN_00402b80; document 123)", "code_verified"))
 for _half, _base in (("a", 2038), ("b", 2056)):
     for _f in range(18):
         AUDIT13.append((_base + _f, f"vehicle.jeep.swim_spray_{_half}.{_f + 1:02d}", "vehicle",
-                        f"the swimming Jeep's wading spray, quad {_half}, frame {_f} of 18 (descriptor 0x43fe18, cel {_base} + the frame from the splash counter; FUN_00403180, document 122)", "code_verified"))
+                        f"the swimming Jeep's wading spray, quad {_half}, frame {_f} of 18 (descriptor 0x43fe18, cel {_base} + the frame from the splash counter; FUN_00403180, document 123)", "code_verified"))
 with open(REGISTRY_JSON) as _f:
     _BLANK_CELS = {int(k) for k, v in json.load(_f)["cels"].items() if v["id"].startswith("reserved.blank")}
 for _cel, _id, _cat, _note, _conf in AUDIT13:

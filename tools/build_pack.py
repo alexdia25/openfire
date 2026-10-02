@@ -380,7 +380,7 @@ def build_render(index, t, registry, team_pairs):
 
 
 def water_overlay_parts(index, render, parts, registry):
-    """What the original draws while a vehicle wades or sinks (document 122, issue #25; tools/data/water_overlays.json).
+    """What the original draws while a vehicle wades or sinks (document 123, issue #25; tools/data/water_overlays.json).
     The wading descriptor (record +0x14c) adds a spray quad behind the vehicle, the sinking one (+0x154) REPLACES the vehicle with a
     top and a side picture picked by the depth, over a ripple quad. In the render block they are parts with `modes` (drawn only
     while the `mode_channel` ("water_view": 0 dry, 1 wading, 2 sinking, 3 the Jeep's swimming spray) is one of them); the
