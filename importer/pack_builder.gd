@@ -528,6 +528,11 @@ func small_tables() -> void:
 			if fr is Dictionary:
 				fr["sprites"] = _sids(int(fr["cel_first"]), int(fr["count"]))
 		_write("world/debris.json", dt)
+	var skin: Variant = data("ui_skin.json")
+	if skin is Dictionary:
+		var sk: Dictionary = skin.duplicate(true)
+		sk.erase("_source")
+		_write("ui/skin.json", sk)
 	var fl: Variant = data("flag.json")
 	if fl is Dictionary:
 		for group in ["ground", "carried"]:

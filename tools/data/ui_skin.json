@@ -1,0 +1,13 @@
+{
+ "_source": "The front end's look (issue #51, wiki document 122): the original's menus were ordinary Windows 95 dialogs (RFIRE.BIN dialog resources 2001 Player Selector, 2002 Level Selector, 104 Hall of Fame) drawn with the system colours of the era. This pack declares that look for the engine's UiSkin.",
+ "style": "bevel",
+ "face": "#c0c0c0",
+ "hilight": "#ffffff",
+ "light": "#dfdfdf",
+ "shadow": "#808080",
+ "dark": "#000000",
+ "caption_a": "#000080",
+ "caption_b": "#1084d0",
+ "desktop": "#008080",
+ "font_size": 14
+}

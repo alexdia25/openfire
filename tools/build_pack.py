@@ -818,6 +818,17 @@ def main():
             json.dump(deb, f, indent=1, sort_keys=True)
             f.write("\n")
 
+    # The front end's look (issue #51, document 122): the original's menus were Windows 95 dialogs
+    skin_path = os.path.join(ROOT, "tools", "data", "ui_skin.json")
+    if os.path.exists(skin_path):
+        with open(skin_path) as f:
+            skin = json.load(f)
+        skin.pop("_source", None)
+        os.makedirs(os.path.join(args.out_dir, "ui"), exist_ok=True)
+        with open(os.path.join(args.out_dir, "ui", "skin.json"), "w") as f:
+            json.dump(skin, f, indent=1, sort_keys=True)
+            f.write("\n")
+
     # The capture flag (document 65): sprite ids per wave frame (13 tan, then 13 green)
     if os.path.exists(FLAG_JSON):
         with open(FLAG_JSON) as f:
