@@ -27,9 +27,12 @@ done
 [ -s export/linux/OpenFire.x86_64 ] && [ -s export/linux/OpenFire.pck ] || { echo "Linux export incomplete"; exit 1; }
 
 for d in windows linux; do cp tools/release_readme.txt "export/$d/README.txt"; done
+cp tools/remove_pack_data.bat export/windows/
+cp tools/remove_pack_data.sh export/linux/
+chmod +x export/linux/remove_pack_data.sh
 
 NAME=OpenFire-$VERSION
-(cd export/windows && python3 -m zipfile -c "../../dist/$NAME-windows-x86_64.zip" OpenFire.exe OpenFire.pck README.txt)
+(cd export/windows && python3 -m zipfile -c "../../dist/$NAME-windows-x86_64.zip" OpenFire.exe OpenFire.pck README.txt remove_pack_data.bat)
 chmod +x export/linux/OpenFire.x86_64
-tar -C export/linux -czf "dist/$NAME-linux-x86_64.tar.gz" OpenFire.x86_64 OpenFire.pck README.txt
+tar -C export/linux -czf "dist/$NAME-linux-x86_64.tar.gz" OpenFire.x86_64 OpenFire.pck README.txt remove_pack_data.sh
 ls -la dist
