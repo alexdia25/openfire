@@ -39,6 +39,7 @@ class ScriptedVehicle extends Vehicle:
 
 
 func _run(pack: Pack, level: LevelData, type: int) -> String:
+	seed(1996)   # the Heli's hover drift (issue #26) is a random walk: a fixed seed keeps the trace repeatable
 	var v := ScriptedVehicle.new()
 	v.team = "tan"
 	v.setup(pack)
