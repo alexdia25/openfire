@@ -2,8 +2,8 @@
  "_source": "RFIRE.BIN: the SUB object descriptor 0x44ec38, its behaviours 0x434c00/0x434d10/0x434db0/0x434e40/0x434d80, the tick 0x434b30, the draw descriptor 0x44ebd8 (corners 0x44eb88, part 0x44ebb8) and the Death Missle object 0x448920 with its tick FUN_00415100; issue #68, wiki document 112. Angles: 0x400000 = 360 degrees; 16.16 values divided by 65536.",
  "cel_first": 630,
  "cel_count": 25,
- "_quad_scale": "PORT CHOICE (user, 2026-10-02: the submarine looked far too big): the traced quad is 128 x 64 units (document 112), drawn at this fraction of it. Not traced; see issue #88.",
- "quad_scale": 0.5,
+ "_quad_scale": "PORT CHOICE (user, 2026-10-02: the submarine looked far too big): the traced quad is 128 x 64 units (document 112), drawn at this fraction of it (0.5 was still too big for the user). Not traced; see issue #88.",
+ "quad_scale": 0.35,
  "quad": [
   [
    -64.0,
