@@ -10,7 +10,7 @@ extends RefCounted
 ## other field of music.json / jingles.json are the same; the samples differ only by codec loss.
 
 const HUD_STRIPS := {"1PBSCRL.RFA": "strip_1p_low", "1PBSCRH.RFA": "strip_1p_high", "NEWREQLG.RFA": "title_large", "NEWREQSM.RFA": "title_small"}
-const TITLE_BAR_ROW := {"title_large": 453, "title_small": 227}   ## the picture's bottom bar ("PRESS 'F2' TO BEGIN") starts here: cut off, the port writes its own prompt
+const TITLE_BAR_TEXT_ROWS := {"title_large": [456, 475], "title_small": [229, 237]}   ## the picture's bottom bar ("PRESS 'F2' TO BEGIN"): the text is painted out, the port writes its own
 const BANNERS := {"BANBL.BMP": "win_banner_tan_low", "BANGL.BMP": "win_banner_green_low",
 		"BANBH.BMP": "win_banner_tan_high", "BANGH.BMP": "win_banner_green_high"}
 const LAMP_CELS := [[1969, 1970], [1971, 1972]]   ## (the lamp, the cel whose PLUT is the dim end): flag row, home row
@@ -36,8 +36,12 @@ static func hud_strips(art_dir: String, pack_dir: String) -> String:
 		if img == null:
 			return "could not read ART/%s" % src
 		img.convert(Image.FORMAT_RGB8)
-		if TITLE_BAR_ROW.has(HUD_STRIPS[src]):
-			img = img.get_region(Rect2i(0, 0, img.get_width(), int(TITLE_BAR_ROW[HUD_STRIPS[src]])))
+		if TITLE_BAR_TEXT_ROWS.has(HUD_STRIPS[src]):
+			var rows: Array = TITLE_BAR_TEXT_ROWS[HUD_STRIPS[src]]
+			for y in range(int(rows[0]), int(rows[1]) + 1):
+				var c := img.get_pixel(2, y)
+				for x in img.get_width():
+					img.set_pixel(x, y, c)
 		img.save_png(pack_dir.path_join("hud").path_join(HUD_STRIPS[src] + ".png"))
 	return ""
 
