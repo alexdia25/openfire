@@ -13,8 +13,8 @@
  "cooldown_ticks": 60,
  "projectiles": [3, 4],
  "tiles": {
-  "49": {"rise": 24.5, "muzzle": [0.0, -15.0, 24.5], "decoration_head_parts": 4},
-  "50": {"rise": 29.5, "muzzle": [0.0, -15.0, 29.5], "decoration_head_parts": 4}
+  "49": {"rise": 24.5, "muzzle": [0.0, -15.0, 24.5], "decoration_skip_parts": [0, 1, 2, 3, 8]},
+  "50": {"rise": 29.5, "muzzle": [0.0, -15.0, 29.5], "decoration_skip_parts": [0, 1, 2, 3, 8]}
  },
  "head": [
   {"cel": 849, "flags": 264, "corners": [[8.0, -8.0, 3.5], [8.0, 8.0, 3.5], [-8.0, 8.0, 3.5], [-8.0, -8.0, 3.5]]},
