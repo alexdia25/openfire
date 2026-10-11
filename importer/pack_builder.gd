@@ -554,6 +554,11 @@ func small_tables() -> void:
 		var sk: Dictionary = skin.duplicate(true)
 		sk.erase("_source")
 		_write("ui/skin.json", sk)
+	var menus: Variant = data("ui_menus.json")   # the front end's menus: the Hall of Fame among them (wiki document 133, issue #84)
+	if menus is Dictionary:
+		var mn: Dictionary = menus.duplicate(true)
+		mn.erase("_source")
+		_write("ui/menus.json", mn)
 	var prog: Variant = data("ui_progression.json")   # which levels unlock when (wiki document 128, issue #103)
 	if prog is Dictionary:
 		var pg: Dictionary = prog.duplicate(true)

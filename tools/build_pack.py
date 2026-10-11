@@ -889,6 +889,17 @@ def main():
             json.dump(skin, f, indent=1, sort_keys=True)
             f.write("\n")
 
+    # The front end's menus, the Hall of Fame among them (issue #84, document 133)
+    menus_path = os.path.join(ROOT, "tools", "data", "ui_menus.json")
+    if os.path.exists(menus_path):
+        with open(menus_path) as f:
+            menus = json.load(f)
+        menus.pop("_source", None)
+        os.makedirs(os.path.join(args.out_dir, "ui"), exist_ok=True)
+        with open(os.path.join(args.out_dir, "ui", "menus.json"), "w") as f:
+            json.dump(menus, f, indent=1, sort_keys=True)
+            f.write("\n")
+
     # Which levels unlock when (issue #103, document 128)
     prog_path = os.path.join(ROOT, "tools", "data", "ui_progression.json")
     if os.path.exists(prog_path):

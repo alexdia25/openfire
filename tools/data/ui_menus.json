@@ -1,0 +1,39 @@
+{
+ "_source": "The front end's menus as Return Fire shows them (wiki documents 127 and 133, issue #84): the engine's default flow plus the Hall of Fame, which the original's Game menu opened as 'High Scores' (command 0x3ed, dialog resource 104 'Return Fire Hall of Fame'). A pack's screens replace the default's by id, so 'main' lists the default items again with High Scores among them.",
+ "screens": {
+  "main": {
+   "title": "Main menu",
+   "items": [
+    {
+     "label": "Campaign",
+     "action": {
+      "screen": "campaign"
+     }
+    },
+    {
+     "label": "Multiplayer",
+     "action": {
+      "screen": "multiplayer"
+     }
+    },
+    {
+     "label": "High Scores",
+     "action": {
+      "screen": "hall_of_fame"
+     }
+    },
+    {
+     "label": "Settings",
+     "action": {
+      "screen": "settings"
+     }
+    }
+   ]
+  },
+  "hall_of_fame": {
+   "type": "high_scores",
+   "title": "Return Fire Hall of Fame",
+   "back": "main"
+  }
+ }
+}
