@@ -3,14 +3,27 @@ extends RefCounted
 ## RFIRE.BIN read by virtual address, through its PE section table: the GDScript twin of tools/rfexe.py. The importer
 ## reads a few traced tables straight out of the player's own executable (the music's track offsets and lines, the
 ## victory jingles' file names); the addresses are the traced ones, the bytes are theirs.
+##
+## The retail CD's RFIRE.BIN and the installed one are different builds (the CD's is the older, 432,128 bytes against
+## 401,920), so the same tables sit at different addresses; their contents were compared and are identical. BUILDS
+## names each build by its file size. A build that is not here has no `tables()`, and the importer then skips the
+## music rather than reading the wrong bytes.
+const BUILDS := {
+	401920: {"music_offsets": 0x449470, "music_lines": 0x4463b8, "jingle_files": 0x44e110, "jingle_by_level": 0x44e120},   ## the install's (traced, documents 98 and 101)
+	432128: {"music_offsets": 0x449ef0, "music_lines": 0x44a368, "jingle_files": 0x451bd8, "jingle_by_level": 0x451be8},   ## the CD's
+}
 
 var data: PackedByteArray
 var _sections: Array = []   ## [virtual address, size, file offset]
 
 
 static func open(path: String) -> RFExe:
+	return from_bytes(FileAccess.get_file_as_bytes(path))
+
+
+static func from_bytes(bytes: PackedByteArray) -> RFExe:
 	var e := RFExe.new()
-	e.data = FileAccess.get_file_as_bytes(path)
+	e.data = bytes
 	if e.data.size() < 0x40 or e.data.slice(0, 2).get_string_from_ascii() != "MZ":
 		return null
 	var pe := e.data.decode_u32(0x3c)
@@ -25,6 +38,11 @@ static func open(path: String) -> RFExe:
 		var roff := e.data.decode_u32(s + 20)
 		e._sections.append([image_base + va, maxi(vsize, rsize), roff])
 	return e
+
+
+## Where this build keeps the importer's tables (BUILDS), or {} if it is not a build the importer knows.
+func tables() -> Dictionary:
+	return BUILDS.get(data.size(), {})
 
 
 ## The file offset of virtual address `va` (-1 if no section holds it).

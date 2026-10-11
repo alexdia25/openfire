@@ -104,7 +104,7 @@ flowchart TD
     START(["launch"]) --> BOOT["OpenFireBoot<br/>importer/boot.tscn, the main scene"]
     BOOT --> HAS{"base pack there?<br/>ModLoader.has_pack()"}
     HAS -- yes --> FLOW["GameFlow<br/>title, menu, levels"]
-    HAS -- no --> SCREEN["FirstRunScreen<br/>choose the install folder<br/>(and the CD image, for music)"]
+    HAS -- no --> SCREEN["FirstRunScreen<br/>choose the install folder<br/>or the CD image (.iso)"]
     SCREEN --> VAL{"RFImporter.validate_install()"}
     VAL -- "wrong folder, 3DO disc,<br/>missing or tiny files" --> SCREEN
     VAL -- ok --> RUN["RFImporter.run()<br/>background thread, progress bar"]
@@ -145,7 +145,7 @@ flowchart LR
         RFM["WORLDS/**/*.RFM"]
         SDT["SOUND/*.SDT"]
         BIN["RFIRE.BIN, TITLE/, ART/*.RFA"]
-        ISO["the CD image<br/>(music, victory jingles)"]
+        ISO["or the CD image alone<br/>(everything above, plus the<br/>music and victory jingles)"]
     end
     subgraph traced["traced once, in the repo and the build"]
         direction TB
@@ -174,7 +174,7 @@ with the build, and the importer applies them to the player's files.
 | `convert_rfm.py`, `rf_tile_art.py` | `rfm_decoder.gd` |
 | `convert_sdt.py` | `RFImporter.sdt_problem()` (the files are copied as they are) |
 | `build_pack.py` | `pack_builder.gd`, writing through the engine's `PackWriter` |
-| `extract_hud_strip.py`, `extract_win_banners.py`, `extract_compass_lamps.py`, `extract_music.py`, `extract_win_jingles.py`, `rfexe.py` | `extras.gd`, `rf_exe.gd`, `iso9660.gd` |
+| `extract_hud_strip.py`, `extract_win_banners.py`, `extract_compass_lamps.py`, `extract_music.py`, `extract_win_jingles.py`, `rfexe.py` | `extras.gd`, `rf_exe.gd`, `iso9660.gd`, `source.gd` (`RFSource`: a folder or a .iso, read the same way) |
 | `validate_pack.py` | `RFImporter.validate_pack()` |
 
 `tools/tests/importer_parity_check.gd` runs both pipelines on the same install

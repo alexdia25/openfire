@@ -3,12 +3,13 @@ extends RefCounted
 ## Reads files out of the game CD's image (an ISO 9660 .iso) without loading the whole image: the primary volume
 ## descriptor at sector 16 gives the root directory; directories are walked record by record. The Python pipeline
 ## found the same files by searching the raw image for "NAME;1" (tools/extract_music.py); this finds the same
-## directory records the proper way.
+## directory records the proper way. Files are keyed by their full path from the disc's root, upper-case, with no
+## ";1" version ("SOUND/SCORE.WAV"); RFSource is what the importer reads them through.
 
 const SECTOR := 2048
 
 var _f: FileAccess
-var _files: Dictionary = {}   ## upper-case file name (no ";1") -> [lba, size]
+var _files: Dictionary = {}   ## upper-case path (no ";1") -> [lba, size]
 
 
 static func open(path: String) -> RFIso9660:
@@ -21,11 +22,11 @@ static func open(path: String) -> RFIso9660:
 	if pvd[0] != 1 or pvd.slice(1, 6).get_string_from_ascii() != "CD001":
 		return null
 	var root := pvd.slice(156, 156 + 34)
-	iso._walk(root.decode_u32(2), root.decode_u32(10), 0)
+	iso._walk(root.decode_u32(2), root.decode_u32(10), "", 0)
 	return iso
 
 
-func _walk(lba: int, size: int, depth: int) -> void:
+func _walk(lba: int, size: int, prefix: String, depth: int) -> void:
 	if depth > 8:
 		return
 	_f.seek(lba * SECTOR)
@@ -42,21 +43,31 @@ func _walk(lba: int, size: int, depth: int) -> void:
 		var rec_lba := dir.decode_u32(pos + 2)
 		var rec_size := dir.decode_u32(pos + 10)
 		if not (name_len == 1 and ident[0] <= 1):   # "." and ".."
-			var name := ident.get_string_from_ascii().to_upper()
+			var name := ident.get_string_from_ascii().to_upper().get_slice(";", 0)
 			if flags & 2:
-				_walk(rec_lba, rec_size, depth + 1)
-			elif not _files.has(name.get_slice(";", 0)):
-				_files[name.get_slice(";", 0)] = [rec_lba, rec_size]
+				_walk(rec_lba, rec_size, prefix + name + "/", depth + 1)
+			elif not _files.has(prefix + name):
+				_files[prefix + name] = [rec_lba, rec_size]
 		pos += length
 
 
-func has_file(name: String) -> bool:
-	return _files.has(name.to_upper())
+## Every file's path, as keyed above.
+func paths() -> Array:
+	return _files.keys()
 
 
-## The whole file `name` (any directory; the first one found by that name), or an empty array.
-func read_file(name: String) -> PackedByteArray:
-	var rec: Variant = _files.get(name.to_upper())
+func has_file(path: String) -> bool:
+	return _files.has(path.to_upper())
+
+
+func file_size(path: String) -> int:
+	var rec: Variant = _files.get(path.to_upper())
+	return -1 if rec == null else int(rec[1])
+
+
+## The whole file at `path` ("SOUND/SCORE.WAV", any case), or an empty array.
+func read_file(path: String) -> PackedByteArray:
+	var rec: Variant = _files.get(path.to_upper())
 	if rec == null:
 		return PackedByteArray()
 	_f.seek(int(rec[0]) * SECTOR)

@@ -72,7 +72,8 @@ flowchart LR
 - **"Open Fire" mode** (this repo, [issue #61](https://github.com/alexdia25/openfire/issues/61)).
   The same engine, shipped without any Return Fire content. On first launch, before the
   title screen, it asks for the folder of the player's own legally-obtained copy of the
-  original game (the PC release; the CD image adds the music). It converts that locally,
+  original game (the PC release's install folder, or the game CD's `.iso`, which has everything including the
+  music). It converts that locally,
   inside the game, into `user://packs/original_pc`, and is a full authentic port from then
   on. Nothing else needs installing: the importer (`importer/`) is GDScript in the same
   binary. This is the model used by devilutionX, OpenRCT2, and OpenTTD; see the Legal
@@ -147,7 +148,9 @@ engine code; see the engine's README for every setting a game can make.
   `python tools/import_original.py <your Return Fire folder> packs/original_pc`
   (needs Python 3 + Pillow; ffmpeg and the CD image `RFIRE US.iso` for the music, which is
   skipped with a warning without them). The in-game importer and this one produce the same
-  pack, which `tools/tests/importer_parity_check.gd` checks (`RF_GAME_DIR=<install>`).
+  pack, which `tools/tests/importer_parity_check.gd` checks (`RF_GAME_DIR=<install>`). The
+  Python pipeline reads an install folder only; the in-game importer also takes the CD's `.iso`
+  on its own, and `tools/tests/import_sources_check.gd` checks the two sources give the same pack.
 - **Release builds:** the "Open Fire (Windows/Linux)" presets in `export_presets.cfg`
   (Project > Export, or `godot --headless --export-release "Open Fire (Windows)"`).
   To publish one: push a `v*` tag (`git tag v0.1.0 && git push origin v0.1.0`). The Release workflow

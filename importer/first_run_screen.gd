@@ -1,9 +1,9 @@
 class_name FirstRunScreen
 extends Control
 ## "Open Fire" mode's first screen (issue #61, stage 4; decision 5): shown before anything else when the game's base
-## pack doesn't exist yet. The player points it at their own Return Fire (PC) install -- and, for the music, the game
-## CD's image or drive if it isn't in that folder -- and RFImporter turns it into the pack on a background thread
-## (decision 6) while a progress bar runs. Deliberately minimal (the issue's "functional only" first pass); meant to
+## pack doesn't exist yet. The player points it at their own copy of Return Fire (PC) -- the folder it is installed in,
+## or the game CD's image (.iso), which also holds the music -- and RFImporter turns it into the pack on a background
+## thread (decision 6) while a progress bar runs. Deliberately minimal (the issue's "functional only" first pass); meant to
 ## become the first page of a real settings menu later rather than be built twice.
 ##
 ## Emits `finished` once a pack is in place at `target`. A failed import shows why and lets the player pick again;
@@ -11,11 +11,10 @@ extends Control
 
 signal finished
 
-const PREFS := "user://open_fire.cfg"   ## remembers the folders the player chose last
+const PREFS := "user://open_fire.cfg"   ## remembers what the player chose last
 
 var target := ""            ## where the pack goes (the project's openfire/packs/base_pack)
 var _install: LineEdit
-var _cd: LineEdit
 var _go: Button
 var _bar: ProgressBar
 var _status: Label
@@ -48,19 +47,19 @@ func _ready() -> void:
 	box.add_child(title)
 	var intro := Label.new()
 	intro.text = ("Open Fire plays Return Fire using the files from your own copy of the game. Choose the folder the PC "
-			+ "(Windows 95) version is installed in. They are converted once, on this computer, and never leave it.")
+			+ "(Windows 95) version is installed in, or the game CD's image (.iso): the CD has the music as well. "
+			+ "They are converted once, on this computer, and never leave it.")
 	intro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	intro.modulate = Color(1, 1, 1, 0.75)
 	box.add_child(intro)
 
 	var prefs := ConfigFile.new()
 	prefs.load(PREFS)
-	_install = _path_row(box, "Return Fire folder", String(prefs.get_value("import", "install", "")))
-	_cd = _path_row(box, "Music (optional): the game CD's .iso, or the CD drive", String(prefs.get_value("import", "cd", "")))
+	_install = _path_row(box, "Return Fire folder or CD image", String(prefs.get_value("import", "install", "")))
 
 	_go = Button.new()
 	_go.text = "Import"
-	_go.pressed.connect(func(): start_import(_install.text.strip_edges(), _cd.text.strip_edges()))
+	_go.pressed.connect(func(): start_import(_install.text.strip_edges()))
 	box.add_child(_go)
 	_bar = ProgressBar.new()
 	_bar.max_value = 1.0
@@ -97,35 +96,36 @@ func _path_row(box: VBoxContainer, label: String, value: String) -> LineEdit:
 	edit.text = value
 	edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(edit)
-	var browse := Button.new()
-	browse.text = "Browse..."
-	browse.pressed.connect(func():
-		_dialog_for = edit
-		_dialog.file_mode = FileDialog.FILE_MODE_OPEN_DIR if edit == _install else FileDialog.FILE_MODE_OPEN_ANY
-		_dialog.filters = PackedStringArray() if edit == _install else PackedStringArray(["*.iso ; CD image"])
-		_dialog.popup_centered_ratio(0.6))
-	row.add_child(browse)
+	for choice in [["Folder...", FileDialog.FILE_MODE_OPEN_DIR, PackedStringArray()],
+			["CD image...", FileDialog.FILE_MODE_OPEN_FILE, PackedStringArray(["*.iso ; CD image"])]]:
+		var browse := Button.new()
+		browse.text = choice[0]
+		browse.pressed.connect(func():
+			_dialog_for = edit
+			_dialog.file_mode = choice[1]
+			_dialog.filters = choice[2]
+			_dialog.popup_centered_ratio(0.6))
+		row.add_child(browse)
 	return edit
 
 
-## Checks `install` at once (a wrong folder is answered immediately) and, if it looks right, imports it on a thread.
-func start_import(install: String, cd := "") -> void:
+## Checks `source` (a folder or a .iso) at once (a wrong folder is answered immediately) and, if it looks right, imports it on a thread.
+func start_import(source: String) -> void:
 	_error.text = ""
 	_continue.visible = false
-	var why := RFImporter.validate_install(install)
+	var why := RFImporter.validate_install(source)
 	if why != "":
 		_error.text = why
 		return
 	var prefs := ConfigFile.new()
 	prefs.load(PREFS)
-	prefs.set_value("import", "install", install)
-	prefs.set_value("import", "cd", cd)
+	prefs.set_value("import", "install", source)
 	prefs.save(PREFS)
 	_set_busy(true)
 	_importer = RFImporter.new()
 	_thread = Thread.new()
 	_thread.start(func() -> String:
-		return _importer.run(install, target, func(f: float, msg: String) -> void: _progress.call_deferred(f, msg), cd))
+		return _importer.run(source, target, func(f: float, msg: String) -> void: _progress.call_deferred(f, msg)))
 
 
 func is_importing() -> bool:
@@ -162,7 +162,6 @@ func _process(_delta: float) -> void:
 func _set_busy(busy: bool) -> void:
 	_go.disabled = busy
 	_install.editable = not busy
-	_cd.editable = not busy
 	_bar.visible = busy
 	if busy:
 		_bar.value = 0.0

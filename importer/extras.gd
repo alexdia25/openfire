@@ -21,40 +21,40 @@ const DRUMS_TRACKS := [28, 29]   ## cut from SOUND/Drums.WAV (the table restarts
 const AUDIO_EXT := "res"
 
 
-static func _bmp(path: String) -> Image:
+static func _bmp(src: RFSource, rel: String) -> Image:
 	var img := Image.new()
-	if img.load_bmp_from_buffer(FileAccess.get_file_as_bytes(path)) != OK:
+	if img.load_bmp_from_buffer(src.read_file(rel)) != OK:
 		return null
 	return img
 
 
 ## extract_hud_strip.py: the one-player screen's bottom strip, plain BMPs, saved opaque (RGB).
-static func hud_strips(art_dir: String, pack_dir: String) -> String:
+static func hud_strips(src: RFSource, pack_dir: String) -> String:
 	DirAccess.make_dir_recursive_absolute(pack_dir.path_join("hud"))
-	for src in HUD_STRIPS:
-		var img := _bmp(art_dir.path_join(src))
+	for file in HUD_STRIPS:
+		var img := _bmp(src, "ART/" + file)
 		if img == null:
-			return "could not read ART/%s" % src
+			return "could not read ART/%s" % file
 		img.convert(Image.FORMAT_RGB8)
-		if TITLE_BAR_TEXT_ROWS.has(HUD_STRIPS[src]):
-			var rows: Array = TITLE_BAR_TEXT_ROWS[HUD_STRIPS[src]]
+		if TITLE_BAR_TEXT_ROWS.has(HUD_STRIPS[file]):
+			var rows: Array = TITLE_BAR_TEXT_ROWS[HUD_STRIPS[file]]
 			for y in range(int(rows[0]), int(rows[1]) + 1):
 				var c := img.get_pixel(2, y)
 				for x in img.get_width():
 					img.set_pixel(x, y, c)
-		img.save_png(pack_dir.path_join("hud").path_join(HUD_STRIPS[src] + ".png"))
+		img.save_png(pack_dir.path_join("hud").path_join(HUD_STRIPS[file] + ".png"))
 	return ""
 
 
 ## extract_level_previews.py: each level's 256 x 256 preview, drawn as the original's Level Selector does (document 125): the .RFM's 128 x 128 tile bytes, each the 2 x 2 pixel
 ## pattern ART/2X2.RFA holds for that byte (20 x 12 patterns, its own palette). `rfm_files`: every .RFM of WORLDS; written to levels/<NAME>/preview.png when that level exists.
-static func level_previews(art_dir: String, rfm_files: Array[String], pack_dir: String) -> String:
-	var pat := _bmp(art_dir.path_join("2X2.RFA"))
+static func level_previews(src: RFSource, rfm_files: Array[String], pack_dir: String) -> String:
+	var pat := _bmp(src, "ART/2X2.RFA")
 	if pat == null:
 		return "could not read ART/2X2.RFA"
 	pat.convert(Image.FORMAT_RGB8)
 	for f in rfm_files:
-		var data := FileAccess.get_file_as_bytes(f)
+		var data := src.read_file(f)
 		if data.size() < 0x4C:
 			continue
 		var off := data.decode_u32(0x48)
@@ -78,19 +78,19 @@ static func level_previews(art_dir: String, rfm_files: Array[String], pack_dir: 
 
 
 ## extract_win_banners.py: the four victory ribbons, pure black made transparent (a recorded PORT CHOICE there).
-static func win_banners(title_dir: String, pack_dir: String) -> String:
+static func win_banners(src: RFSource, pack_dir: String) -> String:
 	DirAccess.make_dir_recursive_absolute(pack_dir.path_join("hud"))
-	for src in BANNERS:
-		var img := _bmp(title_dir.path_join(src))
+	for file in BANNERS:
+		var img := _bmp(src, "TITLE/" + file)
 		if img == null:
-			return "could not read TITLE/%s" % src
+			return "could not read TITLE/%s" % file
 		img.convert(Image.FORMAT_RGBA8)
 		var px := img.get_data()
 		for i in range(0, px.size(), 4):
 			if px[i] == 0 and px[i + 1] == 0 and px[i + 2] == 0:
 				px[i + 3] = 0
 		img = Image.create_from_data(img.get_width(), img.get_height(), false, Image.FORMAT_RGBA8, px)
-		img.save_png(pack_dir.path_join("hud").path_join(BANNERS[src] + ".png"))
+		img.save_png(pack_dir.path_join("hud").path_join(BANNERS[file] + ".png"))
 	return ""
 
 
@@ -166,13 +166,14 @@ static func _write_audio(pcm: PackedByteArray, rate: int, path: String) -> Strin
 
 ## extract_music.py: SOUND/Score.WAV on the CD, cut into tracks 1..24 by RFIRE.BIN's offset table 0x449470, SOUND/Drums.WAV into tracks 28 and 29,
 ## and the 18 music lines of 0x4463b8.
-static func music(exe: RFExe, iso: RFIso9660, pack_dir: String) -> String:
+static func music(exe: RFExe, cd: RFSource, pack_dir: String) -> String:
+	var at := exe.tables()
 	var table := []
 	for i in 32:
-		table.append(exe.dword(0x449470 + 4 * i))
+		table.append(exe.dword(int(at["music_offsets"]) + 4 * i))
 	var lines := []
 	for i in 18:
-		var b := exe.off(0x4463b8 + i * 0x2c)
+		var b := exe.off(int(at["music_lines"]) + i * 0x2c)
 		var d := exe.data
 		var list_ptr := d.decode_u32(b + 0x10)
 		var flags := d.decode_u32(b + 0x14)
@@ -185,12 +186,12 @@ static func music(exe: RFExe, iso: RFIso9660, pack_dir: String) -> String:
 		lines.append({"id": d[b], "name": exe.cstr(d.decode_u32(b + 4)), "lowest": d.decode_s8(b + 1), "highest": d.decode_s8(b + 2),
 				"enabled_bit0": d[b + 3] & 1, "default_transition": d[b + 9], "transitions": trans, "sting": bool(flags & 2),
 				"flags": flags, "start_track": -d.decode_s32(b + 0x18), "alt_track": -d.decode_s32(b + 0x1c), "end_track": -d.decode_s32(b + 0x20)})
-	var wav := iso.read_file("SCORE.WAV")
+	var wav := cd.read_file("SOUND/SCORE.WAV")
 	if wav.size() < 44 or wav.slice(0, 4).get_string_from_ascii() != "RIFF" or wav.slice(8, 16).get_string_from_ascii() != "WAVEfmt ":
-		return "the CD image has no music file (SOUND/SCORE.WAV)"
-	var drums := iso.read_file("DRUMS.WAV")
+		return "the CD has no music file (SOUND/SCORE.WAV)"
+	var drums := cd.read_file("SOUND/DRUMS.WAV")
 	if drums.size() < 44 or drums.slice(0, 4).get_string_from_ascii() != "RIFF" or drums.slice(8, 16).get_string_from_ascii() != "WAVEfmt ":
-		return "the CD image has no title music file (SOUND/DRUMS.WAV)"
+		return "the CD has no title music file (SOUND/DRUMS.WAV)"
 	var out_dir := pack_dir.path_join("music")
 	DirAccess.make_dir_recursive_absolute(out_dir)
 	var tracks := []
@@ -212,18 +213,19 @@ static func music(exe: RFExe, iso: RFIso9660, pack_dir: String) -> String:
 
 
 ## extract_win_jingles.py: the four victory jingles (TITLE\WIN*.STM on the CD): audio and the raw Cinepak stream.
-static func win_jingles(exe: RFExe, iso: RFIso9660, pack_dir: String) -> String:
+static func win_jingles(exe: RFExe, cd: RFSource, pack_dir: String) -> String:
+	var at := exe.tables()
 	var out_dir := pack_dir.path_join("music")
 	DirAccess.make_dir_recursive_absolute(out_dir)
 	var by_levl := []
 	for i in 10:
-		by_levl.append(exe.dword(0x44e120 + 4 * i))
+		by_levl.append(exe.dword(int(at["jingle_by_level"]) + 4 * i))
 	var tiers := []
 	for t in 4:
-		var src := exe.cstr(exe.dword(0x44e110 + 4 * t))   # e.g. "TITLE\Win1.stm"
-		var stm := iso.read_file(src.get_slice("\\", src.get_slice_count("\\") - 1))
+		var src := exe.cstr(exe.dword(int(at["jingle_files"]) + 4 * t))   # e.g. "TITLE\Win1.stm"
+		var stm := cd.read_file(src)
 		if stm.size() < 0x1000 or stm.slice(12, 16).get_string_from_ascii() != "auds":
-			return "the CD image has no victory jingle %s" % src
+			return "the CD has no victory jingle %s" % src
 		if stm.decode_u16(0x98) != 1 or stm.decode_u16(0x9a) != 2 or stm.decode_u32(0x9c) != 22050 or stm.decode_u16(0xa6) != 16:
 			return "%s is not 22 kHz stereo PCM" % src
 		var total_frames := stm.decode_u32(0x2c)
