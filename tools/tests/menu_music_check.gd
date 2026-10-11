@@ -22,11 +22,11 @@ func _init() -> void:
 	if m != null:
 		_check(m.director.requested == MusicDirector.LINE_DRUMS and m.director.playing == MusicDirector.LINE_DRUMS, "the title screen asks for the Drums line")
 		_check(m._player.playing, "and the player is playing it")
-	flow._show_main_menu()
+	flow.show_screen("main")
 	for i in 5:
 		await process_frame
 	_check(flow._menu_music == m and m.director.playing == MusicDirector.LINE_DRUMS and m._player.playing, "the main menu keeps the same Drums loop going")
-	flow._show_level_select()
+	flow.show_screen("campaign")
 	_check(flow._menu_music == m, "and so does level select")
 	flow._enter_level(flow.pack.list_levels()[0])
 	await process_frame

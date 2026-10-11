@@ -17,17 +17,17 @@ func _run() -> void:
 	await process_frame
 	await process_frame
 	await _shot(out_dir, "1_title")
-	flow._show_main_menu()
+	flow.show_screen("main")
 	await _shot(out_dir, "2_main_menu")
-	flow._show_settings()
+	flow.show_screen("settings")
 	await _shot(out_dir, "3_settings")
-	flow._show_multiplayer()
+	flow.show_screen("multiplayer")
 	await _shot(out_dir, "4_multiplayer")
-	flow._show_level_select()
+	flow.show_screen("campaign")
 	await _shot(out_dir, "5_level_select")
 	flow._play_story("gallery_test_scene", func(): pass)
 	await _shot(out_dir, "6_story_scene")
-	flow._show_mission_failed()
+	flow.show_screen("mission_failed")
 	await _shot(out_dir, "7_mission_failed")
 	flow.start_level("RFMAP001")
 	for i in 30:
