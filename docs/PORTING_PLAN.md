@@ -1264,8 +1264,10 @@ axis, at most `max` a tick, capped by `sqrt(|offset| * brake)`) and height. Unit
   `+0x2d0` when the first two action buttons are pressed together (`0x40bc24`), but only while `DAT_00442afc` is 1. That is the
   "Display FPS" switch of the developers' debug screen (`FUN_004065c0`, opened by `FUN_00406cb0` when the input word holds
   `0x1600000`; the 3DO symbols name `Debug_DisplayFPS` and `displayDebugScreen`). The PC never puts `0x1000000` in the word:
-  no default key, no CONFIG.BIN control and no joystick button sets it, so the retail game never reaches the screen or the toggle.
-  The pack keeps `zoom_height`; nothing reads it.
+  no default key, no CONFIG.BIN control and no joystick button sets it (CONFIG.BIN saves those key slots as 0), so the retail
+  game never reaches the screen or the toggle. The pack keeps `zoom_height`; nothing reads it. The 3DO `debug.c` data
+  (`tools/rf3do_sym.py`) has the same layout and values, so `0x442afc` / `0x442b00` are `Debug_DisplayFPS` / `Debug_FirstFlag`.
+  A port developer overlay modelled on the screen is #110 (optional).
 
 ## 2. Architecture decisions (decide once, up front)
 
