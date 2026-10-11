@@ -7661,9 +7661,10 @@
       "note": "vehicle part variant group (document 46): slot 2 of the group starting at cel 212 [RENAMED 2026-09-24 from vehicle.hovercraft.p212.yellow: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2140": {
-      "category": "effect",
-      "confidence": "visual_group",
-      "id": "effect.static_noise.01"
+      "category": "ui",
+      "confidence": "code_verified",
+      "id": "ui.debug.number_sheet",
+      "note": "the numbers 0-109 on 16 x 8 tiles, eight to a row: the debug screen's frame counter draws tile n for the n frames drawn in the last 60 ticks, capped at 60 (FUN_00406cb0 at 0x406db6, CCB 0x23870 / 68; the 3DO symbols include an fps_CCB; document 132). Was mislabelled effect.static_noise.01"
     },
     "2141": {
       "category": "reserved",

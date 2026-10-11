@@ -1259,7 +1259,13 @@ axis, at most `max` a tick, capped by `sqrt(|offset| * brake)`) and height. Unit
   `TerrainView3D._apply_rig()`; the numbers are each vehicle's `camera` table (`tools/extract_vehicle_types.py` -> `camera_rig`).
   As in the original (#106), the camera runs once per frame with the frame's dt in whole ticks (`0x41d091`, the fraction
   carried; rates and counts times dt), and the view is centred 2 units south of the followed point (`FUN_00416ab0(view, 0, -2, ...)`,
-  `+0x1c8`). Open: the zoom toggle and `DAT_00442afc` (#105, optional).
+  `+0x1c8`).
+- **The zoom toggle (#105, wiki document 132): debug only, not built.** The vehicle tick swaps the rest height with record
+  `+0x2d0` when the first two action buttons are pressed together (`0x40bc24`), but only while `DAT_00442afc` is 1. That is the
+  "Display FPS" switch of the developers' debug screen (`FUN_004065c0`, opened by `FUN_00406cb0` when the input word holds
+  `0x1600000`; the 3DO symbols name `Debug_DisplayFPS` and `displayDebugScreen`). The PC never puts `0x1000000` in the word:
+  no default key, no CONFIG.BIN control and no joystick button sets it, so the retail game never reaches the screen or the toggle.
+  The pack keeps `zoom_height`; nothing reads it.
 
 ## 2. Architecture decisions (decide once, up front)
 

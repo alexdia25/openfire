@@ -97,7 +97,7 @@ def camera_rig(t):
     return {
         "hold_ticks": hold,                        # 0x4452e8: the creation rig (FUN_0040b1c0, piVar2[7]) keeps the swoop target this long
         "rest_height": fixed(t, 0x130),            # state +0x128 (copied from record +0x130): the height when the vehicle sits still
-        "zoom_height": fixed(t, 0x2D0),            # record +0x2d0: what the two-button toggle (0x40bc24) swaps rest_height to; not built
+        "zoom_height": fixed(t, 0x2D0),            # record +0x2d0: what the debug-only two-button toggle (0x40bc24) swaps rest_height to; never reached in the PC game, not built (document 132)
         "drive_height": fixed(t, 0x2CC),           # record +0x2cc: the height at a steady speed of 0.2 a tick or more
         "rest_pitch": fixed(t, 0x2D8),             # record +0x2d8: the pitch when still (32 = 45 degrees)
         "drive_pitch": fixed(t, 0x2D4),            # record +0x2d4: the pitch when driving (50 = 70.3 degrees)

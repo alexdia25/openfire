@@ -623,6 +623,16 @@ AUDIT14 = [(_cel, _BLANK_IDS[_cel], "reserved",
 for _cel, _id, _cat, _note, _conf in AUDIT14:
     put(_cel, _id, _cat, _note, _conf)
 
+# AUDIT15 (2026-10-11, issue #105, document 132): cel 2140 is not noise. The debug screen's frame counter (FUN_00406cb0, shown while
+# "Display FPS" is on) cuts a 16 x 8 tile out of it at ((n & 7) * 16, n & ~7) for the count n; the 128 x 112 cel is the numbers 0-109.
+AUDIT15 = [
+    (2140, "ui.debug.number_sheet", "ui", "the numbers 0-109 on 16 x 8 tiles, eight to a row: the debug screen's frame counter draws tile n "
+     "for the n frames drawn in the last 60 ticks, capped at 60 (FUN_00406cb0 at 0x406db6, CCB 0x23870 / 68; the 3DO symbols include an fps_CCB; document 132). "
+     "Was mislabelled effect.static_noise.01", "code_verified"),
+]
+for _cel, _id, _cat, _note, _conf in AUDIT15:
+    put(_cel, _id, _cat, _note, _conf)
+
 
 def main():
     with open(REGISTRY_JSON) as f:
