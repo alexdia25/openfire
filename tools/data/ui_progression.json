@@ -1,0 +1,106 @@
+{
+ "_source": "The original's progression (wiki document 128, issue #92, build issue #103): the Level Selector's nine 'Level n' radios are the maps' difficulty; Level 1 is open at first run, Level n+1 opens when every map of Level n is done (one player) or any one (two players: the 'Tournament' mode), and a map counts as done when won or when started 20 times (the start counter reaches 0x13 + 1, FUN_00424f60 / FUN_00426a10). A level not open yet is listed but cannot be picked (FUN_00427b40 disables its radio). A lost game does not count here, although the original's code counted it (user decision, 2026-10-11). The engine's Progression reads this.",
+ "locked": "show",
+ "started_counts": 20,
+ "groups": {
+  "L1": {
+   "difficulty": 1
+  },
+  "L2": {
+   "difficulty": 2
+  },
+  "L3": {
+   "difficulty": 3
+  },
+  "L4": {
+   "difficulty": 4
+  },
+  "L5": {
+   "difficulty": 5
+  },
+  "L6": {
+   "difficulty": 6
+  },
+  "L7": {
+   "difficulty": 7
+  },
+  "L8": {
+   "difficulty": 8
+  },
+  "L9": {
+   "difficulty": 9
+  }
+ },
+ "unlock": {
+  "L2": {
+   "requires": "L1",
+   "need": "all"
+  },
+  "L3": {
+   "requires": "L2",
+   "need": "all"
+  },
+  "L4": {
+   "requires": "L3",
+   "need": "all"
+  },
+  "L5": {
+   "requires": "L4",
+   "need": "all"
+  },
+  "L6": {
+   "requires": "L5",
+   "need": "all"
+  },
+  "L7": {
+   "requires": "L6",
+   "need": "all"
+  },
+  "L8": {
+   "requires": "L7",
+   "need": "all"
+  },
+  "L9": {
+   "requires": "L8",
+   "need": "all"
+  }
+ },
+ "modes": {
+  "2": {
+   "unlock": {
+    "L2": {
+     "requires": "L1",
+     "need": "any"
+    },
+    "L3": {
+     "requires": "L2",
+     "need": "any"
+    },
+    "L4": {
+     "requires": "L3",
+     "need": "any"
+    },
+    "L5": {
+     "requires": "L4",
+     "need": "any"
+    },
+    "L6": {
+     "requires": "L5",
+     "need": "any"
+    },
+    "L7": {
+     "requires": "L6",
+     "need": "any"
+    },
+    "L8": {
+     "requires": "L7",
+     "need": "any"
+    },
+    "L9": {
+     "requires": "L8",
+     "need": "any"
+    }
+   }
+  }
+ }
+}

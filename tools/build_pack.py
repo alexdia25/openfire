@@ -850,6 +850,17 @@ def main():
             json.dump(skin, f, indent=1, sort_keys=True)
             f.write("\n")
 
+    # Which levels unlock when (issue #103, document 128)
+    prog_path = os.path.join(ROOT, "tools", "data", "ui_progression.json")
+    if os.path.exists(prog_path):
+        with open(prog_path) as f:
+            prog = json.load(f)
+        prog.pop("_source", None)
+        os.makedirs(os.path.join(args.out_dir, "ui"), exist_ok=True)
+        with open(os.path.join(args.out_dir, "ui", "progression.json"), "w") as f:
+            json.dump(prog, f, indent=1, sort_keys=True)
+            f.write("\n")
+
     # The capture flag (document 65): sprite ids per wave frame (13 tan, then 13 green)
     if os.path.exists(FLAG_JSON):
         with open(FLAG_JSON) as f:

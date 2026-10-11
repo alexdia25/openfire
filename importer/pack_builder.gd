@@ -536,6 +536,11 @@ func small_tables() -> void:
 		var sk: Dictionary = skin.duplicate(true)
 		sk.erase("_source")
 		_write("ui/skin.json", sk)
+	var prog: Variant = data("ui_progression.json")   # which levels unlock when (wiki document 128, issue #103)
+	if prog is Dictionary:
+		var pg: Dictionary = prog.duplicate(true)
+		pg.erase("_source")
+		_write("ui/progression.json", pg)
 	var fl: Variant = data("flag.json")
 	if fl is Dictionary:
 		for group in ["ground", "carried"]:
