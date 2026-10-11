@@ -271,12 +271,12 @@ in this document that predates it.
 offset 0x00        "WRL\0"     4-byte magic (verified: RFIRE.BIN compares the first 4
                                 bytes against this exact constant via lstrcmpiA)
 offset 0x04..0x3F  ...         header fields -- MOSTLY DECODED as of 2026-09-06, see below.
-    0x04  4 bytes  constant `54 4D 00 05` ("TM\0\x05") in all 204 real files -- likely a
-                    secondary format/version tag; exact meaning unconfirmed, but its
-                    constancy is itself confirmed, not assumed.
+    0x04  4 bytes  constant `54 4D 00 05` ("TM\0\x05") in all 204 real files -- NEVER READ by
+                    RFIRE.BIN (2026-10-11, issue #48, wiki document 131: all seven readers of the
+                    "WRL" magic checked); the map authoring tool's field, meaning a guess.
     0x08  u16 LE   width          (128 in every file seen so far)
     0x0A  u16 LE   height         (128 in every file seen so far)
-    0x0C  2 bytes  constant `01 01` in all 204 real files -- meaning unconfirmed.
+    0x0C  2 bytes  constant `01 01` in all 204 real files -- NEVER READ by RFIRE.BIN (issue #48).
     0x0E  u16 LE   MS-DOS packed date -- **file CREATED date**, part of a timestamp pair
                     (see below).
     0x10  u16 LE   MS-DOS packed time -- file CREATED time.
@@ -332,9 +332,9 @@ fields fell out:
   level's title shown in-game; this one is who built it, never shown to the player as far as
   this investigation found).
 
-Still not decoded: `0x04`-`0x07` (constant `54 4D 00 05` = `"TM\0\x05"` in every real file —
-a probable secondary format/version tag, exact meaning unconfirmed) and `0x0C`-`0x0D`
-(constant `01 01`, meaning unconfirmed); `0x26`-`0x3F` is confirmed plain zero padding.
+Never read by the game (2026-10-11, issue #48, wiki document 131): `0x04`-`0x07` (constant
+`54 4D 00 05` = `"TM\0\x05"` in every real file) and `0x0C`-`0x0D` (constant `01 01`); no reader of
+the "WRL" magic touches them. `0x26`-`0x3F` is confirmed plain zero padding.
 
 The previously-recorded 372/388-byte "header length" (`filesize - 16384`) is exactly the
 value at offset 0x48 for a 128x128 level: it is chunk-table-end, not a fixed struct size.
@@ -484,10 +484,8 @@ open rather than chased further without a better lead — see section 4.
    value's elevation-ish bits 25-27 (set by `FUN_0042e4f0`) are dumped but not chased --
    likely affect physics/movement, not rendering, so lower priority than art. (Bits 14-15
    are no longer mysterious -- see above: pool membership, not orientation.)
-2. The exact meaning of the two small constant header fields `0x04`-`0x07` (`"TM\0\x05"`)
-   and `0x0C`-`0x0D` (`01 01`) -- confirmed constant across all 204 real files, but *why*
-   is still a guess (a secondary format/version tag, most likely). Very low priority: a
-   constant the converter can round-trip without understanding, same as `EDTN`.
+2. **RESOLVED (2026-10-11, issue #48):** the two constant header fields `0x04`-`0x07`
+   (`"TM\0\x05"`) and `0x0C`-`0x0D` (`01 01`) are never read by RFIRE.BIN (wiki document 131).
 
 **DONE (2026-09-06):** Mapped the previously-undecoded header body -- see above (`0x0E`-`0x25`
 now fully decoded: a DOS-format created/modified timestamp pair and a 15-byte author/designer
@@ -519,8 +517,11 @@ offset 0x000004   u32      1926415     == exact file size (verified)
 offset 0x000008   u32      2165        == cel count
 offset 0x00000C   u32      0x23F24     == end of CCB array (== 16 + count*68, verified)
 offset 0x000010   CCB[2165], 68 bytes each  (17 x u32 LE)
-offset 0x023F24   u32[2165][2]  17,320 bytes == count*8 exactly. PURPOSE UNKNOWN.
-                                Observed values mostly 5.
+offset 0x023F24   u32[2165][2]  17,320 bytes == count*8 exactly. SOLVED (2026-10-11, issue #48,
+                                wiki document 131): per cel {log2(Width), log2(Height)}, 0 where a
+                                side is not a power of two (all 2165 checked) -- shift counts that
+                                FUN_0041d4a0 uses instead of dividing by the size when it scales a cel
+                                (HDX / VDY). The game uses only entry 2141. Not needed by the port.
 offset 0x0282CC   PLUT palettes
 offset ...        cel pixel data, addressed by each CCB's SourcePtr
 ```
@@ -2709,10 +2710,10 @@ code beside port code) before the next step builds on it.
    elevation-ish bits 25-27, set by `FUN_0042e4f0` — dumped but not chased; likely
    physics/movement, not rendering (section 1.5). (Bits 14-15 are no longer part of this
    question — see RESOLVED below.)
-3. The two small constant `.RFM` header fields `0x04`-`0x07` (`"TM\0\x05"`) and `0x0C`-`0x0D`
-   (`01 01`) — confirmed constant across all 204 real files, exact meaning still a guess
-   (section 1.5). Very low priority.
-4. Purpose of the `count * 8` byte table at `ART.CAR` offset `0x23F24`.
+3. **RESOLVED (2026-10-11, issue #48, wiki document 131):** the constant `.RFM` header fields
+   `0x04`-`0x07` (`"TM\0\x05"`) and `0x0C`-`0x0D` (`01 01`) are never read by RFIRE.BIN (section 1.5).
+4. **RESOLVED (2026-10-11, issue #48, wiki document 131):** the `count * 8` table at `ART.CAR`
+   `0x23F24` is per-cel {log2(Width), log2(Height)} shift counts for `FUN_0041d4a0` (section 1.6).
 5. **How is team colouring done?** Palette ranges or separate cels? Still open at the
    mechanism level, but **the two team colours themselves are now settled: tan and green**
    (confirmed by the user, who owns and has played the original, 2026-09-06 — not something

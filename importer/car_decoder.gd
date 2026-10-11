@@ -5,6 +5,8 @@ extends RefCounted
 ##
 ##   0x00  "CCBA", u32 file size, u32 cel count, u32 end of the CCB array (16 + count * 68)
 ##   0x10  count CCBs of 17 u32: Flags NextPtr SourcePtr PLUTPtr XPos YPos HDX HDY VDX VDY HDDX HDDY PIXC PRE0 PRE1 Width Height
+##   then  count pairs of u32: {log2(Width), log2(Height)} (0 if not a power of two), the shift counts FUN_0041d4a0 scales a cel with
+##         (issue #48, document 131); not needed here
 ##
 ## PRE0 0 and 17 are ordinary 8bpp sprites (Width*Height bytes at SourcePtr, index 0 transparent). The shared PLUT --
 ## the one most cels use -- needs the runtime shift (document 20: shown colour = shared_plut[k - 10], black below 10);

@@ -611,6 +611,18 @@ for _cel, _id, _cat, _note, _conf in AUDIT13:
         continue   # cels the registry already marks as blank stay as they are
     put(_cel, _id, _cat, _note, _conf)
 
+# AUDIT14 (2026-10-11, issue #47): the blank cels inside the sinking blocks are not unused. FUN_00402b80 selects them like the others
+# (cel + depth + team x the depth limit) for the depths past the last picture, so a vehicle that deep draws nothing. They keep their
+# reserved.blank ids (they hold no art), with a note saying which slot they are.
+with open(REGISTRY_JSON) as _f:
+    _BLANK_IDS = {int(k): v["id"] for k, v in json.load(_f)["cels"].items() if v["id"].startswith("reserved.blank")}
+AUDIT14 = [(_cel, _BLANK_IDS[_cel], "reserved",
+            "100% transparent, but drawn: " + _note.split(": cel ")[0].replace("picture", "slot") + " -- an empty picture, so the vehicle "
+            "is not drawn at that depth (FUN_00402b80; document 123)", "code_verified")
+           for _cel, _id, _cat, _note, _conf in AUDIT13 if _cel in _BLANK_IDS]
+for _cel, _id, _cat, _note, _conf in AUDIT14:
+    put(_cel, _id, _cat, _note, _conf)
+
 
 def main():
     with open(REGISTRY_JSON) as f:

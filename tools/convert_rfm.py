@@ -8,10 +8,11 @@ Container layout:
     0x00        "WRL\0"     4-byte magic
     0x04-0x3F   ...         header fields (see docs/PORTING_PLAN.md section 1.5 for how
                              each was found and verified against all 204 real files):
-        0x04  4 bytes  constant "TM\0\x05" -- probable format/version tag, unconfirmed
+        0x04  4 bytes  constant "TM\0\x05" -- never read by RFIRE.BIN (issue #48, document 131): the
+                       map authoring tool's own tag; the game's readers stop at "WRL\0"
         0x08  u16 LE  width
         0x0A  u16 LE  height
-        0x0C  2 bytes  constant 01 01 -- meaning unconfirmed
+        0x0C  2 bytes  constant 01 01 -- never read by RFIRE.BIN (issue #48, document 131)
         0x0E  u16 LE  MS-DOS packed date -- file created
         0x10  u16 LE  MS-DOS packed time -- file created
         0x12  u16 LE  MS-DOS packed date -- file last modified

@@ -7879,21 +7879,21 @@
     },
     "227": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0013",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the tank sinking slot (top view), tan player, depth 9 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "228": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0014",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the tank sinking slot (top view), tan player, depth 10 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "229": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0015",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the tank sinking slot (top view), tan player, depth 11 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "23": {
       "category": "terrain",
@@ -7902,15 +7902,15 @@
     },
     "230": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0016",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the tank sinking slot (top view), tan player, depth 12 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "231": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0017",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the tank sinking slot (top view), tan player, depth 13 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "232": {
       "category": "vehicle",
@@ -7974,33 +7974,33 @@
     },
     "241": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0018",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the tank sinking slot (top view), green player, depth 9 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "242": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0019",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the tank sinking slot (top view), green player, depth 10 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "243": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0020",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the tank sinking slot (top view), green player, depth 11 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "244": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0021",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the tank sinking slot (top view), green player, depth 12 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "245": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0022",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the tank sinking slot (top view), green player, depth 13 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "246": {
       "category": "vehicle",
@@ -8184,9 +8184,9 @@
     },
     "273": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0024",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the tank sinking slot (side view), green player, depth 13 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "274": {
       "category": "effect",
@@ -8598,33 +8598,33 @@
     },
     "335": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0031",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the msv sinking slot (top view), tan player, depth 7 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "336": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0032",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the msv sinking slot (top view), tan player, depth 8 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "337": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0033",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the msv sinking slot (top view), tan player, depth 9 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "338": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0034",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the msv sinking slot (top view), tan player, depth 10 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "339": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0035",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the msv sinking slot (top view), tan player, depth 11 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "34": {
       "category": "terrain",
@@ -8634,15 +8634,15 @@
     },
     "340": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0036",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the msv sinking slot (top view), tan player, depth 12 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "341": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0037",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the msv sinking slot (top view), tan player, depth 13 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "342": {
       "category": "vehicle",
@@ -8688,9 +8688,9 @@
     },
     "349": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0038",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the msv sinking slot (top view), green player, depth 7 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "35": {
       "category": "terrain",
@@ -8700,39 +8700,39 @@
     },
     "350": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0039",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the msv sinking slot (top view), green player, depth 8 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "351": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0040",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the msv sinking slot (top view), green player, depth 9 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "352": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0041",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the msv sinking slot (top view), green player, depth 10 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "353": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0042",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the msv sinking slot (top view), green player, depth 11 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "354": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0043",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the msv sinking slot (top view), green player, depth 12 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "355": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0044",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the msv sinking slot (top view), green player, depth 13 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "356": {
       "category": "vehicle",
@@ -9490,39 +9490,39 @@
     },
     "471": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0066",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the jeep sinking slot (top view), tan player, depth 8 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "472": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0067",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the jeep sinking slot (top view), tan player, depth 9 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "473": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0068",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the jeep sinking slot (top view), tan player, depth 10 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "474": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0069",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the jeep sinking slot (top view), tan player, depth 11 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "475": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0070",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the jeep sinking slot (top view), tan player, depth 12 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "476": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0071",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the jeep sinking slot (top view), green player, depth 0 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "477": {
       "category": "vehicle",
@@ -9580,27 +9580,27 @@
     },
     "485": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0072",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the jeep sinking slot (top view), green player, depth 9 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "486": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0073",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the jeep sinking slot (top view), green player, depth 10 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "487": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0074",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the jeep sinking slot (top view), green player, depth 11 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "488": {
       "category": "reserved",
-      "confidence": "confirmed",
+      "confidence": "code_verified",
       "id": "reserved.blank.0075",
-      "note": "cel is 100% transparent (alpha all-zero) -- no art here, verified programmatically against art_atlas.png, not a guess"
+      "note": "100% transparent, but drawn: the jeep sinking slot (top view), green player, depth 12 -- an empty picture, so the vehicle is not drawn at that depth (FUN_00402b80; document 123)"
     },
     "489": {
       "category": "reserved",

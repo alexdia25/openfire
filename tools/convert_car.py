@@ -7,7 +7,9 @@ ART.CAR is a 3DO Cel Control Block array, flattened for the PC port:
     0x000008  u32      cel count
     0x00000C  u32      end of CCB array (== 16 + count*68)
     0x000010  CCB[count], 68 bytes each (17 x u32 LE)
-    <dataoff> u32[count][2]  purpose unknown, values mostly 5
+    <dataoff> u32[count][2]  per cel {log2(Width), log2(Height)}, 0 where a side is not a power of two: shift
+                             counts FUN_0041d4a0 uses to divide by the size when it scales a cel (issue #48,
+                             document 131; all 2165 entries checked). Not needed to convert the art.
     ...       PLUT palettes, then cel pixel data addressed by SourcePtr
 
 Most cels (2076 of 2165: the 2072 with PRE0 == 0, plus 4 with PRE0 == 17) are
