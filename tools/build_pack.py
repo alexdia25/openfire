@@ -423,6 +423,12 @@ def water_overlay_parts(index, render, parts, registry):
     render["ripple"] = {"frames": r["frames"], "clock_mask": r["clock_mask"]}
 
 
+def camera_def(t):
+    """A vehicle type's `camera` table: the swoop's target height (table 0x4452c0, document 90) and the normal-play rig's numbers
+    (FUN_00416420; issue #91, document 129), all in the original's units (heights in world units, pitch in 1/256 turns)."""
+    return {"swoop_height": t.get("camera_swoop_height"), **t.get("camera_rig", {})}
+
+
 def wreck_table(index):
     """A vehicle type's `wreck` table: the decal quads above plus the Destroyed Vehicle object's numbers (tools/data/wreck.json; issue #29)."""
     with open(WRECK_JSON) as f:
@@ -496,7 +502,7 @@ def emit_vehicle_definitions(out_dir, vt, sound_dir, registry, team_pairs):
             "shape": t["shape"],
             "events": {"on_create": on_create},
             "sounds": sounds,
-            "camera": {"swoop_height": t.get("camera_swoop_height")},
+            "camera": camera_def(t),
             # the music director (document 98): the theme a new vehicle asks for (record +0x2bc, priority +0x2bd), the line its
             # death plays (table 0x4466e4), and which of FUN_0040f2f0's three rules picks its theme when it is (re)created
             "music": {"theme_line": t.get("music_theme_line"), "priority": t.get("music_priority"),
@@ -508,7 +514,7 @@ def emit_vehicle_definitions(out_dir, vt, sound_dir, registry, team_pairs):
             "_record": {"stats.hit_points": "+0x28", "stats.armor": "+0x24", "stats.fuel": "+0x210",
                         "stats.sink_depth": "+0x158", "stats.dock_tolerance": "+0x254", "stats.death_wait_ticks": "+0x260",
                         "drive": "+0x168..+0x178", "weapons.ammo": "+0x1a8 / +0x1dc", "weapons.cooldown_ticks": "+0x1a4 / +0x1d8",
-                        "events.on_create": "+0x240", "camera.swoop_height": "table 0x4452c0", "render": "+0x148 (draw descriptor)"},
+                        "events.on_create": "+0x240", "camera.swoop_height": "table 0x4452c0", "camera": "+0xbc (rig), +0x130, +0x2c0..+0x2d8, table 0x4452e8", "render": "+0x148 (draw descriptor)"},
         }
         definitions.append((vid, d))
         roster.append({"id": vid, "stock_key": stock_key, "default_stock": default_stock})

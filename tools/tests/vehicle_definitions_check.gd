@@ -31,6 +31,14 @@ func _init() -> void:
 	_check(col.call("stats.dock_tolerance") == [4.0, 9.0, 4.0, 32.0], "dock tolerance, record +0x254")
 	_check(col.call("stats.death_wait_ticks") == [120.0, 120.0, 120.0, 200.0], "death wait, record +0x260")   # JSON numbers load as floats
 	_check(col.call("camera.swoop_height") == [-170.0, -170.0, -170.0, -100.0], "camera swoop height, table 0x4452c0")
+	# the normal-play camera (FUN_00416420, issue #91): record +0x130 / +0x2cc / +0x2d8 / +0x2d4, the byte table 0x4452e8, record +0
+	_check(col.call("camera.hold_ticks") == [60.0, 90.0, 60.0, 180.0], "creation rig hold, table 0x4452e8")
+	_check(col.call("camera.rest_height") == [0.0, 0.0, 0.0, 60.0], "rest height, record +0x130")
+	_check(col.call("camera.drive_height") == [100.0, 250.0, 100.0, 200.0], "drive height, record +0x2cc")
+	_check(col.call("camera.rest_pitch") == [32.0, 32.0, 32.0, 32.0] and col.call("camera.drive_pitch") == [50.0, 50.0, 50.0, 50.0],
+			"pitches 32 still / 50 driving, record +0x2d8 / +0x2d4")
+	_check(col.call("camera.air_threat") == [false, false, false, true], "only the Heli is an air threat")
+	_check(col.call("camera.follow_ease").map(func(e): return e[2]) == [4.0, 4.0, 4.0, 4.0], "follow at most 4 units a tick, rig +0x3c")
 	_check(col.call("events.on_create.sound") == [null, "JeepStart", null, "Servo"], "created sound, record +0x240")
 	_check(p.vehicle_value(0, "events.on_create.descriptor") == "0x44b520" and p.vehicle_value(0, "events.on_create.loop") == "tread"
 			and p.vehicle_value(0, "sounds.engine_loop.descriptor") == "0x44b520",

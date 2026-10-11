@@ -27,6 +27,35 @@
     "cue": null
    },
    "camera_swoop_height": -170.0,
+   "camera_rig": {
+    "hold_ticks": 60,
+    "rest_height": 0.0,
+    "zoom_height": -200.0,
+    "drive_height": 100.0,
+    "rest_pitch": 32.0,
+    "drive_pitch": 50.0,
+    "follow_ease": [
+     0.0999908447265625,
+     0.04998779296875,
+     4.0
+    ],
+    "height_ease": [
+     0.079986572265625,
+     0.04998779296875,
+     2.5
+    ],
+    "pitch_ease": [
+     0.029998779296875,
+     0.0099945068359375,
+     0.79998779296875
+    ],
+    "rise_ease": [
+     0.079986572265625,
+     0.0399932861328125,
+     1.0
+    ],
+    "air_threat": false
+   },
    "music_theme_line": 0,
    "music_priority": 128,
    "music_death_line": 3,
@@ -593,6 +622,35 @@
     "cue": "JeepStart"
    },
    "camera_swoop_height": -170.0,
+   "camera_rig": {
+    "hold_ticks": 90,
+    "rest_height": 0.0,
+    "zoom_height": -200.0,
+    "drive_height": 250.0,
+    "rest_pitch": 32.0,
+    "drive_pitch": 50.0,
+    "follow_ease": [
+     0.0999908447265625,
+     0.04998779296875,
+     4.0
+    ],
+    "height_ease": [
+     0.0999908447265625,
+     0.04998779296875,
+     3.0
+    ],
+    "pitch_ease": [
+     0.0399932861328125,
+     0.0099945068359375,
+     1.0
+    ],
+    "rise_ease": [
+     0.079986572265625,
+     0.0399932861328125,
+     1.0
+    ],
+    "air_threat": false
+   },
    "music_theme_line": 4,
    "music_priority": 128,
    "music_death_line": 5,
@@ -1069,6 +1127,35 @@
     "cue": null
    },
    "camera_swoop_height": -170.0,
+   "camera_rig": {
+    "hold_ticks": 60,
+    "rest_height": 0.0,
+    "zoom_height": -200.0,
+    "drive_height": 100.0,
+    "rest_pitch": 32.0,
+    "drive_pitch": 50.0,
+    "follow_ease": [
+     0.0999908447265625,
+     0.079986572265625,
+     4.0
+    ],
+    "height_ease": [
+     0.079986572265625,
+     0.04998779296875,
+     2.5
+    ],
+    "pitch_ease": [
+     0.029998779296875,
+     0.0099945068359375,
+     0.79998779296875
+    ],
+    "rise_ease": [
+     0.079986572265625,
+     0.0399932861328125,
+     1.0
+    ],
+    "air_threat": false
+   },
    "music_theme_line": 6,
    "music_priority": 128,
    "music_death_line": 7,
@@ -1575,6 +1662,35 @@
     "cue": "Servo"
    },
    "camera_swoop_height": -100.0,
+   "camera_rig": {
+    "hold_ticks": 180,
+    "rest_height": 60.0,
+    "zoom_height": -150.0,
+    "drive_height": 200.0,
+    "rest_pitch": 32.0,
+    "drive_pitch": 50.0,
+    "follow_ease": [
+     0.149993896484375,
+     0.079986572265625,
+     4.0
+    ],
+    "height_ease": [
+     0.0999908447265625,
+     0.04998779296875,
+     3.0
+    ],
+    "pitch_ease": [
+     0.0399932861328125,
+     0.0099945068359375,
+     1.0
+    ],
+    "rise_ease": [
+     0.079986572265625,
+     0.0399932861328125,
+     1.0
+    ],
+    "air_threat": true
+   },
    "music_theme_line": 8,
    "music_priority": 128,
    "music_death_line": 10,

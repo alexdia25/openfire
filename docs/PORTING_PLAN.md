@@ -43,7 +43,8 @@ real Godot 3D scene** (section 2.2, section 4 item 13), prompted by the user poi
 footage shows a tilted, moving camera, not a flat top-down map. Phase 0 of that migration
 (closing the remaining RE unknowns) is DONE as of 2026-09-06 (section 1.10 point 6): the
 camera's tilt is a fixed, algebraically-exact 45°, hardcoded once at construction and never
-rewritten anywhere in the binary; the terrain blitter has no rotation/yaw term at all. Phase 1
+rewritten anywhere in the binary [CORRECTED 2026-10-11: 45° is only the resting pitch; the camera
+rigs change it every frame, section 1.14]; the terrain blitter has no rotation/yaw term at all. Phase 1
 (3D scaffolding, `game/terrain_view_3d.gd`) is also DONE as of 2026-09-06: a real `Camera3D`
 at that fixed tilt, translating in X/Z to follow a placeholder object, smoothed and
 edge-clamped the same way the existing flat scene's `Camera2D` is, verified with real position
@@ -1052,6 +1053,10 @@ through (`FUN_00416cb0`) closes point 5's open question:
   number better pinned by the plan's own stated fallback: matching a real windowed screenshot
   against the user's reference footage once Phase 2 has something to screenshot. A deliberate
   scoping choice, not a gap that blocks starting Phase 1.
+- **Correction (2026-10-11, issue #91, section 1.14):** the tilt is 45 degrees only at rest. The constructor's `0x200000` is just the
+  starting pitch: each view's draw, the terrain blitter `FUN_00408d60`, begins with `CALL FUN_00416fa0` (`0x408d83`), the camera update,
+  which re-eases the pitch (`+0x24`) and rewrites `+0x28` every frame. The eye-distance question above is answered there too: the point
+  at the centre of the view is 300 + height units from the eye.
 
 ### 1.11 Reference material obtained: retail PC ISO catalogued; 3DO expansion identified — 2026-09-05
 
@@ -1223,6 +1228,28 @@ The original's opponents are objects, found by listing every class table (`pytho
 **Level data:** the Drone budget (`unk4`, 157 of 204 levels have Drones), the turret tiles (200 of 204 levels, median 158 in a one-player level) and the soldier buildings (189 of 204) all come from data the converter already reads. **RFMAP001 has no turrets and no Drones but five soldier buildings** (ids 24 x2, 34 x2, 35: 15-25 enemy soldiers); RFMAP002 has 60 turret tiles.
 
 **In the port:** only the submarine exists (`game/edge_guard.gd`). Respawn and the loss sequence are traced and built (documents 73, 87, 88, 95). `game/enemy_vehicle.gd` imitates nothing in the original; it is a stand-in for the second player of the two-player levels. Open: turrets, Drones, infantry (the first is a vertical-slice item because of level 1's five soldier buildings), the sprites of all three, `DAT_0048c310` (read, never written), the turret's initial facing (a 4-byte per-tile block at `0x45aa20`), the crewman's trigger, a grenade's damage — see the issues linked from #33.
+
+### 1.14 The camera in normal play — TRACED and BUILT (2026-10-11; wiki document 129, issue #91)
+
+Each view (`0x48b4c0 + player * 0x24c`) keeps a priority-sorted list of camera rigs. `FUN_00416fa0` (called by the view's draw,
+`FUN_00408d60`) clears the claimed pointers (`+0x14c` x/y, `+0x150` height, `+0x154` pitch), runs the rigs from the highest priority
+until one returns nonzero (each fills what is unclaimed: a target plus an {accel, brake, max} triple), then eases pitch, x/y (per
+axis, at most `max` a tick, capped by `sqrt(|offset| * brake)`) and height. Units: heights in world units, pitch in 1/256 turns
+(32 = 45 degrees, 50 = 70.3, 64 = straight down); the ground point at the centre of the view is `300 + height` from the eye
+(`FUN_0041afb0` subtracts the height from the depth; table `F / (300 - i)`, `FUN_0041ae50`).
+
+- **Creation rig** (priority 0x80, `FUN_00416300`): the undock object's, then the new vehicle's (`FUN_0040b1c0`) with a hold of
+  60 / 90 / 60 / 180 ticks (byte table `0x4452e8`): height `swoop_height` (-170 / -100), pitch 24. The swoop (document 90) starts
+  from 250 / 64.
+- **Vehicle rig** (priority 0x40, `FUN_00416420`, a rig embedded in each type record at `+0xbc`, inserted at `0x40b873`): follows
+  the vehicle; after its speed has stayed the same for 30 ticks, height and pitch targets become rest (`+0x130` -> state `+0x128`:
+  0, Heli 60; pitch `+0x2d8` = 32) below a speed of `0x3334`, else drive (`+0x2cc`: 100 / 250 / 100 / 200; pitch `+0x2d4` = 50);
+  below the rest height it rises to it with the `+0x2c0` triple; a Drone or another player's Heli within 512 units makes the pitch
+  target 50. Its point-of-interest lead (the flag, the submarine, the other player, a Drone, a turret) is multiplied by a fraction
+  that is 0 in all four records and never written, so the camera never leaves the vehicle (not modelled).
+- **Port:** `CameraRig` (engine `game/camera_rig.gd`; `CameraEase.ease_step` = `FUN_00417420`), driven and placed by
+  `TerrainView3D._apply_rig()`; the numbers are each vehicle's `camera` table (`tools/extract_vehicle_types.py` -> `camera_rig`).
+  Open: the death and other rigs (#104), the zoom toggle and `DAT_00442afc` (#105), whole ticks and the 2-unit centre offset (#106).
 
 ## 2. Architecture decisions (decide once, up front)
 

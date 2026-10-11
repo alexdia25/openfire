@@ -11,6 +11,9 @@ tools/data/sound_cues.json where the descriptor is one of the traced cues) and, 
 swoop's start height by type (the table at 0x4452c0, DumpDwords.java 0x4452c0 4; document 90); and for the music director
 (document 98) the record's theme line and priority (bytes +0x2bc / +0x2bd) and, from a third optional dump, the death
 line by type (the byte table at 0x4466e4, DumpDwords.java 0x4466e4 1).
+The normal-play camera (issue #91): the record's own camera rig (a 0x60-byte rig at +0xbc whose callback +0xc8 is FUN_00416420; the vehicle
+state is a copy of the record from +8, so the rig sits at state +0xb4) and the camera fields near the record's end (+0x2c0..+0x2dc), plus
+how long the creation rig holds the swoop target (the byte table at 0x4452e8, DumpDwords.java 0x4452e8 1, in the camera table dump).
 Usage: python extract_vehicle_types.py <records_dump.txt> [camera_table_dump.txt] [death_line_dump.txt]
 Dumps are "address value" lines (hex); DumpDwords.java's own log lines are accepted too.
 """
@@ -29,6 +32,7 @@ for path in sys.argv[1:]:
                 pass
 CAMERA_TABLE = 0x4452C0
 DEATH_LINE_TABLE = 0x4466E4
+CAMERA_HOLD_TABLE = 0x4452E8
 
 
 def byte_at(addr):
@@ -79,6 +83,32 @@ def created_sound(t):
     return {"descriptor": hex(addr), "cue": cue_by_addr.get(hex(addr))}
 
 
+def fixed(t, off):
+    return field(t, off) / 65536
+
+
+def ease(t, off):
+    return [fixed(t, off), fixed(t, off + 4), fixed(t, off + 8)]   # {accel, brake, max rate} per tick (FUN_00417420)
+
+
+def camera_rig(t):
+    """FUN_00416420, the rig every vehicle registers at its init (0x40b873): the per-type numbers it reads (document 129)."""
+    hold = byte_at(CAMERA_HOLD_TABLE + min(t, 3))
+    return {
+        "hold_ticks": hold,                        # 0x4452e8: the creation rig (FUN_0040b1c0, piVar2[7]) keeps the swoop target this long
+        "rest_height": fixed(t, 0x130),            # state +0x128 (copied from record +0x130): the height when the vehicle sits still
+        "zoom_height": fixed(t, 0x2D0),            # record +0x2d0: what the two-button toggle (0x40bc24) swaps rest_height to; not built
+        "drive_height": fixed(t, 0x2CC),           # record +0x2cc: the height at a steady speed of 0.2 a tick or more
+        "rest_pitch": fixed(t, 0x2D8),             # record +0x2d8: the pitch when still (32 = 45 degrees)
+        "drive_pitch": fixed(t, 0x2D4),            # record +0x2d4: the pitch when driving (50 = 70.3 degrees)
+        "follow_ease": ease(t, 0xBC + 0x3C),       # rig +0x3c: the x/y follow (FUN_00416fa0)
+        "height_ease": ease(t, 0xBC + 0x48),       # rig +0x48: the height
+        "pitch_ease": ease(t, 0xBC + 0x54),        # rig +0x54: the pitch
+        "rise_ease": ease(t, 0x2C0),               # record +0x2c0: the height while it is below rest_height
+        "air_threat": field(t, 0) == 3,            # FUN_00416420 tilts another player's camera when this type (record +0 == 3) is near
+    }
+
+
 def camera_height(t):
     v = mem.get(CAMERA_TABLE + min(t, 3) * 4)
     return None if v is None else (v - 2 ** 32 if v >= 2 ** 31 else v) / 65536
@@ -104,6 +134,7 @@ for t in range(4):
         "death_wait_ticks": field(t, 0x260),       # ticks from death to the next vehicle / the loss sequence (document 87)
         "created_sound": created_sound(t),         # played when the vehicle object is created (document 82)
         **({"camera_swoop_height": camera_height(t)} if camera_height(t) is not None else {}),   # document 90
+        **({"camera_rig": camera_rig(t)} if byte_at(CAMERA_HOLD_TABLE) is not None else {}),   # issue #91
         "music_theme_line": byte_at(BASE + t * STRIDE + 0x2BC),   # FUN_0040b980's music request for a new vehicle (document 98)
         "music_priority": byte_at(BASE + t * STRIDE + 0x2BD),
         **({"music_death_line": byte_at(DEATH_LINE_TABLE + t)} if byte_at(DEATH_LINE_TABLE + t) is not None else {}),

@@ -359,6 +359,14 @@ func _shadow_entry(d: Dictionary, index: int) -> Dictionary:
 
 
 ## A vehicle type's `wreck` table: the decal quads below plus the Destroyed Vehicle object's numbers (tools/data/wreck.json; issue #29).
+## A vehicle type's `camera` table: the swoop's target height (table 0x4452c0, document 90) and the normal-play rig's numbers
+## (FUN_00416420; issue #91, document 129), all in the original's units (heights in world units, pitch in 1/256 turns).
+static func _camera_def(t: Dictionary) -> Dictionary:
+	var c := {"swoop_height": t.get("camera_swoop_height")}
+	c.merge(t.get("camera_rig", {}))
+	return c
+
+
 static func _wreck_table(quads: Dictionary, d: Dictionary, index: int) -> Dictionary:
 	var t := quads.duplicate()
 	t.merge(d["shared"], true)
@@ -464,7 +472,7 @@ func vehicles(sound: Dictionary) -> String:
 			"terrain": b.get("terrain", {"blocked_by_bushes": false, "blocked_by_rocks": false}),
 			"flags": b.get("flags", {"carries_flag": false}),
 			"shape": t["shape"], "events": {"on_create": on_create}, "sounds": sounds,
-			"camera": {"swoop_height": t.get("camera_swoop_height")},
+			"camera": _camera_def(t),
 			"music": {"theme_line": t.get("music_theme_line"), "priority": t.get("music_priority"),
 				"death_line": t.get("music_death_line"), "theme_rule": MUSIC_THEME_RULE.get(index, "record_line")},
 			"selector": {"script": entry[4], "picture": [rid(picture_cel), rid(picture_cel + 1)]},
@@ -472,7 +480,7 @@ func vehicles(sound: Dictionary) -> String:
 			"_record": {"stats.hit_points": "+0x28", "stats.armor": "+0x24", "stats.fuel": "+0x210",
 				"stats.sink_depth": "+0x158", "stats.dock_tolerance": "+0x254", "stats.death_wait_ticks": "+0x260",
 				"drive": "+0x168..+0x178", "weapons.ammo": "+0x1a8 / +0x1dc", "weapons.cooldown_ticks": "+0x1a4 / +0x1d8",
-				"events.on_create": "+0x240", "camera.swoop_height": "table 0x4452c0", "render": "+0x148 (draw descriptor)"}}])
+				"events.on_create": "+0x240", "camera.swoop_height": "table 0x4452c0", "camera": "+0xbc (rig), +0x130, +0x2c0..+0x2d8, table 0x4452e8", "render": "+0x148 (draw descriptor)"}}])
 		definitions.back()[1].merge(_shadow_entry(shadow_data, index))
 		roster.append({"id": vid, "stock_key": entry[2], "default_stock": entry[3]})
 	DirAccess.make_dir_recursive_absolute(out_dir.path_join("audio"))
