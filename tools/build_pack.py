@@ -671,6 +671,10 @@ def main():
                         "zoff": part.get("zoff", 0.0),
                         "jitter": part.get("jitter", False),
                     }
+                    if "cull" in part:
+                        # Flags 1 / 2: the draw callback skips the part when two of its corners (these positions in `corners`) are ordered
+                        # the wrong way on screen, x for flag 1, y for flag 2 (FUN_0041b2b0): a face turned away from the camera.
+                        entry["cull"] = part["cull"]
                     if part["flags"] & 8:
                         # Flag bit 3: the part's cel is shifted by the tile's variant (0..3) at
                         # draw time -- pre-resolve those 4 cels to sprite ids (None if absent).

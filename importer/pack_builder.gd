@@ -168,6 +168,8 @@ func decorations() -> void:
 						continue
 					var entry := {"sprite_id": rid(cel), "flags": part["flags"], "corners": part["corners"],
 							"offset": part["offset"], "zoff": part.get("zoff", 0.0), "jitter": part.get("jitter", false)}
+					if part.has("cull"):
+						entry["cull"] = part["cull"]   # flags 1 / 2: skipped when these two corners are ordered the wrong way on screen (FUN_0041b2b0)
 					if int(part["flags"]) & 8:
 						var v := []
 						for i in 4:

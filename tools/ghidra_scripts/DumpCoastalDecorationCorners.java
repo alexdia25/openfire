@@ -92,6 +92,7 @@ public class DumpCoastalDecorationCorners extends GhidraScript {
                     }
                     println("part coastal_id=" + id + " link=" + link + " part_idx=" + p + " cel=" + cel
                             + " flags=0x" + Long.toHexString(flags) + " corner_idx=" + idx
+                            + " cull=" + readS32(mem, pa + 8) + "," + readS32(mem, pa + 12)
                             + " corners_fixed16_16=" + corners);
                 }
                     long next = readU32(mem, valid + 4);
