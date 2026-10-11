@@ -1238,18 +1238,27 @@ axis, at most `max` a tick, capped by `sqrt(|offset| * brake)`) and height. Unit
 (32 = 45 degrees, 50 = 70.3, 64 = straight down); the ground point at the centre of the view is `300 + height` from the eye
 (`FUN_0041afb0` subtracts the height from the depth; table `F / (300 - i)`, `FUN_0041ae50`).
 
-- **Creation rig** (priority 0x80, `FUN_00416300`): the undock object's, then the new vehicle's (`FUN_0040b1c0`) with a hold of
-  60 / 90 / 60 / 180 ticks (byte table `0x4452e8`): height `swoop_height` (-170 / -100), pitch 24. The swoop (document 90) starts
-  from 250 / 64.
+- **Event rig** (priority 0x80, `FUN_00416300`; ONE slot per player, `0x458ad0 + player * 0x60`, each `FUN_004161e0` replaces it):
+  aims at an object (a "keep" rig stays on its last position once the object is gone), z offset, height, pitch, template triples,
+  optionally timed (#104):
+  - swoop: the undock object's, then the new vehicle's (`FUN_0040b1c0`), with a hold of 60 / 90 / 60 / 180 ticks (byte table
+    `0x4452e8`); height `swoop_height` (-170 / -100), pitch 24. It starts from 250 / 64 (document 90).
+  - vehicle gone: the vehicle class's end handler `0x40b8b0`, which runs for a death, a drowning or a dock; height -120, pitch 62,
+    kept on the last position. It also removes the vehicle rig.
+  - loss: `FUN_00418440`, at the skull: the home pad (player block `+0x34`), height 0, pitch 24.
+  - flag: `FUN_00432710`, the flag bunker's tile handler: the new flag, for the other side's view if its vehicle is within 320;
+    120 ticks, height -150 (`DAT_00448e88`), pitch 24.
 - **Vehicle rig** (priority 0x40, `FUN_00416420`, a rig embedded in each type record at `+0xbc`, inserted at `0x40b873`): follows
   the vehicle; after its speed has stayed the same for 30 ticks, height and pitch targets become rest (`+0x130` -> state `+0x128`:
   0, Heli 60; pitch `+0x2d8` = 32) below a speed of `0x3334`, else drive (`+0x2cc`: 100 / 250 / 100 / 200; pitch `+0x2d4` = 50);
-  below the rest height it rises to it with the `+0x2c0` triple; a Drone or another player's Heli within 512 units makes the pitch
-  target 50. Its point-of-interest lead (the flag, the submarine, the other player, a Drone, a turret) is multiplied by a fraction
+  below the rest height it rises to it with the `+0x2c0` triple; a Drone (measured to the view's centre, `FUN_0040a150` ->
+  `DAT_00443158`) or another player's Heli (measured to the vehicle) within 512 units makes the pitch target 50. Its point-of-interest lead (the flag, the submarine, the other player, a Drone, a turret) is multiplied by a fraction
   that is 0 in all four records and never written, so the camera never leaves the vehicle (not modelled).
 - **Port:** `CameraRig` (engine `game/camera_rig.gd`; `CameraEase.ease_step` = `FUN_00417420`), driven and placed by
   `TerrainView3D._apply_rig()`; the numbers are each vehicle's `camera` table (`tools/extract_vehicle_types.py` -> `camera_rig`).
-  Open: the death and other rigs (#104), the zoom toggle and `DAT_00442afc` (#105), whole ticks and the 2-unit centre offset (#106).
+  As in the original (#106), the camera runs once per frame with the frame's dt in whole ticks (`0x41d091`, the fraction
+  carried; rates and counts times dt), and the view is centred 2 units south of the followed point (`FUN_00416ab0(view, 0, -2, ...)`,
+  `+0x1c8`). Open: the zoom toggle and `DAT_00442afc` (#105, optional).
 
 ## 2. Architecture decisions (decide once, up front)
 
