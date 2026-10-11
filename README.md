@@ -158,6 +158,8 @@ engine code; see the engine's README for every setting a game can make.
   **draft** GitHub release with the Windows zip and Linux tar.gz; review it, then publish. The same
   script runs locally (`GODOT=<godot 4.7 exe> tools/package_release.sh v0.1.0`, needs the export
   templates installed) and writes `dist/`. Push the engine before the tag, so the submodule pointer is fetchable.
+  Shortcuts: `tools/build.sh [version]` runs the production build; `tools/release.sh v0.1.0 [--publish]` builds, tags,
+  pushes and uploads to GitHub releases (draft unless `--publish`; needs `gh` logged in).
 - **The mod tool:** `godot --path . res://addons/openfire_engine/editor/editor_main.tscn`.
 - **Tests:** each check under `tools/tests/` is its own headless run, e.g.
   `godot --headless --audio-driver Dummy --path . --script tools/tests/<name>.gd`.

@@ -50,5 +50,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" dist/* --draft --generate-notes \
-            --title "Open Fire $GITHUB_REF_NAME"
+          # tools/release.sh may have created the release already; then just refresh its assets.
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" dist/* --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" dist/* --draft --generate-notes \
+              --title "Open Fire $GITHUB_REF_NAME"
+          fi
