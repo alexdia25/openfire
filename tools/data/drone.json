@@ -96,7 +96,13 @@
    -4.0,
    6.0
   ],
-  "nudge_divisor": 2.0
+  "nudge_divisor": 2.0,
+  "space_box": [
+   -32.0,
+   -32.0,
+   32.0,
+   32.0
+  ]
  },
  "death": {
   "explosion": "0x444c80",
