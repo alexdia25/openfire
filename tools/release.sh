@@ -23,7 +23,7 @@ git fetch origin --tags --quiet
 git rev-parse -q --verify "refs/tags/$VERSION" >/dev/null && { echo "Tag $VERSION already exists"; exit 1; }
 upstream=$(git rev-parse --abbrev-ref '@{u}' 2>/dev/null) || { echo "Current branch has no upstream; push it first"; exit 1; }
 [ "$(git rev-parse HEAD)" = "$(git rev-parse "$upstream")" ] || { echo "HEAD is not pushed to $upstream; push first"; exit 1; }
-git submodule status | grep -q '^[+-U]' && { echo "Submodule is not at the committed pointer: git submodule update --init"; exit 1; }
+git submodule status | grep -q '^[-+U]' && { echo "Submodule is not at the committed pointer: git submodule update --init"; exit 1; }
 
 bash tools/build.sh "$VERSION"
 
