@@ -20,6 +20,19 @@
 *.SDT
 *.CAR
 *.BIN
+# The 3DO version's files (PORTING_PLAN Phase 7): disc images, and what tools/rf3do_opera.py extracts from them.
+*.bin
+*.cue
+*.chd
+*.wor
+*.carr
+*.aiff
+*.aif
+*.QSCR
+*.QEUR
+*.stream
+*.Stream
+*.sym
 
 # Never commit a Ghidra project -- it's a disassembled/decompiled copy of the game binary.
 *.gpr

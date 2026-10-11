@@ -1055,6 +1055,11 @@ through (`FUN_00416cb0`) closes point 5's open question:
 
 ### 1.11 Reference material obtained: retail PC ISO catalogued; 3DO expansion identified — 2026-09-05
 
+> **Update 2026-10-11.** Two corrections to the text below:
+> - Both 3DO discs (base game and Maps o' Death) are now in hand and surveyed; see section 3 Phase 7.
+> - The claim below that the `Title/*.stm` files are audio only and that "there is no cutscene video" is out of
+>   date: they carry Cinepak video, and the engine plays it (issue #60, `game/cinepak_decoder.gd`).
+
 The user supplied two disc images for reference, both outside the git repo
 (`C:\Users\Alex\Documents\returnfire\`):
 
@@ -2462,6 +2467,113 @@ Web checklist:
 - Click-to-start screen for audio; keyboard is a complete control scheme.
 - Save export/import, since IndexedDB can be wiped.
 
+### Phase 7 — The 3DO version: a second set of values — PLANNED (2026-10-11)
+
+GitHub label `3DO support`. The umbrella is #41, with sub-issues #87 and #93-#100. This replaces section 4 item
+6's "next concrete step".
+
+**Goal (user, 2026-10-11).** Support both the PC version and the 3DO version "by providing different values to
+the engine". A version is a **pack**:
+- the importer builds `original_pc` from the PC install or CD, as today;
+- it builds `original_3do` from the 3DO disc image(s);
+- the engine reads both through the same pack tables and names neither.
+
+This is the engine's existing rule (the engine names no game; a missing table draws nothing), applied a second
+time. A 3DO difference in a *number* is a pack value. A 3DO difference in a *mechanic* becomes a general engine
+feature with a pack switch (tier 2 in the engine README's "Changing the engine"), never a version check. Section
+0's priority still stands: the PC game comes first unless the user says otherwise. Steps 1 and 2 below can run
+alongside PC work because they also help it (step 1 names PC functions).
+
+**What is already known (survey, 2026-10-11).** Both discs are raw MODE1/2352 images with the Opera filesystem.
+The detail behind each line is in the linked issue body.
+
+| Area | 3DO data | Relation to the PC | Issue |
+|---|---|---|---|
+| Symbols | `rfire.sym`, debug symbols for the ARM `rfire`: 36 source modules, function, global, struct, enum and SFX names | The same C source as the PC port, so it can name PC traces (unproven) | #94 |
+| Filesystem | Opera: volume header, linked directory blocks | `importer/iso9660.gd` needs a sibling reader | #95 |
+| Maps | `.wor` = 8-byte header + raw 128x128 grid, same tile vocabulary | The PC's 204 maps contain both discs' maps; 64/67 and 164/166 maps are at least 90% alike, some with per-version edits. No NAME/LEVL/VHCL chunks; levels are grouped by `MPic<players>.<level>` | #96 |
+| Sprites | `Art.carr`, the same CCBA container, big-endian, native 3DO cels (1/2/4/6 bpp, 1695 of 2157 packed, per-cel RGB555 PLUTs) | 2049 of 2157 cels line up with the PC's 2165 by size; the rest need a traced table. Effect cels are probably PIXC blends | #97 |
+| Sound | AIFF, 8-bit, ~11 kHz, the same names as the PC's SDTs | The 3DO's own cue table needs tracing | #98 |
+| Music | `RFireScore.aiff`, 21:30 of 44.1 kHz stereo with named MARK cues | The same role as the PC CD's 222 MB `Score.wav` (1.8, 1.11) | #98 |
+| Screens and movies | QSCR 320x240 / QEUR 320x312, 16-bit (not decoded yet); 4 DataStream movies (Cinepak + SDX2) | The engine's Cinepak decoder (issue #60) already plays the PC `.stm` versions | #99 |
+| Front end | `Choose/*`, `ChooseSound/*`, `Instruct/*` (10 languages on Maps o' Death) | A second skin and menu definition | #87 |
+
+Prototype tools, which write only to the gitignored `build/3do/`:
+- `tools/rf3do_opera.py`: list or extract a disc;
+- `tools/rf3do_cel.py`: decode cels, a contact sheet, the size alignment against the PC;
+- `tools/rf3do_compare_maps.py`: `.wor` against `.RFM`.
+
+**Execution order.** Each step ends with its check passing and its finding written up as a wiki doc (decompiled
+code beside port code) before the next step builds on it.
+
+1. **Symbols and the 3DO Ghidra program (#94).**
+   - Write `tools/rf3do_sym.py`, which dumps functions and globals with addresses (and struct layouts, if present)
+     into `build/3do/`. The dump is derived from the game file, so it is never committed.
+   - Import `rfire` (ARM, big-endian) into the `returnfire` Ghidra project as a second program and apply the
+     names.
+   - Match about 10 PC functions we have already traced (the sound dispatcher `FUN_004085a0`, `moveGate`'s
+     counterpart, the music thread) and record the pairs in the TRACING_CHEATSHEET.
+   - *Done when:* at least 10 PC↔3DO pairs are confirmed by reading both sides, and a wiki doc describes the
+     method.
+2. **Pack identity and per-version values: the design (#93).** Decide and document in section 2.4:
+   - how a pack declares its version (proposal: a `source: {game, version}` block in `pack.json`);
+   - where 3DO-traced values live (proposal: overlays under `tools/data/3do/<table>.json` holding only the values
+     traced for the 3DO, each with its own `_source`, merged over the PC table at build time, so existing tables
+     and their provenance stay untouched);
+   - how both packs coexist in one install (separate folders under `packs/`, picked in the front end or in
+     Settings > Game files...).
+   - Also parametrise the openfire checks: 65 files under `tools/tests/` hard-code `packs/original_pc`; give them
+     a pack variable (e.g. `RF_PACK`) so each check can run against either pack.
+   - *Done when:* the design is in 2.4, and an engine test builds two synthetic packs with different values and
+     shows the engine reading each one (#100 item 4).
+3. **The disc as an import source (#95).**
+   - `importer/opera_fs.gd`, mirroring `tools/rf3do_opera.py`.
+   - `importer/source.gd` accepts a `.cue`/`.bin`, recognises which disc it is (volume label plus file set), and
+     accepts Maps o' Death as an optional second disc.
+   - *Done when:* a parity check (like `importer_parity_check.gd`) shows the GDScript and Python listings
+     identical for both discs, file by file.
+4. **First playable 3DO pack: maps + sprites + sounds, PC values for everything else (#96, #97, #98).**
+   - Maps: the `.wor` grid plus `MPic` level grouping.
+   - Names and LEVL/VHCL-style settings: trace them in `map.c` (#96). Until then they stay PC defaults, marked
+     `port-choice`.
+   - Sprites: the 3DO cel decoder in the importer, plus a **traced** 3DO-cel → sprite-id table from the 3DO
+     descriptor tables, never size-matched by eye.
+   - Sounds: the AIFFs plus the 3DO cue table.
+   - Every PC value the 3DO pack borrows is listed in one `port-choice` issue (or several).
+   - *Done when:* the 3DO pack passes `validate_pack.py`; the first 3DO level loads and its screenshot sits beside
+     the PC pack's; and the headless playthrough check runs green against `original_3do`.
+5. **Music, screens and movies (#98, #99).**
+   - Music: the score plus a traced map from track names to MARK cues (`music.c`). Jingles: `Drums`/`Applause`
+     against #66.
+   - Screens: a QSCR/QEUR decoder.
+   - Movies: a DataStream demuxer feeding the existing `cinepak_decoder.gd`/`stm_video.gd`, plus SDX2 audio.
+     First check whether the 3DO and PC footage are the same.
+   - *Done when:* the intro, the win movie and the in-game music play from the 3DO pack, with a check like
+     `cinepak_decoder_check.gd` passing on a 3DO stream.
+6. **Front end (#87, with #83's pack-declared menus).**
+   - The 3DO skin and menu definition as pack data: chooser screens, `ChooseSound`, instruction screens and their
+     languages.
+   - *Done when:* the 3DO pack boots into its own front end, and the PC pack still boots into Win95.
+7. **The 3DO's own gameplay values (#100), ongoing.**
+   - Table by table (vehicles first), find the 3DO counterpart and record any value that differs in the 3DO
+     overlay, each one a wiki finding.
+   - **Timing needs tracing:** these are PAL (Europe) discs. Check whether the 3DO sim ticks per video field
+     (50 Hz PAL against 60 Hz NTSC) or on a timer before carrying the PC's fixed tick rate (1.9) across.
+   - *Done when:* each `tools/data` table has a 3DO entry or an open `needs-trace` issue saying it hasn't been
+     looked at.
+
+**Standing rules carry over unchanged.**
+- The player's own discs only. Never commit extracted bytes: `.gitignore` now also covers the 3DO extensions.
+- Trace, don't guess. A size match, a name match or a visual match is a lead, not an identity.
+- Every choice goes in a code comment and a `port-choice` or `needs-trace` issue.
+
+**Risks.**
+- The cel mapping may not be one-to-one: about 110 cels are resized, merged or split.
+- The 3DO may differ in mechanics, not just numbers. That means engine features, not pack values.
+- The ARM↔x86 function matching could be slower than hoped, though the symbols make it a matching problem rather
+  than a blind trace.
+- Import time and size: 227 MB of score, plus the movies.
+
 ---
 
 ## 4. Open questions
@@ -2609,7 +2721,9 @@ Web checklist:
    *real* mechanism would justify supporting just one instead of both defensively — not
    otherwise a hard blocker.
 6. **3DO support: base game + "Maps o' Death" expansion extraction** (section 1.11, new
-   2026-09-05; scope widened 2026-09-05) — **deliberately deprioritized (2026-09-05): the
+   2026-09-05; scope widened 2026-09-05). **Superseded 2026-10-11 by section 3 Phase 7**: both
+   disc images are now in hand and surveyed, and the plan and next steps live there and in
+   the `3DO support` issues (#41, #93-#100). The rest of this item is history. — **deliberately deprioritized (2026-09-05): the
    user wants the core PC-port game running first** before this gets picked back up.
    `trapexit/3doplay` is already cloned for reference at
    `C:\Users\Alex\Documents\code\tools\3doplay\` (outside the repo, not committed, nothing
