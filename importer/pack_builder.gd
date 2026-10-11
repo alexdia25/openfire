@@ -518,6 +518,9 @@ func small_tables() -> void:
 	var inf: Variant = data("infantry.json")
 	if inf is Dictionary:
 		_write("world/infantry.json", _infantry_table(inf))
+	var tur: Variant = data("turret.json")
+	if tur is Dictionary:
+		_write("enemies/turret.json", _turret_table(tur))
 	var deb: Variant = data("debris.json")
 	if deb is Dictionary:
 		# The flying wreckage (FWall pieces; document 119, issue #81): records, op lists, table rows, and the burn-out frames' sprite ids.
@@ -678,6 +681,26 @@ func _infantry_table(inf: Dictionary) -> Dictionary:
 			if int(entry["hp"]) >= 2 and (flags & 0xFF8000) != 0 and hi - lo >= 1:
 				buildings[cid] = {"min": lo, "max": hi, "flip_team": (flags & 0x8000) != 0}
 	t["buildings"] = buildings
+	return t
+
+
+## The gun turrets (documents 113 and 114, issue #75): enemies/turret.json, the behaviour numbers and the head's five quads with the
+## sprite ids of their four team variants (flag 8 adds the tile's team to the cel).
+func _turret_table(tur: Dictionary) -> Dictionary:
+	var t := tur.duplicate(true)
+	t.erase("_source")
+	var head := []
+	for part in tur["head"]:
+		var cel := int(part["cel"])
+		var entry := {"sprite_id": rid(cel), "flags": part["flags"], "corners": part["corners"]}
+		if int(part["flags"]) & 8:
+			var v := []
+			for i in 4:
+				v.append(rid(cel + i) if has_cel(cel + i) else null)
+			entry["variant_sprite_ids"] = v
+			_pair(cel, cel + 1)
+		head.append(entry)
+	t["head"] = head
 	return t
 
 

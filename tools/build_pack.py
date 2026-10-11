@@ -88,6 +88,7 @@ ENGINE_LOOPS_JSON = os.path.join(ROOT, "tools", "data", "engine_loops.json")
 PROJECTILE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "projectile_types.json")
 EDGE_GUARD_JSON = os.path.join(ROOT, "tools", "data", "edge_guard.json")
 INFANTRY_JSON = os.path.join(ROOT, "tools", "data", "infantry.json")
+TURRET_JSON = os.path.join(ROOT, "tools", "data", "turret.json")
 WRECK_JSON = os.path.join(ROOT, "tools", "data", "wreck.json")
 SHADOW_JSON = os.path.join(ROOT, "tools", "data", "vehicle_shadow.json")
 DEBRIS_JSON = os.path.join(ROOT, "tools", "data", "debris.json")
@@ -800,6 +801,26 @@ def main():
         table["buildings"] = buildings
         os.makedirs(os.path.join(args.out_dir, "world"), exist_ok=True)
         with open(os.path.join(args.out_dir, "world", "infantry.json"), "w") as f:
+            json.dump(table, f, indent=1, sort_keys=True)
+            f.write("\n")
+
+    # The gun turrets (documents 113 and 114, issue #75): enemies/turret.json, the behaviour numbers and the head's five quads with the
+    # sprite ids of their four team variants (flag 8 adds the tile's team to the cel).
+    if os.path.exists(TURRET_JSON):
+        with open(TURRET_JSON) as f:
+            tur = json.load(f)
+        table = {k: v for k, v in tur.items() if k not in ("_source", "head")}
+        head = []
+        for part in tur["head"]:
+            cel = part["cel"]
+            entry = {"sprite_id": registry[str(cel)]["id"], "flags": part["flags"], "corners": part["corners"]}
+            if part["flags"] & 8:
+                entry["variant_sprite_ids"] = [registry[str(cel + v)]["id"] if (cel + v) in cels else None for v in range(4)]
+                team_pairs.add((cel, cel + 1))
+            head.append(entry)
+        table["head"] = head
+        os.makedirs(os.path.join(args.out_dir, "enemies"), exist_ok=True)
+        with open(os.path.join(args.out_dir, "enemies", "turret.json"), "w") as f:
             json.dump(table, f, indent=1, sort_keys=True)
             f.write("\n")
 
