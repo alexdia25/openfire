@@ -2332,6 +2332,12 @@ Keep each step playable, and load everything through the pack layer from step 1:
    screen itself (multiple viewports) is not started** — it needs either a second local
    player or the 4-player goal (section 4 item 7) to exist first before there's anything to
    split the screen between.
+   **Two-player screen traced (2026-10-12, [document 134](https://github.com/alexdia25/openfire/wiki/134-worked-example-the-two-player-screen)):**
+   `FUN_004096f0` makes two 156 x 149 views at (0, 0) and (164, 0), cameras `0x48b4c0` /
+   `0x48b70c` with view offsets (8, 12) / (-8, 12), panels at (14, 162) / (165, 162), and
+   seeds each player struct from `0x443010 + p * 0x14`. The one-player view offset is
+   (0, 12) (`FUN_00416ab0(view, 0, 12, 288, 140)`), not (0, -2) (fixed, #111). Work: #112
+   per-player state, #113 input, #114 views, #115 art, #116 untraced pieces.
 4. **Weapons and projectiles — first pass DONE (playable, not yet authentic; 2026-09-06).**
    `game/vehicle.gd`'s `Vehicle` gained a `fired` signal: holding `ui_accept` (or
    `RF_DEBUG_FIRE=1`, off by default) fires a projectile from a fixed muzzle offset ahead
