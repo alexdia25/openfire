@@ -126,5 +126,34 @@
    1962
   ],
   "window_ticks": 74
+ },
+ "drone_blip": {
+  "_source": "blip descriptor 0x4438a0 (kind 5), points 0x443888: (x, y, colour of side 0, colour of side 1)",
+  "points": [
+   [
+    -1,
+    0
+   ],
+   [
+    0,
+    0
+   ],
+   [
+    0,
+    1
+   ],
+   [
+    0,
+    -1
+   ],
+   [
+    1,
+    0
+   ]
+  ],
+  "colours": [
+   205,
+   104
+  ]
  }
 }

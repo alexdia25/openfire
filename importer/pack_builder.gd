@@ -536,6 +536,9 @@ func small_tables() -> void:
 	var tur: Variant = data("turret.json")
 	if tur is Dictionary:
 		_write("enemies/turret.json", _turret_table(tur))
+	var drone: Variant = data("drone.json")
+	if drone is Dictionary:
+		_write("enemies/drone.json", _drone_table(drone))
 	var deb: Variant = data("debris.json")
 	if deb is Dictionary:
 		# The flying wreckage (FWall pieces; document 119, issue #81): records, op lists, table rows, and the burn-out frames' sprite ids.
@@ -588,6 +591,8 @@ func hud() -> void:
 	if rd is Dictionary:
 		var used := {int(rd["land"]): true, int(rd["water"]): true, int(rd["flagged_tile"]): true}
 		for c in rd["flag_blip"]["colours"]:
+			used[int(c)] = true
+		for c in rd.get("drone_blip", {}).get("colours", []):
 			used[int(c)] = true
 		for v in rd["coastal_colours"].values():
 			for c in v:
@@ -721,6 +726,29 @@ func _turret_table(tur: Dictionary) -> Dictionary:
 			_pair(cel, cel + 1)
 		head.append(entry)
 	t["head"] = head
+	return t
+
+
+## The Drone (documents 115 and 130, issue #76): enemies/drone.json, the behaviour numbers, the draw descriptor's parts with the sprite ids of their
+## team variants (flag 8 adds the Drone's side to the cel) and the shadow's sprite.
+func _drone_table(dr: Dictionary) -> Dictionary:
+	var t := dr.duplicate(true)
+	t.erase("_source")
+	var art: Dictionary = t["art"]
+	var parts := []
+	for part in art["parts"]:
+		var cel := int(part["cel"])
+		var entry := {"sprite_id": rid(cel), "flags": part["flags"], "corner_idx": part["corner_idx"]}
+		if int(part["flags"]) & 8:
+			var v := []
+			for i in 4:
+				v.append(rid(cel + i) if has_cel(cel + i) else null)
+			entry["variant_sprite_ids"] = v
+			_pair(cel, cel + 1)
+		parts.append(entry)
+	art["parts"] = parts
+	t["shadow"]["sprite_id"] = rid(int(t["shadow"]["cel"]))
+	t["shadow"].erase("cel")
 	return t
 
 

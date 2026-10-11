@@ -89,6 +89,7 @@ PROJECTILE_TYPES_JSON = os.path.join(ROOT, "tools", "data", "projectile_types.js
 EDGE_GUARD_JSON = os.path.join(ROOT, "tools", "data", "edge_guard.json")
 INFANTRY_JSON = os.path.join(ROOT, "tools", "data", "infantry.json")
 TURRET_JSON = os.path.join(ROOT, "tools", "data", "turret.json")
+DRONE_JSON = os.path.join(ROOT, "tools", "data", "drone.json")
 WRECK_JSON = os.path.join(ROOT, "tools", "data", "wreck.json")
 SHADOW_JSON = os.path.join(ROOT, "tools", "data", "vehicle_shadow.json")
 DEBRIS_JSON = os.path.join(ROOT, "tools", "data", "debris.json")
@@ -841,6 +842,27 @@ def main():
             json.dump(table, f, indent=1, sort_keys=True)
             f.write("\n")
 
+    # The Drone (documents 115 and 130, issue #76): enemies/drone.json, the behaviour numbers, the draw descriptor's parts with the sprite ids of
+    # their team variants (flag 8 adds the Drone's side to the cel) and the shadow's sprite.
+    if os.path.exists(DRONE_JSON):
+        with open(DRONE_JSON) as f:
+            dr = json.load(f)
+        dr.pop("_source", None)
+        parts = []
+        for part in dr["art"]["parts"]:
+            cel = part["cel"]
+            entry = {"sprite_id": registry[str(cel)]["id"], "flags": part["flags"], "corner_idx": part["corner_idx"]}
+            if part["flags"] & 8:
+                entry["variant_sprite_ids"] = [registry[str(cel + v)]["id"] if (cel + v) in cels else None for v in range(4)]
+                team_pairs.add((cel, cel + 1))
+            parts.append(entry)
+        dr["art"]["parts"] = parts
+        dr["shadow"]["sprite_id"] = registry[str(dr["shadow"].pop("cel"))]["id"]
+        os.makedirs(os.path.join(args.out_dir, "enemies"), exist_ok=True)
+        with open(os.path.join(args.out_dir, "enemies", "drone.json"), "w") as f:
+            json.dump(dr, f, indent=1, sort_keys=True)
+            f.write("\n")
+
     # The flying wreckage (FWall pieces; document 119, issue #81): the piece records, their op lists, the table rows, and the sprite ids of the
     # burn-out frames a piece ends as.
     if os.path.exists(DEBRIS_JSON):
@@ -943,7 +965,7 @@ def main():
         def rgb(k):
             o = 0x282CC + (k - 10) * 4
             return [car[o + 2], car[o + 1], car[o]] if k >= 10 else [0, 0, 0]
-        used = {rd["land"], rd["water"], rd["flagged_tile"], *rd["flag_blip"]["colours"],
+        used = {rd["land"], rd["water"], rd["flagged_tile"], *rd["flag_blip"]["colours"], *rd.get("drone_blip", {}).get("colours", []),
                 *[c for v in rd["coastal_colours"].values() for c in v]}
         rd["rgb"] = {str(k): rgb(k) for k in used}
         if "ping" in rd:   # the radar's growing-ring animation (documents 68, 71, 103)
