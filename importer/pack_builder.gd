@@ -284,6 +284,11 @@ func _build_render(index: int, t: Dictionary) -> Variant:
 			return "unexpected MSV rack"
 		parts[13]["sprites_by"] = {"channel": "salvo_index", "sprites": [rid(326), rid(325), rid(324)]}
 	elif index == 3:
+		# the dying Heli's second descriptor (0x440bd0, after 8 ticks): variant team + 3, so a team-coloured part takes cel + 3 / + 4 (documents 118, 130)
+		for p in parts:
+			if int(p["flags"]) & 8:
+				p["wreck_sprite_ids"] = _sids(int(p["cel"]) + 3, 2)
+				_pair(int(p["cel"]) + 3, int(p["cel"]) + 4)
 		var rot: Dictionary = data("heli_rotor.json")
 		var n: float = rot["bar_length"]
 		var y: float = rot["height"]

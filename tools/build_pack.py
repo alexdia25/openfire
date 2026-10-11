@@ -352,6 +352,13 @@ def build_render(index, t, registry, team_pairs):
         assert parts[13]["cel"] == 324 and parts[2]["corner_idx"] == [44, 45, 46, 47]
         parts[13]["sprites_by"] = {"channel": "salvo_index", "sprites": [registry[str(326 - i)]["id"] for i in range(3)]}
     elif index == 3:
+        # The dying Heli's second descriptor (+0x160 = 0x440bd0, drawn after the first 8 ticks): the same twelve parts, but its init callback
+        # FUN_00402d80 gives the draw item the wreck's pitch and the variant team + 3, so a team-coloured part is drawn with cel + 3 (tan) / + 4
+        # (green): the damaged sprites. Documents 118 and 130.
+        for p in parts:
+            if p["flags"] & 8:
+                p["wreck_sprite_ids"] = sid(p["cel"] + 3, 2)
+                pair(p["cel"] + 3, p["flags"])
         rot = json.load(open(HELI_ROTOR_JSON))
         n = rot["bar_length"]
         y = rot["height"]
