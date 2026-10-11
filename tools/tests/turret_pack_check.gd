@@ -33,7 +33,7 @@ func _init() -> void:
 			real = real and not pack.get_sprite(String(part["variant_sprite_ids"][k])).is_empty()
 	check("every head quad and its four team variants are real sprites", real)
 	check("traced numbers: 70 degrees/s, range 192, 60 ticks, types 3 and 4", absf(float(t["turn_steps_per_tick"]) * 5.625 * 62.5 - 70.0) < 0.5
-			and float(t["range"]) == 192.0 and int(t["cooldown_ticks"]) == 60 and int(t["projectiles"][0]) == 3 and int(t["projectiles"][1]) == 4)
+			and float(t["range"]) == 192.0 and int(t["cooldown_ticks"]) == 60 and int(t["probe"]) == 3 and int(t["missile"]) == 4 and int(t["cooldown_blocked_ticks"]) == 30)
 	check("the muzzle heights are 24.5 and 29.5", float(t["tiles"]["49"]["muzzle"][2]) == 24.5 and float(t["tiles"]["50"]["muzzle"][2]) == 29.5)
 
 	var l1 := LevelData.new()
@@ -71,7 +71,15 @@ func _init() -> void:
 	var tu: Turret = mc.turrets[tile]
 	var want := Soldier.heading_to(tu.position, v.position)
 	check("it is turned to the vehicle (heading %d, wanted %d)" % [tu.draw_heading(), want], tu.heading == float(want))
-	check("it has shot at it with both types", shots.any(func(p): return p.type_id == 3) and shots.any(func(p): return p.type_id == 4), str(shots.size()))
+	check("it has shot at it with missiles only: the tracer is a probe", shots.size() > 0 and shots.all(func(p): return p.type_id == 4), str(shots.size()))
+	var probe_ok := true
+	for e2 in l2.decorations:
+		if int(e2["coastal_id"]) == 49 or int(e2["coastal_id"]) == 50:
+			var tt := Vector2i(int(e2["x"]), int(e2["y"]))
+			if mc.turrets.has(tt):
+				var r: int = mc._turret_probe(mc.turrets[tt])
+				probe_ok = probe_ok and (r == 0 or r == 1)
+	check("the probe answers 0 or 1 for every awake turret", probe_ok)
 	var hits_before := v.hp
 	# the shells fly in the real world (a few seconds of frames) and damage the vehicle when they hit it
 	for p in shots:
