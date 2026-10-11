@@ -132,6 +132,10 @@ func _build(src: RFSource, out: String) -> String:
 
 	var cd := src.music_source()
 	var exe := RFExe.from_bytes(src.read_file("RFIRE.BIN"))
+	if exe != null:
+		why = RFExtras.list_marks(exe, out)
+		if why != "":
+			warnings.append("The level list has no marks of its own: %s." % why)
 	if cd == null:
 		warnings.append("The game CD was not found, so the game has no music: an installed copy of Return Fire has only a placeholder for it. Import again from the CD's image (.iso) to add the music.")
 	elif exe == null or exe.tables().is_empty():

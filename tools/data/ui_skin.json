@@ -9,5 +9,6 @@
  "caption_a": "#000080",
  "caption_b": "#1084d0",
  "desktop": "#008080",
+ "list_marks": "ui/list_marks.png",
  "font_size": 14
 }

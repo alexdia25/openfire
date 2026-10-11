@@ -46,6 +46,59 @@ static func hud_strips(src: RFSource, pack_dir: String) -> String:
 	return ""
 
 
+## extract_list_marks.py: the Level Selector's three list marks (document 128, issue #102): RFIRE.BIN's bitmap resources 0x7da (the picture, 4 bits a pixel) and 0x7d9 (the mask, 1 bit,
+## a set bit is transparent) as one 48 x 16 RGBA strip, written to ui/list_marks.png. "" when the build has none (the engine then draws its own).
+static func list_marks(exe: RFExe, pack_dir: String) -> String:
+	var picture := _dib(exe.resource(2, 0x7DA))
+	var mask := _dib(exe.resource(2, 0x7D9))
+	if picture.is_empty() or mask.is_empty() or picture["width"] != mask["width"] or picture["height"] != mask["height"]:
+		return "this RFIRE.BIN has no bitmap resources 0x7da / 0x7d9"
+	var w: int = picture["width"]
+	var h: int = picture["height"]
+	var img := Image.create(w, h, false, Image.FORMAT_RGBA8)
+	for y in h:
+		for x in w:
+			var c: Color = picture["pixels"][y * w + x]
+			var transparent: bool = mask["pixels"][y * w + x] == Color.WHITE
+			img.set_pixel(x, y, Color(0, 0, 0, 0) if transparent else c)
+	DirAccess.make_dir_recursive_absolute(pack_dir.path_join("ui"))
+	img.save_png(pack_dir.path_join("ui").path_join("list_marks.png"))
+	return ""
+
+
+## A device-independent bitmap as stored in a resource: {"width", "height", "pixels"} (top row first, Colors), or {} if it is not a 1, 4 or 8 bit one.
+static func _dib(data: PackedByteArray) -> Dictionary:
+	if data.size() < 40:
+		return {}
+	var hs := data.decode_u32(0)
+	var w := data.decode_s32(4)
+	var h := data.decode_s32(8)
+	var bpp := data.decode_u16(14)
+	if not bpp in [1, 4, 8]:
+		return {}
+	var ncol := data.decode_u32(32)
+	if ncol == 0:
+		ncol = 1 << bpp
+	var pal: Array[Color] = []
+	for i in ncol:
+		pal.append(Color8(data[hs + i * 4 + 2], data[hs + i * 4 + 1], data[hs + i * 4]))
+	var stride := ((w * bpp + 31) / 32) * 4
+	var base := hs + ncol * 4
+	var pixels: Array[Color] = []
+	for y in range(h - 1, -1, -1):   # bottom-up
+		for x in w:
+			var row := base + y * stride
+			var v := 0
+			if bpp == 4:
+				v = (data[row + x / 2] >> (4 if x % 2 == 0 else 0)) & 15
+			elif bpp == 1:
+				v = (data[row + x / 8] >> (7 - x % 8)) & 1
+			else:
+				v = data[row + x]
+			pixels.append(pal[v])
+	return {"width": w, "height": h, "pixels": pixels}
+
+
 ## extract_level_previews.py: each level's 256 x 256 preview, drawn as the original's Level Selector does (document 125): the .RFM's 128 x 128 tile bytes, each the 2 x 2 pixel
 ## pattern ART/2X2.RFA holds for that byte (20 x 12 patterns, its own palette). `rfm_files`: every .RFM of WORLDS; written to levels/<NAME>/preview.png when that level exists.
 static func level_previews(src: RFSource, rfm_files: Array[String], pack_dir: String) -> String:

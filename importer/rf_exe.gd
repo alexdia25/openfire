@@ -69,3 +69,34 @@ func sdword(va: int) -> int:
 func cstr(va: int) -> String:
 	var o := off(va)
 	return RFPyCompat.latin1(RFPyCompat.until_nul(data.slice(o, o + 256)))
+
+
+## The bytes of resource `id` of type `type` (2 = RT_BITMAP, 6 = RT_STRING ...) from the resource tree, first language (the twin of rfexe.resource), or empty.
+func resource(type: int, id: int) -> PackedByteArray:
+	var pe := data.decode_u32(0x3c)
+	var rva := data.decode_u32(pe + 24 + 96 + 16)   # data directory 2: the resource table
+	if rva == 0:
+		return PackedByteArray()
+	var image_base := data.decode_u32(pe + 24 + 28)
+	var root := off(image_base + rva)
+	var ofs := _resource_entry(root, type)
+	if ofs < 0 or ofs & 0x80000000 == 0:
+		return PackedByteArray()
+	ofs = _resource_entry(root + (ofs & 0x7fffffff), id)
+	if ofs < 0 or ofs & 0x80000000 == 0:
+		return PackedByteArray()
+	ofs = _resource_entry(root + (ofs & 0x7fffffff), -1)   # the first language
+	if ofs < 0 or ofs & 0x80000000 != 0:
+		return PackedByteArray()
+	var start := off(image_base + data.decode_u32(root + ofs))
+	return data.slice(start, start + data.decode_u32(root + ofs + 4))
+
+
+## The offset field of the entry of a resource directory at `dir` whose id is `wanted` (-1: the first entry), or -1.
+func _resource_entry(dir: int, wanted: int) -> int:
+	var named := data.decode_u16(dir + 12)
+	for i in named + data.decode_u16(dir + 14):
+		var e := dir + 16 + i * 8
+		if wanted < 0 or (i >= named and data.decode_u32(e) == wanted):
+			return data.decode_u32(e + 4)
+	return -1

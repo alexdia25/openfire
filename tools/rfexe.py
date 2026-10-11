@@ -34,3 +34,32 @@ def dword(va, signed=False):
 def cstr(va):
     o = off(va)
     return _exe[o:_exe.index(b"\0", o)].decode("latin-1")
+
+
+def resource(rtype, rid):
+    """The bytes of resource `rid` of type `rtype` (2 = RT_BITMAP, 6 = RT_STRING ...) from RFIRE.BIN's resource tree (first language), or None."""
+    rva = struct.unpack_from("<I", _exe, _pe + 24 + 96 + 16)[0]   # data directory 2: the resource table
+    if rva == 0:
+        return None
+    root = off(_base + rva)
+
+    def find(dir_off, wanted):
+        named, ids = struct.unpack_from("<HH", _exe, dir_off + 12)
+        for i in range(named + ids):
+            name, ofs = struct.unpack_from("<II", _exe, dir_off + 16 + i * 8)
+            if wanted is None or (i >= named and name == wanted):
+                return ofs
+        return None
+
+    ofs = find(root, rtype)
+    if ofs is None or not ofs & 0x80000000:
+        return None
+    ofs = find(root + (ofs & 0x7fffffff), rid)
+    if ofs is None or not ofs & 0x80000000:
+        return None
+    ofs = find(root + (ofs & 0x7fffffff), None)   # the first language
+    if ofs is None or ofs & 0x80000000:
+        return None
+    data_rva, size = struct.unpack_from("<II", _exe, root + ofs)
+    start = off(_base + data_rva)
+    return _exe[start:start + size]
