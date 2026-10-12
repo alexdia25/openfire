@@ -19,7 +19,7 @@ func _init() -> void:
 
 	for type_and_name in [[0, "Tank"], [1, "Jeep"]]:
 		var t: int = type_and_name[0]
-		mc._open_selection()
+		mc._open_selection(mc.slots[0])
 		mc.selection = t
 		for i in 20:
 			mc._process(dt)  # let the view fade in to 1.0 so confirm_selection() is accepted

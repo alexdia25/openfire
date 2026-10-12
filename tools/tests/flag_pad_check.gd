@@ -42,13 +42,13 @@ func _init() -> void:
 	mc._on_mine_dropped(v.position + Vector2(5, 5), v)
 	mc._on_mine_dropped(v.position + Vector2(100, 0), v)
 	mc._pad_centre = v.position
-	mc._pad_clear()
+	mc._pad_clear(mc.slots[0])
 	check("the pad being closed clears nothing", mc.mines.size() == 2 and not mc.match_finished)
 	mc.pad_open = true
-	mc._pad_clear()
+	mc._pad_clear(mc.slots[0])
 	check("an open pad destroys the mine within 20 units and leaves the one 100 away", mc.mines.size() == 1, str(mc.mines.size()))
 	flag.position = v.position + Vector2(tile * 1.2, 0)
-	mc._pad_clear()
+	mc._pad_clear(mc.slots[0])
 	check("the OTHER team's flag lying by the open pad is a capture: the pad's team wins", mc.match_finished and mc.winner_idx == 0, "finished %s winner %d" % [mc.match_finished, mc.winner_idx])
 
 	# a two-player level: the own flag

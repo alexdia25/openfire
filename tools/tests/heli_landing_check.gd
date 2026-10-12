@@ -26,7 +26,7 @@ func _init() -> void:
 	var cues: Array[String] = []
 	v.sound_cue.connect(func(id): cues.append(id))
 
-	mc._begin_dock()
+	mc._begin_dock(mc.slots[0])
 	print("dock_state after begin: ", mc.dock_state, " (expect 1, the descent)")
 	var seen_states: Array[int] = []
 	var rotor_at_state3_start := -1.0

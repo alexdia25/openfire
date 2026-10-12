@@ -21,6 +21,9 @@ const TEAM_PAIR_MIN_CONSISTENCY := 0.6
 ## id, original index, VHCL stock letter, default stock, selector script (document 73, 78)
 const ORIGINAL_ROSTER := [["rf.tank", 0, "T", 3, "Tank"], ["rf.jeep", 1, "J", 8, "Jeep"], ["rf.msv", 2, "A", 3, "MSV"],
 	["rf.heli", 3, "H", 3, "Heli"]]
+## Each player's starting mine reserve by player count (document 135): the per-player block at 0x443010 holds 30 (+0xbc), which the
+## two-player setup keeps; the one-player setup zeroes it (0x4095e7).
+const ORIGINAL_MINE_RESERVE := {"1": 0, "2": 30}
 const MUSIC_THEME_RULE := {0: "flag_threat", 3: "stock_or_roll"}
 ## The home pad's mechanism (document 89, the lift object's descriptors 0x44dab0 / 0x44d8f8 / 0x44d890): the pit walls
 ## (parts 0x44d9d0: north cel 0x33b, west 0x33c, east and south 0x33a), the hazard strip (0x33f), the lift plate
@@ -489,7 +492,7 @@ func vehicles(sound: Dictionary) -> String:
 			_store(out_dir.path_join("audio").path_join(l["wav"]), sound[String(l["wav"]).to_upper()])
 	for d in definitions:
 		_write("vehicles/%s/vehicle.json" % d[0], d[1])
-	_write("vehicles/roster.json", {"vehicles": roster})
+	_write("vehicles/roster.json", {"vehicles": roster, "mine_reserve": ORIGINAL_MINE_RESERVE})
 	return ""
 
 
