@@ -221,6 +221,9 @@ def emit_team_colours(out_dir, sprites_dir, sprites, registry, cels, flag_pairs)
 # and the stock a level without one gets (document 73; A is the MSV), and the selector script name (document 78).
 ORIGINAL_ROSTER = [("rf.tank", 0, "T", 3, "Tank"), ("rf.jeep", 1, "J", 8, "Jeep"), ("rf.msv", 2, "A", 3, "MSV"),
                    ("rf.heli", 3, "H", 3, "Heli")]
+# Each player's starting mine reserve by player count (document 135): the per-player block at 0x443010 holds 30 (+0xbc), which the
+# two-player setup keeps; the one-player setup zeroes it (0x4095e7).
+ORIGINAL_MINE_RESERVE = {"1": 0, "2": 30}
 # The wreck drawn when a vehicle dies (document 87): Tank and Jeep share descriptor 0x43ece8 / 0x440218, the MSV's
 # (0x43f628) has the same corner sizes and its own cels; the Heli's single part (0x440fa0) is off-centre. Each quad:
 # sprites [tan, green] (or one), height above ground, half-size and centre in world units, and whether it is a shadow.
@@ -542,7 +545,7 @@ def emit_vehicle_definitions(out_dir, vt, sound_dir, registry, team_pairs):
             json.dump(d, f, indent=1, sort_keys=True)
             f.write("\n")
     with open(os.path.join(vdir, "roster.json"), "w") as f:
-        json.dump({"vehicles": roster}, f, indent=1)
+        json.dump({"vehicles": roster, "mine_reserve": ORIGINAL_MINE_RESERVE}, f, indent=1)
         f.write("\n")
 
 

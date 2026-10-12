@@ -27,7 +27,7 @@ func _init() -> void:
 	check("player starts as the Tank (this test's expected setup)", mc.vehicle.vehicle_type == 0)
 	check("RFMAP001 has no enemies at setup -- this test adds its own", mc.enemy_vehicles.is_empty())
 
-	check("no live enemy at all -> no indicator", mc._compute_direction_sector() == -1)
+	check("no live enemy at all -> no indicator", mc._compute_direction_sector(mc.slots[0]) == -1)
 
 	var enemy := EnemyVehicle.new()
 	enemy.pack_path = "res://packs/original_pc"
@@ -39,23 +39,23 @@ func _init() -> void:
 	var dz: Array = pack.hud_panels["panels"]["0"]["slot9"]["cursor"]["dead_zone"]
 
 	enemy.position = base
-	check("enemy sitting on the player's own base -> dead zone (sector 8)", mc._compute_direction_sector() == 8)
+	check("enemy sitting on the player's own base -> dead zone (sector 8)", mc._compute_direction_sector(mc.slots[0]) == 8)
 
 	enemy.alive = false
-	check("the only enemy is dead -> no indicator", mc._compute_direction_sector() == -1)
+	check("the only enemy is dead -> no indicator", mc._compute_direction_sector(mc.slots[0]) == -1)
 	enemy.alive = true
 
 	enemy.position = base + Vector2(dz[2] + 500.0, 0)
-	check("due \"east\" of the base, well outside the dead zone -> sector 0", mc._compute_direction_sector() == 0)
+	check("due \"east\" of the base, well outside the dead zone -> sector 0", mc._compute_direction_sector(mc.slots[0]) == 0)
 
 	enemy.position = base + Vector2(0, dz[3] + 500.0)
-	check("90 degrees around (screen-down) -> sector 2", mc._compute_direction_sector() == 2)
+	check("90 degrees around (screen-down) -> sector 2", mc._compute_direction_sector(mc.slots[0]) == 2)
 
 	enemy.position = base + Vector2(dz[0] - 500.0, 0)
-	check("180 degrees around (screen-left) -> sector 4", mc._compute_direction_sector() == 4)
+	check("180 degrees around (screen-left) -> sector 4", mc._compute_direction_sector(mc.slots[0]) == 4)
 
 	enemy.position = base + Vector2(0, dz[1] - 500.0)
-	check("270 degrees around (screen-up) -> sector 6", mc._compute_direction_sector() == 6)
+	check("270 degrees around (screen-up) -> sector 6", mc._compute_direction_sector(mc.slots[0]) == 6)
 
 	enemy.position = base + Vector2(dz[2] + 500.0, 0)   # back to due "east", sector 0
 	var far := EnemyVehicle.new()
@@ -64,7 +64,7 @@ func _init() -> void:
 	far.setup(pack)
 	far.position = base + Vector2(0, dz[3] + 5000.0)   # much farther away, a DIFFERENT bearing (sector 2)
 	mc.enemy_vehicles.append(far)
-	check("with two live enemies, the NEARER one's bearing wins, not the farther one's", mc._compute_direction_sector() == 0)
+	check("with two live enemies, the NEARER one's bearing wins, not the farther one's", mc._compute_direction_sector(mc.slots[0]) == 0)
 
 	var jeep_s9: Dictionary = pack.hud_panels["panels"]["1"]["slot9"]
 	check("the Jeep's own panel has no cursor data at all (kind 8, the compass, not kind 6)", not jeep_s9.has("cursor"))

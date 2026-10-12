@@ -70,7 +70,8 @@ func _init() -> void:
 	for i in 700:
 		mc._update_drones(1.0 / 62.5)
 	check("it reached full speed 1.5", absf(d.speed - 1.5) < 1e-6)
-	var bad := shots.filter(func(p): return p.type_id != 11 or p.shooter != d)
+	# any Drone's shots count: the camp timer fires again at tick 722, inside this window, and whether that second Drone has fired yet depends on its random lane
+	var bad := shots.filter(func(p): return p.type_id != 11 or not spawned.has(p.shooter))
 	check("it has strafed with type 11 only, from both guns in turn", shots.size() > 0 and bad.is_empty(), "%d shots, %d bad %s" % [shots.size(), bad.size(), str(bad.map(func(p): return [p.type_id, p.shooter]))])
 	var xs := []
 	for p in shots:
