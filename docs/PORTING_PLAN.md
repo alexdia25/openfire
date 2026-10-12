@@ -2338,6 +2338,16 @@ Keep each step playable, and load everything through the pack layer from step 1:
    seeds each player struct from `0x443010 + p * 0x14`. The one-player view offset is
    (0, 12) (`FUN_00416ab0(view, 0, 12, 288, 140)`), not (0, -2) (fixed, #111). Work: #112
    per-player state, #113 input, #114 views, #115 art, #116 untraced pieces.
+   **The #116 questions answered ([document 135](https://github.com/alexdia25/openfire/wiki/135-worked-example-two-player-endings-the-skulls-icons-and-the-per-player-block)):**
+   after a death `FUN_0040b260` sends a player with a Jeep back to the choice; in two-player a
+   player without a Jeep keeps playing with what is left, one with nothing left sits out
+   (`0x418a50` → `0x418af0` → `0x418c70`, a crossed 2 x 2 grid of the four types under the skull),
+   and if neither has a Jeep the match ends with winner -1 (no ribbon; a Tournament draw). The
+   ribbon is full-screen in both modes. The view box only scales the camera's look-ahead lead,
+   which is 0. `0x443010 + p * 0x14` is the per-player starting block: the level's T/J/A/H for
+   both players and a mine reserve of 30. The skull's icon row (the level's starting count of
+   the dead type, spent ones crossed, table `0x449308`) also names cels 2104/2109/2114/2120 as
+   the Tank/Jeep/MSV/Heli icons (2120 renamed from `decoration.camo_swatch.130`).
 4. **Weapons and projectiles — first pass DONE (playable, not yet authentic; 2026-09-06).**
    `game/vehicle.gd`'s `Vehicle` gained a `fired` signal: holding `ui_accept` (or
    `RF_DEBUG_FIRE=1`, off by default) fires a projectile from a fixed muzzle offset ahead

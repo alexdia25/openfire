@@ -7431,9 +7431,9 @@
     },
     "2104": {
       "category": "ui",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "ui.icon.vehicle_mini.10",
-      "note": "tiny vehicle icon, likely minimap/HUD unit marker"
+      "note": "the Tank's icon on the death screen: one per vehicle of the level's starting count of the dead type, the spent ones crossed by cel 2125; also in the two-player 'no vehicles left' grid (the 2026-10-12 trace (document 135): FUN_00418510's icon row table 0x449308 (Tank, Jeep, MSV, Heli) and FUN_00418b50's grid table 0x449378). [Was a visual guess: 'tiny vehicle icon, likely minimap/HUD unit marker'.]"
     },
     "2105": {
       "category": "decoration",
@@ -7460,9 +7460,9 @@
     },
     "2109": {
       "category": "ui",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "ui.icon.vehicle_mini.13",
-      "note": "tiny vehicle icon, likely minimap/HUD unit marker"
+      "note": "the Jeep's icon on the death screen: one per vehicle of the level's starting count of the dead type, the spent ones crossed by cel 2125; also in the two-player 'no vehicles left' grid (the 2026-10-12 trace (document 135): FUN_00418510's icon row table 0x449308 (Tank, Jeep, MSV, Heli) and FUN_00418b50's grid table 0x449378). [Was a visual guess: 'tiny vehicle icon, likely minimap/HUD unit marker'.]"
     },
     "211": {
       "category": "reserved",
@@ -7494,9 +7494,9 @@
     },
     "2114": {
       "category": "ui",
-      "confidence": "visual_group",
+      "confidence": "code_verified",
       "id": "ui.icon.vehicle_mini.16",
-      "note": "tiny vehicle icon, likely minimap/HUD unit marker"
+      "note": "the MSV's icon on the death screen: one per vehicle of the level's starting count of the dead type, the spent ones crossed by cel 2125; also in the two-player 'no vehicles left' grid (the 2026-10-12 trace (document 135): FUN_00418510's icon row table 0x449308 (Tank, Jeep, MSV, Heli) and FUN_00418b50's grid table 0x449378). [Was a visual guess: 'tiny vehicle icon, likely minimap/HUD unit marker'.]"
     },
     "2115": {
       "category": "decoration",
@@ -7533,9 +7533,10 @@
       "note": "corrected 2026-09-08 (document 39): confirmed by decompiling the real vehicle draw dispatcher (FUN_00402dc0) that this cel belongs to the Tank's own SEPARATE turret descriptor (0x0043e9b8), not a generic hull panel -- the previous id was a guess made before this descriptor was known to exist at all. [RENAMED 2026-09-24 from vehicle.hovercraft.turret.muzzle_ring.01: there is no hovercraft -- the game roster is Tank/Jeep/MSV/Heli (document 31) and this block is the Tank's traced draw descriptor, parts 167-216 with their +1 team / +2 flash variants (documents 37, 57).]"
     },
     "2120": {
-      "category": "decoration",
-      "confidence": "visual_group",
-      "id": "decoration.camo_swatch.130"
+      "category": "ui",
+      "confidence": "code_verified",
+      "id": "ui.icon.vehicle_mini.heli",
+      "note": "the Heli's icon on the death screen and the two-player 'no vehicles left' grid (the 2026-10-12 trace (document 135): FUN_00418510's icon row table 0x449308 (Tank, Jeep, MSV, Heli) and FUN_00418b50's grid table 0x449378). [RENAMED 2026-10-12 from decoration.camo_swatch.130, a visual guess.]"
     },
     "2121": {
       "category": "decoration",

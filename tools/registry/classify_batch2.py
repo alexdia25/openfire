@@ -403,6 +403,15 @@ for f in range(1, 8):
         f"laughing helmeted skull, mouth-open frame f{f} (document 88)", confidence="code_verified")
 put(2125, "ui.icon.lost_vehicle_cross", "ui",
     "7x7 red cross over the remaining-vehicle icons on the death screen (document 88)", confidence="code_verified")
+# CORRECTED 2026-10-12 (registry hand-edited, not re-generated; document 135): the death screen's icon tables name the
+# four vehicle icons. FUN_00418510's row table 0x449308 is Tank 2104, Jeep 2109, MSV 2114, Heli 2120 (in type order), and
+# FUN_00418b50's two-player grid 0x449378 uses the same four. 2120 was a visual guess, decoration.camo_swatch.130.
+_SKULL_ICONS = "the 2026-10-12 trace (document 135): FUN_00418510's icon row table 0x449308 (Tank, Jeep, MSV, Heli) and FUN_00418b50's grid table 0x449378"
+for _cel, _id, _name in [(2104, "ui.icon.vehicle_mini.10", "Tank"), (2109, "ui.icon.vehicle_mini.13", "Jeep"),
+                         (2114, "ui.icon.vehicle_mini.16", "MSV")]:
+    put(_cel, _id, "ui", f"the {_name}'s icon on the death screen: one per vehicle of the level's starting count of the dead type, the spent ones crossed by cel 2125; also in the two-player 'no vehicles left' grid ({_SKULL_ICONS}). [Was a visual guess: 'tiny vehicle icon, likely minimap/HUD unit marker'.]", confidence="code_verified")
+put(2120, "ui.icon.vehicle_mini.heli", "ui",
+    f"the Heli's icon on the death screen and the two-player 'no vehicles left' grid ({_SKULL_ICONS}). [RENAMED 2026-10-12 from decoration.camo_swatch.130, a visual guess.]", confidence="code_verified")
 
 # CORRECTED 2026-09-24 (registry hand-edited, not re-generated; user report): "vehicle.hovercraft.*" is the Tank
 # (document 31 found the roster is Tank/Jeep/MSV/Heli but the ids were never renamed) -> vehicle.tank.*; three stray
