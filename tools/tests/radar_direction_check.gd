@@ -29,7 +29,7 @@ func _init() -> void:
 
 	check("no live enemy at all -> no indicator", mc._compute_direction_sector(mc.slots[0]) == -1)
 
-	var enemy := EnemyVehicle.new()
+	var enemy := Vehicle.new()
 	enemy.team = "green"   # the other side: the cursor points at the other side's vehicle
 	enemy.pack_path = "res://packs/original_pc"
 	root.add_child(enemy)
@@ -59,7 +59,7 @@ func _init() -> void:
 	check("270 degrees around (screen-up) -> sector 6", mc._compute_direction_sector(mc.slots[0]) == 6)
 
 	enemy.position = base + Vector2(dz[2] + 500.0, 0)   # back to due "east", sector 0
-	var far := EnemyVehicle.new()
+	var far := Vehicle.new()
 	far.team = "green"
 	far.pack_path = "res://packs/original_pc"
 	root.add_child(far)

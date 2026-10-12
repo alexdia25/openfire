@@ -2353,7 +2353,7 @@ Keep each step playable, and load everything through the pack layer from step 1:
    1. *Per-player state* (#112, with #118): one record per player in `MatchController`,
       seeded from the per-player block (the level's counts, mine reserve 30). No visible change.
    2. *Input per player* (#113): a controller produces the input word (keyboard layout 1 or 2,
-      gamepad); `EnemyVehicle` uses the same interface (#77).
+      gamepad); `EnemyVehicle` uses the same interface (#77; since replaced by computer players, below).
    3. *Split-screen views* (#114, #115): a `SubViewport`, camera and `CameraRig` per player,
       overlays per half; modern first, then classic with the two-player strip; a debug switch
       starts a two-player game. Milestone: two people drive on one map.
@@ -2391,6 +2391,17 @@ Keep each step playable, and load everything through the pack layer from step 1:
    only the Hall of Fame; name 1 starts as the Windows user, name 2 empty; after a game the Level Selector reopens
    without the Player Selector. The menus work with a gamepad (the d-pad moves and repeats when held, A presses,
    B is Back; a screen's "back" in the menu data). **Two-player play is complete from the menus.**
+   **Computer players (#77, PORT FEATURE; design in [document 142](https://github.com/alexdia25/openfire/wiki/142-design-a-computer-opponent-for-vs-ai)).**
+   Phase 1 done (2026-10-12): a computer player is a `PlayerSlot` with `ai = true` whose controls are `AIControls`
+   (`game/ai/`), a `PlayerControls` whose word comes from an `AIBrain`; nothing else about the slot differs, so it
+   plays by the same rules (hangar choice, stock, deaths and respawns, docking, the flag). Every side nobody plays
+   gets one (`MatchController.computer_fills_sides`, default on), and `ai_players` hands any player's slot to the
+   computer (`RF_AI_PLAYERS=0` watches a computer-only match). `players` counts the sides in play, so vs AI runs the
+   two-player rules (DAT_00442fbc = 2: the mine layer, the reserve of 30, the outcome rule); `humans` / `people()`
+   count the people, and `watched()` (the people, or player 1 with nobody playing) gives the views, ears and music.
+   A computer player has no view and no flat sounds. PORT CHOICE: once every person is out and only computer players
+   can still win, the match is lost at once (`_end_people_out`). `EnemyVehicle` is gone. The brain is still the old
+   seek-and-shoot placeholder; next are navigation, combat, the objective, logistics and skill profiles (document 142).
 4. **Weapons and projectiles — first pass DONE (playable, not yet authentic; 2026-09-06).**
    `game/vehicle.gd`'s `Vehicle` gained a `fired` signal: holding `ui_accept` (or
    `RF_DEBUG_FIRE=1`, off by default) fires a projectile from a fixed muzzle offset ahead
@@ -2469,7 +2480,7 @@ Keep each step playable, and load everything through the pack layer from step 1:
    - **No win/lose condition.** Section 4 item 1 is still open — nothing declares a
      match-won/lost state when a pool's budget is fully spent. This step only makes the
      pools themselves behave correctly, not what (if anything) happens when both go silent.
-6. **Enemy AI — first pass DONE (playable, not yet authentic; 2026-09-06). Superseded by section 1.13: the original has no computer-driven vehicle, so `EnemyVehicle` is a port-only stand-in for a second human player.** Unlike step 5,
+6. **Enemy AI — first pass DONE (playable, not yet authentic; 2026-09-06). Superseded by section 1.13: the original has no computer-driven vehicle, so `EnemyVehicle` is a port-only stand-in for a second human player. Removed 2026-10-12: computer players are player slots now (#77, see the two-player roadmap's "Computer players").** Unlike step 5,
    this is a from-scratch placeholder, not a reimplementation of anything found in
    `RFIRE.BIN` — Phase 3's "AI state machines and target selection" backlog item is still
    completely untouched, no anchor has even been picked yet. `game/vehicle.gd`'s movement/
