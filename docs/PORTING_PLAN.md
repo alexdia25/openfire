@@ -2348,6 +2348,20 @@ Keep each step playable, and load everything through the pack layer from step 1:
    both players and a mine reserve of 30. The skull's icon row (the level's starting count of
    the dead type, spent ones crossed, table `0x449308`) also names cels 2104/2109/2114/2120 as
    the Tank/Jeep/MSV/Heli icons (2120 renamed from `decoration.camo_swatch.130`).
+   **Two-player roadmap (2026-10-12; the checklist lives on issue #72, label `full-parity`).**
+   Each step leaves the game working; one-player play is the regression guard.
+   1. *Per-player state* (#112, with #118): one record per player in `MatchController`,
+      seeded from the per-player block (the level's counts, mine reserve 30). No visible change.
+   2. *Input per player* (#113): a controller produces the input word (keyboard layout 1 or 2,
+      gamepad); `EnemyVehicle` uses the same interface (#77).
+   3. *Split-screen views* (#114, #115): a `SubViewport`, camera and `CameraRig` per player,
+      overlays per half; modern first, then classic with the two-player strip; a debug switch
+      starts a two-player game. Milestone: two people drive on one map.
+   4. *The rules* (#72, #108, #119): the after-death rule and the draw, win, the MSV's mine
+      layer, turrets, Drones, the submarine, music, the stereo split, the second ammo readout.
+   5. *Front end*: the Player Selector (#85), key bindings, the Tournament table (#84).
+      Milestone: two-player play complete from the menus.
+   Independent: #117 (the skull's icon row). Later: #40 (more players), #16 (netplay).
 4. **Weapons and projectiles — first pass DONE (playable, not yet authentic; 2026-09-06).**
    `game/vehicle.gd`'s `Vehicle` gained a `fired` signal: holding `ui_accept` (or
    `RF_DEBUG_FIRE=1`, off by default) fires a projectile from a fixed muzzle offset ahead
