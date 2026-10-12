@@ -32,7 +32,15 @@
    1,
    2,
    2,
-   2
+   2,
+   3,
+   3,
+   3,
+   4,
+   4,
+   5,
+   5,
+   5
   ],
   "clock_mask": 30,
   "_source": "descriptor 0x43e370 (flag 0x10: the object's height is ignored), FUN_00402ca0, bytes at 0x43e2f0"

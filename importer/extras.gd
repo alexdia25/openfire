@@ -57,13 +57,23 @@ static func hud_strips(src: RFSource, pack_dir: String) -> String:
 	return ""
 
 
+## The list marks' [picture, mask] bitmap resource ids: the install's build, then the CD's (same bytes, renumbered; issue #122).
+const LIST_MARK_IDS := [[0x7DA, 0x7D9], [0x418, 0x419]]
+
+
 ## extract_list_marks.py: the Level Selector's three list marks (document 128, issue #102): RFIRE.BIN's bitmap resources 0x7da (the picture, 4 bits a pixel) and 0x7d9 (the mask, 1 bit,
 ## a set bit is transparent) as one 48 x 16 RGBA strip, written to ui/list_marks.png. "" when the build has none (the engine then draws its own).
 static func list_marks(exe: RFExe, pack_dir: String) -> String:
-	var picture := _dib(exe.resource(2, 0x7DA))
-	var mask := _dib(exe.resource(2, 0x7D9))
-	if picture.is_empty() or mask.is_empty() or picture["width"] != mask["width"] or picture["height"] != mask["height"]:
-		return "this RFIRE.BIN has no bitmap resources 0x7da / 0x7d9"
+	var picture := {}
+	var mask := {}
+	for ids in LIST_MARK_IDS:
+		picture = _dib(exe.resource(2, ids[0]))
+		mask = _dib(exe.resource(2, ids[1]))
+		if not picture.is_empty() and not mask.is_empty() and picture["width"] == mask["width"] and picture["height"] == mask["height"]:
+			break
+		picture = {}
+	if picture.is_empty():
+		return "this RFIRE.BIN has no bitmap resources 0x7da / 0x7d9 (the install's) or 0x418 / 0x419 (the CD's)"
 	var w: int = picture["width"]
 	var h: int = picture["height"]
 	var img := Image.create(w, h, false, Image.FORMAT_RGBA8)

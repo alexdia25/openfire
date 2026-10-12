@@ -14,7 +14,7 @@ from PIL import Image
 import rfexe
 
 PACK_DIR = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "packs", "original_pc")
-PICTURE, MASK = 0x7DA, 0x7D9
+IDS = [(0x7DA, 0x7D9), (0x418, 0x419)]   # the install's build, then the CD's (same bytes, renumbered; issue #122)
 
 
 def dib(data):
@@ -40,9 +40,13 @@ def dib(data):
     return w, h, rows
 
 
-picture, mask = rfexe.resource(2, PICTURE), rfexe.resource(2, MASK)
+picture = mask = None
+for pid, mid in IDS:
+    picture, mask = rfexe.resource(2, pid), rfexe.resource(2, mid)
+    if picture is not None and mask is not None:
+        break
 if picture is None or mask is None:
-    print("RFIRE.BIN has no bitmap resources 0x7da / 0x7d9: no list marks (the engine draws its own)")
+    print("RFIRE.BIN has no bitmap resources 0x7da / 0x7d9 or 0x418 / 0x419: no list marks (the engine draws its own)")
     sys.exit(0)
 w, h, pic = dib(picture)
 mw, mh, msk = dib(mask)

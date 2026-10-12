@@ -32,7 +32,7 @@ out = {
     "_source": "RFIRE.BIN: vehicle records 0x4456b8 + type * 0x2e8 (+0x14c, +0x154, +0x158), descriptors 0x43eac8 / 0x43eb50 (Tank), "
                "0x43feb0 / 0x43fe18 / 0x440030 (Jeep), 0x43f408 / 0x43f490 (MSV), 0x43e370 (the ripple); handlers FUN_0040cef0 / 0040d150 / 0040cf90; "
                "document 123",
-    "ripple": {"cel": 1987, "corners": q(-16, -16, 16, 16), "frames": [0, 0, 0, 1, 1, 2, 2, 2], "clock_mask": 0x1E,
+    "ripple": {"cel": 1987, "corners": q(-16, -16, 16, 16), "frames": [0, 0, 0, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5], "clock_mask": 0x1E,
                "_source": "descriptor 0x43e370 (flag 0x10: the object's height is ignored), FUN_00402ca0, bytes at 0x43e2f0"},
     "wading_counter": {"start": 4.0, "per_tick": 0.2, "wrap_at": 13.0, "wrap_moving": 5.0, "wrap_stopped": 13.0, "dry_after": 3.0,
                        "_source": "FUN_0040cef0 enters wading at counter 4.0 (0x40000); FUN_0040d150 adds 0x3333 (0.2) a tick; at 13.0 it subtracts 5.0 while "
