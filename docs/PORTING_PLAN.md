@@ -2362,6 +2362,12 @@ Keep each step playable, and load everything through the pack layer from step 1:
    5. *Front end*: the Player Selector (#85), key bindings, the Tournament table (#84).
       Milestone: two-player play complete from the menus.
    Independent: #117 (the skull's icon row). Later: #40 (more players), #16 (netplay).
+   **Step 1 done** (#112, #118: `PlayerSlot`, the mine reserve by player count). **Step 2 done** (#113,
+   [document 138](https://github.com/alexdia25/openfire/wiki/138-worked-example-input-per-player)): `InputWord`
+   (the word, FUN_0042ce40's decode), `PlayerControls` (a binding set per player from the pack's
+   `input/controls.json`, keys and the original's joystick codes ORed, through Swap Sides), the
+   definitions' `buttons` (A / B / C per vehicle); the Jeep's missile fires once per press; the vehicle
+   choice reads the word; `EnemyVehicle` drives through its own word. Binding editor: #121.
 4. **Weapons and projectiles — first pass DONE (playable, not yet authentic; 2026-09-06).**
    `game/vehicle.gd`'s `Vehicle` gained a `fired` signal: holding `ui_accept` (or
    `RF_DEBUG_FIRE=1`, off by default) fires a projectile from a fixed muzzle offset ahead
