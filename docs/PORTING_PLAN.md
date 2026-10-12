@@ -2374,6 +2374,12 @@ Keep each step playable, and load everything through the pack layer from step 1:
    sharing the world; the classic two-player screen from the traced rectangles (views 156 x 149 at
    x = 0 / 164, panels (14, 162) / (165, 162), the `2pBScrL` strip, the `2pMScr` bar at (156, 0), which
    is the bar between the views, not a map screen); modern: the window's halves.
+   **Step 4 done** (#108, #117, #119, [document 140](https://github.com/alexdia25/openfire/wiki/140-worked-example-the-two-player-rules)):
+   `death_outcome` (FUN_0040b260: choose again, out, or no winner: a loss alone, a draw with two),
+   the out phases 6-8 (the half stays black and frozen), the skull skipped after a drowning or an
+   empty tank (FUN_0040b5c0 -> 0x418390), the dead type (+0x3a), the icon row and out grid
+   (`ui/death_skull.json`), turrets and the submarine for both players, the Drone refusal
+   (FUN_0040aa90), two ears, the music director's count, draws and the Tournament table.
 4. **Weapons and projectiles — first pass DONE (playable, not yet authentic; 2026-09-06).**
    `game/vehicle.gd`'s `Vehicle` gained a `fired` signal: holding `ui_accept` (or
    `RF_DEBUG_FIRE=1`, off by default) fires a projectile from a fixed muzzle offset ahead

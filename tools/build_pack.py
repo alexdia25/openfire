@@ -955,8 +955,14 @@ def main():
         skull_frames.append([registry[str(tan_cel)]["id"], registry[str(green_cel)]["id"]])
         team_pairs.add((tan_cel, green_cel))
     os.makedirs(os.path.join(args.out_dir, "ui"), exist_ok=True)
+    # the icons under the skull (document 135): FUN_00418510's row (table 0x449308, by type: cel, y, step, row step; the cross 2125 at +(4, 7)) and
+    # FUN_00418b50's two-player out-of-vehicles grid (0x449378 / 0x449388 / 0x4492f8: Tank, MSV, Heli, Jeep at (8, 0) (36, 0) (8, 16) (36, 16) from (-35, 10))
+    rid = lambda cel: registry[str(cel)]["id"]
+    icon_row = [{"sprite": rid(cel), "y": 10, "dx": dx, "dy": 10} for cel, dx in [(2104, 19), (2109, 16), (2114, 19), (2120, 19)]]
+    out_grid = [{"sprite": rid(cel), "at": [x, y]} for cel, x, y in [(2104, 8, 0), (2114, 36, 0), (2120, 8, 16), (2109, 36, 16)]]
     with open(os.path.join(args.out_dir, "ui", "death_skull.json"), "w") as f:
-        json.dump({"frames": skull_frames}, f)
+        json.dump({"frames": skull_frames, "icon_row": {"by_type": icon_row, "max": 8, "per_row": 4},
+                   "out_grid": {"origin": [-35, 10], "icons": out_grid}, "cross": rid(2125), "cross_offset": [4, 7]}, f)
 
     # The MSV's mine (document 60): cel 1081 + draw variant (0 unlit-blink, 1 armed, 2 blink-on); not team-coloured
     # (game/mine_view_3d.gd).

@@ -594,7 +594,16 @@ func small_tables() -> void:
 	for f in range(1, 8):
 		skull.append([rid(2125 + f), rid(2125 + f + 7)])
 		_pair(2125 + f, 2125 + f + 7)
-	_write("ui/death_skull.json", {"frames": skull})
+	# the icons under the skull (document 135): FUN_00418510's row (table 0x449308, by type: cel, y, step, row step; the cross 2125 at +(4, 7)) and
+	# FUN_00418b50's two-player out-of-vehicles grid (0x449378 / 0x449388 / 0x4492f8: Tank, MSV, Heli, Jeep at (8, 0) (36, 0) (8, 16) (36, 16) from (-35, 10))
+	var row := []
+	for t in [[2104, 19], [2109, 16], [2114, 19], [2120, 19]]:
+		row.append({"sprite": rid(t[0]), "y": 10, "dx": t[1], "dy": 10})
+	var grid := []
+	for g in [[2104, 8, 0], [2114, 36, 0], [2120, 8, 16], [2109, 36, 16]]:
+		grid.append({"sprite": rid(g[0]), "at": [g[1], g[2]]})
+	_write("ui/death_skull.json", {"frames": skull, "icon_row": {"by_type": row, "max": 8, "per_row": 4},
+		"out_grid": {"origin": [-35, 10], "icons": grid}, "cross": rid(2125), "cross_offset": [4, 7]})
 	_write("effects/mine.json", {"sprites": _sids(1081, 3)})
 	var missile := []
 	for f in 12:
