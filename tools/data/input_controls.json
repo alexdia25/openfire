@@ -1,5 +1,16 @@
 {
- "_source": "Default bindings (issue #113; traced in wiki document 137, the shape is the engine's PlayerControls). Three sets, as the original keeps them in its 66-halfword registry block: one_player, two_player_1, two_player_2. Each control lists its bindings, all live and ORed (FUN_0041b890): a key (Godot's name), an input action, or 'joy:<code>', one of the original's 24 joystick input codes (FUN_0041cb00). two_player_1 / two_player_2 are the original's defaults (FUN_0041c990 keys: W S A D, Q E, H J K and keypad 8 5 4 6, 7 9, - + Enter; FUN_0041ca40 joystick codes). one_player keeps the original's joystick defaults, but its keys are a PORT CHOICE (user, 2026-10-12): the port's own keys on the same three-button scheme, the arrows and ui_accept (Space, Enter) as A, Z as B, X as C, Q and E as the shoulders; the original's one-player keys are the same as two_player_1's.",
+ "_source": "Default bindings (issue #113; traced in wiki document 137, the shape is the engine's PlayerControls). Three sets, as the original keeps them in its 66-halfword registry block: one_player, two_player_1, two_player_2. Each control lists its bindings, all live and ORed (FUN_0041b890): a key (Godot's name), an input action, or 'joy:<code>', one of the original's 24 joystick input codes (FUN_0041cb00). two_player_1 / two_player_2 are the original's defaults (FUN_0041c990 keys: W S A D, Q E, H J K and keypad 8 5 4 6, 7 9, - + Enter; FUN_0041ca40 joystick codes). one_player keeps the original's joystick defaults, but its keys are a PORT CHOICE (user, 2026-10-12): the port's own keys on the same three-button scheme, the arrows and ui_accept (Space, Enter) as A, Z as B, X as C, Q and E as the shoulders; the original's one-player keys are the same as two_player_1's. 'editor' lays out the Settings' Controls screen (ControlsScreen, issue #121, document 141) as CONFIG.BIN's dialogs 129 'Configuration - 1 Player' and 130 'Configuration - 2 Player': the row labels (ids 0x43c-0x444, in the dialog's order), the headings (ACTION, KEY, JOYSTICK / PLAYER 1, PLAYER 2, KEY, JOY), and the joystick list's entries (the combo boxes' initial strings, '*NONE*' then ' 1 Up' ... ' 2POV Down', trimmed). The joystick names are given by code from their meaning (stick, button A-D = buttons 1-4, POV = hat); how CONFIG.BIN turns a list index into a code was not traced.",
+ "editor": {
+  "title": "Configuration",
+  "rows": [["up", "Forward:"], ["down", "Reverse:"], ["right", "Right:"], ["left", "Left:"], ["l", "Bank Left:"], ["r", "Bank Right:"], ["a", "Fire Down:"], ["b", "Fire Straight:"], ["c", "Switch Guns:"]],
+  "pages": [
+   {"title": "1 Player", "sets": ["one_player"], "heads": [""], "key_head": "KEY", "joy_head": "JOYSTICK"},
+   {"title": "2 Player", "sets": ["two_player_1", "two_player_2"], "heads": ["PLAYER 1", "PLAYER 2"], "key_head": "KEY", "joy_head": "JOY"}
+  ],
+  "action_head": "ACTION", "none": "*NONE*",
+  "joy_names": ["1 Down", "1 Left", "1 Right", "1 Up", "1Button A", "1Button B", "1Button C", "1Button D", "1POV Down", "1POV Left", "1POV Right", "1POV Up",
+   "2 Down", "2 Left", "2 Right", "2 Up", "2Button A", "2Button B", "2Button C", "2Button D", "2POV Down", "2POV Left", "2POV Right", "2POV Up"]
+ },
  "sets": {
   "one_player": {"up": ["ui_up", "joy:3"], "down": ["ui_down", "joy:0"], "left": ["ui_left", "joy:1"], "right": ["ui_right", "joy:2"],
    "a": ["ui_accept", "joy:4"], "b": ["Z", "joy:5"], "c": ["X", "joy:6"], "l": ["Q", "joy:9"], "r": ["E", "joy:10"]},

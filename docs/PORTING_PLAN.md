@@ -2380,6 +2380,17 @@ Keep each step playable, and load everything through the pack layer from step 1:
    empty tank (FUN_0040b5c0 -> 0x418390), the dead type (+0x3a), the icon row and out grid
    (`ui/death_skull.json`), turrets and the submarine for both players, the Drone refusal
    (FUN_0040aa90), two ears, the music director's count, draws and the Tournament table.
+   **Step 5 done** (#85, #121, [document 141](https://github.com/alexdia25/openfire/wiki/141-worked-example-the-player-selector-and-the-controls-screen)):
+   the level select's **Register player** window (the original's dialog 2001: a name per player, 40 characters; on the
+   Multiplayer list both rows always, the second greyed for vs AI, and each player picks a colour (side), a port
+   choice; labels, sides and default names are pack data, `ui/menus.json` "players"; typed names saved; the
+   Opponent choice at the top of the list), and Settings > **Controls** (`ControlsScreen`, CONFIG.BIN's dialogs 129 / 130 as two pages: a key box
+   and a joystick box per control and set, both press-to-bind (click, then press a key or a pad input); one player
+   uses both, each player of a two-player game picks keyboard or gamepad (a port choice), a double-key warning, Default / OK / Cancel; the player's sets in
+   `user://settings.cfg` win over the pack's; labels from `input/controls.json` "editor"). Traced: the names feed
+   only the Hall of Fame; name 1 starts as the Windows user, name 2 empty; after a game the Level Selector reopens
+   without the Player Selector. The menus work with a gamepad (the d-pad moves and repeats when held, A presses,
+   B is Back; a screen's "back" in the menu data). **Two-player play is complete from the menus.**
 4. **Weapons and projectiles — first pass DONE (playable, not yet authentic; 2026-09-06).**
    `game/vehicle.gd`'s `Vehicle` gained a `fired` signal: holding `ui_accept` (or
    `RF_DEBUG_FIRE=1`, off by default) fires a projectile from a fixed muzzle offset ahead

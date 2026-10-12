@@ -1,5 +1,5 @@
 {
- "_source": "The front end's menus as Return Fire shows them (wiki documents 127 and 133, issue #84): the engine's default flow plus the Hall of Fame, which the original's Game menu opened as 'High Scores' (command 0x3ed, dialog resource 104 'Return Fire Hall of Fame'). A pack's screens replace the default's by id, so 'main' lists the default items again with High Scores among them.",
+ "_source": "The front end's menus as Return Fire shows them (wiki documents 127 and 133, issue #84): the engine's default flow plus the Hall of Fame, which the original's Game menu opened as 'High Scores' (command 0x3ed, dialog resource 104 'Return Fire Hall of Fame'). A pack's screens replace the default's by id, so 'main' lists the default items again with High Scores among them. 'players' is the level select's names window (issue #85, document 141): titled 'Register player' with the column headings 'Name' and 'Colour' (user, 2026-10-12), the original's Player Selector (dialog 2001) with the edit boxes' 40-character limit (EM_LIMITTEXT 0x28, FUN_00425d00). 'sides' are the two sides' names, the original's field labels 'Brown:' / 'Green:' (statics 0x3f5 / 0x3f6). PORT CHOICES (user, 2026-10-12): each player picks a side (the original's player 1 is always Brown), so the rows are labelled by player; a name nobody typed is its side's ('default_names', by side); the original started name 1 as the Windows user name and name 2 empty (FUN_00424d40).",
  "screens": {
   "main": {
    "title": "Main menu",
@@ -35,5 +35,25 @@
    "title": "Return Fire Hall of Fame",
    "back": "main"
   }
+ },
+ "players": {
+  "title": "Register player",
+  "labels": [
+   "Player 1:",
+   "Player 2:"
+  ],
+  "heads": [
+   "Name",
+   "Colour"
+  ],
+  "sides": [
+   "Brown",
+   "Green"
+  ],
+  "default_names": [
+   "Brown",
+   "Green"
+  ],
+  "max_length": 40
  }
 }
