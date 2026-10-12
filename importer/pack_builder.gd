@@ -24,6 +24,11 @@ const ORIGINAL_ROSTER := [["rf.tank", 0, "T", 3, "Tank"], ["rf.jeep", 1, "J", 8,
 ## Each player's starting mine reserve by player count (document 135): the per-player block at 0x443010 holds 30 (+0xbc), which the
 ## two-player setup keeps; the one-player setup zeroes it (0x4095e7).
 const ORIGINAL_MINE_RESERVE := {"1": 0, "2": 30}
+## What each button does per vehicle (document 137): the record's handlers for A, B and C at +0x17c / +0x180 / +0x184, which FUN_0040b980
+## calls when the decoded word has that button's bits (0xe0 / 0x700 / 0x3800). Tank 0x40d240 twice (level, raised); Jeep 0x40df00 (missile),
+## 0x40dfe0 (swim), 0x40e070 (flag, FUN_00432e40); MSV 0x40d520 twice and 0x40d820 (mines); Heli 0x40e600 twice and 0x40e7a0 (weapon switch).
+const ORIGINAL_BUTTONS := {0: {"a": "fire", "b": "raised"}, 1: {"a": "fire", "b": "swim", "c": "flag"},
+	2: {"a": "fire", "b": "raised", "c": "mine"}, 3: {"a": "fire", "b": "raised", "c": "weapon_toggle"}}
 const MUSIC_THEME_RULE := {0: "flag_threat", 3: "stock_or_roll"}
 ## The home pad's mechanism (document 89, the lift object's descriptors 0x44dab0 / 0x44d8f8 / 0x44d890): the pit walls
 ## (parts 0x44d9d0: north cel 0x33b, west 0x33c, east and south 0x33a), the hazard strip (0x33f), the lift plate
@@ -474,6 +479,7 @@ func vehicles(sound: Dictionary) -> String:
 			"water": b["water"],
 			"terrain": b.get("terrain", {"blocked_by_bushes": false, "blocked_by_rocks": false}),
 			"flags": b.get("flags", {"carries_flag": false}),
+			"buttons": ORIGINAL_BUTTONS[index],
 			"shape": t["shape"], "events": {"on_create": on_create}, "sounds": sounds,
 			"camera": _camera_def(t),
 			"music": {"theme_line": t.get("music_theme_line"), "priority": t.get("music_priority"),
@@ -483,7 +489,8 @@ func vehicles(sound: Dictionary) -> String:
 			"_record": {"stats.hit_points": "+0x28", "stats.armor": "+0x24", "stats.fuel": "+0x210",
 				"stats.sink_depth": "+0x158", "stats.dock_tolerance": "+0x254", "stats.death_wait_ticks": "+0x260",
 				"drive": "+0x168..+0x178", "weapons.ammo": "+0x1a8 / +0x1dc", "weapons.cooldown_ticks": "+0x1a4 / +0x1d8",
-				"events.on_create": "+0x240", "camera.swoop_height": "table 0x4452c0", "camera": "+0xbc (rig), +0x130, +0x2c0..+0x2d8, table 0x4452e8", "render": "+0x148 (draw descriptor)"}}])
+				"events.on_create": "+0x240", "camera.swoop_height": "table 0x4452c0", "camera": "+0xbc (rig), +0x130, +0x2c0..+0x2d8, table 0x4452e8", "render": "+0x148 (draw descriptor)",
+				"buttons": "+0x17c / +0x180 / +0x184"}}])
 		definitions.back()[1].merge(_shadow_entry(shadow_data, index))
 		roster.append({"id": vid, "stock_key": entry[2], "default_stock": entry[3]})
 	DirAccess.make_dir_recursive_absolute(out_dir.path_join("audio"))
@@ -567,6 +574,11 @@ func small_tables() -> void:
 		var pg: Dictionary = prog.duplicate(true)
 		pg.erase("_source")
 		_write("ui/progression.json", pg)
+	var ctl: Variant = data("input_controls.json")   # the default bindings (wiki document 137, issue #113)
+	if ctl is Dictionary:
+		var cd: Dictionary = ctl.duplicate(true)
+		cd.erase("_source")
+		_write("input/controls.json", cd)
 	var fl: Variant = data("flag.json")
 	if fl is Dictionary:
 		for group in ["ground", "carried"]:

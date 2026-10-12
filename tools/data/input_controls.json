@@ -1,0 +1,11 @@
+{
+ "_source": "Default bindings (issue #113; traced in wiki document 137, the shape is the engine's PlayerControls). Three sets, as the original keeps them in its 66-halfword registry block: one_player, two_player_1, two_player_2. Each control lists its bindings, all live and ORed (FUN_0041b890): a key (Godot's name), an input action, or 'joy:<code>', one of the original's 24 joystick input codes (FUN_0041cb00). two_player_1 / two_player_2 are the original's defaults (FUN_0041c990 keys: W S A D, Q E, H J K and keypad 8 5 4 6, 7 9, - + Enter; FUN_0041ca40 joystick codes). one_player keeps the original's joystick defaults, but its keys are a PORT CHOICE (user, 2026-10-12): the port's own keys on the same three-button scheme, the arrows and ui_accept (Space, Enter) as A, Z as B, X as C, Q and E as the shoulders; the original's one-player keys are the same as two_player_1's.",
+ "sets": {
+  "one_player": {"up": ["ui_up", "joy:3"], "down": ["ui_down", "joy:0"], "left": ["ui_left", "joy:1"], "right": ["ui_right", "joy:2"],
+   "a": ["ui_accept", "joy:4"], "b": ["Z", "joy:5"], "c": ["X", "joy:6"], "l": ["Q", "joy:9"], "r": ["E", "joy:10"]},
+  "two_player_1": {"up": ["W", "joy:3"], "down": ["S", "joy:0"], "left": ["A", "joy:1"], "right": ["D", "joy:2"],
+   "a": ["H", "joy:4"], "b": ["J", "joy:5"], "c": ["K", "joy:6"], "l": ["Q", "joy:9"], "r": ["E", "joy:10"]},
+  "two_player_2": {"up": ["Kp 8", "joy:15"], "down": ["Kp 5", "joy:12"], "left": ["Kp 4", "joy:13"], "right": ["Kp 6", "joy:14"],
+   "a": ["Kp Subtract", "joy:16"], "b": ["Kp Add", "joy:17"], "c": ["Kp Enter", "Enter", "joy:18"], "l": ["Kp 7", "joy:21"], "r": ["Kp 9", "joy:22"]}
+ }
+}

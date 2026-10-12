@@ -224,6 +224,11 @@ ORIGINAL_ROSTER = [("rf.tank", 0, "T", 3, "Tank"), ("rf.jeep", 1, "J", 8, "Jeep"
 # Each player's starting mine reserve by player count (document 135): the per-player block at 0x443010 holds 30 (+0xbc), which the
 # two-player setup keeps; the one-player setup zeroes it (0x4095e7).
 ORIGINAL_MINE_RESERVE = {"1": 0, "2": 30}
+# What each button does per vehicle (document 137): the record's handlers for A, B and C at +0x17c / +0x180 / +0x184, which FUN_0040b980
+# calls when the decoded word has that button's bits (0xe0 / 0x700 / 0x3800). Tank 0x40d240 twice (level, raised); Jeep 0x40df00 (missile),
+# 0x40dfe0 (swim), 0x40e070 (flag, FUN_00432e40); MSV 0x40d520 twice and 0x40d820 (mines); Heli 0x40e600 twice and 0x40e7a0 (weapon switch).
+ORIGINAL_BUTTONS = {0: {"a": "fire", "b": "raised"}, 1: {"a": "fire", "b": "swim", "c": "flag"},
+                    2: {"a": "fire", "b": "raised", "c": "mine"}, 3: {"a": "fire", "b": "raised", "c": "weapon_toggle"}}
 # The wreck drawn when a vehicle dies (document 87): Tank and Jeep share descriptor 0x43ece8 / 0x440218, the MSV's
 # (0x43f628) has the same corner sizes and its own cels; the Heli's single part (0x440fa0) is off-centre. Each quad:
 # sprites [tan, green] (or one), height above ground, half-size and centre in world units, and whether it is a shadow.
@@ -503,6 +508,7 @@ def emit_vehicle_definitions(out_dir, vt, sound_dir, registry, team_pairs):
             "water": BEHAVIOUR[index]["water"],
             "terrain": BEHAVIOUR[index].get("terrain", {"blocked_by_bushes": False, "blocked_by_rocks": False}),
             "flags": BEHAVIOUR[index].get("flags", {"carries_flag": False}),
+            "buttons": ORIGINAL_BUTTONS[index],
             "shape": t["shape"],
             "events": {"on_create": on_create},
             "sounds": sounds,
@@ -518,7 +524,8 @@ def emit_vehicle_definitions(out_dir, vt, sound_dir, registry, team_pairs):
             "_record": {"stats.hit_points": "+0x28", "stats.armor": "+0x24", "stats.fuel": "+0x210",
                         "stats.sink_depth": "+0x158", "stats.dock_tolerance": "+0x254", "stats.death_wait_ticks": "+0x260",
                         "drive": "+0x168..+0x178", "weapons.ammo": "+0x1a8 / +0x1dc", "weapons.cooldown_ticks": "+0x1a4 / +0x1d8",
-                        "events.on_create": "+0x240", "camera.swoop_height": "table 0x4452c0", "camera": "+0xbc (rig), +0x130, +0x2c0..+0x2d8, table 0x4452e8", "render": "+0x148 (draw descriptor)"},
+                        "events.on_create": "+0x240", "camera.swoop_height": "table 0x4452c0", "camera": "+0xbc (rig), +0x130, +0x2c0..+0x2d8, table 0x4452e8", "render": "+0x148 (draw descriptor)",
+                        "buttons": "+0x17c / +0x180 / +0x184"},
         }
         definitions.append((vid, d))
         roster.append({"id": vid, "stock_key": stock_key, "default_stock": default_stock})
@@ -912,6 +919,17 @@ def main():
         os.makedirs(os.path.join(args.out_dir, "ui"), exist_ok=True)
         with open(os.path.join(args.out_dir, "ui", "progression.json"), "w") as f:
             json.dump(prog, f, indent=1, sort_keys=True)
+            f.write("\n")
+
+    # The default bindings (issue #113, document 137)
+    ctl_path = os.path.join(ROOT, "tools", "data", "input_controls.json")
+    if os.path.exists(ctl_path):
+        with open(ctl_path) as f:
+            ctl = json.load(f)
+        ctl.pop("_source", None)
+        os.makedirs(os.path.join(args.out_dir, "input"), exist_ok=True)
+        with open(os.path.join(args.out_dir, "input", "controls.json"), "w") as f:
+            json.dump(ctl, f, indent=1, sort_keys=True)
             f.write("\n")
 
     # The capture flag (document 65): sprite ids per wave frame (13 tan, then 13 green)
