@@ -9,7 +9,11 @@ extends RefCounted
 ## (music/track_NN.res, music/win_N.res; the engine's AudioFiles loads either). Track boundaries, durations and every
 ## other field of music.json / jingles.json are the same; the samples differ only by codec loss.
 
-const HUD_STRIPS := {"1PBSCRL.RFA": "strip_1p_low", "1PBSCRH.RFA": "strip_1p_high", "NEWREQLG.RFA": "title_large", "NEWREQSM.RFA": "title_small"}
+const HUD_STRIPS := {"1PBSCRL.RFA": "strip_1p_low", "1PBSCRH.RFA": "strip_1p_high", "2PBSCRL.RFA": "strip_2p_low", "2PBSCRH.RFA": "strip_2p_high",
+		"NEWREQLG.RFA": "title_large", "NEWREQSM.RFA": "title_small"}
+## The two-player screen's divider (document 139): FUN_004313c0 loads ARTpMScr.rfa (24 x 299) in a two-player game and blits one rectangle of
+## it at (0x9c, 0), low resolution, or (0x138, 0), high: x 16-24 / rows 0-150, or x 0-16 / all 299 rows. name -> [x, y, w, h].
+const DIVIDER_2P := {"divider_2p_low": [16, 0, 8, 150], "divider_2p_high": [0, 0, 16, 299]}
 const TITLE_BAR_TEXT_ROWS := {"title_large": [456, 475], "title_small": [229, 237]}   ## the picture's bottom bar ("PRESS 'F2' TO BEGIN"): the text is painted out, the port writes its own
 const BANNERS := {"BANBL.BMP": "win_banner_tan_low", "BANGL.BMP": "win_banner_green_low",
 		"BANBH.BMP": "win_banner_tan_high", "BANGH.BMP": "win_banner_green_high"}
@@ -43,6 +47,13 @@ static func hud_strips(src: RFSource, pack_dir: String) -> String:
 				for x in img.get_width():
 					img.set_pixel(x, y, c)
 		img.save_png(pack_dir.path_join("hud").path_join(HUD_STRIPS[file] + ".png"))
+	var div := _bmp(src, "ART/2PMSCR.RFA")
+	if div == null:
+		return "could not read ART/2PMSCR.RFA"
+	div.convert(Image.FORMAT_RGB8)
+	for name in DIVIDER_2P:
+		var r: Array = DIVIDER_2P[name]
+		div.get_region(Rect2i(r[0], r[1], r[2], r[3])).save_png(pack_dir.path_join("hud").path_join(name + ".png"))
 	return ""
 
 

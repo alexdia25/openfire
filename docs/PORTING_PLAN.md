@@ -2368,6 +2368,12 @@ Keep each step playable, and load everything through the pack layer from step 1:
    `input/controls.json`, keys and the original's joystick codes ORed, through Swap Sides), the
    definitions' `buttons` (A / B / C per vehicle); the Jeep's missile fires once per press; the vehicle
    choice reads the word; `EnemyVehicle` drives through its own word. Binding editor: #121.
+   **Step 3 done** (#114, #115, [document 139](https://github.com/alexdia25/openfire/wiki/139-worked-example-split-screen)):
+   a `PlayerView` per player (camera, rig with the traced offsets, overlays), two-player matches
+   (`players = 2` / `RF_PLAYERS=2`: two human slots, no computer opponent), each view in a SubViewport
+   sharing the world; the classic two-player screen from the traced rectangles (views 156 x 149 at
+   x = 0 / 164, panels (14, 162) / (165, 162), the `2pBScrL` strip, the `2pMScr` bar at (156, 0), which
+   is the bar between the views, not a map screen); modern: the window's halves.
 4. **Weapons and projectiles — first pass DONE (playable, not yet authentic; 2026-09-06).**
    `game/vehicle.gd`'s `Vehicle` gained a `fired` signal: holding `ui_accept` (or
    `RF_DEBUG_FIRE=1`, off by default) fires a projectile from a fixed muzzle offset ahead
