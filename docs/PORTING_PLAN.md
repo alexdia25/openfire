@@ -2402,6 +2402,15 @@ Keep each step playable, and load everything through the pack layer from step 1:
    A computer player has no view and no flat sounds. PORT CHOICE: once every person is out and only computer players
    can still win, the match is lost at once (`_end_people_out`). `EnemyVehicle` is gone. The brain is still the old
    seek-and-shoot placeholder; next are navigation, combat, the objective, logistics and skill profiles (document 142).
+   Phase 2 done (2026-10-13; harness on all 104 two-sided maps: none stuck, they meet on every drivable land route; [document 145](https://github.com/alexdia25/openfire/wiki/145-computer-players-3-navigation)): navigation.
+   `NavGrid` (one per vehicle type and side, kept on the match): tile costs and steps from the match's own collision rules through
+   an invisible probe vehicle (`MatchController.tile_shape_rule`, split out of the tile callbacks so planning has no side effects;
+   `terrain_rule_at`, `terrain_blocker_at`, `tile_destructible`), steps checked as driven (every 8 px, 10 px from deep water),
+   breaches (walls and gates that can be shot down, `BREACH_COST`), A*, tiles watched after a reported change. `AINavigator`: the
+   carrot on the leg, turn first, shooting a breach on the planned leg, backing up when it neither moves nor turns. `AIMotor`: the
+   input-word pieces. The brain engages, approaches round obstacles, or advances to the enemy base (an interim goal). Harness:
+   `tools/tests/ai_match_harness.gd` (two computer players per two-sided map, headless; `RF_AI_LEVELS`, `RF_AI_TICKS`, `RF_AI_CHECK`).
+   Maps whose bases only water joins need phase 5 (the Heli, the swimming Jeep).
 4. **Weapons and projectiles — first pass DONE (playable, not yet authentic; 2026-09-06).**
    `game/vehicle.gd`'s `Vehicle` gained a `fired` signal: holding `ui_accept` (or
    `RF_DEBUG_FIRE=1`, off by default) fires a projectile from a fixed muzzle offset ahead
