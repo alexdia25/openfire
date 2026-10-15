@@ -36,7 +36,7 @@ func _init() -> void:
 	get_root().add_child(root)
 	print("map       land  route_px  met@tick  closest  stuck  ms/tick  shots  hits  kills  drones  camped  end")
 	var failures := 0
-	var totals := {"shots": 0, "hits": 0, "kills": 0, "drones": 0, "drones_down": 0}
+	var totals := {"shots": 0, "turret_shots": 0, "hits": 0, "kills": 0, "drones": 0, "drones_down": 0}
 	for id in levels:
 		seed(77)
 		var r := _run_level(pack, id, ticks, root)
@@ -84,7 +84,7 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node) -> Dictionary:
 		route_px += from.distance_to(p)
 		from = p
 	var r := {"land": not route.is_empty() and lg.tile_of(route[route.size() - 1]) == lg.tile_of(mc.slots[1].spawn_px), "route_px": route_px, "met": -1, "closest": INF, "stuck": 0, "searches": 0, "tiles": 0, "brain_ms": 0.0, "ms_per_tick": 0.0, "end": "", "stuck_long": false,
-		"shots": 0, "hits": 0, "kills": 0, "drones": 0, "drones_down": 0, "camp_ticks": 0, "camp_note": ""}
+		"shots": 0, "hits": 0, "kills": 0, "drones": 0, "drones_down": 0, "camp_ticks": 0, "camp_note": "", "turret_shots": 0}
 	# the level scene's half of a destroyed or crushed tile (TerrainView3D._apply_tile_destroyed / _clear_tile_decoration), applied after the
 	# tick: without it a tile shot down would never change
 	var fallen: Array = []
@@ -94,8 +94,13 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node) -> Dictionary:
 	var tiles_down := [0]
 	var still := [0, 0]
 	var shots := [0, 0]
+	var turret_shots := [0]   # shots that left with the turret turned more than 10 degrees off the hull (the Tank aiming without turning)
 	for k in 2:
-		mc.slots[k].vehicle.shot.connect(func(_spec): shots[k] += 1)
+		var sv: Vehicle = mc.slots[k].vehicle
+		sv.shot.connect(func(_spec):
+			shots[k] += 1
+			if absf(wrapf(sv.turret_deg, -180.0, 180.0)) > 10.0:
+				turret_shots[0] += 1)
 	var hp := [mc.slots[0].vehicle.hp, mc.slots[1].vehicle.hp]
 	var camp := [0, 0]
 	var camp_from := [Vector2(INF, INF), Vector2(INF, INF)]
@@ -197,7 +202,8 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node) -> Dictionary:
 	for d in sent:
 		if d.killed:
 			r.drones_down += 1
-	r.end = "shots %s, tiles down %d; " % [shots, tiles_down[0]] + ("finished winner %d; " % mc.winner_idx if mc.match_finished else "") + ", ".join(parts) + (" STUCK-LONG" if r.stuck_long else "") + (" camped: " + r.camp_note if r.camp_note != "" else "")
+	r.turret_shots = turret_shots[0]
+	r.end = "shots %s (turret turned: %d), tiles down %d; " % [shots, turret_shots[0], tiles_down[0]] + ("finished winner %d; " % mc.winner_idx if mc.match_finished else "") + ", ".join(parts) + (" STUCK-LONG" if r.stuck_long else "") + (" camped: " + r.camp_note if r.camp_note != "" else "")
 	for c in root.get_children():
 		c.free()
 	return r
