@@ -2411,6 +2411,16 @@ Keep each step playable, and load everything through the pack layer from step 1:
    input-word pieces. The brain engages, approaches round obstacles, or advances to the enemy base (an interim goal). Harness:
    `tools/tests/ai_match_harness.gd` (two computer players per two-sided map, headless; `RF_AI_LEVELS`, `RF_AI_TICKS`, `RF_AI_CHECK`).
    Maps whose bases only water joins need phase 5 (the Heli, the swimming Jeep).
+   Phase 3 done (2026-10-13; [document 146](https://github.com/alexdia25/openfire/wiki/146-computer-players-4-combat)): combat.
+   `AIGunner` leads a target (velocities seen tick by tick, the intercept), aims the Tank's turret with the shoulder buttons (the hull
+   keeps driving) or turns a hull-fixed gun, and fires only when a copy of the shot it would fire now, flown with the game's own flight
+   and hit code, hits the target first (range, walls, its own side, height and raised fire in one rule). The pure halves split out for
+   it: `Vehicle.shot_spec` (the weapons' `shot_spec`), `Projectile.advance`, `MatchController.shell_tile_hit` / `shell_vehicle_hit` /
+   `shell_drone_hit`. Turrets: `turret_threats`, their reach costs extra in the grid; an awake turret aiming at it is shot back. The
+   Drone: `camp_ticks` (it moves off a tile before the camp limit), a Drone hunting it is its first target; PORT CHOICE: a computer
+   player's rectangle refuses no Drone spawn point (it has no view). No spawn camping (user rule): `AIBrain.protected` (dead, in the
+   hangar, docked, or just out by its pad) is no target and makes it withdraw home. The harness counts shots, hits, kills, Drones and
+   time spent by a protected pad.
 4. **Weapons and projectiles — first pass DONE (playable, not yet authentic; 2026-09-06).**
    `game/vehicle.gd`'s `Vehicle` gained a `fired` signal: holding `ui_accept` (or
    `RF_DEBUG_FIRE=1`, off by default) fires a projectile from a fixed muzzle offset ahead

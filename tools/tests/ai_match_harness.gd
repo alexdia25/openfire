@@ -1,12 +1,16 @@
-# The computer players' harness (alexdia25/openfire#77, wiki documents 142 and 145): two computer players against each other on Return
+# The computer players' harness (alexdia25/openfire#77, wiki documents 142, 145 and 146): two computer players against each other on Return
 # Fire's two-sided maps, headless, no level scene, fixed ticks. Per map: whether they met (came within sight), how close they got, how
-# often they got stuck, the path searches and tiles worked out, the time the brains took, and how the match stood at the end.
+# often they got stuck, the path searches and tiles worked out, the time the brains took, the fighting (shots, hits on vehicles, kills,
+# Drones sent and shot down), the longest either stayed by the other's pad without leaving (not withdrawing, or not moving) while that side's vehicle was protected (no spawn camping), and how the
+# match stood at the end.
 # Seeded, so a run repeats.
 #   RF_AI_LEVELS=RFMAP101,RFMAP150   the maps (default: every 10th two-sided map); "all" = all two-sided maps
 #   RF_AI_TICKS=6000                 ticks per map (62.5 a second)
 #   RF_AI_CHECK=1                    exit 1 when one stayed stuck, or the players never met though a land route joins the bases that is
-#                                    short enough to drive in the time (at half a Tank's top speed); a map whose bases only water joins
-#                                    needs the Heli or the swimming Jeep (phase 5)
+#                                    short enough to drive in the time (at half a Tank's top speed), or one camped a pad (stayed within
+#                                    AIBrain.keep_out_px of it for more than 4 s while that side's vehicle was
+#                                    protected, without withdrawing, or withdrawing but not moving); a map whose bases
+#                                    only water joins needs the Heli or the swimming Jeep (phase 5)
 #   RF_AI_TRACE=1                    print both players' state every 2 seconds (tile, mode, speed, path, the next waypoint and its cost)
 # Run:
 #   godot --headless --audio-driver Dummy --path . --script res://tools/tests/ai_match_harness.gd
@@ -15,6 +19,9 @@ extends SceneTree
 const PACK := "res://packs/original_pc"
 const DT := 1.0 / 62.5
 const HALF_SPEED_PX_PER_TICK := 0.5   ## half a Tank's top speed (1.05 units a tick): a route this long a tick is drivable in the time
+const CAMP_LIMIT_TICKS := 250         ## spawn camping: longer than this (4 s) by a protected vehicle's pad without leaving
+const LEAVING_TICKS := 62             ## checked about once a second
+const LEAVING_PX := 16.0              ## a vehicle driving away moves at least this much in a second (a Tank: about 65 px)
 
 
 func _init() -> void:
@@ -27,16 +34,21 @@ func _init() -> void:
 	var levels := _levels(pack)
 	var root := Node2D.new()
 	get_root().add_child(root)
-	print("map       land  route_px  met@tick  closest  stuck  searches  sampled  nodes_ms  ms/tick  end")
+	print("map       land  route_px  met@tick  closest  stuck  ms/tick  shots  hits  kills  drones  camped  end")
 	var failures := 0
+	var totals := {"shots": 0, "hits": 0, "kills": 0, "drones": 0, "drones_down": 0}
 	for id in levels:
 		seed(77)
 		var r := _run_level(pack, id, ticks, root)
-		print("%-9s %-4s  %8.0f  %8s  %7.0f  %5d  %8d  %7d  %8.0f  %7.2f  %s" % [id, "yes" if r.land else "no", r.route_px, str(r.met) if r.met >= 0 else "never", r.closest, r.stuck, r.searches,
-			r.tiles, r.brain_ms, r.ms_per_tick, r.end])
-		if (r.met < 0 and r.land and r.route_px < ticks * HALF_SPEED_PX_PER_TICK) or r.stuck_long:
+		print("%-9s %-4s  %8.0f  %8s  %7.0f  %5d  %7.2f  %5d  %4d  %5d  %3d/%-3d  %6d  %s" % [id, "yes" if r.land else "no", r.route_px,
+			str(r.met) if r.met >= 0 else "never", r.closest, r.stuck, r.ms_per_tick, r.shots, r.hits, r.kills, r.drones_down, r.drones,
+			r.camp_ticks, r.end])
+		if (r.met < 0 and r.land and r.route_px < ticks * HALF_SPEED_PX_PER_TICK) or r.stuck_long or r.camp_ticks > CAMP_LIMIT_TICKS:
 			failures += 1
-	print("ai_match_harness: %d maps, %d with a long stick or no meeting on a drivable land route" % [levels.size(), failures])
+		for k in totals:
+			totals[k] += r[k]
+	print("totals: %s" % totals)
+	print("ai_match_harness: %d maps, %d with a long stick, no meeting on a drivable land route, or a camped pad" % [levels.size(), failures])
 	quit(1 if failures > 0 and OS.get_environment("RF_AI_CHECK") == "1" else 0)
 
 
@@ -71,7 +83,8 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node) -> Dictionary:
 	for p in route:
 		route_px += from.distance_to(p)
 		from = p
-	var r := {"land": not route.is_empty() and lg.tile_of(route[route.size() - 1]) == lg.tile_of(mc.slots[1].spawn_px), "route_px": route_px, "met": -1, "closest": INF, "stuck": 0, "searches": 0, "tiles": 0, "brain_ms": 0.0, "ms_per_tick": 0.0, "end": "", "stuck_long": false}
+	var r := {"land": not route.is_empty() and lg.tile_of(route[route.size() - 1]) == lg.tile_of(mc.slots[1].spawn_px), "route_px": route_px, "met": -1, "closest": INF, "stuck": 0, "searches": 0, "tiles": 0, "brain_ms": 0.0, "ms_per_tick": 0.0, "end": "", "stuck_long": false,
+		"shots": 0, "hits": 0, "kills": 0, "drones": 0, "drones_down": 0, "camp_ticks": 0, "camp_note": ""}
 	# the level scene's half of a destroyed or crushed tile (TerrainView3D._apply_tile_destroyed / _clear_tile_decoration), applied after the
 	# tick: without it a tile shot down would never change
 	var fallen: Array = []
@@ -83,6 +96,12 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node) -> Dictionary:
 	var shots := [0, 0]
 	for k in 2:
 		mc.slots[k].vehicle.shot.connect(func(_spec): shots[k] += 1)
+	var hp := [mc.slots[0].vehicle.hp, mc.slots[1].vehicle.hp]
+	var camp := [0, 0]
+	var camp_from := [Vector2(INF, INF), Vector2(INF, INF)]
+	var was_alive := [true, true]
+	var sent: Array = []
+	mc.drone_created.connect(func(d: Drone): sent.append(d))
 	var last := [Vector2.ZERO, Vector2.ZERO]
 	var t0 := Time.get_ticks_usec()
 	for i in ticks:
@@ -102,6 +121,36 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node) -> Dictionary:
 		crushed.clear()
 		if mc.match_finished:
 			break
+		# hits and kills (each vehicle's lost hit points, and its deaths); no spawn camping: while a side's vehicle is protected (AIBrain.protected:
+		# dead, in the hangar, docked, or just out and by its pad), the longest the other side's vehicle stays within PAD_KEEP_OUT_PX of that pad
+		for k in 2:
+			var vk: Vehicle = mc.slots[k].vehicle
+			if vk.alive and vk.hp < hp[k]:
+				r.hits += 1
+			if was_alive[k] and not vk.alive:
+				r.kills += 1
+			hp[k] = vk.hp
+			was_alive[k] = vk.alive
+			var other: PlayerSlot = mc.slots[1 - k]
+			var kb: AIBrain = (mc.slots[k].controls as AIControls).brain
+			var pd := vk.position.distance_to(other.spawn_px)
+			var driving: bool = vk.alive and not vk.frozen and mc.slots[k].death_phase == 0 and not mc.slots[k].selecting   # not a wreck, not in the hangar
+			if kb.protected(mc, other) and driving and pd < AIBrain.keep_out_px(mc, other):
+				if i % LEAVING_TICKS == 0:
+					# every second: still by the pad and not leaving (not withdrawing, or withdrawing but not moving: stuck) counts as camping
+					var moved := vk.position.distance_to(camp_from[k]) if camp_from[k].x != INF else INF
+					if kb.mode != "withdraw" or moved < LEAVING_PX:
+						camp[k] += LEAVING_TICKS
+						if camp[k] > r.camp_ticks:
+							r.camp_ticks = camp[k]
+							r.camp_note = "side%d %s %s at %d px t%d" % [mc.slots[k].index, kb.mode, ["vehicle", "tile", "drone"][kb.target.kind] if kb.target != null else "-",
+								int(pd), i]
+					else:
+						camp[k] = 0
+					camp_from[k] = vk.position
+			else:
+				camp[k] = 0
+				camp_from[k] = Vector2(INF, INF)
 		var a: Vehicle = mc.slots[0].vehicle
 		var b: Vehicle = mc.slots[1].vehicle
 		if a.alive and b.alive and not a.frozen and not b.frozen:
@@ -122,7 +171,7 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node) -> Dictionary:
 			var ps: PlayerSlot = mc.slots[k]
 			var v := ps.vehicle
 			var brain: AIBrain = (ps.controls as AIControls).brain
-			if v.alive and not v.frozen and brain.mode in ["advance", "approach"] and not brain.nav.path.is_empty():
+			if v.alive and not v.frozen and brain.mode in ["hunt", "approach", "withdraw"] and not brain.nav.path.is_empty():
 				if v.position.distance_to(last[k]) < 16.0:
 					still[k] += 1
 					if still[k] > 625:
@@ -143,7 +192,12 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node) -> Dictionary:
 	var parts: Array = []
 	for ps in mc.slots:
 		parts.append("side%d %s hp%.0f stock%s" % [ps.index, (ps.controls as AIControls).brain.mode, ps.vehicle.hp, str(ps.stock)])
-	r.end = "shots %s, tiles down %d; " % [shots, tiles_down[0]] + ("finished winner %d; " % mc.winner_idx if mc.match_finished else "") + ", ".join(parts) + (" STUCK-LONG" if r.stuck_long else "")
+	r.shots = shots[0] + shots[1]
+	r.drones = sent.size()
+	for d in sent:
+		if d.killed:
+			r.drones_down += 1
+	r.end = "shots %s, tiles down %d; " % [shots, tiles_down[0]] + ("finished winner %d; " % mc.winner_idx if mc.match_finished else "") + ", ".join(parts) + (" STUCK-LONG" if r.stuck_long else "") + (" camped: " + r.camp_note if r.camp_note != "" else "")
 	for c in root.get_children():
 		c.free()
 	return r
