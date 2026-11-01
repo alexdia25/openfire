@@ -2421,6 +2421,11 @@ Keep each step playable, and load everything through the pack layer from step 1:
    player's rectangle refuses no Drone spawn point (it has no view). No spawn camping (user rule): `AIBrain.protected` (dead, in the
    hangar, docked, or just out by its pad) is no target and makes it withdraw home. The harness counts shots, hits, kills, Drones and
    time spent by a protected pad.
+   Phase 4 done ([document 147](https://github.com/alexdia25/openfire/wiki/147-computer-players-5-the-objective)): the objective.
+   `AIStrategy`: three plans a player has in mind (attack the base and fetch the flag, hunt the other player to drain their vehicles,
+   defend its own flag), chosen per life by weighted chance from the match and the player's own lean, and changed by events; each tick
+   an order (go, shoot a tile, hold, dock). The plan picks the vehicle; `AIMotor.choice_word` walks the hangar cursor to it and
+   `park_word` parks on the pad to dock for another one. Objectives it can't reach are given up (water: phase 5).
 4. **Weapons and projectiles — first pass DONE (playable, not yet authentic; 2026-09-06).**
    `game/vehicle.gd`'s `Vehicle` gained a `fired` signal: holding `ui_accept` (or
    `RF_DEBUG_FIRE=1`, off by default) fires a projectile from a fixed muzzle offset ahead
