@@ -2426,6 +2426,12 @@ Keep each step playable, and load everything through the pack layer from step 1:
    defend its own flag), chosen per life by weighted chance from the match and the player's own lean, and changed by events; each tick
    an order (go, shoot a tile, hold, dock). The plan picks the vehicle; `AIMotor.choice_word` walks the hangar cursor to it and
    `park_word` parks on the pad to dock for another one. Objectives it can't reach are given up (water: phase 5).
+   Phase 5 done ([document 148](https://github.com/alexdia25/openfire/wiki/148-computer-players-6-logistics-and-the-other-vehicles)):
+   logistics and the other vehicles. Reach is asked per vehicle type (`AIStrategy.can_reach`, `_means_for`). The Heli is a gunner
+   (`reach_px` for a shot fired down, hover, braking) and flies round turrets (`NavGrid._crosses_danger`); the Jeep swims (`_swim_word`).
+   Short of fuel or shells it goes to a zone nearer than home (`MatchController.service_points`, `Do.SERVE`), else docks. A defender
+   lays mines on an arc (`mine_spot`, `Do.LAY`). No recovery move drives into deep water; with no ammunition a breach is a wall. Only a
+   shell from another vehicle lifts the no-camping protection (`Vehicle.last_shot_by`), not a turret's.
 4. **Weapons and projectiles — first pass DONE (playable, not yet authentic; 2026-09-06).**
    `game/vehicle.gd`'s `Vehicle` gained a `fired` signal: holding `ui_accept` (or
    `RF_DEBUG_FIRE=1`, off by default) fires a projectile from a fixed muzzle offset ahead
