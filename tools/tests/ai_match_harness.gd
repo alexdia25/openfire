@@ -14,6 +14,10 @@
 #   RF_AI_PLAN=attack|hunt|defend    every computer player keeps that plan (default: they choose)
 #   RF_AI_PASSIVE=1                  side 1 takes its vehicle and then does nothing: can side 0 win against the map alone?
 #   RF_AI_DRAIN=2000                 every so many ticks side 0's vehicle loses its fuel, then its shots, in turn: does it get served?
+#   RF_AI_SKILL=hard                 both computer players' skill level (AIProfile; default the pack's, normal); "easy,hard" gives the two
+#                                    players different levels, which trade sides from map to map, and the end counts by level the wins,
+#                                    the other side's targets broken, the other vehicles its shells killed, and its own vehicles lost
+#   RF_AI_PROFILES='{"profiles": {"hard": {"sight_px": 420}}}'   the pack's skill table for this run (ai/profiles.json's form), to tune a knob
 #   RF_AI_TRACE=1                    print both players' state every 2 seconds (tile, mode, speed, path, the next waypoint and its cost)
 # Run:
 #   godot --headless --audio-driver Dummy --path . --script res://tools/tests/ai_match_harness.gd
@@ -25,6 +29,7 @@ const HALF_SPEED_PX_PER_TICK := 0.5   ## half a Tank's top speed (1.05 units a t
 const CAMP_LIMIT_TICKS := 250         ## spawn camping: longer than this (4 s) by a protected vehicle's pad without leaving
 const LEAVING_TICKS := 62             ## checked about once a second
 const LEAVING_PX := 16.0              ## a vehicle driving away moves at least this much in a second (a Tank: about 65 px)
+const MEET_PX := 500.0                ## "met": came within this of each other (the top level's sight)
 
 
 ## A computer player that leaves the hangar and stays by its pad (RF_AI_PASSIVE).
@@ -39,6 +44,8 @@ func _init() -> void:
 		push_error("no pack at " + PACK)
 		quit(2)
 		return
+	if OS.get_environment("RF_AI_PROFILES") != "":
+		pack.ai_profiles = JSON.parse_string(OS.get_environment("RF_AI_PROFILES"))
 	var ticks := int(OS.get_environment("RF_AI_TICKS")) if OS.get_environment("RF_AI_TICKS") != "" else 6000
 	var levels := _levels(pack)
 	var root := Node2D.new()
@@ -48,9 +55,13 @@ func _init() -> void:
 	var totals := {"shots": 0, "turret_shots": 0, "hits": 0, "kills": 0, "drones": 0, "drones_down": 0, "targets": 0, "flags": 0, "wins": 0, "plans": 0, "swaps": 0, "serves": 0, "mines": 0}
 	var plan_ticks := [0, 0, 0]
 	var by_side := [0, 0]
-	for id in levels:
+	var skills := OS.get_environment("RF_AI_SKILL").split(",", false)
+	var by_skill := {}
+	var per_skill := {}   # by skill level: the other side's active targets broken, its vehicles killed by this side's shells, and vehicles lost
+	for n in levels.size():
+		var id: String = levels[n]
 		seed(77)
-		var r := _run_level(pack, id, ticks, root)
+		var r := _run_level(pack, id, ticks, root, _skills_for(skills, n))
 		print("%-9s %-4s  %8.0f  %8s  %7.0f  %5d  %7.2f  %5d  %4d  %5d  %3d/%-3d  %6d  %s" % [id, "yes" if r.land else "no", r.route_px,
 			str(r.met) if r.met >= 0 else "never", r.closest, r.stuck, r.ms_per_tick, r.shots, r.hits, r.kills, r.drones_down, r.drones,
 			r.camp_ticks, r.end])
@@ -63,8 +74,15 @@ func _init() -> void:
 			plan_ticks[k] += r.plan_ticks[k]
 		if r.winner >= 0:
 			by_side[r.winner] += 1
+			by_skill[r.winner_skill] = int(by_skill.get(r.winner_skill, 0)) + 1
+		for sk in r.per_skill:
+			if not per_skill.has(sk):
+				per_skill[sk] = {"targets": 0, "kills": 0, "deaths": 0}
+			for what in r.per_skill[sk]:
+				per_skill[sk][what] += r.per_skill[sk][what]
 	print("totals: %s" % totals)
-	print("wins by side: %s; ticks in attack / hunt / defend: %s" % [by_side, plan_ticks])
+	print("wins by side: %s; by skill level: %s; ticks in attack / hunt / defend: %s" % [by_side, by_skill, plan_ticks])
+	print("by skill level, the other side's targets broken, its vehicles killed by this one's shells, and vehicles lost (to anything): %s" % [per_skill])
 	print("ai_match_harness: %d maps, %d with a long stick, no meeting on a drivable land route, or a camped pad" % [levels.size(), failures])
 	quit(1 if failures > 0 and OS.get_environment("RF_AI_CHECK") == "1" else 0)
 
@@ -87,11 +105,21 @@ func _levels(pack: Pack) -> Array:
 	return out
 
 
-func _run_level(pack: Pack, id: String, ticks: int, root: Node) -> Dictionary:
+## The skill level of each player (slot position) on the `n`th map: one level for both, or two that trade places from map to map.
+static func _skills_for(skills: PackedStringArray, n: int) -> Dictionary:
+	if skills.is_empty():
+		return {}
+	if skills.size() == 1:
+		return {0: skills[0], 1: skills[0]}
+	return {0: skills[n % 2], 1: skills[(n + 1) % 2]}
+
+
+func _run_level(pack: Pack, id: String, ticks: int, root: Node, skill_of: Dictionary = {}) -> Dictionary:
 	var level := LevelData.new()
 	level.load_from(pack.level_dir(id), pack.level_override_paths(id))
 	var mc := MatchController.new()
 	mc.ai_players = [0]
+	mc.ai_skill_of = skill_of
 	root.add_child(mc)
 	mc.setup(pack, level, PACK, root)
 	if OS.get_environment("RF_AI_PASSIVE") == "1":
@@ -105,15 +133,25 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node) -> Dictionary:
 		route_px += from.distance_to(p)
 		from = p
 	var r := {"land": not route.is_empty() and lg.tile_of(route[route.size() - 1]) == lg.tile_of(mc.slots[1].spawn_px), "route_px": route_px, "met": -1, "closest": INF, "stuck": 0, "searches": 0, "tiles": 0, "brain_ms": 0.0, "ms_per_tick": 0.0, "end": "", "stuck_long": false,
-		"shots": 0, "hits": 0, "kills": 0, "drones": 0, "drones_down": 0, "targets": 0, "flags": 0, "wins": 0, "plans": 0, "swaps": 0, "serves": 0, "mines": 0, "camp_ticks": 0, "camp_note": "", "turret_shots": 0, "winner": -1, "ended_at": -1, "plan_ticks": [0, 0, 0]}
+		"shots": 0, "hits": 0, "kills": 0, "drones": 0, "drones_down": 0, "targets": 0, "flags": 0, "wins": 0, "plans": 0, "swaps": 0, "serves": 0, "mines": 0, "camp_ticks": 0, "camp_note": "", "stuck_note": "", "turret_shots": 0, "winner": -1, "winner_skill": "", "ended_at": -1, "plan_ticks": [0, 0, 0], "per_skill": {}}
 	# the level scene's half of a destroyed or crushed tile (TerrainView3D._apply_tile_destroyed / _clear_tile_decoration), applied after the
 	# tick: without it a tile shot down would never change
 	var fallen: Array = []
 	var crushed: Array = []
 	mc.tile_destroyed.connect(func(t: Vector2i): fallen.append([t, level.get_coastal_id(t.x, t.y)]))
-	mc.target_hit.connect(func(_pool: String, t: Vector2i):   # an active target reports here instead (TerrainView3D._on_target_hit)
+	var skill_of_slot := func(ps: PlayerSlot) -> String: return (ps.controls as AIControls).brain.profile.id
+	var tally := func(skill: String, what: String) -> void:
+		if not r.per_skill.has(skill):
+			r.per_skill[skill] = {"targets": 0, "kills": 0, "deaths": 0}
+		r.per_skill[skill][what] += 1
+	for ps in mc.slots:
+		r.per_skill[skill_of_slot.call(ps)] = {"targets": 0, "kills": 0, "deaths": 0}
+	mc.target_hit.connect(func(pool: String, t: Vector2i):   # an active target reports here instead (TerrainView3D._on_target_hit)
 		fallen.append([t, level.get_coastal_id(t.x, t.y)])
-		r.targets += 1)
+		r.targets += 1
+		for ps in mc.slots:   # pool "a" is player index 0's: the other side broke it
+			if (ps.vehicle.player_index() == 0) != (pool == "a"):
+				tally.call(skill_of_slot.call(ps), "targets"))
 	mc.tile_crushed.connect(func(t: Vector2i): crushed.append(t))
 	var tiles_down := [0]
 	var still := [0, 0]
@@ -174,6 +212,9 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node) -> Dictionary:
 				r.hits += 1
 			if was_alive[k] and not vk.alive:
 				r.kills += 1
+				tally.call(skill_of_slot.call(mc.slots[k]), "deaths")
+				if vk.last_shot_by == mc.slots[1 - k].vehicle:   # its last shell came from the other player's vehicle: a duel won
+					tally.call(skill_of_slot.call(mc.slots[1 - k]), "kills")
 			hp[k] = vk.hp
 			was_alive[k] = vk.alive
 			var other: PlayerSlot = mc.slots[1 - k]
@@ -202,7 +243,7 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node) -> Dictionary:
 		if a.alive and b.alive and not a.frozen and not b.frozen:
 			var d := a.position.distance_to(b.position)
 			r.closest = minf(r.closest, d)
-			if d <= AIBrain.SIGHT_PX and r.met < 0:
+			if d <= MEET_PX and r.met < 0:
 				r.met = i
 		if OS.get_environment("RF_AI_TRACE") == "1" and i % 125 == 0:
 			for ps in mc.slots:
@@ -225,6 +266,8 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node) -> Dictionary:
 				if v.position.distance_to(last[k]) < 16.0:
 					still[k] += 1
 					if still[k] > 625:
+						if not r.stuck_long:
+							r.stuck_note = "side%d %s at %s t%d" % [ps.index, brain.mode, NavGrid.for_vehicle(mc, v).tile_of(v.position), i]
 						r.stuck_long = true
 				else:
 					still[k] = 0
@@ -246,6 +289,7 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node) -> Dictionary:
 	r.flags = mc.flags.size()
 	r.winner = mc.winner_idx if mc.match_finished and mc.winner_idx >= 0 else -1
 	r.wins = 1 if r.winner >= 0 else 0
+	r.winner_skill = (mc.slots[mc.player_of_side(r.winner)].controls as AIControls).brain.profile.id if r.winner >= 0 else ""
 	r.ended_at = ended_at[0]
 	r.plan_ticks = [0, 0, 0]
 	for ps in mc.slots:
@@ -260,8 +304,8 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node) -> Dictionary:
 		if d.killed:
 			r.drones_down += 1
 	r.turret_shots = turret_shots[0]
-	r.end = "%s targets %d flags %d plans %d swaps %d serves %d mines %d; shots %s (turret turned: %d), tiles down %d; " % ["WON side%d t%d;" % [r.winner, r.ended_at] if r.winner >= 0 else "no winner;",
-		r.targets, r.flags, r.plans, r.swaps, r.serves, r.mines, shots, turret_shots[0], tiles_down[0]] + ("finished winner %d; " % mc.winner_idx if mc.match_finished else "") + ", ".join(parts) + (" STUCK-LONG" if r.stuck_long else "") + (" camped: " + r.camp_note if r.camp_note != "" else "")
+	r.end = "%s targets %d flags %d plans %d swaps %d serves %d mines %d; shots %s (turret turned: %d), tiles down %d; " % ["WON side%d (%s) t%d;" % [r.winner, r.winner_skill, r.ended_at] if r.winner >= 0 else "no winner;",
+		r.targets, r.flags, r.plans, r.swaps, r.serves, r.mines, shots, turret_shots[0], tiles_down[0]] + ("finished winner %d; " % mc.winner_idx if mc.match_finished else "") + ", ".join(parts) + (" STUCK-LONG: " + r.stuck_note if r.stuck_long else "") + (" camped: " + r.camp_note if r.camp_note != "" else "")
 	for c in root.get_children():
 		c.free()
 	return r

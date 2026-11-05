@@ -2432,6 +2432,12 @@ Keep each step playable, and load everything through the pack layer from step 1:
    Short of fuel or shells it goes to a zone nearer than home (`MatchController.service_points`, `Do.SERVE`), else docks. A defender
    lays mines on an arc (`mine_spot`, `Do.LAY`). No recovery move drives into deep water; with no ammunition a breach is a wall. Only a
    shell from another vehicle lifts the no-camping protection (`Vehicle.last_shot_by`), not a turret's.
+   Phase 6 done ([document 149](https://github.com/alexdia25/openfire/wiki/149-computer-players-7-skill-levels-and-the-computers-half)):
+   skill levels and the computer's half. One brain, a row of knobs (`AIProfile`: reaction, aim error, sight, review, plan focus, vehicle slip,
+   fire discipline, target tracking, search), the built-in easy/normal/hard overlaid by a pack's `ai/profiles.json`. Below the top level a
+   pushed target is led with its pre-hit motion (the user's knockback rule). It can't tell the active target from the other candidates, so
+   it searches them. The Level Selector's Opponent group has Skill and Screen rows; *Split* shows the computer's half (`MatchController.watched`)
+   while player 1 keeps the ears and the music (`ears`).
 4. **Weapons and projectiles — first pass DONE (playable, not yet authentic; 2026-09-06).**
    `game/vehicle.gd`'s `Vehicle` gained a `fired` signal: holding `ui_accept` (or
    `RF_DEBUG_FIRE=1`, off by default) fires a projectile from a fixed muzzle offset ahead
