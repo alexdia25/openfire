@@ -18,6 +18,7 @@
 #                                    players different levels, which trade sides from map to map, and the end counts by level the wins,
 #                                    the other side's targets broken, the other vehicles its shells killed, and its own vehicles lost
 #   RF_AI_PROFILES='{"profiles": {"hard": {"sight_px": 420}}}'   the pack's skill table for this run (ai/profiles.json's form), to tune a knob
+#   RF_AI_STOCK=0,0,0,3              both sides' stock at the start, per roster type (T, J, A, H): a bench for one vehicle (here the Heli)
 #   RF_AI_TRACE=1                    print both players' state every 2 seconds (tile, mode, speed, path, the next waypoint and its cost)
 # Run:
 #   godot --headless --audio-driver Dummy --path . --script res://tools/tests/ai_match_harness.gd
@@ -52,7 +53,7 @@ func _init() -> void:
 	get_root().add_child(root)
 	print("map       land  route_px  met@tick  closest  stuck  ms/tick  shots  hits  kills  drones  camped  end")
 	var failures := 0
-	var totals := {"shots": 0, "turret_shots": 0, "hits": 0, "kills": 0, "drones": 0, "drones_down": 0, "targets": 0, "flags": 0, "wins": 0, "plans": 0, "swaps": 0, "serves": 0, "mines": 0}
+	var totals := {"guns_down": 0, "shots": 0, "turret_shots": 0, "hits": 0, "kills": 0, "drones": 0, "drones_down": 0, "targets": 0, "flags": 0, "wins": 0, "plans": 0, "swaps": 0, "serves": 0, "mines": 0}
 	var plan_ticks := [0, 0, 0]
 	var by_side := [0, 0]
 	var skills := OS.get_environment("RF_AI_SKILL").split(",", false)
@@ -142,6 +143,12 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node, skill_of: Dictio
 	mc.ai_skill_of = skill_of
 	root.add_child(mc)
 	mc.setup(pack, level, PACK, root)
+	if OS.get_environment("RF_AI_STOCK") != "":
+		var counts := OS.get_environment("RF_AI_STOCK").split(",")
+		for ps in mc.slots:
+			for t in mini(counts.size(), ps.stock.size()):
+				ps.stock[t] = int(counts[t])
+	var guns_at_start := mc.turret_threats(0).size() + mc.turret_threats(1).size()
 	if OS.get_environment("RF_AI_PASSIVE") == "1":
 		(mc.slots[1].controls as AIControls).brain = PassiveBrain.new()
 		mc._drone_cap_override = 0   # it stands still: the camp rule would send Drones at it all game
@@ -153,7 +160,7 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node, skill_of: Dictio
 		route_px += from.distance_to(p)
 		from = p
 	var r := {"land": not route.is_empty() and lg.tile_of(route[route.size() - 1]) == lg.tile_of(mc.slots[1].spawn_px), "route_px": route_px, "met": -1, "closest": INF, "stuck": 0, "searches": 0, "tiles": 0, "brain_ms": 0.0, "ms_per_tick": 0.0, "end": "", "stuck_long": false,
-		"shots": 0, "hits": 0, "kills": 0, "drones": 0, "drones_down": 0, "targets": 0, "flags": 0, "wins": 0, "plans": 0, "swaps": 0, "serves": 0, "mines": 0, "camp_ticks": 0, "camp_note": "", "stuck_note": "", "turret_shots": 0, "winner": -1, "winner_skill": "", "ended_at": -1, "plan_ticks": [0, 0, 0], "per_skill": {}, "losses": {}}
+		"shots": 0, "hits": 0, "kills": 0, "drones": 0, "drones_down": 0, "targets": 0, "flags": 0, "wins": 0, "plans": 0, "swaps": 0, "serves": 0, "mines": 0, "camp_ticks": 0, "camp_note": "", "stuck_note": "", "turret_shots": 0, "guns_down": 0, "winner": -1, "winner_skill": "", "ended_at": -1, "plan_ticks": [0, 0, 0], "per_skill": {}, "losses": {}}
 	# the level scene's half of a destroyed or crushed tile (TerrainView3D._apply_tile_destroyed / _clear_tile_decoration), applied after the
 	# tick: without it a tile shot down would never change
 	var fallen: Array = []
@@ -329,6 +336,7 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node, skill_of: Dictio
 		if d.killed:
 			r.drones_down += 1
 	r.turret_shots = turret_shots[0]
+	r.guns_down = guns_at_start - mc.turret_threats(0).size() - mc.turret_threats(1).size()
 	r.end = "%s targets %d flags %d plans %d swaps %d serves %d mines %d; shots %s (turret turned: %d), tiles down %d; " % ["WON side%d (%s) t%d;" % [r.winner, r.winner_skill, r.ended_at] if r.winner >= 0 else "no winner;",
 		r.targets, r.flags, r.plans, r.swaps, r.serves, r.mines, shots, turret_shots[0], tiles_down[0]] + ("finished winner %d; " % mc.winner_idx if mc.match_finished else "") + ", ".join(parts) + (" STUCK-LONG: " + r.stuck_note if r.stuck_long else "") + (" camped: " + r.camp_note if r.camp_note != "" else "")
 	for c in root.get_children():
