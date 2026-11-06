@@ -57,6 +57,7 @@ func _init() -> void:
 	var by_side := [0, 0]
 	var skills := OS.get_environment("RF_AI_SKILL").split(",", false)
 	var by_skill := {}
+	var losses := {}
 	var per_skill := {}   # by skill level: the other side's active targets broken, its vehicles killed by this side's shells, and vehicles lost
 	for n in levels.size():
 		var id: String = levels[n]
@@ -75,6 +76,8 @@ func _init() -> void:
 		if r.winner >= 0:
 			by_side[r.winner] += 1
 			by_skill[r.winner_skill] = int(by_skill.get(r.winner_skill, 0)) + 1
+		for why in r.losses:
+			losses[why] = int(losses.get(why, 0)) + int(r.losses[why])
 		for sk in r.per_skill:
 			if not per_skill.has(sk):
 				per_skill[sk] = {"targets": 0, "kills": 0, "deaths": 0}
@@ -82,6 +85,9 @@ func _init() -> void:
 				per_skill[sk][what] += r.per_skill[sk][what]
 	print("totals: %s" % totals)
 	print("wins by side: %s; by skill level: %s; ticks in attack / hunt / defend: %s" % [by_side, by_skill, plan_ticks])
+	var by_loss := losses.keys()
+	by_loss.sort_custom(func(x, y): return losses[x] > losses[y])
+	print("vehicles lost, by what the brain was doing / where the last shell to reach it came from: %s" % [", ".join(by_loss.map(func(k): return "%s %d" % [k, losses[k]]))])
 	print("by skill level, the other side's targets broken, its vehicles killed by this one's shells, and vehicles lost (to anything): %s" % [per_skill])
 	print("ai_match_harness: %d maps, %d with a long stick, no meeting on a drivable land route, or a camped pad" % [levels.size(), failures])
 	quit(1 if failures > 0 and OS.get_environment("RF_AI_CHECK") == "1" else 0)
@@ -106,6 +112,20 @@ func _levels(pack: Pack) -> Array:
 
 
 ## The skill level of each player (slot position) on the `n`th map: one level for both, or two that trade places from map to map.
+## What fired the last shell to reach a vehicle: "vehicle", "turret", "drone", "soldier", or "none" (it never was hit by a shell: a mine,
+## deep water, crushed). A shell long before the loss still counts, so this is a lead, not a verdict.
+static func _shooter_kind(o: Object) -> String:
+	if o == null or not is_instance_valid(o):
+		return "none"
+	if o is Vehicle:
+		return "vehicle"
+	if o is Turret:
+		return "turret"
+	if o is Drone:
+		return "drone"
+	return "soldier" if o is Soldier else o.get_class()
+
+
 static func _skills_for(skills: PackedStringArray, n: int) -> Dictionary:
 	if skills.is_empty():
 		return {}
@@ -133,7 +153,7 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node, skill_of: Dictio
 		route_px += from.distance_to(p)
 		from = p
 	var r := {"land": not route.is_empty() and lg.tile_of(route[route.size() - 1]) == lg.tile_of(mc.slots[1].spawn_px), "route_px": route_px, "met": -1, "closest": INF, "stuck": 0, "searches": 0, "tiles": 0, "brain_ms": 0.0, "ms_per_tick": 0.0, "end": "", "stuck_long": false,
-		"shots": 0, "hits": 0, "kills": 0, "drones": 0, "drones_down": 0, "targets": 0, "flags": 0, "wins": 0, "plans": 0, "swaps": 0, "serves": 0, "mines": 0, "camp_ticks": 0, "camp_note": "", "stuck_note": "", "turret_shots": 0, "winner": -1, "winner_skill": "", "ended_at": -1, "plan_ticks": [0, 0, 0], "per_skill": {}}
+		"shots": 0, "hits": 0, "kills": 0, "drones": 0, "drones_down": 0, "targets": 0, "flags": 0, "wins": 0, "plans": 0, "swaps": 0, "serves": 0, "mines": 0, "camp_ticks": 0, "camp_note": "", "stuck_note": "", "turret_shots": 0, "winner": -1, "winner_skill": "", "ended_at": -1, "plan_ticks": [0, 0, 0], "per_skill": {}, "losses": {}}
 	# the level scene's half of a destroyed or crushed tile (TerrainView3D._apply_tile_destroyed / _clear_tile_decoration), applied after the
 	# tick: without it a tile shot down would never change
 	var fallen: Array = []
@@ -213,6 +233,8 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node, skill_of: Dictio
 			if was_alive[k] and not vk.alive:
 				r.kills += 1
 				tally.call(skill_of_slot.call(mc.slots[k]), "deaths")
+				var why := "%s/%s" % [(mc.slots[k].controls as AIControls).brain.mode, _shooter_kind(vk.last_shot_by)]
+				r.losses[why] = int(r.losses.get(why, 0)) + 1
 				if vk.last_shot_by == mc.slots[1 - k].vehicle:   # its last shell came from the other player's vehicle: a duel won
 					tally.call(skill_of_slot.call(mc.slots[1 - k]), "kills")
 			hp[k] = vk.hp
