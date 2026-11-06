@@ -2438,6 +2438,9 @@ Keep each step playable, and load everything through the pack layer from step 1:
    pushed target is led with its pre-hit motion (the user's knockback rule). It can't tell the active target from the other candidates, so
    it searches them. The Level Selector's Opponent group has Skill and Screen rows; *Split* shows the computer's half (`MatchController.watched`)
    while player 1 keeps the ears and the music (`ears`).
+   Follow-up #131 done ([document 153](https://github.com/alexdia25/openfire/wiki/153-computer-players-11-the-handicap)): the handicap, its
+   own row under Skill (`AIHandicap`: none, for you, for the computer; one more of each vehicle the level stocks and half again the
+   ammunition), overlaid by a pack's `ai/handicaps.json`. vs AI only.
 4. **Weapons and projectiles — first pass DONE (playable, not yet authentic; 2026-09-06).**
    `game/vehicle.gd`'s `Vehicle` gained a `fired` signal: holding `ui_accept` (or
    `RF_DEBUG_FIRE=1`, off by default) fires a projectile from a fixed muzzle offset ahead
