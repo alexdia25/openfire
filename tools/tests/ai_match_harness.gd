@@ -235,6 +235,9 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node, skill_of: Dictio
 				tally.call(skill_of_slot.call(mc.slots[k]), "deaths")
 				var why := "%s/%s" % [(mc.slots[k].controls as AIControls).brain.mode, _shooter_kind(vk.last_shot_by)]
 				r.losses[why] = int(r.losses.get(why, 0)) + 1
+				if vk.last_shot_by is Turret:   # how far from the gun that killed it, in 32 px steps, and in what (vehicle type)
+					var at := "@%d/t%d" % [int(vk.position.distance_to((vk.last_shot_by as Turret).position) / 32.0) * 32, vk.vehicle_type]
+					r.losses[at] = int(r.losses.get(at, 0)) + 1
 				if vk.last_shot_by == mc.slots[1 - k].vehicle:   # its last shell came from the other player's vehicle: a duel won
 					tally.call(skill_of_slot.call(mc.slots[1 - k]), "kills")
 			hp[k] = vk.hp
