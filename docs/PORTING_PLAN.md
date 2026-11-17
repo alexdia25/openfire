@@ -1316,6 +1316,14 @@ never ship two implementations without a cross-implementation determinism test.
 - Keep simulation code in its own directory with no Godot node imports, so it stays
   portable and unit-testable headlessly.
 
+**Status (2026-11-17):** the port as built does not yet follow these rules: gameplay
+state is `float`, positions are `Vector2`, objects step on `delta`, randomness is the global
+`randi()`, and `Vehicle` / `Projectile` are scene nodes. The staged path back to them (a
+determinism harness, one fixed tick, a split RNG, the `Fx` toolkit with the original's
+traced trig, sim state out of the nodes, then entity-by-entity conversion and a
+cross-platform CI check) is [document 155](https://github.com/alexdia25/openfire/wiki/155-design-a-deterministic-fixed-point-simulation),
+tracked as issue #133.
+
 **Verify before building:** confirm GDExtension and .NET web-export status against the
 Godot version actually being used. If GDExtension web support has shipped by then, the
 tradeoff can be revisited — but the integer-only rule stands either way.
@@ -2588,7 +2596,8 @@ Keep each step playable, and load everything through the pack layer from step 1:
 
 ### Phase 5 — Netplay
 
-Deferred until the simulation is complete and provably deterministic.
+Deferred until the simulation is complete and provably deterministic. Blocked on #133
+(document 155), whose stages S0 and S6 are item 1 below.
 
 1. Determinism test: run the sim N ticks from a fixed seed and input log on two platforms;
    assert identical state hashes. **Make this a CI check, and include a web build in it** —
