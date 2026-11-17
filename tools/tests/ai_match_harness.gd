@@ -240,7 +240,12 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node, skill_of: Dictio
 			if was_alive[k] and not vk.alive:
 				r.kills += 1
 				tally.call(skill_of_slot.call(mc.slots[k]), "deaths")
-				var why := "%s/%s" % [(mc.slots[k].controls as AIControls).brain.mode, _shooter_kind(vk.last_shot_by)]
+				# engage/approach losses name what it was fighting (engage:tile = a turret shooting at it), and per vehicle type (#129)
+				var kbr: AIBrain = (mc.slots[k].controls as AIControls).brain
+				var fought: String = (":" + String(AITarget.Kind.keys()[kbr.target.kind]).to_lower()) if kbr.mode in ["engage", "approach"] and kbr.target != null else ""
+				var why := "%s%s/%s" % [kbr.mode, fought, _shooter_kind(vk.last_shot_by)]
+				if fought != "":
+					r.losses[why + "/t%d" % vk.vehicle_type] = int(r.losses.get(why + "/t%d" % vk.vehicle_type, 0)) + 1
 				r.losses[why] = int(r.losses.get(why, 0)) + 1
 				if vk.last_shot_by is Turret:   # how far from the gun that killed it, in 32 px steps, and in what (vehicle type)
 					var at := "@%d/t%d" % [int(vk.position.distance_to((vk.last_shot_by as Turret).position) / 32.0) * 32, vk.vehicle_type]
