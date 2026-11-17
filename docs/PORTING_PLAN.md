@@ -2441,6 +2441,9 @@ Keep each step playable, and load everything through the pack layer from step 1:
    Follow-up #131 done ([document 153](https://github.com/alexdia25/openfire/wiki/153-computer-players-11-the-handicap)): the handicap, its
    own row under Skill (`AIHandicap`: none, for you, for the computer; one more of each vehicle the level stocks and half again the
    ammunition), overlaid by a pack's `ai/handicaps.json`. vs AI only.
+   Follow-ups #128/#129 ([document 154](https://github.com/alexdia25/openfire/wiki/154-computer-players-12-why-five-minute-games-end-without-a-winner)):
+   turret losses measured (fights with the other vehicle in a turret's reach: 2 of 101), a stand-off from turrets tried and reverted;
+   a Hunt only chases a vehicle it can get within a shot of. What remains is the maps: Heli-only targets under turrets, and size.
 4. **Weapons and projectiles — first pass DONE (playable, not yet authentic; 2026-09-06).**
    `game/vehicle.gd`'s `Vehicle` gained a `fired` signal: holding `ui_accept` (or
    `RF_DEBUG_FIRE=1`, off by default) fires a projectile from a fixed muzzle offset ahead
