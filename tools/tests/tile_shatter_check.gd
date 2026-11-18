@@ -64,7 +64,7 @@ func _init() -> void:
 	var ended := 0
 	var all_done := false
 	for i in 200:
-		mc._update_debris(1.0 / Vehicle.TICK_HZ)
+		mc._update_debris()
 		ended += 1
 		if mc.debris.is_empty():
 			all_done = true

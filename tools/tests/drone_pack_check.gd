@@ -58,17 +58,17 @@ func _init() -> void:
 	v.frozen = false
 	v.position = Vector2(1000.0, 1000.0)
 	for i in 300:
-		mc._update_drones(1.0 / 62.5)
+		mc._update_drones()
 	check("300 ticks standing still: no Drone yet", spawned.is_empty())
 	for i in 70:
-		mc._update_drones(1.0 / 62.5)
+		mc._update_drones()
 	check("past 360 ticks on one tile: one Drone", spawned.size() == 1, str(spawned.size()))
 	var d: Drone = spawned[0]
 	var off := d.position - v.position
 	check("it is for the other side, 50 units up, on the Tank's 512-unit border", d.team == 1 and d.z == 50.0 and (absf(absf(off.x) - 512.0) < 6.0 or absf(absf(off.y) - 512.0) < 6.0)
 			and absf(off.x) <= 518.0 and absf(off.y) <= 518.0, str(off))
 	for i in 700:
-		mc._update_drones(1.0 / 62.5)
+		mc._update_drones()
 	check("it reached full speed 1.5", absf(d.speed - 1.5) < 1e-6)
 	# any Drone's shots count: the camp timer fires again at tick 722, inside this window, and whether that second Drone has fired yet depends on its random lane
 	var bad := shots.filter(func(p): return p.type_id != 11 or not spawned.has(p.shooter))
@@ -81,7 +81,7 @@ func _init() -> void:
 	# the timer restarts on a tile change; the budget caps; hostile turrets in view keep it away
 	check("another 360 ticks standing: a second Drone (the budget is 2)", spawned.size() == 2, str(spawned.size()))
 	for i in 800:
-		mc._update_drones(1.0 / 62.5)
+		mc._update_drones()
 	check("the side's pool is empty: no third", spawned.size() == 2 and mc.drones.size() == 2)
 
 	# a hit of 0.95 is ignored, 1.0 kills: explosion up where it was, one piece for each part of class 1 or 2, carrying the velocity
@@ -103,7 +103,7 @@ func _init() -> void:
 	check("one flying piece for each of the %d parts of class 1 or 2" % want_parts, pieces.size() == want_parts)
 	check("the pieces start with the Drone's velocity", pieces.all(func(q): return q.drift == vel))
 	for i in 200:
-		mc._update_debris(1.0 / 62.5)
+		mc._update_debris()
 	check("the pieces finish", mc.debris.is_empty())
 	p.free()
 
@@ -115,21 +115,21 @@ func _init() -> void:
 		mc.turrets[tile] = tu
 	var before := spawned.size()
 	for i in 400:
-		mc._update_drones(1.0 / 62.5)
+		mc._update_drones()
 	check("three hostile turrets in view: no Drone", spawned.size() == before and mc._hostile_turrets_in_view(v) == 3)
 	mc.turrets.clear()
 	for i in 400:
-		mc._update_drones(1.0 / 62.5)
+		mc._update_drones()
 	check("none in view: one comes", spawned.size() == before + 1)
 
 	# a target that is gone: it drifts and is removed 60 ticks after it was last drawn
 	var d2: Drone = spawned[spawned.size() - 1]
 	v.alive = false
 	for i in 5:
-		mc._update_drones(1.0 / 62.5)
+		mc._update_drones()
 	check("the vehicle gone: the Drone drifts", d2.state == Drone.State.DRIFT)
 	for i in 600:
-		mc._update_drones(1.0 / 62.5)
+		mc._update_drones()
 	check("and goes", not mc.drones.has(d2) and d2.finished and not d2.killed)
 
 	print("drone_pack_check: ", "all ok" if fails == 0 else "%d FAILED" % fails)

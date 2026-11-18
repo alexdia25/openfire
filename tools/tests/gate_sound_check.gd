@@ -33,16 +33,16 @@ func _init() -> void:
 	var no_block := func(_bars): return false
 
 	while g.open < Gate.OPEN_MAX:   # drive it fully open, carrier still in the region
-		g.tick(dt, no_block)
+		g.tick(1.0, no_block)
 	print("cues from ticking while opening (carrier still present): ", cues, " (expect none -- GateMove is untraced on the opening TICKS themselves)")
 
 	mc.vehicle.position = g.centre + Vector2(10000.0, 0.0)   # carrier leaves -> tick() sets target = 0.0
-	g.tick(dt, no_block)
+	g.tick(1.0, no_block)
 	print("GateMove fired once the carrier leaves: ", cues.has("GateMove"))
 
 	cues.clear()
 	while g.open > 0.0:
-		g.tick(dt, no_block)
+		g.tick(1.0, no_block)
 	print("GateClose fired on first closed tick: ", cues, " (expect exactly [\"GateClose\"])")
 
 	# The one-shot creation cue (FUN_00432270), via the real match-controller path this time, not a synthetic Gate:

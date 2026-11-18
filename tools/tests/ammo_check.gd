@@ -41,6 +41,6 @@ func _init() -> void:
 	v.zone_box = [-50.0, -50.0, 50.0, 50.0]
 	v.moving = false
 	for i in 200:
-		mc._update_zone(v, dt)
+		mc._update_zone(v)
 	print("Tank rearm after 200 ticks: ", v.ammo[0], " (expect 150)")
 	quit()

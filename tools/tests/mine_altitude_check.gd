@@ -39,11 +39,11 @@ func _init() -> void:
 	v.position = m.position
 	v.moving = true
 	v.z = 40.0   # well above Mine.Z_HI (0.1) once shifted: hit_z [0,10] + 40 = [40,50]
-	mc._update_mines(1.0 / Vehicle.TICK_HZ)
+	mc._update_mines()
 	check("a flying Heli directly over an armed mine does NOT set it off", mc.mines.size() == 1, "mines left: %d" % mc.mines.size())
 
 	v.z = 0.0   # landed: hit_z [0,10] + 0 overlaps the mine's [-50, 0.1]
-	mc._update_mines(1.0 / Vehicle.TICK_HZ)
+	mc._update_mines()
 	check("the same Heli, landed on the same spot, DOES set it off", mc.mines.is_empty())
 
 	# The resulting explosion box: a flying Heli over it takes no damage; landed, it does.

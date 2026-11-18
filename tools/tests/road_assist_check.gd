@@ -62,7 +62,7 @@ func _init() -> void:
 	v.speed = 0.0
 	Input.action_press("ui_up")
 	for i in 15:
-		v._process(dt)
+		v.sim_step()   # one tick of the vehicle alone (wiki document 157)
 	Input.action_release("ui_up")
 	var compass := fposmod(v.heading_deg + 90.0, 360.0)
 	var target := 360.0 - 6.0 * 22.5 / 16.0   # the lateral offset drifts a little as it drives: a couple of degrees of slack
@@ -73,7 +73,7 @@ func _init() -> void:
 	v.heading_deg = 0.0 - 90.0
 	Input.action_press("ui_right")
 	for i in 20:
-		v._process(dt)
+		v.sim_step()   # one tick of the vehicle alone (wiki document 157)
 	Input.action_release("ui_right")
 	compass = fposmod(v.heading_deg + 90.0, 360.0)
 	check("a held turn key is not overridden", compass > 20.0 and compass < 60.0, "compass %.2f after 20 ticks turning right" % compass)
@@ -82,7 +82,7 @@ func _init() -> void:
 	v.position = Vector2(ns) * tile + Vector2(16, 16)
 	v.heading_deg = 60.0 - 90.0
 	v._road_mask = 3
-	v._process(dt)
+	v.sim_step()   # one tick of the vehicle alone (wiki document 157)
 	check("60 degrees off the road: not pulled", absf(fposmod(v.heading_deg + 90.0, 360.0) - 60.0) < 0.01)
 
 	# off the road: with a fresh mask (thrust) nothing is pulled
@@ -90,7 +90,7 @@ func _init() -> void:
 	v.heading_deg = 20.0 - 90.0
 	v._road_mask = 3
 	Input.action_press("ui_up")
-	v._process(dt)
+	v.sim_step()   # one tick of the vehicle alone (wiki document 157)
 	Input.action_release("ui_up")
 	check("off the road the thrust clears the mask", v._road_mask == 0, str(v._road_mask))
 	check("off the road the heading is untouched", absf(fposmod(v.heading_deg + 90.0, 360.0) - 20.0) < 0.01)
@@ -101,7 +101,7 @@ func _init() -> void:
 	v.heading_deg = 20.0 - 90.0
 	Input.action_press("ui_up")
 	for i in 3:
-		v._process(dt)
+		v.sim_step()   # one tick of the vehicle alone (wiki document 157)
 	Input.action_release("ui_up")
 	check("a Tank is not steered by roads", absf(fposmod(v.heading_deg + 90.0, 360.0) - 20.0) < 0.01)
 	print("failures: ", fails)

@@ -63,11 +63,11 @@ func _init() -> void:
 			e = d
 	check("RFMAP002 has a hostile turret tile at (45, 44)", int(e.get("coastal_id", 0)) == 49 and int(e.get("variant", 0)) == 1 and v.player_index() == 0)
 	v.position = (Vector2(tile) + Vector2(0.5, 0.5)) * 32.0 + Vector2(0.0, 120.0)   # 120 units south of it
-	mc._update_turrets(1.0 / 62.5)
+	mc._update_turrets()
 	check("a vehicle in view wakes it (and its neighbours)", mc.turrets.has(tile) and woke.size() >= 1, str(woke.size()))
 	check("none wakes beyond the extent", woke.all(func(tu): return absf(tu.position.x - v.position.x) <= 288.0 and absf(tu.position.y - v.position.y) <= 288.0))
 	for i in 900:
-		mc._update_turrets(1.0 / 62.5)
+		mc._update_turrets()
 	var tu: Turret = mc.turrets[tile]
 	var want := Soldier.heading_to(tu.position, v.position)
 	check("it is turned to the vehicle (heading %d, wanted %d)" % [tu.draw_heading(), want], tu.heading == float(want))

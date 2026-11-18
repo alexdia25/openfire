@@ -27,7 +27,7 @@ func _init() -> void:
 
 	# Ding: rearm() emits every 40 ticks while called.
 	for i in 41:
-		mc.vehicle.rearm(dt)
+		mc.vehicle.rearm()
 	print("Ding after 41 rearm ticks: ", cues.count("Ding"), " (expect 1)")
 
 	# HeliClick: the third button toggle.

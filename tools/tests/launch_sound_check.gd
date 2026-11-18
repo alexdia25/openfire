@@ -47,10 +47,9 @@ func _init() -> void:
 		own.clear()
 		Input.action_press("ui_accept")
 		for i in 60:
-			mc._process(dt)
-			v._process(dt)
+			mc._process(dt)   # one tick of the match, the vehicle included (wiki document 157)
 		Input.action_release("ui_accept")
-		v._process(dt)   # one tick with the button up, so the next run's press is a fresh press (the Jeep's missile takes only those, FUN_0040df00)
+		mc._process(dt)   # one tick with the button up, so the next run's press is a fresh press (the Jeep's missile takes only those, FUN_0040df00)
 	run.call(0, false)
 	check("Tank shell (type 0): Cannon", types.size() > 0 and types[0] == 0 and cues.size() > 0 and cues[0] == "Cannon", "%s %s" % [types.slice(0, 2), cues.slice(0, 2)])
 	check("... and the weapon handler itself plays nothing", not own.has("Cannon"), str(own))

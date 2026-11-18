@@ -28,25 +28,24 @@ func _init() -> void:
 
 	check("no ping before anyone is hit", mc.radar_ping_frame() == -1)
 
-	var ticks_per_ms := Vehicle.TICK_HZ / 1000.0
-	var now := Time.get_ticks_msec()
-	mc._player_hit_at_ms = float(now)
+	var now := mc.sim_tick   # the ping counts the match's own ticks (stage S1, wiki document 157)
+	mc._player_hit_tick = now
 	check("frame 0 right at the hit", mc.radar_ping_frame() == 0)
-	mc._player_hit_at_ms = now - 37.0 / ticks_per_ms   # halfway through the 74-tick window
+	mc._player_hit_tick = now - 37   # halfway through the 74-tick window
 	check("about frame 7-8 halfway through the window", mc.radar_ping_frame() in [7, 8], str(mc.radar_ping_frame()))
-	mc._player_hit_at_ms = now - 70.0 / ticks_per_ms   # near the end of the 74-tick window (headroom for this test's own real-clock drift)
-	check("near the last frame close to when the window ends", mc.radar_ping_frame() in [14, 15], str(mc.radar_ping_frame()))
-	mc._player_hit_at_ms = now - 75.0 / ticks_per_ms   # one tick past the traced (-10, 64) window (74 ticks after the hit)
+	mc._player_hit_tick = now - 73   # the last tick of the 74-tick window
+	check("the last frame on the window's last tick", mc.radar_ping_frame() == 15, str(mc.radar_ping_frame()))
+	mc._player_hit_tick = now - 74   # one tick past the traced (-10, 64) window (74 ticks after the hit)
 	check("no ping once the window has closed", mc.radar_ping_frame() == -1)
 
-	mc._player_hit_at_ms = -1.0e9
+	mc._player_hit_tick = -1000000000
 	mc._register_hit(mc.enemy_vehicles[0] if not mc.enemy_vehicles.is_empty() else v)   # a non-player hit, if one exists, must not start it
 	if not mc.enemy_vehicles.is_empty():
 		check("hitting a non-player vehicle does not ping the player's radar", mc.radar_ping_frame() == -1)
 	mc._register_hit(v)
 	check("registering the player's own hit starts the ping", mc.radar_ping_frame() >= 0)
 
-	mc._player_hit_at_ms = -1.0e9
+	mc._player_hit_tick = -1000000000
 	v.armor = 1000.0   # blocks take_damage() outright (Vehicle.take_damage: damage <= armor -> false)
 	var before := v.hp
 	v.take_damage(1.0)

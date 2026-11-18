@@ -80,7 +80,7 @@ func _run() -> void:
 		v.set_vehicle_type(p[1])
 		for k in p[4]:
 			v.set(k, p[4][k])
-		v.hit_flash_remaining = 1.0e9 if p[3] else 0.0
+		v.hit_flash_ticks = 1000000000 if p[3] else 0
 		var r := VehicleRender3D.create_for(v, pack, world)
 		r.set_process(false)   # frozen at the pose: a spinning rotor would otherwise depend on the frame times
 		r._process(0.0)
