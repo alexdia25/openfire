@@ -58,7 +58,6 @@ func _init() -> void:
 		for c in used:
 			ok = ok and is_finite(v.channel(String(c)))
 		_check(ok, "%s: every channel it binds reads as a number" % pack.vehicle_def(t)["name"])
-		v.free()
 
 	# the Tank: the turret group turns with turret_deg; the barrel's tip and the muzzle ring are the rig R(elevation) * base + offset
 	var m := _made(pack, 0)
@@ -80,7 +79,6 @@ func _init() -> void:
 			drawn_parts += 1
 	_check(r._parts[0]["key"] != null and r._groups.size() == 1 and drawn_parts == 14 and r._parts.size() == 18, "six hull faces and eight turret parts, one group, plus the four water parts")
 	r.free()
-	v.free()
 
 	# the Jeep: the wheel strip frame is the integer x position mod 4, the swim row the whole of swim * 8; the ring shows from row 4
 	m = _made(pack, 1)
@@ -101,7 +99,6 @@ func _init() -> void:
 	r._process(0.0)
 	_check(swim_ring["mesh"].visible and _near(r._corners(swim_ring["data"], {})[0], Vector3(6.0, -6.0, 0.0)), "and shown from row 4 at half size (12 * swim)")
 	r.free()
-	v.free()
 
 	# the MSV: the canister strip drops a cel per rocket fired; the two front corners slide while it reloads
 	m = _made(pack, 2)
@@ -117,7 +114,6 @@ func _init() -> void:
 	var reloading: Vector3 = r._corners(canisters["data"], {})[1]
 	_check(is_equal_approx(reloading.y - idle.y, 6.0), "reloading slides the front corners 6 units (%s -> %s)" % [idle.y, reloading.y])
 	r.free()
-	v.free()
 
 	# the Heli: the rotor group accumulates rate * speed a tick; the blade shape and the folded pair swap by rotor_mode; the body tilts
 	m = _made(pack, 3)
@@ -138,7 +134,6 @@ func _init() -> void:
 	r._process(0.0)
 	_check(is_equal_approx(r.rotation_degrees.z, 11.25), "the body banks with bank_steps")
 	r.free()
-	v.free()
 
 	print("render_descriptor_check: %s" % ("PASS" if _failures == 0 else "%d FAILED" % _failures))
 	quit(0 if _failures == 0 else 1)

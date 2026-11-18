@@ -204,7 +204,7 @@ func _run_level(pack: Pack, id: String, ticks: int, root: Node, skill_of: Dictio
 	var last := [Vector2.ZERO, Vector2.ZERO]
 	var t0 := Time.get_ticks_usec()
 	for i in ticks:
-		# every node of the match takes its tick, as the scene tree would run them: the vehicles (which poll the brains), shells, flags ...
+		# every node of the match takes its tick, as the scene tree would run them (the vehicles, shells and flags are the match's own, stage S4)
 		var b0 := Time.get_ticks_usec()
 		for c in root.get_children():
 			if c != mc and c.has_method("_process"):

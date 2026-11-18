@@ -59,7 +59,7 @@ func _init() -> void:
 	var dt := 1.0 / Vehicle.TICK_HZ
 	for i in TICKS:
 		var shots_before := mc._projectiles.size()
-		for c in root.get_children():   # every node takes its tick, as the scene tree runs them: the vehicles poll the brains
+		for c in root.get_children():   # every node takes its tick, as the scene tree runs them (the match steps the vehicles and shots itself)
 			if c != mc and c.has_method("_process"):
 				c._process(dt)
 		mc._process(dt)

@@ -173,8 +173,8 @@ func _follow(to: Vector2, radius: float, max_ticks: int) -> bool:
 func _step() -> void:
 	for p in mc._projectiles:
 		if is_instance_valid(p):
-			p._process(dt)
-	v._process(dt)
+			p.run_frames(dt)
+	v.run_frames(dt)
 	mc._process(dt)
 
 func _aim(to: Vector2) -> void:

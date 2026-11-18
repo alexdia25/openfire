@@ -22,7 +22,7 @@ func _init() -> void:
 	var stage1_end := -1
 	var stage2_end := -1
 	for i in 400:
-		v._process(dt)
+		v.run_frames(dt)
 		if stage1_end < 0 and v.heli_spinup_stage != 1:
 			stage1_end = i
 		if stage2_end < 0 and v.heli_spinup_stage == 0:

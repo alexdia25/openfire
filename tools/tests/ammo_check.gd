@@ -31,7 +31,7 @@ func _init() -> void:
 		Input.action_press("ui_accept")
 		for i in 6000:
 			mc._process(dt)
-			v._process(dt)
+			v.run_frames(dt)
 		Input.action_release("ui_accept")
 		print(v.name if false else ["Tank", "Jeep", "MSV", "Heli"][t], " stock ", v.ammo_max, " shots ", shots[0], " clicks>0 ", clicks[0] > 0, " left ", v.ammo)
 	v.set_vehicle_type(0)

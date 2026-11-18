@@ -23,7 +23,6 @@ func _shifts(pack: Pack, t: int) -> Array:
 	render.setup(v, pack)
 	var out: Array = render._coplanar_shifts()
 	render.free()
-	v.free()
 	return out
 
 

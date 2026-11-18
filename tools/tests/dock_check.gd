@@ -35,7 +35,7 @@ func _init() -> void:
 		var n := 0
 		while mc.dock_state == 0 and not mc.selecting and n < 5:
 			mc._process(dt)
-			v._process(dt)
+			v.run_frames(dt)
 			n += 1
 		print("type ", t, " offset ", off, " within tolerance -> docking started ", mc.dock_state != 0, " (expect ", spec[2], ")")
 		Input.action_release("ui_accept")
@@ -44,7 +44,7 @@ func _init() -> void:
 		var ticks := 0
 		while not mc.selecting and ticks < 800:  # a Heli's real landing (rotor spin-down + gear, 2026-09-23) takes longer than the old instant dock
 			mc._process(dt)
-			v._process(dt)
+			v.run_frames(dt)
 			ticks += 1
 		print("  choice opened after ", ticks, " ticks, docked ", v.docked, " stock ", mc.vehicle_stock, " reserve ", mc.mine_reserve)
 		mc.select_move(1)

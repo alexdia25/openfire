@@ -75,7 +75,7 @@ func _init() -> void:
 	check("it has strafed with type 11 only, from both guns in turn", shots.size() > 0 and bad.is_empty(), "%d shots, %d bad %s" % [shots.size(), bad.size(), str(bad.map(func(p): return [p.type_id, p.shooter]))])
 	var xs := []
 	for p in shots:
-		xs.append(p.global_position)
+		xs.append(p.position)
 	check("it stays alive, over 80 units off or in a pass", not d.finished and d.position.distance_to(v.position) < 700.0, str(d.position.distance_to(v.position)))
 
 	# the timer restarts on a tile change; the budget caps; hostile turrets in view keep it away
@@ -105,7 +105,6 @@ func _init() -> void:
 	for i in 200:
 		mc._update_debris()
 	check("the pieces finish", mc.debris.is_empty())
-	p.free()
 
 	# hostile turrets in view: three of them keep Drones away
 	for k in 3:

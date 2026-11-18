@@ -47,6 +47,5 @@ func _init() -> void:
 	v.alive = false
 	sh._process(0.016)
 	_check(not sh.visible, "a dead vehicle casts none")
-	v.free()
 	print("heli_shadow_check: %d failures" % _failures)
 	quit(_failures)

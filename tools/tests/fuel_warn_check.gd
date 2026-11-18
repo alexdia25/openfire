@@ -24,7 +24,7 @@ func _init() -> void:
 	# above threshold: no warning for a few hundred ticks
 	v.fuel = v.fuel_max * 0.5
 	for i in 300:
-		v._process(dt)
+		v.run_frames(dt)
 	print("cues above 1/8 tank (expect empty): ", cues)
 
 	# drop just below the threshold and watch it fire, then repeat on cooldown
@@ -32,7 +32,7 @@ func _init() -> void:
 	cues.clear()
 	var first_tick := -1
 	for i in 260:
-		v._process(dt)
+		v.run_frames(dt)
 		if first_tick < 0 and not cues.is_empty():
 			first_tick = i
 	print("cues below 1/8 tank over 260 ticks (expect 3, at ticks 0/120/240): ", cues, " first at tick ", first_tick)

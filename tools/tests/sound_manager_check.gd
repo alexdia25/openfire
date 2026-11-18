@@ -15,7 +15,6 @@ func _init() -> void:
 	sound.setup(pack)
 
 	var v := Vehicle.new()
-	root.add_child(v)
 	sound.connect_vehicle(v)
 
 	for cue_id in ["OutAmmo", "Heli"]:

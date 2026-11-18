@@ -29,7 +29,7 @@ func _init() -> void:
 	var seen_modes: Array[int] = []
 	var fold_angles: Array[float] = []
 	for i in 260:
-		v._process(dt)
+		v.run_frames(dt)
 		render._process(dt)
 		var m := int(v.channel("rotor_mode"))
 		if seen_modes.is_empty() or seen_modes[-1] != m:

@@ -74,7 +74,6 @@ func _init() -> void:
 				if not sc["params"][k].has("provenance"):
 					modules_ok = false
 					print("   module %s parameter %s has no provenance" % [n, k])
-	probe.free()
 	_check(modules_ok, "every named module exists; its channels are Vehicle fields; every parameter has a provenance")
 	_check(VehicleModules.names_for_slot("weapon").size() == 5 and VehicleModules.names_for_slot("drive") == ["ground", "rotor"], "the module library by slot")
 
@@ -122,10 +121,9 @@ func _init() -> void:
 	var shots := [0]
 	fly.shot.connect(func(_s): shots[0] += 1)
 	for t in 400:
-		fly._process(1.0 / 62.5)
+		fly.run_frames(1.0 / 62.5)
 	_check(fly.drive.has_method("tick_startup") and fly.aim != null and fly.z > 10.0 and shots[0] > 0,
 			"a flying tank (rotor drive + gun mount + cannon) climbs to %.1f and fires %d shots" % [fly.z, shots[0]])
-	fly.free()
 
 	print("vehicle_definitions_check: %s" % ("PASS" if _failures == 0 else "%d FAILED" % _failures))
 	quit(0 if _failures == 0 else 1)

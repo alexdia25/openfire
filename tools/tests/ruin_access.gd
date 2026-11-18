@@ -40,7 +40,7 @@ func _init() -> void:
 		var ticks := 0
 		while mc.flags[1].carrier == null and ticks < 400:
 			Input.action_press("ui_up")
-			v._process(1.0 / Vehicle.TICK_HZ)
+			v.run_frames(1.0 / Vehicle.TICK_HZ)
 			mc._process(1.0 / Vehicle.TICK_HZ)
 			ticks += 1
 		Input.action_release("ui_up")

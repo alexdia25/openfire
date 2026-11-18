@@ -36,7 +36,7 @@ func _init() -> void:
 	var ticks := 0
 	while not cues.has("JeepStart") and ticks < 1200:
 		mc._process(dt)
-		mc.vehicle._process(dt)
+		mc.vehicle.run_frames(dt)
 		ticks += 1
 	check("JeepStart plays when the pad rise ends", cues.has("JeepStart") and not mc.pad_rising, "after %d ticks, cues %s" % [ticks, cues])
 	check("... once, with the game view fully faded in (weight 1.0)", cues.count("JeepStart") == 1 and fades.size() > 0 and fades[cues.find("JeepStart")] >= 0.999, str(fades))

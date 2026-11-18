@@ -33,7 +33,6 @@ func _init() -> void:
 	_check(not pack.get_explosion("0x444ee8").is_empty() and not pack.get_explosion("0x444618").is_empty(), "the sinking and landing splash records exist")
 
 	var v := Vehicle.new()
-	root.add_child(v)
 	v.setup(pack)
 	var snapshots: Array = []
 	v.wrecked.connect(func(info): snapshots.append(info))

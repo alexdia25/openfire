@@ -33,7 +33,6 @@ func _init() -> void:
 		v.vehicle_type = i
 		if v.triggers_edge_guard():
 			flagged.append(i)
-		v.free()
 	check("only the Heli (type 3) triggers it", flagged == [3], str(flagged))
 
 	var level := LevelData.new()
@@ -56,9 +55,6 @@ func _init() -> void:
 	var killed_at := -1
 	var max_frame := 0
 	for i in 2000:
-		for q in mc._projectiles:
-			if is_instance_valid(q) and not q.is_queued_for_deletion():
-				q._process(dt)
 		mc._process(dt)
 		if created_at < 0 and mc.edge_guard != null:
 			created_at = i

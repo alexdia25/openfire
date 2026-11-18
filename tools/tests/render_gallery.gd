@@ -99,6 +99,5 @@ func _run() -> void:
 		img.save_png("%s/%s.png" % [out_dir, p[0]])
 		r.get_parent().remove_child(r)
 		r.free()
-		v.free()
 	print("gallery: %d poses -> %s" % [poses.size(), out_dir])
 	quit()

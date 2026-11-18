@@ -56,12 +56,11 @@ func _run(pack: Pack, level: LevelData, type: int) -> String:
 		v.tick = t
 		if type == 3 and t == 250:
 			v.toggle_heli_slot()
-		v._process(DT)
+		v.run_frames(DT)
 		if t % 10 == 0:
 			lines.append("%d %.4f,%.4f h%.4f s%.4f tu%.4f g%.4f z%.4f r%.4f b%.4f a%d/%d f%.3f" % [t, v.position.x, v.position.y, v.heading_deg,
 					v.speed, v.turret_deg, v.gun_elev_deg, v.z, v.rotor_speed_steps, v.bank_steps, v.ammo[0], v.ammo[1], v.fuel])
 	lines.append_array(PackedStringArray(shots))
-	v.free()
 	return "\n".join(lines)
 
 

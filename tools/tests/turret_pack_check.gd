@@ -83,8 +83,7 @@ func _init() -> void:
 	var hits_before := v.hp
 	# the shells fly in the real world (a few seconds of frames) and damage the vehicle when they hit it
 	for p in shots:
-		if is_instance_valid(p):
-			p.queue_free()
+		p.remove()
 	# shooting the tile: five 1.0 hits destroy it and the object goes with it
 	for i in 4:
 		mc._damage_tile_amount(tile, 49, 1.0)

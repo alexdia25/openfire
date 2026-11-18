@@ -35,7 +35,7 @@ func _init() -> void:
 	Input.action_press("ui_accept")
 	for i in 12000:
 		mc._process(dt)
-		v._process(dt)
+		v.run_frames(dt)
 	Input.action_release("ui_accept")
 	check("the MSV fires its whole stock of rockets", shots[0] == 100, str(shots[0]))
 	check("and 'Reload' plays after every third one with ammunition left (33)", reloads[0] == 33, str(reloads[0]))

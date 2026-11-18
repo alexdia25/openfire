@@ -82,7 +82,6 @@ func _init() -> void:
 	enemy.set_vehicle_type(0)
 	enemy.alive = true
 	enemy.position = v.position + Vector2(30, 0)
-	root.add_child(enemy)
 	mc.enemy_vehicles.append(enemy)
 	check("an enemy vehicle on the ground within range is the target", mc._pick_missile_target(v) == enemy.position)
 	enemy.z = 10.0

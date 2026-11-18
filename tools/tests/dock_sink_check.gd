@@ -21,14 +21,14 @@ func _init() -> void:
 	Input.action_press("ui_accept")
 	var n := 0
 	while mc.dock_state == 0 and n < 5:
-		mc._process(dt); v._process(dt); n += 1
+		mc._process(dt); v.run_frames(dt); n += 1
 	Input.action_release("ui_accept")
 	var fade_tick := -1
 	var min_depth_tick := -1
 	var ticks := 0
 	while mc.dock_state == 2 and ticks < 300:
 		mc._process(dt)
-		v._process(dt)
+		v.run_frames(dt)
 		ticks += 1
 		if fade_tick < 0 and v.z <= mc.DOCK_FADE_DEPTH:
 			fade_tick = ticks

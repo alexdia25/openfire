@@ -23,7 +23,7 @@ func _init() -> void:
 	var n := 0
 	while mc.dock_state == 0 and n < 5:
 		mc._process(dt)
-		v._process(dt)
+		v.run_frames(dt)
 		n += 1
 	Input.action_release("ui_accept")
 	print("docking: art ", level.get_art_id(t.x, t.y) & 0x7F, " (expect 92) open ", mc.pad_open, " leaf ", mc.pad_leaf_offset(), " (expect -1: retracted)")
@@ -31,7 +31,7 @@ func _init() -> void:
 	var ticks := 0
 	while not mc.selecting and ticks < 400:
 		mc._process(dt)
-		v._process(dt)
+		v.run_frames(dt)
 		ticks += 1
 		if first_visible < 0 and mc.pad_leaf_offset() >= 0.0:
 			first_visible = ticks

@@ -48,6 +48,5 @@ func _init() -> void:
 	var tilted := [Vector3(0.5, 8, -12), Vector3(0.5, 8, 12), Vector3(0, 0, 12), Vector3(0, 0, -12)]
 	check("and not a tilted one", CoplanarParts.covered_pairs([panel, tilted]).is_empty())
 	render.free()
-	v.free()
 	print("failures: ", fails)
 	quit(1 if fails > 0 else 0)

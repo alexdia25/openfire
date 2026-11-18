@@ -32,7 +32,6 @@ func _init() -> void:
 	var enemy := Vehicle.new()
 	enemy.team = "green"   # the other side: the cursor points at the other side's vehicle
 	enemy.pack_path = "res://packs/original_pc"
-	root.add_child(enemy)
 	enemy.setup(pack)
 	mc.enemy_vehicles.append(enemy)
 
@@ -62,7 +61,6 @@ func _init() -> void:
 	var far := Vehicle.new()
 	far.team = "green"
 	far.pack_path = "res://packs/original_pc"
-	root.add_child(far)
 	far.setup(pack)
 	far.position = base + Vector2(0, dz[3] + 5000.0)   # much farther away, a DIFFERENT bearing (sector 2)
 	mc.enemy_vehicles.append(far)
