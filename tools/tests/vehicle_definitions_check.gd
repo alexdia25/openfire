@@ -93,6 +93,16 @@ func _init() -> void:
 				print("   type %d %s: %s vs %s" % [t, f, want, got])
 	_check(same, "the per-type view matches the traced table")
 
+	# the drive numbers are the record's 16.16 integers over 65536, so Vehicle gets the integers back exactly (stage S5.1, wiki 161)
+	var whole := true
+	for t in 4:
+		for f in ["max_forward_per_tick", "max_reverse_per_tick", "accel_per_tick2", "friction_per_tick2", "turn_steps_per_tick"]:
+			var raw := float(p.vehicle_types[str(t)][f]) * 65536.0
+			if raw != roundf(raw):
+				whole = false
+				print("   type %d %s: %s x 65536 is not whole" % [t, f, raw])
+	_check(whole, "the drive numbers are whole 16.16 values")
+
 	# a mod: changes the Jeep's dock tolerance only (a full definition with one field different), adds a new vehicle
 	var mod := ProjectSettings.globalize_path("user://vehicle_definitions_check/mod")
 	if DirAccess.dir_exists_absolute(mod):
