@@ -86,9 +86,9 @@ func _init() -> void:
 		p.remove()
 	# shooting the tile: five 1.0 hits destroy it and the object goes with it
 	for i in 4:
-		mc._damage_tile_amount(tile, 49, 1.0)
+		mc._damage_tile_fx(tile, 49, 0x10000)
 	check("four hits leave it standing", mc.turrets.has(tile))
-	mc._damage_tile_amount(tile, 49, 1.0)
+	mc._damage_tile_fx(tile, 49, 0x10000)
 	check("the fifth destroys the tile and removes the object", not mc.turrets.has(tile))
 
 	print("turret_pack_check: %s" % ("all ok" if fails == 0 else "%d FAILED" % fails))

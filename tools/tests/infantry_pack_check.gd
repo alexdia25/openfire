@@ -45,7 +45,7 @@ func _init() -> void:
 		# hit points 5 (ids 24, 34) or 2 (id 35): one hit at a time down to the release
 		var guard := 0
 		while mc.soldiers.size() == before and guard < 10:
-			mc._damage_tile_amount(tile, id, 1.0)
+			mc._damage_tile_fx(tile, id, 0x10000)
 			guard += 1
 		made += mc.soldiers.size() - before
 		for s in mc.soldiers:

@@ -22,7 +22,7 @@ func _init() -> void:
 		mc.sound_at.connect(conn)   # a destroyed tile's sound comes from the tile (issue #22)
 		var t := Vector2i(200 + cid, 200)
 		mc._tile_hp[t] = 10   # bypass needing a real coastal shape at this synthetic tile
-		mc._damage_tile_amount(t, cid, 9999.0)
+		mc._damage_tile_fx(t, cid, 9999 << 16)
 		mc.sound_at.disconnect(conn)
 		var ok: bool = got.size() >= 1 and got[0] == expect[cid]
 		all_ok = all_ok and ok
