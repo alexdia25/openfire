@@ -56,6 +56,13 @@ public class DumpCoastalShapes extends GhidraScript {
                             if (i > 0) sb.append(";");
                             sb.append(s32(cp + 12L * i) / 65536.0).append(",").append(s32(cp + 12L * i + 4) / 65536.0);
                         }
+                        int ne = s32(sh + 0x34);
+                        long ip = u32(sh + 0x38);
+                        sb.append(" edges=");
+                        for (int i = 0; i < ne && i < 16 && ok(ip); i++) {
+                            if (i > 0) sb.append(",");
+                            sb.append((int) ((u32((ip + i) & ~3L) >> (8 * ((ip + i) & 3))) & 0xff));
+                        }
                     }
                     println(sb.toString());
                     sh = u32(sh + 4);

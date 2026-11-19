@@ -45,12 +45,16 @@ def field(t, off):
     return v - 2 ** 32 if v >= 2 ** 31 else v
 
 
-# DumpShapes.java output, z 0..height, layer 2, mask 0x27 for all four (document 53)
+# DumpShapes.java output, z 0..height, layer 2, mask 0x27 for all four (document 53). The box is the shape's own (+0x1c..+0x28),
+# set by hand and never turned with the vehicle: the collision tests use it as a first, coarse filter (document 164). The Heli's
+# polygon is stored as the raw 16.16 values (0x1e9999, 0xa3333, 0xd9999), which are a unit of 2^-16 short of 30.6, 10.2 and 13.6.
 SHAPES = {
-    0: {"z": [0.0, 10.0], "poly": [[-7.5, -11.25], [7.5, -11.25], [7.5, 11.25], [-7.5, 11.25]]},
-    1: {"z": [0.0, 10.0], "poly": [[-4.5, -7.5], [4.5, -7.5], [4.5, 7.5], [-4.5, 7.5]]},
-    2: {"z": [0.0, 12.0], "poly": [[-7.5, -12.0], [7.5, -12.0], [7.5, 11.25], [-7.5, 11.25]]},
-    3: {"z": [0.0, 10.0], "poly": [[0.0, 30.6], [-10.2, 0.0], [-10.2, -13.6], [10.2, -13.6], [10.2, 0.0]]},
+    0: {"z": [0.0, 10.0], "box": [-12.0, -12.0, 12.0, 12.0], "poly": [[-7.5, -11.25], [7.5, -11.25], [7.5, 11.25], [-7.5, 11.25]]},
+    1: {"z": [0.0, 10.0], "box": [-12.0, -12.0, 12.0, 12.0], "poly": [[-4.5, -7.5], [4.5, -7.5], [4.5, 7.5], [-4.5, 7.5]]},
+    2: {"z": [0.0, 12.0], "box": [-12.0, -12.0, 12.0, 12.0], "poly": [[-7.5, -12.0], [7.5, -12.0], [7.5, 11.25], [-7.5, 11.25]]},
+    3: {"z": [0.0, 10.0], "box": [-12.0, -16.0, 12.0, 35.0],
+        "poly": [[0.0, 0x1e9999 / 65536], [-0xa3333 / 65536, 0.0], [-0xa3333 / 65536, -0xd9999 / 65536], [0xa3333 / 65536, -0xd9999 / 65536],
+                 [0xa3333 / 65536, 0.0]]},
 }
 # The Jeep's swim-mode drawing (FUN_00402fc0, document 62): the table at 0x43fb78 (9 rows of 6 dwords, 16.16) is indexed by
 # whole(immersion * 8); a row is (a, _, c, d, _, f) and sets the wheel-strip corners: x = -a (top edge, height c) and

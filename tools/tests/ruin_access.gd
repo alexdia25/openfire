@@ -25,7 +25,9 @@ func _init() -> void:
 		for dy in range(-24, 25, 3):
 			var row := ""
 			for dx in range(-24, 25, 3):
-				row += "#" if mc.vehicle_blocked(v, c + Vector2(dx, dy), hd) else "."
+				var at := c + Vector2(dx, dy)
+				v.heading_deg = hd   # sets heading_fx
+				row += "#" if mc.vehicle_blocked(v, Vector2i(roundi(at.x * 65536.0), roundi(at.y * 65536.0)), v.heading_fx) else "."
 			print("  ", "%3d " % dy, row)
 	# drive the Jeep at the ruin from four sides with the flag on it: contact with a post alone must grab the flag (FUN_00432d80)
 	for side in [Vector2(0, -1), Vector2(0, 1), Vector2(0, 1), Vector2(0, 0.6)]:

@@ -1724,7 +1724,7 @@ untraced in the definition (an `"_untraced"` note), per the standing instruction
 ```jsonc
 { "id": "rf.tank", "name": "Tank", "original_index": 0,
   "stats":   { "hp": 22, "armor": 0.3, "fuel": 400, "sink_depth": 14, "dock_tolerance": 4, "death_wait_ticks": 120 },
-  "shape":   { "layer": 2, "mask": 39, "z": [0, 10], "poly": [[-7.5, -11.25], ...] },
+  "shape":   { "layer": 2, "mask": 39, "z": [0, 10], "box": [-12, -12, 12, 12], "poly": [[-7.5, -11.25], ...] },
   "drive":   { "model": "ground", "max_forward": 1.05, "max_reverse": 0.4, "accel": 0.05, "friction": 0.025, "turn_steps": 0.25 },
   "aim":     { "model": "turret", "turn_steps": 0.3, "elevations_deg": [0, 25], "raised_pitch_deg": 40 },
   "inputs":  { "primary": "weapon0", "secondary": "weapon0.raised", "special": "weapon1" },
@@ -1733,6 +1733,10 @@ untraced in the definition (an `"_untraced"` note), per the standing instruction
   "events":  { "on_create": [ { "sound": "..." } ] },
   "render":  "render.json", "hud_panel": "...", "wreck": { ... }, "selector": { ... } }
 ```
+
+`shape.box` is the shape's coarse box (the original's `+0x1c..+0x28`, set by hand and never turned with the vehicle); the collision
+tests reject a pair whose boxes do not overlap before testing the polygon (wiki document 164). It is optional: without it the engine
+uses the square that holds the polygon at any heading.
 
 - The Heli's strafe and bank are parameters of a `rotor` drive model; its start-up and landing
   (documents 79, 86) are *sequences* attached to events. The Tank's turret is a `turret` aim model.

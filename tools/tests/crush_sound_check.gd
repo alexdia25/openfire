@@ -41,7 +41,7 @@ func _init() -> void:
 	v.position = at
 	v.speed = 1.0 * Vehicle.TICK_HZ   # faster than the crush speed (0.5 units a tick)
 	for i in 20:
-		mc.vehicle_blocked(v, at, v.heading_deg)   # the drive code tests up to three positions a tick, for as long as the tank overlaps the tile
+		mc.vehicle_blocked(v, Vector2i(roundi(at.x * 65536.0), roundi(at.y * 65536.0)), v.heading_fx)   # (16.16 position, 22-bit heading) the drive code tests up to three positions a tick, for as long as the tank overlaps the tile
 	var n := cues.count("BushCrush")
 	check("twenty collision tests against the same bush give one BushCrush, not one each", n == 1, "%d cues %s" % [n, cues])
 	print("failures: ", fails)
