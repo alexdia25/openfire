@@ -45,8 +45,8 @@
  },
  "flight": {
   "speed_cap": 1.5,
-  "accel": 0.3,
-  "velocity_step": 0.0149,
+  "accel": 0.29998779296875,
+  "velocity_step": 0.015,
   "turn_ahead": 0.4,
   "turn_behind_close": 0.2,
   "turn_behind_far": 1.0,
@@ -55,19 +55,19 @@
   "roll_rate": 0.5,
   "pitch_gain": -3.5,
   "pitch_rate": 0.5,
-  "climb_rate": 0.3,
+  "climb_rate": 0.29998779296875,
   "push_strength": 2.0,
   "push_divisor": 16.0,
   "drift_undrawn_ticks": 60,
   "drift_view_half_extent": 288.0
  },
  "gun": {
-  "pitch_rate": 0.3,
+  "pitch_rate": 0.29998779296875,
   "pitch_limit": 5.0,
   "interval_ticks": 10,
   "min_distance": 32.0,
   "max_distance": 80.0,
-  "aim_window_steps": 0.8889,
+  "aim_window_steps": 0.888885498046875,
   "airborne_z": 2.0,
   "muzzles": [
    [

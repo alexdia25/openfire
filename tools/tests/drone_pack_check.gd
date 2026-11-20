@@ -85,15 +85,10 @@ func _init() -> void:
 	check("the side's pool is empty: no third", spawned.size() == 2 and mc.drones.size() == 2)
 
 	# a hit of 0.95 is ignored, 1.0 kills: explosion up where it was, one piece for each part of class 1 or 2, carrying the velocity
-	var p := Projectile.new()
-	p.damage = 0.95
-	p.z = d.z
-	check("a hit of 0.95 is ignored", not mc._shell_hits_drone(p, d.position - Vector2(20, 0), d.position) and mc.drones.has(d))
-	p.damage = 1.0
-	p.z = d.z + 1.0
-	check("a hit of 1.0 passes outside the box", not mc._shell_hits_drone(p, d.position + Vector2(40, 0), d.position + Vector2(60, 0)))
+	check("a hit of 0.95 is ignored", not _shell(mc, d.position - Vector2(20, 0), d.position, d.z, 0.95) and mc.drones.has(d))
+	check("a hit of 1.0 passes outside the box", not _shell(mc, d.position + Vector2(40, 0), d.position + Vector2(60, 0), d.z + 1.0, 1.0))
 	var vel := d.vel
-	check("a hit of 1.0 kills it", mc._shell_hits_drone(p, d.position - Vector2(20, 0), d.position) and not mc.drones.has(d) and d.killed)
+	check("a hit of 1.0 kills it", _shell(mc, d.position - Vector2(20, 0), d.position, d.z + 1.0, 1.0) and not mc.drones.has(d) and d.killed)
 	var rec_ok := highs.any(func(h): return h[0] == "0x444c80" and absf(float(h[2]) - 50.0) < 1.0)
 	check("the death explosion plays 50 units up", rec_ok)
 	var want_parts := 0
@@ -110,7 +105,7 @@ func _init() -> void:
 	for k in 3:
 		var tile := Vector2i(70 + k, 70)
 		var tu := Turret.new(pack.turret, tile, 49, 1, Vector2(tile) * 32.0, Vector2.ZERO, v)
-		tu.age = 0.0
+		tu.age = 0
 		mc.turrets[tile] = tu
 	var before := spawned.size()
 	for i in 400:
@@ -133,6 +128,17 @@ func _init() -> void:
 
 	print("drone_pack_check: ", "all ok" if fails == 0 else "%d FAILED" % fails)
 	quit(1 if fails > 0 else 0)
+
+
+## A shell of `damage` from `from` to `to` at height `z`, through the match's own shot step (MatchController._shell_moved).
+func _shell(mc: MatchController, from: Vector2, to: Vector2, z: float, damage: float) -> bool:
+	var p := Projectile.new()
+	p.damage_fx = roundi(damage * 65536.0)
+	p.prev_fx = Vector2i(roundi(from.x * 65536.0), roundi(from.y * 65536.0))
+	p.pos_fx = Vector2i(roundi(to.x * 65536.0), roundi(to.y * 65536.0))
+	p.prev_z_fx = roundi(z * 65536.0)
+	p.z_fx = p.prev_z_fx
+	return mc._shell_moved(p)
 
 
 func _caps(mc: MatchController, levl: int, unk4: int) -> int:
