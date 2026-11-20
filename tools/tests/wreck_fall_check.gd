@@ -44,6 +44,7 @@ func _init() -> void:
 	_check(v.alive and v.position == Vector2(999.0, 999.0), "the tank respawned")
 	_check(snapshots[0]["position"] == death_pos and snapshots[0]["heading_deg"] == death_heading and snapshots[0]["z"] == 0.0, "the snapshot is unaffected by the respawn")
 	_check(not snapshots[0]["fuel_out"] and snapshots[0]["hp"] < 0.0, "it says the tank was shot, not out of fuel")
+	_check(snapshots[0]["pos_fx"] == Vector2i(roundi(death_pos.x * 65536.0), roundi(death_pos.y * 65536.0)) and snapshots[0]["hp_fx"] < 0 			and not (snapshots[0]["chain"] as Array).is_empty(), "with the 16.16 numbers and the body's shape the wreck runs on (stage S5.6)")
 
 	var tank := Wreck.new(snapshots[0], cfg, func(_p, _z): return 0)
 	var tank_view := Wreck3D.new()
@@ -55,7 +56,7 @@ func _init() -> void:
 			tank_hull += 1
 	_check(tank_view._body != null and tank_hull == 14, "the dying tank is drawn as its 14-part body")
 	for i in 20:
-		tank.tick(1.0)
+		tank.step(i)
 	tank_view._process(0.016)
 	_check(tank.mark and tank_view._decal.visible and not tank_view._ghost.alive, "and as the decal once it has settled")
 
@@ -73,9 +74,9 @@ func _init() -> void:
 	_check(heli_view._body._parts.size() == 12, "the dying heli is drawn as its 12 body parts, without the rotor (%d)" % heli_view._body._parts.size())
 	var lands := -1
 	for i in 200:
-		heli.tick(1.0)
+		heli.step(i)
 		if lands < 0 and heli.z <= 0.0:
-			lands = heli.age
+			lands = i + 1
 	_check(lands >= 84 and lands <= 87, "from 60 units it lands after about 85 ticks (%d)" % lands)
 	_check(heli.phase == Wreck.Phase.DECAL and heli.mark, "as the decal, and then it is a mark")
 	heli_view._process(0.016)
