@@ -69,8 +69,8 @@ func _init() -> void:
 	for i in 900:
 		mc._update_turrets()
 	var tu: Turret = mc.turrets[tile]
-	var want := Soldier.heading_to(tu.position, v.position)
-	check("it is turned to the vehicle (heading %d, wanted %d)" % [tu.draw_heading(), want], tu.heading == float(want))
+	var want := Projectile.bearing_fx(tu.pos_fx, v.pos_fx)
+	check("it is turned to the vehicle, on the exact bearing (heading 0x%x, wanted 0x%x)" % [tu.heading_fx, want], tu.heading_fx == want)
 	check("it has shot at it with missiles only: the tracer is a probe", shots.size() > 0 and shots.all(func(p): return p.type_id == 4), str(shots.size()))
 	var probe_ok := true
 	for e2 in l2.decorations:
