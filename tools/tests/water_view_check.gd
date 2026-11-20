@@ -42,42 +42,42 @@ func _init() -> void:
 		var name := String(pack.vehicle_def(t).get("name", t))
 		v.position = land
 		v.speed = 0.0
-		v._update_water()
+		v._update_water(v.speed_fx)   # the drive's answer (its new speed, stage S6.1)
 		check("%s: dry on land (view 0, no wading)" % name, v.water_view() == 0 and not v.wading)
 
 		# moving forward at full speed into shallow water starts the wading handler at counter 4.0 (frame 4)
 		v.position = shallow
 		v.speed = v.max_speed
-		v._update_water()
+		v._update_water(v.speed_fx)   # the drive's answer (its new speed, stage S6.1)
 		check("%s: fast in shallow water wades (view 1, counter 4, frame 4)" % name, v.water_view() == 1 and v.wading and is_equal_approx(v.wade_counter, 4.0)
 				and v.channel("wade_frame") == 4.0, "%s %s" % [v.water_view(), v.wade_counter])
 		for i in 25:
-			v._update_water()
+			v._update_water(v.speed_fx)   # the drive's answer (its new speed, stage S6.1)
 		check("%s: the counter grows 0.2 a tick and wraps back by 5 at 13 while it keeps wading" % name, v.wade_counter > 8.0 and v.wade_counter < 13.0, str(v.wade_counter))
 		for i in 200:
-			v._update_water()
+			v._update_water(v.speed_fx)   # the drive's answer (its new speed, stage S6.1)
 		check("%s: it stays in 8..13 as it loops" % name, v.wading and v.wade_counter >= 8.0 and v.wade_counter < 13.0, str(v.wade_counter))
 
 		# stopping: not wading any more, the counter runs to 13, wraps to 0 and the handler ends when it passes 3 -> 4
 		v.speed = 0.0
 		var ticks := 0
 		while v.wading and ticks < 400:
-			v._update_water()
+			v._update_water(v.speed_fx)   # the drive's answer (its new speed, stage S6.1)
 			ticks += 1
 		check("%s: stopped in the shallows the splash dies away (%d ticks)" % [name, ticks], not v.wading and v.water_view() == 0 and ticks < 400)
 
 		# slow in shallow water does not start it
 		v.speed = v.max_speed * 0.1
-		v._update_water()
+		v._update_water(v.speed_fx)   # the drive's answer (its new speed, stage S6.1)
 		check("%s: slow in shallow water does not wade" % name, not v.wading)
 
 		# deep water sinks, the sinking descriptor replaces the vehicle, and the frame is the depth
 		v.position = deep
 		v.speed = 0.0
-		v._update_water()
+		v._update_water(v.speed_fx)   # the drive's answer (its new speed, stage S6.1)
 		check("%s: deep water installs the sinking handler (view 2)" % name, v.water_view() == 2 and v._sinking and not v.wading)
 		for i in 10:
-			v._update_water()
+			v._update_water(v.speed_fx)   # the drive's answer (its new speed, stage S6.1)
 		check("%s: the sinking frame is the depth, -floor(z)" % name, v.channel("sink_frame") == -floorf(v.z) and v.channel("sink_frame") >= 1.0, str(v.z))
 		v._sinking = false
 		v.z = 0.0
