@@ -18,9 +18,8 @@ func _init() -> void:
 	mc.sound_at.connect(func(id, _at, _z): cues.append(id))   # the beep comes from the mine (issue #22)
 	mc._on_mine_dropped(mc.vehicle.position + Vector2(40.0, 0.0), mc.vehicle)
 	var m: Mine = mc.mines[-1]
-	var dt := 1.0 / Mine.TICK_HZ
 	for i in 400:   # a few blink cycles (period 30 ticks) before it arms at ~158 ticks
-		m.advance(dt * Mine.TICK_HZ)
+		m.advance()
 		if m.armed:
 			break
 	print("Button beeps heard: ", cues.count("Button"), " (expect several, mine armed: ", m.armed, ")")

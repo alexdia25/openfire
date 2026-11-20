@@ -34,16 +34,16 @@ func _init() -> void:
 	var gate := Gate.new()
 	gate.tile = Vector2i(61, 60)
 	gate.variant = 1 - v.player_index()
-	gate.centre = v.position + Vector2(40, 0)
+	gate.centre_fx = v.pos_fx + Vector2i(40 << 16, 0)
 	mc.gates[gate.tile] = gate
 	v.last_touched = gate
 	check("the last enemy object that blocked it, within range, is the target", mc._pick_missile_target(v) == gate.centre)
 
-	gate.centre = v.position + Vector2(70, 0)
+	gate.centre_fx = v.pos_fx + Vector2i(70 << 16, 0)
 	var p := mc._pick_missile_target(v)
 	check("...but not beyond 61.23 units (a random point ahead instead)", p != gate.centre)
 
-	gate.centre = v.position + Vector2(40, 0)
+	gate.centre_fx = v.pos_fx + Vector2i(40 << 16, 0)
 	gate.variant = v.player_index()
 	check("its own player's gate is not a target", mc._pick_missile_target(v) != gate.centre)
 	gate.variant = 1 - v.player_index()
@@ -63,12 +63,12 @@ func _init() -> void:
 	if found.x >= 0:
 		v.position = (Vector2(found) + Vector2(0.5, 0.5)) * tsz + Vector2(0, 20)
 		v.last_blocked_tile = found
-		gate.centre = v.position + Vector2(40, 0)
+		gate.centre_fx = v.pos_fx + Vector2i(40 << 16, 0)
 		var tile_centre := (Vector2(found) + Vector2(0.5, 0.5)) * tsz
 		if pack.get_coastal_shapes(level.get_coastal_id(found.x, found.y)).get("jitter", false):
 			tile_centre += level.jitter_at(found.x, found.y)
 		check("the tile when it is nearer than the object", mc._pick_missile_target(v) == tile_centre)
-		gate.centre = v.position + Vector2(10, 0)
+		gate.centre_fx = v.pos_fx + Vector2i(10 << 16, 0)
 		check("the object when it is no farther than the tile", mc._pick_missile_target(v) == gate.centre)
 	else:
 		check("(no coastal tile with hit points near the fixture: tile cases skipped)", true)

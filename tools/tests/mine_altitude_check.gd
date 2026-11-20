@@ -31,9 +31,8 @@ func _init() -> void:
 	# Arm a mine at the vehicle's own position (the dropper isn't in danger while it's unarmed, document 60).
 	mc._on_mine_dropped(v.position, null)
 	var m: Mine = mc.mines[0]
-	var dt := 1.0 / Mine.TICK_HZ
 	while not m.armed:
-		m.advance(dt * Mine.TICK_HZ)
+		m.advance()
 	check("the mine is armed before the real test begins", m.armed)
 
 	v.position = m.position

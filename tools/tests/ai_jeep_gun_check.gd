@@ -25,7 +25,9 @@ func _init() -> void:
 	assert(level.load_from("res://packs/original_pc/levels/RFMAP156"))
 	var root := Node2D.new()
 	get_root().add_child(root)
+	seed(1996)   # the computer players draw from the global generator: fixed here, so the check runs the same way every time
 	var mc := MatchController.new()
+	mc.match_seed = 1996
 	mc.ai_players = [0]
 	root.add_child(mc)
 	mc.setup(pack, level, "res://packs/original_pc", root)
