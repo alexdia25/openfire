@@ -37,19 +37,19 @@ func _init() -> void:
 	gate.centre_fx = v.pos_fx + Vector2i(40 << 16, 0)
 	mc.gates[gate.tile] = gate
 	v.last_touched = gate
-	check("the last enemy object that blocked it, within range, is the target", mc._pick_missile_target(v) == gate.centre)
+	check("the last enemy object that blocked it, within range, is the target", _target(mc, v) == gate.centre)
 
 	gate.centre_fx = v.pos_fx + Vector2i(70 << 16, 0)
-	var p := mc._pick_missile_target(v)
+	var p := _target(mc, v)
 	check("...but not beyond 61.23 units (a random point ahead instead)", p != gate.centre)
 
 	gate.centre_fx = v.pos_fx + Vector2i(40 << 16, 0)
 	gate.variant = v.player_index()
-	check("its own player's gate is not a target", mc._pick_missile_target(v) != gate.centre)
+	check("its own player's gate is not a target", _target(mc, v) != gate.centre)
 	gate.variant = 1 - v.player_index()
 
 	gate.finished = true
-	check("a gate that has gone (state +0xac no longer matches) is not a target", mc._pick_missile_target(v) != gate.centre)
+	check("a gate that has gone (state +0xac no longer matches) is not a target", _target(mc, v) != gate.centre)
 	gate.finished = false
 
 	# a tile with hit points that blocked it: the tile wins when it is nearer than the object
@@ -67,9 +67,9 @@ func _init() -> void:
 		var tile_centre := (Vector2(found) + Vector2(0.5, 0.5)) * tsz
 		if pack.get_coastal_shapes(level.get_coastal_id(found.x, found.y)).get("jitter", false):
 			tile_centre += level.jitter_at(found.x, found.y)
-		check("the tile when it is nearer than the object", mc._pick_missile_target(v) == tile_centre)
+		check("the tile when it is nearer than the object", _target(mc, v) == tile_centre)
 		gate.centre_fx = v.pos_fx + Vector2i(10 << 16, 0)
-		check("the object when it is no farther than the tile", mc._pick_missile_target(v) == gate.centre)
+		check("the object when it is no farther than the tile", _target(mc, v) == gate.centre)
 	else:
 		check("(no coastal tile with hit points near the fixture: tile cases skipped)", true)
 
@@ -83,12 +83,17 @@ func _init() -> void:
 	enemy.alive = true
 	enemy.position = v.position + Vector2(30, 0)
 	mc.enemy_vehicles.append(enemy)
-	check("an enemy vehicle on the ground within range is the target", mc._pick_missile_target(v) == enemy.position)
+	check("an enemy vehicle on the ground within range is the target", _target(mc, v) == enemy.position)
 	enemy.z = 10.0
-	check("...but not when it is above height 5 (a Heli in the air)", mc._pick_missile_target(v) != enemy.position)
+	check("...but not when it is above height 5 (a Heli in the air)", _target(mc, v) != enemy.position)
 	enemy.z = 0.0
 	v.last_touched = enemy
 	enemy.position = v.position + Vector2(100, 0)
-	check("a vehicle that blocked it and has since gone out of range is no target", mc._pick_missile_target(v) != enemy.position)
+	check("a vehicle that blocked it and has since gone out of range is no target", _target(mc, v) != enemy.position)
 	print("missile_target_check: %d failure(s)" % fails)
 	quit(1 if fails > 0 else 0)
+
+
+## The match's target (16.16 since stage S6.4c) in world units, to compare with the float views.
+func _target(mc: MatchController, v: Vehicle) -> Vector2:
+	return Vector2(mc._pick_missile_target_fx(v)) / 65536.0

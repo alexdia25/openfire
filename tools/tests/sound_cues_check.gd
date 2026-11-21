@@ -39,7 +39,7 @@ func _init() -> void:
 	mc.vehicle.set_vehicle_type(1)
 	mc.vehicle.heading_deg = 0.0
 	var enemy_idx := mc.vehicle.player_index() ^ 1
-	mc._spawn_flag("a" if enemy_idx == 0 else "b", mc.vehicle.position + Vector2(1000.0, 0.0))
+	mc._spawn_flag("a" if enemy_idx == 0 else "b", mc.vehicle.pos_fx + Vector2i(1000 << 16, 0))
 	cues.clear()
 	mc._update_compass_chime(mc.vehicle)
 	mc._update_compass_chime(mc.vehicle)   # second tick: should NOT re-fire (already aligned)

@@ -14,7 +14,7 @@ func _init() -> void:
 	mc.setup(pack, level, "res://packs/original_pc", root)
 	var v := mc.vehicle
 	v.set_vehicle_type(1)
-	mc._spawn_flag("b", v.position + Vector2(200, 0))
+	mc._spawn_flag("b", v.pos_fx + Vector2i(200 << 16, 0))
 	var flag: FlagMarker = mc.flags[1]
 	for h in [0.0, 5.0, 11.0, 12.0, 30.0, 60.0, 89.0, 91.0, 180.0, -60.0]:
 		v.heading_deg = h

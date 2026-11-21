@@ -37,7 +37,7 @@ func _init() -> void:
 		var gate_id: int = gate_tiles[gi][1]
 		var gd: Dictionary = pack.gates[str(gate_id)]
 		var g := Gate.new()
-		g.setup(gate_tile, gate_id, gd, 0, tile_px, null)
+		g.setup(gate_tile, gate_id, gd, 0, pack.tile_size_px, null)
 		var view := GateView3D.new()
 		get_root().add_child(view)
 		view.setup(pack, g)

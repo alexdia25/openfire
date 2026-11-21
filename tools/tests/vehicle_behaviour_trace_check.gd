@@ -49,8 +49,8 @@ func _run(pack: Pack, level: LevelData, type: int) -> String:
 	var sp: Dictionary = level.spawn_points[0]
 	v.position = (Vector2(float(sp["x"]), float(sp["y"])) + Vector2(0.5, 0.5)) * 32.0 + Vector2(64, 64)
 	var shots: Array = []
-	v.shot.connect(func(spec): shots.append("%d:%s:%s:%.3f" % [v.tick, spec.get("type"), str(Vector2(spec["position"]).snapped(Vector2(0.001, 0.001))), float(spec.get("z", 0.0))]))
-	v.mine_dropped.connect(func(at): shots.append("%d:mine:%s" % [v.tick, str(Vector2(at).snapped(Vector2(0.001, 0.001)))]))
+	v.shot.connect(func(spec): shots.append("%d:%s:%s:%.3f" % [v.tick, spec.get("type"), str((Vector2(spec["position_fx"]) / 65536.0 if not spec.has("position") else Vector2(spec["position"])).snapped(Vector2(0.001, 0.001))), float(spec.get("z", spec.get("z_fx", 0) / 65536.0))]))
+	v.mine_dropped.connect(func(at): shots.append("%d:mine:%s" % [v.tick, str((Vector2(at) / 65536.0).snapped(Vector2(0.001, 0.001)))]))
 	var lines := PackedStringArray()
 	for t in TICKS:
 		v.tick = t

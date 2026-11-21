@@ -23,7 +23,7 @@ func _init() -> void:
 	for gid_str in ["43", "44"]:
 		var gd: Dictionary = pack.gates[gid_str]
 		var g := Gate.new()
-		g.setup(Vector2i(0, 0), int(gid_str), gd, 0, 32.0, null)
+		g.setup(Vector2i(0, 0), int(gid_str), gd, 0, 32, null)
 		var view := GateView3D.new()
 		get_root().add_child(view)
 		view.setup(pack, g)

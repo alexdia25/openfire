@@ -17,7 +17,7 @@ func _init() -> void:
 	var dt := 1.0 / Vehicle.TICK_HZ
 	for type in [0, 3]:
 		v.set_vehicle_type(type)
-		v.respawn(v.position)
+		v.respawn(v.pos_fx)
 		mc.view_fade = 1.0
 		var cues: Array[String] = []
 		var listener := func(id): cues.append(id)

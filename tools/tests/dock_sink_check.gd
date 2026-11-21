@@ -30,9 +30,9 @@ func _init() -> void:
 		mc._process(dt)
 		v.run_frames(dt)
 		ticks += 1
-		if fade_tick < 0 and v.z <= mc.DOCK_FADE_DEPTH:
+		if fade_tick < 0 and v.z <= mc.DOCK_FADE_FX / 65536.0:
 			fade_tick = ticks
-		if min_depth_tick < 0 and v.z <= mc.DOCK_MIN_DEPTH:
+		if min_depth_tick < 0 and v.z <= mc.DOCK_MIN_FX / 65536.0:
 			min_depth_tick = ticks
 		if ticks in [1, 20, 53, 55, 106, 107, 108]:
 			print("tick ", ticks, " z ", snappedf(v.z, 0.01), " view_fade ", snappedf(mc.view_fade, 0.01), " visible-ish(alive&&!docked) ", v.alive and not v.docked)

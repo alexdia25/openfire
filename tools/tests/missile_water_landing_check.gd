@@ -33,7 +33,7 @@ func _init() -> void:
 	var isolated := (Vector2(50, 50) + Vector2(0.5, 0.5)) * tsz
 	check("isolated shallow water is genuinely shallow at the point test (not a bad fixture)",
 		Water.class_at(level, pack, isolated) == 1)
-	check("a box within it finds no land (a real 12-unit box, not a vacuous pass)", not mc._land_within(isolated, 12.0))
+	check("a box within it finds no land (a real 12-unit box, not a vacuous pass)", not mc._land_within(Vector2i(isolated * 65536.0), 12 << 16))
 
 	var cues: Array = []
 	mc.impact_effect.connect(func(record, _pos): cues.append(record))
@@ -48,7 +48,7 @@ func _init() -> void:
 	level.set_art_id(61, 60, 0)      # land, immediately to the east
 	var near_shore := (Vector2(61, 60)) * tsz - Vector2(1.0, 0.0)   # one unit west of the shallow/land boundary
 	check("the near-shore point is still shallow at the point test", Water.class_at(level, pack, near_shore) == 1)
-	check("its box does find land (the fixture actually exercises the shore case)", mc._land_within(near_shore, 12.0))
+	check("its box does find land (the fixture actually exercises the shore case)", mc._land_within(Vector2i(near_shore * 65536.0), 12 << 16))
 
 	cues.clear()
 	var p2 := Projectile.new()

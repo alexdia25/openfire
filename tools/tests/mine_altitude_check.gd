@@ -29,7 +29,7 @@ func _init() -> void:
 	var no_block := func(_bars): return false
 
 	# Arm a mine at the vehicle's own position (the dropper isn't in danger while it's unarmed, document 60).
-	mc._on_mine_dropped(v.position, null)
+	mc._on_mine_dropped(v.pos_fx, null)
 	var m: Mine = mc.mines[0]
 	while not m.armed:
 		m.advance()

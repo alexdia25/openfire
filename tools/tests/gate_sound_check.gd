@@ -26,23 +26,23 @@ func _init() -> void:
 	var gate_id: String = pack.gates.keys()[0]
 	var t := Vector2i(5, 5)
 	var g := Gate.new()
-	g.setup(t, int(gate_id), pack.gates[gate_id], 0, float(pack.tile_size_px), mc.vehicle)
+	g.setup(t, int(gate_id), pack.gates[gate_id], 0, pack.tile_size_px, mc.vehicle)
 	g.sound_cue.connect(func(c): mc._sound_at(c, g.centre))
 	mc.vehicle.position = g.centre   # keep the carrier inside the watch region while it opens
 	var dt := 1.0 / Gate.TICK_HZ
 	var no_block := func(_bars): return false
 
-	while g.open < Gate.OPEN_MAX:   # drive it fully open, carrier still in the region
-		g.tick(1.0, no_block)
+	while g.open_fx < Gate.OPEN_MAX_FX:   # drive it fully open, carrier still in the region
+		g.tick(no_block)
 	print("cues from ticking while opening (carrier still present): ", cues, " (expect none -- GateMove is untraced on the opening TICKS themselves)")
 
 	mc.vehicle.position = g.centre + Vector2(10000.0, 0.0)   # carrier leaves -> tick() sets target = 0.0
-	g.tick(1.0, no_block)
+	g.tick(no_block)
 	print("GateMove fired once the carrier leaves: ", cues.has("GateMove"))
 
 	cues.clear()
-	while g.open > 0.0:
-		g.tick(1.0, no_block)
+	while g.open_fx > 0:
+		g.tick(no_block)
 	print("GateClose fired on first closed tick: ", cues, " (expect exactly [\"GateClose\"])")
 
 	# The one-shot creation cue (FUN_00432270), via the real match-controller path this time, not a synthetic Gate:

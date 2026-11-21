@@ -16,7 +16,7 @@ func _init() -> void:
 
 	var cues: Array[String] = []
 	mc.sound_at.connect(func(id, _at, _z): cues.append(id))   # the beep comes from the mine (issue #22)
-	mc._on_mine_dropped(mc.vehicle.position + Vector2(40.0, 0.0), mc.vehicle)
+	mc._on_mine_dropped(mc.vehicle.pos_fx + Vector2i(40 << 16, 0), mc.vehicle)
 	var m: Mine = mc.mines[-1]
 	for i in 400:   # a few blink cycles (period 30 ticks) before it arms at ~158 ticks
 		m.advance()

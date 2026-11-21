@@ -34,7 +34,7 @@ func _init() -> void:
 		for f in mc.flags.values():
 			f.carrier = null
 			f.dropper = null
-		mc._spawn_flag("b", c) if mc.flags.is_empty() else null
+		mc._spawn_flag("b", Vector2i(c * 65536.0)) if mc.flags.is_empty() else null
 		mc.flags[1].position = c
 		v.position = c + side * 60.0
 		v.heading_deg = rad_to_deg((-side).angle())

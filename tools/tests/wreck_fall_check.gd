@@ -36,7 +36,7 @@ func _init() -> void:
 	v.setup(pack)
 	var snapshots: Array = []
 	v.wrecked.connect(func(info): snapshots.append(info))
-	v.destroyed.connect(func(_v): v.respawn(Vector2(999.0, 999.0)))  # simulates match_controller's immediate respawn
+	v.destroyed.connect(func(_v): v.respawn(Vector2i(999 << 16, 999 << 16)))  # simulates match_controller's immediate respawn
 	var death_pos := v.position
 	var death_heading := v.heading_deg
 	v.hp = 1.0

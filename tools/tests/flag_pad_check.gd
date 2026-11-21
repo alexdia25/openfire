@@ -34,13 +34,13 @@ func _init() -> void:
 	v.set_vehicle_type(1)
 	var cues: Array = []
 	v.sound_cue.connect(func(c): cues.append(c))
-	mc._spawn_flag("b", v.position + Vector2(200, 0))
+	mc._spawn_flag("b", v.pos_fx + Vector2i(200 << 16, 0))
 	var flag: FlagMarker = mc.flags[1]
 	mc._attach_flag(flag, v)
 	check("taking a flag plays Ding", cues == ["Ding"], str(cues))
 	flag.carrier = null
-	mc._on_mine_dropped(v.position + Vector2(5, 5), v)
-	mc._on_mine_dropped(v.position + Vector2(100, 0), v)
+	mc._on_mine_dropped(v.pos_fx + Vector2i(5 << 16, 5 << 16), v)
+	mc._on_mine_dropped(v.pos_fx + Vector2i(100 << 16, 0), v)
 	mc._pad_centre = v.position
 	mc._pad_clear(mc.slots[0])
 	check("the pad being closed clears nothing", mc.mines.size() == 2 and not mc.match_finished)
@@ -69,13 +69,13 @@ func _init() -> void:
 	var pool_id := "a" if idx == 0 else "b"
 	var pool: TargetPool = m2.pools[pool_id]
 	pool.active_index = -1
-	m2._spawn_flag(pool_id, j.position)
+	m2._spawn_flag(pool_id, j.pos_fx)
 	var own: FlagMarker = m2.flags[idx]
 	own.carrier = j
 	m2._return_own_flag(j)
 	check("a Jeep carrying its own flag: Ding, the flag is removed and a target is active again", cues2 == ["Ding"] and not m2.flags.has(idx) and pool.active_index >= 0, "%s %s %d" % [cues2, m2.flags.has(idx), pool.active_index])
 	# with no intact candidate the flag moves to a candidate tile
-	m2._spawn_flag(pool_id, j.position)
+	m2._spawn_flag(pool_id, j.pos_fx)
 	var own2: FlagMarker = m2.flags[idx]
 	own2.carrier = j
 	for i in pool.intact.size():

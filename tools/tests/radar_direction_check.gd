@@ -1,5 +1,5 @@
-# The radar direction indicator / cursor (document 108's third addendum): FUN_004122d0's tail bearing from the player's
-# own base (vehicle+0x5c) toward the nearest live enemy, quantized to 8 sectors (0-7), gated by a dead-zone rectangle
+# The radar direction indicator / cursor (document 108's third addendum, re-read in wiki document 176): FUN_0040b980's tail bearing from the
+# player's own vehicle toward the nearest live enemy, quantized to 8 sectors (0-7, 0 north, clockwise), gated by a dead-zone rectangle
 # (record+0x2ac, sector 8 = "no clear direction, draw the cel uncropped") and by record+0x298 (nonzero for Tank/MSV/Heli,
 # zero for the Jeep, which has no radar at all). -1 means no indicator (no live enemy, or no cursor data for this type). Run:
 #   godot --headless --path . --script tools/tests/radar_direction_check.gd
@@ -35,36 +35,36 @@ func _init() -> void:
 	enemy.setup(pack)
 	mc.enemy_vehicles.append(enemy)
 
-	var base := mc._player_spawn_px
+	var base := mc.vehicle.position   # the bearing starts at the player's vehicle (obj+0x40), not its base
 	var dz: Array = pack.hud_panels["panels"]["0"]["slot9"]["cursor"]["dead_zone"]
 
 	enemy.position = base
-	check("enemy sitting on the player's own base -> dead zone (sector 8)", mc._compute_direction_sector(mc.slots[0]) == 8)
+	check("enemy sitting on the player's vehicle -> dead zone (sector 8)", mc._compute_direction_sector(mc.slots[0]) == 8)
 
 	enemy.alive = false
 	check("the only enemy is dead -> no indicator", mc._compute_direction_sector(mc.slots[0]) == -1)
 	enemy.alive = true
 
 	enemy.position = base + Vector2(dz[2] + 500.0, 0)
-	check("due \"east\" of the base, well outside the dead zone -> sector 0", mc._compute_direction_sector(mc.slots[0]) == 0)
+	check("due east of the vehicle, well outside the dead zone -> sector 2", mc._compute_direction_sector(mc.slots[0]) == 2)
 
 	enemy.position = base + Vector2(0, dz[3] + 500.0)
-	check("90 degrees around (screen-down) -> sector 2", mc._compute_direction_sector(mc.slots[0]) == 2)
+	check("south (screen-down) -> sector 4", mc._compute_direction_sector(mc.slots[0]) == 4)
 
 	enemy.position = base + Vector2(dz[0] - 500.0, 0)
-	check("180 degrees around (screen-left) -> sector 4", mc._compute_direction_sector(mc.slots[0]) == 4)
+	check("west (screen-left) -> sector 6", mc._compute_direction_sector(mc.slots[0]) == 6)
 
 	enemy.position = base + Vector2(0, dz[1] - 500.0)
-	check("270 degrees around (screen-up) -> sector 6", mc._compute_direction_sector(mc.slots[0]) == 6)
+	check("north (screen-up) -> sector 0", mc._compute_direction_sector(mc.slots[0]) == 0)
 
-	enemy.position = base + Vector2(dz[2] + 500.0, 0)   # back to due "east", sector 0
+	enemy.position = base + Vector2(dz[2] + 500.0, 0)   # back to due east, sector 2
 	var far := Vehicle.new()
 	far.team = "green"
 	far.pack_path = "res://packs/original_pc"
 	far.setup(pack)
-	far.position = base + Vector2(0, dz[3] + 5000.0)   # much farther away, a DIFFERENT bearing (sector 2)
+	far.position = base + Vector2(0, dz[3] + 5000.0)   # much farther away, a DIFFERENT bearing (sector 4)
 	mc.enemy_vehicles.append(far)
-	check("with two live enemies, the NEARER one's bearing wins, not the farther one's", mc._compute_direction_sector(mc.slots[0]) == 0)
+	check("with two live enemies, the NEARER one's bearing wins, not the farther one's", mc._compute_direction_sector(mc.slots[0]) == 2)
 
 	var jeep_s9: Dictionary = pack.hud_panels["panels"]["1"]["slot9"]
 	check("the Jeep's own panel has no cursor data at all (kind 8, the compass, not kind 6)", not jeep_s9.has("cursor"))

@@ -64,7 +64,7 @@ func _init() -> void:
 	check("Jeep lobbed missile: one of the three throw sounds (FUN_004159a0)", cues.size() > 0 and ["ThrowGrenade1_a", "ThrowGrenade1_b", "ThrowGrenade1_c"].has(cues[0]), str(cues.slice(0, 2)))
 	cues.clear()
 	own.clear()
-	mc._on_mine_dropped(v.position + Vector2(60.0, 0.0), v)
+	mc._on_mine_dropped(v.pos_fx + Vector2i(60 << 16, 0), v)
 	check("a mine drop makes no throw sound of its own (FUN_00409e30 plays none)", not cues.any(func(c): return String(c).begins_with("Throw")) and not own.any(func(c): return String(c).begins_with("Throw")), "%s %s" % [cues, own])
 	check("the three cues are real pack entries", pack.audio.has("Cannon") and pack.audio.has("Missle") and pack.audio.has("LargeMissle"))
 	quit(fails)

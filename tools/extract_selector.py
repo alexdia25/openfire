@@ -24,14 +24,22 @@ entries = {
     3: {"name": "Heli", "picture": [13, 54], "pointer": [12, 73], "highlight": [13, 52], "box": [15, 45], "script": "0x449050", "up": 3, "down": 2, "left": 3, "right": 0},
 }
 
-# the four scripts, decoded step by step from the dumps (fixed point 16.16 shown as floats)
+# the four scripts, decoded step by step from the dumps (fixed point 16.16 shown as floats; the fade step is 0x11eb)
 scripts = {
     "Tank": [["sound", 0, -1.0, 66], ["platform_up", 0.5, 72.0], ["sound", 0, -0.75, 46], ["slide", -0.5, -35.0], ["sound", 1, -0.85, 240], ["clear_panel"],
-             ["rise_with_picture", 0.5, 60.0], ["rise_and_fade", 0.5, 0.0702]],
-    "Jeep": [["sound", 0, -0.75, 46], ["slide", -0.5, -35.0], ["sound", 1, -0.85, 240], ["clear_panel"], ["rise_with_picture", 0.5, 80.0], ["rise_and_fade", 0.5, 0.0702]],
-    "MSV": [["sound", 0, -0.75, 46], ["slide", 0.5, 36.0], ["sound", 1, -0.85, 240], ["clear_panel"], ["rise_with_picture", 0.5, 80.0], ["rise_and_fade", 0.5, 0.0702]],
+             ["rise_with_picture", 0.5, 60.0], ["rise_and_fade", 0.5, 0.0699920654296875]],
+    "Jeep": [["sound", 0, -0.75, 46], ["slide", -0.5, -35.0], ["sound", 1, -0.85, 240], ["clear_panel"], ["rise_with_picture", 0.5, 80.0], ["rise_and_fade", 0.5, 0.0699920654296875]],
+    "MSV": [["sound", 0, -0.75, 46], ["slide", 0.5, 36.0], ["sound", 1, -0.85, 240], ["clear_panel"], ["rise_with_picture", 0.5, 80.0], ["rise_and_fade", 0.5, 0.0699920654296875]],
     "Heli": [["sound", 0, -1.0, 66], ["platform_up", 0.5, 72.0], ["sound", 0, -0.75, 46], ["slide", 0.5, 36.0], ["sound", 1, -0.85, 240], ["clear_panel"],
-             ["rise_with_picture", 0.5, 60.0], ["rise_and_fade", 0.5, 0.0702]],
+             ["rise_with_picture", 0.5, 60.0], ["rise_and_fade", 0.5, 0.0699920654296875]],
+}
+
+# each step's continue flag (+0x10): 1 = FUN_00418040 runs the next step in the same tick, 0 = it waits for the next (dumped 2026-11-21, document 176)
+cont = {
+    "Tank": [1, 1, 1, 0, 1, 1, 1, 1],
+    "Jeep": [1, 1, 1, 1, 0, 0],
+    "MSV": [1, 1, 1, 1, 0, 0],
+    "Heli": [1, 1, 1, 0, 1, 1, 1, 1],
 }
 
 out = {
@@ -40,6 +48,7 @@ out = {
     "hangar": {"cel": 2075, "size": [132, 123], "y": 22},
     "entries": {str(k): v for k, v in entries.items()},
     "scripts": scripts,
+    "continue": cont,
     "cels": {"box": 2078, "highlight": 2077, "pointer": 2091, "picture_base": 2094, "platform_cap": 2076, "platform_body": 2079,
              "strip_centre": 2084, "strip": [2085, 2086], "cloud": 2087, "dirt": 2080, "map_frame": 2090, "radar": 1981, "panel_frame": 1940, "panel_interior": 1942,
              "digit_base": 2146, "icon": [2163, 2161, 2164, 2162], "weapon_icon": [2160, 2156, 2157, 2160], "second_icon": [0, 0, 2158, 2159]},

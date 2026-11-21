@@ -37,8 +37,8 @@ func _init() -> void:
 	v.set_vehicle_type(0)
 	v.ammo[0] = 0
 	v.zone_kind = 2
-	v.zone_origin = v.position
-	v.zone_box = [-50.0, -50.0, 50.0, 50.0]
+	v.zone_tile = mc._tile_of(v.pos_fx)   # a 100-unit box round the cell's centre, high enough to take any vehicle
+	v.zone_chain = [Collision.shape_fx({"type": 2, "layer": 0xff, "mask": 0xff, "z": [-100, 100], "off": [0, 0], "box": [-50, -50, 50, 50]})]
 	v.moving = false
 	for i in 200:
 		mc._update_zone(v)

@@ -32,7 +32,7 @@ func _init() -> void:
 	var conn2 := func(id, _at = null, _z = null): got_mine.append(id)
 	mc.vehicle.sound_cue.connect(conn2)
 	mc.sound_at.connect(conn2)
-	mc._on_mine_dropped(Vector2(500, 500), mc.vehicle)
+	mc._on_mine_dropped(Vector2i(500 << 16, 500 << 16), mc.vehicle)
 	var m: Mine = mc.mines[0]
 	mc._detonate_mine(m)
 	print("mine explosion -> ", got_mine, " (expect ExplLarge only: the mine drop itself is silent)")
