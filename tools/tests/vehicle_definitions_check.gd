@@ -18,8 +18,8 @@ func _check(ok: bool, what: String) -> void:
 class FiringVehicle extends Vehicle:
 	func _wants_to_fire() -> bool:
 		return true
-	func _get_controls() -> Vector2:
-		return Vector2(0.0, 1.0)
+	func _get_controls() -> Vector2i:
+		return Vector2i(0, 1)
 
 
 func _init() -> void:

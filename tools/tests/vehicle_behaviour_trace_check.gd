@@ -16,14 +16,14 @@ const DT := 1.0 / 62.5
 class ScriptedVehicle extends Vehicle:
 	var tick := 0
 
-	func _get_controls() -> Vector2:
-		var turn := 0.0
+	func _get_controls() -> Vector2i:
+		var turn := 0
 		if tick % 200 >= 60 and tick % 200 < 110:
-			turn = 1.0
+			turn = 1
 		elif tick % 200 >= 150 and tick % 200 < 170:
-			turn = -1.0
-		var thrust := 1.0 if tick < 300 else (-1.0 if tick < 360 else (0.0 if tick < 420 else 1.0))
-		return Vector2(turn, thrust)
+			turn = -1
+		var thrust := 1 if tick < 300 else (-1 if tick < 360 else (0 if tick < 420 else 1))
+		return Vector2i(turn, thrust)
 
 	func _aim_keys() -> Array:
 		return [tick % 150 < 30, tick % 150 >= 70 and tick % 150 < 90, tick >= 500 and tick < 505]
