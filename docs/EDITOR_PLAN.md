@@ -68,12 +68,28 @@ folder. What exists:
   refuses to open original content as a mod.
 - The Vehicles tab also lists each vehicle's **behaviour modules** (step 4): per slot the module, what it is a port of,
   and every parameter with its value, traced default and provenance, overrides highlighted (read-only until E3).
-- The original palette ships in the pack (`sprites/palette.json`) for the pixel tools later.
+- **Drawing art (E6, stage S7.2, 2026-11-21; [wiki document 182](https://github.com/alexdia25/openfire/wiki/182-deterministic-sim-27-drawing-in-the-mod-tool), #144 #12 #9 #8).**
+  *Start art:* New blank sprite (presets 32 x 32, 16 x 16, 8 x 8, or any size), Duplicate as, Import a sheet (cut
+  into a frame sequence on a grid). *Pixel editor* (`editor/sprite_canvas.gd`): pencil, eraser, line, rectangle
+  (outline or filled), fill, colour picker, rectangular select with move, copy / cut / paste, flip and rotate by 90,
+  brushes of 1-16 px, a key per tool (V P B E L U G I M, [ ] brush, X / Y flip, R rotate, Ctrl+C / X / V, Delete,
+  Enter, Escape). Each stroke is one undo step holding only the changed rectangle's pixels before and after
+  (`ModWorkspace.paint`). *Palette* strip: the pack's `sprites/palette.json` (the original's indexed `rgb` palette is
+  offered once per colour), a mod's own list saved as `"colours"`, add the drawing colour or every colour of a sprite.
+  *Frame sequences:* numbered ids (`<name>.00`, `.01` ...) show as one tree item and a strip of frames; Add frame
+  (copy after), Insert blank, Delete, move earlier / later, all renumbering in one undo step; playback at a chosen
+  number of engine ticks per frame; onion skin of the previous frame. *Team masks:* make one from colours picked in
+  the drawing with a tolerance, previewed live; Paint the mask opens it with the drawing shown under it. *Tiles:* a
+  3 x 3 tiling preview, alone or with a neighbour sprite around it; painting any copy paints the sprite. *Where
+  used:* every table that names the sprite (or its sequence), and its team pair or mask role. *Provenance:* every
+  frame the tool writes carries `"source"`: `"drawn"` (made here), `"imported"` (from a PNG) or `"copied"` with
+  `"from"` (pixels taken from another sprite, e.g. a base sprite painted over); Validate warns about a frame without
+  one. A mod can delete a sprite from below (a `null` entry), which shortening a base sequence needs.
 - Checked by `mod_workspace_check.gd` (openfire-engine `tests/`, issue #65) (31 checks) and `mod_tool_ui_check.gd` (openfire-engine `tests/`, issue #65) (31, including
-  every vehicle type assembled, the Tank's turret slider turning the renderer's turret, and the map viewer).
+  every vehicle type assembled, the Tank's turret slider turning the renderer's turret, and the map viewer); the
+  drawing tools by `mod_art_check.gd` (the workspace API) and `mod_art_ui_check.gd` (every tool driven on the canvas).
 
-Not yet in E0: "where is this sprite used" in the inspector (needs vehicle definitions to be complete, step 3); making
-a mask by picking a colour range; the art-only / gameplay-changing indicator (principle 6);
+Not yet in E0: the art-only / gameplay-changing indicator (principle 6);
 the rest of E1 (the vehicle preview's muzzle and mount markers, which need them in data first; a 3D map preview,
 for which "Play this map" stands in today). Debug
 switches for screenshots (`RF_EDITOR_VEHICLE=<type>` picks the previewed vehicle): `RF_EDITOR_MOD`, `RF_EDITOR_TAB`,
@@ -157,7 +173,9 @@ editor/
 
 ### 3.1 Room for in-app pixel editing later
 
-Not built now, but the first version is designed so a pixel editor is an added tool, not a rework:
+*Built in S7.2 (section 0, "Drawing art"), as planned here: the tools were added to the canvas, nothing was
+reworked. Two changes from this plan: provenance values are `drawn` / `imported` / `copied` (+ `from`), and the
+"original palette only" mode is not built.* The first version was designed so a pixel editor is an added tool, not a rework:
 
 - **One sprite is one loose-frame PNG** (already true since 2.7.5). A pixel edit is therefore just "write
   a new frame for this id into the mod layer", the same path as import. Nothing else in the pack or the
@@ -463,7 +481,7 @@ Each phase ends with something usable, and later phases only add to it.
 - **E5. Polish**: stamps library, roster sizes other than four (after the selector is data-driven),
   mod export (mod layer only, never original assets), a netplay "gameplay-changing" indicator, and
   docs for modders.
-- **E6. In-app pixel editing** (brought forward for the S7 test game, stage S7.2 of [wiki document 180](https://github.com/alexdia25/openfire/wiki/180-deterministic-sim-25-the-s7-plan), #12; S7 also orders the remaining phases, art before maps, and makes the model assembler of 4.5 its own stage, S7.5): drawing tools on the E0 canvas, palette-aware, with
+- **E6. In-app pixel editing** (**done**, S7.2, section 0; brought forward for the S7 test game, stage S7.2 of [wiki document 180](https://github.com/alexdia25/openfire/wiki/180-deterministic-sim-25-the-s7-plan), #12; S7 also orders the remaining phases, art before maps, and makes the model assembler of 4.5 its own stage, S7.5): drawing tools on the E0 canvas, palette-aware, with
   the variant helpers. Needs nothing new from the runtime beyond what E0 already added (3.1).
 
 E0 and E1 don't depend on anything unfinished, and E1 is a useful check on steps 3-6: if a field
