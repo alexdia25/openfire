@@ -252,7 +252,9 @@ WRECKS = {
 BEHAVIOUR = {
     0: {"drive": {"model": "ground"}, "aim": {"model": "gun_mount", "params": {"turret": True}},
         "slots": [{"handler": "cannon"}], "water": {"model": "hull_water"}},
-    1: {"drive": {"model": "ground", "params": {"turn_accelerates": True, "road_follow": True}}, "aim": {"model": "none"},
+    # the Jeep's start handler waits 0x62 ticks instead of rolling off the pad (FUN_0040d920 / 0x40d940; wiki 173)
+    1: {"drive": {"model": "ground", "params": {"turn_accelerates": True, "road_follow": True, "start_roll_ticks": 0, "start_wait_ticks": 98}},
+        "aim": {"model": "none"},
         "slots": [{"handler": "lobbed_missile"}], "water": {"model": "hull_water", "params": {"can_swim": True}},
         # FUN_00436640 / FUN_00436610 (document 54) test the vehicle type == 1 itself: bushes and rocks block the Jeep
         "terrain": {"blocked_by_bushes": True, "blocked_by_rocks": True},

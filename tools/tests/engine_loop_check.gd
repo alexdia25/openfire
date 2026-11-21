@@ -47,6 +47,9 @@ func _init() -> void:
 	snd._process(dt)
 	check("an MSV plays the tread loop", snd._loop_key == "tread", snd._loop_key)
 	v.set_vehicle_type(1)
+	snd._process(dt)
+	check("a Jeep waiting to set off (0x40d940, document 173) plays nothing", snd._loop_key == "", snd._loop_key)
+	v.skip_start()
 	v.speed = 0.5 * Vehicle.TICK_HZ
 	snd._process(dt)
 	check("a Jeep plays the idle loop, pitched by its speed", snd._loop_key == "jeep_idle" and absf(snd._loop_player.pitch_scale - (7058.0 + (14860.0 - 7058.0) * 0.5) / 11025.0) < 0.001, "%s %.3f" % [snd._loop_key, snd._loop_player.pitch_scale])

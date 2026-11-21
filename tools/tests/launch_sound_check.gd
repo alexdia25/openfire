@@ -35,6 +35,7 @@ func _init() -> void:
 
 	var run := func(vehicle_type: int, heli_bomb: bool):
 		v.set_vehicle_type(vehicle_type)
+		v.skip_start()   # no start roll or wait (wiki document 173)
 		v.position = Vector2(2160, 2160 + 320)
 		if vehicle_type == 3:
 			v.heli_spinup_stage = 0

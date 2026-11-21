@@ -43,6 +43,7 @@ func _init() -> void:
 	mc.skip_start_hangar()   # this test exercises road-assist driving, not the start-of-match hangar (issue #63)
 	var v := mc.vehicle
 	v.set_vehicle_type(1)
+	v.skip_start()   # the Jeep sets off at once (wiki document 173)
 	var ns := Vector2i(-1, -1)
 	var ew := Vector2i(-1, -1)
 	for y in level.height:
@@ -97,6 +98,7 @@ func _init() -> void:
 
 	# a Tank on the road is not steered
 	v.set_vehicle_type(0)
+	v.skip_start()
 	v.position = Vector2(ns) * tile + Vector2(22, 16)
 	v.heading_deg = 20.0 - 90.0
 	Input.action_press("ui_up")

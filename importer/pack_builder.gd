@@ -403,7 +403,9 @@ static func _behaviour() -> Dictionary:
 	return {
 		0: {"drive": {"model": "ground"}, "aim": {"model": "gun_mount", "params": {"turret": true}},
 			"slots": [{"handler": "cannon"}], "water": {"model": "hull_water"}},
-		1: {"drive": {"model": "ground", "params": {"turn_accelerates": true, "road_follow": true}}, "aim": {"model": "none"},
+		# the Jeep's start handler waits 0x62 ticks instead of rolling off the pad (FUN_0040d920 / 0x40d940; wiki 173)
+		1: {"drive": {"model": "ground", "params": {"turn_accelerates": true, "road_follow": true, "start_roll_ticks": 0, "start_wait_ticks": 98}},
+			"aim": {"model": "none"},
 			"slots": [{"handler": "lobbed_missile"}], "water": {"model": "hull_water", "params": {"can_swim": true}},
 			"terrain": {"blocked_by_bushes": true, "blocked_by_rocks": true}, "flags": {"carries_flag": true}},
 		2: {"drive": {"model": "ground"}, "aim": {"model": "gun_mount", "params": {"turret": false}},

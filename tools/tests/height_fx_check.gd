@@ -58,7 +58,7 @@ func _fresh(type: int, held: int) -> Vehicle:
 	v.set_vehicle_type(type)
 	v.docked = false
 	v.frozen = false
-	v.heli_spinup_stage = 0
+	v.skip_start()   # no roll off the pad (wiki document 173)
 	var ctl := ScriptedControls.new()
 	ctl.held = held
 	v.controls = ctl
