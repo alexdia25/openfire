@@ -68,7 +68,7 @@ folder. What exists:
   refuses to open original content as a mod.
 - The Vehicles tab also lists each vehicle's **behaviour modules** (step 4): per slot the module, what it is a port of,
   and every parameter with its value, traced default and provenance, overrides highlighted (read-only until E3).
-- **Drawing art (E6, stage S7.2, 2026-11-21; [wiki document 182](https://github.com/alexdia25/openfire/wiki/182-deterministic-sim-27-drawing-in-the-mod-tool), #144 #12 #9 #8).**
+- **Drawing art (E6, stage S7.2, 2026-11-21; [wiki document 182](https://github.com/alexdia25/openfire/wiki/182-mod-tool-4-drawing-art), #144 #12 #9 #8).**
   *Start art:* New blank sprite (presets 32 x 32, 16 x 16, 8 x 8, or any size), Duplicate as, Import a sheet (cut
   into a frame sequence on a grid). *Pixel editor* (`editor/sprite_canvas.gd`): pencil, eraser, line, rectangle
   (outline or filled), fill, colour picker, rectangular select with move, copy / cut / paste, flip and rotate by 90,
@@ -481,7 +481,7 @@ Each phase ends with something usable, and later phases only add to it.
 - **E5. Polish**: stamps library, roster sizes other than four (after the selector is data-driven),
   mod export (mod layer only, never original assets), a netplay "gameplay-changing" indicator, and
   docs for modders.
-- **E6. In-app pixel editing** (**done**, S7.2, section 0; brought forward for the S7 test game, stage S7.2 of [wiki document 180](https://github.com/alexdia25/openfire/wiki/180-deterministic-sim-25-the-s7-plan), #12; S7 also orders the remaining phases, art before maps, and makes the model assembler of 4.5 its own stage, S7.5): drawing tools on the E0 canvas, palette-aware, with
+- **E6. In-app pixel editing** (**done**, S7.2, section 0; brought forward for the S7 test game, stage S7.2 of [wiki document 180](https://github.com/alexdia25/openfire/wiki/180-mod-tool-2-the-s7-plan), #12; S7 also orders the remaining phases, art before maps, and makes the model assembler of 4.5 its own stage, S7.5): drawing tools on the E0 canvas, palette-aware, with
   the variant helpers. Needs nothing new from the runtime beyond what E0 already added (3.1).
 
 E0 and E1 don't depend on anything unfinished, and E1 is a useful check on steps 3-6: if a field
