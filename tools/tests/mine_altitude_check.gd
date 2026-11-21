@@ -49,10 +49,10 @@ func _init() -> void:
 	check("detonating left an active damage box", not mc._boxes.is_empty())
 	v.z = 40.0
 	v.hp = v.max_hp
-	mc._update_boxes(1.0)
+	mc._update_boxes()
 	check("a flying Heli inside the box's footprint takes no damage from it", v.hp == v.max_hp, "hp %s/%s" % [v.hp, v.max_hp])
 	v.z = 0.0
-	mc._update_boxes(1.0)
+	mc._update_boxes()
 	check("the same Heli, landed in the same footprint, DOES take damage", v.hp < v.max_hp, "hp %s/%s" % [v.hp, v.max_hp])
 
 	print("failures: ", fails)
