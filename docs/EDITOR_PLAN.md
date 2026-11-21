@@ -463,7 +463,7 @@ Each phase ends with something usable, and later phases only add to it.
 - **E5. Polish**: stamps library, roster sizes other than four (after the selector is data-driven),
   mod export (mod layer only, never original assets), a netplay "gameplay-changing" indicator, and
   docs for modders.
-- **E6. In-app pixel editing** (optional, later): drawing tools on the E0 canvas, palette-aware, with
+- **E6. In-app pixel editing** (brought forward for the S7 test game, stage S7.2 of [wiki document 180](https://github.com/alexdia25/openfire/wiki/180-deterministic-sim-25-the-s7-plan), #12; S7 also orders the remaining phases, art before maps, and makes the model assembler of 4.5 its own stage, S7.5): drawing tools on the E0 canvas, palette-aware, with
   the variant helpers. Needs nothing new from the runtime beyond what E0 already added (3.1).
 
 E0 and E1 don't depend on anything unfinished, and E1 is a useful check on steps 3-6: if a field
