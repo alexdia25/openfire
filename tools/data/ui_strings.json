@@ -1,0 +1,7 @@
+{
+ "_source": "The in-level placeholder HUD's wording for Return Fire (S7.1, issue #134, wiki document 181): the engine's PlaceholderHud.DEFAULT_STRINGS are neutral, so this pack keeps the port's wording through ui/strings.json. Port-only text, not original messages (the announcer's are in document 66). {carrier} is the flag carrier's name from its definition, {drive} {a} {b} {c} {turn} the keys of the binding set (input/controls.json).",
+ "objective_targets": "Objective: destroy the enemy building (a Tank's shells; shoot the ruin too), then take the flag{left}",
+ "objective_carrying": "Objective: bring the flag back to your base tile",
+ "objective_need_carrier": "Objective: the flag is out. Only a {carrier} can carry it: return to your base tile and press V to switch",
+ "controls_one_player": "{drive} drive   A {a}: fire   B {b}: raised / swim (Jeep)   C {c}: mines (MSV) / flag (Jeep) / weapon (Heli) / turret centre   {turn}: turret, bank   dock: stand still on your pad + a button (V quick swap, port-only); in the grid: arrows, A choose, B/C map"
+}

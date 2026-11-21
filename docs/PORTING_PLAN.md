@@ -1897,8 +1897,8 @@ rotation-frame prefix. These move into the vehicle definition's render descripto
 **Update (2026-09-27, step 5):** the wheel frames, the canisters, the rotor, the Tank's part table and the wreck
 quads are now data (the render descriptor / `wreck.quads`); the legacy prefix went with `vehicle_billboard_3d.gd`.
 **Update (2026-09-28, issue #55):** the last three -- none of them a vehicle part, so they never fit the render
-descriptor -- are also data now: `Pack.death_skull_data`/`mine_data`/`jeep_missile_data`, small per-top-level-key
-tables (`ui/death_skull.json`, `effects/mine.json`, `projectiles/jeep_missile.json`) built by `tools/build_pack.py`
+descriptor -- are also data now: `Pack.death_skull_data`/`mine_data`/`lobbed_missile_data`, small per-top-level-key
+tables (`ui/death_skull.json`, `effects/mine.json`, `projectiles/lobbed_missile.json`, named `jeep_missile` until S7.1) built by `tools/build_pack.py`
 from the registry the same way the flag and vehicle parts already are. `game/hud_panel.gd`'s `uses_ammo_colours()`
 had the same kind of leftover, a bare `vehicle_type == 3` instead of a capability query (issue #58): fixed to
 `has_module("heli_guns")`, so a mod's own two-weapon-select vehicle gets the same panel rule with no code change.

@@ -912,6 +912,17 @@ def main():
             json.dump(menus, f, indent=1, sort_keys=True)
             f.write("\n")
 
+    # The in-level HUD's wording (issue #134, wiki document 181): the engine's own is neutral
+    strings_path = os.path.join(ROOT, "tools", "data", "ui_strings.json")
+    if os.path.exists(strings_path):
+        with open(strings_path) as f:
+            strings = json.load(f)
+        strings.pop("_source", None)
+        os.makedirs(os.path.join(args.out_dir, "ui"), exist_ok=True)
+        with open(os.path.join(args.out_dir, "ui", "strings.json"), "w") as f:
+            json.dump(strings, f, indent=1, sort_keys=True)
+            f.write("\n")
+
     # Which levels unlock when (issue #103, document 128)
     prog_path = os.path.join(ROOT, "tools", "data", "ui_progression.json")
     if os.path.exists(prog_path):
@@ -982,7 +993,7 @@ def main():
         missile_frames.append([registry[str(tan_cel)]["id"], registry[str(green_cel)]["id"]])
         team_pairs.add((tan_cel, green_cel))
     os.makedirs(os.path.join(args.out_dir, "projectiles"), exist_ok=True)
-    with open(os.path.join(args.out_dir, "projectiles", "jeep_missile.json"), "w") as f:
+    with open(os.path.join(args.out_dir, "projectiles", "lobbed_missile.json"), "w") as f:   # jeep_missile.json before S7.1 (wiki document 181)
         json.dump({"frames": missile_frames}, f)
 
     # The game's runtime palette (document 20: runtime[10 + i] = shared_plut[i], slots 0-9 black), for the mod tool's

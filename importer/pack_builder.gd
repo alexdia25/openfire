@@ -571,6 +571,11 @@ func small_tables() -> void:
 		var mn: Dictionary = menus.duplicate(true)
 		mn.erase("_source")
 		_write("ui/menus.json", mn)
+	var strs: Variant = data("ui_strings.json")   # the in-level HUD's wording (wiki document 181, issue #134): the engine's own is neutral
+	if strs is Dictionary:
+		var st: Dictionary = strs.duplicate(true)
+		st.erase("_source")
+		_write("ui/strings.json", st)
 	var prog: Variant = data("ui_progression.json")   # which levels unlock when (wiki document 128, issue #103)
 	if prog is Dictionary:
 		var pg: Dictionary = prog.duplicate(true)
@@ -611,7 +616,7 @@ func small_tables() -> void:
 	for f in 12:
 		missile.append([rid(1779 + f), rid(1779 + f + 12)])
 		_pair(1779 + f, 1779 + f + 12)
-	_write("projectiles/jeep_missile.json", {"frames": missile})
+	_write("projectiles/lobbed_missile.json", {"frames": missile})   # the Jeep's lobbed missile (document 61); jeep_missile.json before S7.1 (wiki document 181)
 	_write("sprites/palette.json", {"_source": "ART.CAR shared PLUT at 0x282CC, offset to slot 10 (document 20)", "rgb": car.runtime_palette()})
 
 

@@ -1,6 +1,6 @@
 # Headless check for the last sprite ids that used to be spelled in code (PORTING_PLAN.md 2.7.5's leftover list,
 # issue #55): the death skull's mouth frames, the mine's ember light, and the Jeep missile's spin frames are now
-# pack data (Pack.death_skull_data / mine_data / jeep_missile_data), built by tools/build_pack.py from the registry
+# pack data (Pack.death_skull_data / mine_data / lobbed_missile_data, projectiles/lobbed_missile.json since S7.1), built by tools/build_pack.py from the registry
 # the same way vehicle parts and the flag already are, so a mod can re-skin any of them. Run:
 #   godot --headless --path . --script tools/tests/leftover_sprite_tables_check.gd
 extends SceneTree
@@ -27,7 +27,7 @@ func _init() -> void:
 	_check(embers == ["effect.ember_small.01", "effect.ember_small.02", "effect.ember_small.03"], "3 mine ember variants: %s" % [embers])
 	_check(pack.get_sprite("effect.ember_small.02").size() > 0, "and they resolve to real sprites")
 
-	var missile: Array = pack.jeep_missile_data.get("frames", [])
+	var missile: Array = pack.lobbed_missile_data.get("frames", [])
 	_check(missile.size() == 12, "12 Jeep missile spin frames")
 	_check(missile[0] == ["projectile.jeep_missile.tan.01", "projectile.jeep_missile.green.01"], "frame 1 is the traced pair: %s" % [missile[0]])
 	_check(missile[11] == ["projectile.jeep_missile.tan.12", "projectile.jeep_missile.green.12"], "frame 12 too: %s" % [missile[11]])
