@@ -992,7 +992,8 @@ def main():
     MINE_EMBER_BASE = 1081
     os.makedirs(os.path.join(args.out_dir, "effects"), exist_ok=True)
     with open(os.path.join(args.out_dir, "effects", "mine.json"), "w") as f:
-        json.dump({"sprites": [registry[str(MINE_EMBER_BASE + v)]["id"] for v in range(3)]}, f)
+        # its explosion record (FUN_00409dd0's 0x445058, document 84): named in the pack since S7.4 (wiki document 184)
+        json.dump({"sprites": [registry[str(MINE_EMBER_BASE + v)]["id"] for v in range(3)], "explosion": "0x445058"}, f)
 
     # The Jeep's lobbed missile (document 61): cel 1779 + spin frame (0-11), tan; +12 more for green
     # (game/projectile_billboard_3d.gd).
@@ -1004,7 +1005,7 @@ def main():
         team_pairs.add((tan_cel, green_cel))
     os.makedirs(os.path.join(args.out_dir, "projectiles"), exist_ok=True)
     with open(os.path.join(args.out_dir, "projectiles", "lobbed_missile.json"), "w") as f:   # jeep_missile.json before S7.1 (wiki document 181)
-        json.dump({"frames": missile_frames}, f)
+        json.dump({"frames": missile_frames, "impact_table": "0x448988"}, f)   # a lob's impact table (FUN_00415730, document 50)
 
     # The game's runtime palette (document 20: runtime[10 + i] = shared_plut[i], slots 0-9 black), for the mod tool's
     # "original palette" swatches (EDITOR_PLAN.md 3.1). An aid, not a restriction: the port draws full-colour RGBA.

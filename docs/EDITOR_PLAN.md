@@ -66,8 +66,9 @@ folder. What exists:
   tool shows on the Tank in the game).
 - **Enabled in game** (top bar): puts the open mod in the game's enabled-mods list (`game/mod_loader.gd`); the tool
   refuses to open original content as a mod.
-- The Vehicles tab also lists each vehicle's **behaviour modules** (step 4): per slot the module, what it is a port of,
-  and every parameter with its value, traced default and provenance, overrides highlighted (read-only until E3).
+- The vehicle preview also lists each vehicle's **behaviour modules** (step 4): per slot the module, what it is a port of,
+  and every parameter with its value, traced default and provenance, overrides highlighted; since E3 they are edited
+  in the Vehicles tab's inspector beside it.
 - **Drawing art (E6, stage S7.2, 2026-11-21; [wiki document 182](https://github.com/alexdia25/openfire/wiki/182-mod-tool-4-drawing-art), #144 #12 #9 #8).**
   *Start art:* New blank sprite (presets 32 x 32, 16 x 16, 8 x 8, or any size), Duplicate as, Import a sheet (cut
   into a frame sequence on a grid). *Pixel editor* (`editor/sprite_canvas.gd`): pencil, eraser, line, rectangle
@@ -97,16 +98,40 @@ folder. What exists:
   flag place (target pool cells); a rules panel (name, players, difficulty, mines, tile seed, roster stock) and
   *Show sides as*; Delete map; Play this map. Maps from lower layers stay read-only. Validate checks each mod map
   (homes, pads, flag places, unknown tiles and decorations, side colours) and each tile type.
+- **Vehicles and weapons (E3, stage S7.4, 2026-11-22; [wiki document 184](https://github.com/alexdia25/openfire/wiki/184-mod-tool-6-vehicles-and-weapons), #4 #136).**
+  *Vehicles tab* (`editor/vehicle_panel.gd`): every vehicle, the roster's bay number before each; New (a blank: one
+  box drawn with a sprite the user picks, ground drive, no weapon, carries the flag; drivable before S7.5's
+  assembler), Duplicate, Revert, Delete; In the roster with its stock, Earlier / Later (any number of bays: the
+  selector pages by four). The inspector: stats; drive, aim and water each a module picker
+  (`VehicleModules.names_for_slot`) with the module's parameters typed by its SCHEMA; up to two weapon slots, each a
+  handler picker, ammunition, time between shots and parameters (a projectile type picker, an explosion record
+  picker); buttons A / B / C; rules; the other fields (shape, body parts, wreck, camera) as JSON. 16.16 numbers are
+  decimals (the raw word in the tooltip), per-tick numbers show their per-second value (x 62.5) and heading steps
+  their degrees (5.625 a step). The game's own renderer draws it beside the inspector. *Test drive* saves, then runs
+  the game on a map the user picks in that vehicle (`RF_PACK`, `RF_DEBUG_LEVEL`, `RF_VEHICLE`, `RF_TEST_DRIVE=1`),
+  with its numbers on screen (`game/test_drive_overlay.gd`; F1 hides them); no map is generated for it. *Weapons tab*
+  (`editor/weapons_panel.gd`): projectile types (by number, layered per number; speed, damage, lifetime and reach,
+  pitched / ballistic, art, impact table, sound), projectile art (one quad of a sprite, or quads as JSON),
+  explosion records (duration, rate, scale; one part from a frame sequence; a script, one command a line, with a
+  damage box helper -- a damage box only hurts from the mine's explosion, as in the original), impact tables (a
+  record per surface: land, water, pavement, object hit, tile hit), the mine's explosion. Each vehicle is a whole
+  `vehicles/<id>/vehicle.json` in the mod; `mine.json` `"explosion"` and `lobbed_missile.json` `"impact_table"` are
+  pack data now (a pack-format change: re-import). Validate checks each mod vehicle (numbers, shape, modules in the
+  right slots, weapon parameters, buttons, sprites), the roster (not empty, a flag carrier) and every weapon table;
+  a finding jumps to the vehicle or the entry.
 - Checked by `mod_workspace_check.gd` (openfire-engine `tests/`, issue #65) (31 checks) and `mod_tool_ui_check.gd` (openfire-engine `tests/`, issue #65) (31, including
   every vehicle type assembled, the Tank's turret slider turning the renderer's turret, and the map viewer); the
   drawing tools by `mod_art_check.gd` (the workspace API) and `mod_art_ui_check.gd` (every tool driven on the canvas);
   tiles and maps by `tile_rules_check.gd`, `map_editing_check.gd` (including a two-computer match on a 24 x 16 map) and
-  `map_editor_ui_check.gd`. Tabs: Assets, Vehicles, Tiles, Maps, Team colours, Validate.
+  `map_editor_ui_check.gd`; vehicles and weapons by `vehicle_editing_check.gd` (a vehicle from blank with one weapon
+  on fixture art, saved, played by a computer player until its shots hit, the match replayed identically from its
+  input log) and `vehicle_editor_ui_check.gd`. Tabs: Assets, Vehicles, Weapons, Tiles, Maps, Team colours, Validate.
 
 Not yet in E0: the art-only / gameplay-changing indicator (principle 6);
 the rest of E1 (the vehicle preview's muzzle and mount markers, which need them in data first; a 3D map preview,
 for which "Play this map" stands in today). Debug
-switches for screenshots (`RF_EDITOR_VEHICLE=<type>` picks the previewed vehicle): `RF_EDITOR_MOD`, `RF_EDITOR_TAB`,
+switches for screenshots (`RF_EDITOR_VEHICLE=<id or index>` selects a vehicle in the Vehicles tab,
+`RF_EDITOR_WEAPON=Explosions:<key>` what the Weapons tab shows): `RF_EDITOR_MOD`, `RF_EDITOR_TAB`,
 `RF_EDITOR_SELECT`, `RF_EDITOR_COLOUR`, `RF_EDITOR_TOOL` (`Brush:1`: a map tool and palette entry), `RF_EDITOR_TILE`
 (`Tiles:2`: a Tiles tab kind and key), `RF_EDITOR_SCREENSHOT` (see `editor/editor_main.gd`).
 
@@ -490,11 +515,11 @@ Each phase ends with something usable, and later phases only add to it.
   select / copy yet) (needs step 6 for rosters and overrides; terrain, decorations and markers can come
   earlier by writing forked maps): tools, palettes, rules panel, patch and fork saving, play test.
   *Result:* edit or create maps.
-- **E3. Vehicle numbers and behaviour** (needs steps 3-4): inspector with schemas, slot pickers,
+- **E3. Vehicle numbers and behaviour** (**done**, S7.4, section 0; no inputs matrix or events editor beyond JSON) (needs steps 3-4): inspector with schemas, slot pickers,
   inputs matrix, events, sandbox test drive, new-from-template. *Result:* retune or recombine vehicles.
 - **E4. Vehicle visuals** (needs step 5): part and corner gizmos, channel bindings, collision and mount
   editing, blank vehicles. *Result:* build a new vehicle's look and animation in the editor.
-- **E5. Polish**: stamps library, roster sizes other than four (after the selector is data-driven),
+- **E5. Polish**: stamps library, roster sizes other than four (done in S7.4: the selector pages by four),
   mod export (mod layer only, never original assets), a netplay "gameplay-changing" indicator, and
   docs for modders.
 - **E6. In-app pixel editing** (**done**, S7.2, section 0; brought forward for the S7 test game, stage S7.2 of [wiki document 180](https://github.com/alexdia25/openfire/wiki/180-mod-tool-2-the-s7-plan), #12; S7 also orders the remaining phases, art before maps, and makes the model assembler of 4.5 its own stage, S7.5): drawing tools on the E0 canvas, palette-aware, with

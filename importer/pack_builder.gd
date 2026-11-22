@@ -623,12 +623,14 @@ func small_tables() -> void:
 		grid.append({"sprite": rid(g[0]), "at": [g[1], g[2]]})
 	_write("ui/death_skull.json", {"frames": skull, "icon_row": {"by_type": row, "max": 8, "per_row": 4},
 		"out_grid": {"origin": [-35, 10], "icons": grid}, "cross": rid(2125), "cross_offset": [4, 7]})
-	_write("effects/mine.json", {"sprites": _sids(1081, 3)})
+	# the mine's explosion record (FUN_00409dd0's 0x445058, document 84) and the lob's impact table (FUN_00415730 picks 0x448988 for a lob,
+	# document 50): named in the pack since S7.4 (wiki document 184), so the engine knows no record address
+	_write("effects/mine.json", {"sprites": _sids(1081, 3), "explosion": "0x445058"})
 	var missile := []
 	for f in 12:
 		missile.append([rid(1779 + f), rid(1779 + f + 12)])
 		_pair(1779 + f, 1779 + f + 12)
-	_write("projectiles/lobbed_missile.json", {"frames": missile})   # the Jeep's lobbed missile (document 61); jeep_missile.json before S7.1 (wiki document 181)
+	_write("projectiles/lobbed_missile.json", {"frames": missile, "impact_table": "0x448988"})   # the Jeep's lobbed missile (document 61); jeep_missile.json before S7.1 (wiki document 181)
 	_write("sprites/palette.json", {"_source": "ART.CAR shared PLUT at 0x282CC, offset to slot 10 (document 20)", "rgb": car.runtime_palette()})
 
 
