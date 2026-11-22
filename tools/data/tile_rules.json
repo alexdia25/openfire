@@ -1,0 +1,273 @@
+{
+ "_source": "What each Return Fire tile art id is to the simulation, merged into terrain/tileset.json by both importers (wiki document 183). water: FUN_0042f280 / FUN_0042f410's art ranges (document 62): 1 and 0x18-0x27 shallow, 2 deep, 4-0x17 coast (water.json coast), 0x28-0x33 box (water.json boxes), the rest land. road: FUN_0040c390's dword table 0x44523c + art * 4, arts 0x49-0x59 (documents 94, 175). pavement: the impact table's entry 2 for art 0x49-0x53 (documents 45, 50) and FUN_0042b0e0's landing effect. mines: FUN_0042a430's tile test (document 75): art & 8 or art >= 0x54 never, 0x49-0x53 yes, 0, 3 and 0x34-0x48 only beside a road art. coastal: the decorations FUN_0042f280 treats as land (0x4a / 0x4b) and FUN_0040c390's coastal masks (0x4a: 0xc, 0x4b: 3).",
+ "coastal": {
+  "74": {
+   "dry": true,
+   "road": 12
+  },
+  "75": {
+   "dry": true,
+   "road": 3
+  }
+ },
+ "tiles": {
+  "0": {
+   "mines": "near_road"
+  },
+  "1": {
+   "water": "shallow"
+  },
+  "10": {
+   "water": "coast"
+  },
+  "11": {
+   "water": "coast"
+  },
+  "12": {
+   "water": "coast"
+  },
+  "13": {
+   "water": "coast"
+  },
+  "14": {
+   "water": "coast"
+  },
+  "15": {
+   "water": "coast"
+  },
+  "16": {
+   "water": "coast"
+  },
+  "17": {
+   "water": "coast"
+  },
+  "18": {
+   "water": "coast"
+  },
+  "19": {
+   "water": "coast"
+  },
+  "2": {
+   "water": "deep"
+  },
+  "20": {
+   "water": "coast"
+  },
+  "21": {
+   "water": "coast"
+  },
+  "22": {
+   "water": "coast"
+  },
+  "23": {
+   "water": "coast"
+  },
+  "24": {
+   "water": "shallow"
+  },
+  "25": {
+   "water": "shallow"
+  },
+  "26": {
+   "water": "shallow"
+  },
+  "27": {
+   "water": "shallow"
+  },
+  "28": {
+   "water": "shallow"
+  },
+  "29": {
+   "water": "shallow"
+  },
+  "3": {
+   "mines": "near_road"
+  },
+  "30": {
+   "water": "shallow"
+  },
+  "31": {
+   "water": "shallow"
+  },
+  "32": {
+   "water": "shallow"
+  },
+  "33": {
+   "water": "shallow"
+  },
+  "34": {
+   "water": "shallow"
+  },
+  "35": {
+   "water": "shallow"
+  },
+  "36": {
+   "water": "shallow"
+  },
+  "37": {
+   "water": "shallow"
+  },
+  "38": {
+   "water": "shallow"
+  },
+  "39": {
+   "water": "shallow"
+  },
+  "4": {
+   "water": "coast"
+  },
+  "40": {
+   "water": "box"
+  },
+  "41": {
+   "water": "box"
+  },
+  "42": {
+   "water": "box"
+  },
+  "43": {
+   "water": "box"
+  },
+  "44": {
+   "water": "box"
+  },
+  "45": {
+   "water": "box"
+  },
+  "46": {
+   "water": "box"
+  },
+  "47": {
+   "water": "box"
+  },
+  "48": {
+   "water": "box"
+  },
+  "49": {
+   "water": "box"
+  },
+  "5": {
+   "water": "coast"
+  },
+  "50": {
+   "water": "box"
+  },
+  "51": {
+   "water": "box"
+  },
+  "52": {
+   "mines": "near_road"
+  },
+  "53": {
+   "mines": "near_road"
+  },
+  "54": {
+   "mines": "near_road"
+  },
+  "55": {
+   "mines": "near_road"
+  },
+  "6": {
+   "water": "coast"
+  },
+  "64": {
+   "mines": "near_road"
+  },
+  "65": {
+   "mines": "near_road"
+  },
+  "66": {
+   "mines": "near_road"
+  },
+  "67": {
+   "mines": "near_road"
+  },
+  "68": {
+   "mines": "near_road"
+  },
+  "69": {
+   "mines": "near_road"
+  },
+  "7": {
+   "water": "coast"
+  },
+  "70": {
+   "mines": "near_road"
+  },
+  "71": {
+   "mines": "near_road"
+  },
+  "73": {
+   "pavement": true,
+   "road": 3
+  },
+  "74": {
+   "pavement": true,
+   "road": 7
+  },
+  "75": {
+   "pavement": true,
+   "road": 14
+  },
+  "76": {
+   "pavement": true,
+   "road": 13
+  },
+  "77": {
+   "pavement": true,
+   "road": 7
+  },
+  "78": {
+   "pavement": true,
+   "road": 15
+  },
+  "79": {
+   "pavement": true,
+   "road": 12
+  },
+  "8": {
+   "water": "coast"
+  },
+  "80": {
+   "mines": "yes",
+   "pavement": true,
+   "road": 6
+  },
+  "81": {
+   "mines": "yes",
+   "pavement": true,
+   "road": 10
+  },
+  "82": {
+   "mines": "yes",
+   "pavement": true,
+   "road": 5
+  },
+  "83": {
+   "mines": "yes",
+   "pavement": true,
+   "road": 9
+  },
+  "84": {
+   "road": 12
+  },
+  "85": {
+   "road": 12
+  },
+  "86": {
+   "road": 3
+  },
+  "87": {
+   "road": 3
+  },
+  "88": {
+   "road": 3
+  },
+  "89": {
+   "road": 12
+  },
+  "9": {
+   "water": "coast"
+  }
+ }
+}

@@ -69,6 +69,7 @@ DEFAULT_OUT = os.path.join(ROOT, "packs", "original_pc")
 REGISTRY_JSON = os.path.join(ROOT, "packs", "registry", "asset_ids.json")
 COASTAL_DECORATIONS_JSON = os.path.join(ROOT, "tools", "data", "coastal_decorations.json")
 COASTAL_DAMAGE_JSON = os.path.join(ROOT, "tools", "data", "coastal_damage.json")
+TILE_RULES_JSON = os.path.join(ROOT, "tools", "data", "tile_rules.json")
 EXPLOSION_RECORDS_JSON = os.path.join(ROOT, "tools", "data", "explosion_records.json")
 COASTAL_SHAPES_JSON = os.path.join(ROOT, "tools", "data", "coastal_shapes.json")
 GATES_JSON = os.path.join(ROOT, "tools", "data", "gates.json")
@@ -658,6 +659,12 @@ def main():
             team_pairs.add((90, 91))
     if str(HOME_PAD_HOLE_ART) in tileset:
         tileset[str(HOME_PAD_HOLE_ART)]["hole"] = True
+    # What each art id is to the simulation: water, road, pavement, mines (tools/data/tile_rules.json, wiki document 183).
+    with open(TILE_RULES_JSON) as f:
+        tile_rules = json.load(f)
+    for k, rule in tile_rules["tiles"].items():
+        if k in tileset:
+            tileset[k].update(rule)
     with open(os.path.join(terrain_dir, "tileset.json"), "w") as f:
         # FUN_00408d60 draws every cell outside the map with tile record 2 (DAT_0044964c + 0x88, water_open.02); the margin is a port choice
         json.dump({"tile_size_px": 32, "tiles": tileset, "off_map": OFF_MAP}, f, indent=2, sort_keys=True)
@@ -729,6 +736,9 @@ def main():
     if os.path.exists(COASTAL_DAMAGE_JSON):
         with open(COASTAL_DAMAGE_JSON) as f:
             damage = json.load(f)["coastal"]
+        for k, rule in tile_rules["coastal"].items():   # the decorations that make their tile land or a road (wiki document 183)
+            if k in damage:
+                damage[k].update(rule)
         with open(os.path.join(terrain_dir, "coastal_damage.json"), "w") as f:
             json.dump({"coastal": damage}, f, indent=1, sort_keys=True)
             f.write("\n")

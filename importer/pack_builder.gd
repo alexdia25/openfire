@@ -143,6 +143,12 @@ func sprites_and_tiles(progress: Callable) -> String:
 			_pair(90, 91)
 	if tileset.has(str(HOME_PAD_HOLE_ART)):
 		tileset[str(HOME_PAD_HOLE_ART)]["hole"] = true
+	# what each art id is to the simulation: water, road, pavement, mines (tools/data/tile_rules.json, wiki document 183)
+	var rules: Variant = data("tile_rules.json")
+	if rules is Dictionary:
+		for k in rules["tiles"]:
+			if tileset.has(k):
+				tileset[k].merge(rules["tiles"][k], true)
 	# FUN_00408d60 draws every cell outside the map with tile record 2 (DAT_0044964c + 0x88, water_open.02); the margin is a port choice
 	_write("terrain/tileset.json", {"tile_size_px": 32, "tiles": tileset, "off_map": OFF_MAP})
 	counts["sprites"] = sprites.size()
@@ -196,7 +202,13 @@ func decorations() -> void:
 		counts["decorations"] = types.size()
 	var damage: Variant = data("coastal_damage.json")
 	if damage is Dictionary:
-		_write("terrain/coastal_damage.json", {"coastal": damage["coastal"]})
+		var coastal: Dictionary = damage["coastal"]
+		var rules: Variant = data("tile_rules.json")   # the decorations that make their tile land or a road (wiki document 183)
+		if rules is Dictionary:
+			for k in rules["coastal"]:
+				if coastal.has(k):
+					coastal[k].merge(rules["coastal"][k], true)
+		_write("terrain/coastal_damage.json", {"coastal": coastal})
 
 
 func manifest() -> void:

@@ -12,11 +12,13 @@ func check(name: String, ok: bool, detail: String = "") -> void:
 
 
 func _init() -> void:
-	# the mask table and the target rule
-	check("mask of art 73 (straight N/S)", RoadAssist.mask_for_tile(73, 0) == 3)
-	check("mask of art 79 (straight E/W)", RoadAssist.mask_for_tile(79, 0) == 0xc)
-	check("no mask off the road art range", RoadAssist.mask_for_tile(0x48, 0) == 0 and RoadAssist.mask_for_tile(0x5a, 0) == 0)
-	check("coastal 0x4a gives 0xc, 0x4b gives 3", RoadAssist.mask_for_tile(0, 0x4a) == 0xc and RoadAssist.mask_for_tile(0, 0x4b) == 3)
+	# the mask table (Return Fire's tileset data since wiki document 183) and the target rule
+	var pack := Pack.new()
+	assert(pack.load_from("res://packs/original_pc"))
+	check("mask of art 73 (straight N/S)", RoadAssist.mask_for_tile(pack, 73, 0) == 3)
+	check("mask of art 79 (straight E/W)", RoadAssist.mask_for_tile(pack, 79, 0) == 0xc)
+	check("no mask off the road art range", RoadAssist.mask_for_tile(pack, 0x48, 0) == 0 and RoadAssist.mask_for_tile(pack, 0x5a, 0) == 0)
+	check("coastal 0x4a gives 0xc, 0x4b gives 3", RoadAssist.mask_for_tile(pack, 0, 0x4a) == 0xc and RoadAssist.mask_for_tile(pack, 0, 0x4b) == 3)
 	# the target rule on integers (stage S6.4b, document 175): the offset across the cell is ((p & 0x1ffffc) - 0x100000) >> 2
 	var u := func(x: int, y: int) -> Vector2i: return Vector2i(x << 16, y << 16)
 	check("north on the centre line: target 0", RoadAssist.target_fx(3, 0x70000, u.call(16, 16)) == 0)
@@ -32,8 +34,6 @@ func _init() -> void:
 	check("and lands on the target", RoadAssist.steer_fx(3, 0x2000, u.call(16, 16), 0x4000) == 0)
 
 	# a Jeep on level 1's roads
-	var pack := Pack.new()
-	assert(pack.load_from("res://packs/original_pc"))
 	var level := LevelData.new()
 	assert(level.load_from("res://packs/original_pc/levels/RFMAP001"))
 	var root := Node2D.new()

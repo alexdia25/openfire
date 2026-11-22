@@ -85,15 +85,30 @@ folder. What exists:
   frame the tool writes carries `"source"`: `"drawn"` (made here), `"imported"` (from a PNG) or `"copied"` with
   `"from"` (pixels taken from another sprite, e.g. a base sprite painted over); Validate warns about a frame without
   one. A mod can delete a sprite from below (a `null` entry), which shortening a base sequence needs.
+- **Tiles and maps (E2, stage S7.3, 2026-11-22; [wiki document 183](https://github.com/alexdia25/openfire/wiki/183-mod-tool-5-tiles-and-maps), #135 #3).**
+  *Tile rules:* what an art id is to the simulation (water kind, road mask, pavement, mines, home pad side, pit) is a
+  field of its `terrain/tileset.json` entry, and a decoration's `dry` / `road` of its `coastal_damage.json` entry;
+  the engine reads them through `Pack` (`tile_water`, `tile_road`, ...) and Return Fire's values come from openfire's
+  `tools/data/tile_rules.json` (a pack-format change: re-import). *Tiles tab* (`editor/tiles_panel.gd`): tile types
+  with a form per rule, decoration types (hit points, destroyed form, bridge, road, parts and shapes as JSON), gates,
+  water, home pad and the off-map edge as JSON; New, Duplicate, Revert, Remove; each change one undo step
+  (`ModWorkspace.set_entry`). *Maps tab:* New map (8-128 tiles a side, 1-2 players, a fill tile) drawn on a
+  `TileMapLayer`; brush, rectangle, fill, pick, decoration, clear decoration, home (places the side's pad tile too),
+  flag place (target pool cells); a rules panel (name, players, difficulty, mines, tile seed, roster stock) and
+  *Show sides as*; Delete map; Play this map. Maps from lower layers stay read-only. Validate checks each mod map
+  (homes, pads, flag places, unknown tiles and decorations, side colours) and each tile type.
 - Checked by `mod_workspace_check.gd` (openfire-engine `tests/`, issue #65) (31 checks) and `mod_tool_ui_check.gd` (openfire-engine `tests/`, issue #65) (31, including
   every vehicle type assembled, the Tank's turret slider turning the renderer's turret, and the map viewer); the
-  drawing tools by `mod_art_check.gd` (the workspace API) and `mod_art_ui_check.gd` (every tool driven on the canvas).
+  drawing tools by `mod_art_check.gd` (the workspace API) and `mod_art_ui_check.gd` (every tool driven on the canvas);
+  tiles and maps by `tile_rules_check.gd`, `map_editing_check.gd` (including a two-computer match on a 24 x 16 map) and
+  `map_editor_ui_check.gd`. Tabs: Assets, Vehicles, Tiles, Maps, Team colours, Validate.
 
 Not yet in E0: the art-only / gameplay-changing indicator (principle 6);
 the rest of E1 (the vehicle preview's muzzle and mount markers, which need them in data first; a 3D map preview,
 for which "Play this map" stands in today). Debug
 switches for screenshots (`RF_EDITOR_VEHICLE=<type>` picks the previewed vehicle): `RF_EDITOR_MOD`, `RF_EDITOR_TAB`,
-`RF_EDITOR_SELECT`, `RF_EDITOR_COLOUR`, `RF_EDITOR_SCREENSHOT` (see `editor/editor_main.gd`).
+`RF_EDITOR_SELECT`, `RF_EDITOR_COLOUR`, `RF_EDITOR_TOOL` (`Brush:1`: a map tool and palette entry), `RF_EDITOR_TILE`
+(`Tiles:2`: a Tiles tab kind and key), `RF_EDITOR_SCREENSHOT` (see `editor/editor_main.gd`).
 
 ## 1. Principles
 
@@ -471,7 +486,8 @@ Each phase ends with something usable, and later phases only add to it.
 - **E1. Read-only viewers** (can start now): the map viewer (2D and 3D, layers, overlays, radar) and the
   vehicle viewer (turntable, overlays, today's `vehicle_types.json` numbers shown read-only). *Result:*
   inspect any original map or vehicle, with provenance.
-- **E2. Map editing** (needs step 6 for rosters and overrides; terrain, decorations and markers can come
+- **E2. Map editing** (**done for mod maps**, S7.3, section 0; no patch saving for original maps, no stamps or
+  select / copy yet) (needs step 6 for rosters and overrides; terrain, decorations and markers can come
   earlier by writing forked maps): tools, palettes, rules panel, patch and fork saving, play test.
   *Result:* edit or create maps.
 - **E3. Vehicle numbers and behaviour** (needs steps 3-4): inspector with schemas, slot pickers,

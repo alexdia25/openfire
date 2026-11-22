@@ -425,9 +425,7 @@
  "landing": {
   "land": "0x444740",
   "pavement": "0x444968",
-  "water": "0x4445b8",
-  "pavement_first_art": 73,
-  "pavement_last_art": 83
+  "water": "0x4445b8"
  },
  "tile_rows": {
   "4": {
