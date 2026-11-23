@@ -134,6 +134,23 @@ folder. What exists:
   modules' markers (the cannon's gun pivot and muzzle, written back as its own parameters). Every edit is one
   `ModWorkspace` step on the vehicle's `render` block (`add_box`, `mirror_faces`, `add_group`, `bind_face_sprites`,
   `fit_shape`, `set_marker` ...); Validate checks each body (corners, groups and their parents, bound frames).
+  *Added after the first try-out (engine 5a7f268):* markers for every weapon module with a position (Heli guns,
+  rocket salvo, lobbed missile, mine layer); poses (`corners_by`) stored from a face's corners; rigs (make one, tie and
+  untie a corner, drag its points); a group's own pivot; the wreck's look (decals, burnt sprites, a group left out of
+  the wreck, burning before it lands). Validate checks rigs, poses and decals.
+- **Sounds, world objects and rules (stage S7.6, 2026-11-23; [wiki document 186](https://github.com/alexdia25/openfire/wiki/186-mod-tool-8-sounds-and-the-world), #137 #138).**
+  *Sounds tab* (`editor/sounds_panel.gd`): every cue the engine plays by name (`SoundCues.ENGINE`) and every cue the
+  pack's data names, marked silent / file missing / set, with what plays it; import a WAV, Ogg Vorbis or MP3 file for a
+  cue (held by the workspace, written into the mod's `audio/` on Save only if an entry names it), play it, set its
+  category, priority, level, pitch and flags; No sound, New cue, Revert. The music tracks, the music lines and the win
+  jingles (music and jingles are `Pack` tables now, resolved per file down the layers; a cue retuned by a mod keeps its
+  file from below). *World tab* (`editor/world_panel.gd`, `editor/world_format.gd`): soldiers, gun turrets, the drone,
+  the map-edge guard, flying wreckage, the flag, the death screen's icons, the computer's skill levels and handicaps
+  (rows that overlay the built-in ones knob by knob), the default controls and the Controls screen; every key the
+  engine reads listed with its default and meaning, where each value comes from, a value edited whole (number, word,
+  tick box or JSON). Validate lists silent cues, missing or unplayable files, sprite ids that do not exist, cues with
+  no sound and keys the engine does not read. Checked by `sound_editing_check.gd` (44) and `world_editing_check.gd`
+  (34, including a match on the edited data that replays identically).
 - Checked by `mod_workspace_check.gd` (openfire-engine `tests/`, issue #65) (31 checks) and `mod_tool_ui_check.gd` (openfire-engine `tests/`, issue #65) (31, including
   every vehicle type assembled, the Tank's turret slider turning the renderer's turret, and the map viewer); the
   drawing tools by `mod_art_check.gd` (the workspace API) and `mod_art_ui_check.gd` (every tool driven on the canvas);
@@ -535,7 +552,7 @@ Each phase ends with something usable, and later phases only add to it.
   *Result:* edit or create maps.
 - **E3. Vehicle numbers and behaviour** (**done**, S7.4, section 0; no inputs matrix or events editor beyond JSON) (needs steps 3-4): inspector with schemas, slot pickers,
   inputs matrix, events, sandbox test drive, new-from-template. *Result:* retune or recombine vehicles.
-- **E4. Vehicle visuals** (**done**, S7.5, section 0; no wreck look, no group pivot other than the vehicle's centre) (needs step 5): part and corner gizmos, channel bindings, collision and mount
+- **E4. Vehicle visuals** (**done**, S7.5, section 0, including the wreck's look, rigs and poses) (needs step 5): part and corner gizmos, channel bindings, collision and mount
   editing, blank vehicles. *Result:* build a new vehicle's look and animation in the editor.
 - **E5. Polish**: stamps library, roster sizes other than four (done in S7.4: the selector pages by four),
   mod export (mod layer only, never original assets), a netplay "gameplay-changing" indicator, and
