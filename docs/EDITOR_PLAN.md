@@ -119,18 +119,36 @@ folder. What exists:
   pack data now (a pack-format change: re-import). Validate checks each mod vehicle (numbers, shape, modules in the
   right slots, weapon parameters, buttons, sprites), the roster (not empty, a flag carrier) and every weapon table;
   a finding jumps to the vehicle or the entry.
+- **The vehicle assembler (E4, 4.3 and 4.5, stage S7.5, 2026-11-22; [wiki document 185](https://github.com/alexdia25/openfire/wiki/185-mod-tool-7-the-vehicle-assembler), #5 #6).**
+  *Body tab* (`editor/body_panel.gd`): the vehicle drawn by the game's own renderer (`VehicleRender3D`) in a 3D view
+  that orbits (drag), zooms (wheel) and switches to the game's camera (G), over a grid with quarter-unit lines, in any
+  team colour. Add a face (lying flat, facing forward, facing sideways), a box (six faces) or a wedge; click a face
+  to select it (shift adds), drag the red / green / blue arrows to move it across / along / up, click a corner of it to
+  move that corner alone, or type the corners; arrow keys and Page Up / Down nudge by the grid; Turn and Scale about
+  the selection's middle. Paint a face with a sprite, or *New sprite for it*: a blank sprite sized to the face (one
+  pixel a unit) that the Assets tab draws; a face with no sprite shows a checker; double-click a face to open its
+  sprite in the Assets tab (#6). Mirror (M), Duplicate, Repeat (n copies a step apart), Delete, Earlier / Later (the
+  order is the draw order). Groups that turn by a channel (a turret by `turret_deg`, a gun by `gun_elev_deg`, a rotor
+  by `rotor_speed_steps`), with a slider per channel; a face's sprite bound to a channel (a wheel strip from a frame
+  sequence, by `position_x`). The collision polygon from above (fit it to the faces, drag its points) and the
+  modules' markers (the cannon's gun pivot and muzzle, written back as its own parameters). Every edit is one
+  `ModWorkspace` step on the vehicle's `render` block (`add_box`, `mirror_faces`, `add_group`, `bind_face_sprites`,
+  `fit_shape`, `set_marker` ...); Validate checks each body (corners, groups and their parents, bound frames).
 - Checked by `mod_workspace_check.gd` (openfire-engine `tests/`, issue #65) (31 checks) and `mod_tool_ui_check.gd` (openfire-engine `tests/`, issue #65) (31, including
   every vehicle type assembled, the Tank's turret slider turning the renderer's turret, and the map viewer); the
   drawing tools by `mod_art_check.gd` (the workspace API) and `mod_art_ui_check.gd` (every tool driven on the canvas);
   tiles and maps by `tile_rules_check.gd`, `map_editing_check.gd` (including a two-computer match on a 24 x 16 map) and
   `map_editor_ui_check.gd`; vehicles and weapons by `vehicle_editing_check.gd` (a vehicle from blank with one weapon
   on fixture art, saved, played by a computer player until its shots hit, the match replayed identically from its
-  input log) and `vehicle_editor_ui_check.gd`. Tabs: Assets, Vehicles, Weapons, Tiles, Maps, Team colours, Validate.
+  input log) and `vehicle_editor_ui_check.gd`; the assembler by `vehicle_body_check.gd` (a box, a mirrored wheel pair
+  on bound frames and a turret group built on fixture sprites, saved and redrawn the same, the turret channel moving
+  its faces alone, every step undone) and `vehicle_body_ui_check.gd`. Tabs: Assets, Vehicles, Body, Weapons, Tiles,
+  Maps, Team colours, Validate.
 
 Not yet in E0: the art-only / gameplay-changing indicator (principle 6);
-the rest of E1 (the vehicle preview's muzzle and mount markers, which need them in data first; a 3D map preview,
-for which "Play this map" stands in today). Debug
-switches for screenshots (`RF_EDITOR_VEHICLE=<id or index>` selects a vehicle in the Vehicles tab,
+the rest of E1 (a 3D map preview, for which "Play this map" stands in today). Debug
+switches for screenshots (`RF_EDITOR_VEHICLE=<id or index>` selects a vehicle in the Vehicles and Body tabs,
+`RF_EDITOR_FACES=0,1` the faces selected in the Body tab,
 `RF_EDITOR_WEAPON=Explosions:<key>` what the Weapons tab shows): `RF_EDITOR_MOD`, `RF_EDITOR_TAB`,
 `RF_EDITOR_SELECT`, `RF_EDITOR_COLOUR`, `RF_EDITOR_TOOL` (`Brush:1`: a map tool and palette entry), `RF_EDITOR_TILE`
 (`Tiles:2`: a Tiles tab kind and key), `RF_EDITOR_SCREENSHOT` (see `editor/editor_main.gd`).
@@ -517,7 +535,7 @@ Each phase ends with something usable, and later phases only add to it.
   *Result:* edit or create maps.
 - **E3. Vehicle numbers and behaviour** (**done**, S7.4, section 0; no inputs matrix or events editor beyond JSON) (needs steps 3-4): inspector with schemas, slot pickers,
   inputs matrix, events, sandbox test drive, new-from-template. *Result:* retune or recombine vehicles.
-- **E4. Vehicle visuals** (needs step 5): part and corner gizmos, channel bindings, collision and mount
+- **E4. Vehicle visuals** (**done**, S7.5, section 0; no wreck look, no group pivot other than the vehicle's centre) (needs step 5): part and corner gizmos, channel bindings, collision and mount
   editing, blank vehicles. *Result:* build a new vehicle's look and animation in the editor.
 - **E5. Polish**: stamps library, roster sizes other than four (done in S7.4: the selector pages by four),
   mod export (mod layer only, never original assets), a netplay "gameplay-changing" indicator, and
