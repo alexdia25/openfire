@@ -19,10 +19,13 @@ right so one can be added without reworking anything.
 **E0 (foundation) is built (2026-09-24).** Run the tool with
 
 ```
-godot --path . res://editor/editor_main.tscn
+godot --path . res://addons/openfire_engine/editor/editor_main.tscn
 ```
 
-It opens the last mod (first run: creates `user://mods/my_mod` over `original_pc`); New mod / Open mod pick another
+The user guide is plain HTML in the engine, `addons/openfire_engine/docs/guide/index.html`: open it in a browser, or press
+**Guide** in the tool's top bar (#145).
+
+The tool opens the last mod (first run: creates `user://mods/my_mod` over `original_pc`); New mod / Open mod pick another
 folder. What exists:
 
 - **Workspace, saving, undo** (`editor/workspace.gd`, `editor/pack_writer.gd`): every edit is one undoable action
