@@ -151,6 +151,21 @@ folder. What exists:
   tick box or JSON). Validate lists silent cues, missing or unplayable files, sprite ids that do not exist, cues with
   no sound and keys the engine does not read. Checked by `sound_editing_check.gd` (44) and `world_editing_check.gd`
   (34, including a match on the edited data that replays identically).
+- **Front end and HUD (stage S7.7, 2026-11-24; [wiki document 187](https://github.com/alexdia25/openfire/wiki/187-mod-tool-9-the-front-end-and-hud), #139).**
+  *Front end tab* (`editor/front_end_panel.gd`): the screens of `ui/menus.json` (type, title, message, next and back
+  screens, the level select's filter, the buttons and what each does; Add, Revert, Remove, First screen), the player
+  names window, the skin (`ui/skin.json`: plain or bevel, the colours, text size, a TrueType / OpenType / WOFF font
+  imported as a `FontFile`, the level list's marks, the title screen's prompt, which is pack data now), the progression
+  (`ui/progression.json`: locked levels, starts that count, groups, unlock rules and modes as JSON with the game's own
+  problem list) and the pictures of the front end and the HUD (`hud/*.png`, any picture file kept as a PNG, shown by the
+  live pack before the save; an undo past a save sends the mod's copy to the recycle bin on the next save). Beside it
+  the engine's own `GameFlow`, in a preview mode, runs on the live pack and follows every edit; a level or a game's hook
+  shows a note there, and *Play from the title* runs the whole game on the mod. *HUD tab*: the World tab's panel on the
+  vehicle panels, the vehicle-choice screen and the radar (`WorldFormat.HUD_TABLES`, every key the engine reads, found
+  by the World check's source scan). Validate lists menu and progression mistakes, a button that starts a level no
+  layer has, a skin font or list-mark picture that cannot be read, and HUD sprite ids that do not exist. Checked by
+  `front_end_editing_check.gd` (64). Not done: bitmap (BMFont) and sprite-sheet fonts, and window frames drawn as
+  pictures (the bevel style is drawn by code).
 - Checked by `mod_workspace_check.gd` (openfire-engine `tests/`, issue #65) (31 checks) and `mod_tool_ui_check.gd` (openfire-engine `tests/`, issue #65) (31, including
   every vehicle type assembled, the Tank's turret slider turning the renderer's turret, and the map viewer); the
   drawing tools by `mod_art_check.gd` (the workspace API) and `mod_art_ui_check.gd` (every tool driven on the canvas);

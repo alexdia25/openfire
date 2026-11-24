@@ -10,5 +10,10 @@
  "caption_b": "#1084d0",
  "desktop": "#008080",
  "list_marks": "ui/list_marks.png",
- "font_size": 14
+ "font_size": 14,
+ "_title_prompt": "The title screen's prompt (stage S7.7, wiki document 187: pack data, no longer engine constants): the original's words, black, no outline, on the picture's bottom bar (rows 453-479 of 480, so its middle at 466/480).",
+ "title_prompt": "Press Enter to begin",
+ "title_prompt_at": 0.9708333,
+ "title_prompt_colour": "#000000",
+ "title_prompt_outline": ""
 }
